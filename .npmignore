@@ -1,0 +1,9 @@
+*
+!*.d.ts
+!*.js
+!*.js.map
+!*.md
+!hooks/**/*
+!src/**/*
+!utils/**/*
+!styles/**/*

@@ -1,0 +1,57 @@
+import { Dropdown, DropdownProps } from './Dropdown';
+import { FormField, FormFieldProps } from './FormField';
+
+export type DropdownFieldProps = Pick<
+    DropdownProps,
+    | 'disabled'
+    | 'itemCount'
+    | 'name'
+    | 'onChange'
+    | 'options'
+    | 'placeholder'
+    | 'placement'
+    | 'readOnly'
+    | 'size'
+    | 'value'
+> &
+    Pick<FormFieldProps, 'controlId' | 'errorMessage' | 'helperText' | 'label' | 'labelTrailing' | 'required'>;
+
+/**
+ * A component that allows users to input large amounts of text that could span multiple lines.
+ *
+ * This component takes properties from the FormField and Dropdown components.
+ *
+ * @name DropdownField
+ */
+function DropdownField({
+    label,
+    errorMessage: errorMessageProp,
+    helperText,
+    controlId: id,
+    labelTrailing,
+    required,
+    ...dropdownProps
+}: DropdownFieldProps) {
+    const errorMessage = (!dropdownProps.readOnly && !dropdownProps.disabled && errorMessageProp) || undefined;
+
+    return (
+        <FormField
+            controlId={id}
+            errorMessage={errorMessage}
+            helperText={helperText}
+            label={label}
+            labelTrailing={labelTrailing}
+            required={required}
+        >
+            {(fieldProps) => (
+                <Dropdown {...dropdownProps} {...fieldProps} aria-label={label} id={id} invalid={!!errorMessage} />
+            )}
+        </FormField>
+    );
+}
+
+DropdownField.bspkName = 'DropdownField';
+
+export { DropdownField };
+
+/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

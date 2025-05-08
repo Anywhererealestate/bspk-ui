@@ -1,0 +1,1 @@
+npm run meta && npm run lint && ts-node .scripts/pre-commit.ts
