@@ -1,0 +1,95 @@
+import { Checkbox } from './Checkbox';
+import { ToggleOption, ToggleOptionProps } from './ToggleOption';
+
+import { ElementProps, CommonProps } from './';
+
+export type CheckboxGroupOption = Pick<ToggleOptionProps, 'description' | 'label'> & Required<CommonProps<'value'>>;
+
+export type CheckboxGroupProps = CommonProps<'aria-label'> & {
+    /**
+     * The function to call when the checkboxes are changed.
+     *
+     * @required
+     */
+    onChange: (value: string[]) => void;
+    /**
+     * The input control name of the checkboxes.
+     *
+     * @required
+     */
+    name: string;
+    /**
+     * The options for the checkboxes.
+     *
+     * @type CheckboxGroupOption[]
+     * @required
+     */
+    options: CheckboxGroupOption[];
+    /**
+     * The values of the checked checkboxes.
+     *
+     * @type string[]
+     */
+    values?: CheckboxGroupProps['options'][number]['value'][];
+    /**
+     * Whether to show a select all checkbox at the top of the list.
+     *
+     * @default false
+     */
+    selectAll?: boolean;
+    /** The props for the select all checkbox. */
+    selectAllProps?: CheckboxGroupOption;
+};
+
+/**
+ * A group of checkboxes that allows users to choose one or more items from a list or turn an feature on or off.
+ *
+ * @name CheckboxGroup
+ */
+function CheckboxGroup({
+    onChange,
+    options = [],
+    name,
+    values = [],
+    selectAll,
+    selectAllProps,
+    ...props
+}: ElementProps<CheckboxGroupProps, 'div'>) {
+    return (
+        <div {...props} data-checkbox-group data-control-group role="group">
+            {selectAll && (
+                <>
+                    <ToggleOption label={selectAllProps?.label || 'All'}>
+                        <Checkbox
+                            aria-label={selectAllProps?.label || 'All'}
+                            checked={!!values.length && values.length === options.length}
+                            indeterminate={!!values.length && values.length < options.length}
+                            name={name}
+                            onChange={(checked) => onChange(checked ? options.map((o) => o.value) : [])}
+                            value="all"
+                        />
+                    </ToggleOption>
+                </>
+            )}
+            {options.map(({ label, description, value }) => (
+                <ToggleOption description={description} key={value} label={label}>
+                    <Checkbox
+                        aria-label={label}
+                        checked={values.includes(value)}
+                        name={name}
+                        onChange={(checked) => {
+                            onChange(checked ? [...values, value] : values.filter((v) => v !== value));
+                        }}
+                        value={value}
+                    />
+                </ToggleOption>
+            ))}
+        </div>
+    );
+}
+
+CheckboxGroup.bspkName = 'CheckboxGroup';
+
+export { CheckboxGroup };
+
+/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

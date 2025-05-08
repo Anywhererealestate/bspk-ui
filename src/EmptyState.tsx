@@ -1,0 +1,73 @@
+import { ReactNode } from 'react';
+
+import { Button } from './Button';
+import { Layout } from './Layout';
+import { Txt } from './Txt';
+
+import { CallToActionButton } from './';
+
+export type EmptyStateProps = {
+    /** The image or icon to display in the empty state. */
+    children?: ReactNode;
+    /**
+     * The header of the empty state.
+     *
+     * @required
+     */
+    header: string;
+    /**
+     * The body of the empty state.
+     *
+     * @required
+     */
+    body: string;
+    /**
+     * This property may be undefined or an object containing required CallToActionButton properties.
+     *
+     * @type CallToActionButton
+     */
+    callToAction?: CallToActionButton;
+};
+
+/**
+ * A design pattern component that indicates to users that system has no content to display.
+ *
+ * @name EmptyState
+ */
+function EmptyState({ children, header, body, callToAction }: EmptyStateProps) {
+    return (
+        <Layout
+            align="center"
+            column
+            data-empty-state
+            style={{
+                margin: 'var(--spacing-sizing-04)',
+                maxWidth: '500px',
+            }}
+        >
+            {children}
+            <Layout align="center" column gap="4">
+                <Txt as="div" variant="heading-h5">
+                    {header}
+                </Txt>
+                <Txt as="div" variant="body-base">
+                    {body}
+                </Txt>
+            </Layout>
+            {callToAction && (
+                <Button
+                    label={callToAction.label}
+                    onClick={callToAction.onClick}
+                    size={callToAction.size || 'medium'}
+                    variant="primary"
+                />
+            )}
+        </Layout>
+    );
+}
+
+EmptyState.bspkName = 'EmptyState';
+
+export { EmptyState };
+
+/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
