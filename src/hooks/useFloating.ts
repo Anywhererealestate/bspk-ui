@@ -1,0 +1,202 @@
+/**
+ * Custom hook to manage the positioning of a floating element relative to a reference element.
+ *
+ * @template ReferenceType - The type of the reference element, extending HTMLElement.
+ * @param {Object} params - The parameters for the hook.
+ * @param {Placement} params.placement - The preferred placement of the floating element.
+ * @param {React.MutableRefObject<HTMLElement | null>} [params.arrowRef] - A ref object for the arrow element.
+ * @param {Strategy} [params.strategy] - The positioning strategy ('absolute' or 'fixed').
+ * @param {OffsetOptions} [params.offsetOptions=0] - The offset options for the floating element. Default is `0`
+ * @param {boolean} [params.refWidth] - Whether to match the width of the floating element to the reference element.
+ * @param {boolean} [params.hide=false] - Whether to hide the floating element. Default is `false`
+ */
+import {
+    computePosition,
+    ComputePositionReturn,
+    Placement,
+    arrow,
+    Strategy,
+    offset,
+    flip,
+    autoUpdate,
+    MiddlewareData,
+    OffsetOptions,
+    size,
+    MiddlewareState,
+} from '@floating-ui/dom';
+import { useCallback, useEffect, useState } from 'react';
+
+import { useTimeout } from './useTimeout';
+
+export type { Placement, Strategy };
+
+const TRANSITION_DELAY = 250;
+
+/**
+ *
+ *
+ * @param param0
+ * @returns
+ */
+export function useFloating<TriggerElementType extends HTMLElement>({
+    placement,
+    arrowRef,
+    strategy,
+    offsetOptions = 0,
+    refWidth,
+    hide = false,
+}: {
+    placement: Placement;
+    arrowRef?: React.MutableRefObject<HTMLElement | null>;
+    strategy?: Strategy;
+    offsetOptions?: OffsetOptions;
+    refWidth?: boolean;
+    hide?: boolean;
+}) {
+    const [floatingStyles, setFloatingStylesState] = useState<React.CSSProperties>({
+        opacity: 0,
+        pointerEvents: 'none',
+        display: 'none',
+    });
+
+    const setFloatingStyles = (next: (prev: React.CSSProperties) => React.CSSProperties) => {
+        setFloatingStylesState((prev) => ({
+            transition: `opacity ${TRANSITION_DELAY}ms`,
+            ...next(prev),
+        }));
+    };
+
+    const [middlewareData, setMiddlewareData] = useState<MiddlewareData>({});
+
+    const [triggerElement, setTriggerElement] = useState<TriggerElementType | null>(null);
+
+    const [floatingElement, setFloatingElement] = useState<HTMLElement | null>(null);
+
+    // const elements: {
+    //   trigger: HTMLElement | null;
+    //   floating: HTMLElement | null;
+    //   setReference: (node: TriggerElementType | null) => void;
+    //   setFloating: (node: HTMLElement | null) => void;
+    // } = {
+    //   trigger: triggerElement,
+    //   floating: floatingElement,
+    //   setReference: setTriggerElement,
+    //   setFloating: setFloatingElement,
+    // };
+
+    const computeDebounce = useTimeout();
+    const transitionDelay = useTimeout();
+
+    const compute = useCallback(() => {
+        computeDebounce.clear();
+        transitionDelay.clear();
+
+        // check if the reference or floating element is null
+        if (triggerElement === null || floatingElement === null) return;
+
+        if (hide) {
+            if (floatingElement?.style.top)
+                setFloatingStyles((prev) => ({
+                    ...prev,
+                    display: undefined,
+                    opacity: 0,
+                    pointerEvents: 'none',
+                }));
+
+            transitionDelay.set(() => {
+                setFloatingStyles((prev) => ({
+                    ...prev,
+                    display: 'none',
+                }));
+            }, TRANSITION_DELAY);
+            return;
+        }
+
+        // debounce the computePosition call
+
+        computeDebounce.set(() => {
+            // check again if the reference or floating element is null
+            if (hide || triggerElement === null || floatingElement === null) return;
+
+            computePosition(triggerElement, floatingElement, {
+                placement: placement,
+                strategy,
+                middleware: [
+                    arrowRef?.current && arrow({ element: arrowRef.current, padding: 8 }),
+                    offset(offsetOptions),
+                    flip(),
+                    refWidth &&
+                        size({
+                            apply({ rects, elements }: MiddlewareState) {
+                                Object.assign(elements.floating.style, {
+                                    width: `${rects.reference.width}px`,
+                                });
+                            },
+                        }),
+                ],
+            }).then((value: ComputePositionReturn) => {
+                setFloatingStyles(() => ({
+                    top: value.y,
+                    left: value.x,
+                    position: value.strategy,
+                    opacity: 0,
+                    pointerEvents: 'none',
+                    display: undefined,
+                }));
+
+                transitionDelay.set(() => {
+                    setFloatingStyles((prev) => ({
+                        ...prev,
+                        opacity: 1,
+                        pointerEvents: 'auto',
+                        display: undefined,
+                    }));
+                }, 10);
+
+                setMiddlewareData(value.middlewareData);
+            });
+        }, 10);
+    }, [
+        computeDebounce,
+        transitionDelay,
+        triggerElement,
+        floatingElement,
+        hide,
+        placement,
+        strategy,
+        arrowRef,
+        offsetOptions,
+        refWidth,
+    ]);
+
+    useEffect(() => {
+        compute();
+        return () => {
+            computeDebounce.clear();
+            transitionDelay.clear();
+        };
+    }, [compute, computeDebounce, hide, transitionDelay]);
+
+    useEffect(() => {
+        if (hide || triggerElement === null || floatingElement === null) return;
+
+        const cleanup = autoUpdate(triggerElement, floatingElement, compute);
+
+        return () => {
+            cleanup();
+        };
+    }, [compute, hide, floatingElement, triggerElement]);
+
+    return {
+        elements: {
+            trigger: triggerElement,
+            floating: floatingElement,
+            setTrigger: setTriggerElement,
+            setFloating: setFloatingElement,
+        },
+        floatingStyles,
+        middlewareData,
+    };
+}
+
+/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

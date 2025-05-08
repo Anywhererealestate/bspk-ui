@@ -1,0 +1,39 @@
+import { css } from '@emotion/react';
+
+import { ElementProps } from './';
+
+const style = {
+    container: css`
+        display: block;
+    `,
+};
+
+export type ImgProps = {
+    /**
+     * The URL of the image.
+     *
+     * @required
+     */
+    src: string;
+    /**
+     * The alternative text for the image.
+     *
+     * @required
+     */
+    alt: string;
+};
+
+/**
+ * The Img component is used to display images on the page.
+ *
+ * @name Img
+ */
+function Img({ alt, ...props }: ElementProps<ImgProps, 'img'>) {
+    return <img {...props} alt={alt} css={style.container} data-img />;
+}
+
+Img.bspkName = 'Img';
+
+export { Img };
+
+/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

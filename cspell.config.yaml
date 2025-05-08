@@ -1,0 +1,10 @@
+$schema: https://raw.githubusercontent.com/streetsidesoftware/cspell/main/cspell.schema.json
+version: '0.2'
+allowCompoundWords: true
+dictionaryDefinitions:
+    - name: dictionary
+      path: './cspell-dictionary.txt'
+      addWords: true
+dictionaries:
+    - dictionary
+#   Copyright 2025 Anywhere Real Estate - CC BY 4.0
