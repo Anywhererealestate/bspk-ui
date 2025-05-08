@@ -1,0 +1,161 @@
+export default `/**
+
+  * Base Styles
+  * This file is not generated or distributed through @bspk/styles.
+  * If not using a StylesProvider (recommended), this file should be imported first in the main stylesheet .
+  * This file will contain only the most basic styles that are applied across all applications.
+  * This file will NOT contain any component-specific styles.
+  * This file will NOT contain any media queries.
+  * This file will NOT contain any classes
+*/
+
+:root {
+    --z-index-tooltip-popover: 1100;
+    --z-index-dialog: 1000;
+    --z-index-dropdown: 900;
+    --z-index-fab: 800;
+    --z-index-navbar: 700;
+    --z-index-footer: 600;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+@media (prefers-reduced-motion) {
+    [data-animated] {
+        animation: none !important;
+    }
+}
+
+body,
+html {
+    height: 100%;
+    scroll-behavior: smooth;
+}
+
+body {
+    font: var(--body-base);
+    background-color: var(--background-base);
+    color: var(--foreground-neutral-on-surface);
+}
+
+a {
+    color: var(--foreground-link-text-default);
+
+    &:hover {
+        color: var(--foreground-link-text-default-hovered);
+    }
+
+    &:visited {
+        color: var(--foreground-link-text-default-visited);
+    }
+
+    &:disabled {
+        pointer-events: none;
+        color: var(--foreground-link-text-default-disabled);
+    }
+}
+
+a[data-subtle] {
+    color: var(--foreground-neutral-on-surface);
+
+    &:hover {
+        color: var(--foreground-link-text-subtle-hovered);
+    }
+
+    &:disabled {
+        pointer-events: none;
+        color: var(--foreground-link-text-subtle-disabled);
+    }
+}
+
+a[data-subtle-inverse] {
+    color: var(--foreground-neutral-inverse-on-surface);
+
+    &:hover {
+        color: var(--foreground-link-text-subtle-inverse-hovered);
+    }
+
+    &:disabled {
+        pointer-events: none;
+        color: var(--foreground-link-text-subtle-inverse-disabled);
+    }
+}
+
+/** Remove default input autofill styles */
+input:-internal-autofill-previewed,
+input:-internal-autofill-selected,
+textarea:-internal-autofill-previewed,
+textarea:-internal-autofill-selected,
+select:-internal-autofill-previewed,
+select:-internal-autofill-selected {
+    transition:
+        color calc(infinity * 1s) step-end,
+        background-color calc(infinity * 1s) step-end;
+}
+
+[data-sr-only] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+ol {
+    list-style-type: decimal;
+    li {
+        list-style-type: decimal;
+        margin-left: var(--spacing-sizing-05);
+    }
+}
+
+ul {
+    list-style-type: disc;
+    li {
+        list-style-type: disc;
+        margin-left: var(--spacing-sizing-05);
+    }
+}
+
+[data-touch-target] {
+    display: none;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+    position: absolute;
+    z-index: 1;
+    height: 100%;
+    width: 100%;
+    top: auto;
+    left: auto;
+}
+
+[data-touch-target] ~ * {
+    position: relative;
+    z-index: 2;
+}
+
+/* if touchscreen */
+@media (any-pointer: coarse) {
+    [data-touch-target] {
+        display: block;
+    }
+}
+
+/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
+`;
