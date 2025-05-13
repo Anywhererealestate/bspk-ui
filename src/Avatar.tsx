@@ -21,11 +21,11 @@ const SIZE_VARIANTS: Record<SizeVariant, { height: string; font: string }> = {
     small: { font: '--labels-small', height: '--spacing-sizing-08' }, // 32,
     medium: { font: '--labels-base', height: '--spacing-sizing-10' }, // 40
     large: { font: '--labels-large', height: '--spacing-sizing-12' }, //48,
-    'x-large': { font: '--desktop-subheader-x-large', height: '--spacing-sizing-14' }, // 56,
-    'xx-large': { font: '--desktop-subheader-xx-large', height: '--spacing-sizing-17' }, // 72,
-    'xxx-large': { font: '--desktop-display-regular-small', height: '--spacing-sizing-19' }, //96,
-    'xxxx-large': { font: '--desktop-display-regular-medium', height: '--spacing-sizing-21' }, // 120,
-    'xxxxx-large': { font: '--desktop-display-regular-large', height: '--spacing-sizing-23' }, //144,
+    'x-large': { font: '--subheader-x-large', height: '--spacing-sizing-14' }, // 56,
+    'xx-large': { font: '--subheader-xx-large', height: '--spacing-sizing-17' }, // 72,
+    'xxx-large': { font: '--display-regular-small', height: '--spacing-sizing-19' }, //96,
+    'xxxx-large': { font: '--display-regular-medium', height: '--spacing-sizing-21' }, // 120,
+    'xxxxx-large': { font: '--display-regular-large', height: '--spacing-sizing-23' }, //144,
 };
 
 export type AvatarProps = CommonProps<'aria-label'> & {
@@ -77,7 +77,7 @@ function Avatar({
     return (
         <>
             {children && (
-                <div aria-label={ariaLabel} css={style} data-color={color} data-avatar="" data-size={size}>
+                <div aria-label={ariaLabel} css={style} data-avatar="" data-color={color} data-size={size}>
                     {children}
                 </div>
             )}
