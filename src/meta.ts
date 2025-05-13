@@ -54,7 +54,18 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'accordion',
         css: '\n    display: flex;\n',
         dependencies: [],
-        modified: '2025-05-08T16:49:12.946Z',
+        modified: '2025-05-12T18:33:57.709Z',
+        hasTouchTarget: false,
+    },
+    {
+        description:
+            'A profile component.\n\nA profile is a visual representation of a user or entity. It can be used to display an initials, icon, image, or an overflowCount.',
+        file: '/Avatar.tsx',
+        name: 'Avatar',
+        slug: 'avatar',
+        css: "\n    --height: var(--spacing-sizing-10);\n    --font: var(--labels-base);\n    --foreground: var(--foreground-neutral-on-surface);\n    --background: var(--surface-neutral-t3-low);\n\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n    padding: 0;\n    height: var(--height);\n    width: var(--height);\n    aspect-ratio: 1 / 1;\n    border-radius: 999px;\n    background-color: var(--background);\n    color: var(--foreground);\n    font: var(--font);\n\n    &:has(img) {\n        overflow: hidden;\n    }\n\n    img {\n        max-width: 100%;\n    }\n\n    \n            &[data-size='x-small'] {\n                --height: var(--spacing-sizing-06);\n                --font: var(--labels-x-small);\n            }\n        \n            &[data-size='small'] {\n                --height: var(--spacing-sizing-08);\n                --font: var(--labels-small);\n            }\n        \n            &[data-size='medium'] {\n                --height: var(--spacing-sizing-10);\n                --font: var(--labels-base);\n            }\n        \n            &[data-size='large'] {\n                --height: var(--spacing-sizing-12);\n                --font: var(--labels-large);\n            }\n        \n            &[data-size='x-large'] {\n                --height: var(--spacing-sizing-14);\n                --font: var(--desktop-subheader-x-large);\n            }\n        \n            &[data-size='xx-large'] {\n                --height: var(--spacing-sizing-17);\n                --font: var(--desktop-subheader-xx-large);\n            }\n        \n            &[data-size='xxx-large'] {\n                --height: var(--spacing-sizing-19);\n                --font: var(--desktop-display-regular-small);\n            }\n        \n            &[data-size='xxxx-large'] {\n                --height: var(--spacing-sizing-21);\n                --font: var(--desktop-display-regular-medium);\n            }\n        \n            &[data-size='xxxxx-large'] {\n                --height: var(--spacing-sizing-23);\n                --font: var(--desktop-display-regular-large);\n            }\n        \n\n    \n            &[data-color='grey'] {\n                --foreground: var(--foreground-neutral-on-surface-variant-01);\n                --background: var(--surface-neutral-t2-lowest);\n            }\n        \n            &[data-color='white'] {\n                --foreground: var(--foreground-neutral-on-surface-variant-01);\n                --background: var(--surface-neutral-t1-base);\n            }\n        \n            &[data-color='primary'] {\n                --foreground: var(--foreground-brand-primary-depth);\n                --background: var(--surface-brand-primary-highlight);\n            }\n        \n            &[data-color='secondary'] {\n                --foreground: var(--foreground-brand-secondary-depth);\n                --background: var(--surface-brand-secondary-highlight);\n            }\n        \n            &[data-color='blue'] {\n                --foreground: var(--foreground-spectrum-blue);\n                --background: var(--surface-spectrum-blue);\n            }\n        \n            &[data-color='green'] {\n                --foreground: var(--foreground-spectrum-green);\n                --background: var(--surface-spectrum-green);\n            }\n        \n            &[data-color='lime'] {\n                --foreground: var(--foreground-spectrum-lime);\n                --background: var(--surface-spectrum-lime);\n            }\n        \n            &[data-color='magenta'] {\n                --foreground: var(--foreground-spectrum-magenta);\n                --background: var(--surface-spectrum-magenta);\n            }\n        \n            &[data-color='orange'] {\n                --foreground: var(--foreground-spectrum-orange);\n                --background: var(--surface-spectrum-orange);\n            }\n        \n            &[data-color='pink'] {\n                --foreground: var(--foreground-spectrum-pink);\n                --background: var(--surface-spectrum-pink);\n            }\n        \n            &[data-color='purple'] {\n                --foreground: var(--foreground-spectrum-purple);\n                --background: var(--surface-spectrum-purple);\n            }\n        \n            &[data-color='red'] {\n                --foreground: var(--foreground-spectrum-red);\n                --background: var(--surface-spectrum-red);\n            }\n        \n            &[data-color='teal'] {\n                --foreground: var(--foreground-spectrum-teal);\n                --background: var(--surface-spectrum-teal);\n            }\n        \n            &[data-color='yellow'] {\n                --foreground: var(--foreground-spectrum-yellow);\n                --background: var(--surface-spectrum-yellow);\n            }\n        ;\n",
+        dependencies: [],
+        modified: '2025-05-13T20:38:50.508Z',
         hasTouchTarget: false,
     },
     {
@@ -65,7 +76,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'badge',
         css: "\n    --size: var(--spacing-sizing-06);\n\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    border-radius: var(--radius-circular);\n    height: var(--size);\n    min-width: var(--size);\n    padding: 0 var(--spacing-sizing-02);\n\n    &[data-size='x-small'] {\n        --size: var(--spacing-sizing-05);\n        padding: 2px var(--spacing-sizing-01);\n    }\n\n    font: var(--labels-x-small);\n\n    color: var(--foreground-brand-on-primary);\n    background: var(--surface-brand-primary);\n\n    &[data-variant='secondary'] {\n        color: var(--foreground-brand-on-secondary);\n        background: var(--surface-brand-secondary);\n    }\n",
         dependencies: [],
-        modified: '2025-05-08T16:49:12.958Z',
+        modified: '2025-05-12T18:33:57.709Z',
         hasTouchTarget: false,
     },
     {
@@ -76,7 +87,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'banner-alert',
         css: "\n    --color: var(--status-information);\n    --on-color: var(--status-on-information);\n    display: flex;\n    flex-direction: row;\n    border: 2px solid var(--color);\n    border-radius: var(--radius-medium);\n    box-sizing: border-box;\n    background-color: var(--surface-neutral-t1-base);\n    width: 100%;\n\n    &[data-variant='error'] {\n        --color: var(--status-error);\n        --on-color: var(--status-on-error);\n    }\n\n    &[data-variant='success'] {\n        --color: var(--status-success);\n        --on-color: var(--status-on-success);\n    }\n\n    &[data-variant='warning'] {\n        --color: var(--status-warning);\n        --on-color: var(--status-on-warning);\n    }\n\n    &[data-elevated] {\n        box-shadow: var(--drop-shadow-raise);\n    }\n\n    [data-icon-bar] {\n        flex: 1;\n        padding: var(--spacing-sizing-04) var(--spacing-sizing-03);\n        background: var(--color);\n        color: var(--on-color);\n        svg {\n            width: var(--spacing-sizing-06);\n            height: var(--spacing-sizing-06);\n        }\n    }\n\n    [data-content] {\n        flex: 100%;\n        display: flex;\n        flex-direction: column;\n        padding: var(--spacing-sizing-02) var(--spacing-sizing-02) var(--spacing-sizing-02) var(--spacing-sizing-04);\n\n        header {\n            display: flex;\n            flex-direction: row;\n            gap: var(--spacing-sizing-03);\n            height: var(--spacing-sizing-12);\n            align-items: center;\n\n            span {\n                flex: 1;\n                display: flex;\n                align-items: center;\n                color: var(--foreground-neutral-on-surface);\n                font: var(--heading-h6);\n\n                @media (any-pointer: coarse) {\n                    font: var(--heading-h6);\n                }\n            }\n\n            // close button\n            button {\n                background: none;\n                border: none;\n                cursor: pointer;\n                padding: 0;\n                margin: 0 0 0 auto;\n                color: var(--foreground-neutral-on-surface-variant-01);\n\n                height: var(--spacing-sizing-08);\n                width: var(--spacing-sizing-08);\n\n                @media (any-pointer: coarse) {\n                    height: var(--spacing-sizing-12);\n                    width: var(--spacing-sizing-12);\n                }\n\n                svg {\n                    width: var(--spacing-sizing-04);\n                    height: var(--spacing-sizing-04);\n                }\n            }\n        }\n\n        [data-body] {\n            display: flex;\n            flex-direction: column;\n            gap: var(--spacing-sizing-02);\n            padding: 0 var(--spacing-sizing-02) var(--spacing-sizing-02) 0;\n\n            span {\n                font: var(--body-base);\n            }\n\n            button {\n                margin-left: auto;\n                background: none;\n                border: none;\n                cursor: pointer;\n                padding: 0 var(--spacing-sizing-03);\n                height: var(--spacing-sizing-12);\n                font: var(--labels-small);\n            }\n        }\n    }\n",
         dependencies: [],
-        modified: '2025-05-08T16:49:12.982Z',
+        modified: '2025-05-12T18:33:57.709Z',
         hasTouchTarget: false,
     },
     {
@@ -86,7 +97,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'bottom-navigation',
         css: '\n    display: flex;\n',
         dependencies: [],
-        modified: '2025-05-08T16:49:12.987Z',
+        modified: '2025-05-12T18:33:57.710Z',
         hasTouchTarget: false,
     },
     {
@@ -96,7 +107,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'bottom-sheet',
         css: '\n    display: flex;\n',
         dependencies: [],
-        modified: '2025-05-08T16:49:12.990Z',
+        modified: '2025-05-12T18:33:57.710Z',
         hasTouchTarget: false,
     },
     {
@@ -106,7 +117,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'breadcrumb',
         css: '\n    display: flex;\n',
         dependencies: [],
-        modified: '2025-05-08T16:49:12.994Z',
+        modified: '2025-05-12T18:33:57.710Z',
         hasTouchTarget: false,
     },
     {
@@ -117,7 +128,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'button',
         css: "\n    &,\n    &:is(a) {\n        display: flex;\n        flex-direction: row;\n        align-items: center;\n        justify-content: center;\n        gap: var(--spacing-sizing-02);\n        border: none;\n        cursor: pointer;\n        box-sizing: border-box;\n        background: transparent;\n        text-decoration: none;\n        width: fit-content;\n        position: relative;\n\n        [data-touch-target] {\n            min-width: var(--spacing-sizing-12);\n            min-height: var(--spacing-sizing-12);\n        }\n\n        &[data-width='hug'] {\n            width: fit-content;\n        }\n\n        &[data-width='fill'] {\n            width: 100%;\n        }\n\n        &[data-size='x-small'] {\n            font-size: var(--typography-size-xs);\n            line-height: var(--typography-line-height-lh-1);\n            height: var(--spacing-sizing-06);\n            min-width: var(--spacing-sizing-06);\n            gap: var(--spacing-sizing-02);\n\n            &:has([data-button-label]),\n            &[data-override] {\n                padding: 0 var(--spacing-sizing-02);\n            }\n\n            > [data-button-icon] {\n                width: var(--spacing-sizing-04);\n                height: var(--spacing-sizing-04);\n            }\n        }\n\n        &[data-size='small'] {\n            font-size: var(--typography-size-sm);\n            line-height: var(--typography-line-height-lh-2);\n            height: var(--spacing-sizing-08);\n            min-width: var(--spacing-sizing-08);\n\n            &:has([data-button-label]),\n            &[data-override] {\n                padding: 6px var(--spacing-sizing-04);\n            }\n\n            > [data-button-icon] {\n                width: var(--spacing-sizing-05);\n                height: var(--spacing-sizing-05);\n            }\n        }\n\n        &[data-size='medium'] {\n            font-size: var(--typography-size-base);\n            line-height: var(--typography-line-height-lh-2);\n            height: var(--spacing-sizing-10);\n            min-width: var(--spacing-sizing-10);\n\n            &:has([data-button-label]),\n            &[data-override] {\n                padding: var(--spacing-sizing-02) var(--spacing-sizing-04);\n            }\n\n            > [data-button-icon] {\n                width: var(--spacing-sizing-05);\n                height: var(--spacing-sizing-05);\n            }\n        }\n        &[data-size='large'] {\n            font-size: var(--typography-size-bp-md);\n            line-height: var(--typography-line-height-lh-4);\n            height: var(--spacing-sizing-12);\n            min-width: var(--spacing-sizing-12);\n\n            &:has([data-button-label]),\n            &[data-override] {\n                padding: var(--spacing-sizing-03) var(--spacing-sizing-04);\n            }\n\n            > [data-button-icon] {\n                width: var(--spacing-sizing-06);\n                height: var(--spacing-sizing-06);\n            }\n        }\n\n        &[disabled] {\n            cursor: not-allowed;\n        }\n\n        > [data-button-icon] {\n            display: flex;\n            flex-direction: column;\n            align-items: center;\n        }\n\n        > [data-button-label] {\n            display: flex;\n            flex-direction: row;\n            align-items: center;\n        }\n\n        &[data-variant='primary'] {\n            --primary-background: var(--surface-brand-primary);\n\n            background: linear-gradient(var(--primary-background), var(--primary-background));\n            color: var(--foreground-brand-on-primary);\n            border-radius: var(--radius-small);\n\n            &[disabled] {\n                color: var(--foreground-neutral-disabled-on-surface);\n                background: var(--interactions-disabled-opacity);\n            }\n\n            &:not([disabled]) {\n                [data-pseudo='hover'] > &,\n                &:hover {\n                    background:\n                        linear-gradient(\n                            var(--interactions-brand-hover-opacity),\n                            var(--interactions-brand-hover-opacity)\n                        ),\n                        linear-gradient(var(--primary-background), var(--primary-background));\n                }\n\n                [data-pseudo='active'] > &,\n                &:active {\n                    background:\n                        linear-gradient(\n                            var(--interactions-brand-press-opacity),\n                            var(--interactions-brand-press-opacity)\n                        ),\n                        linear-gradient(var(--primary-background), var(--primary-background));\n                }\n\n                [data-pseudo='focus'] > &,\n                &:focus-visible {\n                    outline: solid 2px var(--stroke-neutral-focus);\n                }\n            }\n\n            &[data-destructive] {\n                --primary-background: var(--status-error);\n                color: var(--foreground-brand-on-primary);\n            }\n        }\n\n        &[data-variant='secondary'] {\n            border: solid 1px var(--stroke-neutral-base);\n            border-radius: var(--radius-small);\n            color: var(--foreground-neutral-on-surface-variant-01);\n\n            &[disabled] {\n                color: var(--foreground-neutral-disabled-on-surface);\n                border: solid 1px var(--stroke-neutral-disabled-light);\n            }\n\n            &:not([disabled]) {\n                [data-pseudo='hover'] > &,\n                &:hover {\n                    background-color: var(--interactions-neutral-hover-opacity);\n                }\n\n                [data-pseudo='active'] > &,\n                &:active {\n                    background-color: var(--interactions-neutral-press-opacity);\n                }\n\n                [data-pseudo='focus'] > &,\n                &:focus-visible {\n                    outline: solid 2px var(--stroke-neutral-focus);\n                }\n            }\n\n            &[data-destructive] {\n                background: transparent;\n                color: var(--status-error);\n                border: solid 1px var(--status-error);\n            }\n        }\n\n        &[data-variant='tertiary'] {\n            background: transparent;\n            color: var(--foreground-neutral-on-surface-variant-01);\n\n            &[disabled] {\n                color: var(--foreground-neutral-disabled-on-surface);\n            }\n\n            &:not([disabled]) {\n                [data-pseudo='hover'] > &,\n                &:hover {\n                    background: var(--interactions-neutral-hover-opacity);\n                }\n\n                [data-pseudo='active'] > &,\n                &:active {\n                    background: var(--interactions-neutral-press-opacity);\n                }\n\n                [data-pseudo='focus'] > &,\n                &:focus-visible {\n                    outline: solid 2px var(--stroke-neutral-focus);\n                }\n            }\n\n            &[data-destructive] {\n                color: var(--status-error);\n            }\n        }\n    }\n",
         dependencies: ['Tooltip'],
-        modified: '2025-05-08T16:49:13.012Z',
+        modified: '2025-05-12T18:33:57.710Z',
         hasTouchTarget: true,
     },
     {
@@ -127,7 +138,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'button-dock',
         css: '\n    display: flex;\n',
         dependencies: [],
-        modified: '2025-05-08T16:49:13.017Z',
+        modified: '2025-05-12T18:33:57.710Z',
         hasTouchTarget: false,
     },
     {
@@ -138,7 +149,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'card',
         css: "\n    display: block;\n    background: var(--surface-neutral-t1-base);\n    padding: var(--spacing-sizing-03);\n    border-radius: var(--radius-medium);\n    overflow: hidden;\n\n    &[data-hide-padding] {\n        padding: 0;\n    }\n    &[data-variant='outlined'] {\n        border: solid 1px var(--stroke-neutral-low);\n    }\n    &[data-variant='elevated'] {\n        box-shadow:\n            0 1px 2px 0 var(--shadow-32),\n            0 1px 3px 1px var(--shadow-15);\n    }\n",
         dependencies: [],
-        modified: '2025-05-08T16:49:13.023Z',
+        modified: '2025-05-12T18:33:57.711Z',
         hasTouchTarget: false,
     },
     {
@@ -148,7 +159,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'chart',
         css: '\n    display: flex;\n',
         dependencies: [],
-        modified: '2025-05-08T16:49:13.026Z',
+        modified: '2025-05-12T18:33:57.711Z',
         hasTouchTarget: false,
     },
     {
@@ -159,7 +170,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'checkbox',
         css: "\n    display: block;\n    position: relative;\n    width: var(--spacing-sizing-06);\n    aspect-ratio: 1/1;\n    padding: 2px;\n\n    input[type='checkbox'] {\n        position: absolute;\n        opacity: 0;\n        z-index: 2;\n        width: 100%;\n        height: 100%;\n        top: 0;\n        left: 0;\n        cursor: pointer;\n    }\n\n    span {\n        --stroke: var(--stroke-neutral-base);\n        --inner: none;\n        --background: none;\n        --color: var(--foreground-brand-on-primary);\n\n        box-sizing: border-box;\n        display: flex;\n        width: 20px;\n        aspect-ratio: 1/1;\n        cursor: pointer;\n        border-radius: 2px;\n        border: 2px solid var(--stroke);\n        align-items: center;\n        flex-direction: column;\n        justify-content: center;\n        position: relative;\n        background: var(--background);\n\n        svg[data-checked] {\n            width: 14px;\n            display: none;\n        }\n        svg[data-indeterminate] {\n            width: 12px;\n            display: none;\n        }\n        color: var(--color);\n    }\n\n    input[type='checkbox']:not(:checked, :indeterminate, :disabled) {\n        &:hover + span {\n            background-color: var(--interactions-neutral-hover-opacity);\n        }\n        &:active + span {\n            background-color: var(--interactions-neutral-press-opacity);\n        }\n    }\n\n    input[type='checkbox']:checked + span svg[data-checked],\n    input[type='checkbox']:indeterminate + span svg[data-indeterminate] {\n        display: block;\n    }\n\n    input[type='checkbox']:checked + span,\n    input[type='checkbox']:indeterminate + span {\n        --stroke: var(--stroke-brand-primary);\n        --background: var(--surface-brand-primary);\n    }\n\n    input[type='checkbox']:disabled {\n        pointer-events: none;\n        & + span {\n            --stroke: var(--stroke-neutral-interactions-disabled-light);\n        }\n        &:is(:checked, :indeterminate) + span {\n            --stroke: transparent;\n            --background: var(--interactions-disabled-opacity);\n            --color: var(--foreground-neutral-disabled-on-surface);\n        }\n    }\n\n    input[type='checkbox'][aria-invalid]:not(:disabled) {\n        &:checked + span,\n        &:indeterminate + span {\n            --background: var(--status-error);\n        }\n        & + span {\n            --stroke: var(--status-error);\n        }\n    }\n",
         dependencies: [],
-        modified: '2025-05-08T16:49:13.036Z',
+        modified: '2025-05-12T18:33:57.711Z',
         hasTouchTarget: false,
     },
     {
@@ -170,7 +181,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'checkbox-group',
         css: '',
         dependencies: ['Checkbox', 'ToggleOption'],
-        modified: '2025-05-08T16:49:13.045Z',
+        modified: '2025-05-12T18:33:57.711Z',
         hasTouchTarget: false,
     },
     {
@@ -181,7 +192,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'checkbox-option',
         css: '',
         dependencies: ['Checkbox', 'ToggleOption'],
-        modified: '2025-05-08T16:49:13.048Z',
+        modified: '2025-05-12T18:33:57.711Z',
         hasTouchTarget: false,
     },
     {
@@ -191,7 +202,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'chip',
         css: "\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    width: fit-content;\n    height: var(--spacing-sizing-06);\n    padding: 0 var(--spacing-sizing-02);\n    font: var(--labels-small);\n    color: var(--foreground-neutral-on-surface-variant-01);\n    background-color: var(--surface-neutral-t1-base);\n    border: 1px solid var(--stroke-neutral-low);\n    border-radius: var(--radius-small);\n\n    &:not([data-flat]) {\n        box-shadow: var(--drop-shadow-raise);\n    }\n\n    &[data-variant='filter'] {\n        cursor: pointer;\n    }\n\n    &[data-wrap] {\n        height: auto;\n    }\n\n    &[data-disabled] {\n        color: var(--foreground-neutral-disabled-on-surface);\n        cursor: not-allowed;\n        border-color: var(--stroke-neutral-disabled-light);\n        background-image: \n    //\n\n            linear-gradient(var(--interactions-disabled-opacity), var(--interactions-disabled-opacity)),\n            linear-gradient(var(--surface-neutral-t1-base), var(--surface-neutral-t1-base));\n    }\n\n    &:not([data-disabled]) {\n        &:hover {\n            background-image: \n    //\n\n                linear-gradient(var(--interactions-neutral-hover-opacity), var(--interactions-neutral-hover-opacity)),\n                linear-gradient(var(--surface-neutral-t1-base), var(--surface-neutral-t1-base));\n        }\n\n        &:active {\n            background-image: \n    //\n\n                linear-gradient(var(--interactions-neutral-press-opacity), var(--interactions-neutral-press-opacity)),\n                linear-gradient(var(--surface-neutral-t1-base), var(--surface-neutral-t1-base));\n        }\n\n        &:focus {\n            outline: 1px solid var(--stroke-neutral-focus);\n            border-color: var(--stroke-neutral-focus);\n        }\n    }\n\n    &[data-selected] {\n        background-color: var(--surface-brand-primary-highlight);\n        border-color: var(--stroke-brand-primary);\n    }\n",
         dependencies: [],
-        modified: '2025-05-08T16:49:13.055Z',
+        modified: '2025-05-12T18:33:57.711Z',
         hasTouchTarget: false,
     },
     {
@@ -201,7 +212,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'date-picker',
         css: '\n    display: flex;\n',
         dependencies: [],
-        modified: '2025-05-08T16:49:13.059Z',
+        modified: '2025-05-12T18:33:57.712Z',
         hasTouchTarget: false,
     },
     {
@@ -212,7 +223,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'dialog',
         css: "\n    position: fixed;\n    inset: 0;\n    z-index: var(--z-index-dialog);\n\n    [data-dialog-box] {\n        text-align: start;\n        position: relative;\n        border-radius: var(--radius-large);\n        box-shadow: var(--drop-shadow-float);\n        background: var(--surface-neutral-t1-base);\n        color: var(--foreground-neutral-on-surface);\n        max-height: calc(100vh - var(--spacing-sizing-24));\n        overflow: scroll;\n        z-index: 2;\n\n        > :first-of-type {\n            margin-top: 0;\n        }\n\n        > :last-child {\n            margin-bottom: 0;\n        }\n\n        // we make the width responsive to the viewport\n        @media (min-width: 640px) {\n            width: 90%;\n        }\n\n        @media (min-width: 768px) {\n            width: 80%;\n        }\n\n        @media (min-width: 1024px) {\n            width: 60%;\n        }\n\n        @media (min-width: 1280px) {\n            width: 50%;\n        }\n    }\n\n    [data-dialog-backdrop] {\n        z-index: 1;\n        position: fixed;\n        inset: 0;\n        background-color: var(--background-scrim);\n        opacity: 0;\n        transition: opacity 0.3s;\n    }\n\n    &[data-visibility='show'] {\n        [data-dialog-backdrop] {\n            opacity: 1;\n        }\n    }\n\n    &[data-placement='center'] {\n        display: flex;\n        justify-content: center;\n        align-items: center;\n\n        [data-dialog-box] {\n            transition: opacity 1s;\n            opacity: 0;\n        }\n\n        &[data-visibility='show'] {\n            [data-dialog-box] {\n                opacity: 1;\n            }\n        }\n    }\n\n    &[data-placement='bottom'] {\n        [data-dialog-box] {\n            position: absolute;\n            border-bottom-left-radius: 0;\n            border-bottom-right-radius: 0;\n            width: 600px;\n            left: 50%;\n            transform: translateX(-50%);\n            bottom: -100vh;\n            transition: bottom 0.3s;\n        }\n\n        &[data-visibility='show'] {\n            [data-dialog-box] {\n                bottom: 0;\n            }\n        }\n    }\n\n    &[data-placement='top'] {\n        [data-dialog-box] {\n            position: absolute;\n            border-top-left-radius: 0;\n            border-top-right-radius: 0;\n            width: 600px;\n            left: 50%;\n            transform: translateX(-50%);\n            top: -100vh;\n            transition: top 0.3s;\n        }\n\n        &[data-visibility='show'] {\n            [data-dialog-box] {\n                top: 0;\n            }\n        }\n    }\n\n    &[data-placement='left'] {\n        [data-dialog-box] {\n            position: absolute;\n            max-height: unset;\n            width: 280px;\n            height: 100vh;\n            border-bottom-left-radius: 0;\n            border-top-left-radius: 0;\n            left: -100vw;\n            transition: left 0.3s;\n        }\n\n        &[data-visibility='show'] {\n            [data-dialog-box] {\n                left: 0;\n            }\n        }\n    }\n\n    &[data-placement='right'] {\n        [data-dialog-box] {\n            position: absolute;\n            max-height: unset;\n            width: 280px;\n            height: 100vh;\n            border-bottom-right-radius: 0;\n            border-top-right-radius: 0;\n            right: -100vw;\n            transition: right 0.3s;\n        }\n\n        &[data-visibility='show'] {\n            [data-dialog-box] {\n                right: 0;\n            }\n        }\n    }\n",
         dependencies: ['Portal'],
-        modified: '2025-05-08T16:49:13.074Z',
+        modified: '2025-05-12T18:33:57.712Z',
         hasTouchTarget: false,
     },
     {
@@ -223,7 +234,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'divider',
         css: "\n    display: flex;\n    background-color: var(--stroke-neutral-low);\n    align-self: stretch;\n    justify-content: stretch;\n    margin: 0;\n    padding: 0;\n    align-content: stretch;\n    content: 'hello';\n\n    --length: calc(100% - var(--inset) * 2);\n\n    &, // default\n  &[data-thickness='light'] {\n        --line-thickness: 1px;\n        --padding: var(--spacing-sizing-02);\n    }\n\n    &[data-thickness='heavy'] {\n        --line-thickness: 2px;\n        --padding: var(--spacing-sizing-04);\n    }\n\n    &, // default\n  &[data-orientation='horizontal'] {\n        width: unset;\n        min-height: unset;\n\n        height: var(--line-thickness);\n        min-width: var(--length);\n\n        margin: var(--padding) var(--inset);\n    }\n\n    &[data-orientation='vertical'] {\n        height: unset;\n        min-width: unset;\n\n        width: var(--line-thickness);\n        min-height: var(--length);\n\n        margin: var(--inset) var(--padding);\n    }\n\n    &[data-hide-padding] {\n        //\n        --padding: 0;\n    }\n",
         dependencies: [],
-        modified: '2025-05-08T16:49:13.081Z',
+        modified: '2025-05-12T18:33:57.712Z',
         hasTouchTarget: false,
     },
     {
@@ -233,7 +244,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'drawer',
         css: '\n    display: flex;\n',
         dependencies: [],
-        modified: '2025-05-08T16:49:13.084Z',
+        modified: '2025-05-12T18:33:57.712Z',
         hasTouchTarget: false,
     },
     {
@@ -243,7 +254,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'dropdown',
         css: "\n    // default -- size medium not disabled or readonly\n    --dropdown-background: var(--surface-neutral-t1-base);\n    --dropdown-border-color: var(--stroke-neutral-base);\n    --dropdown-text-color: var(--foreground-neutral-on-surface);\n    --dropdown-height: var(--spacing-sizing-10);\n    --dropdown-font: var(--body-base);\n    --dropdown-clear-height: var(--spacing-sizing-05);\n    --dropdown-padding: var(--spacing-sizing-03);\n    --dropdown-icon-width: var(--spacing-sizing-05);\n\n    position: relative;\n    width: 100%;\n    max-width: 280px;\n    outline: unset;\n    min-height: var(--dropdown-height);\n    max-height: var(--dropdown-height);\n    display: flex;\n    flex-direction: row;\n    gap: var(--spacing-sizing-02);\n    flex-grow: 0;\n    flex-shrink: 0;\n    text-align: left;\n    font: var(--dropdown-font);\n    border: 1px solid var(--dropdown-border-color);\n    border-radius: var(--radius-small);\n    background: var(--dropdown-background);\n    padding: 0 var(--dropdown-padding);\n\n    [data-placeholder] {\n        display: block;\n        max-width: 100%;\n        text-overflow: ellipsis;\n        overflow: hidden;\n        padding: 0;\n\n        [data-inner] {\n            min-height: auto;\n            padding: 0;\n        }\n\n        [data-item-label] [data-text] {\n            color: var(--dropdown-text-color);\n        }\n    }\n\n    [data-svg] {\n        display: flex;\n        flex-direction: column;\n        justify-content: center;\n        svg {\n            transform: rotate(90deg);\n            width: var(--dropdown-icon-width);\n        }\n    }\n\n    // &[data-size='medium'] {\n    & {\n        [data-svg] svg {\n        }\n    }\n\n    &[data-size='small'] {\n        --dropdown-height: var(--spacing-sizing-08);\n        --dropdown-font: var(--body-small);\n        --dropdown-clear-height: var(--spacing-sizing-05);\n        --dropdown-padding: var(--spacing-sizing-02);\n        --dropdown-icon-width: var(--spacing-sizing-05);\n    }\n\n    &[data-size='large'] {\n        --dropdown-height: var(--spacing-sizing-12);\n        --dropdown-font: var(--body-large);\n        --dropdown-clear-height: var(--spacing-sizing-06);\n        --dropdown-icon-width: var(--spacing-sizing-06);\n    }\n\n    &:disabled {\n        --dropdown-text-color: var(--foreground-neutral-disabled-on-surface);\n        --dropdown-border-color: var(--stroke-neutral-disabled-light);\n        --dropdown-background:\n            linear-gradient(var(--interactions-disabled-opacity), var(--interactions-disabled-opacity)),\n            linear-gradient(var(--surface-neutral-t1-base), var(--surface-neutral-t1-base));\n\n        &[aria-readonly]:not([data-empty]) {\n            --dropdown-text-color: var(--foreground-neutral-on-surface);\n        }\n    }\n\n    &:not(:disabled) {\n        &:focus {\n            --dropdown-border-color: var(--stroke-brand-primary);\n        }\n\n        &:hover {\n            --dropdown-background:\n                linear-gradient(var(--interactions-neutral-hover-opacity), var(--interactions-neutral-hover-opacity)),\n                linear-gradient(var(--surface-neutral-t1-base), var(--surface-neutral-t1-base));\n        }\n\n        &:active {\n            --dropdown-background:\n                linear-gradient(var(--interactions-neutral-press-opacity), var(--interactions-neutral-press-opacity)),\n                linear-gradient(var(--surface-neutral-t1-base), var(--surface-neutral-t1-base));\n        }\n    }\n\n    &[data-invalid] {\n        --dropdown-border-color: var(--status-error);\n    }\n\n    &[data-empty] {\n        --dropdown-text-color: var(--foreground-neutral-on-surface-variant-03);\n    }\n",
         dependencies: ['ListItem', 'Menu', 'Portal'],
-        modified: '2025-05-08T16:49:13.094Z',
+        modified: '2025-05-12T18:33:57.712Z',
         hasTouchTarget: false,
     },
     {
@@ -254,7 +265,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'dropdown-field',
         css: '',
         dependencies: ['Dropdown', 'FormField'],
-        modified: '2025-05-08T16:49:13.098Z',
+        modified: '2025-05-12T18:33:57.712Z',
         hasTouchTarget: false,
     },
     {
@@ -264,7 +275,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'empty-state',
         css: '',
         dependencies: ['Button', 'Layout', 'Txt'],
-        modified: '2025-05-08T16:49:13.102Z',
+        modified: '2025-05-12T18:33:57.713Z',
         hasTouchTarget: false,
     },
     {
@@ -275,7 +286,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'fab',
         css: "\n    --placement-offset: var(--spacing-sizing-04);\n\n    display: flex;\n    flex-direction: row;\n    align-items: center;\n    justify-content: center;\n    gap: var(--spacing-sizing-02);\n    border: none;\n    cursor: pointer;\n    box-sizing: border-box;\n    background: transparent;\n    text-decoration: none;\n    z-index: var(--z-index-fab);\n    box-shadow: var(--drop-shadow-float);\n    border-radius: var(--radius-small);\n\n    &[data-container='page'] {\n        position: fixed;\n    }\n\n    &[data-container='local'] {\n        position: absolute;\n    }\n\n    &[data-placement='top-right'] {\n        top: var(--placement-offset);\n        right: var(--placement-offset);\n    }\n\n    &[data-placement='bottom-right'] {\n        bottom: var(--placement-offset);\n        right: var(--placement-offset);\n    }\n\n    &[data-placement='top-left'] {\n        top: var(--placement-offset);\n        left: var(--placement-offset);\n    }\n\n    &[data-placement='bottom-left'] {\n        bottom: var(--placement-offset);\n        left: var(--placement-offset);\n    }\n\n    > [data-fab-icon] {\n        display: flex;\n        flex-direction: column;\n        align-items: center;\n    }\n\n    > [data-fab-label] {\n        display: flex;\n        flex-direction: row;\n        align-items: center;\n    }\n\n    &[data-size='small'] {\n        font: var(--labels-base);\n        height: var(--spacing-sizing-10);\n        padding: 0 var(--spacing-sizing-04);\n\n        > [data-fab-icon] {\n            width: var(--spacing-sizing-05);\n        }\n    }\n\n    &[data-size='medium'] {\n        font: var(--labels-large);\n        height: var(--spacing-sizing-14);\n        padding: 0 var(--spacing-sizing-07);\n\n        > [data-fab-icon] {\n            width: var(--spacing-sizing-06);\n        }\n    }\n\n    &[data-variant='primary'] {\n        --variant-background: var(--surface-brand-primary);\n        --variant-foreground: var(--foreground-brand-on-primary);\n    }\n\n    &[data-variant='secondary'] {\n        --variant-background: var(--surface-brand-secondary);\n        --variant-foreground: var(--foreground-brand-on-secondary);\n    }\n\n    &[data-variant='neutral'] {\n        --variant-background: var(--surface-neutral-t1-base);\n        --variant-foreground: var(--foreground-neutral-on-surface-variant-01);\n    }\n\n    background: var(--variant-background);\n    color: var(--variant-foreground);\n    --variant-gradient: linear-gradient(var(--variant-background), var(--variant-background));\n\n    [data-pseudo='hover'] > &,\n    &:hover {\n        background:\n            linear-gradient(var(--interactions-brand-hover-opacity), var(--interactions-brand-hover-opacity)),\n            var(--variant-gradient);\n    }\n\n    [data-pseudo='active'] > &,\n    &:active {\n        background:\n            linear-gradient(var(--interactions-brand-press-opacity), var(--interactions-brand-press-opacity)),\n            var(--variant-gradient);\n    }\n\n    [data-pseudo='focus'] > &,\n    &:focus-visible {\n        outline: solid 2px var(--stroke-neutral-focus);\n    }\n\n    &[data-round] {\n        border-radius: var(--radius-circular);\n        aspect-ratio: 1/1;\n        padding: 0;\n    }\n",
         dependencies: ['Button', 'Tooltip'],
-        modified: '2025-05-08T16:49:13.110Z',
+        modified: '2025-05-12T18:33:57.713Z',
         hasTouchTarget: false,
     },
     {
@@ -285,7 +296,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'file-upload',
         css: '\n    display: flex;\n',
         dependencies: [],
-        modified: '2025-05-08T16:49:13.113Z',
+        modified: '2025-05-12T18:33:57.713Z',
         hasTouchTarget: false,
     },
     {
@@ -296,7 +307,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'form-field',
         css: '\n    box-sizing: border-box;\n    width: 100%;\n    display: flex;\n    flex-direction: column;\n    gap: var(--spacing-sizing-01);\n\n    header label {\n        flex-grow: 1;\n    }\n',
         dependencies: ['InlineAlert', 'Layout', 'Txt'],
-        modified: '2025-05-08T16:49:13.121Z',
+        modified: '2025-05-12T18:33:57.713Z',
         hasTouchTarget: false,
     },
     {
@@ -306,7 +317,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'image',
         css: '\n    display: flex;\n',
         dependencies: [],
-        modified: '2025-05-08T16:49:13.195Z',
+        modified: '2025-05-12T18:33:57.713Z',
         hasTouchTarget: false,
     },
     {
@@ -316,7 +327,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'img',
         css: '',
         dependencies: [],
-        modified: '2025-05-08T16:49:13.197Z',
+        modified: '2025-05-12T18:33:57.713Z',
         hasTouchTarget: false,
     },
     {
@@ -327,7 +338,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'inline-alert',
         css: "\n    display: flex;\n    align-items: start;\n    justify-content: center;\n    flex-direction: row;\n    gap: var(--spacing-sizing-02);\n\n    [data-txt] {\n        flex: 1;\n    }\n\n    &[data-variant='error'] {\n        color: var(--status-error);\n        --first-tone: var(--status-error);\n        --second-tone: var(--status-on-information);\n    }\n\n    &[data-variant='success'] {\n        color: var(--status-success);\n        --first-tone: var(--status-success);\n        --second-tone: var(--status-on-success);\n    }\n\n    &[data-variant='warning'] {\n        color: var(--foreground-neutral-on-surface);\n        --first-tone: var(--status-warning);\n        --second-tone: var(--status-on-warning);\n    }\n\n    &[data-variant='informational'] {\n        color: var(--status-information);\n        --first-tone: var(--status-information);\n        --second-tone: var(--status-on-information);\n    }\n\n    svg {\n        color: var(--first-tone);\n        width: var(--spacing-sizing-05);\n        height: var(--spacing-sizing-05);\n\n        [data-second-tone] {\n            fill: var(--second-tone);\n        }\n    }\n",
         dependencies: ['Txt'],
-        modified: '2025-05-08T16:49:13.209Z',
+        modified: '2025-05-12T18:33:57.714Z',
         hasTouchTarget: false,
     },
     {
@@ -337,7 +348,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'layout',
         css: '',
         dependencies: [],
-        modified: '2025-05-08T16:49:13.213Z',
+        modified: '2025-05-12T18:33:57.714Z',
         hasTouchTarget: false,
     },
     {
@@ -347,18 +358,18 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'link',
         css: "\n    display: flex;\n    flex-direction: row;\n    align-items: center;\n    gap: var(--spacing-sizing-01);\n    font: var(--labels-base);\n\n    &[data-size='large'] {\n        font: var(--labels-large);\n    }\n\n    &[data-size='small'] {\n        font: var(--labels-small);\n    }\n\n    svg {\n        width: var(--spacing-sizing-05);\n    }\n",
         dependencies: [],
-        modified: '2025-05-08T16:49:13.218Z',
+        modified: '2025-05-12T18:33:57.715Z',
         hasTouchTarget: false,
     },
     {
         description:
-            'A hybrid interactive component that is used frequently to organize content and offers a wide range of control and navigation in most experiences.\n\nWith its flexible and simple structure, the list item element is core and can meet the needs of many uses cases.\n\nThe ListItem has three main elements: leading element, label, and trailing element.\n\nLeading elements may be one of the following [Icon](/icons), Img, Profile.\n\nTrailing elements may be one of the following [Icon](/icons), Checkbox, ListItemButton, Radio, Switch, Tag, Txt.\n\nThe ListItemButton is a more limited Button with context specific options.',
+            'A hybrid interactive component that is used frequently to organize content and offers a wide range of control and navigation in most experiences.\n\nWith its flexible and simple structure, the list item element is core and can meet the needs of many uses cases.\n\nThe ListItem has three main elements: leading element, label, and trailing element.\n\nLeading elements may be one of the following [Icon](/icons), Img, Avatar.\n\nTrailing elements may be one of the following [Icon](/icons), Checkbox, ListItemButton, Radio, Switch, Tag, Txt.\n\nThe ListItemButton is a more limited Button with context specific options.',
         file: '/ListItem.tsx',
         name: 'ListItem',
         slug: 'list-item',
         css: "\n    display: block;\n    width: 100%;\n    box-sizing: border-box;\n    padding: 0 var(--spacing-sizing-02);\n    background: unset;\n    border: unset;\n    margin: unset;\n    text-decoration: unset;\n    user-select: none;\n    color: var(--foreground-neutral-on-surface);\n\n    &:is(a),\n    &:is(button),\n    &[onclick],\n    &[role='button'] {\n        cursor: pointer;\n    }\n\n    [data-inner] {\n        height: 100%;\n        width: 100%;\n        min-height: var(--spacing-sizing-09);\n        box-sizing: border-box;\n        display: flex;\n        flex-direction: row;\n        gap: var(--spacing-sizing-03);\n        padding: var(--spacing-sizing-02) 0;\n        justify-items: stretch;\n\n        & > * {\n            min-height: 100%;\n            width: fit-content;\n            display: flex;\n            flex-direction: column;\n            justify-content: space-around;\n            flex: 1;\n            flex-shrink: 0;\n\n            svg {\n                width: 24px;\n                max-width: unset;\n            }\n        }\n    }\n\n    /* &:has(+ [data-list-item]) {\n    [data-inner] {\n      border-bottom: 1px solid var(--stroke-neutral-low);\n    }\n  } */\n\n    &[data-action] {\n        [data-pseudo='focus'] &,\n        &:focus-visible,\n        &:has(*:focus-visible) {\n            //outline: 2px solid var(--stroke-neutral-focus);\n            box-shadow: inset var(--stroke-neutral-focus) 0 0 0 2px;\n\n            [data-inner] {\n                border-color: transparent;\n            }\n        }\n    }\n\n    [data-component='Img'] > img {\n        height: 36px;\n        width: 36px;\n        max-width: unset;\n    }\n\n    &:is(label) {\n        [data-inner] {\n            border-bottom: 0;\n            gap: var(--spacing-sizing-02);\n        }\n    }\n\n    [data-item-label] {\n        flex: 100%;\n        text-align: left;\n\n        [data-text] {\n            font: var(--labels-base);\n            color: var(--foreground-neutral-on-surface);\n        }\n\n        [data-sub-text] {\n            font: var(--body-small);\n            color: var(--foreground-neutral-on-surface-variant-01);\n        }\n    }\n\n    &[aria-disabled] {\n        [data-text],\n        [data-sub-text] {\n            color: var(--foreground-neutral-disabled-on-surface);\n        }\n    }\n\n    &[data-action] {\n        [data-pseudo='hover'] &,\n        &:hover {\n            background-color: var(--interactions-neutral-hover-opacity);\n        }\n\n        [data-pseudo='active'] &,\n        &[data-active],\n        &:active {\n            background-color: var(--interactions-neutral-press-opacity);\n        }\n    }\n",
         dependencies: ['Button'],
-        modified: '2025-05-08T16:49:13.228Z',
+        modified: '2025-05-13T20:39:15.130Z',
         hasTouchTarget: false,
     },
     {
@@ -369,7 +380,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'menu',
         css: '\n    /** \n  --item-count is set via inline style. :)\n   */\n\n    width: 332px;\n    border: 1px solid var(--stroke-neutral-low);\n    background-color: var(--surface-neutral-t1-base);\n    box-shadow: var(--drop-shadow-float);\n    border-radius: var(--radius-large);\n    display: flex;\n    flex-direction: column;\n\n    --item-size: var(--spacing-sizing-12);\n\n    &[data-floating] {\n        z-index: var(--z-index-dropdown);\n    }\n\n    &[data-item-count] {\n        height: calc(var(--item-count) * var(--item-size));\n        overflow-y: scroll;\n    }\n\n    &[data-no-items] {\n        padding: var(--spacing-sizing-08) var(--spacing-sizing-04);\n        align-items: center;\n        justify-content: center;\n        gap: var(--spacing-sizing-03);\n    }\n\n    [data-list-item] {\n        min-height: var(--item-size);\n        height: var(--item-size);\n    }\n',
         dependencies: ['Checkbox', 'ListItem', 'Txt'],
-        modified: '2025-05-08T16:49:13.238Z',
+        modified: '2025-05-12T18:33:57.715Z',
         hasTouchTarget: false,
     },
     {
@@ -379,7 +390,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'menu-button',
         css: '\n    background: none;\n    border: none;\n    cursor: pointer;\n    padding: 0;\n    height: 48px;\n    width: auto;\n    display: flex;\n    flex-direction: row;\n    align-items: center;\n    justify-content: center;\n    padding-top: var(--spacing-sizing-01);\n    color: var(--foreground-neutral-on-surface-variant-01);\n',
         dependencies: ['Button'],
-        modified: '2025-05-08T16:49:13.241Z',
+        modified: '2025-05-12T18:34:34.535Z',
         hasTouchTarget: false,
     },
     {
@@ -390,7 +401,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'modal',
         css: '\n    display: flex;\n    flex-direction: column;\n    overflow: hidden;\n    gap: var(--spacing-sizing-02);\n    padding: var(--spacing-sizing-04);\n\n    > header {\n        display: flex;\n        flex-direction: row;\n        justify-content: space-between;\n        align-items: center;\n        gap: var(--spacing-sizing-04);\n    }\n\n    main {\n        overflow: auto;\n        flex: 1;\n    }\n',
         dependencies: ['Button', 'Dialog', 'Txt'],
-        modified: '2025-05-08T16:49:13.342Z',
+        modified: '2025-05-12T18:33:57.716Z',
         hasTouchTarget: false,
     },
     {
@@ -400,7 +411,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'multi-selection',
         css: '\n    display: flex;\n',
         dependencies: [],
-        modified: '2025-05-08T16:49:13.345Z',
+        modified: '2025-05-12T18:33:57.716Z',
         hasTouchTarget: false,
     },
     {
@@ -410,7 +421,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'navigation-rail',
         css: '\n    display: flex;\n',
         dependencies: [],
-        modified: '2025-05-08T16:49:13.347Z',
+        modified: '2025-05-12T18:33:57.717Z',
         hasTouchTarget: false,
     },
     {
@@ -421,7 +432,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'number-field',
         css: '',
         dependencies: ['FormField', 'NumberInput'],
-        modified: '2025-05-08T16:49:13.350Z',
+        modified: '2025-05-12T18:33:57.717Z',
         hasTouchTarget: false,
     },
     {
@@ -432,7 +443,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'number-input',
         css: "\n    // medium\n    --font: var(--body-base);\n    --height: var(--spacing-sizing-10);\n    --svg-width: var(--spacing-sizing-05);\n    --color: var(--foreground-neutral-on-surface);\n    width: 100%;\n\n    display: flex;\n    flex-flow: row nowrap;\n    font: var(--font);\n    height: var(--height);\n    border: 1px solid var(--stroke-neutral-base);\n    border-radius: var(--radius-small);\n    background: var(--surface-neutral-t1-base);\n\n    &:focus-within {\n        border-color: var(--stroke-brand-primary);\n        outline: 1px solid var(--stroke-brand-primary);\n    }\n\n    [data-divider] {\n        width: 4px;\n        border-right: 1px solid var(--stroke-neutral-base);\n        // account for border - 3(margin)  * 2 + 2(border)\n        height: calc(var(--height) - 8px);\n        margin: 3px 0;\n    }\n\n    button {\n        min-width: var(--height);\n        background: none;\n        border: none;\n        cursor: pointer;\n        font: var(--font);\n        svg {\n            width: var(--svg-width);\n        }\n        display: flex;\n        justify-content: center;\n        align-items: center;\n        color: var(--color);\n\n        &:disabled {\n            cursor: not-allowed;\n            color: var(--foreground-neutral-disabled-on-surface);\n        }\n    }\n\n    input {\n        color: var(--color);\n        min-width: 0;\n        display: block;\n        font: var(--font);\n        text-align: center;\n        padding: 0 var(--spacing-sizing-03);\n        background: transparent;\n        border: none;\n\n        &:focus {\n            outline: none;\n        }\n\n        &::-webkit-outer-spin-button,\n        &::-webkit-inner-spin-button {\n            -webkit-appearance: none;\n            margin: 0;\n        }\n\n        &[type='number'] {\n            appearance: textfield;\n            -moz-appearance: textfield;\n        }\n    }\n\n    &:not([data-disabled], [data-readonly]) {\n        input,\n        button:not(:disabled) {\n            &:hover {\n                background-color: var(--interactions-hover-opacity);\n            }\n\n            &:active {\n                background-color: var(--interactions-press-opacity);\n            }\n        }\n\n        &[data-invalid] {\n            border-color: var(--status-error);\n            outline-color: var(--status-error);\n        }\n    }\n\n    &[data-disabled],\n    &[data-readonly] {\n        --color: var(--foreground-neutral-disabled-on-surface);\n        border-color: var(--stroke-neutral-disabled-light);\n        background:\n            linear-gradient(var(--interactions-disabled-opacity), var(--interactions-disabled-opacity)),\n            linear-gradient(var(--surface-neutral-t1-base), var(--surface-neutral-t1-base));\n\n        [data-divider] {\n            border-color: var(--stroke-neutral-disabled-light);\n        }\n    }\n\n    &[data-readonly] {\n        input {\n            color: var(--foreground-neutral-on-surface) !important;\n        }\n    }\n\n    &[data-size='small'] {\n        --font: var(--body-small);\n        --height: var(--spacing-sizing-08);\n    }\n\n    &[data-size='large'] {\n        --font: var(--body-large);\n        --height: var(--spacing-sizing-12);\n        --svg-width: var(--spacing-sizing-06);\n    }\n",
         dependencies: [],
-        modified: '2025-05-08T16:49:13.360Z',
+        modified: '2025-05-12T18:33:57.717Z',
         hasTouchTarget: false,
     },
     {
@@ -442,7 +453,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'otp-input',
         css: '\n    display: flex;\n',
         dependencies: [],
-        modified: '2025-05-08T16:49:13.364Z',
+        modified: '2025-05-12T18:33:57.718Z',
         hasTouchTarget: false,
     },
     {
@@ -452,7 +463,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'page-control',
         css: '\n    display: flex;\n',
         dependencies: [],
-        modified: '2025-05-08T16:49:13.368Z',
+        modified: '2025-05-12T18:33:57.718Z',
         hasTouchTarget: false,
     },
     {
@@ -462,7 +473,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'password-input',
         css: '\n    display: flex;\n',
         dependencies: [],
-        modified: '2025-05-08T16:49:13.370Z',
+        modified: '2025-05-12T18:33:57.718Z',
         hasTouchTarget: false,
     },
     {
@@ -472,7 +483,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'phone-number-input',
         css: '\n    display: flex;\n',
         dependencies: [],
-        modified: '2025-05-08T16:49:13.372Z',
+        modified: '2025-05-12T18:33:57.718Z',
         hasTouchTarget: false,
     },
     {
@@ -482,7 +493,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'popover',
         css: "\n    position: absolute;\n    z-index: var(--z-index-tooltip-popover);\n    background: var(--surface-neutral-t1-base);\n    box-shadow: var(--drop-shadow-float);\n    padding: var(--spacing-sizing-04);\n    width: 300px;\n    border-radius: var(--radius-large);\n    display: flex;\n    flex-direction: column;\n\n    header {\n        display: flex;\n        justify-content: space-between;\n        align-items: center;\n        margin-bottom: var(--spacing-sizing-02);\n        gap: var(--spacing-sizing-04);\n\n        button {\n            background: none;\n            border: none;\n            cursor: pointer;\n            padding: 0;\n            margin: 0 0 0 auto;\n            color: var(--foreground-neutral-on-surface-variant-01);\n            height: var(--spacing-sizing-06);\n            width: var(--spacing-sizing-06);\n\n            svg {\n                width: var(--spacing-sizing-06);\n                height: var(--spacing-sizing-06);\n            }\n        }\n    }\n\n    --arrow-size: var(--spacing-sizing-02);\n    --arrow-offset: calc(var(--arrow-size) * -2);\n    --arrow-background-color: var(--surface-neutral-t1-base);\n\n    [data-arrow] {\n        z-index: 1;\n        position: absolute;\n        width: 0;\n        height: 0;\n        border-style: solid;\n        border-width: var(--arrow-size) var(--arrow-size) var(--arrow-size) var(--arrow-size);\n        border-color: transparent transparent transparent transparent;\n    }\n\n    &[data-placement^='top'] {\n        [data-arrow] {\n            bottom: var(--arrow-offset);\n            border-top-color: var(--arrow-background-color);\n            filter: drop-shadow(0 2px 1px var(--shadow-10));\n        }\n    }\n    &[data-placement^='right'] {\n        [data-arrow] {\n            margin-left: calc(var(--arrow-offset) * 2);\n            border-right-color: var(--arrow-background-color);\n            filter: drop-shadow(-2px 0 1px var(--shadow-10));\n        }\n    }\n    &[data-placement^='bottom'] {\n        [data-arrow] {\n            top: var(--arrow-offset);\n            border-bottom-color: var(--arrow-background-color);\n            filter: drop-shadow(0 -2px 1px var(--shadow-10));\n        }\n    }\n    &[data-placement='bottom-start'] {\n        [data-arrow] {\n            margin-left: var(--arrow-offset);\n        }\n    }\n    &[data-placement='bottom-end'] {\n        [data-arrow] {\n            margin-left: calc(var(--arrow-offset) * -1);\n        }\n    }\n    &[data-placement^='left'] {\n        [data-arrow] {\n            right: var(--arrow-offset);\n            border-left-color: var(--arrow-background-color);\n            filter: drop-shadow(2px 0 1px var(--shadow-10));\n        }\n    }\n\n    [data-content] {\n        gap: var(--spacing-sizing-04);\n        display: flex;\n        flex-direction: column;\n    }\n\n    [data-call-to-action] {\n        margin: 0 0 0 auto;\n        /* background: none;\n    border: none;\n    cursor: pointer;\n    padding: 0 var(--spacing-sizing-03);\n    height: var(--spacing-sizing-12);\n    font: var(--labels-small);\n    color: var(--foreground-brand-primary); */\n    }\n",
         dependencies: ['Button', 'Portal', 'Txt'],
-        modified: '2025-05-08T16:49:13.380Z',
+        modified: '2025-05-12T18:33:57.719Z',
         hasTouchTarget: false,
     },
     {
@@ -493,18 +504,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'portal',
         css: '',
         dependencies: [],
-        modified: '2025-05-08T16:49:13.383Z',
-        hasTouchTarget: false,
-    },
-    {
-        description:
-            'A profile component.\n\nA profile is a visual representation of a user or entity. It can be used to display an initials, icon, image, or an overflowCount.',
-        file: '/Profile.tsx',
-        name: 'Profile',
-        slug: 'profile',
-        css: "\n    --height: var(--spacing-sizing-10);\n    --font: var(--labels-base);\n    --foreground: var(--foreground-neutral-on-surface);\n    --background: var(--surface-neutral-t3-low);\n\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n    padding: 0;\n    height: var(--height);\n    width: var(--height);\n    aspect-ratio: 1 / 1;\n    border-radius: 999px;\n    background-color: var(--background);\n    color: var(--foreground);\n    font: var(--font);\n\n    &:has(img) {\n        overflow: hidden;\n    }\n\n    img {\n        max-width: 100%;\n    }\n\n    \n            &[data-size='x-small'] {\n                --height: var(--spacing-sizing-06);\n                --font: var(--labels-x-small);\n            }\n        \n            &[data-size='small'] {\n                --height: var(--spacing-sizing-08);\n                --font: var(--labels-small);\n            }\n        \n            &[data-size='medium'] {\n                --height: var(--spacing-sizing-10);\n                --font: var(--labels-base);\n            }\n        \n            &[data-size='large'] {\n                --height: var(--spacing-sizing-12);\n                --font: var(--labels-large);\n            }\n        \n            &[data-size='x-large'] {\n                --height: var(--spacing-sizing-14);\n                --font: var(--desktop-subheader-x-large);\n            }\n        \n            &[data-size='xx-large'] {\n                --height: var(--spacing-sizing-17);\n                --font: var(--desktop-subheader-xx-large);\n            }\n        \n            &[data-size='xxx-large'] {\n                --height: var(--spacing-sizing-19);\n                --font: var(--desktop-display-regular-small);\n            }\n        \n            &[data-size='xxxx-large'] {\n                --height: var(--spacing-sizing-21);\n                --font: var(--desktop-display-regular-medium);\n            }\n        \n            &[data-size='xxxxx-large'] {\n                --height: var(--spacing-sizing-23);\n                --font: var(--desktop-display-regular-large);\n            }\n        \n\n    \n            &[data-color='grey'] {\n                --foreground: var(--foreground-neutral-on-surface-variant-01);\n                --background: var(--surface-neutral-t2-lowest);\n            }\n        \n            &[data-color='white'] {\n                --foreground: var(--foreground-neutral-on-surface-variant-01);\n                --background: var(--surface-neutral-t1-base);\n            }\n        \n            &[data-color='primary'] {\n                --foreground: var(--foreground-brand-primary-depth);\n                --background: var(--surface-brand-primary-highlight);\n            }\n        \n            &[data-color='secondary'] {\n                --foreground: var(--foreground-brand-secondary-depth);\n                --background: var(--surface-brand-secondary-highlight);\n            }\n        \n            &[data-color='blue'] {\n                --foreground: var(--foreground-spectrum-blue);\n                --background: var(--surface-spectrum-blue);\n            }\n        \n            &[data-color='green'] {\n                --foreground: var(--foreground-spectrum-green);\n                --background: var(--surface-spectrum-green);\n            }\n        \n            &[data-color='lime'] {\n                --foreground: var(--foreground-spectrum-lime);\n                --background: var(--surface-spectrum-lime);\n            }\n        \n            &[data-color='magenta'] {\n                --foreground: var(--foreground-spectrum-magenta);\n                --background: var(--surface-spectrum-magenta);\n            }\n        \n            &[data-color='orange'] {\n                --foreground: var(--foreground-spectrum-orange);\n                --background: var(--surface-spectrum-orange);\n            }\n        \n            &[data-color='pink'] {\n                --foreground: var(--foreground-spectrum-pink);\n                --background: var(--surface-spectrum-pink);\n            }\n        \n            &[data-color='purple'] {\n                --foreground: var(--foreground-spectrum-purple);\n                --background: var(--surface-spectrum-purple);\n            }\n        \n            &[data-color='red'] {\n                --foreground: var(--foreground-spectrum-red);\n                --background: var(--surface-spectrum-red);\n            }\n        \n            &[data-color='teal'] {\n                --foreground: var(--foreground-spectrum-teal);\n                --background: var(--surface-spectrum-teal);\n            }\n        \n            &[data-color='yellow'] {\n                --foreground: var(--foreground-spectrum-yellow);\n                --background: var(--surface-spectrum-yellow);\n            }\n        ;\n",
-        dependencies: [],
-        modified: '2025-05-08T16:49:13.392Z',
+        modified: '2025-05-12T18:33:57.719Z',
         hasTouchTarget: false,
     },
     {
@@ -515,7 +515,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'progress-bar',
         css: "\n    display: flex;\n    flex-direction: column;\n    width: 100%;\n    gap: var(--spacing-sizing-01);\n\n    progress {\n        opacity: 0;\n        position: absolute;\n    }\n\n    [data-bar] {\n        width: 100%;\n        height: var(--spacing-sizing-02);\n        background-color: var(--surface-neutral-t3-low);\n        border-radius: var(--radius-small);\n\n        &::after {\n            content: '';\n            display: block;\n            height: 100%;\n            background-color: var(--foreground-brand-primary);\n            border-radius: var(--radius-small);\n            width: var(--width);\n            transition: width 0.3s;\n        }\n    }\n\n    &[data-size='small'] {\n        max-width: 248px;\n\n        [data-bar] {\n            height: var(--spacing-sizing-01);\n        }\n    }\n\n    label {\n        font-size: var(--labels-small);\n        width: 100%;\n        text-align: center;\n    }\n\n    &[data-align='left'] label {\n        text-align: left;\n    }\n",
         dependencies: [],
-        modified: '2025-05-08T16:49:13.401Z',
+        modified: '2025-05-12T18:33:57.719Z',
         hasTouchTarget: false,
     },
     {
@@ -526,7 +526,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'progress-circle',
         css: "\n    display: flex;\n    flex-direction: column;\n    gap: var(--spacing-sizing-02);\n    align-items: center;\n    justify-content: center;\n\n    &[data-label-position='top'] {\n        flex-direction: column-reverse;\n    }\n\n    &[data-label-position='left'] {\n        flex-direction: row-reverse;\n    }\n\n    &[data-label-position='right'] {\n        flex-direction: row;\n    }\n\n    svg {\n        color: var(--foreground-brand-secondary);\n        animation: spin 1.5s linear infinite;\n    }\n\n    @keyframes spin {\n        100% {\n            transform: rotate(360deg);\n        }\n        0% {\n            transform: rotate(0deg);\n        }\n    }\n\n    &[data-size='small'] {\n        svg {\n            width: 32px;\n        }\n    }\n\n    &[data-size='medium'] {\n        svg {\n            width: 40px;\n        }\n    }\n\n    &[data-size='large'] {\n        svg {\n            width: 48px;\n        }\n    }\n",
         dependencies: ['Txt'],
-        modified: '2025-05-08T16:49:13.411Z',
+        modified: '2025-05-12T18:33:57.720Z',
         hasTouchTarget: false,
     },
     {
@@ -537,7 +537,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'progression-stepper',
         css: "\n    width: 100%;\n    --circle-width: var(--spacing-sizing-09);\n\n    --active-background-color: var(--surface-brand-primary);\n    --active-foreground-color: var(--foreground-brand-on-primary);\n    --inactive-background-color: var(--surface-neutral-t3-low);\n    --inactive-foreground-color: var(--foreground-neutral-on-surface);\n\n    ol {\n        display: flex;\n        width: 100%;\n        margin: 0;\n        padding: 0;\n\n        li {\n            display: flex;\n            flex-direction: column;\n            list-style: none;\n            margin: 0;\n            padding: 0;\n            gap: var(--spacing-sizing-02);\n            [data-line-circle] {\n                display: flex;\n                justify-content: center;\n                align-items: center;\n                flex-direction: row;\n\n                [data-line] {\n                    background-color: var(--inactive-background-color);\n                    height: 2px;\n                    flex-grow: 1;\n                }\n\n                [data-circle] {\n                    display: flex;\n                    justify-content: center;\n                    align-items: center;\n                    width: var(--circle-width);\n                    height: var(--circle-width);\n                    border-radius: 50%;\n                    background-color: none;\n                    border: 2px solid var(--inactive-background-color);\n                    font: var(--labels-large);\n\n                    svg {\n                        display: none;\n                        width: var(--spacing-sizing-06);\n                        height: var(--spacing-sizing-06);\n                    }\n                }\n            }\n\n            [data-content] {\n                display: flex;\n                padding: 0 var(--spacing-sizing-10);\n                font: var(--body-small);\n            }\n\n            &:first-of-type {\n                [data-line='before'] {\n                    visibility: hidden;\n                }\n            }\n\n            &:last-of-type {\n                [data-line='after'] {\n                    visibility: hidden;\n                }\n            }\n\n            &[data-status='complete'] {\n                [data-line] {\n                    background-color: var(--active-background-color);\n                }\n                [data-circle] {\n                    background-color: var(--active-background-color);\n                    border: 1px solid var(--active-background-color);\n                    color: var(--active-foreground-color);\n\n                    span {\n                        display: none;\n                    }\n                    svg {\n                        display: block;\n                    }\n                }\n            }\n\n            &[data-status='current'] {\n                [data-line='before'] {\n                    background-color: var(--active-background-color);\n                }\n\n                [data-circle] {\n                    border-color: var(--active-background-color);\n                }\n            }\n        }\n    }\n\n    &[data-variant='vertical'] {\n        ol {\n            flex-direction: column;\n        }\n\n        li {\n            flex-direction: row;\n\n            [data-line-circle] {\n                flex-direction: column;\n                width: var(--circle-width);\n\n                [data-line] {\n                    width: 2px;\n                    height: auto;\n                }\n            }\n            [data-content] {\n                flex-direction: column;\n                padding: var(--spacing-sizing-10) 0;\n            }\n        }\n    }\n\n    &[data-variant='widget'] {\n        --circle-width: var(--spacing-sizing-05);\n\n        label {\n            display: flex;\n            flex-direction: column;\n            gap: var(--spacing-sizing-02);\n            margin-bottom: var(--spacing-sizing-03);\n            font: var(--body-small);\n\n            [data-title] {\n                font: var(--labels-base);\n                color: var(--foreground-neutral-on-surface);\n            }\n\n            [data-subtitle] {\n                font: var(--body-x-small);\n                color: var(--foreground-neutral-on-surface-variant-02);\n            }\n        }\n\n        ol {\n            align-items: center;\n            min-height: var(--spacing-sizing-09);\n\n            li {\n                [data-line-circle] {\n                    [data-line] {\n                        width: 10px;\n                    }\n                }\n\n                &[data-status='current'] {\n                    --circle-width: var(--spacing-sizing-09);\n                }\n\n                &[data-status='incomplete'] {\n                    [data-circle] {\n                        span {\n                            display: none;\n                        }\n                    }\n                }\n            }\n        }\n    }\n",
         dependencies: [],
-        modified: '2025-05-08T16:49:13.428Z',
+        modified: '2025-05-12T18:33:57.720Z',
         hasTouchTarget: false,
     },
     {
@@ -547,7 +547,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'progression-stepper-bar',
         css: "\n    &[data-size='large'] {\n        --height: var(--spacing-sizing-02);\n    }\n\n    &[data-size='small'] {\n        --height: var(--spacing-sizing-01);\n    }\n\n    display: flex;\n    width: 100%;\n    flex-direction: column;\n    gap: var(--spacing-sizing-01);\n\n    [data-steps] {\n        display: flex;\n        flex-direction: row;\n        gap: var(--spacing-sizing-01);\n        height: var(--height);\n        [data-step] {\n            width: 100%;\n            height: var(--height);\n            min-width: var(--spacing-sizing-02);\n            border-radius: var(--radius-small);\n            background: var(--surface-neutral-t3-low);\n            &[data-complete] {\n                background: var(--surface-brand-primary);\n            }\n        }\n    }\n\n    label {\n        font: var(--labels-small);\n    }\n",
         dependencies: [],
-        modified: '2025-05-08T16:49:13.433Z',
+        modified: '2025-05-12T18:33:57.720Z',
         hasTouchTarget: false,
     },
     {
@@ -558,7 +558,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'radio',
         css: "\n    display: block;\n    position: relative;\n    width: var(--spacing-sizing-06);\n    aspect-ratio: 1/1;\n    padding: 2px;\n\n    input[type='radio'] {\n        position: absolute;\n        opacity: 0;\n        z-index: 2;\n        width: 100%;\n        height: 100%;\n        top: 0;\n        left: 0;\n        cursor: pointer;\n    }\n\n    span {\n        --stroke: var(--stroke-neutral-base);\n        --inner: var(--foreground-brand-primary);\n        --background: none;\n        position: relative;\n        z-index: 1;\n        box-sizing: border-box;\n        display: flex;\n        width: var(--spacing-sizing-05);\n        aspect-ratio: 1/1;\n        border-radius: 50%;\n        border: 2px solid var(--stroke);\n        align-items: center;\n        flex-direction: column;\n        justify-content: center;\n        background: var(--background);\n\n        &:before {\n            content: '';\n            display: block;\n            width: var(--spacing-sizing-03);\n            aspect-ratio: 1/1;\n            background: var(--inner);\n            border-radius: var(--radius-circular);\n            opacity: 0;\n        }\n    }\n\n    input[type='radio']:not(:disabled) {\n        &:hover + span {\n            --background: var(--interactions-neutral-hover-opacity);\n        }\n\n        &:active + span {\n            --background: var(--interactions-neutral-press-opacity);\n        }\n\n        &[data-invalid] + span {\n            --stroke: var(--status-error);\n            --inner: var(--status-error);\n        }\n    }\n\n    input[type='radio']:checked + span {\n        --stroke: var(--stroke-brand-primary);\n\n        &:before {\n            opacity: 1;\n        }\n    }\n\n    input[type='radio']:disabled {\n        pointer-events: none;\n\n        & + span {\n            --stroke: var(--stroke-neutral-interactions-disabled-light);\n            --inner: var(--foreground-neutral-disabled-on-surface);\n        }\n    }\n",
         dependencies: [],
-        modified: '2025-05-08T16:49:13.440Z',
+        modified: '2025-05-12T18:33:57.721Z',
         hasTouchTarget: false,
     },
     {
@@ -569,7 +569,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'radio-group',
         css: '',
         dependencies: ['Radio', 'ToggleOption'],
-        modified: '2025-05-08T16:49:13.446Z',
+        modified: '2025-05-12T18:33:57.721Z',
         hasTouchTarget: false,
     },
     {
@@ -580,7 +580,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'radio-option',
         css: '',
         dependencies: ['Radio', 'ToggleOption'],
-        modified: '2025-05-08T16:49:13.453Z',
+        modified: '2025-05-12T18:33:57.721Z',
         hasTouchTarget: false,
     },
     {
@@ -590,7 +590,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'rating',
         css: '\n    display: flex;\n',
         dependencies: [],
-        modified: '2025-05-08T16:49:13.460Z',
+        modified: '2025-05-12T18:33:57.721Z',
         hasTouchTarget: false,
     },
     {
@@ -600,7 +600,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'search-bar',
         css: '\n    display: flex;\n    width: 100%;\n    min-width: 300px;\n',
         dependencies: ['Menu', 'Portal', 'TextInput'],
-        modified: '2025-05-08T16:49:13.469Z',
+        modified: '2025-05-12T18:33:57.721Z',
         hasTouchTarget: false,
     },
     {
@@ -610,7 +610,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'segmented-control',
         css: "\n    display: flex;\n    flex-direction: row;\n    max-width: 100%;\n    --outer-height: var(--spacing-sizing-10);\n    --inner-height: var(--spacing-sizing-08);\n    --svg-width: 20px;\n\n    &[data-width='fill'] {\n        align-items: stretch;\n        width: 100%;\n        --btn-flex-grow: 1;\n        margin: 0 var(--spacing-sizing-04);\n    }\n\n    &[data-width='hug'] {\n        width: fit-content;\n        --btn-flex-grow: 0;\n    }\n\n    &[data-size='small'] {\n        --outer-height: var(--spacing-sizing-08);\n        --inner-height: var(--spacing-sizing-06);\n        --svg-width: 16px;\n    }\n\n    svg {\n        width: var(--svg-width) !important;\n    }\n\n    button {\n        border: 0;\n        cursor: pointer;\n        color: var(--foreground-neutral-on-surface);\n        flex-grow: var(--btn-flex-grow);\n        font: var(--labels-small);\n        margin: 0;\n        height: var(--spacing-sizing-12);\n        background: transparent;\n        position: relative;\n\n        [data-focus-ring] {\n            display: none;\n        }\n\n        [data-outer] {\n            height: var(--outer-height);\n            background: var(--surface-neutral-t3-low);\n            margin: var(--spacing-sizing-01) 0;\n            padding: var(--spacing-sizing-01) 0;\n            display: block;\n        }\n\n        [data-inner] {\n            display: flex;\n            flex-direction: row;\n            align-items: center;\n            height: var(--inner-height);\n            border-bottom: 1px solid transparent;\n            justify-content: center;\n            gap: var(--spacing-sizing-01);\n            border-radius: var(--radius-small);\n            padding: var(--spacing-sizing-02) var(--spacing-sizing-03);\n        }\n\n        &:first-of-type {\n            [data-outer] {\n                border-top-left-radius: var(--radius-medium);\n                border-bottom-left-radius: var(--radius-medium);\n                padding-left: var(--spacing-sizing-01);\n            }\n        }\n\n        &:last-of-type {\n            [data-outer] {\n                border-top-right-radius: var(--radius-medium);\n                border-bottom-right-radius: var(--radius-medium);\n                padding-right: var(--spacing-sizing-01);\n            }\n        }\n\n        &:not(:disabled) {\n            &:hover {\n                [data-inner] {\n                    background: var(--interactions-neutral-hover-opacity);\n                }\n            }\n\n            &:active {\n                [data-inner] {\n                    background: var(--interactions-neutral-press-opacity);\n                }\n            }\n\n            &[data-selected] {\n                [data-inner] {\n                    background: var(--surface-neutral-t1-base);\n                }\n            }\n\n            &:focus-visible {\n                z-index: 2;\n                outline: solid 2px var(--stroke-neutral-focus);\n            }\n        }\n\n        &:disabled {\n            pointer-events: none;\n            color: var(--foreground-neutral-disabled-on-surface);\n            cursor: not-allowed;\n        }\n    }\n",
         dependencies: ['Tooltip'],
-        modified: '2025-05-08T16:49:13.483Z',
+        modified: '2025-05-12T18:33:57.722Z',
         hasTouchTarget: false,
     },
     {
@@ -620,7 +620,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'skeleton',
         css: '\n    width: 100%;\n    display: flex;\n    flex-direction: column;\n    gap: var(--margin);\n\n    animation: skeleton-pulse 1.5s infinite;\n    @keyframes skeleton-pulse {\n        0% {\n            opacity: 0.8;\n        }\n        50% {\n            opacity: 0.4;\n        }\n        100% {\n            opacity: 0.8;\n        }\n    }\n\n    &:empty {\n        width: auto;\n        height: auto;\n        position: absolute;\n        top: 0;\n        left: 0;\n        right: 0;\n        bottom: 0;\n        background: var(--foreground-neutral-skeleton-element);\n        border-radius: var(--radius-small);\n    }\n\n    [data-line] {\n        width: 100%;\n        background: var(--foreground-neutral-skeleton-element);\n        border-radius: var(--radius-small);\n        height: var(--height);\n    }\n',
         dependencies: [],
-        modified: '2025-05-08T16:49:13.489Z',
+        modified: '2025-05-12T18:33:57.722Z',
         hasTouchTarget: false,
     },
     {
@@ -630,7 +630,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'slider-input',
         css: '\n    display: flex;\n',
         dependencies: [],
-        modified: '2025-05-08T16:49:13.493Z',
+        modified: '2025-05-12T18:33:57.722Z',
         hasTouchTarget: false,
     },
     {
@@ -640,7 +640,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'snackbar',
         css: '\n    display: flex;\n',
         dependencies: [],
-        modified: '2025-05-08T16:49:13.496Z',
+        modified: '2025-05-12T18:33:57.722Z',
         hasTouchTarget: false,
     },
     {
@@ -650,7 +650,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'styles-provider-anywhere',
         css: '',
         dependencies: [],
-        modified: '2025-05-08T17:09:11.741Z',
+        modified: '2025-05-12T18:33:57.722Z',
         hasTouchTarget: false,
     },
     {
@@ -660,7 +660,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'styles-provider-better-homes-gardens',
         css: '',
         dependencies: [],
-        modified: '2025-05-08T17:09:12.162Z',
+        modified: '2025-05-12T18:33:57.722Z',
         hasTouchTarget: false,
     },
     {
@@ -670,7 +670,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'styles-provider-cartus',
         css: '',
         dependencies: [],
-        modified: '2025-05-08T17:09:13.774Z',
+        modified: '2025-05-12T18:33:57.722Z',
         hasTouchTarget: false,
     },
     {
@@ -680,7 +680,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'styles-provider-century21',
         css: '',
         dependencies: [],
-        modified: '2025-05-08T17:09:15.360Z',
+        modified: '2025-05-12T18:33:57.722Z',
         hasTouchTarget: false,
     },
     {
@@ -690,7 +690,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'styles-provider-coldwell-banker',
         css: '',
         dependencies: [],
-        modified: '2025-05-08T17:09:17.004Z',
+        modified: '2025-05-12T18:33:57.723Z',
         hasTouchTarget: false,
     },
     {
@@ -700,7 +700,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'styles-provider-corcoran',
         css: '',
         dependencies: [],
-        modified: '2025-05-08T17:09:18.611Z',
+        modified: '2025-05-12T18:33:57.723Z',
         hasTouchTarget: false,
     },
     {
@@ -710,7 +710,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'styles-provider-denali-boss',
         css: '',
         dependencies: [],
-        modified: '2025-05-08T17:09:20.224Z',
+        modified: '2025-05-12T18:33:57.723Z',
         hasTouchTarget: false,
     },
     {
@@ -720,7 +720,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'styles-provider-era',
         css: '',
         dependencies: [],
-        modified: '2025-05-08T17:09:21.851Z',
+        modified: '2025-05-12T18:33:57.723Z',
         hasTouchTarget: false,
     },
     {
@@ -730,7 +730,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'styles-provider-sothebys',
         css: '',
         dependencies: [],
-        modified: '2025-05-08T17:09:23.512Z',
+        modified: '2025-05-12T18:33:57.723Z',
         hasTouchTarget: false,
     },
     {
@@ -741,7 +741,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'switch',
         css: "\n    --track-width: var(--spacing-sizing-09);\n    --toggle-width: var(--spacing-sizing-04);\n    --track-bg: var(--surface-neutral-t4-high);\n    --toggle-bg: var(--foreground-neutral-on-color);\n\n    display: block;\n    position: relative;\n    box-sizing: border-box;\n    margin: 2px;\n\n    input[type='checkbox'] {\n        position: absolute;\n        opacity: 0;\n        width: 100%;\n        height: 100%;\n        top: 0;\n        left: 0;\n        z-index: 2;\n        cursor: pointer;\n    }\n\n    box-sizing: border-box;\n    width: var(--track-width);\n    height: var(--spacing-sizing-05);\n    border-radius: var(--spacing-sizing-05);\n    background-color: var(--track-bg);\n    position: relative;\n    z-index: 1;\n\n    span {\n        display: block;\n        width: var(--toggle-width);\n        height: var(--toggle-width);\n        border-radius: var(--radius-circular);\n        background-color: var(--toggle-bg);\n        transition: left 0.2s;\n        box-shadow: var(--drop-shadow-raise);\n        left: 2px;\n        top: 2px;\n        position: absolute;\n    }\n\n    &:has(input[type='checkbox']:checked) {\n        --track-bg: var(--foreground-brand-primary);\n\n        span {\n            left: calc(var(--track-width) - var(--toggle-width) - 2px);\n        }\n    }\n\n    &:has(input[type='checkbox']:disabled) {\n        input[type='checkbox'] {\n            pointer-events: none;\n        }\n        --track-bg: var(--interactions-disabled-opacity);\n        --toggle-bg: var(--foreground-neutral-disabled-on-surface);\n\n        &:has(input[type='checkbox']:checked) span {\n            --toggle-bg: var(--foreground-neutral-disabled-on-color-surface);\n        }\n    }\n",
         dependencies: [],
-        modified: '2025-05-08T16:49:13.752Z',
+        modified: '2025-05-12T18:33:57.723Z',
         hasTouchTarget: false,
     },
     {
@@ -752,7 +752,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'switch-group',
         css: '',
         dependencies: ['Switch', 'ToggleOption'],
-        modified: '2025-05-08T16:49:13.755Z',
+        modified: '2025-05-12T18:33:57.724Z',
         hasTouchTarget: false,
     },
     {
@@ -763,7 +763,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'switch-option',
         css: '',
         dependencies: ['Switch', 'ToggleOption'],
-        modified: '2025-05-08T16:49:13.758Z',
+        modified: '2025-05-12T18:33:57.724Z',
         hasTouchTarget: false,
     },
     {
@@ -773,7 +773,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'tab-group',
         css: "\n    display: flex;\n    flex-direction: row;\n    width: fit-content;\n    --btn-flex-grow: 0;\n    border-bottom: 1px solid var(--stroke-neutral-low);\n    width: 100%;\n\n    &[data-width='fill'] {\n        align-items: stretch;\n        width: 100%;\n        --btn-flex-grow: 1;\n    }\n\n    --font: var(--labels-base);\n    --height: var(--spacing-sizing-10);\n\n    &[data-size='small'] {\n        --font: var(--labels-small);\n        --height: var(--spacing-sizing-08);\n    }\n\n    &[data-size='large'] {\n        --font: var(--labels-large);\n        --height: var(--spacing-sizing-12);\n    }\n\n    button {\n        border: 0;\n        cursor: pointer;\n        color: var(--foreground-neutral-on-surface-variant-02);\n        background: none;\n        flex-grow: var(--btn-flex-grow);\n        font: var(--font);\n\n        &:hover {\n            background: var(--interactions-neutral-hover-opacity);\n        }\n\n        &:active {\n            background: var(--interactions-neutral-press-opacity);\n        }\n\n        &:disabled {\n            pointer-events: none;\n            color: var(--foreground-neutral-disabled-on-surface);\n        }\n\n        &:focus-visible {\n            outline: solid 2px var(--stroke-neutral-focus);\n        }\n\n        span {\n            display: flex;\n            flex-direction: row;\n            align-items: center;\n            margin: 0 var(--spacing-sizing-04);\n            height: var(--height);\n            justify-content: center;\n            position: relative;\n            gap: var(--spacing-sizing-02);\n\n            svg {\n                width: var(--spacing-sizing-05);\n            }\n        }\n\n        &[data-active] {\n            color: var(--foreground-brand-primary);\n            span {\n                &:after {\n                    content: '';\n                    display: block;\n                    width: 100%;\n                    height: 2px;\n                    background-color: var(--stroke-brand-primary);\n                    bottom: -1px;\n                    position: absolute;\n                    border-top-right-radius: 2px;\n                    border-top-left-radius: 2px;\n                }\n\n                svg {\n                    color: var(--surface-brand-primary);\n                }\n            }\n        }\n    }\n\n    &[data-hide-trail] {\n        border-bottom: none;\n        button {\n            border-bottom: 1px solid var(--stroke-neutral-low);\n        }\n    }\n",
         dependencies: ['Badge'],
-        modified: '2025-05-08T16:49:13.769Z',
+        modified: '2025-05-12T18:33:57.724Z',
         hasTouchTarget: false,
     },
     {
@@ -783,7 +783,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'table',
         css: "\n    width: 100%;\n    border-collapse: separate;\n    text-align: left;\n    border-spacing: 2rem 0.125rem;\n    display: grid;\n    color: var(--foreground-neutral-on-surface);\n    font: var(--labels-base);\n    border-radius: var(--radius-medium);\n    border: 1px solid var(--stroke-neutral-low);\n\n    [data-cell] {\n        display: flex;\n        flex-direction: column;\n        gap: var(--spacing-sizing-02);\n        padding: var(--spacing-sizing-04);\n        background-color: var(--surface-neutral-t1-base);\n        border-bottom: var(--stroke-neutral-low) solid 1px;\n        font: var(--labels-small);\n        p {\n            margin: 0;\n            padding: 0;\n            font: var(--body-small);\n        }\n    }\n\n    [data-head] {\n        display: flex;\n        align-items: center;\n        flex-direction: row;\n        border-bottom: 1px solid var(--stroke-neutral-base);\n        background: var(--surface-neutral-t2-lowest);\n        height: var(--spacing-sizing-10);\n        padding: 0 var(--spacing-sizing-03);\n        font: var(--labels-base);\n\n        &[data-head='first'] {\n            border-top-left-radius: var(--radius-medium);\n        }\n\n        &[data-head='last'] {\n            border-top-right-radius: var(--radius-medium);\n        }\n    }\n",
         dependencies: [],
-        modified: '2025-05-08T16:49:13.782Z',
+        modified: '2025-05-12T18:33:57.725Z',
         hasTouchTarget: false,
     },
     {
@@ -793,7 +793,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'tag',
         css: "\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    width: fit-content;\n    position: relative;\n    padding: 0 var(--spacing-sizing-03);\n    border-radius: var(--radius-small);\n    color: var(--foreground) !important;\n    background: var(--background);\n    text-decoration: none;\n    font: unset;\n    text-decoration: unset;\n    white-space: nowrap;\n\n    &[data-wrap] {\n        height: auto;\n    }\n\n    &[data-variant='pill'] {\n        border-radius: var(--radius-circular);\n    }\n\n    &[data-variant='corner-wrap'] {\n        border-bottom-right-radius: 0;\n    }\n\n    \n            &[data-color='grey'] {\n                --foreground: var(--foreground-neutral-on-surface-variant-01);\n                --background: var(--surface-neutral-t2-lowest);\n            }\n        \n            &[data-color='white'] {\n                --foreground: var(--foreground-neutral-on-surface-variant-01);\n                --background: var(--surface-neutral-t1-base);\n            }\n        \n            &[data-color='primary'] {\n                --foreground: var(--foreground-brand-primary-depth);\n                --background: var(--surface-brand-primary-highlight);\n            }\n        \n            &[data-color='secondary'] {\n                --foreground: var(--foreground-brand-secondary-depth);\n                --background: var(--surface-brand-secondary-highlight);\n            }\n        \n            &[data-color='blue'] {\n                --foreground: var(--foreground-spectrum-blue);\n                --background: var(--surface-spectrum-blue);\n            }\n        \n            &[data-color='green'] {\n                --foreground: var(--foreground-spectrum-green);\n                --background: var(--surface-spectrum-green);\n            }\n        \n            &[data-color='lime'] {\n                --foreground: var(--foreground-spectrum-lime);\n                --background: var(--surface-spectrum-lime);\n            }\n        \n            &[data-color='magenta'] {\n                --foreground: var(--foreground-spectrum-magenta);\n                --background: var(--surface-spectrum-magenta);\n            }\n        \n            &[data-color='orange'] {\n                --foreground: var(--foreground-spectrum-orange);\n                --background: var(--surface-spectrum-orange);\n            }\n        \n            &[data-color='pink'] {\n                --foreground: var(--foreground-spectrum-pink);\n                --background: var(--surface-spectrum-pink);\n            }\n        \n            &[data-color='purple'] {\n                --foreground: var(--foreground-spectrum-purple);\n                --background: var(--surface-spectrum-purple);\n            }\n        \n            &[data-color='red'] {\n                --foreground: var(--foreground-spectrum-red);\n                --background: var(--surface-spectrum-red);\n            }\n        \n            &[data-color='teal'] {\n                --foreground: var(--foreground-spectrum-teal);\n                --background: var(--surface-spectrum-teal);\n            }\n        \n            &[data-color='yellow'] {\n                --foreground: var(--foreground-spectrum-yellow);\n                --background: var(--surface-spectrum-yellow);\n            }\n        \n\n    &[data-size='small'] {\n        font: var(--labels-small);\n        height: var(--spacing-sizing-08);\n    }\n\n    &[data-size='x-small'] {\n        font: var(--labels-x-small);\n        height: var(--spacing-sizing-06);\n    }\n\n    &[data-color='white'] {\n        box-shadow: var(--drop-shadow-south);\n    }\n\n    [data-triangle] {\n        position: absolute;\n        bottom: -12px;\n        right: 0;\n        width: 0px;\n        height: 0px;\n        border-style: solid;\n        border-width: 12px 12px 0 0;\n        border-color: var(--foreground) transparent transparent transparent;\n        transform: rotate(0deg);\n    }\n",
         dependencies: [],
-        modified: '2025-05-08T16:49:13.787Z',
+        modified: '2025-05-12T18:33:57.725Z',
         hasTouchTarget: false,
     },
     {
@@ -803,7 +803,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'textarea',
         css: "\n    display: grid;\n    width: 100%;\n\n    // &[data-size='medium']\n    --font: var(--body-base);\n    --line-height: 20px;\n    --padding: var(--spacing-sizing-03);\n\n    &[data-size='small'] {\n        --font: var(--body-small);\n        --line-height: 20px;\n        --padding: var(--spacing-sizing-02);\n    }\n\n    &[data-size='large'] {\n        --font: var(--body-large);\n        --line-height: 24px;\n        --padding: var(--spacing-sizing-03);\n    }\n\n    [data-replicated-value] {\n        white-space: pre-wrap;\n        visibility: hidden;\n    }\n\n    textarea,\n    [data-replicated-value] {\n        width: 100%;\n        font: var(--font);\n        border: 1px solid var(--border-color);\n        padding: var(--padding);\n        grid-area: 1 / 1 / 2 / 2;\n        min-height: calc((var(--line-height) * var(--min-rows)) + (var(--padding) * 2));\n        max-height: calc((var(--line-height) * var(--max-rows)) + (var(--padding) * 2));\n    }\n\n    textarea {\n        --border-color: var(--stroke-neutral-base);\n\n        resize: vertical;\n        color: var(--foreground-neutral-on-surface);\n        background-color: var(--surface-neutral-t1-base);\n        border-radius: var(--radius-small);\n\n        &:focus-within {\n            --border-color: var(--stroke-neutral-focus);\n            outline: none;\n            color: var(--foreground-neutral-on-surface);\n        }\n\n        &:disabled {\n            pointer-events: none;\n            background: \n    // multiple colors\n\n                linear-gradient(var(--interactions-disabled-opacity), var(--interactions-disabled-opacity)),\n                linear-gradient(var(--surface-neutral-t1-base), var(--surface-neutral-t1-base));\n            color: var(--foreground-neutral-disabled-on-surface);\n        }\n\n        &:read-only {\n            background: \n    // multiple colors\n\n                linear-gradient(var(--interactions-disabled-opacity), var(--interactions-disabled-opacity)),\n                linear-gradient(var(--surface-neutral-t1-base), var(--surface-neutral-t1-base));\n            color: var(--foreground-neutral-on-surface-variant-02);\n            cursor: not-allowed;\n        }\n\n        &[aria-invalid] {\n            --border-color: var(--status-error);\n        }\n    }\n",
         dependencies: [],
-        modified: '2025-05-08T16:49:13.795Z',
+        modified: '2025-05-12T18:33:57.725Z',
         hasTouchTarget: false,
     },
     {
@@ -814,7 +814,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'textarea-field',
         css: '',
         dependencies: ['FormField', 'Textarea', 'Txt'],
-        modified: '2025-05-08T16:49:13.798Z',
+        modified: '2025-05-12T18:33:57.725Z',
         hasTouchTarget: false,
     },
     {
@@ -825,7 +825,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'text-field',
         css: '',
         dependencies: ['FormField', 'TextInput'],
-        modified: '2025-05-08T16:49:13.800Z',
+        modified: '2025-05-12T18:33:57.725Z',
         hasTouchTarget: false,
     },
     {
@@ -836,7 +836,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'text-input',
         css: "\n    --border-color: var(--stroke-neutral-base);\n    display: flex;\n    flex-direction: row;\n    background-color: var(--surface-neutral-t1-base);\n    border: solid 1px var(--border-color);\n    height: var(--field-height);\n    border-radius: var(--radius-small);\n    padding: 0 var(--field-padding);\n    gap: var(--spacing-sizing-01);\n    flex-wrap: nowrap;\n    width: 100%;\n\n    &:focus-within {\n        --border-color: var(--stroke-brand-primary);\n    }\n\n    & > * {\n        display: flex;\n        justify-content: center;\n        align-items: center;\n        height: var(--field-height);\n        font: var(--field-font);\n        color: var(--foreground-neutral-on-surface);\n        min-width: 0;\n    }\n\n    &:hover:not(:focus-within) {\n        background: \n    // multiple colors\n\n            linear-gradient(var(--interactions-hover-opacity), var(--interactions-hover-opacity)),\n            linear-gradient(var(--surface-neutral-t1-base), var(--surface-neutral-t1-base));\n    }\n\n    &:active:not(:focus-within) {\n        background: \n    // multiple colors\n\n            linear-gradient(var(--interactions-press-opacity), var(--interactions-press-opacity)),\n            linear-gradient(var(--surface-neutral-t1-base), var(--surface-neutral-t1-base));\n    }\n\n    &[data-readonly] {\n        --border-color: var(--stroke-neutral-disabled-light);\n\n        background: \n    // multiple colors\n\n            linear-gradient(var(--interactions-disabled-opacity), var(--interactions-disabled-opacity)),\n            linear-gradient(var(--surface-neutral-t1-base), var(--surface-neutral-t1-base));\n    }\n\n    &[data-disabled] {\n        --border-color: var(--stroke-neutral-disabled-light);\n\n        background:\n    // multiple colors\n\n            linear-gradient(var(--interactions-disabled-opacity), var(--interactions-disabled-opacity)),\n            linear-gradient(var(--surface-neutral-t1-base), var(--surface-neutral-t1-base));\n\n        & > * {\n            color: var(--foreground-neutral-disabled-on-surface);\n        }\n    }\n\n    &[data-invalid] {\n        --border-color: var(--status-error);\n    }\n\n    &[data-size='small'] {\n        --field-padding: var(--spacing-sizing-02);\n        --field-height: var(--spacing-sizing-08);\n        --field-font: var(--body-small);\n        --field-icon-width: var(--spacing-sizing-04);\n        --field-clear-width: var(--spacing-sizing-05);\n    }\n\n    &[data-size='medium'] {\n        --field-padding: var(--spacing-sizing-03);\n        --field-height: var(--spacing-sizing-10);\n        --field-font: var(--body-base);\n        --field-icon-width: var(--spacing-sizing-05);\n        --field-clear-width: var(--spacing-sizing-05);\n    }\n\n    &[data-size='large'] {\n        --field-padding: var(--spacing-sizing-03);\n        --field-height: var(--spacing-sizing-12);\n        --field-font: var(--body-large);\n        --field-icon-width: var(--spacing-sizing-06);\n        --field-clear-width: var(--spacing-sizing-06);\n    }\n\n    [data-leading],\n    [data-trailing] {\n        svg {\n            width: var(--field-icon-width);\n        }\n    }\n\n    label {\n        font: var(--labels-small);\n        color: var(--foreground-neutral-on-surface-variant-01);\n    }\n\n    input {\n        flex: 1;\n        background-color: transparent !important;\n        border: none;\n        outline: none;\n        padding: 0;\n        pointer-events: all;\n        text-overflow: ellipsis;\n\n        &[type='number']::-webkit-inner-spin-button,\n        &[type='number']::-webkit-outer-spin-button {\n            display: none;\n        }\n    }\n\n    button[data-clear] {\n        display: none;\n        border: none;\n        background: none;\n        padding: 0;\n        cursor: pointer;\n        pointer-events: all;\n        margin-left: var(--spacing-sizing-02);\n        padding-right: var(--field-padding);\n\n        svg {\n            pointer-events: none;\n            width: var(--field-clear-width);\n        }\n    }\n\n    &:focus-within {\n        button[data-clear] {\n            display: flex;\n        }\n    }\n\n    &:has(button[data-clear]) {\n        padding-right: 0;\n    }\n",
         dependencies: [],
-        modified: '2025-05-08T16:49:13.808Z',
+        modified: '2025-05-12T18:33:57.725Z',
         hasTouchTarget: false,
     },
     {
@@ -846,7 +846,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'time-picker',
         css: '\n    display: flex;\n',
         dependencies: [],
-        modified: '2025-05-08T16:49:13.810Z',
+        modified: '2025-05-12T18:33:57.726Z',
         hasTouchTarget: false,
     },
     {
@@ -856,7 +856,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'toggle-option',
         css: "\n    display: flex;\n    width: 100%;\n    box-sizing: border-box;\n    flex-direction: row;\n    padding: 0 var(--spacing-sizing-01) 0 0;\n    gap: var(--spacing-sizing-02);\n    user-select: none;\n    background: unset;\n    border: unset;\n    cursor: pointer;\n    min-height: var(--spacing-sizing-08);\n    align-items: center;\n\n    &:has([data-description]) {\n        align-items: unset;\n    }\n\n    @media (any-pointer: coarse) {\n        min-height: var(--spacing-sizing-12);\n    }\n\n    [data-content] {\n        display: flex;\n        flex-direction: column;\n        padding: 2px 0;\n    }\n\n    [data-label] {\n        color: var(--foreground-neutral-on-surface);\n        font: var(--labels-base);\n    }\n\n    [data-description] {\n        font: var(--body-small);\n        color: var(--foreground-neutral-on-surface-variant-01);\n    }\n\n    &[data-size='small'] {\n        [data-label] {\n            font: var(--labels-small);\n        }\n\n        [data-description] {\n            font: var(--body-x-small);\n        }\n    }\n\n    &[data-size='large'] {\n        [data-label] {\n            font: var(--labels-large);\n        }\n\n        [data-description] {\n            font: var(--body-base);\n        }\n    }\n\n    &:not(:has(:disabled)) {\n        [data-pseudo='focus'] &,\n        &:focus-visible,\n        &:has(*:focus-visible) {\n            outline: var(--stroke-neutral-focus) 2px solid;\n        }\n    }\n\n    &:has(:disabled) {\n        [data-label] {\n            color: var(--foreground-neutral-disabled-on-surface);\n        }\n\n        [data-description] {\n            color: var(--foreground-neutral-disabled-on-surface);\n        }\n    }\n",
         dependencies: [],
-        modified: '2025-05-08T16:49:13.814Z',
+        modified: '2025-05-12T18:33:57.726Z',
         hasTouchTarget: false,
     },
     {
@@ -866,7 +866,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'tooltip',
         css: "\n    position: fixed;\n    pointer-events: none;\n    z-index: var(--z-index-tooltip-popover);\n\n    [data-text] {\n        display: block;\n        z-index: 2;\n        position: relative;\n        background-color: var(--surface-neutral-inverse);\n        border-radius: var(--radius-small);\n        color: var(--foreground-neutral-on-inverse-surface);\n        box-shadow: var(--drop-shadow-float);\n        font: var(--labels-small);\n        padding: var(--spacing-sizing-01) var(--spacing-sizing-02);\n        border: none;\n        transition: opacity 0.2s ease-in-out;\n        width: max-content;\n    }\n\n    --arrow-size: var(--spacing-sizing-01);\n    --arrow-offset: calc(var(--arrow-size) * -2);\n\n    [data-arrow] {\n        display: block;\n        z-index: 1;\n        position: absolute;\n        width: 0;\n        height: 0;\n        border-style: solid;\n        border-width: var(--arrow-size) var(--arrow-size) var(--arrow-size) var(--arrow-size);\n        border-color: transparent transparent transparent transparent;\n    }\n\n    &[data-placement^='bottom'] {\n        [data-arrow] {\n            top: var(--arrow-offset);\n            border-bottom-color: var(--surface-neutral-inverse);\n        }\n    }\n\n    &[data-placement^='top'] {\n        [data-arrow] {\n            border-top-color: var(--surface-neutral-inverse);\n        }\n    }\n\n    &[data-placement^='right'] {\n        [data-arrow] {\n            margin-left: var(--arrow-offset);\n            border-right-color: var(--surface-neutral-inverse);\n        }\n    }\n\n    &[data-placement^='left'] {\n        [data-arrow] {\n            right: var(--arrow-offset);\n            border-left-color: var(--surface-neutral-inverse);\n        }\n    }\n",
         dependencies: ['Portal'],
-        modified: '2025-05-08T16:49:13.819Z',
+        modified: '2025-05-12T18:33:57.726Z',
         hasTouchTarget: false,
     },
     {
@@ -876,7 +876,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'top-navigation',
         css: '\n    display: flex;\n',
         dependencies: [],
-        modified: '2025-05-08T16:49:13.821Z',
+        modified: '2025-05-12T18:33:57.726Z',
         hasTouchTarget: false,
     },
     {
@@ -886,7 +886,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'txt',
         css: '',
         dependencies: [],
-        modified: '2025-05-08T16:49:13.825Z',
+        modified: '2025-05-12T18:33:57.726Z',
         hasTouchTarget: false,
     },
 ] as const;
@@ -964,6 +964,102 @@ export const typesMeta: TypeMeta[] = [
             },
         ],
         id: 'accordion-props',
+    },
+    {
+        name: 'AvatarProps',
+        properties: [
+            {
+                name: 'aria-label',
+                required: true,
+                description: 'The aria-label for the element.',
+                type: 'string',
+            },
+            {
+                name: 'size',
+                description: 'The size of the profile.',
+                default: 'small',
+                type: [
+                    'x-small',
+                    'small',
+                    'medium',
+                    'large',
+                    'x-large',
+                    'xx-large',
+                    'xxx-large',
+                    'xxxx-large',
+                    'xxxxx-large',
+                ],
+                options: [
+                    'x-small',
+                    'small',
+                    'medium',
+                    'large',
+                    'x-large',
+                    'xx-large',
+                    'xxx-large',
+                    'xxxx-large',
+                    'xxxxx-large',
+                ],
+            },
+            {
+                name: 'color',
+                description: 'The color of the profile.',
+                default: 'grey',
+                type: [
+                    'blue',
+                    'green',
+                    'grey',
+                    'lime',
+                    'magenta',
+                    'orange',
+                    'pink',
+                    'primary',
+                    'purple',
+                    'red',
+                    'secondary',
+                    'teal',
+                    'white',
+                    'yellow',
+                ],
+                options: [
+                    'blue',
+                    'green',
+                    'grey',
+                    'lime',
+                    'magenta',
+                    'orange',
+                    'pink',
+                    'primary',
+                    'purple',
+                    'red',
+                    'secondary',
+                    'teal',
+                    'white',
+                    'yellow',
+                ],
+            },
+            {
+                name: 'initials',
+                description: 'The initials to display in the profile limited to 2 characters.',
+                type: 'string',
+            },
+            {
+                name: 'icon',
+                description: 'The icon to display in the profile.',
+                type: 'React.ReactNode',
+            },
+            {
+                name: 'image',
+                description: 'The url to the image to display in the profile.',
+                type: 'string',
+            },
+            {
+                name: 'overflowCount',
+                description: 'The number of notifications not displayed in a list.',
+                type: 'number',
+            },
+        ],
+        id: 'avatar-props',
     },
     {
         name: 'BadgeProps',
@@ -2779,7 +2875,7 @@ export const typesMeta: TypeMeta[] = [
                 name: 'leading',
                 required: false,
                 description:
-                    'The leading element to display in the ListItem.\n\nLeading elements may only be one of the following [Icon](/icons), Img, Profile.',
+                    'The leading element to display in the ListItem.\n\nLeading elements may only be one of the following [Icon](/icons), Img, Avatar.',
                 type: 'React.ReactNode',
             },
             {
@@ -4091,102 +4187,6 @@ export const typesMeta: TypeMeta[] = [
             },
         ],
         id: 'portal-props',
-    },
-    {
-        name: 'ProfileProps',
-        properties: [
-            {
-                name: 'aria-label',
-                required: true,
-                description: 'The aria-label for the element.',
-                type: 'string',
-            },
-            {
-                name: 'size',
-                description: 'The size of the profile.',
-                default: 'small',
-                type: [
-                    'x-small',
-                    'small',
-                    'medium',
-                    'large',
-                    'x-large',
-                    'xx-large',
-                    'xxx-large',
-                    'xxxx-large',
-                    'xxxxx-large',
-                ],
-                options: [
-                    'x-small',
-                    'small',
-                    'medium',
-                    'large',
-                    'x-large',
-                    'xx-large',
-                    'xxx-large',
-                    'xxxx-large',
-                    'xxxxx-large',
-                ],
-            },
-            {
-                name: 'color',
-                description: 'The color of the profile.',
-                default: 'grey',
-                type: [
-                    'blue',
-                    'green',
-                    'grey',
-                    'lime',
-                    'magenta',
-                    'orange',
-                    'pink',
-                    'primary',
-                    'purple',
-                    'red',
-                    'secondary',
-                    'teal',
-                    'white',
-                    'yellow',
-                ],
-                options: [
-                    'blue',
-                    'green',
-                    'grey',
-                    'lime',
-                    'magenta',
-                    'orange',
-                    'pink',
-                    'primary',
-                    'purple',
-                    'red',
-                    'secondary',
-                    'teal',
-                    'white',
-                    'yellow',
-                ],
-            },
-            {
-                name: 'initials',
-                description: 'The initials to display in the profile limited to 2 characters.',
-                type: 'string',
-            },
-            {
-                name: 'icon',
-                description: 'The icon to display in the profile.',
-                type: 'React.ReactNode',
-            },
-            {
-                name: 'image',
-                description: 'The url to the image to display in the profile.',
-                type: 'string',
-            },
-            {
-                name: 'overflowCount',
-                description: 'The number of notifications not displayed in a list.',
-                type: 'number',
-            },
-        ],
-        id: 'profile-props',
     },
     {
         name: 'ProgressBarProps',
@@ -6030,6 +6030,7 @@ export const typesMeta: TypeMeta[] = [
 
 export type MetaTypeName =
     | 'AccordionProps'
+    | 'AvatarProps'
     | 'BadgeProps'
     | 'BannerAlertProps'
     | 'BottomNavigationProps'
@@ -6113,7 +6114,6 @@ export type MetaTypeName =
     | 'Pick<ToggleOptionProps,"label"|"size"|"description">'
     | 'PopoverProps'
     | 'PortalProps'
-    | 'ProfileProps'
     | 'ProgressBarProps'
     | 'ProgressCircleProps'
     | 'ProgressionStepperBarProps'
@@ -6156,6 +6156,7 @@ export type MetaTypeName =
 
 export type MetaComponentName =
     | 'Accordion'
+    | 'Avatar'
     | 'Badge'
     | 'BannerAlert'
     | 'BottomNavigation'
@@ -6198,7 +6199,6 @@ export type MetaComponentName =
     | 'PhoneNumberInput'
     | 'Popover'
     | 'Portal'
-    | 'Profile'
     | 'ProgressBar'
     | 'ProgressCircle'
     | 'ProgressionStepper'

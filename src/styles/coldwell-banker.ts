@@ -457,8 +457,7 @@ body {
     /* Float */
     --drop-shadow-float: 0px 0px 1px 0px #00000052, 0px 8px 12px 0px #00000026;
     /* North - Bottom navigation, button dock, bottom sheet */
-    --drop-shadow-north: 0px -2px 8px -2px #0000001a,
-        0px -2px 4px -2px #0000001f;
+    --drop-shadow-north: 0px -2px 8px -2px #0000001a, 0px -2px 4px -2px #0000001f;
     /* Raise */
     --drop-shadow-raise: 0px 0px 1px 0px #00000026, 0px 1px 1px 0px #00000052;
     /* Scroll */

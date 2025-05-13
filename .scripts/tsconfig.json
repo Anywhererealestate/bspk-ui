@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "module": "ES2020",
+        "module": "CommonJS",
         "target": "ES2020",
         "lib": [
             "es5",
@@ -16,6 +16,7 @@
         "strictNullChecks": true,
         "esModuleInterop": true,
         "baseUrl": "./",
+        "allowJs": true,
         "paths": {
             "*": [
                 "node_modules/@types/*",
@@ -24,10 +25,7 @@
         }
     },
     "include": [
-        "src/**/*",
-        "declaration.d.ts",
-        "../bspk-demo/src/components/StylesProvider.tsx",
-        "./scripts/*.ts"
+        "*.ts"
     ],
     "exclude": [
         "node_modules",
@@ -41,7 +39,4 @@
     "types": [
         "typePatches"
     ],
-    "ts-node": {
-        "extends": ".scripts/tsconfig.json",
-    }
 }

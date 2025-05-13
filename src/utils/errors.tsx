@@ -22,7 +22,7 @@ export type ErrorDetail = {
 
 export const bspkErrorType = (contextId: string) => `bspk-error-${contextId}`;
 
-export type LogError = (exists: boolean, log: string | { message: string; data: unknown }) => boolean;
+export type LogError = (exists: boolean, message: string, data?: unknown) => boolean;
 
 let logBuffer: Record<string, ErrorDetail[]> = {};
 let logDebounce: ReturnType<typeof setTimeout> | null = null;
@@ -88,14 +88,19 @@ export function useErrorLog() {
     useEffect(() => {
         if (!contextId) return;
 
-        const listener = (event: CustomEvent<ErrorDetail[]>) => {
+        const listener = (e: Event) => {
+            const event = e as CustomEvent<ErrorDetail[]>;
             // eslint-disable-next-line no-console
             event.detail.forEach(console.error);
             setErrors(event.detail);
         };
 
-        globalThis.addEventListener(bspkErrorType(contextId), listener);
-        return () => globalThis.removeEventListener(bspkErrorType(contextId), listener);
+        const errorType = bspkErrorType(contextId);
+
+        globalThis.addEventListener(errorType, listener);
+        return () => {
+            globalThis.removeEventListener(errorType, listener);
+        };
     }, [contextId]);
 
     return { errors, contextId };
