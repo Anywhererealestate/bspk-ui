@@ -6,7 +6,7 @@ export type AccordionProps = {
      *
      * @required
      */
-    children: any;
+    children: string;
 };
 
 /**
