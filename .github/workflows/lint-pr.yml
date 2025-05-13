@@ -24,10 +24,10 @@ jobs:
               with:
                   node-version: 20
 
-            # - name: Install dependencies
-            #   env:
-            #       NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-            #   run: npm ci
+            - name: Install dependencies
+              env:
+                  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+              run: npm ci
 
             - name: Run eslint and prettier
-              run: exit 1
+              run: npm run lint
