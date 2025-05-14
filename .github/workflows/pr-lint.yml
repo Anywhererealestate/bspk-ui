@@ -1,6 +1,9 @@
 name: PR Checks
 
 on:
+    push:
+        branches:
+            - main
     pull_request:
         branches:
             - main
@@ -11,9 +14,6 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-            - name: fail blocking?
-              run: exit 1
-
             - name: Check out Git repository
               uses: actions/checkout@v4
 
@@ -29,24 +29,3 @@ jobs:
 
             - name: Run eslint and prettier
               run: npm run lint
-
-    run-validation:
-        name: Lint
-        runs-on: ubuntu-latest
-
-        steps:
-            - name: Check out Git repository
-              uses: actions/checkout@v4
-
-            - name: Setup Node
-              uses: actions/setup-node@v4
-              with:
-                  node-version: 20
-
-            - name: Install dependencies
-              env:
-                  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-              run: npm ci
-
-            - name: Run eslint and prettier
-              run: exit 1
