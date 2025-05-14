@@ -17,7 +17,9 @@ documentation-todos.json
 .local
 public
 .scripts/*.json
+!tsconfig.json
 package
 .DS_Store
 .scripts/style-imports.ts
 .gitlab-ci.yml
+node_modules

@@ -19,7 +19,7 @@ const anywhereCssFile = path.resolve(__dirname, '../node_modules/@bspk/styles/an
 
 const STYLES_PROVIDER_PREFIX = path.resolve(__dirname, '../src/StylesProvider');
 
-function generateFile(filePath: string, content: string) {
+function generateFileLinted(filePath: string, content: string) {
     fs.writeFileSync(filePath, content);
 
     execSync(`eslint --fix ${filePath} && npx prettier --write ${filePath} `, {
@@ -40,9 +40,10 @@ function copyUpdatedCssFromStyles() {
         });
 
         fs.writeFileSync(destTsFile, `export default \`${fs.readFileSync(destCssFile, 'utf8')}\`;`);
-
-        prettyLint(destTsFile);
     });
+
+    execSync(`npx prettier --write src/styles/*.ts && echo 'prettier done - src/styles'`, { stdio: 'inherit' });
+    execSync(`npx eslint --fix src/styles/*.ts && echo 'eslint done - src/styles'`, { stdio: 'inherit' });
 
     console.info(`\nCSS files copied from ${STYLES_PKG_DIR} to src/styles`);
 
@@ -65,7 +66,7 @@ function generateTxtVariants(variables: Record<string, string>) {
         variants.add(variant);
     });
 
-    generateFile(
+    generateFileLinted(
         path.resolve(__dirname, '../src/utils/txtVariants.ts'),
         [
             `export type TxtVariant = '${[...variants].join("' | '")}';`,
@@ -133,14 +134,18 @@ function generateColorVariants(variables: Record<string, string>) {
 export const COLOR_VARIABLES:Record<ColorVariant, {foreground: string; surface:string}> = ${JSON.stringify(variants, null, 2)} as const;
 `;
 
-    generateFile('src/utils/colorVariants.ts', content);
+    generateFileLinted('src/utils/colorVariants.ts', content);
 }
 
 function generateBrandStylesProviders() {
+    const fileNames: string[] = [];
+
     BRANDS.forEach(({ title, slug }) => {
         const componentName = camelCase(title);
 
         const brandStylesProviderFilePath = `${STYLES_PROVIDER_PREFIX}${componentName}.tsx`;
+
+        fileNames.push(brandStylesProviderFilePath);
 
         execSync(`rm -rf ${brandStylesProviderFilePath}`, {
             stdio: 'inherit',
@@ -181,9 +186,9 @@ StylesProvider${componentName}.bspkName = 'StylesProvider${componentName}';
 export { StylesProvider${componentName} };
 `,
         );
-
-        prettyLint(brandStylesProviderFilePath);
     });
+
+    prettyLint(fileNames.join('" "'));
 
     console.info(`\nBrand style providers generated`);
 }

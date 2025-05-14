@@ -1,21 +1,18 @@
 import { SvgMenu } from '@bspk/icons/Menu';
 import { css } from '@emotion/react';
-import { ElementType } from 'react';
 
 import { ButtonProps } from './Button';
 
 import { ElementProps } from '.';
 
-export type MenuButtonProps<As extends ElementType> = Pick<ButtonProps<As>, 'as' | 'onClick'>;
+export type MenuButtonProps = Pick<ButtonProps, 'as' | 'onClick'>;
 
 /**
  * Utility component used within top navigation.
  *
  * @name MenuButton
  */
-function MenuButton<As extends ElementType = 'button'>({ as, ...props }: ElementProps<MenuButtonProps<As>, As>) {
-    const As: ElementType = as || 'div';
-
+function MenuButton(props: ElementProps<MenuButtonProps, 'button'>) {
     return (
         <button {...props} css={style}>
             <SvgMenu />
