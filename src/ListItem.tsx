@@ -7,7 +7,7 @@ import { useErrorLogger } from './utils/errors';
 
 import { CommonProps, ElementProps } from './';
 
-export const LEADING_COMPONENTS = Object.freeze(['Icon', 'Img', 'Profile']);
+export const LEADING_COMPONENTS = Object.freeze(['Icon', 'Img', 'Avatar']);
 
 export const TRAILING_COMPONENTS = Object.freeze([
     'ListItemButton',
@@ -31,7 +31,7 @@ export type ListItemProps<As extends ElementType = 'div'> = CommonProps<'active'
     /**
      * The leading element to display in the ListItem.
      *
-     * Leading elements may only be one of the following [Icon](/icons), Img, Profile.
+     * Leading elements may only be one of the following [Icon](/icons), Img, Avatar.
      */
     leading?: ReactNode;
     /**
@@ -61,7 +61,7 @@ export type ListItemProps<As extends ElementType = 'div'> = CommonProps<'active'
  *
  * The ListItem has three main elements: leading element, label, and trailing element.
  *
- * Leading elements may be one of the following [Icon](/icons), Img, Profile.
+ * Leading elements may be one of the following [Icon](/icons), Img, Avatar.
  *
  * Trailing elements may be one of the following [Icon](/icons), Checkbox, ListItemButton, Radio, Switch, Tag, Txt.
  *

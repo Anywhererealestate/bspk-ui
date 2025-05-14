@@ -21,45 +21,43 @@ const SIZE_VARIANTS: Record<SizeVariant, { height: string; font: string }> = {
     small: { font: '--labels-small', height: '--spacing-sizing-08' }, // 32,
     medium: { font: '--labels-base', height: '--spacing-sizing-10' }, // 40
     large: { font: '--labels-large', height: '--spacing-sizing-12' }, //48,
-    'x-large': { font: '--desktop-subheader-x-large', height: '--spacing-sizing-14' }, // 56,
-    'xx-large': { font: '--desktop-subheader-xx-large', height: '--spacing-sizing-17' }, // 72,
-    'xxx-large': { font: '--desktop-display-regular-small', height: '--spacing-sizing-19' }, //96,
-    'xxxx-large': { font: '--desktop-display-regular-medium', height: '--spacing-sizing-21' }, // 120,
-    'xxxxx-large': { font: '--desktop-display-regular-large', height: '--spacing-sizing-23' }, //144,
+    'x-large': { font: '--subheader-x-large', height: '--spacing-sizing-14' }, // 56,
+    'xx-large': { font: '--subheader-xx-large', height: '--spacing-sizing-17' }, // 72,
+    'xxx-large': { font: '--display-regular-small', height: '--spacing-sizing-19' }, //96,
+    'xxxx-large': { font: '--display-regular-medium', height: '--spacing-sizing-21' }, // 120,
+    'xxxxx-large': { font: '--display-regular-large', height: '--spacing-sizing-23' }, //144,
 };
 
-export type ProfileProps = CommonProps<'aria-label'> & {
+export type AvatarProps = CommonProps<'aria-label'> & {
     /**
-     * The size of the profile.
+     * The size of the avatar.
      *
      * @default small
      */
     size?: SizeVariant;
     /**
-     * The color of the profile.
+     * The color of the avatar.
      *
      * @default grey
      */
     color?: ColorVariant;
-    /** The initials to display in the profile limited to 2 characters. */
+    /** The initials to display in the avatar limited to 2 characters. */
     initials?: string;
-    /** The icon to display in the profile. */
+    /** The icon to display in the avatar. */
     icon?: ReactNode;
-    /** The url to the image to display in the profile. */
+    /** The url to the image to display in the avatar. */
     image?: string;
     /** The number of notifications not displayed in a list. */
     overflowCount?: number;
 };
 
 /**
- * A profile component.
- *
- * A profile is a visual representation of a user or entity. It can be used to display an initials, icon, image, or an
+ * An avatar is a visual representation of a user or entity. It can be used to display an initials, icon, image, or an
  * overflowCount.
  *
- * @name Profile
+ * @name Avatar
  */
-function Profile({
+function Avatar({
     initials,
     color = 'grey',
     size = 'small',
@@ -67,7 +65,7 @@ function Profile({
     image,
     'aria-label': ariaLabel,
     overflowCount,
-}: ProfileProps) {
+}: AvatarProps) {
     const children = useMemo(() => {
         if (initials) return <span data-initials>{initials}</span>;
         if (icon) return <span data-icon>{icon}</span>;
@@ -79,7 +77,7 @@ function Profile({
     return (
         <>
             {children && (
-                <div aria-label={ariaLabel} css={style} data-color={color} data-profile="" data-size={size}>
+                <div aria-label={ariaLabel} css={style} data-avatar="" data-color={color} data-size={size}>
                     {children}
                 </div>
             )}
@@ -87,9 +85,9 @@ function Profile({
     );
 }
 
-Profile.bspkName = 'Profile';
+Avatar.bspkName = 'Avatar';
 
-export { Profile };
+export { Avatar };
 
 export const style = css`
     --height: var(--spacing-sizing-10);
