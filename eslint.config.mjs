@@ -36,7 +36,7 @@ export default [
         plugins: { 'react-hooks': reactHooks },
     },
     {
-        ignores: ['*.js', '**/*.js', '*.d.ts', '**/*.d.ts', 'node_modules/**/*'],
+        ignores: ['*.js', '**/*.js', '*.d.ts', '**/*.d.ts', 'node_modules/**/*', '.github'],
     },
     {
         rules: {
