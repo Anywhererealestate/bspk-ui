@@ -6,7 +6,6 @@ export type BaseMeta = {
 
 export type TypeMeta = BaseMeta & {
     id: string;
-    name: string;
     example?: string;
     references?: string[];
     properties?: TypeProperty[];
