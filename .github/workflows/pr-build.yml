@@ -9,7 +9,7 @@ on:
             - main
 
 jobs:
-    run-linters:
+    run-build:
         name: Build
         runs-on: ubuntu-latest
 
