@@ -326,8 +326,6 @@ function generateTypes() {
 }
 
 async function createMeta() {
-    if (fs.existsSync(metaFilePath)) fs.unlinkSync(metaFilePath);
-
     const componentsMeta: ComponentMeta[] = componentFiles
         .flatMap((component) => generateComponentMeta(component) || [])
         // filter out dependencies that aren't components

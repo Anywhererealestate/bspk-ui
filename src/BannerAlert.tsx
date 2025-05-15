@@ -27,12 +27,12 @@ export type BannerAlertProps = {
      */
     header: string;
     /**
-     * The children of the banner alert.
+     * The body of the banner alert.
      *
      * @type multiline
      * @required
      */
-    children: string;
+    body: string;
     /**
      * This property may be undefined or an object containing required CallToActionButton properties.
      *
@@ -58,7 +58,7 @@ function BannerAlert({
     onClose,
     header,
     callToAction,
-    children,
+    body,
     elevated = false,
 }: ElementProps<BannerAlertProps, 'div'>) {
     return (
@@ -81,7 +81,7 @@ function BannerAlert({
                     </header>
                 )}
                 <div data-body>
-                    <span>{children}</span>
+                    <span>{body}</span>
                     {callToAction?.label && callToAction?.onClick && (
                         <button onClick={callToAction.onClick}>{callToAction.label}</button>
                     )}
