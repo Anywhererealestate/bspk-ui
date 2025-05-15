@@ -54,18 +54,18 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'accordion',
         css: '\n    display: flex;\n',
         dependencies: [],
-        modified: '2025-05-12T18:33:57.709Z',
+        modified: '2025-05-13T21:35:23.540Z',
         hasTouchTarget: false,
     },
     {
         description:
-            'A profile component.\n\nA profile is a visual representation of a user or entity. It can be used to display an initials, icon, image, or an overflowCount.',
+            'An avatar is a visual representation of a user or entity. It can be used to display an initials, icon, image, or an overflowCount.',
         file: '/Avatar.tsx',
         name: 'Avatar',
         slug: 'avatar',
-        css: "\n    --height: var(--spacing-sizing-10);\n    --font: var(--labels-base);\n    --foreground: var(--foreground-neutral-on-surface);\n    --background: var(--surface-neutral-t3-low);\n\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n    padding: 0;\n    height: var(--height);\n    width: var(--height);\n    aspect-ratio: 1 / 1;\n    border-radius: 999px;\n    background-color: var(--background);\n    color: var(--foreground);\n    font: var(--font);\n\n    &:has(img) {\n        overflow: hidden;\n    }\n\n    img {\n        max-width: 100%;\n    }\n\n    \n            &[data-size='x-small'] {\n                --height: var(--spacing-sizing-06);\n                --font: var(--labels-x-small);\n            }\n        \n            &[data-size='small'] {\n                --height: var(--spacing-sizing-08);\n                --font: var(--labels-small);\n            }\n        \n            &[data-size='medium'] {\n                --height: var(--spacing-sizing-10);\n                --font: var(--labels-base);\n            }\n        \n            &[data-size='large'] {\n                --height: var(--spacing-sizing-12);\n                --font: var(--labels-large);\n            }\n        \n            &[data-size='x-large'] {\n                --height: var(--spacing-sizing-14);\n                --font: var(--desktop-subheader-x-large);\n            }\n        \n            &[data-size='xx-large'] {\n                --height: var(--spacing-sizing-17);\n                --font: var(--desktop-subheader-xx-large);\n            }\n        \n            &[data-size='xxx-large'] {\n                --height: var(--spacing-sizing-19);\n                --font: var(--desktop-display-regular-small);\n            }\n        \n            &[data-size='xxxx-large'] {\n                --height: var(--spacing-sizing-21);\n                --font: var(--desktop-display-regular-medium);\n            }\n        \n            &[data-size='xxxxx-large'] {\n                --height: var(--spacing-sizing-23);\n                --font: var(--desktop-display-regular-large);\n            }\n        \n\n    \n            &[data-color='grey'] {\n                --foreground: var(--foreground-neutral-on-surface-variant-01);\n                --background: var(--surface-neutral-t2-lowest);\n            }\n        \n            &[data-color='white'] {\n                --foreground: var(--foreground-neutral-on-surface-variant-01);\n                --background: var(--surface-neutral-t1-base);\n            }\n        \n            &[data-color='primary'] {\n                --foreground: var(--foreground-brand-primary-depth);\n                --background: var(--surface-brand-primary-highlight);\n            }\n        \n            &[data-color='secondary'] {\n                --foreground: var(--foreground-brand-secondary-depth);\n                --background: var(--surface-brand-secondary-highlight);\n            }\n        \n            &[data-color='blue'] {\n                --foreground: var(--foreground-spectrum-blue);\n                --background: var(--surface-spectrum-blue);\n            }\n        \n            &[data-color='green'] {\n                --foreground: var(--foreground-spectrum-green);\n                --background: var(--surface-spectrum-green);\n            }\n        \n            &[data-color='lime'] {\n                --foreground: var(--foreground-spectrum-lime);\n                --background: var(--surface-spectrum-lime);\n            }\n        \n            &[data-color='magenta'] {\n                --foreground: var(--foreground-spectrum-magenta);\n                --background: var(--surface-spectrum-magenta);\n            }\n        \n            &[data-color='orange'] {\n                --foreground: var(--foreground-spectrum-orange);\n                --background: var(--surface-spectrum-orange);\n            }\n        \n            &[data-color='pink'] {\n                --foreground: var(--foreground-spectrum-pink);\n                --background: var(--surface-spectrum-pink);\n            }\n        \n            &[data-color='purple'] {\n                --foreground: var(--foreground-spectrum-purple);\n                --background: var(--surface-spectrum-purple);\n            }\n        \n            &[data-color='red'] {\n                --foreground: var(--foreground-spectrum-red);\n                --background: var(--surface-spectrum-red);\n            }\n        \n            &[data-color='teal'] {\n                --foreground: var(--foreground-spectrum-teal);\n                --background: var(--surface-spectrum-teal);\n            }\n        \n            &[data-color='yellow'] {\n                --foreground: var(--foreground-spectrum-yellow);\n                --background: var(--surface-spectrum-yellow);\n            }\n        ;\n",
+        css: "\n    --height: var(--spacing-sizing-10);\n    --font: var(--labels-base);\n    --foreground: var(--foreground-neutral-on-surface);\n    --background: var(--surface-neutral-t3-low);\n\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n    padding: 0;\n    height: var(--height);\n    width: var(--height);\n    aspect-ratio: 1 / 1;\n    border-radius: 999px;\n    background-color: var(--background);\n    color: var(--foreground);\n    font: var(--font);\n\n    &:has(img) {\n        overflow: hidden;\n    }\n\n    img {\n        max-width: 100%;\n    }\n\n    \n            &[data-size='x-small'] {\n                --height: var(--spacing-sizing-06);\n                --font: var(--labels-x-small);\n            }\n        \n            &[data-size='small'] {\n                --height: var(--spacing-sizing-08);\n                --font: var(--labels-small);\n            }\n        \n            &[data-size='medium'] {\n                --height: var(--spacing-sizing-10);\n                --font: var(--labels-base);\n            }\n        \n            &[data-size='large'] {\n                --height: var(--spacing-sizing-12);\n                --font: var(--labels-large);\n            }\n        \n            &[data-size='x-large'] {\n                --height: var(--spacing-sizing-14);\n                --font: var(--subheader-x-large);\n            }\n        \n            &[data-size='xx-large'] {\n                --height: var(--spacing-sizing-17);\n                --font: var(--subheader-xx-large);\n            }\n        \n            &[data-size='xxx-large'] {\n                --height: var(--spacing-sizing-19);\n                --font: var(--display-regular-small);\n            }\n        \n            &[data-size='xxxx-large'] {\n                --height: var(--spacing-sizing-21);\n                --font: var(--display-regular-medium);\n            }\n        \n            &[data-size='xxxxx-large'] {\n                --height: var(--spacing-sizing-23);\n                --font: var(--display-regular-large);\n            }\n        \n\n    \n            &[data-color='grey'] {\n                --foreground: var(--foreground-neutral-on-surface-variant-01);\n                --background: var(--surface-neutral-t2-lowest);\n            }\n        \n            &[data-color='white'] {\n                --foreground: var(--foreground-neutral-on-surface-variant-01);\n                --background: var(--surface-neutral-t1-base);\n            }\n        \n            &[data-color='primary'] {\n                --foreground: var(--foreground-brand-primary-depth);\n                --background: var(--surface-brand-primary-highlight);\n            }\n        \n            &[data-color='secondary'] {\n                --foreground: var(--foreground-brand-secondary-depth);\n                --background: var(--surface-brand-secondary-highlight);\n            }\n        \n            &[data-color='blue'] {\n                --foreground: var(--foreground-spectrum-blue);\n                --background: var(--surface-spectrum-blue);\n            }\n        \n            &[data-color='green'] {\n                --foreground: var(--foreground-spectrum-green);\n                --background: var(--surface-spectrum-green);\n            }\n        \n            &[data-color='lime'] {\n                --foreground: var(--foreground-spectrum-lime);\n                --background: var(--surface-spectrum-lime);\n            }\n        \n            &[data-color='magenta'] {\n                --foreground: var(--foreground-spectrum-magenta);\n                --background: var(--surface-spectrum-magenta);\n            }\n        \n            &[data-color='orange'] {\n                --foreground: var(--foreground-spectrum-orange);\n                --background: var(--surface-spectrum-orange);\n            }\n        \n            &[data-color='pink'] {\n                --foreground: var(--foreground-spectrum-pink);\n                --background: var(--surface-spectrum-pink);\n            }\n        \n            &[data-color='purple'] {\n                --foreground: var(--foreground-spectrum-purple);\n                --background: var(--surface-spectrum-purple);\n            }\n        \n            &[data-color='red'] {\n                --foreground: var(--foreground-spectrum-red);\n                --background: var(--surface-spectrum-red);\n            }\n        \n            &[data-color='teal'] {\n                --foreground: var(--foreground-spectrum-teal);\n                --background: var(--surface-spectrum-teal);\n            }\n        \n            &[data-color='yellow'] {\n                --foreground: var(--foreground-spectrum-yellow);\n                --background: var(--surface-spectrum-yellow);\n            }\n        ;\n",
         dependencies: [],
-        modified: '2025-05-13T20:38:50.508Z',
+        modified: '2025-05-15T14:40:56.723Z',
         hasTouchTarget: false,
     },
     {
@@ -369,7 +369,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'list-item',
         css: "\n    display: block;\n    width: 100%;\n    box-sizing: border-box;\n    padding: 0 var(--spacing-sizing-02);\n    background: unset;\n    border: unset;\n    margin: unset;\n    text-decoration: unset;\n    user-select: none;\n    color: var(--foreground-neutral-on-surface);\n\n    &:is(a),\n    &:is(button),\n    &[onclick],\n    &[role='button'] {\n        cursor: pointer;\n    }\n\n    [data-inner] {\n        height: 100%;\n        width: 100%;\n        min-height: var(--spacing-sizing-09);\n        box-sizing: border-box;\n        display: flex;\n        flex-direction: row;\n        gap: var(--spacing-sizing-03);\n        padding: var(--spacing-sizing-02) 0;\n        justify-items: stretch;\n\n        & > * {\n            min-height: 100%;\n            width: fit-content;\n            display: flex;\n            flex-direction: column;\n            justify-content: space-around;\n            flex: 1;\n            flex-shrink: 0;\n\n            svg {\n                width: 24px;\n                max-width: unset;\n            }\n        }\n    }\n\n    /* &:has(+ [data-list-item]) {\n    [data-inner] {\n      border-bottom: 1px solid var(--stroke-neutral-low);\n    }\n  } */\n\n    &[data-action] {\n        [data-pseudo='focus'] &,\n        &:focus-visible,\n        &:has(*:focus-visible) {\n            //outline: 2px solid var(--stroke-neutral-focus);\n            box-shadow: inset var(--stroke-neutral-focus) 0 0 0 2px;\n\n            [data-inner] {\n                border-color: transparent;\n            }\n        }\n    }\n\n    [data-component='Img'] > img {\n        height: 36px;\n        width: 36px;\n        max-width: unset;\n    }\n\n    &:is(label) {\n        [data-inner] {\n            border-bottom: 0;\n            gap: var(--spacing-sizing-02);\n        }\n    }\n\n    [data-item-label] {\n        flex: 100%;\n        text-align: left;\n\n        [data-text] {\n            font: var(--labels-base);\n            color: var(--foreground-neutral-on-surface);\n        }\n\n        [data-sub-text] {\n            font: var(--body-small);\n            color: var(--foreground-neutral-on-surface-variant-01);\n        }\n    }\n\n    &[aria-disabled] {\n        [data-text],\n        [data-sub-text] {\n            color: var(--foreground-neutral-disabled-on-surface);\n        }\n    }\n\n    &[data-action] {\n        [data-pseudo='hover'] &,\n        &:hover {\n            background-color: var(--interactions-neutral-hover-opacity);\n        }\n\n        [data-pseudo='active'] &,\n        &[data-active],\n        &:active {\n            background-color: var(--interactions-neutral-press-opacity);\n        }\n    }\n",
         dependencies: ['Button'],
-        modified: '2025-05-13T20:39:15.130Z',
+        modified: '2025-05-14T14:10:56.222Z',
         hasTouchTarget: false,
     },
     {
@@ -390,7 +390,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'menu-button',
         css: '\n    background: none;\n    border: none;\n    cursor: pointer;\n    padding: 0;\n    height: 48px;\n    width: auto;\n    display: flex;\n    flex-direction: row;\n    align-items: center;\n    justify-content: center;\n    padding-top: var(--spacing-sizing-01);\n    color: var(--foreground-neutral-on-surface-variant-01);\n',
         dependencies: ['Button'],
-        modified: '2025-05-12T18:34:34.535Z',
+        modified: '2025-05-14T14:10:56.222Z',
         hasTouchTarget: false,
     },
     {
@@ -976,7 +976,7 @@ export const typesMeta: TypeMeta[] = [
             },
             {
                 name: 'size',
-                description: 'The size of the profile.',
+                description: 'The size of the avatar.',
                 default: 'small',
                 type: [
                     'x-small',
@@ -1003,7 +1003,7 @@ export const typesMeta: TypeMeta[] = [
             },
             {
                 name: 'color',
-                description: 'The color of the profile.',
+                description: 'The color of the avatar.',
                 default: 'grey',
                 type: [
                     'blue',
@@ -1040,17 +1040,17 @@ export const typesMeta: TypeMeta[] = [
             },
             {
                 name: 'initials',
-                description: 'The initials to display in the profile limited to 2 characters.',
+                description: 'The initials to display in the avatar limited to 2 characters.',
                 type: 'string',
             },
             {
                 name: 'icon',
-                description: 'The icon to display in the profile.',
+                description: 'The icon to display in the avatar.',
                 type: 'React.ReactNode',
             },
             {
                 name: 'image',
-                description: 'The url to the image to display in the profile.',
+                description: 'The url to the image to display in the avatar.',
                 type: 'string',
             },
             {
