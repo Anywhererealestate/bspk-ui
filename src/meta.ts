@@ -65,7 +65,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'avatar',
         css: "\n    --height: var(--spacing-sizing-10);\n    --font: var(--labels-base);\n    --foreground: var(--foreground-neutral-on-surface);\n    --background: var(--surface-neutral-t3-low);\n\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n    padding: 0;\n    height: var(--height);\n    width: var(--height);\n    aspect-ratio: 1 / 1;\n    border-radius: 999px;\n    background-color: var(--background);\n    color: var(--foreground);\n    font: var(--font);\n\n    &:has(img) {\n        overflow: hidden;\n    }\n\n    img {\n        max-width: 100%;\n    }\n\n    \n            &[data-size='x-small'] {\n                --height: var(--spacing-sizing-06);\n                --font: var(--labels-x-small);\n            }\n        \n            &[data-size='small'] {\n                --height: var(--spacing-sizing-08);\n                --font: var(--labels-small);\n            }\n        \n            &[data-size='medium'] {\n                --height: var(--spacing-sizing-10);\n                --font: var(--labels-base);\n            }\n        \n            &[data-size='large'] {\n                --height: var(--spacing-sizing-12);\n                --font: var(--labels-large);\n            }\n        \n            &[data-size='x-large'] {\n                --height: var(--spacing-sizing-14);\n                --font: var(--subheader-x-large);\n            }\n        \n            &[data-size='xx-large'] {\n                --height: var(--spacing-sizing-17);\n                --font: var(--subheader-xx-large);\n            }\n        \n            &[data-size='xxx-large'] {\n                --height: var(--spacing-sizing-19);\n                --font: var(--display-regular-small);\n            }\n        \n            &[data-size='xxxx-large'] {\n                --height: var(--spacing-sizing-21);\n                --font: var(--display-regular-medium);\n            }\n        \n            &[data-size='xxxxx-large'] {\n                --height: var(--spacing-sizing-23);\n                --font: var(--display-regular-large);\n            }\n        \n\n    \n            &[data-color='grey'] {\n                --foreground: var(--foreground-neutral-on-surface-variant-01);\n                --background: var(--surface-neutral-t2-lowest);\n            }\n        \n            &[data-color='white'] {\n                --foreground: var(--foreground-neutral-on-surface-variant-01);\n                --background: var(--surface-neutral-t1-base);\n            }\n        \n            &[data-color='primary'] {\n                --foreground: var(--foreground-brand-primary-depth);\n                --background: var(--surface-brand-primary-highlight);\n            }\n        \n            &[data-color='secondary'] {\n                --foreground: var(--foreground-brand-secondary-depth);\n                --background: var(--surface-brand-secondary-highlight);\n            }\n        \n            &[data-color='blue'] {\n                --foreground: var(--foreground-spectrum-blue);\n                --background: var(--surface-spectrum-blue);\n            }\n        \n            &[data-color='green'] {\n                --foreground: var(--foreground-spectrum-green);\n                --background: var(--surface-spectrum-green);\n            }\n        \n            &[data-color='lime'] {\n                --foreground: var(--foreground-spectrum-lime);\n                --background: var(--surface-spectrum-lime);\n            }\n        \n            &[data-color='magenta'] {\n                --foreground: var(--foreground-spectrum-magenta);\n                --background: var(--surface-spectrum-magenta);\n            }\n        \n            &[data-color='orange'] {\n                --foreground: var(--foreground-spectrum-orange);\n                --background: var(--surface-spectrum-orange);\n            }\n        \n            &[data-color='pink'] {\n                --foreground: var(--foreground-spectrum-pink);\n                --background: var(--surface-spectrum-pink);\n            }\n        \n            &[data-color='purple'] {\n                --foreground: var(--foreground-spectrum-purple);\n                --background: var(--surface-spectrum-purple);\n            }\n        \n            &[data-color='red'] {\n                --foreground: var(--foreground-spectrum-red);\n                --background: var(--surface-spectrum-red);\n            }\n        \n            &[data-color='teal'] {\n                --foreground: var(--foreground-spectrum-teal);\n                --background: var(--surface-spectrum-teal);\n            }\n        \n            &[data-color='yellow'] {\n                --foreground: var(--foreground-spectrum-yellow);\n                --background: var(--surface-spectrum-yellow);\n            }\n        ;\n",
         dependencies: [],
-        modified: '2025-05-15T14:40:56.723Z',
+        modified: '2025-05-15T15:24:38.876Z',
         hasTouchTarget: false,
     },
     {
@@ -87,7 +87,7 @@ export const componentsMeta: ComponentMeta[] = [
         slug: 'banner-alert',
         css: "\n    --color: var(--status-information);\n    --on-color: var(--status-on-information);\n    display: flex;\n    flex-direction: row;\n    border: 2px solid var(--color);\n    border-radius: var(--radius-medium);\n    box-sizing: border-box;\n    background-color: var(--surface-neutral-t1-base);\n    width: 100%;\n\n    &[data-variant='error'] {\n        --color: var(--status-error);\n        --on-color: var(--status-on-error);\n    }\n\n    &[data-variant='success'] {\n        --color: var(--status-success);\n        --on-color: var(--status-on-success);\n    }\n\n    &[data-variant='warning'] {\n        --color: var(--status-warning);\n        --on-color: var(--status-on-warning);\n    }\n\n    &[data-elevated] {\n        box-shadow: var(--drop-shadow-raise);\n    }\n\n    [data-icon-bar] {\n        flex: 1;\n        padding: var(--spacing-sizing-04) var(--spacing-sizing-03);\n        background: var(--color);\n        color: var(--on-color);\n        svg {\n            width: var(--spacing-sizing-06);\n            height: var(--spacing-sizing-06);\n        }\n    }\n\n    [data-content] {\n        flex: 100%;\n        display: flex;\n        flex-direction: column;\n        padding: var(--spacing-sizing-02) var(--spacing-sizing-02) var(--spacing-sizing-02) var(--spacing-sizing-04);\n\n        header {\n            display: flex;\n            flex-direction: row;\n            gap: var(--spacing-sizing-03);\n            height: var(--spacing-sizing-12);\n            align-items: center;\n\n            span {\n                flex: 1;\n                display: flex;\n                align-items: center;\n                color: var(--foreground-neutral-on-surface);\n                font: var(--heading-h6);\n\n                @media (any-pointer: coarse) {\n                    font: var(--heading-h6);\n                }\n            }\n\n            // close button\n            button {\n                background: none;\n                border: none;\n                cursor: pointer;\n                padding: 0;\n                margin: 0 0 0 auto;\n                color: var(--foreground-neutral-on-surface-variant-01);\n\n                height: var(--spacing-sizing-08);\n                width: var(--spacing-sizing-08);\n\n                @media (any-pointer: coarse) {\n                    height: var(--spacing-sizing-12);\n                    width: var(--spacing-sizing-12);\n                }\n\n                svg {\n                    width: var(--spacing-sizing-04);\n                    height: var(--spacing-sizing-04);\n                }\n            }\n        }\n\n        [data-body] {\n            display: flex;\n            flex-direction: column;\n            gap: var(--spacing-sizing-02);\n            padding: 0 var(--spacing-sizing-02) var(--spacing-sizing-02) 0;\n\n            span {\n                font: var(--body-base);\n            }\n\n            button {\n                margin-left: auto;\n                background: none;\n                border: none;\n                cursor: pointer;\n                padding: 0 var(--spacing-sizing-03);\n                height: var(--spacing-sizing-12);\n                font: var(--labels-small);\n            }\n        }\n    }\n",
         dependencies: [],
-        modified: '2025-05-12T18:33:57.709Z',
+        modified: '2025-05-15T17:11:43.331Z',
         hasTouchTarget: false,
     },
     {
@@ -1112,9 +1112,9 @@ export const typesMeta: TypeMeta[] = [
                 type: 'string',
             },
             {
-                name: 'children',
+                name: 'body',
                 required: true,
-                description: 'The children of the banner alert.',
+                description: 'The body of the banner alert.',
                 type: 'multiline',
             },
             {
@@ -2143,6 +2143,52 @@ export const typesMeta: TypeMeta[] = [
             },
         ],
         id: 'common-props-library',
+    },
+    {
+        name: 'ComponentMeta',
+        properties: [
+            {
+                name: 'name',
+                required: true,
+                type: 'string',
+            },
+            {
+                name: 'description',
+                required: false,
+                type: 'string',
+            },
+            {
+                name: 'file',
+                required: false,
+                type: 'string',
+            },
+            {
+                name: 'slug',
+                required: true,
+                type: 'string',
+            },
+            {
+                name: 'css',
+                required: false,
+                type: 'string',
+            },
+            {
+                name: 'dependencies',
+                required: true,
+                type: 'array',
+            },
+            {
+                name: 'modified',
+                required: true,
+                type: 'string',
+            },
+            {
+                name: 'hasTouchTarget',
+                required: false,
+                type: 'boolean',
+            },
+        ],
+        id: 'component-meta',
     },
     {
         name: 'DatePickerProps',
@@ -6026,6 +6072,85 @@ export const typesMeta: TypeMeta[] = [
         ],
         id: 'txt-props',
     },
+    {
+        name: 'TypeMeta',
+        properties: [
+            {
+                name: 'name',
+                required: true,
+                type: 'string',
+            },
+            {
+                name: 'description',
+                required: false,
+                type: 'string',
+            },
+            {
+                name: 'file',
+                required: false,
+                type: 'string',
+            },
+            {
+                name: 'id',
+                required: true,
+                type: 'string',
+            },
+            {
+                name: 'name',
+                required: true,
+                type: 'string',
+            },
+            {
+                name: 'example',
+                required: false,
+                type: 'string',
+            },
+            {
+                name: 'references',
+                required: false,
+                type: 'array',
+            },
+            {
+                name: 'properties',
+                required: false,
+                type: 'array',
+            },
+        ],
+        id: 'type-meta',
+    },
+    {
+        name: 'UtilityMeta',
+        properties: [
+            {
+                name: 'name',
+                required: true,
+                type: 'string',
+            },
+            {
+                name: 'description',
+                required: false,
+                type: 'string',
+            },
+            {
+                name: 'file',
+                required: false,
+                type: 'string',
+            },
+            {
+                name: 'param',
+                type: 'string',
+            },
+            {
+                name: 'returns',
+                type: 'string',
+            },
+            {
+                name: 'example',
+                type: 'string',
+            },
+        ],
+        id: 'utility-meta',
+    },
 ] as const;
 
 export type MetaTypeName =
@@ -6063,6 +6188,7 @@ export type MetaTypeName =
     | 'CommonProps<"required"|"errorMessage">'
     | 'CommonProps<"required"|"id"|"invalid"|"disabled"|"aria-label"|"readOnly">'
     | 'CommonPropsLibrary'
+    | 'ComponentMeta'
     | 'DatePickerProps'
     | 'DialogProps'
     | 'DividerProps'
@@ -6152,7 +6278,9 @@ export type MetaTypeName =
     | 'ToggleOptionProps'
     | 'TooltipProps'
     | 'TopNavigationProps'
-    | 'TxtProps';
+    | 'TxtProps'
+    | 'TypeMeta'
+    | 'UtilityMeta';
 
 export type MetaComponentName =
     | 'Accordion'
