@@ -30,7 +30,7 @@ jobs:
               run: npm ci
 
             - name: Build
-              run: npm run rollup
+              run: npm run build
 
             - name: Run Semantic Release
               env:

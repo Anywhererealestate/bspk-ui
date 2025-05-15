@@ -10,8 +10,6 @@ import { execSync } from 'child_process';
     `npm run meta`,
     `npm run test`,
     `npm run clean`,
-    `echo "Building meta from CSS..."`,
-    `ts-node .scripts/build-css.ts`,
     `echo "Building..."`,
     `npm run rollup`,
     `echo "Copying styles..."`,
