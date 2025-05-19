@@ -3,24 +3,24 @@
     "version": "1.1.0",
     "main": "index.js",
     "license": "CC-BY-4.0",
+    "type": "module",
     "scripts": {
-        "tasks": "ts-node .scripts/tasks",
-        "sass": "sass --style=compressed --no-source-map src:sass && cp -R sass/* ./ && rm -rf sass",
-        "build": "ts-node .scripts/build.ts",
-        "build:css": "ts-node .scripts/build-css.ts",
-        "meta": " ts-node .scripts/build-meta.ts",
+        "tasks": "tsx .scripts/tasks/lint-components.ts",
+        "sass": "sass --style=compressed --no-source-map src:dist",
+        "build": "tsx .scripts/build.ts",
+        "build:css": "tsx .scripts/build-css.ts",
+        "meta": "tsx .scripts/build-meta.ts",
         "lint:css": "npx stylelint '**/*.scss' ",
-        "clean": "ts-node .scripts/clean.ts",
         "lint": "eslint && tsc --noEmit",
         "lint:fix": "eslint --fix",
         "rollup": "rollup -c",
         "semantic-release": "semantic-release",
         "test": "jest",
-        "pack": "rm -rf ./bspk-ui-*.tgz && rm -rf ./package && npm run build && npm pack && npm run clean",
+        "pack": "rm -rf ./dist && npm run build && tsx .scripts/pre-pack.ts && cd dist && npm pack && cd ..",
         "prepare": "husky",
         "update:css": "npm un @bspk/styles && npm i @bspk/styles@latest && npm run build:css && npm run lint:style",
-        "preview": "npm run pack && tar -xvf ./bspk-ui-*.tgz && cd package && npm link",
-        "watch:dev": "ts-node .scripts/watch-dev.ts"
+        "preview": "npm run pack && cd dist && tar -xvf ./bspk-ui-*.tgz && cd package && npm link",
+        "watch:dev": "tsx .scripts/watch-dev.ts"
     },
     "publishConfig": {
         "access": "public"
@@ -32,7 +32,8 @@
         "@bspk/icons": "^1.0.3",
         "@bspk/styles": "^1.0.0",
         "@floating-ui/dom": "^1.6.13",
-        "focus-trap-react": "^11.0.1"
+        "focus-trap-react": "^11.0.1",
+        "style-inject": "^0.3.0"
     },
     "peerDependencies": {
         "react": "^18.3.1"
@@ -76,6 +77,7 @@
         "ts-jest": "^29.2.5",
         "ts-node": "^10.9.2",
         "tslib": "^2.8.1",
+        "tsx": "^4.19.4",
         "typescript": "5.6.3",
         "typescript-eslint": "8.13.0",
         "typescript-json-schema": "^0.65.1"

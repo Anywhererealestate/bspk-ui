@@ -10,7 +10,6 @@ import { execSync } from 'child_process';
     // -
     `npm run meta`,
     `npm run test`,
-    `npm run clean`,
     `echo "Building..."`,
     `npm run rollup`,
     'npm run sass',
@@ -21,3 +20,5 @@ import { execSync } from 'child_process';
     });
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
+
+export {};

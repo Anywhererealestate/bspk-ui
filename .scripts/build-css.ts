@@ -8,6 +8,9 @@
 import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
+
+import './utils.js';
+
 // reference only - import '@bspk/styles/anywhere.css';
 
 const anywhereCssFile = path.resolve(__dirname, '../node_modules/@bspk/styles/anywhere.css');
