@@ -1,7 +1,7 @@
-import { css } from '@emotion/react';
+import './avatar.scss';
 import { ReactNode, useMemo } from 'react';
 
-import { COLOR_VARIABLES, ColorVariant } from './utils/colorVariants';
+import { ColorVariant } from './utils/colorVariants';
 
 import { CommonProps } from '.';
 
@@ -15,18 +15,6 @@ export type SizeVariant =
     | 'xxx-large'
     | 'xxxx-large'
     | 'xxxxx-large';
-
-const SIZE_VARIANTS: Record<SizeVariant, { height: string; font: string }> = {
-    'x-small': { font: '--labels-x-small', height: '--spacing-sizing-06' }, // 24
-    small: { font: '--labels-small', height: '--spacing-sizing-08' }, // 32,
-    medium: { font: '--labels-base', height: '--spacing-sizing-10' }, // 40
-    large: { font: '--labels-large', height: '--spacing-sizing-12' }, //48,
-    'x-large': { font: '--subheader-x-large', height: '--spacing-sizing-14' }, // 56,
-    'xx-large': { font: '--subheader-xx-large', height: '--spacing-sizing-17' }, // 72,
-    'xxx-large': { font: '--display-regular-small', height: '--spacing-sizing-19' }, //96,
-    'xxxx-large': { font: '--display-regular-medium', height: '--spacing-sizing-21' }, // 120,
-    'xxxxx-large': { font: '--display-regular-large', height: '--spacing-sizing-23' }, //144,
-};
 
 export type AvatarProps = CommonProps<'aria-label'> & {
     /**
@@ -77,7 +65,7 @@ function Avatar({
     return (
         <>
             {children && (
-                <div aria-label={ariaLabel} css={style} data-avatar="" data-color={color} data-size={size}>
+                <div aria-label={ariaLabel} data-bspk="avatar" data-color={color} data-size={size}>
                     {children}
                 </div>
             )}
@@ -88,51 +76,5 @@ function Avatar({
 Avatar.bspkName = 'Avatar';
 
 export { Avatar };
-
-export const style = css`
-    --height: var(--spacing-sizing-10);
-    --font: var(--labels-base);
-    --foreground: var(--foreground-neutral-on-surface);
-    --background: var(--surface-neutral-t3-low);
-
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 0;
-    height: var(--height);
-    width: var(--height);
-    aspect-ratio: 1 / 1;
-    border-radius: 999px;
-    background-color: var(--background);
-    color: var(--foreground);
-    font: var(--font);
-
-    &:has(img) {
-        overflow: hidden;
-    }
-
-    img {
-        max-width: 100%;
-    }
-
-    ${Object.entries(SIZE_VARIANTS).map(
-        ([variant, { height, font }]) => css`
-            &[data-size='${variant}'] {
-                --height: var(${height});
-                --font: var(${font});
-            }
-        `,
-    )}
-
-    ${Object.entries(COLOR_VARIABLES).map(
-        ([variant, { foreground, surface }]) => css`
-            &[data-color='${variant}'] {
-                --foreground: var(${foreground});
-                --background: var(${surface});
-            }
-        `,
-    )};
-`;
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

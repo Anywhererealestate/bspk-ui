@@ -1,5 +1,4 @@
-import { css } from '@emotion/react';
-
+import './badge.scss';
 import { tryIntParse } from './utils/tryIntPsrse';
 
 export type BadgeProps = {
@@ -34,7 +33,7 @@ function Badge({ count: countProp, size = 'small', variant = 'primary' }: BadgeP
 
     return (
         count !== null && (
-            <div css={style} data-badge data-size={size} data-variant={variant}>
+            <div data-bspk="badge" data-size={size} data-variant={variant}>
                 {count > 99 ? '99+' : count}
             </div>
         )
@@ -44,32 +43,5 @@ function Badge({ count: countProp, size = 'small', variant = 'primary' }: BadgeP
 Badge.bspkName = 'Badge';
 
 export { Badge };
-
-export const style = css`
-    --size: var(--spacing-sizing-06);
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: var(--radius-circular);
-    height: var(--size);
-    min-width: var(--size);
-    padding: 0 var(--spacing-sizing-02);
-
-    &[data-size='x-small'] {
-        --size: var(--spacing-sizing-05);
-        padding: 2px var(--spacing-sizing-01);
-    }
-
-    font: var(--labels-x-small);
-
-    color: var(--foreground-brand-on-primary);
-    background: var(--surface-brand-primary);
-
-    &[data-variant='secondary'] {
-        color: var(--foreground-brand-on-secondary);
-        background: var(--surface-brand-secondary);
-    }
-`;
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

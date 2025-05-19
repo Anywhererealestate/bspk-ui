@@ -1,5 +1,5 @@
 import { Checkbox } from './Checkbox';
-import { ToggleOption, ToggleOptionProps } from './ToggleOption';
+import { ToggleOptionProps, ToggleOption } from './ToggleOption';
 
 import { ElementProps, CommonProps } from './';
 
@@ -56,7 +56,7 @@ function CheckboxGroup({
     ...props
 }: ElementProps<CheckboxGroupProps, 'div'>) {
     return (
-        <div {...props} data-checkbox-group data-control-group role="group">
+        <div {...props} data-bspk="checkbox-group" role="group">
             {selectAll && (
                 <>
                     <ToggleOption label={selectAllProps?.label || 'All'}>

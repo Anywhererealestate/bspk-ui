@@ -1,7 +1,7 @@
 import { SvgChevronRight } from '@bspk/icons/ChevronRight';
 import { SvgLink } from '@bspk/icons/Link';
 import { SvgOpenInNew } from '@bspk/icons/OpenInNew';
-import { css } from '@emotion/react';
+import './link.scss';
 import { AnchorHTMLAttributes } from 'react';
 
 export type LinkProps = Pick<AnchorHTMLAttributes<unknown>, 'target'> & {
@@ -39,8 +39,7 @@ function Link({ label, trailingIcon, size, variant, ...props }: LinkProps) {
     return (
         <a
             {...props}
-            css={style}
-            data-link
+            data-bspk="link"
             data-size={size}
             data-subtle={variant === 'subtle' || undefined}
             data-subtle-inverse={variant === 'subtle-inverse' || undefined}
@@ -58,25 +57,5 @@ function Link({ label, trailingIcon, size, variant, ...props }: LinkProps) {
 Link.bspkName = 'Link';
 
 export { Link };
-
-export const style = css`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: var(--spacing-sizing-01);
-    font: var(--labels-base);
-
-    &[data-size='large'] {
-        font: var(--labels-large);
-    }
-
-    &[data-size='small'] {
-        font: var(--labels-small);
-    }
-
-    svg {
-        width: var(--spacing-sizing-05);
-    }
-`;
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

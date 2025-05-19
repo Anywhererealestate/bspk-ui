@@ -1,7 +1,7 @@
 import { SvgAdd } from '@bspk/icons/Add';
 import { SvgRemove } from '@bspk/icons/Remove';
-import { css } from '@emotion/react';
 
+import './number-input.scss';
 import { useId } from './hooks/useId';
 import { useLongPress } from './hooks/useLongPress';
 
@@ -82,7 +82,7 @@ function NumberInput({
         <div
             aria-valuemax={max || undefined}
             aria-valuemin={min || undefined}
-            css={style}
+            data-bspk="number-input"
             data-centered={centered || undefined}
             data-disabled={disabled || undefined}
             data-invalid={invalid || undefined}
@@ -154,129 +154,5 @@ function IncrementButton({
 NumberInput.bspkName = 'NumberInput';
 
 export { NumberInput };
-
-export const style = css`
-    // medium
-    --font: var(--body-base);
-    --height: var(--spacing-sizing-10);
-    --svg-width: var(--spacing-sizing-05);
-    --color: var(--foreground-neutral-on-surface);
-    width: 100%;
-
-    display: flex;
-    flex-flow: row nowrap;
-    font: var(--font);
-    height: var(--height);
-    border: 1px solid var(--stroke-neutral-base);
-    border-radius: var(--radius-small);
-    background: var(--surface-neutral-t1-base);
-
-    &:focus-within {
-        border-color: var(--stroke-brand-primary);
-        outline: 1px solid var(--stroke-brand-primary);
-    }
-
-    [data-divider] {
-        width: 4px;
-        border-right: 1px solid var(--stroke-neutral-base);
-        // account for border - 3(margin)  * 2 + 2(border)
-        height: calc(var(--height) - 8px);
-        margin: 3px 0;
-    }
-
-    button {
-        min-width: var(--height);
-        background: none;
-        border: none;
-        cursor: pointer;
-        font: var(--font);
-        svg {
-            width: var(--svg-width);
-        }
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: var(--color);
-
-        &:disabled {
-            cursor: not-allowed;
-            color: var(--foreground-neutral-disabled-on-surface);
-        }
-    }
-
-    input {
-        color: var(--color);
-        min-width: 0;
-        display: block;
-        font: var(--font);
-        text-align: center;
-        padding: 0 var(--spacing-sizing-03);
-        background: transparent;
-        border: none;
-
-        &:focus {
-            outline: none;
-        }
-
-        &::-webkit-outer-spin-button,
-        &::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-
-        &[type='number'] {
-            appearance: textfield;
-            -moz-appearance: textfield;
-        }
-    }
-
-    &:not([data-disabled], [data-readonly]) {
-        input,
-        button:not(:disabled) {
-            &:hover {
-                background-color: var(--interactions-hover-opacity);
-            }
-
-            &:active {
-                background-color: var(--interactions-press-opacity);
-            }
-        }
-
-        &[data-invalid] {
-            border-color: var(--status-error);
-            outline-color: var(--status-error);
-        }
-    }
-
-    &[data-disabled],
-    &[data-readonly] {
-        --color: var(--foreground-neutral-disabled-on-surface);
-        border-color: var(--stroke-neutral-disabled-light);
-        background:
-            linear-gradient(var(--interactions-disabled-opacity), var(--interactions-disabled-opacity)),
-            linear-gradient(var(--surface-neutral-t1-base), var(--surface-neutral-t1-base));
-
-        [data-divider] {
-            border-color: var(--stroke-neutral-disabled-light);
-        }
-    }
-
-    &[data-readonly] {
-        input {
-            color: var(--foreground-neutral-on-surface) !important;
-        }
-    }
-
-    &[data-size='small'] {
-        --font: var(--body-small);
-        --height: var(--spacing-sizing-08);
-    }
-
-    &[data-size='large'] {
-        --font: var(--body-large);
-        --height: var(--spacing-sizing-12);
-        --svg-width: var(--spacing-sizing-06);
-    }
-`;
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

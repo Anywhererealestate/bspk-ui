@@ -1,5 +1,5 @@
-import { FormField, FormFieldProps } from './FormField';
-import { Textarea, TextareaProps } from './Textarea';
+import { FormFieldProps, FormField } from './FormField';
+import { TextareaProps, Textarea } from './Textarea';
 import { Txt } from './Txt';
 import { tryIntParse } from './utils/tryIntPsrse';
 
@@ -33,6 +33,7 @@ function TextareaField({
     return (
         <FormField
             controlId={id}
+            data-bspk="textarea-field"
             errorMessage={errorMessage}
             helperText={helperText}
             label={label}

@@ -26,6 +26,7 @@ function Portal({ children, container }: PortalProps) {
         if (!portalContainer && typeof window !== 'undefined') setPortalContainer(document.body);
     }, [portalContainer]);
 
+    // data-bspk="portal" can't be used here
     return portalContainer && createPortal(children, portalContainer);
 }
 

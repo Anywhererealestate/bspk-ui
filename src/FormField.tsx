@@ -1,5 +1,4 @@
-import { css } from '@emotion/react';
-
+import './form-field.scss';
 import { InlineAlert } from './InlineAlert';
 import { Layout } from './Layout';
 import { Txt } from './Txt';
@@ -55,7 +54,7 @@ function FormField({ label, errorMessage, helperText, children, labelTrailing, c
     if (typeof children !== 'function') return null;
 
     return (
-        <div css={style} data-form-field>
+        <div data-bspk="form-field">
             <Layout as="header">
                 <label htmlFor={controlId}>
                     <Txt as="span" variant="labels-small">
@@ -91,17 +90,5 @@ function FormField({ label, errorMessage, helperText, children, labelTrailing, c
 FormField.bspkName = 'FormField';
 
 export { FormField };
-
-export const style = css`
-    box-sizing: border-box;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-sizing-01);
-
-    header label {
-        flex-grow: 1;
-    }
-`;
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

@@ -1,9 +1,9 @@
 import { SvgClose } from '@bspk/icons/Close';
-import { css } from '@emotion/react';
+import './modal.scss';
 import { useMemo } from 'react';
 
 import { Button } from './Button';
-import { Dialog, DialogProps } from './Dialog';
+import { DialogProps, Dialog } from './Dialog';
 import { Txt } from './Txt';
 import { useId } from './hooks/useId';
 import { srOnly } from './utils/srOnly';
@@ -52,7 +52,7 @@ function Modal({
 
     return (
         <Dialog {...dialogProps} aria-describedby={ids.description} aria-labelledby={ids.title}>
-            <div css={style} data-modal-body>
+            <div data-bspk="modal">
                 <header>
                     <Txt as="div" data-dialog-title id={ids.title} variant="heading-h4">
                         {header}
@@ -79,26 +79,5 @@ function Modal({
 Modal.bspkName = 'Modal';
 
 export { Modal };
-
-export const style = css`
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    gap: var(--spacing-sizing-02);
-    padding: var(--spacing-sizing-04);
-
-    > header {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        gap: var(--spacing-sizing-04);
-    }
-
-    main {
-        overflow: auto;
-        flex: 1;
-    }
-`;
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

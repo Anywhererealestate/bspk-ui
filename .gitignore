@@ -20,7 +20,7 @@ public
 !tsconfig.json
 package
 .DS_Store
-.scripts/style-imports.ts
-.gitlab-ci.yml
 node_modules
 src/package.json
+src/*.css
+extracted-css.json

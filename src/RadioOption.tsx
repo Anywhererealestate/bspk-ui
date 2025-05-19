@@ -1,5 +1,5 @@
-import { Radio, RadioProps } from './Radio';
-import { ToggleOption, ToggleOptionProps } from './ToggleOption';
+import { RadioProps, Radio } from './Radio';
+import { ToggleOptionProps, ToggleOption } from './ToggleOption';
 
 export type RadioOptionProps = Pick<RadioProps, 'checked' | 'disabled' | 'invalid' | 'name' | 'onChange' | 'value'> &
     Pick<ToggleOptionProps, 'description' | 'label'>;
@@ -11,7 +11,7 @@ export type RadioOptionProps = Pick<RadioProps, 'checked' | 'disabled' | 'invali
  */
 function RadioOption({ label, description, ...checkboxProps }: RadioOptionProps) {
     return (
-        <ToggleOption data-checkbox-field description={description} label={label}>
+        <ToggleOption data-bspk="radio-option" description={description} label={label}>
             <Radio {...checkboxProps} aria-label={label} />
         </ToggleOption>
     );

@@ -1,4 +1,4 @@
-import { css } from '@emotion/react';
+import './chip.scss';
 import { CSSProperties, ReactNode } from 'react';
 
 import { CommonProps } from '.';
@@ -68,8 +68,7 @@ function Chip({
 
     return (
         <span
-            css={style}
-            data-chip=""
+            data-bspk="chip"
             data-disabled={disabled || undefined}
             data-flat={flat || undefined}
             data-selected={selected || undefined}
@@ -86,70 +85,5 @@ function Chip({
 Chip.bspkName = 'Chip';
 
 export { Chip };
-
-export const style = css`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: fit-content;
-    height: var(--spacing-sizing-06);
-    padding: 0 var(--spacing-sizing-02);
-    font: var(--labels-small);
-    color: var(--foreground-neutral-on-surface-variant-01);
-    background-color: var(--surface-neutral-t1-base);
-    border: 1px solid var(--stroke-neutral-low);
-    border-radius: var(--radius-small);
-
-    &:not([data-flat]) {
-        box-shadow: var(--drop-shadow-raise);
-    }
-
-    &[data-variant='filter'] {
-        cursor: pointer;
-    }
-
-    &[data-wrap] {
-        height: auto;
-    }
-
-    &[data-disabled] {
-        color: var(--foreground-neutral-disabled-on-surface);
-        cursor: not-allowed;
-        border-color: var(--stroke-neutral-disabled-light);
-        background-image: 
-    //
-
-            linear-gradient(var(--interactions-disabled-opacity), var(--interactions-disabled-opacity)),
-            linear-gradient(var(--surface-neutral-t1-base), var(--surface-neutral-t1-base));
-    }
-
-    &:not([data-disabled]) {
-        &:hover {
-            background-image: 
-    //
-
-                linear-gradient(var(--interactions-neutral-hover-opacity), var(--interactions-neutral-hover-opacity)),
-                linear-gradient(var(--surface-neutral-t1-base), var(--surface-neutral-t1-base));
-        }
-
-        &:active {
-            background-image: 
-    //
-
-                linear-gradient(var(--interactions-neutral-press-opacity), var(--interactions-neutral-press-opacity)),
-                linear-gradient(var(--surface-neutral-t1-base), var(--surface-neutral-t1-base));
-        }
-
-        &:focus {
-            outline: 1px solid var(--stroke-neutral-focus);
-            border-color: var(--stroke-neutral-focus);
-        }
-    }
-
-    &[data-selected] {
-        background-color: var(--surface-brand-primary-highlight);
-        border-color: var(--stroke-brand-primary);
-    }
-`;
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

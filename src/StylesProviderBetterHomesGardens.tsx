@@ -1,7 +1,5 @@
-import { useEffect, useRef } from 'react';
-
-import baseStyle from './styles/base';
-import brandStyle from './styles/better-homes-gardens';
+import '@bspk/styles/better-homes-gardens.css';
+import './base.scss';
 
 /**
  * Utility to provide the Better Homes & Gardens styles to the application.
@@ -9,23 +7,11 @@ import brandStyle from './styles/better-homes-gardens';
  * @name StylesProviderBetterHomesGardens
  */
 function StylesProviderBetterHomesGardens() {
-    const styleEmentRef = useRef<HTMLStyleElement | null>(null);
-
-    useEffect(() => {
-        styleEmentRef.current = document.createElement('style');
-        styleEmentRef.current.setAttribute('data-bspk', 'better-homes-gardens');
-        styleEmentRef.current.innerHTML = brandStyle + baseStyle;
-        document.head.appendChild(styleEmentRef.current);
-        document.body.style.display = '';
-
-        return () => {
-            if (styleEmentRef.current) document.head.removeChild(styleEmentRef.current);
-        };
-    }, []);
-
     return <></>;
 }
 
 StylesProviderBetterHomesGardens.bspkName = 'StylesProviderBetterHomesGardens';
 
 export { StylesProviderBetterHomesGardens };
+
+/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

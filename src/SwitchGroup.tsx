@@ -1,5 +1,5 @@
 import { Switch } from './Switch';
-import { ToggleOption, ToggleOptionProps } from './ToggleOption';
+import { ToggleOptionProps, ToggleOption } from './ToggleOption';
 
 import { ToggleControlProps, ElementProps, CommonProps } from './';
 
@@ -35,7 +35,7 @@ export type SwitchGroupProps = CommonProps<'aria-label' | 'name'> & {
  */
 function SwitchGroup({ onChange, options = [], name, values = [], ...props }: ElementProps<SwitchGroupProps, 'div'>) {
     return (
-        <div {...props} data-control-group data-switch-group role="group">
+        <div {...props} data-bspk="switch-group" role="group">
             {options.map(({ label, description, value }) => (
                 <ToggleOption description={description} key={value} label={label}>
                     <Switch

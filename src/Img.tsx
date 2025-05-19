@@ -1,12 +1,4 @@
-import { css } from '@emotion/react';
-
 import { ElementProps } from './';
-
-const style = {
-    container: css`
-        display: block;
-    `,
-};
 
 export type ImgProps = {
     /**
@@ -29,7 +21,7 @@ export type ImgProps = {
  * @name Img
  */
 function Img({ alt, ...props }: ElementProps<ImgProps, 'img'>) {
-    return <img {...props} alt={alt} css={style.container} data-img />;
+    return <img {...props} alt={alt} data-bspk="img" />;
 }
 
 Img.bspkName = 'Img';

@@ -7,14 +7,13 @@
 import { execSync } from 'child_process';
 
 [
+    // -
     `npm run meta`,
     `npm run test`,
     `npm run clean`,
     `echo "Building..."`,
     `npm run rollup`,
-    `echo "Copying styles..."`,
-    `mkdir -p ./styles`,
-    `cp -r ./src/styles/* ./styles`,
+    'npm run sass',
 ]
     // -
     .forEach((command) => {

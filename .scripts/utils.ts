@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
@@ -59,17 +58,5 @@ export const componentFiles = fs
             content: fs.readFileSync(filePath, 'utf-8'),
         };
     });
-
-export function generateBaseStyleExport() {
-    console.info(`\nGenerating Base style export...`);
-
-    const baseCssFile = path.resolve(__dirname, `../src/styles/base.css`);
-    const destTsFile = path.resolve(__dirname, `../src/styles/base.ts`);
-
-    fs.writeFileSync(destTsFile, `export default \`${fs.readFileSync(baseCssFile, 'utf8')}\`;`);
-    prettyLint(destTsFile);
-
-    console.info(`complete`);
-}
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

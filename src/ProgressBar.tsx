@@ -1,4 +1,4 @@
-import { css } from '@emotion/react';
+import './progress-bar.scss';
 import { CSSProperties, useId } from 'react';
 
 export type ProgressBarProps = {
@@ -37,7 +37,7 @@ function ProgressBar({ size = 'large', completion = 0, align = 'center', label }
     const id = useId();
 
     return (
-        <div css={style} data-align={align} data-progress-bar data-size={size}>
+        <div data-align={align} data-bspk="progress-bar" data-size={size}>
             <progress
                 aria-busy={completion < 100}
                 aria-label="A bounded progress bar from 0 to 100"
@@ -59,52 +59,5 @@ function ProgressBar({ size = 'large', completion = 0, align = 'center', label }
 ProgressBar.bspkName = 'ProgressBar';
 
 export { ProgressBar };
-
-export const style = css`
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    gap: var(--spacing-sizing-01);
-
-    progress {
-        opacity: 0;
-        position: absolute;
-    }
-
-    [data-bar] {
-        width: 100%;
-        height: var(--spacing-sizing-02);
-        background-color: var(--surface-neutral-t3-low);
-        border-radius: var(--radius-small);
-
-        &::after {
-            content: '';
-            display: block;
-            height: 100%;
-            background-color: var(--foreground-brand-primary);
-            border-radius: var(--radius-small);
-            width: var(--width);
-            transition: width 0.3s;
-        }
-    }
-
-    &[data-size='small'] {
-        max-width: 248px;
-
-        [data-bar] {
-            height: var(--spacing-sizing-01);
-        }
-    }
-
-    label {
-        font-size: var(--labels-small);
-        width: 100%;
-        text-align: center;
-    }
-
-    &[data-align='left'] label {
-        text-align: left;
-    }
-`;
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

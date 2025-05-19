@@ -12,7 +12,6 @@ import * as TJS from 'typescript-json-schema';
 
 import { ComponentMeta, TypeProperty, UtilityMeta, TypeMeta } from './build-meta-types';
 import { jsDocParse } from './js-doc-parser';
-import styleImports from './style-imports';
 import { kebabCase, prettyLint } from './utils';
 
 const ENUM_SIZE_ORDER = [
@@ -84,17 +83,13 @@ function generateComponentMeta({
 
     const slug = kebabCase(componentDoc.name);
 
-    const style = styleImports[name as keyof typeof styleImports];
-
-    const css = style?.styles?.replace(/;;/g, '') || '';
-
     const dependencies = [...content.matchAll(/import { ([^}]+) } from '\.\/([a-zA-Z]+)';/g)]
         //
         ?.flatMap((d) => d.slice(1).flatMap((x) => x.split(', ')))
         .filter((d, i, arr) => arr.indexOf(d) === i);
 
-    if (!dependencies?.length && !css) {
-        console.info(`No dependencies OR CSS found for component ${name} for ${componentFile}`);
+    if (!dependencies?.length) {
+        //console.info(`No dependencies OR CSS found for component ${name} for ${componentFile}`);
     }
 
     return {
@@ -102,10 +97,8 @@ function generateComponentMeta({
         file: componentFile.split(componentsDir)[1],
         name,
         slug,
-        css,
         dependencies,
         modified: stats.mtime.toISOString(),
-        hasTouchTarget: !!css?.includes('data-touch-target'),
     };
 }
 
@@ -126,7 +119,7 @@ async function generateUtilityMeta(utilityFile: string): Promise<UtilityMeta | n
     const utilityDoc = jsDocParse(comment[0]);
 
     if (!utilityDoc.example) {
-        console.info(`No example found for hook ${utility} for ${hooksDir}/${utility}.tsx`);
+        // console.info(`No example found for hook ${utility} for ${hooksDir}/${utility}.tsx`);
         return null;
     }
 
@@ -160,7 +153,6 @@ function generateTypes() {
             lib: ['es5', 'dom'],
             sourceMap: true,
             jsx: 'react-jsx',
-            jsxImportSource: '@emotion/react',
             moduleResolution: 'node',
             noImplicitReturns: true,
             noImplicitThis: true,

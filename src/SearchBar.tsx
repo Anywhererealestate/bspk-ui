@@ -1,10 +1,10 @@
 import { SvgSearch } from '@bspk/icons/Search';
-import { css } from '@emotion/react';
+import './search-bar.scss';
 import { useRef } from 'react';
 
-import { Menu, MenuItem, MenuProps } from './Menu';
+import { MenuItem, MenuProps, Menu } from './Menu';
 import { Portal } from './Portal';
-import { TextInput, TextInputProps } from './TextInput';
+import { TextInputProps, TextInput } from './TextInput';
 import { useFloatingMenu } from './hooks/useFloatingMenu';
 import { useId } from './hooks/useId';
 //import { useFloatingMenu } from './hooks/useFloatingMenu';
@@ -65,7 +65,7 @@ function SearchBar({
                 aria-label={ariaLabel}
                 autoComplete="off"
                 containerRef={triggerRef}
-                css={style}
+                data-bspk="search-bar"
                 id={id}
                 inputRef={(node) => {
                     inputRef?.(node || null);
@@ -111,11 +111,5 @@ function SearchBar({
 SearchBar.bspkName = 'SearchBar';
 
 export { SearchBar };
-
-export const style = css`
-    display: flex;
-    width: 100%;
-    min-width: 300px;
-`;
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

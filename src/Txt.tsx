@@ -1,4 +1,3 @@
-import { css } from '@emotion/react';
 import { ElementType } from 'react';
 
 import { TxtVariant } from './utils/txtVariants';
@@ -49,14 +48,7 @@ function Txt<As extends ElementType = 'span'>({
     const As: ElementType = as || 'span';
 
     return (
-        <As
-            {...containerProps}
-            css={css`
-                font: var(--${variant});
-            `}
-            data-txt
-            style={styleProp}
-        >
+        <As {...containerProps} data-bspk="txt" style={{ ...styleProp, font: `var(--${variant})` }}>
             {content}
         </As>
     );

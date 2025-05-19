@@ -1,5 +1,5 @@
-import { Dropdown, DropdownProps } from './Dropdown';
-import { FormField, FormFieldProps } from './FormField';
+import { DropdownProps, Dropdown } from './Dropdown';
+import { FormFieldProps, FormField } from './FormField';
 
 export type DropdownFieldProps = Pick<
     DropdownProps,
@@ -37,6 +37,7 @@ function DropdownField({
     return (
         <FormField
             controlId={id}
+            data-bspk="dropdown-field"
             errorMessage={errorMessage}
             helperText={helperText}
             label={label}

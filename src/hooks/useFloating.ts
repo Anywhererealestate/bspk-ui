@@ -11,18 +11,18 @@
  * @param {boolean} [params.hide=false] - Whether to hide the floating element. Default is `false`
  */
 import {
-    computePosition,
     ComputePositionReturn,
     Placement,
-    arrow,
     Strategy,
+    MiddlewareData,
+    OffsetOptions,
+    MiddlewareState,
+    computePosition,
+    arrow,
     offset,
     flip,
     autoUpdate,
-    MiddlewareData,
-    OffsetOptions,
     size,
-    MiddlewareState,
 } from '@floating-ui/dom';
 import { useCallback, useEffect, useState } from 'react';
 

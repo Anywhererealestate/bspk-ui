@@ -10,9 +10,11 @@ const filesToClean = [
     './src/**/*.d.ts',
     './src/**/*.js.map',
     './src/*.js.map',
+    './src/*.css',
     './utils',
     './hooks',
     './styles',
+    './*.css',
 ];
 
 execSync(`rm -rf ${filesToClean.join(' ')}`, {

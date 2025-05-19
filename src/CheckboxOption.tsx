@@ -1,5 +1,5 @@
-import { Checkbox, CheckboxProps } from './Checkbox';
-import { ToggleOption, ToggleOptionProps } from './ToggleOption';
+import { CheckboxProps, Checkbox } from './Checkbox';
+import { ToggleOptionProps, ToggleOption } from './ToggleOption';
 
 export type CheckboxOptionProps = Pick<
     CheckboxProps,
@@ -14,7 +14,7 @@ export type CheckboxOptionProps = Pick<
  */
 function CheckboxOption({ label, description, ...checkboxProps }: CheckboxOptionProps) {
     return (
-        <ToggleOption data-checkbox-field description={description} label={label}>
+        <ToggleOption data-bspk="checkbox-option" description={description} label={label}>
             <Checkbox {...checkboxProps} aria-label={label} />
         </ToggleOption>
     );

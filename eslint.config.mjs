@@ -50,6 +50,15 @@ export default [
                     message: "Don't declare enums",
                 },
             ],
+            '@typescript-eslint/consistent-type-imports': [
+                'error',
+                {
+                    //prefer: 'type-imports',
+                    disallowTypeAnnotations: true,
+                    fixStyle: 'inline-type-imports',
+                    prefer: 'no-type-imports',
+                },
+            ],
             '@typescript-eslint/member-ordering': 'error',
             '@typescript-eslint/sort-type-constituents': 'error',
             '@cspell/spellchecker': [
@@ -64,7 +73,7 @@ export default [
             'import/named': 'off',
             'import/newline-after-import': 'warn',
             'import/no-absolute-path': 'warn',
-            'import/no-duplicates': 'warn',
+            'import/no-duplicates': 'error',
             'import/no-empty-named-blocks': 'warn',
             'import/no-unresolved': 'off',
             'import/order': ['warn', { alphabetize: { order: 'asc' }, 'newlines-between': 'always' }],

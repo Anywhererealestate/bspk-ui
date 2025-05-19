@@ -39,7 +39,7 @@ function EmptyState({ children, header, body, callToAction }: EmptyStateProps) {
         <Layout
             align="center"
             column
-            data-empty-state
+            data-bspk="empty-state"
             style={{
                 margin: 'var(--spacing-sizing-04)',
                 maxWidth: '500px',

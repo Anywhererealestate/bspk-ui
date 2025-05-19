@@ -27,10 +27,8 @@ export type TypeProperty = {
 
 export type ComponentMeta = BaseMeta & {
     slug: string;
-    css?: string;
     dependencies: string[];
     modified: string;
-    hasTouchTarget?: boolean;
 };
 
 export type UtilityMeta = BaseMeta & {

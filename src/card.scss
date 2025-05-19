@@ -1,0 +1,23 @@
+[data-bspk='card'] {
+    display: block;
+    background: var(--surface-neutral-t1-base);
+    padding: var(--spacing-sizing-03);
+    border-radius: var(--radius-medium);
+    overflow: hidden;
+
+    &[data-hide-padding] {
+        padding: 0;
+    }
+
+    &[data-variant='outlined'] {
+        border: solid 1px var(--stroke-neutral-low);
+    }
+
+    &[data-variant='elevated'] {
+        box-shadow:
+            0 1px 2px 0 var(--shadow-32),
+            0 1px 3px 1px var(--shadow-15);
+    }
+}
+
+/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
