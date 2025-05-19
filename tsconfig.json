@@ -14,33 +14,26 @@
         "noImplicitAny": true,
         "strictNullChecks": true,
         "esModuleInterop": true,
+        "declaration": true,
         "baseUrl": "./",
+        "outDir": "./dist",
         "paths": {
             "*": [
                 "node_modules/@types/*",
                 "*"
             ]
-        }
+        },
     },
     "include": [
         "src/**/*",
         "declaration.d.ts",
-        "../bspk-demo/src/components/StylesProvider.tsx",
-        "./scripts/*.ts"
+        ".scripts/*"
     ],
     "exclude": [
         "node_modules",
         "build",
-        "dist",
-        "scripts",
         "acceptance-tests",
         "webpack",
-        ".temp"
-    ],
-    "types": [
-        "typePatches"
-    ],
-    "ts-node": {
-        "extends": ".scripts/tsconfig.json",
-    }
+        ".temp",
+    ]
 }

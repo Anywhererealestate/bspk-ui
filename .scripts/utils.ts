@@ -1,6 +1,9 @@
 import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
+
+globalThis.__dirname = globalThis.__dirname || path.dirname(fileURLToPath(import.meta.url));
 
 export async function pretty(filePath: string) {
     execSync(`npx prettier --write "${filePath}" && echo 'prettier done ${filePath}'`, { stdio: 'inherit' });
