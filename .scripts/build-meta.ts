@@ -176,8 +176,6 @@ function generateTypes() {
         [key: string]: TJS.Definition;
     };
 
-    // fs.writeFileSync(`./.scripts/symbols.json`, JSON.stringify({ generated: new Date(), definitions }, null, 4));
-
     const nextTypes: TypeMeta[] = [];
 
     const cleanUpDefinitionEnums = (def: TJS.Definition): number[] | string[] | undefined => {
