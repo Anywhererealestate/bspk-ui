@@ -1,5 +1,5 @@
-import { FormField, FormFieldProps } from './FormField';
-import { TextInput, TextInputProps } from './TextInput';
+import { FormFieldProps, FormField } from './FormField';
+import { TextInputProps, TextInput } from './TextInput';
 
 export type TextFieldProps = Pick<
     TextInputProps,
@@ -41,6 +41,7 @@ function TextField({
     return (
         <FormField
             controlId={controlId}
+            data-bspk="text-field"
             errorMessage={errorMessage}
             helperText={helperText}
             label={label}

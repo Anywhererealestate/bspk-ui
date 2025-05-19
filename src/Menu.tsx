@@ -1,4 +1,4 @@
-import { css } from '@emotion/react';
+import './menu.scss';
 import { ComponentProps, CSSProperties, MouseEvent as ReactMouseEvent, useMemo } from 'react';
 
 import { Checkbox } from './Checkbox';
@@ -124,10 +124,9 @@ function Menu<Item extends MenuItem = MenuItem>({
     return (
         <div
             {...props}
-            css={style}
+            data-bspk="menu"
             data-disabled={disabled || undefined}
             data-item-count={itemCount || undefined}
-            data-menu=""
             data-no-items={!items.length || undefined}
             id={menuId}
             ref={innerRef}
@@ -165,7 +164,7 @@ function Menu<Item extends MenuItem = MenuItem>({
                             id={itemId}
                             key={itemId}
                             label={renderProps?.label?.toString() || item.label?.toString()}
-                            onClick={(event) => {
+                            onClick={(event: ReactMouseEvent<HTMLButtonElement, MouseEvent>) => {
                                 if (renderProps) renderProps?.onClick?.(event);
 
                                 if (onChange) {
@@ -222,42 +221,5 @@ function Menu<Item extends MenuItem = MenuItem>({
 Menu.bspkName = 'Menu';
 
 export { Menu };
-
-export const style = css`
-    /** 
-  --item-count is set via inline style. :)
-   */
-
-    width: 332px;
-    border: 1px solid var(--stroke-neutral-low);
-    background-color: var(--surface-neutral-t1-base);
-    box-shadow: var(--drop-shadow-float);
-    border-radius: var(--radius-large);
-    display: flex;
-    flex-direction: column;
-
-    --item-size: var(--spacing-sizing-12);
-
-    &[data-floating] {
-        z-index: var(--z-index-dropdown);
-    }
-
-    &[data-item-count] {
-        height: calc(var(--item-count) * var(--item-size));
-        overflow-y: scroll;
-    }
-
-    &[data-no-items] {
-        padding: var(--spacing-sizing-08) var(--spacing-sizing-04);
-        align-items: center;
-        justify-content: center;
-        gap: var(--spacing-sizing-03);
-    }
-
-    [data-list-item] {
-        min-height: var(--item-size);
-        height: var(--item-size);
-    }
-`;
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

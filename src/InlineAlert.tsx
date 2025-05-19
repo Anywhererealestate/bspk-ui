@@ -1,7 +1,7 @@
 import { SvgCheckCircleFill } from '@bspk/icons/CheckCircleFill';
 import { SvgErrorFill } from '@bspk/icons/ErrorFill';
 import { SvgInfoFill } from '@bspk/icons/InfoFill';
-import { css } from '@emotion/react';
+import './inline-alert.scss';
 import { ReactNode } from 'react';
 
 import { Txt } from './Txt';
@@ -34,7 +34,7 @@ export type InlineAlertProps = {
  */
 function InlineAlert({ children, variant = 'informational', id }: InlineAlertProps) {
     return (
-        <div css={style} data-inline-alert={id} data-variant={variant}>
+        <div data-bspk="inline-alert" data-variant={variant} id={id}>
             {VARIANT_ICON[variant]}
             <Txt variant="body-small">{children}</Txt>
         </div>
@@ -44,52 +44,6 @@ function InlineAlert({ children, variant = 'informational', id }: InlineAlertPro
 InlineAlert.bspkName = 'InlineAlert';
 
 export { InlineAlert };
-
-export const style = css`
-    display: flex;
-    align-items: start;
-    justify-content: center;
-    flex-direction: row;
-    gap: var(--spacing-sizing-02);
-
-    [data-txt] {
-        flex: 1;
-    }
-
-    &[data-variant='error'] {
-        color: var(--status-error);
-        --first-tone: var(--status-error);
-        --second-tone: var(--status-on-information);
-    }
-
-    &[data-variant='success'] {
-        color: var(--status-success);
-        --first-tone: var(--status-success);
-        --second-tone: var(--status-on-success);
-    }
-
-    &[data-variant='warning'] {
-        color: var(--foreground-neutral-on-surface);
-        --first-tone: var(--status-warning);
-        --second-tone: var(--status-on-warning);
-    }
-
-    &[data-variant='informational'] {
-        color: var(--status-information);
-        --first-tone: var(--status-information);
-        --second-tone: var(--status-on-information);
-    }
-
-    svg {
-        color: var(--first-tone);
-        width: var(--spacing-sizing-05);
-        height: var(--spacing-sizing-05);
-
-        [data-second-tone] {
-            fill: var(--second-tone);
-        }
-    }
-`;
 
 // eslint-disable-next-line react/no-multi-comp
 const SvgWarningTwoTone = () => (

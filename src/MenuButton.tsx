@@ -1,6 +1,6 @@
 import { SvgMenu } from '@bspk/icons/Menu';
-import { css } from '@emotion/react';
 
+import './menu-button.scss';
 import { ButtonProps } from './Button';
 
 import { ElementProps } from '.';
@@ -14,7 +14,7 @@ export type MenuButtonProps = Pick<ButtonProps, 'as' | 'onClick'>;
  */
 function MenuButton(props: ElementProps<MenuButtonProps, 'button'>) {
     return (
-        <button {...props} css={style}>
+        <button data-bspk="menu-button" {...props}>
             <SvgMenu />
         </button>
     );
@@ -23,20 +23,5 @@ function MenuButton(props: ElementProps<MenuButtonProps, 'button'>) {
 MenuButton.bspkName = 'MenuButton';
 
 export { MenuButton };
-
-export const style = css`
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    height: 48px;
-    width: auto;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    padding-top: var(--spacing-sizing-01);
-    color: var(--foreground-neutral-on-surface-variant-01);
-`;
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

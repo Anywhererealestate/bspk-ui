@@ -61,6 +61,7 @@ function Layout<As extends ElementType = 'div'>({
     return (
         <As
             {...props}
+            data-bspk="layout"
             style={{
                 ...style,
                 display: 'flex',

@@ -1,5 +1,4 @@
-import { css } from '@emotion/react';
-
+import './divider.scss';
 import { ElementProps } from './';
 
 export type DividerProps = {
@@ -56,8 +55,7 @@ function Divider({
         <div
             {...props}
             aria-orientation={orientation}
-            css={style}
-            data-divider
+            data-bspk="divider"
             data-hide-padding={!padding || undefined}
             data-orientation={orientation}
             data-thickness={thickness}
@@ -75,55 +73,5 @@ function Divider({
 Divider.bspkName = 'Divider';
 
 export { Divider };
-
-export const style = css`
-    display: flex;
-    background-color: var(--stroke-neutral-low);
-    align-self: stretch;
-    justify-content: stretch;
-    margin: 0;
-    padding: 0;
-    align-content: stretch;
-    content: 'hello';
-
-    --length: calc(100% - var(--inset) * 2);
-
-    &, // default
-  &[data-thickness='light'] {
-        --line-thickness: 1px;
-        --padding: var(--spacing-sizing-02);
-    }
-
-    &[data-thickness='heavy'] {
-        --line-thickness: 2px;
-        --padding: var(--spacing-sizing-04);
-    }
-
-    &, // default
-  &[data-orientation='horizontal'] {
-        width: unset;
-        min-height: unset;
-
-        height: var(--line-thickness);
-        min-width: var(--length);
-
-        margin: var(--padding) var(--inset);
-    }
-
-    &[data-orientation='vertical'] {
-        height: unset;
-        min-width: unset;
-
-        width: var(--line-thickness);
-        min-height: var(--length);
-
-        margin: var(--inset) var(--padding);
-    }
-
-    &[data-hide-padding] {
-        //
-        --padding: 0;
-    }
-`;
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

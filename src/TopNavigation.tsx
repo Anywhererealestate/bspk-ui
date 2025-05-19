@@ -1,4 +1,4 @@
-import { css } from '@emotion/react';
+import './top-navigation.scss';
 
 export type TopNavigationProps = {
     /** The content of the top navigation. */
@@ -11,19 +11,11 @@ export type TopNavigationProps = {
  * @name TopNavigation
  */
 function TopNavigation({ children }: TopNavigationProps) {
-    return (
-        <div css={style} data-top-navigation>
-            {children}
-        </div>
-    );
+    return <div data-bspk="top-navigation">{children}</div>;
 }
 
 TopNavigation.bspkName = 'TopNavigation';
 
 export { TopNavigation };
-
-export const style = css`
-    display: flex;
-`;
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

@@ -1,5 +1,5 @@
-import { Switch, SwitchProps } from './Switch';
-import { ToggleOption, ToggleOptionProps } from './ToggleOption';
+import { SwitchProps, Switch } from './Switch';
+import { ToggleOptionProps, ToggleOption } from './ToggleOption';
 
 export type SwitchOptionProps = Omit<SwitchProps, 'aria-label'> &
     Pick<ToggleOptionProps, 'description' | 'label' | 'size'>;
@@ -11,7 +11,7 @@ export type SwitchOptionProps = Omit<SwitchProps, 'aria-label'> &
  */
 function SwitchOption({ label, description, size, ...checkboxProps }: SwitchOptionProps) {
     return (
-        <ToggleOption data-checkbox-field description={description} label={label} size={size}>
+        <ToggleOption data-bspk="switch-option" description={description} label={label} size={size}>
             <Switch {...checkboxProps} aria-label={label} />
         </ToggleOption>
     );

@@ -1,7 +1,7 @@
-import { css } from '@emotion/react';
+import './tag.scss';
 import { ElementType, ReactNode } from 'react';
 
-import { ColorVariant, COLOR_VARIABLES } from './utils/colorVariants';
+import { ColorVariant } from './utils/colorVariants';
 
 import { ElementProps } from './';
 
@@ -66,10 +66,9 @@ function Tag<As extends ElementType = 'span'>({
     return (
         <As
             {...props}
-            css={style}
+            data-bspk="tag"
             data-color={color}
             data-size={size}
-            data-tag
             data-variant={variant}
             data-wrap={wrap || undefined}
         >
@@ -82,68 +81,5 @@ function Tag<As extends ElementType = 'span'>({
 Tag.bspkName = 'Tag';
 
 export { Tag };
-
-export const style = css`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: fit-content;
-    position: relative;
-    padding: 0 var(--spacing-sizing-03);
-    border-radius: var(--radius-small);
-    color: var(--foreground) !important;
-    background: var(--background);
-    text-decoration: none;
-    font: unset;
-    text-decoration: unset;
-    white-space: nowrap;
-
-    &[data-wrap] {
-        height: auto;
-    }
-
-    &[data-variant='pill'] {
-        border-radius: var(--radius-circular);
-    }
-
-    &[data-variant='corner-wrap'] {
-        border-bottom-right-radius: 0;
-    }
-
-    ${Object.entries(COLOR_VARIABLES).map(
-        ([variant, { foreground, surface }]) => css`
-            &[data-color='${variant}'] {
-                --foreground: var(${foreground});
-                --background: var(${surface});
-            }
-        `,
-    )}
-
-    &[data-size='small'] {
-        font: var(--labels-small);
-        height: var(--spacing-sizing-08);
-    }
-
-    &[data-size='x-small'] {
-        font: var(--labels-x-small);
-        height: var(--spacing-sizing-06);
-    }
-
-    &[data-color='white'] {
-        box-shadow: var(--drop-shadow-south);
-    }
-
-    [data-triangle] {
-        position: absolute;
-        bottom: -12px;
-        right: 0;
-        width: 0px;
-        height: 0px;
-        border-style: solid;
-        border-width: 12px 12px 0 0;
-        border-color: var(--foreground) transparent transparent transparent;
-        transform: rotate(0deg);
-    }
-`;
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

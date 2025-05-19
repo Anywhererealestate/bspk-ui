@@ -1,5 +1,5 @@
-import { FormField, FormFieldProps } from './FormField';
-import { NumberInput, NumberInputProps } from './NumberInput';
+import { FormFieldProps, FormField } from './FormField';
+import { NumberInputProps, NumberInput } from './NumberInput';
 
 export type NumberFieldProps = Pick<
     NumberInputProps,
@@ -29,6 +29,7 @@ function NumberField({
     return (
         <FormField
             controlId={controlId}
+            data-bspk="number-field"
             errorMessage={errorMessage}
             helperText={helperText}
             label={label}

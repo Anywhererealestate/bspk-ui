@@ -1,5 +1,5 @@
 import { Radio } from './Radio';
-import { ToggleOption, ToggleOptionProps } from './ToggleOption';
+import { ToggleOptionProps, ToggleOption } from './ToggleOption';
 
 import { ElementProps, CommonProps } from './';
 
@@ -37,7 +37,7 @@ function RadioGroup({
     ...props
 }: ElementProps<RadioGroupProps, 'div'>) {
     return (
-        <div {...props} data-control-group data-radio-group role="radiogroup" style={{ display: 'contents' }}>
+        <div {...props} data-bspk="radio-group" role="radiogroup" style={{ display: 'contents' }}>
             {options.map(({ label, description, value }) => {
                 return (
                     <ToggleOption description={description} key={value} label={label} size={size}>

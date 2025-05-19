@@ -1,4 +1,4 @@
-import { css } from '@emotion/react';
+import './table.scss';
 import { ReactNode } from 'react';
 
 import { ElementProps } from '.';
@@ -46,8 +46,7 @@ function Table<R extends TableRow>({ rows, columns, ...props }: ElementProps<Tab
     return (
         <div
             {...props}
-            css={style}
-            data-table
+            data-bspk="table"
             style={{
                 ...props.style,
                 gridTemplateColumns: columns.map((c) => `minmax(0, ${c.width || '1fr'})`).join(' '),
@@ -76,51 +75,5 @@ function Table<R extends TableRow>({ rows, columns, ...props }: ElementProps<Tab
 Table.bspkName = 'Table';
 
 export { Table };
-
-export const style = css`
-    width: 100%;
-    border-collapse: separate;
-    text-align: left;
-    border-spacing: 2rem 0.125rem;
-    display: grid;
-    color: var(--foreground-neutral-on-surface);
-    font: var(--labels-base);
-    border-radius: var(--radius-medium);
-    border: 1px solid var(--stroke-neutral-low);
-
-    [data-cell] {
-        display: flex;
-        flex-direction: column;
-        gap: var(--spacing-sizing-02);
-        padding: var(--spacing-sizing-04);
-        background-color: var(--surface-neutral-t1-base);
-        border-bottom: var(--stroke-neutral-low) solid 1px;
-        font: var(--labels-small);
-        p {
-            margin: 0;
-            padding: 0;
-            font: var(--body-small);
-        }
-    }
-
-    [data-head] {
-        display: flex;
-        align-items: center;
-        flex-direction: row;
-        border-bottom: 1px solid var(--stroke-neutral-base);
-        background: var(--surface-neutral-t2-lowest);
-        height: var(--spacing-sizing-10);
-        padding: 0 var(--spacing-sizing-03);
-        font: var(--labels-base);
-
-        &[data-head='first'] {
-            border-top-left-radius: var(--radius-medium);
-        }
-
-        &[data-head='last'] {
-            border-top-right-radius: var(--radius-medium);
-        }
-    }
-`;
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

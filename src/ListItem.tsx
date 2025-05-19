@@ -1,7 +1,7 @@
-import { css } from '@emotion/react';
+import './list-item.scss';
 import { ElementType, ReactNode } from 'react';
 
-import { Button, ButtonProps } from './Button';
+import { ButtonProps, Button } from './Button';
 import { ChildElement, getChildrenElements } from './utils/children';
 import { useErrorLogger } from './utils/errors';
 
@@ -121,11 +121,10 @@ function ListItem<As extends ElementType = 'div'>({
             {...props}
             aria-disabled={disabled || undefined}
             aria-invalid={invalid || undefined}
-            css={style}
             data-action={actionable || undefined}
             data-active={active || undefined}
+            data-bspk="list-item"
             data-component={leading?.name || undefined}
-            data-list-item
             data-readonly={readOnly || undefined}
             role={as !== 'button' && 'onClick' in props ? 'button' : undefined}
         >
@@ -159,120 +158,6 @@ ListItemButton.bspkName = 'ListItemButton';
 ListItem.Button = ListItemButton;
 
 export { ListItem };
-
-export const style = css`
-    display: block;
-    width: 100%;
-    box-sizing: border-box;
-    padding: 0 var(--spacing-sizing-02);
-    background: unset;
-    border: unset;
-    margin: unset;
-    text-decoration: unset;
-    user-select: none;
-    color: var(--foreground-neutral-on-surface);
-
-    &:is(a),
-    &:is(button),
-    &[onclick],
-    &[role='button'] {
-        cursor: pointer;
-    }
-
-    [data-inner] {
-        height: 100%;
-        width: 100%;
-        min-height: var(--spacing-sizing-09);
-        box-sizing: border-box;
-        display: flex;
-        flex-direction: row;
-        gap: var(--spacing-sizing-03);
-        padding: var(--spacing-sizing-02) 0;
-        justify-items: stretch;
-
-        & > * {
-            min-height: 100%;
-            width: fit-content;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-around;
-            flex: 1;
-            flex-shrink: 0;
-
-            svg {
-                width: 24px;
-                max-width: unset;
-            }
-        }
-    }
-
-    /* &:has(+ [data-list-item]) {
-    [data-inner] {
-      border-bottom: 1px solid var(--stroke-neutral-low);
-    }
-  } */
-
-    &[data-action] {
-        [data-pseudo='focus'] &,
-        &:focus-visible,
-        &:has(*:focus-visible) {
-            //outline: 2px solid var(--stroke-neutral-focus);
-            box-shadow: inset var(--stroke-neutral-focus) 0 0 0 2px;
-
-            [data-inner] {
-                border-color: transparent;
-            }
-        }
-    }
-
-    [data-component='Img'] > img {
-        height: 36px;
-        width: 36px;
-        max-width: unset;
-    }
-
-    &:is(label) {
-        [data-inner] {
-            border-bottom: 0;
-            gap: var(--spacing-sizing-02);
-        }
-    }
-
-    [data-item-label] {
-        flex: 100%;
-        text-align: left;
-
-        [data-text] {
-            font: var(--labels-base);
-            color: var(--foreground-neutral-on-surface);
-        }
-
-        [data-sub-text] {
-            font: var(--body-small);
-            color: var(--foreground-neutral-on-surface-variant-01);
-        }
-    }
-
-    &[aria-disabled] {
-        [data-text],
-        [data-sub-text] {
-            color: var(--foreground-neutral-disabled-on-surface);
-        }
-    }
-
-    &[data-action] {
-        [data-pseudo='hover'] &,
-        &:hover {
-            background-color: var(--interactions-neutral-hover-opacity);
-        }
-
-        [data-pseudo='active'] &,
-        &[data-active],
-        &:active {
-            background-color: var(--interactions-neutral-press-opacity);
-        }
-    }
-`;
 
 function useChildren(
     leadingProp: ReactNode,

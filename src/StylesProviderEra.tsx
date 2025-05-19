@@ -1,7 +1,5 @@
-import { useEffect, useRef } from 'react';
-
-import baseStyle from './styles/base';
-import brandStyle from './styles/era';
+import '@bspk/styles/era.css';
+import './base.scss';
 
 /**
  * Utility to provide the ERA styles to the application.
@@ -9,23 +7,11 @@ import brandStyle from './styles/era';
  * @name StylesProviderEra
  */
 function StylesProviderEra() {
-    const styleEmentRef = useRef<HTMLStyleElement | null>(null);
-
-    useEffect(() => {
-        styleEmentRef.current = document.createElement('style');
-        styleEmentRef.current.setAttribute('data-bspk', 'era');
-        styleEmentRef.current.innerHTML = brandStyle + baseStyle;
-        document.head.appendChild(styleEmentRef.current);
-        document.body.style.display = '';
-
-        return () => {
-            if (styleEmentRef.current) document.head.removeChild(styleEmentRef.current);
-        };
-    }, []);
-
     return <></>;
 }
 
 StylesProviderEra.bspkName = 'StylesProviderEra';
 
 export { StylesProviderEra };
+
+/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

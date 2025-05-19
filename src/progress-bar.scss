@@ -1,0 +1,48 @@
+[data-bspk='progress-bar'] {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: var(--spacing-sizing-01);
+
+    progress {
+        opacity: 0;
+        position: absolute;
+    }
+
+    [data-bar] {
+        width: 100%;
+        height: var(--spacing-sizing-02);
+        background-color: var(--surface-neutral-t3-low);
+        border-radius: var(--radius-small);
+
+        &::after {
+            content: '';
+            display: block;
+            height: 100%;
+            background-color: var(--foreground-brand-primary);
+            border-radius: var(--radius-small);
+            width: var(--width);
+            transition: width 0.3s;
+        }
+    }
+
+    &[data-size='small'] {
+        max-width: 248px;
+
+        [data-bar] {
+            height: var(--spacing-sizing-01);
+        }
+    }
+
+    label {
+        font-size: var(--labels-small);
+        width: 100%;
+        text-align: center;
+    }
+
+    &[data-align='left'] label {
+        text-align: left;
+    }
+}
+
+/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

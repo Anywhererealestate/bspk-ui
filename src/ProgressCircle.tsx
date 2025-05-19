@@ -1,12 +1,10 @@
 /* eslint-disable react/no-multi-comp */
 
-import { css } from '@emotion/react';
+import './progress-circle.scss';
 import { useId } from 'react';
 
 import { Txt } from './Txt';
 import { TxtVariant } from './utils/txtVariants';
-
-const ANIMATION_SPEED = 1.5;
 
 export type ProgressCircleProps = {
     /** The label of the progress circle. */
@@ -41,9 +39,8 @@ function ProgressCircle({ label, labelPosition, size = 'medium' }: ProgressCircl
     return (
         <div
             aria-labelledby={labelId}
-            css={style}
+            data-bspk="progress-circle"
             data-label-position={labelPosition}
-            data-progress-circle
             data-size={size}
             role="progressbar"
         >
@@ -58,58 +55,6 @@ function ProgressCircle({ label, labelPosition, size = 'medium' }: ProgressCircl
 ProgressCircle.bspkName = 'ProgressCircle';
 
 export { ProgressCircle };
-
-export const style = css`
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-sizing-02);
-    align-items: center;
-    justify-content: center;
-
-    &[data-label-position='top'] {
-        flex-direction: column-reverse;
-    }
-
-    &[data-label-position='left'] {
-        flex-direction: row-reverse;
-    }
-
-    &[data-label-position='right'] {
-        flex-direction: row;
-    }
-
-    svg {
-        color: var(--foreground-brand-secondary);
-        animation: spin ${ANIMATION_SPEED}s linear infinite;
-    }
-
-    @keyframes spin {
-        100% {
-            transform: rotate(360deg);
-        }
-        0% {
-            transform: rotate(0deg);
-        }
-    }
-
-    &[data-size='small'] {
-        svg {
-            width: 32px;
-        }
-    }
-
-    &[data-size='medium'] {
-        svg {
-            width: 40px;
-        }
-    }
-
-    &[data-size='large'] {
-        svg {
-            width: 48px;
-        }
-    }
-`;
 
 const ProgressCircleSVG = (props: { strokeWidth?: number }) => {
     const strokeWidth = props.strokeWidth || 10;

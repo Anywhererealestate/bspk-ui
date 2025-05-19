@@ -1,0 +1,98 @@
+[data-bspk='checkbox'] {
+    display: block;
+    position: relative;
+    width: var(--spacing-sizing-06);
+    aspect-ratio: 1/1;
+    padding: 2px;
+
+    input[type='checkbox'] {
+        position: absolute;
+        opacity: 0;
+        z-index: 2;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        cursor: pointer;
+    }
+
+    span {
+        --stroke: var(--stroke-neutral-base);
+        --inner: none;
+        --background: none;
+        --color: var(--foreground-brand-on-primary);
+
+        box-sizing: border-box;
+        display: flex;
+        width: 20px;
+        aspect-ratio: 1/1;
+        cursor: pointer;
+        border-radius: 2px;
+        border: 2px solid var(--stroke);
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+        position: relative;
+        background: var(--background);
+
+        svg[data-checked] {
+            width: 14px;
+            display: none;
+        }
+
+        svg[data-indeterminate] {
+            width: 12px;
+            display: none;
+        }
+
+        color: var(--color);
+    }
+
+    input[type='checkbox']:not(:checked, :indeterminate, :disabled) {
+        &:hover + span {
+            background-color: var(--interactions-neutral-hover-opacity);
+        }
+
+        &:active + span {
+            background-color: var(--interactions-neutral-press-opacity);
+        }
+    }
+
+    input[type='checkbox']:checked + span svg[data-checked],
+    input[type='checkbox']:indeterminate + span svg[data-indeterminate] {
+        display: block;
+    }
+
+    input[type='checkbox']:checked + span,
+    input[type='checkbox']:indeterminate + span {
+        --stroke: var(--stroke-brand-primary);
+        --background: var(--surface-brand-primary);
+    }
+
+    input[type='checkbox']:disabled {
+        pointer-events: none;
+
+        & + span {
+            --stroke: var(--stroke-neutral-interactions-disabled-light);
+        }
+
+        &:is(:checked, :indeterminate) + span {
+            --stroke: transparent;
+            --background: var(--interactions-disabled-opacity);
+            --color: var(--foreground-neutral-disabled-on-surface);
+        }
+    }
+
+    input[type='checkbox'][aria-invalid]:not(:disabled) {
+        &:checked + span,
+        &:indeterminate + span {
+            --background: var(--status-error);
+        }
+
+        & + span {
+            --stroke: var(--status-error);
+        }
+    }
+}
+
+/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
