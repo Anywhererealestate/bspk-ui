@@ -1,16 +1,9 @@
 {
     "name": "@bspk/ui",
-    "version": "1.1.1",
+    "version": "1.1.5",
     "main": "index.js",
     "license": "CC-BY-4.0",
     "type": "module",
-    "files": [
-        "dist",
-        "src",
-        "index.js",
-        "index.d.ts",
-        "index.mjs"
-    ],
     "scripts": {
         "sass": "sass --style=compressed --no-source-map src:dist",
         "build": "node build.js",
