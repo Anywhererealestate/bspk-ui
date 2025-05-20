@@ -16,21 +16,35 @@ fs.readdirSync('./dist', { recursive: true }).forEach((fileName) => {
     const filePath = path.join('./dist', fileName);
     if (!filePath.endsWith('.js')) return;
 
-    const fileContent = fs.readFileSync(filePath, 'utf-8');
+    let fileContent = fs.readFileSync(filePath, 'utf-8');
+    let changed = false;
+
+    const relativeImportRegex = /from ['"]\.\/([^'"]+)['"];/g;
+    const relativeImportMatch = fileContent.match(relativeImportRegex);
+
+    if (relativeImportMatch) {
+        fileContent = fileContent.replace(relativeImportRegex, (_, importedFile) => `from './${importedFile}.js';`);
+        changed = true;
+    }
+
     const scssMatch = fileContent.match(/import\s+['"]([^'"]+)\.scss['"]/);
 
-    if (!scssMatch) return;
-
-    const cssContent = fs.readFileSync(path.join('./dist', `${scssMatch[1]}.css`), 'utf-8');
-    fs.writeFileSync(
-        filePath,
-        // Replace the import statement with the style-inject code
-        fileContent.replace(
+    if (scssMatch) {
+        const cssContent = fs.readFileSync(path.join('./dist', `${scssMatch[1]}.css`), 'utf-8');
+        fileContent = fileContent.replace(
             scssMatch[0],
-            `import { styleAdd } from './utils/styleAdd.js';\nstyleAdd(\`${cssContent}\`)`,
-        ),
-        'utf-8',
-    );
+            `import { styleAdd } from './utils/styleAdd.js';\nstyleAdd(\`${cssContent.trim()}\`)`,
+        );
+        changed = true;
+    }
+
+    if (changed)
+        fs.writeFileSync(
+            filePath,
+            // Replace the import statement with the style-inject code
+            fileContent,
+            'utf-8',
+        );
 });
 
 // copy files from root to dist folder
