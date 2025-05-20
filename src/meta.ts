@@ -67,7 +67,7 @@ export const componentsMeta: ComponentMeta[] = [
         name: 'BannerAlert',
         slug: 'banner-alert',
         dependencies: [],
-        modified: '2025-05-19T15:27:05.546Z',
+        modified: '2025-05-20T16:04:35.727Z',
     },
     {
         description:

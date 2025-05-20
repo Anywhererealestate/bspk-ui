@@ -6,7 +6,6 @@
             "es5",
             "dom",
         ],
-        "sourceMap": true,
         "jsx": "react-jsx",
         "moduleResolution": "node",
         "noImplicitReturns": true,
@@ -16,7 +15,7 @@
         "esModuleInterop": true,
         "declaration": true,
         "baseUrl": "./",
-        "outDir": "./dist",
+        "outDir": "dist",
         "paths": {
             "*": [
                 "node_modules/@types/*",
@@ -26,8 +25,6 @@
     },
     "include": [
         "src/**/*",
-        "declaration.d.ts",
-        ".scripts/*"
     ],
     "exclude": [
         "node_modules",

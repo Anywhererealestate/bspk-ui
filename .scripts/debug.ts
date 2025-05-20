@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 /**
- * $ ts-node .scripts/debug.ts
+ * $ tsx .scripts/debug.ts
  *
  * This script adds the `whyDidYouRender` flag to all components.
  */

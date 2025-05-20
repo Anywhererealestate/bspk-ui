@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 /**
- * $ ts-node .scripts/debug.ts
+ * $ tsx .scripts/debug.ts
  *
  * This script ensures all debugging code are removed from the components.
  */
