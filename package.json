@@ -20,7 +20,8 @@
         "prepare": "husky",
         "update:css": "npm un @bspk/styles && npm i @bspk/styles@latest && npm run build:css && npm run lint:style",
         "preview": "npm run pack && cd dist && tar -xvf ./bspk-ui-*.tgz && cd package && npm link",
-        "watch:dev": "tsx .scripts/watch-dev.ts"
+        "watch:dev": "tsx .scripts/watch-dev.ts",
+        "pre:commit": "tsx .scripts/pre-commit.ts"
     },
     "publishConfig": {
         "access": "public"
