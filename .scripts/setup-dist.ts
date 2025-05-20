@@ -3,6 +3,7 @@ import { execSync } from 'child_process';
 
 // copy files from root to dist folder
 execSync(`cp ./package.json ./dist`, { stdio: 'inherit' });
+execSync(`cp ./package-lock.json ./dist`, { stdio: 'inherit' });
 execSync(`cp ./README.md ./dist`, { stdio: 'inherit' });
 execSync(`cp ./LICENSE ./dist`, { stdio: 'inherit' });
 execSync(`cp ./CONTRIBUTING.md ./dist`, { stdio: 'inherit' });
