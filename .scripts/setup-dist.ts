@@ -2,9 +2,11 @@
 import { execSync } from 'child_process';
 
 // copy files from root to dist folder
-execSync(`cp ./{package.json,README.md,LICENSE,CONTRIBUTING.md,CODE_OF_CONDUCT.md} ./dist`, {
-    stdio: 'inherit',
-});
+execSync(`cp ./package.json ./dist`, { stdio: 'inherit' });
+execSync(`cp ./README.md ./dist`, { stdio: 'inherit' });
+execSync(`cp ./LICENSE ./dist`, { stdio: 'inherit' });
+execSync(`cp ./CONTRIBUTING.md ./dist`, { stdio: 'inherit' });
+execSync(`cp ./CODE_OF_CONDUCT.md ./dist`, { stdio: 'inherit' });
 
 // write an .npmignore file to the dist folder
 // with the following content: "!*"
