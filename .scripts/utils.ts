@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
@@ -6,12 +7,12 @@ import { fileURLToPath } from 'url';
 globalThis.__dirname = globalThis.__dirname || path.dirname(fileURLToPath(import.meta.url));
 
 export async function pretty(filePath: string) {
-    execSync(`npx prettier --write "${filePath}" && echo 'prettier done ${filePath}'`, { stdio: 'inherit' });
+    execSync(`npx prettier --write "${filePath}"`, { stdio: 'inherit' });
 }
 
 export async function prettyLint(filePath: string) {
-    execSync(`npx prettier --write "${filePath}" && echo 'prettier done ${filePath}'`, { stdio: 'inherit' });
-    execSync(`npx eslint --fix "${filePath}" && echo 'eslint done ${filePath}'`, { stdio: 'inherit' });
+    execSync(`npx prettier --write "${filePath}"`, { stdio: 'inherit' });
+    execSync(`npx eslint --fix "${filePath}"`, { stdio: 'inherit' });
 }
 
 export function kebabCase(str: string): string {
@@ -61,5 +62,62 @@ export const componentFiles = fs
             content: fs.readFileSync(filePath, 'utf-8'),
         };
     });
+
+export function reportMissingVariables(variables: Record<string, string>) {
+    // ensure all sass files in src do not reference variables not in anywhere.css
+
+    const srcFiles = fs
+        .readdirSync(path.resolve(__dirname, '../src'), { withFileTypes: true })
+        .filter((file) => file.isFile() && file.name.endsWith('.scss'))
+        .map((file) => {
+            const filePath = path.resolve(__dirname, '../src', file.name);
+            return {
+                content: fs.readFileSync(filePath, 'utf-8'),
+                filePath,
+            };
+        });
+
+    const variableBeingSetRegex = /--[^:)]+:/g;
+    const variablesBeingUsedRegex = /var\(--[^)]+\)/g;
+
+    const baseContent = fs.readFileSync(path.resolve(__dirname, '../src/base.scss'), 'utf-8');
+    const colorsContent = fs.readFileSync(path.resolve(__dirname, '../src/colors.scss'), 'utf-8');
+
+    const variableBeingSetMatchesBase = [
+        ...(baseContent.match(variableBeingSetRegex)?.map((match) => match.replace(':', '')) || []),
+        ...(colorsContent.match(variableBeingSetRegex)?.map((match) => match.replace(':', '')) || []),
+    ];
+
+    const missingVariables = srcFiles.flatMap(({ content, filePath }) => {
+        const variablesBeingUsedMatches = content
+            .match(variablesBeingUsedRegex)
+            ?.map((match) => match.replace(/var\((--[^)]+)\)/, '$1'));
+        if (!variablesBeingUsedMatches) return [];
+
+        const variableBeingSetMatches = content.match(variableBeingSetRegex)?.map((match) => match.replace(':', ''));
+
+        const missing = variablesBeingUsedMatches.filter((variable) => {
+            // check if variable is
+            // NOT in anywhere.css
+            // NOT being set in the current file
+            // AND NOT being set in base.scss
+            return (
+                !variables[variable] &&
+                !variableBeingSetMatches?.includes(variable) &&
+                !variableBeingSetMatchesBase?.includes(variable)
+            );
+        });
+
+        if (missing.length) {
+            console.error(`\nMissing variables in ${filePath}\n: ${[...new Set([...missing])].join(', ')}`);
+        }
+        return missing;
+    });
+
+    if (missingVariables.length) {
+        console.error(`Missing variables in src: ${missingVariables.join(', ')}`);
+        process.exit(1);
+    }
+}
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

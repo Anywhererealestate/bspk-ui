@@ -10,4 +10,9 @@ https://bspk.anywhere.re
 npm install @bspk/ui
 ```
 
+```bash
+npm install --peer @bspk/icons react react-dom
+```
+
+
 <!--- Copyright 2025 Anywhere Real Estate - CC BY 4.0 -->

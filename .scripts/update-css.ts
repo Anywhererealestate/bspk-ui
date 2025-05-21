@@ -1,18 +1,20 @@
 /* eslint-disable no-console */
 /**
- * $ npm run build:css
+ * $ npx tsx .scripts/update-css.ts
  *
- * Generates the `TxtVariants.ts` and `colorVariants.ts` file from the `anywhere.css` file.
+ * - Updates the @bspk/styles package,
+ * - Regenerates the `TxtVariants.ts`, `colorVariants.ts`, and `colors.scss` files,
+ * - Ensures that variables used in components still exist in the updated @bspk/styles package.
  */
 
 import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 
-import './utils.js';
+import { prettyLint, reportMissingVariables } from './utils';
 
 // reference only - import '@bspk/styles/anywhere.css';
-
+// we use the anywhere.css file to extract the variables --- all brands have the same variables
 const anywhereCssFile = path.resolve(__dirname, '../node_modules/@bspk/styles/anywhere.css');
 
 const fileContent = (content: string) => `/**
@@ -26,11 +28,7 @@ ${content}
 
 function generateFileLinted(filePath: string, content: string) {
     fs.writeFileSync(filePath, fileContent(content));
-
-    execSync(`eslint --fix ${filePath} && npx prettier --write ${filePath}`, {
-        stdio: 'inherit',
-    });
-
+    prettyLint(filePath);
     console.info(`\n${filePath} generated`);
 }
 
@@ -150,9 +148,13 @@ function main() {
     const variableMatches = fs.readFileSync(anywhereCssFile, 'utf8').matchAll(/(--[^:]+):\s*([^\n;]+)/g);
     const variables = Object.fromEntries([...variableMatches].map((match) => [match[1], match[2]]));
 
+    execSync(`npm un @bspk/styles && npm i @bspk/styles@latest`, { stdio: 'inherit' });
+
     generateTxtVariants(variables);
 
     generateColorVariants(variables);
+
+    reportMissingVariables(variables);
 }
 
 main();

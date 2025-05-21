@@ -49,7 +49,7 @@ export const componentsMeta: ComponentMeta[] = [
         name: 'Avatar',
         slug: 'avatar',
         dependencies: [],
-        modified: '2025-05-19T15:27:05.545Z',
+        modified: '2025-05-21T01:16:29.406Z',
     },
     {
         description:
