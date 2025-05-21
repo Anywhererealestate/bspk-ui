@@ -43,11 +43,10 @@ export function camelCase(str: string, lowerFirst = false) {
         .replace(/^([a-zA-Z])/, (_, char) => (lowerFirst ? char.toLowerCase() : char.toUpperCase()));
 }
 
-export const { componentsDir, hooksDir, rootPath, metaFilePath } = {
+export const { componentsDir, hooksDir, rootPath } = {
     componentsDir: path.resolve(__dirname, '..', 'src'),
     hooksDir: path.resolve(__dirname, '..', 'src', 'hooks'),
     rootPath: path.resolve(__dirname, '..'),
-    metaFilePath: path.resolve(__dirname, '..', 'src', 'meta.ts'),
 } as const;
 
 export const componentFiles = fs
@@ -118,6 +117,16 @@ export function reportMissingVariables(variables: Record<string, string>) {
         console.error(`Missing variables in src: ${missingVariables.join(', ')}`);
         process.exit(1);
     }
+
+    console.log('No undefined CSS variables found :)');
+}
+
+export function getCssVariables() {
+    // reference only - import '@bspk/styles/anywhere.css';
+    // we use the anywhere.css file to extract the variables --- all brands have the same variables
+    const anywhereCssFile = path.resolve(__dirname, '../node_modules/@bspk/styles/anywhere.css');
+    const variableMatches = fs.readFileSync(anywhereCssFile, 'utf8').matchAll(/(--[^:]+):\s*([^\n;]+)/g);
+    return Object.fromEntries([...variableMatches].map((match) => [match[1], match[2]]));
 }
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
