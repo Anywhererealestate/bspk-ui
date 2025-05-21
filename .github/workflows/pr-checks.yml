@@ -10,7 +10,7 @@ on:
 
 jobs:
     run-lint:
-        name: Lint
+        name: Build / Lint / Check CSS Variables
         runs-on: ubuntu-latest
 
         steps:
