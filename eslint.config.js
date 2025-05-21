@@ -11,7 +11,7 @@ import tsEslint from 'typescript-eslint';
 /** @type {import('eslint').Linter.Config[]} */
 export default [
     {
-        files: ['src/**/*.ts', 'src/**/*.tsx', 'src/*.ts', 'src/*.tsx'],
+        files: ['src/**/*.ts', 'src/**/*.tsx', 'src/*.ts', 'src/*.tsx', 'build.ts'],
     },
     {
         settings: {

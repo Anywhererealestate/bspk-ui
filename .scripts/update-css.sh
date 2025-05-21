@@ -1,1 +1,0 @@
-npm un @bspk/styles && npm i @bspk/styles@latest && npm run build:css && npm run lint:style
