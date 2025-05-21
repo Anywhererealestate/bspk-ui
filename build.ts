@@ -7,9 +7,6 @@ console.log('\n');
 console.log('⚡️\t Cleaning /dist');
 execSync('rm -rf dist', { stdio: 'inherit' });
 
-console.log('⚡️\t Generating Meta File');
-execSync('npm run meta', { stdio: 'inherit' });
-
 console.log('⚡️\t Compiling Typescript');
 execSync('npm run tsc', { stdio: 'inherit' });
 

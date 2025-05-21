@@ -43,11 +43,10 @@ export function camelCase(str: string, lowerFirst = false) {
         .replace(/^([a-zA-Z])/, (_, char) => (lowerFirst ? char.toLowerCase() : char.toUpperCase()));
 }
 
-export const { componentsDir, hooksDir, rootPath, metaFilePath } = {
+export const { componentsDir, hooksDir, rootPath } = {
     componentsDir: path.resolve(__dirname, '..', 'src'),
     hooksDir: path.resolve(__dirname, '..', 'src', 'hooks'),
     rootPath: path.resolve(__dirname, '..'),
-    metaFilePath: path.resolve(__dirname, '..', 'src', 'meta.ts'),
 } as const;
 
 export const componentFiles = fs

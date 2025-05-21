@@ -1,1 +1,0 @@
-npm run meta && npm run lint && npm run pre:commit

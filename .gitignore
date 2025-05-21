@@ -12,3 +12,4 @@ src/package.json
 src/*.css
 _virtual
 package
+src/meta.ts
