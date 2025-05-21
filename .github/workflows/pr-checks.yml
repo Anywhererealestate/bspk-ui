@@ -9,8 +9,8 @@ on:
             - main
 
 jobs:
-    run-build:
-        name: Build
+    run-lint:
+        name: Lint
         runs-on: ubuntu-latest
 
         steps:
@@ -27,5 +27,14 @@ jobs:
                   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
               run: npm ci
 
-            - name: Run a build
+            - name: Run build
               run: npm run build
+
+            - name: Run eslint and prettier
+              run: npm run lint
+
+            - name: Run stylelint
+              run: npm run lint:css
+
+            - name: Check CSS variables
+              run: npx tsx .scripts/check-css-vars.ts
