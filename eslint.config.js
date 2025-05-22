@@ -40,7 +40,6 @@ export default [
     },
     {
         rules: {
-            'sort-keys': ['error', 'asc'],
             '@typescript-eslint/member-ordering': 'error',
             'react/self-closing-comp': 'error',
             'react-hooks/rules-of-hooks': 'error',
