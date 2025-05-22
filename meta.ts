@@ -169,6 +169,13 @@ function generateComponentMeta({
 
     const css = fs.existsSync(cssPath) ? fs.readFileSync(cssPath, { encoding: 'utf-8' }) : '';
 
+    const usage = componentDoc.example
+        ? {
+              code: componentDoc.example,
+              description: componentDoc.exampleDescription,
+          }
+        : undefined;
+
     return {
         description: componentDoc.description,
         file: componentFile.split(componentsDir)[1],
@@ -176,6 +183,7 @@ function generateComponentMeta({
         slug,
         dependencies,
         modified: stats.mtime.toISOString(),
+        usage,
         css,
         hasTouchTarget: css.includes('data-touch-target'),
     };

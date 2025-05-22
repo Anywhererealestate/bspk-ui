@@ -5,13 +5,13 @@ import { TxtVariant } from './utils/txtVariants';
 
 export type SkeletonProps = {
     /**
-     * The text variant of the skeleton.
+     * The variant of the skeleton that best hints the content being loaded.
      *
      * @default text
      */
     variant?: 'circular' | 'photo' | 'profile' | 'rectangular' | 'text' | 'thumbnail';
     /**
-     * The size of the text. This is only used when variant is 'text'.
+     * The variant of the text being loaded. This is only used when variant is 'text'.
      *
      * @default body-base
      */
@@ -38,6 +38,28 @@ export type SkeletonProps = {
 
 /**
  * A visual placeholder for an element while it is in a loading state.
+ *
+ * The data for your components might not be immediately available. You can improve the perceived responsiveness of the
+ * page by using skeletons. It feels like things are happening immediately, then the information is incrementally
+ * displayed on the screen.
+ *
+ * @example
+ *     function Example() {
+ *         return item ? (
+ *             <img
+ *                 style={{
+ *                     width: 210,
+ *                     height: 118,
+ *                 }}
+ *                 alt={item.title}
+ *                 src={item.src}
+ *             />
+ *         ) : (
+ *             <Skeleton variant="photo" width={210} height={118} />
+ *         );
+ *     }
+ *
+ * @exampleDescription This example shows a skeleton loading state for an image but can be used for any element.
  *
  * @name Skeleton
  */

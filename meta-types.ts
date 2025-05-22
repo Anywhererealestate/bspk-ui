@@ -6,11 +6,11 @@ export type BaseMeta = {
     name: string;
     description?: string;
     file?: string;
+    example?: string;
 };
 
 export type TypeMeta = BaseMeta & {
     id: string;
-    example?: string;
     references?: string[];
     properties?: TypeProperty[];
 };
@@ -35,12 +35,15 @@ export type ComponentMeta = BaseMeta & {
     modified: string;
     css: string;
     hasTouchTarget: boolean;
+    usage?: {
+        code: string;
+        description?: string;
+    };
 };
 
 export type UtilityMeta = BaseMeta & {
     param?: string;
     returns?: string;
-    example?: string;
 };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
