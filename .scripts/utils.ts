@@ -77,7 +77,7 @@ export function reportMissingVariables(variables: Record<string, string>) {
         });
 
     const variableBeingSetRegex = /--[^:)]+:/g;
-    const variablesBeingUsedRegex = /var\(--[^)]+\)/g;
+    const variablesBeingUsedRegex = /var\(--[^)\s]+\)/g;
 
     const baseContent = fs.readFileSync(path.resolve(__dirname, '../src/base.scss'), 'utf-8');
     const colorsContent = fs.readFileSync(path.resolve(__dirname, '../src/colors.scss'), 'utf-8');

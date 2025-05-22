@@ -29,9 +29,9 @@
     &[data-variant='rectangular'],
     &[data-variant='photo'] {
         min-width: var(--spacing-sizing-08);
-        width: var(--width, --height);
         min-height: var(--spacing-sizing-08);
-        height: var(--height, --width);
+        height: var(--height, var(--width));
+        width: var(--width, var(--height));
         border-radius: var(--radius-small);
     }
 
