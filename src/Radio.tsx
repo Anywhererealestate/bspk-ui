@@ -1,10 +1,8 @@
 import './radio.scss';
-import { ToggleControlProps, ElementProps } from './';
+import { ToggleControlProps, ElementProps, InvalidPropsLibrary } from './';
 
-export type RadioProps = Pick<
-    ToggleControlProps<HTMLInputElement>,
-    'aria-label' | 'checked' | 'disabled' | 'invalid' | 'name' | 'onChange' | 'value'
->;
+export type RadioProps = InvalidPropsLibrary &
+    Pick<ToggleControlProps<HTMLInputElement>, 'aria-label' | 'checked' | 'disabled' | 'name' | 'onChange' | 'value'>;
 
 /**
  * A round control that allows user to choose one option from a set. This is the base element and if used directly you

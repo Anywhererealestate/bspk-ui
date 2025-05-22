@@ -1,7 +1,10 @@
 import { RadioProps, Radio } from './Radio';
 import { ToggleOptionProps, ToggleOption } from './ToggleOption';
 
-export type RadioOptionProps = Pick<RadioProps, 'checked' | 'disabled' | 'invalid' | 'name' | 'onChange' | 'value'> &
+import { InvalidPropsLibrary } from '.';
+
+export type RadioOptionProps = InvalidPropsLibrary &
+    Pick<RadioProps, 'checked' | 'disabled' | 'name' | 'onChange' | 'value'> &
     Pick<ToggleOptionProps, 'description' | 'label'>;
 
 /**

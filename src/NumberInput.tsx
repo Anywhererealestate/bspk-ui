@@ -5,7 +5,7 @@ import './number-input.scss';
 import { useId } from './hooks/useId';
 import { useLongPress } from './hooks/useLongPress';
 
-import { CommonProps } from '.';
+import { CommonProps, InvalidPropsLibrary } from '.';
 
 function isNumber(value: unknown): number | undefined {
     if (typeof value === 'number') return value;
@@ -14,32 +14,45 @@ function isNumber(value: unknown): number | undefined {
     return isNaN(num) ? undefined : num;
 }
 
-export type NumberInputProps = CommonProps<
-    'aria-label' | 'disabled' | 'id' | 'invalid' | 'name' | 'readOnly' | 'size'
-> & {
-    /**
-     * The value of the control.
-     *
-     * @required
-     */
-    value?: number;
-    /** Callback when the value changes. */
-    onChange: (value: number) => void;
-    /**
-     * If the value should be centered between the up & down buttons.
-     *
-     * @default false
-     */
-    centered?: boolean;
-    /** Defines the [maximum](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/max) value that is accepted. */
-    max?: number;
-    /** Defines the [minimum](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/min) value that is accepted. */
-    min?: number;
-};
+export type NumberInputProps = CommonProps<'aria-label' | 'disabled' | 'id' | 'name' | 'readOnly' | 'size'> &
+    InvalidPropsLibrary & {
+        /**
+         * The value of the control.
+         *
+         * @required
+         */
+        value?: number;
+        /** Callback when the value changes. */
+        onChange: (value: number) => void;
+        /**
+         * The alignment of the input box. Centered between the plus and minus buttons or to the left of the buttons.
+         *
+         * @default center
+         */
+        align?: 'center' | 'left';
+        /**
+         * Defines the [maximum](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/max) value that is
+         * accepted.
+         *
+         * @default 99
+         * @maximum 99
+         * @minimum 1
+         */
+        max?: number;
+        /**
+         * Defines the [minimum](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/min) value that is
+         * accepted.
+         *
+         * @minimum 0
+         */
+        min?: number;
+    };
 
 /**
  * A input element that allows users to either input a numerical value or singularly increase or decrease the values by
  * pressing the (+) or (-).
+ *
+ * The value of the input is a number. The value is clamped to the min and max values if they are provided.
  *
  * @name NumberInput
  */
@@ -47,7 +60,7 @@ function NumberInput({
     //
     value = 1,
     onChange,
-    centered = false,
+    align = 'center',
     size = 'medium',
     disabled = false,
     readOnly = false,
@@ -58,6 +71,7 @@ function NumberInput({
     max: maxProp,
     min: minProp,
 }: NumberInputProps) {
+    const centered = align !== 'left';
     const inputId = useId(inputIdProp);
     const max = isNumber(maxProp);
     const min = isNumber(minProp);
