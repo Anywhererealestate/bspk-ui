@@ -7,7 +7,9 @@
         "dist",
         "src",
         "README.md",
-        "LICENSE"
+        "LICENSE",
+        "meta.ts",
+        "meta-types.ts"
     ],
     "exports": {
         "./*": "./dist/*.js",
@@ -24,7 +26,7 @@
         "prepare": "husky",
         "pre:commit": "tsx .scripts/pre-commit.ts",
         "tsc": "tsc",
-        "meta": "tsx .scripts/build-meta.ts"
+        "meta": "tsx meta.ts"
     },
     "publishConfig": {
         "access": "public"
