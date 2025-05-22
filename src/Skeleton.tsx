@@ -3,21 +3,37 @@ import { CSSProperties } from 'react';
 
 import { TxtVariant } from './utils/txtVariants';
 
-export type SkeletonVariant = TxtVariant | 'other';
-
 export type SkeletonProps = {
     /**
-     * The text variant of the skeleton. If 'other' skeleton will expand to size of nearest relative positioned parent.
+     * The text variant of the skeleton.
      *
-     * @default other
+     * @default text
      */
-    variant?: SkeletonVariant;
+    variant?: 'circular' | 'photo' | 'profile' | 'rectangular' | 'text' | 'thumbnail';
     /**
-     * The number of lines showing. Ignored when variant is other.
+     * The size of the text. This is only used when variant is 'text'.
      *
-     * @default 1
+     * @default body-base
      */
-    lines?: number;
+    textVariant?: TxtVariant;
+    /**
+     * The number of lines showing. This is only used when variant is 'text'.
+     *
+     * @default 3
+     */
+    textLines?: number;
+    /**
+     * The width of the skeleton. This is ignored when variant is 'text', 'profile', or 'thumbnail'.
+     *
+     * @default 200
+     */
+    width?: number | string;
+    /**
+     * The height of the skeleton. This is ignored when variant is 'text', 'profile', or 'thumbnail'.
+     *
+     * @default 100
+     */
+    height?: number | string;
 };
 
 /**
@@ -25,20 +41,28 @@ export type SkeletonProps = {
  *
  * @name Skeleton
  */
-function Skeleton({ variant = 'other', lines: linesProp = 3 }: SkeletonProps) {
-    const lines = Math.max(1, linesProp || 0);
-
+function Skeleton({
+    width = 100,
+    height = 100,
+    textLines,
+    textVariant: textSize,
+    variant = 'rectangular',
+}: SkeletonProps) {
     return (
         <div
             data-bspk="skeleton"
+            data-variant={variant}
             style={
                 {
-                    '--margin': `calc(var(--${variant}-line-height) - var(--${variant}-size))`,
-                    '--height': `var(--${variant}-size)`,
+                    '--height': typeof height === 'number' ? `${height}px` : height,
+                    '--text-height': `var(--${textSize}-size)`,
+                    '--text-margin': `calc(var(--${textSize}-line-height) - var(--${textSize}-size))`,
+                    '--width': typeof width === 'number' ? `${width}px` : width,
                 } as CSSProperties
             }
         >
-            {variant !== 'other' && [...Array(lines)].map((_, index) => <div data-line key={index} />)}
+            {variant === 'text' &&
+                [...Array(Math.max(1, textLines || 0))].map((_, index) => <div data-line key={index} />)}
         </div>
     );
 }

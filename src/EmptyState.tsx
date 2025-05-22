@@ -22,6 +22,12 @@ export type EmptyStateProps = {
      */
     body: string;
     /**
+     * The text alignment of the body.
+     *
+     * @default center
+     */
+    bodyAlign?: 'center' | 'left' | 'right';
+    /**
      * This property may be undefined or an object containing required CallToActionButton properties.
      *
      * @type CallToActionButton
@@ -34,7 +40,7 @@ export type EmptyStateProps = {
  *
  * @name EmptyState
  */
-function EmptyState({ children, header, body, callToAction }: EmptyStateProps) {
+function EmptyState({ children, header, body, callToAction, bodyAlign = 'center' }: EmptyStateProps) {
     return (
         <Layout
             align="center"
@@ -47,10 +53,10 @@ function EmptyState({ children, header, body, callToAction }: EmptyStateProps) {
         >
             {children}
             <Layout align="center" column gap="4">
-                <Txt as="div" variant="heading-h5">
+                <Txt as="header" variant="heading-h5">
                     {header}
                 </Txt>
-                <Txt as="div" variant="body-base">
+                <Txt as="p" style={{ textAlign: bodyAlign }} variant="body-base">
                     {body}
                 </Txt>
             </Layout>
