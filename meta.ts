@@ -102,9 +102,9 @@ if (!metaFilePath) {
 }
 
 const { componentsDir, hooksDir, rootPath } = {
-    componentsDir: path.resolve(__dirname, '..', 'src'),
-    hooksDir: path.resolve(__dirname, '..', 'src', 'hooks'),
-    rootPath: path.resolve(__dirname, '..'),
+    componentsDir: path.resolve(__dirname, 'src'),
+    hooksDir: path.resolve(__dirname, 'src', 'hooks'),
+    rootPath: path.resolve(__dirname),
 } as const;
 
 const componentFiles = fs
