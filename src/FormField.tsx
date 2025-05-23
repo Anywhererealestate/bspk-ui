@@ -3,7 +3,7 @@ import { InlineAlert } from './InlineAlert';
 import { Layout } from './Layout';
 import { Txt } from './Txt';
 
-import { CommonProps } from './';
+import { CommonProps, InvalidPropsLibrary } from './';
 
 export type FieldControlProps = {
     /**
@@ -18,27 +18,29 @@ export type FieldControlProps = {
     'aria-errormessage'?: string;
 };
 
-export type FormFieldProps = CommonProps<'errorMessage' | 'required'> & {
-    /**
-     * The label of the field.
-     *
-     * @required
-     */
-    label: string;
-    /** The id of the control. */
-    controlId: string;
-    /**
-     * The children of the form field. This should be a control such as TextInput, Dropdown, DatePicker, or TimePicker.
-     *
-     * @type (childProps: FieldControlProps) => JSX.Element
-     * @required
-     */
-    children: (childProps: FieldControlProps) => JSX.Element;
-    /** The helperText of the field. */
-    helperText?: string;
-    /** The trailing element of the label. */
-    labelTrailing?: React.ReactNode;
-};
+export type FormFieldProps = CommonProps<'required'> &
+    InvalidPropsLibrary & {
+        /**
+         * The label of the field.
+         *
+         * @required
+         */
+        label: string;
+        /** The id of the control. */
+        controlId: string;
+        /**
+         * The children of the form field. This should be a control such as TextInput, Dropdown, DatePicker, or
+         * TimePicker.
+         *
+         * @type (childProps: FieldControlProps) => JSX.Element
+         * @required
+         */
+        children: (childProps: FieldControlProps) => JSX.Element;
+        /** The helperText of the field. */
+        helperText?: string;
+        /** The trailing element of the label. */
+        labelTrailing?: React.ReactNode;
+    };
 
 /**
  * Wrapper component for form controls.
@@ -47,14 +49,23 @@ export type FormFieldProps = CommonProps<'errorMessage' | 'required'> & {
  *
  * @name FormField
  */
-function FormField({ label, errorMessage, helperText, children, labelTrailing, controlId, required }: FormFieldProps) {
+function FormField({
+    label,
+    invalid,
+    errorMessage,
+    helperText,
+    children,
+    labelTrailing,
+    controlId,
+    required,
+}: FormFieldProps) {
     const errorMessageId = errorMessage && `${controlId}-error-message`;
     const helperTextId = helperText && `${controlId}-helper-text`;
 
     if (typeof children !== 'function') return null;
 
     return (
-        <div data-bspk="form-field">
+        <div data-bspk="form-field" data-invalid={invalid || undefined}>
             <Layout as="header">
                 <label htmlFor={controlId}>
                     <Txt as="span" variant="labels-small">

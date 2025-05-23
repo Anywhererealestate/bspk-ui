@@ -1,23 +1,25 @@
 import { FormFieldProps, FormField } from './FormField';
 import { TextInputProps, TextInput } from './TextInput';
 
-export type TextFieldProps = Pick<
-    TextInputProps,
-    | 'autoComplete'
-    | 'disabled'
-    | 'inputRef'
-    | 'invalid'
-    | 'leading'
-    | 'name'
-    | 'onChange'
-    | 'placeholder'
-    | 'readOnly'
-    | 'required'
-    | 'size'
-    | 'trailing'
-    | 'type'
-    | 'value'
-> &
+import { InvalidPropsLibrary } from '.';
+
+export type TextFieldProps = InvalidPropsLibrary &
+    Pick<
+        TextInputProps,
+        | 'autoComplete'
+        | 'disabled'
+        | 'inputRef'
+        | 'leading'
+        | 'name'
+        | 'onChange'
+        | 'placeholder'
+        | 'readOnly'
+        | 'required'
+        | 'size'
+        | 'trailing'
+        | 'type'
+        | 'value'
+    > &
     Pick<FormFieldProps, 'controlId' | 'errorMessage' | 'helperText' | 'label' | 'labelTrailing'>;
 
 /**

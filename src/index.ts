@@ -34,7 +34,8 @@ export type CallToActionButton = {
     size?: ButtonSize;
 };
 
-export type ToggleControlProps<T extends HTMLElement> = CommonProps<'aria-label' | 'disabled' | 'invalid' | 'name', T> &
+export type ToggleControlProps<T extends HTMLElement> = CommonProps<'aria-label' | 'disabled' | 'name', T> &
+    InvalidPropsLibrary &
     Required<CommonProps<'value'>> & {
         /**
          * Marks the control as checked.
@@ -55,6 +56,28 @@ export type CommonProps<K extends keyof CommonPropsLibrary, T extends HTMLElemen
     CommonPropsLibrary<T>,
     K
 >;
+
+/**
+ * The props that are common to input elements.
+ *
+ * If an element is invalid it must have an errorMessage.
+ */
+export type InvalidPropsLibrary = {
+    /**
+     * Marks the element as invalid and displays error state theme.
+     *
+     * If the errorMessage is empty the error state theme will not appear.
+     *
+     * @default false
+     */
+    invalid?: boolean;
+    /**
+     * Marks the element as invalid and displays error message.
+     *
+     * When an element is invalid it must display an error message explaining why it is invalid.
+     */
+    errorMessage?: string;
+};
 
 export type CommonPropsLibrary<T extends HTMLElement = HTMLElement> = {
     /** The id of the element. If not provided one will be generated. */
@@ -90,12 +113,6 @@ export type CommonPropsLibrary<T extends HTMLElement = HTMLElement> = {
      */
     disabled?: boolean;
     /**
-     * Marks the element as invalid and displays error state theme.
-     *
-     * @default false
-     */
-    invalid?: boolean;
-    /**
      * Determines if the element is [readonly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly).
      *
      * @default false
@@ -107,12 +124,6 @@ export type CommonPropsLibrary<T extends HTMLElement = HTMLElement> = {
      * @required
      */
     name: string;
-    /**
-     * Marks the element as invalid and displays error message.
-     *
-     * When an element is invalid it must display an error message explaining why it is invalid.
-     */
-    errorMessage?: string;
     /**
      * The value of the control.
      *

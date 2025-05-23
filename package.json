@@ -19,7 +19,7 @@
         "sass": "sass --style=compressed --no-source-map src:dist",
         "build": "tsx build.ts",
         "lint:css": "npx stylelint '**/*.scss'",
-        "lint": "eslint",
+        "lint": "eslint && tsc --noEmit && stylelint '**/*.scss'",
         "lint:fix": "eslint --fix",
         "semantic-release": "semantic-release",
         "test": "jest",

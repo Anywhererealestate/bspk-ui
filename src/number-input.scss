@@ -1,5 +1,5 @@
 [data-bspk='number-input'] {
-    // medium
+    // medium is the default size
     --font: var(--body-base);
     --height: var(--spacing-sizing-10);
     --svg-width: var(--spacing-sizing-05);
@@ -13,10 +13,10 @@
     border: 1px solid var(--stroke-neutral-base);
     border-radius: var(--radius-small);
     background: var(--surface-neutral-t1-base);
+    max-width: 280px;
 
     &:focus-within {
         border-color: var(--stroke-brand-primary);
-        outline: 1px solid var(--stroke-brand-primary);
     }
 
     [data-divider] {
@@ -29,11 +29,13 @@
     }
 
     button {
-        min-width: var(--height);
+        width: var(--height);
+        height: var(--height);
         background: none;
         border: none;
         cursor: pointer;
         font: var(--font);
+        flex-shrink: 0;
 
         svg {
             width: var(--svg-width);
@@ -59,6 +61,7 @@
         padding: 0 var(--spacing-sizing-03);
         background: transparent;
         border: none;
+        flex-grow: 1;
 
         &:focus {
             outline: none;

@@ -9,8 +9,8 @@
 ```typescript
 export type CheckboxOptionProps = Pick<
     CheckboxProps,
-    'checked' | 'disabled' | 'indeterminate' | 'invalid' | 'name' | 'onChange' | 'readOnly' | 'value'
-> &
+    'checked' | 'disabled' | 'indeterminate' | 'name' | 'onChange' | 'readOnly' | 'value'
+> & InvalidPropsLibrary &
     Pick<ToggleOptionProps, 'description' | 'label'>;
 ```
 

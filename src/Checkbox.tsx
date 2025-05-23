@@ -27,6 +27,8 @@ function Checkbox({
     indeterminate: indeterminateProp,
     invalid,
     disabled,
+    errorMessage,
+
     ...props
 }: ElementProps<CheckboxProps, 'input'>) {
     const indeterminate = !!indeterminateProp;
@@ -46,6 +48,7 @@ function Checkbox({
         >
             <input
                 {...props}
+                aria-errormessage={errorMessage || undefined}
                 aria-invalid={invalid || undefined}
                 checked={checked}
                 disabled={disabled || undefined}

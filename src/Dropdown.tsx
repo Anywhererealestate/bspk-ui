@@ -8,7 +8,7 @@ import { Placement } from './hooks/useFloating';
 import { useFloatingMenu } from './hooks/useFloatingMenu';
 import { useId } from './hooks/useId';
 
-import { CommonProps } from './';
+import { CommonProps, InvalidPropsLibrary } from './';
 
 export type DropdownOption = {
     /** The value of the option. */
@@ -18,8 +18,9 @@ export type DropdownOption = {
 };
 
 export type DropdownProps<O extends DropdownOption = DropdownOption> = CommonProps<
-    'aria-label' | 'disabled' | 'id' | 'invalid' | 'name' | 'readOnly' | 'size'
+    'aria-label' | 'disabled' | 'id' | 'name' | 'readOnly' | 'size'
 > &
+    InvalidPropsLibrary &
     Pick<MenuProps<O>, 'isMulti' | 'itemCount' | 'onChange' | 'renderListItem'> & {
         /**
          * Array of options to display in the dropdown
@@ -66,6 +67,7 @@ function Dropdown<O extends DropdownOption = DropdownOption>({
     disabled,
     id: propId,
     invalid,
+    errorMessage,
     readOnly,
     placement = 'bottom',
     name,
@@ -81,6 +83,7 @@ function Dropdown<O extends DropdownOption = DropdownOption>({
             disabled,
             invalid,
             readOnly,
+            errorMessage,
         },
     });
 

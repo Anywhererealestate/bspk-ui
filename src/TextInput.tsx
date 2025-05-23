@@ -4,38 +4,39 @@ import { ChangeEvent, HTMLInputAutoCompleteAttribute, HTMLInputTypeAttribute, Re
 
 import { useId } from './hooks/useId';
 
-import { ElementProps, CommonProps } from '.';
+import { ElementProps, CommonProps, InvalidPropsLibrary } from '.';
 
 export type TextInputProps = CommonProps<
-    'aria-label' | 'disabled' | 'id' | 'invalid' | 'name' | 'readOnly' | 'required' | 'size' | 'value'
-> & {
-    /**
-     * Callback when the value of the field changes.
-     *
-     * @type (next: String, Event) => void
-     * @required
-     */
-    onChange: (next: string, event?: ChangeEvent<HTMLInputElement>) => void;
-    /** The ref of the container. */
-    containerRef?: (node: HTMLElement | null) => void;
-    /** The ref of the input. */
-    inputRef?: (node: HTMLElement | null) => void;
-    /** The trailing element to display in the field. */
-    trailing?: ReactNode;
-    /** The leading element to display in the field. */
-    leading?: ReactNode;
-    /** The placeholder of the field. */
-    placeholder?: string;
-    /** The type of the input. */
-    type?: Extract<HTMLInputTypeAttribute, 'number' | 'text'>;
-    /**
-     * Specifies if user agent has any permission to provide automated assistance in filling out form field values.
-     * https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete
-     *
-     * @default off
-     */
-    autoComplete?: HTMLInputAutoCompleteAttribute;
-};
+    'aria-label' | 'disabled' | 'id' | 'name' | 'readOnly' | 'required' | 'size' | 'value'
+> &
+    InvalidPropsLibrary & {
+        /**
+         * Callback when the value of the field changes.
+         *
+         * @type (next: String, Event) => void
+         * @required
+         */
+        onChange: (next: string, event?: ChangeEvent<HTMLInputElement>) => void;
+        /** The ref of the container. */
+        containerRef?: (node: HTMLElement | null) => void;
+        /** The ref of the input. */
+        inputRef?: (node: HTMLElement | null) => void;
+        /** The trailing element to display in the field. */
+        trailing?: ReactNode;
+        /** The leading element to display in the field. */
+        leading?: ReactNode;
+        /** The placeholder of the field. */
+        placeholder?: string;
+        /** The type of the input. */
+        type?: Extract<HTMLInputTypeAttribute, 'number' | 'text'>;
+        /**
+         * Specifies if user agent has any permission to provide automated assistance in filling out form field values.
+         * https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete
+         *
+         * @default off
+         */
+        autoComplete?: HTMLInputAutoCompleteAttribute;
+    };
 
 /**
  * A text input that allows users to enter text, numbers or symbols in a singular line. This is the base element and is
@@ -63,6 +64,7 @@ function TextInput({
     disabled,
     autoComplete = 'off',
     containerRef,
+    errorMessage,
     ...otherProps
 }: ElementProps<TextInputProps, 'div'>) {
     const id = useId(idProp);
@@ -82,6 +84,7 @@ function TextInput({
         >
             {leading && <span data-leading>{leading}</span>}
             <input
+                aria-errormessage={errorMessage || undefined}
                 aria-invalid={invalid || undefined}
                 aria-label={ariaLabel}
                 autoComplete={autoComplete}

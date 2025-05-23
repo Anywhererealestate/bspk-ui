@@ -3,55 +3,56 @@ import { ChangeEvent, CSSProperties, Ref } from 'react';
 
 import { useId } from './hooks/useId';
 
-import { CommonProps } from './';
+import { CommonProps, InvalidPropsLibrary } from './';
 
-export type TextareaProps = CommonProps<'aria-label' | 'disabled' | 'id' | 'invalid' | 'readOnly' | 'required'> & {
-    /**
-     * Callback when the value of the field changes.
-     *
-     * @type (next: String, Event) => void
-     * @required
-     */
-    onChange: (next: string, event?: ChangeEvent<HTMLTextAreaElement>) => void;
-    /**
-     * The size of the field.
-     *
-     * @default medium
-     */
-    size?: 'large' | 'medium' | 'small';
-    /** The value of the field. */
-    value?: string;
-    /**
-     * The textarea control name of the field.
-     *
-     * @required
-     */
-    name: string;
-    /** The ref of the field. */
-    innerRef?: Ref<HTMLTextAreaElement>;
-    /** The placeholder of the field. */
-    placeholder?: string;
-    /**
-     * The maximum number of characters that the field will accept.
-     *
-     * @minimum 1
-     */
-    maxLength?: number;
-    /**
-     * The minimum number of rows that the textarea should have. If set the textarea will automatically grow and shrink
-     * to fit the content.
-     *
-     * @minimum 3
-     */
-    minRows?: number;
-    /**
-     * The maximum number of rows that the textarea should have. If set the textarea will automatically grow and shrink
-     * to fit the content.
-     *
-     * @maximum 10
-     */
-    maxRows?: number;
-};
+export type TextareaProps = CommonProps<'aria-label' | 'disabled' | 'id' | 'readOnly' | 'required'> &
+    InvalidPropsLibrary & {
+        /**
+         * Callback when the value of the field changes.
+         *
+         * @type (next: String, Event) => void
+         * @required
+         */
+        onChange: (next: string, event?: ChangeEvent<HTMLTextAreaElement>) => void;
+        /**
+         * The size of the field.
+         *
+         * @default medium
+         */
+        size?: 'large' | 'medium' | 'small';
+        /** The value of the field. */
+        value?: string;
+        /**
+         * The textarea control name of the field.
+         *
+         * @required
+         */
+        name: string;
+        /** The ref of the field. */
+        innerRef?: Ref<HTMLTextAreaElement>;
+        /** The placeholder of the field. */
+        placeholder?: string;
+        /**
+         * The maximum number of characters that the field will accept.
+         *
+         * @minimum 1
+         */
+        maxLength?: number;
+        /**
+         * The minimum number of rows that the textarea should have. If set the textarea will automatically grow and
+         * shrink to fit the content.
+         *
+         * @minimum 3
+         */
+        minRows?: number;
+        /**
+         * The maximum number of rows that the textarea should have. If set the textarea will automatically grow and
+         * shrink to fit the content.
+         *
+         * @maximum 10
+         */
+        maxRows?: number;
+    };
 
 const MIN_ROWS = 3;
 const MAX_ROWS = 10;
@@ -75,6 +76,7 @@ function Textarea({
     id: idProp,
     minRows: minRowsProp = MIN_ROWS,
     maxRows: maxRowsProp = MAX_ROWS,
+    errorMessage,
     ...otherProps
 }: TextareaProps) {
     const id = useId(idProp);
@@ -96,6 +98,7 @@ function Textarea({
         >
             <textarea
                 {...otherProps}
+                aria-errormessage={errorMessage || undefined}
                 aria-invalid={invalid || undefined}
                 aria-label={ariaLabel}
                 id={id}

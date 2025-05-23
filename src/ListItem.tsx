@@ -81,6 +81,7 @@ function ListItem<As extends ElementType = 'div'>({
     subText,
     active,
     readOnly,
+    errorMessage,
     ...props
 }: ElementProps<ListItemProps<As>, As>) {
     let As: ElementType = as || 'div';
@@ -120,6 +121,7 @@ function ListItem<As extends ElementType = 'div'>({
         <As
             {...props}
             aria-disabled={disabled || undefined}
+            aria-errormessage={errorMessage || undefined}
             aria-invalid={invalid || undefined}
             data-action={actionable || undefined}
             data-active={active || undefined}

@@ -1,6 +1,6 @@
 import { AriaAttributes, useId, useState } from 'react';
 
-import { CommonProps } from '..';
+import { CommonProps, InvalidPropsLibrary } from '..';
 import { EVENT_KEY } from '../utils/keyboard';
 
 import { Placement, useFloating } from './useFloating';
@@ -9,7 +9,7 @@ import { useOutsideClick } from './useOutsideClick';
 
 export type UseFloatingMenuProps = {
     placement: Placement;
-    triggerProps?: CommonProps<'disabled' | 'invalid' | 'readOnly'>;
+    triggerProps?: CommonProps<'disabled' | 'readOnly'> & InvalidPropsLibrary;
 };
 
 export type UseFloatingMenuReturn = {
@@ -30,6 +30,7 @@ export type UseFloatingMenuReturn = {
         'aria-invalid': boolean | undefined;
         'aria-owns': string;
         'aria-readonly': boolean | undefined;
+        'aria-errormessage': string | undefined;
         role: 'combobox';
         tabIndex: number;
         ref: (node: HTMLElement | null) => void;
@@ -75,6 +76,7 @@ export function useFloatingMenu({ placement, triggerProps }: UseFloatingMenuProp
             tabIndex: -1,
         },
         triggerProps: {
+            'aria-errormessage': triggerProps?.errorMessage || undefined,
             'aria-activedescendant': selectedId || undefined,
             'aria-controls': menuId,
             'aria-expanded': show,
