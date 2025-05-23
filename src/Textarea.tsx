@@ -5,6 +5,12 @@ import { useId } from './hooks/useId';
 
 import { CommonProps, InvalidPropsLibrary } from './';
 
+const DEFAULT = {
+    minRows: 3,
+    maxRows: 10,
+    textSize: 'medium',
+} as const;
+
 export type TextareaProps = CommonProps<'aria-label' | 'disabled' | 'id' | 'readOnly' | 'required'> &
     InvalidPropsLibrary & {
         /**
@@ -15,12 +21,16 @@ export type TextareaProps = CommonProps<'aria-label' | 'disabled' | 'id' | 'read
          */
         onChange: (next: string, event?: ChangeEvent<HTMLTextAreaElement>) => void;
         /**
-         * The size of the field.
+         * The text size of the field.
          *
          * @default medium
          */
-        size?: 'large' | 'medium' | 'small';
-        /** The value of the field. */
+        textSize?: 'large' | 'medium' | 'small';
+        /**
+         * The value of the field.
+         *
+         * @type multiline
+         */
         value?: string;
         /**
          * The textarea control name of the field.
@@ -39,26 +49,29 @@ export type TextareaProps = CommonProps<'aria-label' | 'disabled' | 'id' | 'read
          */
         maxLength?: number;
         /**
-         * The minimum number of rows that the textarea should have. If set the textarea will automatically grow and
-         * shrink to fit the content.
+         * The minimum number of rows that the textarea will show.
          *
+         * @default 3
          * @minimum 3
+         * @maximum 10
          */
         minRows?: number;
         /**
-         * The maximum number of rows that the textarea should have. If set the textarea will automatically grow and
-         * shrink to fit the content.
+         * The maximum number of rows that the textarea will show.
          *
+         * @default 10
+         * @minimum 3
          * @maximum 10
          */
         maxRows?: number;
     };
 
-const MIN_ROWS = 3;
-const MAX_ROWS = 10;
-
 /**
  * A component that allows users to input large amounts of text that could span multiple lines.
+ *
+ * This component gives you a textarea HTML element that automatically adjusts its height to match the length of the
+ * content within maximum and minimum rows. A character counter when a maxLength is set to show the number of characters
+ * remaining below the limit.
  *
  * @element
  *
@@ -67,28 +80,28 @@ const MAX_ROWS = 10;
 function Textarea({
     invalid: invalidProp,
     onChange,
-    size = 'medium',
+    textSize = DEFAULT.textSize,
     value = '',
     name,
     'aria-label': ariaLabel,
     innerRef,
     placeholder,
     id: idProp,
-    minRows: minRowsProp = MIN_ROWS,
-    maxRows: maxRowsProp = MAX_ROWS,
+    minRows: minRowsProp = DEFAULT.minRows,
+    maxRows: maxRowsProp = DEFAULT.maxRows,
     errorMessage,
     ...otherProps
 }: TextareaProps) {
     const id = useId(idProp);
     const invalid = !otherProps.readOnly && !otherProps.disabled && invalidProp;
     // ensure minRows and maxRows are within bounds
-    const minRows = Math.min(MAX_ROWS, Math.max(minRowsProp, MIN_ROWS));
-    const maxRows = Math.max(MIN_ROWS, Math.min(maxRowsProp, MAX_ROWS));
+    const minRows = Math.min(DEFAULT.maxRows, Math.max(minRowsProp, DEFAULT.minRows));
+    const maxRows = Math.max(DEFAULT.minRows, Math.min(maxRowsProp, DEFAULT.maxRows));
 
     return (
         <div
             data-bspk="textarea"
-            data-size={size}
+            data-size={textSize}
             style={
                 {
                     '--min-rows': minRows,

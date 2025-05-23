@@ -51,16 +51,17 @@ body {
 a {
     color: var(--foreground-link-text-default);
 
-    &:hover {
+    &:not([disabled]):hover {
         color: var(--foreground-link-text-default-hovered);
     }
 
-    &:visited {
+    &:not([disabled]):visited {
         color: var(--foreground-link-text-default-visited);
     }
 
-    &:disabled {
+    &[disabled] {
         pointer-events: none;
+        cursor: text;
         color: var(--foreground-link-text-default-disabled);
     }
 }
