@@ -1,10 +1,8 @@
 name: PR Checks
 
 on:
-    push:
-        branches:
-            - main
     pull_request:
+        types: [opened, reopened, synchronize, edited, ready_for_review]
         branches:
             - main
 

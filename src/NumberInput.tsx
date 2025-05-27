@@ -7,6 +7,13 @@ import { useLongPress } from './hooks/useLongPress';
 
 import { CommonProps, InvalidPropsLibrary } from '.';
 
+const DEFAULT = {
+    align: 'center',
+    size: 'medium',
+    disabled: false,
+    readOnly: false,
+} as const;
+
 function isNumber(value: unknown): number | undefined {
     if (typeof value === 'number') return value;
     if (typeof value !== 'string') return undefined;
@@ -16,14 +23,10 @@ function isNumber(value: unknown): number | undefined {
 
 export type NumberInputProps = CommonProps<'aria-label' | 'disabled' | 'id' | 'name' | 'readOnly' | 'size'> &
     InvalidPropsLibrary & {
-        /**
-         * The value of the control.
-         *
-         * @required
-         */
+        /** The value of the control. */
         value?: number;
         /** Callback when the value changes. */
-        onChange: (value: number) => void;
+        onChange: (value: number | undefined) => void;
         /**
          * The alignment of the input box. Centered between the plus and minus buttons or to the left of the buttons.
          *
@@ -57,13 +60,12 @@ export type NumberInputProps = CommonProps<'aria-label' | 'disabled' | 'id' | 'n
  * @name NumberInput
  */
 function NumberInput({
-    //
-    value = 1,
+    value,
     onChange,
-    align = 'center',
-    size = 'medium',
-    disabled = false,
-    readOnly = false,
+    align = DEFAULT.align,
+    size = DEFAULT.size,
+    disabled = DEFAULT.disabled,
+    readOnly = DEFAULT.readOnly,
     name,
     id: inputIdProp,
     invalid,
@@ -76,7 +78,12 @@ function NumberInput({
     const max = isNumber(maxProp);
     const min = isNumber(minProp);
 
-    const fix = (next: number = value) => {
+    const fix = (next: number | undefined = value) => {
+        if (typeof next !== 'number') {
+            onChange(undefined);
+            return;
+        }
+
         let fixValue = next;
         if (typeof min !== 'undefined' && next < min) fixValue = min;
         if (typeof max !== 'undefined' && next > max) fixValue = max;

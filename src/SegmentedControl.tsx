@@ -2,11 +2,11 @@ import './segmented-control.scss';
 import { Fragment } from 'react';
 
 import { Tooltip } from './Tooltip';
-import { useNavOptions } from './hooks/useNavOptions';
+import { useOptionIconsInvalid } from './hooks/useOptionIconsInvalid';
 
 import { ElementProps } from './';
 
-export type SegmentedToggleOption = {
+export type SegmentedControlOption = {
     /**
      * The label of the option. This is the text that will be displayed on the option.
      *
@@ -30,18 +30,22 @@ export type SegmentedControlProps = {
     /**
      * The options to display. Each option has a label and an optional leading icon.
      *
-     * @type SegmentedToggleOption[]
+     * @type SegmentedControlOption[]
      * @required
      */
-    options: SegmentedToggleOption[];
-    /** The id of the selected option. */
-    value?: SegmentedToggleOption['value'];
+    options: SegmentedControlOption[];
+    /**
+     * The id of the selected option.
+     *
+     * @required
+     */
+    value: SegmentedControlOption['value'];
     /**
      * The function to call when the option is clicked.
      *
      * @required
      */
-    onChange: (value: SegmentedToggleOption['value']) => void;
+    onChange: (value: SegmentedControlOption['value']) => void;
     /**
      * The size of the options.
      *
@@ -73,18 +77,19 @@ function SegmentedControl({
     onChange,
     value,
     size = 'medium',
-    options,
+    options: optionsProp,
     width = 'hug',
     showLabels: showLabelsProp = true,
     ...containerProps
 }: ElementProps<SegmentedControlProps, 'div'>) {
-    const items = useNavOptions(options);
+    const options = Array.isArray(optionsProp) ? optionsProp : [];
+    useOptionIconsInvalid(options);
 
-    const hideLabels = showLabelsProp === false && items.every((item) => item.icon && item.label);
+    const hideLabels = showLabelsProp === false && options.every((item) => item.icon && item.label);
 
     return (
         <div {...containerProps} data-bspk="segmented-control" data-size={size} data-width={width}>
-            {items.map((item, index) => {
+            {options.map((item, index) => {
                 const isActive = item.value === value;
                 return (
                     <Fragment key={item.value}>
@@ -92,10 +97,10 @@ function SegmentedControl({
                             <button
                                 aria-label={item.label}
                                 data-first={index === 0 || undefined}
-                                data-last={index === items.length - 1 || undefined}
+                                data-last={index === options.length - 1 || undefined}
                                 data-selected={isActive || undefined}
                                 disabled={item.disabled || undefined}
-                                onClick={() => onChange(item.value)}
+                                onClick={() => onChange(item.value || item.label)}
                             >
                                 <span data-outer>
                                     <span data-inner>

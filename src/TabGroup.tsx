@@ -1,10 +1,18 @@
 import './tab-group.scss';
 import { ReactNode } from 'react';
 
-import { Badge } from './Badge';
-import { useNavOptions } from './hooks/useNavOptions';
+import { Badge, BadgeProps } from './Badge';
+import { useOptionIconsInvalid } from './hooks/useOptionIconsInvalid';
 
 import { ElementProps } from './';
+
+export type TabGroupSize = 'large' | 'medium' | 'small';
+
+const TAB_BADGE_SIZES: Record<TabGroupSize, BadgeProps['size']> = {
+    large: 'small',
+    medium: 'x-small',
+    small: 'x-small',
+};
 
 export type TabGroupOption = {
     /**
@@ -19,7 +27,11 @@ export type TabGroupOption = {
      * @default false
      */
     disabled?: boolean;
-    /** The value of the tab. If not provided, the label will be used as the value. */
+    /**
+     * The value of the tab sent to onChange when selected.
+     *
+     * If not provided, the label will be used as the value.
+     */
     value?: string;
     /** The icon to display on the left side of the tab. */
     icon?: ReactNode;
@@ -37,20 +49,24 @@ export type TabGroupProps = {
      * @required
      */
     options: TabGroupOption[];
-    /** The id of the selected tab. */
-    value?: TabGroupOption['value'];
+    /**
+     * The id of the selected tab.
+     *
+     * @required
+     */
+    value: TabGroupOption['value'];
     /**
      * The function to call when the tab is clicked.
      *
      * @required
      */
-    onChange: (tabId: TabGroupOption['value']) => void;
+    onChange: (tabValue: string, index: number) => void;
     /**
      * The size of the tabs.
      *
      * @default medium
      */
-    size?: 'large' | 'medium' | 'small';
+    size?: TabGroupSize;
     /**
      * When 'fill' the options will fill the width of the container. When 'hug', the options will be as wide as their
      * content.
@@ -77,12 +93,13 @@ function TabGroup({
     onChange: onTabChange,
     value,
     size = 'medium',
-    options,
+    options: optionsProp,
     width = 'hug',
     showTrail = false,
     ...containerProps
 }: ElementProps<TabGroupProps, 'div'>) {
-    const items = useNavOptions(options);
+    const options = Array.isArray(optionsProp) ? optionsProp : [];
+    useOptionIconsInvalid(options);
 
     return (
         <div
@@ -92,7 +109,7 @@ function TabGroup({
             data-size={size}
             data-width={width}
         >
-            {items.map((item) => {
+            {options.map((item, itemIndex) => {
                 const isActive = item.value === value;
 
                 return (
@@ -100,12 +117,16 @@ function TabGroup({
                         data-active={isActive || undefined}
                         disabled={item.disabled || undefined}
                         key={item.value}
-                        onClick={() => onTabChange(item.value)}
+                        onClick={() => {
+                            onTabChange(item.value || item.label, itemIndex);
+                        }}
                     >
                         <span>
                             {(isActive && item.iconActive) || item.icon}
                             {item.label}
-                            {item.badge && <Badge count={item.badge} size="x-small" />}
+                            {item.badge && !item.disabled && !isActive && (
+                                <Badge count={item.badge} size={TAB_BADGE_SIZES[size]} />
+                            )}
                         </span>
                     </button>
                 );
