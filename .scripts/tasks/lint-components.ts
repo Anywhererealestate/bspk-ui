@@ -1,42 +1,51 @@
-/* eslint-disable no-console */
 /**
- * X
+ * $ npx tsx .scripts/tasks/lint-components.ts
  *
  * This script checks if all components have a `data-bspk="name"` attribute, a 'bspkName' property.
  */
 
 import fs from 'fs';
+import path from 'path';
 
 import { kebabCase } from '../utils';
 
-fs.readdirSync('./src').forEach((file) => {
+const errors: string[] = [];
+
+fs.readdirSync(path.resolve('./src')).forEach((file) => {
     if (!file.endsWith('.tsx')) return;
 
-    const content = fs.readFileSync(`./src/${file}`, 'utf-8');
+    const content = fs.readFileSync(path.resolve(`./src/${file}`), 'utf-8');
 
-    const match = content.match(/\.bspkName = '([^']+)'/);
+    const propNameMatch = content.match(/\.bspkName = '([^']+)'/);
+    const dataNameMatch = content.match(/data-bspk="([^"]+)"/);
+    const sassNameMatch = content.match(/import '\.\/(.*)\.scss'/);
 
-    if (!match) {
-        console.error(`What is '${file}'?`);
-        return;
+    const propName = propNameMatch?.[1];
+    const dataName = dataNameMatch?.[1];
+    const sassName = sassNameMatch?.[1];
+
+    const componentName = file.replace('.tsx', '');
+    const slug = kebabCase(componentName);
+
+    if (sassName && sassName !== slug && sassName !== 'base') {
+        errors.push(`❌ ${file} sass name does not match component slug "${sassName}"`);
     }
 
-    const name = match[1];
-
-    const dataAttr = `data-bspk="${kebabCase(name)}"`;
-
-    const hasSassImport = /import .*\.scss\n/.test(content);
-
-    // console.info(`Checking ${file}...`);
-
-    if (!content.includes(` ${dataAttr}`)) {
-        if (hasSassImport) console.error(`❌ ${file} does not contain ${dataAttr}`);
-        else console.log(`Add ${dataAttr} to ${file}`);
-
-        return;
+    if (!propName) {
+        errors.push(`❌ ${file} does not have a bspkName property`);
     }
 
-    // console.info(`✅ ${file} contains ${dataAttr}`);
+    if (dataName && dataName !== slug) {
+        errors.push(`❌ ${file} data-bspk attribute does not match component slug "${sassName}"`);
+    }
+
+    //console.info(`✅ ${file} passes linting`);
 });
+
+if (errors.length > 0) {
+    // eslint-disable-next-line no-console
+    errors.forEach((error) => console.error(error));
+    process.exit(1);
+}
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
