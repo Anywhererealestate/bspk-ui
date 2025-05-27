@@ -1,9 +1,8 @@
 import './avatar.scss';
 import { ReactNode, useMemo } from 'react';
 
+import { Tooltip } from './Tooltip';
 import { ColorVariant } from './utils/colorVariants';
-
-import { CommonProps } from '.';
 
 export type SizeVariant =
     | 'large'
@@ -16,7 +15,16 @@ export type SizeVariant =
     | 'xxxx-large'
     | 'xxxxx-large';
 
-export type AvatarProps = CommonProps<'aria-label'> & {
+export type AvatarProps = {
+    /**
+     * The name of the person or entity represented by the avatar. This is used for accessibility purposes.
+     *
+     * @example
+     *     Jane Doe
+     *
+     * @required
+     */
+    name: string;
     /**
      * The size of the avatar.
      *
@@ -29,14 +37,29 @@ export type AvatarProps = CommonProps<'aria-label'> & {
      * @default grey
      */
     color?: ColorVariant;
-    /** The initials to display in the avatar limited to 2 characters. */
+    /**
+     * The initials to display in the avatar limited to 2 characters.
+     *
+     * @example
+     *     JD;
+     */
     initials?: string;
-    /** The icon to display in the avatar. */
+    /**
+     * The icon to display in the avatar. This needs to be an icon from the @bspk/icons library.
+     *
+     *     import { SvgPerson } from '@bspk/icons/Person';
+     *
+     * @example
+     *     <SvgPerson />;
+     */
     icon?: ReactNode;
-    /** The url to the image to display in the avatar. */
+    /**
+     * The url to the image to display in the avatar.
+     *
+     * @example
+     *     '/user/e3232/avatar.jpg';
+     */
     image?: string;
-    /** The number of notifications not displayed in a list. */
-    overflowCount?: number;
 };
 
 /**
@@ -45,32 +68,35 @@ export type AvatarProps = CommonProps<'aria-label'> & {
  *
  * @name Avatar
  */
-function Avatar({
-    initials,
-    color = 'grey',
-    size = 'small',
-    icon,
-    image,
-    'aria-label': ariaLabel,
-    overflowCount,
-}: AvatarProps) {
+function Avatar({ initials: initialsProp, color = 'grey', size = 'small', icon, image, name: ariaLabel }: AvatarProps) {
     const children = useMemo(() => {
-        if (initials) return <span data-initials>{initials}</span>;
-        if (icon) return <span data-icon>{icon}</span>;
         if (image) return <img alt={ariaLabel} src={image} />;
-        if (overflowCount) return <span data-overflow-count>+{overflowCount}</span>;
-        return null;
-    }, [ariaLabel, icon, image, initials, overflowCount]);
+        if (icon) return <span data-icon>{icon}</span>;
 
-    return (
-        <>
-            {children && (
-                <div aria-label={ariaLabel} data-bspk="avatar" data-color={color} data-size={size}>
-                    {children}
-                </div>
-            )}
-        </>
+        let initials = initialsProp;
+
+        if (ariaLabel && !initials)
+            initials = ariaLabel
+                .split(' ')
+                .map((word) => word.charAt(0))
+                .slice(0, 2)
+                .join('')
+                .toUpperCase();
+
+        if (initials) return <span data-initials>{initials.slice(0, 2)}</span>;
+
+        return null;
+    }, [ariaLabel, icon, image, initialsProp]);
+
+    if (!children) return null;
+
+    const avatar = (
+        <div aria-label={ariaLabel} data-bspk="avatar" data-color={color} data-size={size}>
+            {children}
+        </div>
     );
+
+    return <Tooltip label={ariaLabel}>{avatar}</Tooltip>;
 }
 
 Avatar.bspkName = 'Avatar';
