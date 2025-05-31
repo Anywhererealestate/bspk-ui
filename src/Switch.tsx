@@ -3,7 +3,7 @@ import { ChangeEvent } from 'react';
 
 import { CommonProps } from './';
 
-export type SwitchProps = CommonProps<'aria-label' | 'disabled' | 'name' | 'onClick' | 'value'> & {
+export type SwitchProps = CommonProps<'aria-label' | 'disabled' | 'name' | 'value'> & {
     /**
      * Marks the control as checked.
      *

@@ -42,6 +42,7 @@
         height: var(--spacing-sizing-12);
         background: transparent;
         position: relative;
+        white-space: nowrap;
 
         [data-focus-ring] {
             display: none;

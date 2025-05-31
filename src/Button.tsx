@@ -9,10 +9,18 @@ import { ButtonSize, CommonProps, ElementProps } from './';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'tertiary';
 
-export type ButtonProps<As extends ElementType = 'button'> = CommonProps<'disabled' | 'onClick'> & {
-    /** The label of the button. */
-    label?: string;
-    /** The icon of the button. */
+export type ButtonProps<As extends ElementType = 'button'> = CommonProps<'disabled'> & {
+    /**
+     * The label of the button.
+     *
+     * @required
+     */
+    label: string;
+    /**
+     * The icon of the button.
+     *
+     * @type BspkIcon
+     */
     icon?: ReactNode;
     /**
      * Shows the button label. When label isn't showing it is used in a tooltip and as the aria-label prop.
@@ -59,6 +67,8 @@ export type ButtonProps<As extends ElementType = 'button'> = CommonProps<'disabl
     children?: ReactNode;
     /** The tool tip text that appears when hovered. */
     toolTip?: string;
+    /** The function to call when the button is clicked. */
+    onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 };
 
 /**

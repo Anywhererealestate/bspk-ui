@@ -11,9 +11,13 @@ export type ProgressBarProps = {
     /**
      * The current progress of the progressbar.
      *
+     * @example
+     *     42;
+     *
      * @default 0
      * @minimum 0
      * @maximum 100
+     *
      * @required
      */
     completion: number;

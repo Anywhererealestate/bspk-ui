@@ -15,8 +15,10 @@
         "esModuleInterop": true,
         "declaration": true,
         "sourceMap": true,
+        "inlineSources": false,
         "baseUrl": "./",
-        "outDir": "dist",
+        "rootDir": "./src",
+        "outDir": "./dist",
         "paths": {
             "*": [
                 "node_modules/@types/*",

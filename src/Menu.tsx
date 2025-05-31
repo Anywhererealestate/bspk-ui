@@ -1,12 +1,12 @@
 import './menu.scss';
-import { ComponentProps, CSSProperties, MouseEvent as ReactMouseEvent, useMemo } from 'react';
+import { ComponentProps, CSSProperties, useMemo } from 'react';
 
 import { Checkbox } from './Checkbox';
 import { ListItem } from './ListItem';
 import { Txt } from './Txt';
 import { useId } from './hooks/useId';
 
-import { CommonProps, ElementProps } from './';
+import { CommonProps, ElementProps, SetRef } from './';
 
 export const MIN_ITEM_COUNT = 3;
 export const MAX_ITEM_COUNT = 10;
@@ -16,12 +16,12 @@ export function menuItemId(menuId: string, index: number) {
 }
 
 /** The props for the renderListItem function. Useful for customizing menu list items. */
-export type RenderListItemParams<M extends MenuItem> = Pick<
-    MenuProps<M>,
+export type RenderListItemParams<T extends MenuItem = MenuItem> = Pick<
+    MenuProps<T>,
     'activeIndex' | 'isMulti' | 'selectedValues'
 > & {
     index: number;
-    item: M;
+    item: T;
     menuId: string;
     selected: boolean;
     itemId?: string;
@@ -37,7 +37,7 @@ export type MenuItem = CommonProps<'disabled'> & {
     id?: string;
 };
 
-export type MenuProps<Item extends MenuItem = MenuItem> = CommonProps<'disabled' | 'id'> & {
+export type MenuProps<T extends MenuItem = MenuItem> = CommonProps<'disabled' | 'id'> & {
     /**
      * The number of items to display in the menu
      *
@@ -49,11 +49,25 @@ export type MenuProps<Item extends MenuItem = MenuItem> = CommonProps<'disabled'
     /**
      * Content to display in the menu.
      *
-     * @type MenuItems
+     * @example
+     *     [
+     *         { value: '1', label: 'Option 1' },
+     *         { value: '2', label: 'Option 2' },
+     *         { value: '3', label: 'Option 3' },
+     *         { value: '4', label: 'Option 4' },
+     *         { value: '5', label: 'Option 5' },
+     *         { value: '6', label: 'Option 6' },
+     *         { value: '7', label: 'Option 7' },
+     *         { value: '8', label: 'Option 8' },
+     *         { value: '9', label: 'Option 9' },
+     *         { value: '10', label: 'Option 10' },
+     *     ];
+     *
+     * @type Array<MenuItem>
      */
-    items?: Item[];
+    items?: T[];
     /** A ref to the inner div element. */
-    innerRef?: (node: HTMLElement | null) => void;
+    innerRef?: SetRef<HTMLDivElement>;
     /**
      * Message to display when no results are found
      *
@@ -71,7 +85,7 @@ export type MenuProps<Item extends MenuItem = MenuItem> = CommonProps<'disabled'
      * @param {RenderListItemParams} props
      * @returns {ComponentProps<typeof ListItem>}
      */
-    renderListItem?: (props: RenderListItemParams<Item>) => Partial<ComponentProps<typeof ListItem>>;
+    renderListItem?: (props: RenderListItemParams<T>) => Partial<ComponentProps<typeof ListItem>>;
     /**
      * Whether the menu allows multiple selections.
      *
@@ -81,12 +95,10 @@ export type MenuProps<Item extends MenuItem = MenuItem> = CommonProps<'disabled'
     /**
      * The function to call when the selected values change.
      *
-     * @type (selectedValues: String[], event: ChangeEvent) => void
-     * @param {string[]} selectedValues
-     * @param {ChangeEvent} event
-     * @returns {void}
+     * @example
+     *     (selectedValues, event) => setState({ selectedValues });
      */
-    onChange?: (selectedValues: string[], event?: ReactMouseEvent<HTMLButtonElement, MouseEvent>) => void;
+    onChange?: (selectedValues: string[], event?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 };
 
 /**
@@ -94,7 +106,7 @@ export type MenuProps<Item extends MenuItem = MenuItem> = CommonProps<'disabled'
  *
  * @name Menu
  */
-function Menu<Item extends MenuItem = MenuItem>({
+function Menu({
     itemCount: itemCountProp = 5,
     items: itemsProp = [],
     noResultsMessage,
@@ -107,7 +119,7 @@ function Menu<Item extends MenuItem = MenuItem>({
     renderListItem,
     isMulti,
     ...props
-}: ElementProps<MenuProps<Item>, 'div'>) {
+}: ElementProps<MenuProps, 'div'>) {
     const menuId = useId(idProp);
     const items = Array.isArray(itemsProp) ? itemsProp : [];
     const itemCount = useMemo(
@@ -164,7 +176,7 @@ function Menu<Item extends MenuItem = MenuItem>({
                             id={itemId}
                             key={itemId}
                             label={renderProps?.label?.toString() || item.label?.toString()}
-                            onClick={(event: ReactMouseEvent<HTMLButtonElement, MouseEvent>) => {
+                            onClick={(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
                                 if (renderProps) renderProps?.onClick?.(event);
 
                                 if (onChange) {

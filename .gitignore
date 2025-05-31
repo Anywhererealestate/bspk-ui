@@ -12,3 +12,5 @@ src/*.css
 _virtual
 package
 src/meta.ts
+types.json
+component-files.json

@@ -27,7 +27,7 @@
         gap: var(--spacing-sizing-03);
     }
 
-    [data-list-item] {
+    [data-bspk='list-item'] {
         min-height: var(--item-size);
         height: var(--item-size);
     }

@@ -1,8 +1,11 @@
 [data-bspk='avatar'] {
     --height: var(--spacing-sizing-10);
     --font: var(--labels-base);
-    --foreground: var(--foreground-neutral-on-surface);
-    --background: var(--surface-neutral-t3-low);
+
+    &:not([data-color]) {
+        --foreground: var(--foreground-neutral-on-surface);
+        --background: var(--surface-neutral-t3-low);
+    }
 
     display: flex;
     flex-direction: column;

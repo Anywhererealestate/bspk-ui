@@ -1,10 +1,18 @@
 import { SvgCancel } from '@bspk/icons/Cancel';
-import './text-input.scss';
 import { ChangeEvent, HTMLInputAutoCompleteAttribute, HTMLInputTypeAttribute, ReactNode } from 'react';
 
 import { useId } from './hooks/useId';
 
-import { ElementProps, CommonProps, InvalidPropsLibrary } from '.';
+import { ElementProps, CommonProps, InvalidPropsLibrary, SetRef } from '.';
+
+import './text-input.scss';
+
+export const DEFAULT = {
+    size: 'medium',
+    value: '',
+    type: 'text' as Extract<HTMLInputTypeAttribute, 'number' | 'text'>,
+    autoComplete: 'off',
+} as const;
 
 export type TextInputProps = CommonProps<
     'aria-label' | 'disabled' | 'id' | 'name' | 'readOnly' | 'required' | 'size' | 'value'
@@ -13,21 +21,24 @@ export type TextInputProps = CommonProps<
         /**
          * Callback when the value of the field changes.
          *
-         * @type (next: String, Event) => void
          * @required
          */
         onChange: (next: string, event?: ChangeEvent<HTMLInputElement>) => void;
         /** The ref of the container. */
-        containerRef?: (node: HTMLElement | null) => void;
+        containerRef?: SetRef<HTMLDivElement>;
         /** The ref of the input. */
-        inputRef?: (node: HTMLElement | null) => void;
+        inputRef?: SetRef<HTMLInputElement>;
         /** The trailing element to display in the field. */
         trailing?: ReactNode;
         /** The leading element to display in the field. */
         leading?: ReactNode;
         /** The placeholder of the field. */
         placeholder?: string;
-        /** The type of the input. */
+        /**
+         * The type of the input.
+         *
+         * @default text
+         */
         type?: Extract<HTMLInputTypeAttribute, 'number' | 'text'>;
         /**
          * Specifies if user agent has any permission to provide automated assistance in filling out form field values.
@@ -49,8 +60,8 @@ export type TextInputProps = CommonProps<
 function TextInput({
     invalid: invalidProp,
     onChange,
-    size = 'medium',
-    value = '',
+    size = DEFAULT.size,
+    value = DEFAULT.value,
     name,
     'aria-label': ariaLabel,
     inputRef,
@@ -59,10 +70,10 @@ function TextInput({
     id: idProp,
     leading,
     trailing,
-    type,
+    type = DEFAULT.type,
     readOnly,
     disabled,
-    autoComplete = 'off',
+    autoComplete = DEFAULT.autoComplete,
     containerRef,
     errorMessage,
     ...otherProps
@@ -75,6 +86,7 @@ function TextInput({
         <div
             data-bspk="text-input"
             data-disabled={disabled || undefined}
+            data-empty={!value.toString().length || undefined}
             data-invalid={invalid || undefined}
             data-readonly={readOnly || undefined}
             data-required={required || undefined}
@@ -102,11 +114,9 @@ function TextInput({
                 value={value}
             />
             {trailing && <span data-trailing>{trailing}</span>}
-            {value?.toString().length > 0 && !readOnly && !disabled && (
-                <button aria-label="clear" data-clear onClick={() => onChange('')}>
-                    <SvgCancel />
-                </button>
-            )}
+            <button aria-label="clear" data-clear onClick={() => onChange('')}>
+                <SvgCancel />
+            </button>
         </div>
     );
 }

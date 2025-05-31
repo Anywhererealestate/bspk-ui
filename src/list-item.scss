@@ -44,7 +44,7 @@
         }
     }
 
-    /* &:has(+ [data-list-item]) {
+    /* &:has(+ [data-bspk="list-item"]) {
     [data-inner] {
       border-bottom: 1px solid var(--stroke-neutral-low);
     }
@@ -72,6 +72,10 @@
         &:active {
             background-color: var(--interactions-neutral-press-opacity);
         }
+    }
+
+    [data-trailing]:has(input) {
+        pointer-events: none;
     }
 
     [data-component='Img'] > img {

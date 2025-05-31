@@ -19,6 +19,12 @@ import { ComponentMeta, TypeProperty, UtilityMeta, TypeMeta } from './meta-types
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+const { componentsDir, hooksDir, rootPath } = {
+    componentsDir: path.resolve(__dirname, 'src'),
+    hooksDir: path.resolve(__dirname, 'src', 'hooks'),
+    rootPath: path.resolve(__dirname),
+} as const;
+
 function jsDocParse(content: string) {
     try {
         const contentTrimmed = content
@@ -43,7 +49,8 @@ function jsDocParse(content: string) {
                 data[key] = value
                     .replace(/\n[ ]+\*([ ]*)/g, '\n')
                     .replace(/^\s+\*\s+/, '')
-                    .trim();
+                    .trim()
+                    .replace(/;$/, '');
 
                 return;
             }
@@ -101,34 +108,34 @@ if (!metaFilePath) {
     process.exit(1);
 }
 
-const { componentsDir, hooksDir, rootPath } = {
-    componentsDir: path.resolve(__dirname, 'src'),
-    hooksDir: path.resolve(__dirname, 'src', 'hooks'),
-    rootPath: path.resolve(__dirname),
-} as const;
-
 const componentFiles = fs
     .readdirSync(componentsDir)
     .filter((f) => f.endsWith('.tsx'))
     .map((fileName) => {
         const filePath = path.resolve(componentsDir, fileName);
+        const content = fs.readFileSync(filePath, 'utf-8');
         return {
             filePath,
             name: fileName.replace(/\.[^.]+$/, ''),
             fileName,
-            content: fs.readFileSync(filePath, 'utf-8'),
+            content,
+            // eslint-disable-next-line no-useless-escape
+            jsDocs: content.match(/\/\*\*\s*\n([^\*]|(\*(?!\/)))*\*\//g)?.map((jsDoc) => jsDocParse(jsDoc)),
         };
     });
+
+type ComponentFile = (typeof componentFiles)[0];
+
+fs.writeFileSync(path.resolve(__dirname, 'component-files.json'), JSON.stringify(componentFiles, null, 2), {
+    encoding: 'utf-8',
+});
 
 function generateComponentMeta({
     filePath: componentFile,
     content,
     name,
-}: {
-    filePath: string;
-    content: string;
-    name: string;
-}): ComponentMeta | null {
+    jsDocs,
+}: ComponentFile): ComponentMeta | null {
     const stats = fs.statSync(componentFile);
 
     const componentFunctionMatch = content.match(new RegExp(`function ${name}[(<]`));
@@ -142,17 +149,12 @@ function generateComponentMeta({
         return null;
     }
 
-    // eslint-disable-next-line no-useless-escape
-    const allJSDocMatches = content.match(/\/\*\*\s*\n([^\*]|(\*(?!\/)))*\*\//g);
+    const componentDoc = [...(jsDocs || [])].find((doc) => doc.name === name);
 
-    const componentDocStr = [...(allJSDocMatches || [])].find((doc) => doc.includes(`@name ${name}`));
-
-    if (!componentDocStr) {
+    if (!componentDoc) {
         console.warn(`No JSDoc found for component ${name} for ${componentFile}`);
         return null;
     }
-
-    const componentDoc = jsDocParse(componentDocStr);
 
     const slug = kebabCase(componentDoc.name);
 
@@ -257,11 +259,9 @@ function generateTypes() {
         noExtraProps: false,
     })!;
 
-    const symbols = generator.getSchemaForSymbols(generator.getMainFileSymbols(program), true);
+    const { definitions } = generator.getSchemaForSymbols(generator.getMainFileSymbols(program), true);
 
-    const definitions = symbols.definitions as {
-        [key: string]: TJS.Definition;
-    };
+    fs.writeFileSync(path.resolve(__dirname, 'types.json'), JSON.stringify(definitions, null, 2));
 
     const nextTypes: TypeMeta[] = [];
 
@@ -283,25 +283,41 @@ function generateTypes() {
 
     const defineProperty = (
         name: string,
-        definition: TJS.DefinitionOrBoolean,
-        required?: string[],
+        definition: TJS.Definition,
+        required: string[],
+        context: {
+            componentFile: ComponentFile | null;
+            parent: string;
+        },
     ): TypeProperty | undefined => {
-        if (typeof definition !== 'object') return undefined;
+        // the auto-generated types aren't always correct, so we need to fix them
+        const jsDoc = definition.description
+            ? context.componentFile?.jsDocs?.find(
+                  (doc) =>
+                      doc.description.includes(definition.description!) ||
+                      definition.description!.includes(doc.description),
+              )
+            : undefined;
 
         const next: TypeProperty = {
             name,
             required: required?.includes(name),
-            description: definition.description,
+            description: jsDoc?.description || definition.description,
             default: definition.default === 'undefined' ? undefined : definition.default,
-            type: definition.type,
+            type: definition.type?.toString(),
             properties:
                 definition.properties &&
-                Object.entries(definition.properties)?.flatMap(
-                    ([name2, definition2]) => defineProperty(name2, definition2, definition.required) || [],
+                Object.entries(definition.properties)?.flatMap(([name2, definition2]) =>
+                    typeof definition2 === 'boolean'
+                        ? []
+                        : defineProperty(name2, definition2, definition.required || [], context) || [],
                 ),
             minimum: definition.minimum,
             maximum: definition.maximum,
+            example: jsDoc?.example,
         };
+
+        if (next.name.match(/^on[A-Z]/)) next.type = 'function';
 
         const defEnum = cleanUpDefinitionEnums(definition);
 
@@ -313,8 +329,8 @@ function generateTypes() {
         if (definition.$ref) {
             next.type = definition.$ref.split('/').pop() as string;
 
-            if (definitions[next.type]) {
-                next.options = cleanUpDefinitionEnums(definitions[next.type]);
+            if (definitions && definitions[next.type] && typeof definitions[next.type] !== 'boolean') {
+                next.options = cleanUpDefinitionEnums(definitions[next.type] as TJS.Definition);
             }
         }
 
@@ -324,6 +340,15 @@ function generateTypes() {
     if (definitions)
         Object.entries(definitions).forEach(([definitionName, definition]) => {
             if (typeof definition !== 'object') return;
+
+            let componentFile: ComponentFile | null = null;
+            // only care about ComponentProps
+            if (definitionName.endsWith('Props')) {
+                componentFile =
+                    componentFiles.find((f) => f.fileName === `${definitionName.replace(/Props$/, '')}.tsx`) || null;
+            }
+
+            const context = { componentFile, parent: definitionName };
 
             if (!definition?.properties && !definition?.allOf) return;
 
@@ -336,9 +361,10 @@ function generateTypes() {
                     if (typeof ofDefinition !== 'object') return [];
 
                     if (ofDefinition.properties) {
-                        return Object.entries(ofDefinition.properties).flatMap(
-                            ([refName, refDefinition]) =>
-                                defineProperty(refName, refDefinition, ofDefinition.required) || [],
+                        return Object.entries(ofDefinition.properties).flatMap(([refName, refDefinition]) =>
+                            typeof refDefinition !== 'object'
+                                ? []
+                                : defineProperty(refName, refDefinition, ofDefinition.required || [], context) || [],
                         );
                     }
 
@@ -348,12 +374,13 @@ function generateTypes() {
 
                     const defReference = definitions[reference];
 
-                    if (!defReference) return [];
+                    if (typeof defReference === 'boolean') return [];
 
-                    return Object.entries(defReference.properties || {}).flatMap(
-                        ([refName, refDefinition]) =>
-                            defineProperty(refName, refDefinition, defReference.required) || [],
-                    );
+                    return Object.entries(defReference.properties || {}).flatMap(([refName, refDefinition]) => {
+                        return typeof refDefinition !== 'object'
+                            ? []
+                            : defineProperty(refName, refDefinition, defReference.required || [], context) || [];
+                    });
                 });
             }
 
@@ -366,7 +393,7 @@ function generateTypes() {
                     return;
                 }
                 properties = Object.entries(props).flatMap(
-                    ([propName, prop]) => defineProperty(propName, prop, definition.required) || [],
+                    ([propName, prop]) => defineProperty(propName, prop, definition.required || [], context) || [],
                 );
             }
 
@@ -432,10 +459,15 @@ async function createMeta() {
     const typesMeta = generateTypes();
     typesMeta.sort((a, b) => a.name.localeCompare(b.name));
 
+    const componentImport = (name: string) =>
+        `${name}: React.lazy(() => import('@bspk/ui/${name}').then((module) => ({ default: module.${name} })))`;
+
     fs.writeFileSync(
         metaFilePath,
         [
             `/** This file is generated by the @bspk/ui/meta.ts script with data scraped from the library. */`,
+
+            `import React from 'react';`,
 
             fs.readFileSync(path.resolve(__dirname, 'meta-types.ts'), { encoding: 'utf-8' }),
 
@@ -448,6 +480,8 @@ async function createMeta() {
             `export type MetaTypeName = '${typesMeta.map((t) => t.name).join("' | '")}';`,
 
             `export type MetaComponentName = '${metaComponentNames.join("' | '")}';`,
+
+            `export const components: Partial<Record<MetaComponentName, React.LazyExoticComponent<any>>> = {${metaComponentNames.map(componentImport).join(',')}\n};`,
         ].join('\n\n'),
     );
 

@@ -30,7 +30,14 @@ export type ProgressionStepperProps = {
     /**
      * The steps to display in the progress bar.
      *
-     * @type ProgressionStepperItem[]
+     * @example
+     *     [
+     *         { name: '[Name of step to proceed forward 1]' },
+     *         { name: '[Name of step to proceed forward 2]' },
+     *         { name: '[Name of step to proceed forward 3]' },
+     *     ];
+     *
+     * @type Array<ProgressionStepperItem>
      * @required
      */
     steps: ProgressionStepperItem[];
@@ -67,7 +74,7 @@ function ProgressionStepper({
     ...containerProps
 }: ElementProps<ProgressionStepperProps, 'div'>) {
     const currentStep = Math.max(0, Math.min(currentStepProp, steps.length + 1));
-    return (
+    return !steps?.length ? null : (
         <div {...containerProps} data-bspk="progression-stepper" data-variant={variant}>
             {variant === 'widget' && (
                 <label>

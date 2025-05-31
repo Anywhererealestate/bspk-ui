@@ -5,6 +5,9 @@ export type ProgressionStepperBarProps = {
     /**
      * The number of steps in the progress bar.
      *
+     * @example
+     *     5;
+     *
      * @minimum 2
      * @maximum 10
      * @required
@@ -12,6 +15,9 @@ export type ProgressionStepperBarProps = {
     stepCount: number;
     /**
      * The last step completed.
+     *
+     * @example
+     *     2;
      *
      * @default 0
      * @minimum 0

@@ -2,6 +2,7 @@
  * This file is used to build the meta types for the project. It's used in the build-meta.ts file and also copied in to
  * the meta output file.
  */
+
 export type BaseMeta = {
     name: string;
     description?: string;
@@ -27,6 +28,7 @@ export type TypeProperty = {
     references?: string[];
     minimum?: number;
     maximum?: number;
+    example?: string;
 };
 
 export type ComponentMeta = BaseMeta & {

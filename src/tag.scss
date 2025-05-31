@@ -11,6 +11,7 @@
     font: unset;
     text-decoration: unset;
     white-space: nowrap;
+    pointer-events: none;
 
     &[data-wrap] {
         height: auto;

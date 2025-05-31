@@ -25,7 +25,11 @@ export type NumberInputProps = CommonProps<'aria-label' | 'disabled' | 'id' | 'n
     InvalidPropsLibrary & {
         /** The value of the control. */
         value?: number;
-        /** Callback when the value changes. */
+        /**
+         * Callback when the value changes.
+         *
+         * @required
+         */
         onChange: (value: number | undefined) => void;
         /**
          * The alignment of the input box. Centered between the plus and minus buttons or to the left of the buttons.
@@ -78,8 +82,10 @@ function NumberInput({
     const max = isNumber(maxProp);
     const min = isNumber(minProp);
 
-    const fix = (next: number | undefined = value) => {
-        if (typeof next !== 'number') {
+    const fix = (nextValue: number | string | undefined) => {
+        const next = isNumber(nextValue);
+
+        if (typeof next !== 'number' || isNaN(next)) {
             onChange(undefined);
             return;
         }
@@ -116,12 +122,15 @@ function NumberInput({
                 aria-label={ariaLabel}
                 disabled={disabled}
                 id={inputId}
+                max={max}
+                min={min}
                 name={name}
-                onBlur={() => {
-                    fix();
+                onBlur={(event) => {
+                    // Fix the value on blur to ensure it is a valid number
+                    fix(event.target.value);
                 }}
                 onChange={(event) => {
-                    onChange(event.target.value as unknown as number);
+                    onChange(isNumber(event.target.value));
                 }}
                 readOnly={readOnly}
                 type="number"

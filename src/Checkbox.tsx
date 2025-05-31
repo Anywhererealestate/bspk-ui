@@ -1,17 +1,31 @@
 import './checkbox.scss';
-import { useEffect, useRef } from 'react';
+import { ChangeEvent, useEffect, useRef } from 'react';
 
-import { ToggleControlProps, ElementProps } from './';
+import { CommonProps, ElementProps, InvalidPropsLibrary } from './';
 
-export type CheckboxProps = ToggleControlProps<HTMLInputElement> & {
-    /**
-     * If the checkbox is partially checked or
-     * [indeterminate](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#indeterminate_state_checkboxes).
-     *
-     * @default false
-     */
-    indeterminate?: boolean;
-};
+export type CheckboxProps = CommonProps<'aria-label' | 'disabled' | 'name'> &
+    InvalidPropsLibrary &
+    Required<CommonProps<'value'>> & {
+        /**
+         * If the checkbox is partially checked or
+         * [indeterminate](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#indeterminate_state_checkboxes).
+         *
+         * @default false
+         */
+        indeterminate?: boolean;
+        /**
+         * Marks the checkbox as checked.
+         *
+         * @default false
+         */
+        checked?: boolean;
+        /**
+         * The function to call when the checkbox is checked or unchecked.
+         *
+         * @required
+         */
+        onChange: (checked: boolean, event: ChangeEvent<HTMLInputElement>) => void;
+    };
 
 /**
  * A control that allows users to choose one or more items from a list or turn an feature on or off. This is the base

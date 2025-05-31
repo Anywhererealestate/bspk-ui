@@ -2,7 +2,14 @@ import './avatar.scss';
 import { ReactNode, useMemo } from 'react';
 
 import { Tooltip } from './Tooltip';
+import { isValidIcon } from './utils/children';
 import { ColorVariant } from './utils/colorVariants';
+
+const DEFAULT = {
+    size: 'small',
+    color: 'grey',
+    showTooltip: true,
+} as const;
 
 export type SizeVariant =
     | 'large'
@@ -40,6 +47,8 @@ export type AvatarProps = {
     /**
      * The initials to display in the avatar limited to 2 characters.
      *
+     * If not provided, the first two letters of the name will be used as initials.
+     *
      * @example
      *     JD;
      */
@@ -47,31 +56,49 @@ export type AvatarProps = {
     /**
      * The icon to display in the avatar. This needs to be an icon from the @bspk/icons library.
      *
-     *     import { SvgPerson } from '@bspk/icons/Person';
-     *
      * @example
      *     <SvgPerson />;
+     *
+     * @type BspkIcon
      */
     icon?: ReactNode;
     /**
      * The url to the image to display in the avatar.
      *
      * @example
-     *     '/user/e3232/avatar.jpg';
+     *     /profile.jpg
      */
     image?: string;
+    /**
+     * Whether to show the represeneetd user's name as a tooltip.
+     *
+     * @default true
+     */
+    showTooltip?: boolean;
 };
 
 /**
- * An avatar is a visual representation of a user or entity. It can be used to display an initials, icon, image, or an
- * overflowCount.
+ * An avatar is a visual representation of a user or entity. It can be used to display an initials, icon, image.
+ *
+ * The image if provided is displayed first, followed by the icon if provided, and finally the initials.
+ *
+ * If no initials are provided, the first two letters of the name will be used as initials.
  *
  * @name Avatar
  */
-function Avatar({ initials: initialsProp, color = 'grey', size = 'small', icon, image, name: ariaLabel }: AvatarProps) {
+function Avatar({
+    initials: initialsProp,
+    color = DEFAULT.color,
+    size = DEFAULT.size,
+    icon,
+    image,
+    name: ariaLabel,
+    showTooltip = DEFAULT.showTooltip,
+}: AvatarProps) {
     const children = useMemo(() => {
         if (image) return <img alt={ariaLabel} src={image} />;
-        if (icon) return <span data-icon>{icon}</span>;
+
+        if (isValidIcon(icon)) return <span data-icon>{icon}</span>;
 
         let initials = initialsProp;
 
@@ -96,7 +123,7 @@ function Avatar({ initials: initialsProp, color = 'grey', size = 'small', icon, 
         </div>
     );
 
-    return <Tooltip label={ariaLabel}>{avatar}</Tooltip>;
+    return showTooltip ? <Tooltip label={ariaLabel}>{avatar}</Tooltip> : avatar;
 }
 
 Avatar.bspkName = 'Avatar';

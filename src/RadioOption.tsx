@@ -1,11 +1,20 @@
+import { ChangeEvent } from 'react';
+
 import { RadioProps, Radio } from './Radio';
 import { ToggleOptionProps, ToggleOption } from './ToggleOption';
 
 import { InvalidPropsLibrary } from '.';
 
 export type RadioOptionProps = InvalidPropsLibrary &
-    Pick<RadioProps, 'checked' | 'disabled' | 'name' | 'onChange' | 'value'> &
-    Pick<ToggleOptionProps, 'description' | 'label'>;
+    Pick<RadioProps, 'checked' | 'disabled' | 'name' | 'value'> &
+    Pick<ToggleOptionProps, 'description' | 'label'> & {
+        /**
+         * The function to call when the radio is checked.
+         *
+         * @required
+         */
+        onChange: (checked: boolean, event: ChangeEvent<HTMLInputElement>) => void;
+    };
 
 /**
  * A control that allows users to choose one or more items from a list or turn an feature on or off.

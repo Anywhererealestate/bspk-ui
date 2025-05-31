@@ -7,7 +7,7 @@
     border: solid 1px var(--border-color);
     height: var(--field-height);
     border-radius: var(--radius-small);
-    padding: 0 var(--field-padding);
+    padding: 0 0 0 var(--field-padding);
     gap: var(--spacing-sizing-01);
     width: 100%;
 
@@ -22,17 +22,13 @@
     }
 
     &:hover:not(:focus-within) {
-        background: 
-    // multiple colors
-
+        background:
             linear-gradient(var(--interactions-hover-opacity), var(--interactions-hover-opacity)),
             linear-gradient(var(--surface-neutral-t1-base), var(--surface-neutral-t1-base));
     }
 
     &:active:not(:focus-within) {
-        background: 
-    // multiple colors
-
+        background:
             linear-gradient(var(--interactions-press-opacity), var(--interactions-press-opacity)),
             linear-gradient(var(--surface-neutral-t1-base), var(--surface-neutral-t1-base));
     }
@@ -40,9 +36,7 @@
     &[data-readonly] {
         --border-color: var(--stroke-neutral-disabled-light);
 
-        background: 
-    // multiple colors
-
+        background:
             linear-gradient(var(--interactions-disabled-opacity), var(--interactions-disabled-opacity)),
             linear-gradient(var(--surface-neutral-t1-base), var(--surface-neutral-t1-base));
     }
@@ -51,8 +45,6 @@
         --border-color: var(--stroke-neutral-disabled-light);
 
         background:
-    // multiple colors
-
             linear-gradient(var(--interactions-disabled-opacity), var(--interactions-disabled-opacity)),
             linear-gradient(var(--surface-neutral-t1-base), var(--surface-neutral-t1-base));
 
@@ -117,7 +109,7 @@
     }
 
     button[data-clear] {
-        display: none;
+        display: flex;
         border: none;
         background: none;
         padding: 0;
@@ -132,16 +124,19 @@
         }
     }
 
-    &:focus-within {
-        --border-color: var(--stroke-brand-primary);
+    &:not(:focus-within),
+    &[data-empty],
+    &[data-readonly],
+    &[data-disabled] {
+        padding-right: var(--field-padding);
 
         button[data-clear] {
-            display: flex;
+            display: none;
         }
     }
 
-    &:has(button[data-clear]) {
-        padding-right: 0;
+    &:focus-within {
+        --border-color: var(--stroke-brand-primary);
     }
 }
 

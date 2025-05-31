@@ -41,8 +41,17 @@ export type NavOption = {
     disabled?: boolean;
     /** The value of the option. If not provided, the label will be used as the value. */
     value?: string;
-    /** The the icon to display before the label. */
+    /**
+     * The the icon to display before the label.
+     *
+     * @type BspkIcon
+     */
     icon?: React.ReactNode;
+    /**
+     * The icon to display before the label when the option is active.
+     *
+     * @type BspkIcon
+     */
     iconActive?: React.ReactNode;
 };
 

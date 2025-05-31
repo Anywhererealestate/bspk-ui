@@ -34,6 +34,7 @@
         background: none;
         flex-grow: var(--btn-flex-grow);
         font: var(--font);
+        white-space: nowrap;
 
         &:hover {
             background: var(--interactions-neutral-hover-opacity);

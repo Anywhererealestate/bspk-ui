@@ -4,8 +4,15 @@ import { ToggleOptionProps, ToggleOption } from './ToggleOption';
 import { InvalidPropsLibrary } from '.';
 
 export type CheckboxOptionProps = InvalidPropsLibrary &
-    Pick<CheckboxProps, 'checked' | 'disabled' | 'indeterminate' | 'name' | 'onChange' | 'value'> &
-    Pick<ToggleOptionProps, 'description' | 'label'>;
+    Pick<CheckboxProps, 'checked' | 'disabled' | 'indeterminate' | 'name' | 'value'> &
+    Pick<ToggleOptionProps, 'description' | 'label'> & {
+        /**
+         * The function to call when the checkbox is checked or unchecked.
+         *
+         * @required
+         */
+        onChange: (checked: boolean, event: React.ChangeEvent<HTMLInputElement>) => void;
+    };
 
 /**
  * A control that allows users to choose one or more items from a list or turn an feature on or off.

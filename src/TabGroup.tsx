@@ -33,11 +33,19 @@ export type TabGroupOption = {
      * If not provided, the label will be used as the value.
      */
     value?: string;
-    /** The icon to display on the left side of the tab. */
+    /**
+     * The icon to display on the left side of the tab.
+     *
+     * @type BspkIcon
+     */
     icon?: ReactNode;
-    /** The icon to display on the left side of the tab when the tab is active. */
+    /**
+     * The icon to display on the left side of the tab when the tab is active.
+     *
+     * @type BspkIcon
+     */
     iconActive?: ReactNode;
-    /** The badge count to display on the tab. */
+    /** The badge count to display on the tab */
     badge?: number;
 };
 
@@ -45,12 +53,22 @@ export type TabGroupProps = {
     /**
      * The tabs to display. Each tab has a label and an optional leading icon.
      *
-     * @type TabGroupOption[]
+     * @example
+     *     [
+     *         { value: '1', label: 'Option 1' },
+     *         { value: '2', label: 'Option 2' },
+     *         { value: '3', label: 'Option 3' },
+     *     ];
+     *
+     * @type Array<TabGroupOption>
      * @required
      */
     options: TabGroupOption[];
     /**
-     * The id of the selected tab.
+     * The value of the selected tab.
+     *
+     * @example
+     *     1;
      *
      * @required
      */

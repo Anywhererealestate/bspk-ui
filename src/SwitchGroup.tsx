@@ -1,10 +1,9 @@
 import { Switch } from './Switch';
 import { ToggleOptionProps, ToggleOption } from './ToggleOption';
 
-import { ToggleControlProps, ElementProps, CommonProps } from './';
+import { ElementProps, CommonProps } from './';
 
-export type SwitchGroupOption = Pick<ToggleControlProps<HTMLInputElement>, 'value'> &
-    Pick<ToggleOptionProps, 'description' | 'label'>;
+export type SwitchGroupOption = Pick<ToggleOptionProps, 'description' | 'label'> & Required<CommonProps<'value'>>;
 
 export type SwitchGroupProps = CommonProps<'aria-label' | 'name'> & {
     /**
@@ -16,16 +15,23 @@ export type SwitchGroupProps = CommonProps<'aria-label' | 'name'> & {
     /**
      * The options for the switches.
      *
-     * @type SwitchGroupOption[]
+     * @example
+     *     [
+     *         { value: '1', label: 'Option 1' },
+     *         { value: '2', label: 'Option 2' },
+     *         { value: '3', label: 'Option 3' },
+     *     ];
+     *
+     * @type Array<SwitchGroupOption>
      * @required
      */
     options: SwitchGroupOption[];
     /**
      * The values of the switches in the on state.
      *
-     * @type string[]
+     * @type Array<string>
      */
-    values?: SwitchGroupProps['options'][number]['value'][];
+    value?: SwitchGroupProps['options'][number]['value'][];
 };
 
 /**
@@ -33,7 +39,13 @@ export type SwitchGroupProps = CommonProps<'aria-label' | 'name'> & {
  *
  * @name SwitchGroup
  */
-function SwitchGroup({ onChange, options = [], name, values = [], ...props }: ElementProps<SwitchGroupProps, 'div'>) {
+function SwitchGroup({
+    onChange,
+    options = [],
+    name,
+    value: values = [],
+    ...props
+}: ElementProps<SwitchGroupProps, 'div'>) {
     return (
         <div {...props} data-bspk="switch-group" role="group">
             {options.map(({ label, description, value }) => (

@@ -9,9 +9,12 @@ export type CheckboxGroupProps = CommonProps<'aria-label'> & {
     /**
      * The function to call when the checkboxes are changed.
      *
+     * @example
+     *     (values) => setState({ values });
+     *
      * @required
      */
-    onChange: (value: string[]) => void;
+    onChange: (values: string[]) => void;
     /**
      * The input control name of the checkboxes.
      *
@@ -21,14 +24,14 @@ export type CheckboxGroupProps = CommonProps<'aria-label'> & {
     /**
      * The options for the checkboxes.
      *
-     * @type CheckboxGroupOption[]
+     * @type Array<CheckboxGroupOption>
      * @required
      */
     options: CheckboxGroupOption[];
     /**
      * The values of the checked checkboxes.
      *
-     * @type string[]
+     * @type Array<string>
      */
     values?: CheckboxGroupProps['options'][number]['value'][];
     /**

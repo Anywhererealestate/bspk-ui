@@ -1,9 +1,9 @@
-import './tag.scss';
 import { ElementType, ReactNode } from 'react';
 
 import { ColorVariant } from './utils/colorVariants';
 
 import { ElementProps } from './';
+import './tag.scss';
 
 export type TagProps<As extends ElementType = 'span'> = {
     /**
@@ -15,6 +15,9 @@ export type TagProps<As extends ElementType = 'span'> = {
     as?: As;
     /**
      * The content of the tag.
+     *
+     * @example
+     *     New;
      *
      * @required
      */
@@ -28,7 +31,7 @@ export type TagProps<As extends ElementType = 'span'> = {
     /**
      * The color of the tag.
      *
-     * @default white
+     * @default grey
      */
     color?: ColorVariant;
     /**

@@ -1,18 +1,18 @@
 import './dialog.scss';
 import { FocusTrap } from 'focus-trap-react';
-import { ReactNode, Ref, useCallback, useEffect, useRef, useState } from 'react';
+import { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
 
 import { Portal } from './Portal';
 import { useId } from './hooks/useId';
 import { useOutsideClick } from './hooks/useOutsideClick';
 
-import { CommonProps, ElementProps } from './';
+import { CommonProps, ElementProps, SetRef } from './';
 
 export type DialogProps = CommonProps<'id'> & {
     /** The content of the dialog. */
     children?: ReactNode;
     /** A ref to the dialog element. */
-    innerRef?: Ref<HTMLDivElement>;
+    innerRef?: SetRef<HTMLDivElement>;
     /**
      * If the dialog should appear.
      *

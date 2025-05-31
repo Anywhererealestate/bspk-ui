@@ -1,9 +1,9 @@
 import './textarea.scss';
-import { ChangeEvent, CSSProperties, Ref } from 'react';
+import { ChangeEvent, CSSProperties } from 'react';
 
 import { useId } from './hooks/useId';
 
-import { CommonProps, InvalidPropsLibrary } from './';
+import { CommonProps, InvalidPropsLibrary, SetRef } from './';
 
 const DEFAULT = {
     minRows: 3,
@@ -39,7 +39,7 @@ export type TextareaProps = CommonProps<'aria-label' | 'disabled' | 'id' | 'read
          */
         name: string;
         /** The ref of the field. */
-        innerRef?: Ref<HTMLTextAreaElement>;
+        innerRef?: SetRef<HTMLTextAreaElement>;
         /** The placeholder of the field. */
         placeholder?: string;
         /**

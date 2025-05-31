@@ -3,7 +3,7 @@ import { CSSProperties, ReactNode } from 'react';
 
 import { CommonProps } from '.';
 
-export type ChipProps = CommonProps<'disabled' | 'onClick'> & {
+export type ChipProps = CommonProps<'disabled'> & {
     /**
      * The content of the chip.
      *
@@ -39,6 +39,8 @@ export type ChipProps = CommonProps<'disabled' | 'onClick'> & {
     selected?: boolean;
     /** The style of the chip. */
     style?: CSSProperties;
+    /** The function to call when the chip is clicked. */
+    onClick?: (event: React.MouseEvent<HTMLSpanElement, MouseEvent>) => void;
 };
 
 /**

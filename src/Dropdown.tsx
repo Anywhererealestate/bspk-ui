@@ -10,27 +10,41 @@ import { useId } from './hooks/useId';
 
 import { CommonProps, InvalidPropsLibrary } from './';
 
-export type DropdownOption = {
+export type DropdownOption = Record<string, unknown> & {
     /** The value of the option. */
     value: string;
     /** The label of the option. This is the text that will be displayed on the option. */
     label: string;
 };
 
-export type DropdownProps<O extends DropdownOption = DropdownOption> = CommonProps<
+export type DropdownProps<T extends DropdownOption = DropdownOption> = CommonProps<
     'aria-label' | 'disabled' | 'id' | 'name' | 'readOnly' | 'size'
 > &
     InvalidPropsLibrary &
-    Pick<MenuProps<O>, 'isMulti' | 'itemCount' | 'onChange' | 'renderListItem'> & {
+    Pick<MenuProps<T>, 'isMulti' | 'itemCount' | 'renderListItem'> & {
         /**
          * Array of options to display in the dropdown
          *
-         * @type DropdownOption[]
+         * @example
+         *     [
+         *         { value: '1', label: 'Option 1' },
+         *         { value: '2', label: 'Option 2' },
+         *         { value: '3', label: 'Option 3' },
+         *         { value: '4', label: 'Option 4' },
+         *         { value: '5', label: 'Option 5' },
+         *         { value: '6', label: 'Option 6' },
+         *         { value: '7', label: 'Option 7' },
+         *         { value: '8', label: 'Option 8' },
+         *         { value: '9', label: 'Option 9' },
+         *         { value: '10', label: 'Option 10' },
+         *     ];
+         *
+         * @type Array<DropdownOption>
          * @required
          */
-        options: O[];
+        options: T[];
         /**
-         * Array of selected values!
+         * Array of selected values
          *
          * @type Array<string>
          */
@@ -49,6 +63,12 @@ export type DropdownProps<O extends DropdownOption = DropdownOption> = CommonPro
         placement?: Extract<Placement, 'bottom' | 'top'>;
         /** The style of the dropdown. */
         style?: React.CSSProperties;
+        /**
+         * The function to call when the selected values change.
+         *
+         * @required
+         */
+        onChange?: (value: string[], event?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
     };
 
 /**
@@ -56,7 +76,7 @@ export type DropdownProps<O extends DropdownOption = DropdownOption> = CommonPro
  *
  * @name Dropdown
  */
-function Dropdown<O extends DropdownOption = DropdownOption>({
+function Dropdown({
     options = [],
     value: selected,
     onChange,
@@ -74,7 +94,7 @@ function Dropdown<O extends DropdownOption = DropdownOption>({
     isMulti,
     renderListItem,
     style: styleProp,
-}: DropdownProps<O>) {
+}: DropdownProps) {
     const id = useId(propId);
 
     const { triggerProps, menuProps, closeMenu } = useFloatingMenu({
@@ -116,10 +136,10 @@ function Dropdown<O extends DropdownOption = DropdownOption>({
                     isMulti={isMulti}
                     itemCount={itemCount}
                     items={options}
-                    onChange={(selectedValues, event) => {
+                    onChange={(next, event) => {
                         event?.preventDefault();
                         if (!isMulti) closeMenu();
-                        onChange?.(selectedValues);
+                        onChange?.(next);
                     }}
                     renderListItem={renderListItem}
                     selectedValues={selected}

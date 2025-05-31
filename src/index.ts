@@ -4,9 +4,11 @@
  * Components should be imported directly like "import { Txt } from @bspk/ui/Txt".
  */
 
-import { ChangeEvent, MouseEvent as ReactMouseEvent, ComponentProps, JSXElementConstructor, ReactNode } from 'react';
+import { ComponentProps, JSXElementConstructor, ReactNode } from 'react';
 
 export type AlertVariant = 'error' | 'informational' | 'success' | 'warning';
+
+export type SetRef<T> = (instance: T | null) => void;
 
 export type ElementProps<
     P extends Record<string, unknown>,
@@ -26,7 +28,6 @@ export type CallToActionButton = {
     /**
      * The callback function for the call to action button.
      *
-     * @type () => void
      * @required
      */
     onClick: () => void;
@@ -34,28 +35,7 @@ export type CallToActionButton = {
     size?: ButtonSize;
 };
 
-export type ToggleControlProps<T extends HTMLElement> = CommonProps<'aria-label' | 'disabled' | 'name', T> &
-    InvalidPropsLibrary &
-    Required<CommonProps<'value'>> & {
-        /**
-         * Marks the control as checked.
-         *
-         * @default false
-         */
-        checked?: boolean;
-        /**
-         * The function to call when the control is checked or unchecked.
-         *
-         * @type (checked, Event) => void
-         * @required
-         */
-        onChange: (checked: boolean, event: ChangeEvent<T>) => void;
-    };
-
-export type CommonProps<K extends keyof CommonPropsLibrary, T extends HTMLElement = HTMLElement> = Pick<
-    CommonPropsLibrary<T>,
-    K
->;
+export type CommonProps<K extends keyof CommonPropsLibrary> = Pick<CommonPropsLibrary, K>;
 
 /**
  * The props that are common to input elements.
@@ -79,7 +59,7 @@ export type InvalidPropsLibrary = {
     errorMessage?: string;
 };
 
-export type CommonPropsLibrary<T extends HTMLElement = HTMLElement> = {
+export type CommonPropsLibrary = {
     /** The id of the element. If not provided one will be generated. */
     id?: string;
     /**
@@ -136,13 +116,6 @@ export type CommonPropsLibrary<T extends HTMLElement = HTMLElement> = {
      * @required
      */
     'aria-label': string;
-    /**
-     * The function to call when the element is clicked.
-     *
-     * @param event - The mouse event.
-     * @returns Void
-     */
-    onClick?: (event: ReactMouseEvent<T, MouseEvent>) => void;
 };
 
 export type Brand =

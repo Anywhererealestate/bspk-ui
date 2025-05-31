@@ -1,4 +1,4 @@
-import { ReactNode , Children, Fragment, isValidElement } from 'react';
+import { ReactNode, Children, Fragment, isValidElement } from 'react';
 
 export function isValidIcon(child: unknown) {
     return isChildNamed(child, 'Icon');

@@ -1,0 +1,17 @@
+[data-bspk='avatar-group'] {
+    width: 100%;
+
+    [data-wrap] {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: end;
+        justify-content: end;
+        gap: var(--spacing-sizing-02);
+        overflow: hidden;
+
+        & > * + * {
+            // margin-left: calc(var(--spacing-sizing-01) * -1);
+        }
+    }
+}

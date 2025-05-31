@@ -5,9 +5,21 @@ import { ElementProps, CommonProps } from './';
 
 export type RadioGroupOption = Pick<ToggleOptionProps, 'description' | 'label'> & Required<CommonProps<'value'>>;
 
-export type RadioGroupProps = CommonProps<'name' | 'value'> & {
+export type RadioGroupProps = CommonProps<'name'> & {
+    /**
+     * The value of the control.
+     *
+     * @example
+     *     1;
+     *
+     * @required
+     */
+    value: string;
     /**
      * The function to call when the radios are changed.
+     *
+     * @example
+     *     (value) => setState({ value }),
      *
      * @required
      */
@@ -15,11 +27,22 @@ export type RadioGroupProps = CommonProps<'name' | 'value'> & {
     /**
      * The options for the radios.
      *
-     * @type RadioGroupOption[]
+     * @example
+     *     [
+     *         { value: '1', label: 'Option 1', description: 'Description here' },
+     *         { value: '2', label: 'Option 2' },
+     *         { value: '3', label: 'Option 3' },
+     *     ];
+     *
+     * @type Array<RadioGroupOption>
      * @required
      */
     options: RadioGroupOption[];
-    /** The size of the radio group labels. */
+    /**
+     * The size of the radio group labels.
+     *
+     * @default base
+     */
     size?: 'base' | 'large' | 'small';
 };
 
@@ -33,14 +56,19 @@ function RadioGroup({
     options = [],
     name,
     value: groupValue,
-    size,
+    size = 'base',
     ...props
 }: ElementProps<RadioGroupProps, 'div'>) {
     return (
         <div {...props} data-bspk="radio-group" role="radiogroup" style={{ display: 'contents' }}>
-            {options.map(({ label, description, value }) => {
+            {options.map(({ label, description, value }, index) => {
                 return (
-                    <ToggleOption description={description} key={value} label={label} size={size}>
+                    <ToggleOption
+                        description={description}
+                        key={`toggle-option-${value || index}`}
+                        label={label}
+                        size={size}
+                    >
                         <Radio
                             aria-label={label}
                             checked={groupValue === value}

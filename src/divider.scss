@@ -20,6 +20,8 @@
     &[data-thickness='heavy'] {
         --line-thickness: 2px;
         --padding: var(--spacing-sizing-04);
+
+        border-radius: var(--radius-circular);
     }
 
     &, // default

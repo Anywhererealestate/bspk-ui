@@ -21,8 +21,17 @@ export type SegmentedControlOption = {
     disabled?: boolean;
     /** The value of the option. If not provided, the label will be used as the value. */
     value?: string;
-    /** The the icon to display before the label. */
+    /**
+     * The the icon to display before the label.
+     *
+     * @type BspkIcon
+     */
     icon?: React.ReactNode;
+    /**
+     * The icon to display before the label when the option is active.
+     *
+     * @type BspkIcon
+     */
     iconActive?: React.ReactNode;
 };
 
@@ -30,12 +39,22 @@ export type SegmentedControlProps = {
     /**
      * The options to display. Each option has a label and an optional leading icon.
      *
-     * @type SegmentedControlOption[]
+     * @example
+     *     [
+     *         { value: '1', label: 'Option 1' },
+     *         { value: '2', label: 'Option 2' },
+     *         { value: '3', label: 'Option 3' },
+     *     ];
+     *
+     * @type Array<SegmentedControlOption>
      * @required
      */
     options: SegmentedControlOption[];
     /**
      * The id of the selected option.
+     *
+     * @example
+     *     1;
      *
      * @required
      */
