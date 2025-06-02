@@ -12,7 +12,11 @@ import { useId } from './hooks/useId';
 
 export type SearchBarProps<T extends MenuItem = MenuItem> = Pick<MenuProps<T>, 'itemCount' | 'noResultsMessage'> &
     Pick<TextInputProps, 'aria-label' | 'id' | 'inputRef' | 'name' | 'placeholder' | 'size'> & {
-        /** The current value of the search bar. */
+        /**
+         * The current value of the search bar.
+         *
+         * @default Search
+         */
         value?: string;
         /**
          * Handler for state updates.
@@ -54,6 +58,12 @@ export type SearchBarProps<T extends MenuItem = MenuItem> = Pick<MenuProps<T>, '
          * @type multiline
          */
         noResultsMessage?: string;
+        /**
+         * Whether to show or hide menu.
+         *
+         * @default true
+         */
+        showMenu?: boolean;
     };
 
 /**
@@ -74,6 +84,7 @@ function SearchBar({
     onSelect,
     value,
     onChange,
+    showMenu = true,
 }: SearchBarProps) {
     const id = useId(idProp);
     const {
@@ -117,13 +128,14 @@ function SearchBar({
                     }}
                 />
             </div>
-            {!!value?.trim().length && (
+            {showMenu && (
                 <Portal>
                     <Menu
                         itemCount={itemCount}
                         items={items}
                         noResultsMessage={
-                            !!value?.length && (
+                            !!value?.length &&
+                            !items?.length && (
                                 <>
                                     <Txt as="div" variant="heading-h5">
                                         No results found

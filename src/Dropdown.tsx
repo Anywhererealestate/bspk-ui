@@ -17,13 +17,6 @@ export type DropdownOption = Record<string, unknown> & {
     label: string;
 };
 
-export type DropdownOptionAll = {
-    /** The label of the option. This is the text that will be displayed on the option. */
-    label: string;
-    /** Whether the option is selected. */
-    selected?: boolean;
-};
-
 export type DropdownProps<T extends DropdownOption = DropdownOption> = CommonProps<
     'aria-label' | 'disabled' | 'id' | 'name' | 'readOnly' | 'size'
 > &

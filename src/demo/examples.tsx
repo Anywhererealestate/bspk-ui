@@ -553,18 +553,29 @@ export const examples: (setState: DemoSetState, action: DemoAction) => Record<st
     },
     SearchBar: {
         containerStyle: { width: '400px' },
-        render: ({ props: state, Component }) => {
-            const props = state as SearchBarProps;
+        render: ({ props: state, Component, preset }) => {
+            const props = { ...state } as SearchBarProps;
 
-            const searchValue = (props.value as string | undefined)?.toLowerCase() || '';
+            if (preset?.label === 'Show Filtered Items') {
+                const searchValue = (props.value as string | undefined)?.trim()?.toLowerCase() || '';
+                if (Array.isArray(props.items) && searchValue.length)
+                    props.items = props.items?.filter((item: MenuItem) =>
+                        item.label.toLowerCase().includes(searchValue),
+                    );
+                props.showMenu = !!searchValue;
+            }
 
-            let filteredItems: SearchBarProps['items'] = [];
-
-            if (Array.isArray(props.items) && searchValue.length)
-                filteredItems = props.items?.filter((item: MenuItem) => item.label.toLowerCase().includes(searchValue));
-
-            return <Component {...props} id="yes" items={filteredItems || []} />;
+            return <Component {...props} items={props.items || []} />;
         },
+        presets: setPresets<SearchBarProps>([
+            {
+                // we change the items and showMenu based on the input value
+                label: 'Show Filtered Items',
+                state: {
+                    showMenu: false,
+                },
+            },
+        ]),
     },
     TextInput: {
         containerStyle: { width: '280px' },
