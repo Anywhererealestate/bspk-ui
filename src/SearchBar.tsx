@@ -11,13 +11,17 @@ import { useId } from './hooks/useId';
 //import { useFloatingMenu } from './hooks/useFloatingMenu';
 
 export type SearchBarProps<T extends MenuItem = MenuItem> = Pick<MenuProps<T>, 'itemCount' | 'noResultsMessage'> &
-    Pick<TextInputProps, 'aria-label' | 'id' | 'inputRef' | 'name' | 'placeholder' | 'size'> & {
+    Pick<TextInputProps, 'aria-label' | 'id' | 'inputRef' | 'name' | 'size'> & {
+        /** The current value of the search bar. */
+        value?: string;
         /**
-         * The current value of the search bar.
+         * The placeholder of the field.
          *
          * @default Search
+         *
+         * @required
          */
-        value?: string;
+        placeholder: string;
         /**
          * Handler for state updates.
          *
