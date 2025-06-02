@@ -1,12 +1,15 @@
 import './menu.scss';
-import { ComponentProps, CSSProperties, useMemo } from 'react';
+import { ComponentProps, CSSProperties, ReactNode, useMemo } from 'react';
 
 import { Checkbox } from './Checkbox';
 import { ListItem } from './ListItem';
-import { Txt } from './Txt';
 import { useId } from './hooks/useId';
 
 import { CommonProps, ElementProps, SetRef } from './';
+
+const DEFAULT = {
+    selectAll: 'Select All',
+};
 
 export const MIN_ITEM_COUNT = 3;
 export const MAX_ITEM_COUNT = 10;
@@ -68,12 +71,8 @@ export type MenuProps<T extends MenuItem = MenuItem> = CommonProps<'disabled' | 
     items?: T[];
     /** A ref to the inner div element. */
     innerRef?: SetRef<HTMLDivElement>;
-    /**
-     * Message to display when no results are found
-     *
-     * @type multiline
-     */
-    noResultsMessage?: string;
+    /** Message to display when no results are found */
+    noResultsMessage?: ReactNode;
     /** The index of the currently highlighted item. */
     activeIndex?: number;
     /** The values of the selected items */
@@ -92,6 +91,17 @@ export type MenuProps<T extends MenuItem = MenuItem> = CommonProps<'disabled' | 
      * @default false
      */
     isMulti?: boolean;
+    /**
+     * The label for the "Select All" option.
+     *
+     * Ignored if `isMulti` is false.
+     *
+     * If `isMulti` is `true`, defaults to "Select All". If a string, it will be used as the label. If false the select
+     * all option will not be rendered.
+     *
+     * @default false
+     */
+    selectAll?: boolean | string;
     /**
      * The function to call when the selected values change.
      *
@@ -118,24 +128,39 @@ function Menu({
     id: idProp,
     renderListItem,
     isMulti,
+    selectAll: selectAllProp,
     ...props
 }: ElementProps<MenuProps, 'div'>) {
     const menuId = useId(idProp);
-    const items = Array.isArray(itemsProp) ? itemsProp : [];
-    const itemCount = useMemo(
-        () =>
+
+    const selectAll = useMemo(() => {
+        if (!isMulti) return false;
+        if (selectAllProp && typeof selectAllProp === 'string') return selectAllProp;
+        return selectAllProp === true ? DEFAULT.selectAll : false;
+    }, [isMulti, selectAllProp]);
+
+    const { items, itemCount } = useMemo(() => {
+        const itemsNext = Array.isArray(itemsProp) ? itemsProp : [];
+        return {
+            items: itemsNext,
             // Ensure itemCount is within the range of items.length
-            Math.min(
-                items.length,
+            itemCount: Math.min(
+                itemsNext.length,
                 // pin itemCountProp to a range of 3 to 10
                 Math.max(MIN_ITEM_COUNT, Math.min(itemCountProp, MAX_ITEM_COUNT)),
             ),
-        [itemCountProp, items.length],
+        };
+    }, [itemCountProp, itemsProp]);
+
+    const allSelected = useMemo(
+        () => !!(items.length && items.every((item) => selectedValues.includes(item.value))),
+        [items, selectedValues],
     );
 
     return (
         <div
             {...props}
+            aria-multiselectable={isMulti || undefined}
             data-bspk="menu"
             data-disabled={disabled || undefined}
             data-item-count={itemCount || undefined}
@@ -145,87 +170,101 @@ function Menu({
             role="listbox"
             style={{ ...props.style, '--item-count': itemCount } as CSSProperties}
         >
-            {items.length ? (
-                items.map((item, index) => {
-                    const itemId = item.id || menuItemId(menuId, index);
-
-                    const selected = Array.isArray(selectedValues) && selectedValues.includes(item.value);
-
-                    const renderProps = renderListItem?.({
-                        activeIndex,
-                        index,
-                        item,
-                        selectedValues,
-                        isMulti,
-                        menuId: menuId || '',
-                        selected,
-                        itemId,
-                    });
-
-                    return (
-                        <ListItem
-                            {...renderProps}
-                            active={activeIndex === index || undefined}
-                            aria-disabled={item.disabled || undefined}
-                            aria-posinset={index + 1}
-                            aria-selected={selected || undefined}
-                            as="button"
-                            data-menu-item
-                            data-selected={selected || undefined}
-                            disabled={item.disabled || undefined}
-                            id={itemId}
-                            key={itemId}
-                            label={renderProps?.label?.toString() || item.label?.toString()}
-                            onClick={(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-                                if (renderProps) renderProps?.onClick?.(event);
-
-                                if (onChange) {
-                                    if (!isMulti) {
-                                        onChange?.([item.value], event);
-                                        return;
-                                    }
-                                    onChange(
-                                        selected
-                                            ? selectedValues.filter((value) => value !== item.value)
-                                            : [...selectedValues, item.value],
-                                        event,
-                                    );
-                                }
+            {isMulti && selectAll && (
+                <ListItem
+                    as="button"
+                    data-selected={allSelected || undefined}
+                    key="select-all"
+                    label={selectAll}
+                    onClick={(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+                        onChange?.(allSelected ? [] : items.map((item) => item.value), event);
+                    }}
+                    role="option"
+                    tabIndex={-1}
+                    trailing={
+                        <Checkbox
+                            aria-label={selectAll}
+                            checked={!!allSelected}
+                            name=""
+                            onChange={(checked) => {
+                                onChange?.(checked ? items.map((item) => item.value) : []);
                             }}
-                            role="option"
-                            tabIndex={-1}
-                            trailing={
-                                isMulti ? (
-                                    <Checkbox
-                                        aria-label={item.label}
-                                        checked={selected}
-                                        name={item.value}
-                                        onChange={(checked) => {
-                                            onChange?.(
-                                                checked
-                                                    ? selectedValues.filter((value) => value !== item.value)
-                                                    : [...selectedValues, item.value],
-                                            );
-                                        }}
-                                        value={item.value}
-                                    />
-                                ) : (
-                                    renderProps?.trailing
-                                )
-                            }
+                            value=""
                         />
-                    );
-                })
-            ) : (
-                <>
-                    <Txt as="div" variant="heading-h5">
-                        No results found
-                    </Txt>
-                    <Txt as="div" variant="body-base">
-                        {noResultsMessage}
-                    </Txt>
-                </>
+                    }
+                />
             )}
+            {items.length
+                ? items.map((item, index) => {
+                      const itemId = item.id || menuItemId(menuId, index);
+
+                      const selected = Boolean(Array.isArray(selectedValues) && selectedValues.includes(item.value));
+
+                      const renderProps = renderListItem?.({
+                          activeIndex,
+                          index,
+                          item,
+                          selectedValues,
+                          isMulti,
+                          menuId: menuId || '',
+                          selected,
+                          itemId,
+                      });
+
+                      return (
+                          <ListItem
+                              {...renderProps}
+                              active={activeIndex === index || undefined}
+                              aria-disabled={item.disabled || undefined}
+                              aria-posinset={index + 1}
+                              aria-selected={selected || undefined}
+                              as="button"
+                              //data-selected={selected || undefined}
+                              disabled={item.disabled || undefined}
+                              id={itemId}
+                              key={itemId}
+                              label={renderProps?.label?.toString() || item.label?.toString()}
+                              onClick={(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+                                  if (renderProps) renderProps?.onClick?.(event);
+
+                                  if (onChange) {
+                                      if (!isMulti) {
+                                          onChange?.([item.value], event);
+                                          return;
+                                      }
+                                      onChange(
+                                          selected
+                                              ? selectedValues.filter((value) => value !== item.value)
+                                              : [...selectedValues, item.value],
+                                          event,
+                                      );
+                                  }
+                              }}
+                              role="option"
+                              tabIndex={-1}
+                              trailing={
+                                  isMulti ? (
+                                      <Checkbox
+                                          aria-label={item.label}
+                                          checked={selected}
+                                          name={item.value}
+                                          onChange={(checked) => {
+                                              onChange?.(
+                                                  checked
+                                                      ? selectedValues.filter((value) => value !== item.value)
+                                                      : [...selectedValues, item.value],
+                                              );
+                                          }}
+                                          value={item.value}
+                                      />
+                                  ) : (
+                                      renderProps?.trailing
+                                  )
+                              }
+                          />
+                      );
+                  })
+                : noResultsMessage}
         </div>
     );
 }

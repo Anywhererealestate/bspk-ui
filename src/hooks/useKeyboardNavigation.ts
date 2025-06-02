@@ -79,7 +79,8 @@ export function useKeyboardNavigation(
         if (next >= itemElements.length) next = 0;
 
         itemElements.forEach((el, index) => {
-            el.dataset.selected = index === next ? 'true' : undefined;
+            if (index === next) el.setAttribute('data-selected', 'true');
+            else el.removeAttribute('data-selected');
         });
 
         scrollElementIntoView(itemElements[next], containerElement);
@@ -90,7 +91,7 @@ export function useKeyboardNavigation(
     return {
         handleKeyNavigation: handleArrowKeyNavigation,
         selectedIndex,
-        selectedId: selectedIndex === -1 ? undefined : containerElement.children[selectedIndex].id,
+        selectedId: selectedIndex === -1 ? undefined : containerElement.children[selectedIndex]?.id,
         setSelectedIndex: setSelectedIndex,
     };
 }

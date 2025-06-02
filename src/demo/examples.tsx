@@ -19,6 +19,7 @@ import { ModalProps } from '../Modal';
 import { Popover, PopoverProps } from '../Popover';
 import { ProgressionStepperProps } from '../ProgressionStepper';
 import { Radio } from '../Radio';
+import { SearchBarProps } from '../SearchBar';
 import { SegmentedControlProps } from '../SegmentedControl';
 import { Switch } from '../Switch';
 import { TabGroupProps } from '../TabGroup';
@@ -549,6 +550,21 @@ export const examples: (setState: DemoSetState, action: DemoAction) => Record<st
                 },
             },
         ]),
+    },
+    SearchBar: {
+        containerStyle: { width: '400px' },
+        render: ({ props: state, Component }) => {
+            const props = state as SearchBarProps;
+
+            const searchValue = (props.value as string | undefined)?.toLowerCase() || '';
+
+            let filteredItems: SearchBarProps['items'] = [];
+
+            if (Array.isArray(props.items) && searchValue.length)
+                filteredItems = props.items?.filter((item: MenuItem) => item.label.toLowerCase().includes(searchValue));
+
+            return <Component {...props} id="yes" items={filteredItems || []} />;
+        },
     },
     TextInput: {
         containerStyle: { width: '280px' },

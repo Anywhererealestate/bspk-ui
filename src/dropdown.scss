@@ -56,6 +56,10 @@
         }
     }
 
+    [data-bspk='list-item'][data-selected] {
+        background: var(--surface-brand-primary-highlight);
+    }
+
     &[data-size='small'] {
         --dropdown-height: var(--spacing-sizing-08);
         --dropdown-font: var(--body-small);
