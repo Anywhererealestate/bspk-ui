@@ -14,7 +14,7 @@ import fs from 'fs';
 import path from 'path';
 
 import { typesMeta } from '../../../bspk-demo/src/meta';
-import { componentsDir, kebabCase, pretty, prettyLint } from '../utils';
+import { componentsDir, kebabCase, prettyLint } from '../utils';
 
 const getDefaultState = (prop: any): any => {
     if (prop.example) return prop.example;
