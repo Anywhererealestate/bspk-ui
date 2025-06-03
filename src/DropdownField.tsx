@@ -22,8 +22,6 @@ export type DropdownFieldProps = Pick<
  * This component takes properties from the FormField and Dropdown components.
  *
  * @example
- *     import React from 'react';
- *
  *     import { DropdownField } from '@bspk/ui/DropdownField';
  *
  *     export function Example() {
