@@ -176,6 +176,8 @@ execSync(`mkdir -p ${examplesDir}`, { stdio: 'inherit' });
 
 const exampleNames: string[] = [];
 
+const missingExamples: string[] = [];
+
 componentFiles.forEach((component) => {
     let example: string = '';
 
@@ -187,7 +189,10 @@ componentFiles.forEach((component) => {
 
     const exampleFilePath = path.resolve(examplesDir, `${component.name}.tsx`);
 
-    if (!example) example = generatedExample(component);
+    if (!example) {
+        missingExamples.push(component.name);
+        example = generatedExample(component);
+    }
 
     /// make it pass linter
     example = example.replace('\nfunction', '\nexport function');
@@ -197,11 +202,16 @@ componentFiles.forEach((component) => {
     // write the example to a file
     fs.writeFileSync(exampleFilePath, example);
 
-    pretty(exampleFilePath);
-
     exampleNames.push(component.name);
 });
 
 prettyLint(examplesDir);
 
-console.info(`\n\nLooking good!\n\n${exampleNames.join('\n')}`);
+if (missingExamples.length > 0) {
+    console.error(
+        `\nMissing examples for components: \n\n - ${missingExamples.join('\n - ')}.\n\nPlease add examples to the JSDoc comments.`,
+    );
+    process.exit(1);
+}
+
+console.log(`Generated examples for components: ${exampleNames.join(', ')}.`);
