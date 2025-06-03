@@ -208,9 +208,12 @@ componentFiles.forEach((component) => {
 prettyLint(examplesDir);
 
 if (missingExamples.length > 0) {
-    console.error(
-        `\nMissing examples: \n\n - ${missingExamples.map((c) => `/src/${c}.tsx`).join('\n - ')}.\n\nPlease add examples to the JSDoc comments.`,
-    );
+    console.error(`\nMissing examples: \n\n`);
+
+    missingExamples.forEach((c) => {
+        console.error(` - /src/${c}.tsx\t\t/.scripts/temp/${c}.tsx`);
+    });
+
     process.exit(1);
 }
 
