@@ -77,10 +77,14 @@ export type DropdownProps<T extends DropdownOption = DropdownOption> = CommonPro
  * @example
  *     import { Dropdown } from '@bspk/ui/Dropdown';
  *
- *     function Example() {
+ *     export function Example() {
  *         const [selected, setSelected] = React.useState<string[]>([]);
  *         return (
  *             <Dropdown
+ *                 aria-label="Select an option"
+ *                 itemCount={5}
+ *                 name="example-dropdown"
+ *                 onChange={setSelected}
  *                 options={[
  *                     { value: '1', label: 'Option 1' },
  *                     { value: '2', label: 'Option 2' },
@@ -93,12 +97,9 @@ export type DropdownProps<T extends DropdownOption = DropdownOption> = CommonPro
  *                     { value: '9', label: 'Option 9' },
  *                     { value: '10', label: 'Option 10' },
  *                 ]}
- *                 value={selected}
- *                 onChange={setSelected}
  *                 placeholder="Select an option"
  *                 size="medium"
- *                 itemCount={5}
- *                 aria-label="Select an option"
+ *                 value={selected}
  *             />
  *         );
  *     }

@@ -107,10 +107,6 @@ const componentFiles = fs
 const generatedExample = (component: (typeof componentFiles)[0]) => {
     const propsDef = typesMeta.find((meta) => meta.name === `${component.name}Props`);
 
-    // const propsStringified = propsDef
-    //     ? Object.entries(propsDef.props)
-    //           .map(([key, value]) => {
-
     const propNames = propsDef?.properties?.map((prop) => prop.name) || [];
 
     const propsStringified =
@@ -191,7 +187,9 @@ componentFiles.forEach((component) => {
 
     if (!example) {
         missingExamples.push(component.name);
-        example = generatedExample(component);
+        // If no example is found, we generate a default one
+        //example = generatedExample(component);
+        return;
     }
 
     /// make it pass linter

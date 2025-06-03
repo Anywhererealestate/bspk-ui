@@ -41,6 +41,13 @@ export type LayoutProps<As extends ElementType = 'div'> = {
 /**
  * Utility component used within other components for layout purposes.
  *
+ * @example
+ *     import { Layout } from '@bspk/ui/Layout';
+ *
+ *     export function Example() {
+ *         return <Layout>Low effort example</Layout>;
+ *     }
+ *
  * @name Layout
  */
 function Layout<As extends ElementType = 'div'>({

@@ -47,6 +47,31 @@ export type FormFieldProps = CommonProps<'required'> &
  *
  * Children may be one of the following: TextInput, Dropdown, DatePicker, or TimePicker.
  *
+ * @example
+ *     import { TextInput } from '../../src/TextInput';
+ *     import { FormField } from '@bspk/ui/FormField';
+ *
+ *     export function Example() {
+ *         const [state, setState] = React.useState<string | undefined>(undefined);
+ *         return (
+ *             <FormField controlId="Example controlId" label="Example label">
+ *                 {(fieldProps) => {
+ *                     return (
+ *                         <TextInput
+ *                             aria-label="example aria-label"
+ *                             name="example-text"
+ *                             onChange={(next) => {
+ *                                 setState(next);
+ *                             }}
+ *                             value={state}
+ *                             {...fieldProps}
+ *                         />
+ *                     );
+ *                 }}
+ *             </FormField>
+ *         );
+ *     }
+ *
  * @name FormField
  */
 function FormField({

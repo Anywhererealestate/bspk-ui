@@ -13,6 +13,25 @@ export type NumberFieldProps = InvalidPropsLibrary &
  *
  * This component takes properties from the FormField and NumberInput components.
  *
+ * @example
+ *     import React from 'react';
+ *
+ *     import { NumberField } from '@bspk/ui/NumberField';
+ *
+ *     export function Example() {
+ *         const [state, setState] = React.useState<number>();
+ *
+ *         return (
+ *             <NumberField
+ *                 controlId="Example controlId"
+ *                 label="Example label"
+ *                 name="Example name"
+ *                 onChange={(nextValue) => setState(nextValue)}
+ *                 value={state}
+ *             />
+ *         );
+ *     }
+ *
  * @name NumberField
  */
 function NumberField({

@@ -30,6 +30,13 @@ export type InlineAlertProps = {
  * Inline alerts provide contextual feedback messages for typical user actions with a handful of available and flexible
  * alert messages.
  *
+ * @example
+ *     import { InlineAlert } from '@bspk/ui/InlineAlert';
+ *
+ *     export function Example() {
+ *         return <InlineAlert variant="informational">Example informational inline alert</InlineAlert>;
+ *     }
+ *
  * @name InlineAlert
  */
 function InlineAlert({ children, variant = 'informational', id }: InlineAlertProps) {

@@ -10,6 +10,13 @@ export type MenuButtonProps = Pick<ButtonProps, 'as' | 'onClick'>;
 /**
  * Utility component used within top navigation.
  *
+ * @example
+ *     import { MenuButton } from '@bspk/ui/MenuButton';
+ *
+ *     export function Example() {
+ *         return <MenuButton />;
+ *     }
+ *
  * @name MenuButton
  */
 function MenuButton(props: ElementProps<MenuButtonProps, 'button'>) {

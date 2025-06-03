@@ -28,7 +28,29 @@ export type ModalProps = DialogProps & {
  * interactions until an action is selected. Modal is a wrapper around the Dialog component that provides a header and
  * footer for the dialog.
  *
- * TODO: Add support for custom header and footer
+ * @example
+ *     import React from 'react';
+ *
+ *     import { Button } from '@bspk/ui/Button';
+ *     import { Modal } from '@bspk/ui/Modal';
+ *
+ *     export function Example() {
+ *         const [open, setOpen] = React.useState(false);
+ *
+ *         return (
+ *             <>
+ *                 <Button label="Open Dialog" onClick={() => setOpen(true)} />
+ *                 <Modal
+ *                     description="Example description"
+ *                     header="Example header"
+ *                     onClose={() => setOpen(false)}
+ *                     open={open}
+ *                 >
+ *                     Example Modal
+ *                 </Modal>
+ *             </>
+ *         );
+ *     }
  *
  * @name Modal
  */

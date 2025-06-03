@@ -114,6 +114,34 @@ export type MenuProps<T extends MenuItem = MenuItem> = CommonProps<'disabled' | 
 /**
  * A container housing a simple list of options presented to the user to select one option at a time.
  *
+ * @example
+ *     import React from 'react';
+ *
+ *     import { Menu } from '@bspk/ui/Menu';
+ *
+ *     export function Example() {
+ *         const [selected, setSelected] = React.useState<string[]>([]);
+ *
+ *         return (
+ *             <Menu
+ *                 items={[
+ *                     { value: '1', label: 'Option 1' },
+ *                     { value: '2', label: 'Option 2' },
+ *                     { value: '3', label: 'Option 3' },
+ *                     { value: '4', label: 'Option 4' },
+ *                     { value: '5', label: 'Option 5' },
+ *                     { value: '6', label: 'Option 6' },
+ *                     { value: '7', label: 'Option 7' },
+ *                     { value: '8', label: 'Option 8' },
+ *                     { value: '9', label: 'Option 9' },
+ *                     { value: '10', label: 'Option 10' },
+ *                 ]}
+ *                 onChange={(selectedValues: string[]) => setSelected(selectedValues)}
+ *                 selectedValues={selected}
+ *             />
+ *         );
+ *     }
+ *
  * @name Menu
  */
 function Menu({
