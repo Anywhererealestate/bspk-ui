@@ -17,6 +17,26 @@ export type CheckboxOptionProps = InvalidPropsLibrary &
 /**
  * A control that allows users to choose one or more items from a list or turn an feature on or off.
  *
+ * @example
+ *     import { CheckboxOption } from '@bspk/ui/CheckboxOption';
+ *
+ *     export function Example() {
+ *         const [checked, setChecked] = React.useState(false);
+ *         return (
+ *             <CheckboxOption
+ *                 checked={checked}
+ *                 description="This is an example checkbox option."
+ *                 label="Example Checkbox"
+ *                 name="example-checkbox-name"
+ *                 onChange={(nextChecked, event) => {
+ *                     setChecked(nextChecked);
+ *                     console.log('Checkbox changed:', nextChecked, event);
+ *                 }}
+ *                 value="example-checkbox-value"
+ *             />
+ *         );
+ *     }
+ *
  * @name CheckboxOption
  */
 function CheckboxOption({ label, description, ...checkboxProps }: CheckboxOptionProps) {

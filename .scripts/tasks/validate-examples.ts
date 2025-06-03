@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /**
  * Example validation script.
  *
@@ -51,7 +52,6 @@ function jsDocParse(content: string) {
 
         return data;
     } catch (error) {
-        // eslint-disable-next-line no-console
         console.error(error);
         return {};
     }
@@ -82,6 +82,8 @@ const componentFiles = fs
 const examplesDir = path.resolve(__dirname, '../.scripts/temp');
 execSync(`mkdir -p ${examplesDir}`, { stdio: 'inherit' });
 
+const exampleNames: string[] = [];
+
 componentFiles.forEach((component) => {
     let example: string = '';
 
@@ -102,6 +104,10 @@ componentFiles.forEach((component) => {
 
     // write the example to a file
     fs.writeFileSync(exampleFilePath, example);
+
+    exampleNames.push(component.name);
 });
 
 prettyLint(examplesDir);
+
+console.info(`\n\nLooking good!\n\n${exampleNames.join('\n')}`);
