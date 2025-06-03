@@ -32,6 +32,27 @@ export type CheckboxProps = CommonProps<'aria-label' | 'disabled' | 'name'> &
  * element and if used directly you must wrap it with a label. This will more often be used in the CheckboxOption or
  * CheckboxGroup component.
  *
+ * @example
+ *     import { Checkbox } from '@bspk/ui/checkbox';
+ *
+ *     export function Example() {
+ *         const [checked, setChecked] = React.useState(false);
+ *
+ *         return (
+ *             <label htmlFor="sample-checkbox">
+ *                 <Checkbox
+ *                     aria-label="Sample"
+ *                     checked={checked}
+ *                     id="sample-checkbox"
+ *                     name="sample-checkbox"
+ *                     onChange={(nextChecked) => setChecked(nextChecked)}
+ *                     value="sample"
+ *                 />
+ *                 Checkbox Label
+ *             </label>
+ *         );
+ *     }
+ *
  * @element
  *
  * @name Checkbox

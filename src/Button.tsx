@@ -74,6 +74,22 @@ export type ButtonProps<As extends ElementType = 'button'> = CommonProps<'disabl
 /**
  * A clickable component that allows users to perform an action, make a choice or trigger a change in state.
  *
+ * @example
+ *     import { Button } from '@bspk/ui/Button';
+ *     import { SvgPerson } from '@bspk/icons/Person';
+ *
+ *     function Example() {
+ *         return (
+ *             <Button
+ *                 label="Click Me"
+ *                 size="medium"
+ *                 variant="primary"
+ *                 onClick={() => console.log('Button clicked')}
+ *                 icon={<SvgPerson />}
+ *             />
+ *         );
+ *     }
+ *
  * @name Button
  */
 function Button<As extends ElementType = 'button'>(props: ElementProps<ButtonProps<As>, As>): JSX.Element {

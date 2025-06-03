@@ -29,6 +29,18 @@ export type CardProps = {
  * They are similar in size and shape to playing cards and are intended to encourage users to click or tap to view more
  * details.
  *
+ * @example
+ *     import { Card } from '@bspk/ui/card';
+ *
+ *     export function Example() {
+ *         return (
+ *             <Card variant="elevated" showPadding={false}>
+ *                 <h3>Card Title</h3>
+ *                 <p>This is some content inside the card.</p>
+ *             </Card>
+ *         );
+ *     }
+ *
  * @name Card
  */
 function Card({ children, showPadding, variant = 'elevated' }: CardProps) {

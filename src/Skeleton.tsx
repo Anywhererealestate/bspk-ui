@@ -44,7 +44,9 @@ export type SkeletonProps = {
  * displayed on the screen.
  *
  * @example
- *     function Example() {
+ *     import { Skeleton } from '@bspk/ui/skeleton';
+ *
+ *     function Example(item: { title: string; src: string } | null) {
  *         return item ? (
  *             <img
  *                 style={{
