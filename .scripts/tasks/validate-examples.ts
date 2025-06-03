@@ -1,3 +1,12 @@
+/**
+ * Example validation script.
+ *
+ * This script validates the examples in the components by extracting JSDoc examples and writing them to a temporary
+ * directory.
+ *
+ * Npx tsx .scripts/tasks/validate-examples.ts
+ */
+
 import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
