@@ -209,9 +209,9 @@ prettyLint(examplesDir);
 
 if (missingExamples.length > 0) {
     console.error(
-        `\nMissing examples for components: \n\n - ${missingExamples.join('\n - ')}.\n\nPlease add examples to the JSDoc comments.`,
+        `\nMissing examples: \n\n - ${missingExamples.map((c) => `/src/${c}.tsx`).join('\n - ')}.\n\nPlease add examples to the JSDoc comments.`,
     );
     process.exit(1);
 }
 
-console.log(`Generated examples for components: ${exampleNames.join(', ')}.`);
+console.log(`Generated examples: ${exampleNames.join(', ')}.`);
