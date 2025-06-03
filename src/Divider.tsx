@@ -42,6 +42,19 @@ const insetToVariable = (insetProp: number | string) => {
  *
  * Vertical thin lines that separates grouped content or other visual elements within a container.
  *
+ * @example
+ *     import { Divider } from '@bspk/ui/Divider';
+ *
+ *     function Example() {
+ *         return (
+ *             <div>
+ *                 <p>Content above the divider</p>
+ *                 <Divider orientation="horizontal" />
+ *                 <p>Content below the divider</p>
+ *             </div>
+ *         );
+ *     }
+ *
  * @name Divider
  */
 function Divider({

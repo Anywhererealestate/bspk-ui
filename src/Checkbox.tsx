@@ -33,9 +33,9 @@ export type CheckboxProps = CommonProps<'aria-label' | 'disabled' | 'name'> &
  * CheckboxGroup component.
  *
  * @example
- *     import { Checkbox } from '@bspk/ui/checkbox';
+ *     import { Checkbox } from '@bspk/ui/Checkbox';
  *
- *     export function Example() {
+ *     function Example() {
  *         const [checked, setChecked] = React.useState(false);
  *
  *         return (

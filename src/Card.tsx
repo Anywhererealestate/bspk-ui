@@ -32,7 +32,7 @@ export type CardProps = {
  * @example
  *     import { Card } from '@bspk/ui/card';
  *
- *     export function Example() {
+ *     function Example() {
  *         return (
  *             <Card variant="elevated" showPadding={false}>
  *                 <h3>Card Title</h3>

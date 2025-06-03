@@ -49,7 +49,7 @@ export type ChipProps = CommonProps<'disabled'> & {
  * @example
  *     import { Chip } from '@bspk/ui/Chip';
  *
- *     export function Example() {
+ *     function Example() {
  *         return (
  *             <Chip variant="filter" onClick={() => console.log('Chip clicked!')}>
  *                 Example Chip

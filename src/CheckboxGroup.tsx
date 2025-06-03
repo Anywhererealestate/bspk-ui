@@ -57,7 +57,7 @@ export type CheckboxGroupProps = CommonProps<'aria-label'> & {
  * @example
  *     import { CheckboxGroup } from '@bspk/ui/CheckboxGroup';
  *
- *     export function Example() {
+ *     function Example() {
  *         const [values, setValues] = React.useState<string[]>([]);
  *
  *         return (

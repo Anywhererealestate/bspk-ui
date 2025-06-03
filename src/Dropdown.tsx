@@ -74,6 +74,35 @@ export type DropdownProps<T extends DropdownOption = DropdownOption> = CommonPro
 /**
  * A field element that allows users to select one option from a list of available choices. *
  *
+ * @example
+ *     import { Dropdown } from '@bspk/ui/Dropdown';
+ *
+ *     function Example() {
+ *         const [selected, setSelected] = React.useState<string[]>([]);
+ *         return (
+ *             <Dropdown
+ *                 options={[
+ *                     { value: '1', label: 'Option 1' },
+ *                     { value: '2', label: 'Option 2' },
+ *                     { value: '3', label: 'Option 3' },
+ *                     { value: '4', label: 'Option 4' },
+ *                     { value: '5', label: 'Option 5' },
+ *                     { value: '6', label: 'Option 6' },
+ *                     { value: '7', label: 'Option 7' },
+ *                     { value: '8', label: 'Option 8' },
+ *                     { value: '9', label: 'Option 9' },
+ *                     { value: '10', label: 'Option 10' },
+ *                 ]}
+ *                 value={selected}
+ *                 onChange={setSelected}
+ *                 placeholder="Select an option"
+ *                 size="medium"
+ *                 itemCount={5}
+ *                 aria-label="Select an option"
+ *             />
+ *         );
+ *     }
+ *
  * @name Dropdown
  */
 function Dropdown({

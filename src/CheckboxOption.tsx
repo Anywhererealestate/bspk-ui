@@ -20,7 +20,7 @@ export type CheckboxOptionProps = InvalidPropsLibrary &
  * @example
  *     import { CheckboxOption } from '@bspk/ui/CheckboxOption';
  *
- *     export function Example() {
+ *     function Example() {
  *         const [checked, setChecked] = React.useState(false);
  *         return (
  *             <CheckboxOption

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
 /**
  * Example validation script.
@@ -12,7 +13,31 @@ import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 
-import { componentsDir, kebabCase, prettyLint } from '../utils';
+import { typesMeta } from '../../../bspk-demo/src/meta';
+import { componentsDir, kebabCase, pretty, prettyLint } from '../utils';
+
+const getDefaultState = (prop: any): any => {
+    if (prop.example) return prop.example;
+
+    // if the prop is not required, we don't need to set a default value
+    if (!prop.required) return;
+
+    if (prop.type === 'string' || prop.type === 'multiline') return `Example ${prop.name}`;
+
+    if (prop.type === 'number') return '{0}';
+
+    if (prop.type === 'boolean') return '{false}';
+
+    if (prop.type === 'array') return '{[]}';
+
+    if (prop.type === 'object') return '{{}}';
+
+    if (typeof prop.type === 'string' && prop.type.startsWith('Array<')) return '{[]}';
+
+    if (prop.options && prop.options.length > 0) {
+        return `"${prop.options[0]}"`;
+    }
+};
 
 function jsDocParse(content: string) {
     try {
@@ -79,6 +104,73 @@ const componentFiles = fs
         };
     });
 
+const generatedExample = (component: (typeof componentFiles)[0]) => {
+    const propsDef = typesMeta.find((meta) => meta.name === `${component.name}Props`);
+
+    // const propsStringified = propsDef
+    //     ? Object.entries(propsDef.props)
+    //           .map(([key, value]) => {
+
+    const propNames = propsDef?.properties?.map((prop) => prop.name) || [];
+
+    const propsStringified =
+        propsDef?.properties
+            ?.map((prop) => {
+                if (prop.name === 'children') return null;
+
+                const strValue = prop.example || prop.default;
+
+                if (!strValue && !prop.required && prop.name !== 'value') return null;
+
+                let value = '';
+
+                if (prop.name === 'value') value = `{state}`;
+                else if (prop.type === 'string') value = `"${strValue || getDefaultState(prop) || ''}"`;
+                else if (typeof prop.type === 'string' && prop.type.startsWith('Array<')) value = `{${strValue || ''}}`;
+                else if (prop.name.match(/^on[A-Z]/)) {
+                    if (prop.name !== 'onChange') value = `{() => action('Called "${prop.name}" function')}`;
+                    // some props have value and checked properties - we look for checked first
+                    else if (propNames.includes('checked')) value = `{(checked) => setState(checked)}`;
+                    else if (propNames.includes('value')) value = `{(nextValue) => setState(nextValue) }`;
+                    else value = `{() => { console.warn('onChange function called') }}`;
+                }
+
+                return value ? `${prop.name}=${value}` : '';
+            })
+            .filter(Boolean)
+            .join(' ') || '';
+
+    let reactStuff = '';
+
+    if (propsStringified.includes('setState')) {
+        let stateType = propsDef?.properties?.find((prop) => prop.name === 'value')?.type || 'string';
+
+        if (stateType === 'multiline') stateType = 'string';
+
+        reactStuff = `const [state, setState] = React.useState<${stateType}>();`;
+    }
+
+    return `
+   import { ${component.name} } from '@bspk/ui/${component.name}';
+   
+   export function Example() {
+
+        ${reactStuff}
+
+       return (
+           ${
+               (propNames.includes('children')
+                   ? `<${component.name} ${propsStringified}>
+               Example ${component.name}
+           </${component.name}>`
+                   : `<${component.name} ${propsStringified} />`) || ''
+           }
+       );
+   }
+    
+   `;
+};
+
 const examplesDir = path.resolve(__dirname, '../.scripts/temp');
 execSync(`mkdir -p ${examplesDir}`, { stdio: 'inherit' });
 
@@ -95,7 +187,7 @@ componentFiles.forEach((component) => {
 
     const exampleFilePath = path.resolve(examplesDir, `${component.name}.tsx`);
 
-    if (!example) return;
+    if (!example) example = generatedExample(component);
 
     /// make it pass linter
     example = example.replace('\nfunction', '\nexport function');
@@ -104,6 +196,8 @@ componentFiles.forEach((component) => {
 
     // write the example to a file
     fs.writeFileSync(exampleFilePath, example);
+
+    pretty(exampleFilePath);
 
     exampleNames.push(component.name);
 });
