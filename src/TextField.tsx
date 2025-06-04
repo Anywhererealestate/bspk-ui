@@ -20,12 +20,34 @@ export type TextFieldProps = InvalidPropsLibrary &
         | 'type'
         | 'value'
     > &
-    Pick<FormFieldProps, 'controlId' | 'errorMessage' | 'helperText' | 'label' | 'labelTrailing'>;
+    Pick<
+        FormFieldProps,
+        'controlId' | 'errorMessage' | 'helperText' | 'label' | 'labelTrailing'
+    >;
 
 /**
- * A text input that allows users to enter text, numbers or symbols in a singular line.
+ * A text input that allows users to enter text, numbers or symbols in a
+ * singular line.
  *
  * This component takes properties from the FormField and TextInput components.
+ *
+ * @example
+ *     import { useState } from 'react';
+ *     import { TextField } from '@bspk/ui/TextField';
+ *
+ *     export function Example() {
+ *         const [value, setValue] = useState<string>('');
+ *
+ *         return (
+ *             <TextField
+ *                 controlId="Example controlId"
+ *                 label="Example label"
+ *                 name="Example name"
+ *                 onChange={setValue}
+ *                 value={value}
+ *             />
+ *         );
+ *     }
  *
  * @name TextField
  */
@@ -38,7 +60,9 @@ function TextField({
     required,
     ...inputProps
 }: TextFieldProps) {
-    const errorMessage = (!inputProps.readOnly && !inputProps.disabled && errorMessageProp) || undefined;
+    const errorMessage =
+        (!inputProps.readOnly && !inputProps.disabled && errorMessageProp) ||
+        undefined;
 
     return (
         <FormField
@@ -51,7 +75,13 @@ function TextField({
             required={required}
         >
             {(fieldProps) => (
-                <TextInput {...inputProps} {...fieldProps} aria-label={label} id={controlId} required={required} />
+                <TextInput
+                    {...inputProps}
+                    {...fieldProps}
+                    aria-label={label}
+                    id={controlId}
+                    required={required}
+                />
             )}
         </FormField>
     );

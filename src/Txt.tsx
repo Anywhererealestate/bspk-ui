@@ -30,7 +30,15 @@ export type TxtProps<As extends ElementType = 'span'> = {
 };
 
 /**
- * A text component that applies the correct font styles based on the variant and size. variant
+ * A text component that applies the correct font styles based on the variant
+ * and size. variant
+ *
+ * @example
+ *     import { Txt } from '@bspk/ui/Txt';
+ *
+ *     export function Example() {
+ *         return <Txt>Example Txt</Txt>;
+ *     }
  *
  * @name Txt
  */
@@ -48,7 +56,11 @@ function Txt<As extends ElementType = 'span'>({
     const As: ElementType = as || 'span';
 
     return (
-        <As {...containerProps} data-bspk="txt" style={{ ...styleProp, font: `var(--${variant})` }}>
+        <As
+            {...containerProps}
+            data-bspk="txt"
+            style={{ ...styleProp, font: `var(--${variant})` }}
+        >
             {content}
         </As>
     );

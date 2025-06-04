@@ -1,5 +1,12 @@
 import './tooltip.scss';
-import { ReactElement, cloneElement, useId, useMemo, useRef, useState } from 'react';
+import {
+    ReactElement,
+    cloneElement,
+    useId,
+    useMemo,
+    useRef,
+    useState,
+} from 'react';
 
 import { Portal } from './Portal';
 import { Placement, useFloating } from './hooks/useFloating';
@@ -31,11 +38,30 @@ export type TooltipProps = {
 };
 
 /**
- * Brief message that provide additional guidance and helps users perform an action if needed.
+ * Brief message that provide additional guidance and helps users perform an
+ * action if needed.
+ *
+ * @example
+ *     import { Tooltip } from '@bspk/ui/Tooltip';
+ *     import { Button } from '@bspk/ui/Button';
+ *
+ *     export function Example() {
+ *         return (
+ *             <Tooltip label="I explain what this button does" placement="top">
+ *                 <Button>Click me</Button>
+ *             </Tooltip>
+ *         );
+ *     }
  *
  * @name Tooltip
  */
-function Tooltip({ placement = 'top', label, children, disabled = false, tail = true }: TooltipProps) {
+function Tooltip({
+    placement = 'top',
+    label,
+    children,
+    disabled = false,
+    tail = true,
+}: TooltipProps) {
     const id = useId();
     const [show, setShow] = useState(false);
 
@@ -74,7 +100,11 @@ function Tooltip({ placement = 'top', label, children, disabled = false, tail = 
                         id={id}
                         ref={(node) => {
                             elements.setFloating(node);
-                            elements.setTrigger(document.querySelector<HTMLElement>(`[aria-describedby="${id}"]`));
+                            elements.setTrigger(
+                                document.querySelector<HTMLElement>(
+                                    `[aria-describedby="${id}"]`,
+                                ),
+                            );
                         }}
                         role="tooltip"
                         style={floatingStyles}
