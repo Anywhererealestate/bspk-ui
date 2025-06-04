@@ -1,5 +1,4 @@
 [data-bspk='badge'] {
-    --surface-border: transparent;
     --size: var(--spacing-sizing-06);
 
     display: flex;
@@ -10,7 +9,6 @@
     width: fit-content;
     min-width: var(--size);
     padding: 0 var(--spacing-sizing-02);
-    border: var(--surface-border) 2px solid;
     font: var(--labels-x-small);
     color: var(--foreground-brand-on-primary);
     background: var(--surface-brand-primary);
@@ -27,7 +25,17 @@
     }
 
     &[data-surface-border] {
-        --surface-border: var(--surface-neutral-t1-base);
+        position: relative;
+
+        &::after {
+            display: block;
+            content: ' ';
+            position: absolute;
+            inset: 0;
+            border-radius: var(--radius-circular);
+            border: 2px solid var(--surface-neutral-t1-base);
+            z-index: 1;
+        }
     }
 }
 
