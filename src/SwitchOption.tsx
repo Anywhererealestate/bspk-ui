@@ -6,13 +6,19 @@ export type SwitchOptionProps = Omit<SwitchProps, 'aria-label'> & Pick<ToggleOpt
 /**
  * A control that allows users to choose one or more items from a list or turn an feature on or off.
  *
+ * If only a switch is needed, consider using the `Switch` component directly.
+ *
  * @name SwitchOption
  */
-function SwitchOption({ label, description, ...checkboxProps }: SwitchOptionProps) {
+function SwitchOption({ label: labelProp, description, ...checkboxProps }: SwitchOptionProps) {
+    const label = labelProp || description;
+
     return (
-        <ToggleOption data-bspk="switch-option" description={description} label={label}>
-            <Switch {...checkboxProps} aria-label={label} />
-        </ToggleOption>
+        label && (
+            <ToggleOption data-bspk="switch-option" description={description} label={label}>
+                <Switch {...checkboxProps} aria-label={label} />
+            </ToggleOption>
+        )
     );
 }
 

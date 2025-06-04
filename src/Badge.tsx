@@ -9,9 +9,10 @@ export type BadgeProps = {
      * @example
      *     5;
      *
-     * @default 0
+     * @default 1
      *
      * @type number
+     * @minimum 1
      */
     count?: number;
     /**
@@ -26,6 +27,12 @@ export type BadgeProps = {
      * @default primary
      */
     variant?: 'primary' | 'secondary';
+    /**
+     * Whether the badge should have a border that matches the surface color.
+     *
+     * @default false
+     */
+    surfaceBorder?: boolean;
 };
 
 /**
@@ -42,14 +49,19 @@ export type BadgeProps = {
  *
  * @name Badge
  */
-function Badge({ count: countProp, size = 'small', variant = 'primary' }: BadgeProps) {
+function Badge({ count: countProp, size = 'small', variant = 'primary', surfaceBorder }: BadgeProps) {
     const count: number | null = tryIntParse(countProp);
 
     return (
         count !== null && (
-            <div data-bspk="badge" data-size={size} data-variant={variant}>
+            <sup
+                data-bspk="badge"
+                data-size={size}
+                data-surface-border={surfaceBorder || undefined}
+                data-variant={variant}
+            >
                 {count > 99 ? '99+' : count}
-            </div>
+            </sup>
         )
     );
 }

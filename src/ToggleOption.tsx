@@ -3,14 +3,15 @@ import { ReactElement } from 'react';
 
 export type ToggleOptionProps = {
     /**
-     * The label of the field. Also used as the aria-label of the checkbox.
+     * The label of the option. Also used as the aria-label of the checkbox.
      *
      * @required
      */
     label: string;
     /**
-     * The description of the field.
+     * The description of the option.
      *
+     * @type multiline
      * @type multiline
      */
     description?: string;
