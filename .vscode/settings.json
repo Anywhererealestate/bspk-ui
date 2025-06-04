@@ -1,10 +1,13 @@
 {
     "typescript.tsdk": "node_modules/typescript/lib",
+    "prettier.printWidth": 80,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
     "cssVariables.lookupFiles": [
         "**/*.css",
         "**/*.scss",
         "**/*.sass",
         "**/*.less",
-        "node_modules/@bspk/styles/anywhere.css",
+        "node_modules/@bspk/styles/anywhere.css"
     ]
 }
