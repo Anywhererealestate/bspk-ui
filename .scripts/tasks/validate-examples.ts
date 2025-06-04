@@ -15,6 +15,7 @@ import path from 'path';
 import { typesMeta } from '../../../bspk-demo/src/meta';
 import { componentsDir, kebabCase, prettyLint } from '../utils';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const getDefaultState = (prop: any): any => {
     if (prop.example) return prop.example;
 

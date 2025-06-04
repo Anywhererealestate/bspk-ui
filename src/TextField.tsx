@@ -3,7 +3,12 @@ import { TextInputProps, TextInput } from './TextInput';
 
 import { InvalidPropsLibrary } from '.';
 
-export type TextFieldProps = InvalidPropsLibrary &
+export type TextFieldProps =
+    InvalidPropsLibrary &
+    Pick<
+        FormFieldProps,
+        'controlId' | 'errorMessage' | 'helperText' | 'label' | 'labelTrailing'
+    > &
     Pick<
         TextInputProps,
         | 'autoComplete'
@@ -19,10 +24,6 @@ export type TextFieldProps = InvalidPropsLibrary &
         | 'trailing'
         | 'type'
         | 'value'
-    > &
-    Pick<
-        FormFieldProps,
-        'controlId' | 'errorMessage' | 'helperText' | 'label' | 'labelTrailing'
     >;
 
 /**
