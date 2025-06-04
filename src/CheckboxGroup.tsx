@@ -24,6 +24,13 @@ export type CheckboxGroupProps = CommonProps<'aria-label'> & {
     /**
      * The options for the checkboxes.
      *
+     * @example
+     *     [
+     *         { label: 'Option 1', value: 'option1' },
+     *         { label: 'Option 2', value: 'option2' },
+     *         { label: 'Option 3', value: 'option3' },
+     *     ];
+     *
      * @type Array<CheckboxGroupOption>
      * @required
      */
@@ -46,6 +53,29 @@ export type CheckboxGroupProps = CommonProps<'aria-label'> & {
 
 /**
  * A group of checkboxes that allows users to choose one or more items from a list or turn an feature on or off.
+ *
+ * @example
+ *     import { CheckboxGroup } from '@bspk/ui/CheckboxGroup';
+ *
+ *     function Example() {
+ *         const [values, setValues] = React.useState<string[]>([]);
+ *
+ *         return (
+ *             <CheckboxGroup
+ *                 aria-label="Example Checkbox Group"
+ *                 name="example-checkbox-group"
+ *                 options={[
+ *                     { label: 'Option 1', value: 'option1' },
+ *                     { label: 'Option 2', value: 'option2' },
+ *                     { label: 'Option 3', value: 'option3' },
+ *                 ]}
+ *                 values={values}
+ *                 onChange={(nextValues: string[]) => {
+ *                     setValues(nextValues);
+ *                 }}
+ *             />
+ *         );
+ *     }
  *
  * @name CheckboxGroup
  */

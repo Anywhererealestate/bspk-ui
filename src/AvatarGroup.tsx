@@ -43,6 +43,20 @@ export type AvatarGroupProps = {
 /**
  * AvatarGroup component displays a group of avatars.
  *
+ * @example
+ *     import { AvatarGroup } from '@bspk/ui/AvatarGroup';
+ *
+ *     export function Example() {
+ *         return (
+ *             <AvatarGroup
+ *                 items={[
+ *                     { name: 'Jane Doe', image: '/path/to/image.jpg' },
+ *                     { name: 'John Smith', initials: 'JS' },
+ *                 ]}
+ *             />
+ *         );
+ *     }
+ *
  * @name AvatarGroup
  */
 function AvatarGroup({ items, size = 'small', max = 5, variant }: AvatarGroupProps) {

@@ -49,19 +49,6 @@ export const { componentsDir, hooksDir, rootPath } = {
     rootPath: path.resolve(__dirname, '..'),
 } as const;
 
-export const componentFiles = fs
-    .readdirSync(componentsDir)
-    .filter((f) => f.endsWith('.tsx'))
-    .map((fileName) => {
-        const filePath = path.resolve(componentsDir, fileName);
-        return {
-            filePath,
-            name: fileName.replace(/\.[^.]+$/, ''),
-            fileName,
-            content: fs.readFileSync(filePath, 'utf-8'),
-        };
-    });
-
 export function reportMissingVariables(variables: Record<string, string>) {
     // ensure all sass files in src do not reference variables not in anywhere.css
 

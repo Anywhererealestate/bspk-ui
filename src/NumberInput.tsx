@@ -61,6 +61,22 @@ export type NumberInputProps = CommonProps<'aria-label' | 'disabled' | 'id' | 'n
  *
  * The value of the input is a number. The value is clamped to the min and max values if they are provided.
  *
+ * @example
+ *     import { NumberInput } from '@bspk/ui/NumberInput';
+ *
+ *     export function Example() {
+ *         const [state, setState] = React.useState<number>();
+ *
+ *         return (
+ *             <NumberInput
+ *                 aria-label="Example aria-label"
+ *                 name="Example name"
+ *                 onChange={(nextValue) => setState(nextValue)}
+ *                 value={state}
+ *             />
+ *         );
+ *     }
+ *
  * @name NumberInput
  */
 function NumberInput({

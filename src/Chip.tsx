@@ -46,6 +46,17 @@ export type ChipProps = CommonProps<'disabled'> & {
 /**
  * Dynamically generated options that are suggested to the user as responses or prompts.
  *
+ * @example
+ *     import { Chip } from '@bspk/ui/Chip';
+ *
+ *     function Example() {
+ *         return (
+ *             <Chip variant="filter" onClick={() => console.log('Chip clicked!')}>
+ *                 Example Chip
+ *             </Chip>
+ *         );
+ *     }
+ *
  * @name Chip
  */
 function Chip({

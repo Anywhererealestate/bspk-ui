@@ -120,7 +120,13 @@ const componentFiles = fs
             fileName,
             content,
             // eslint-disable-next-line no-useless-escape
-            jsDocs: content.match(/\/\*\*\s*\n([^\*]|(\*(?!\/)))*\*\//g)?.map((jsDoc) => jsDocParse(jsDoc)),
+            jsDocs: content.match(/\/\*\*\s*\n([^\*]|(\*(?!\/)))*\*\//g)?.map((jsDoc) => {
+                const doc = jsDocParse(jsDoc);
+                return {
+                    id: kebabCase(doc.description),
+                    ...doc,
+                } as Record<string, string>;
+            }),
         };
     });
 
@@ -292,11 +298,7 @@ function generateTypes() {
     ): TypeProperty | undefined => {
         // the auto-generated types aren't always correct, so we need to fix them
         const jsDoc = definition.description
-            ? context.componentFile?.jsDocs?.find(
-                  (doc) =>
-                      doc.description.includes(definition.description!) ||
-                      definition.description!.includes(doc.description),
-              )
+            ? context.componentFile?.jsDocs?.find(({ id }) => id === kebabCase(definition.description!))
             : undefined;
 
         const next: TypeProperty = {
@@ -346,6 +348,10 @@ function generateTypes() {
             if (definitionName.endsWith('Props')) {
                 componentFile =
                     componentFiles.find((f) => f.fileName === `${definitionName.replace(/Props$/, '')}.tsx`) || null;
+            }
+
+            if (definitionName === 'BadgeProps') {
+                console.log(componentFile);
             }
 
             const context = { componentFile, parent: definitionName };

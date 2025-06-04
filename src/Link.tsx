@@ -36,6 +36,13 @@ export type LinkProps = Pick<AnchorHTMLAttributes<unknown>, 'target'> &
 /**
  * This is the standalone link component. Inline links can use the native `a` element.
  *
+ * @example
+ *     import { Link } from '@bspk/ui/Link';
+ *
+ *     export function Example() {
+ *         return <Link href="https://bspk.dev" label="Example label" trailingIcon="external" />;
+ *     }
+ *
  * @name Link
  */
 function Link({ label, trailingIcon, size, variant, ...props }: LinkProps) {

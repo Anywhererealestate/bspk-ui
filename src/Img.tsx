@@ -18,6 +18,13 @@ export type ImgProps = {
 /**
  * The Img component is used to display images on the page.
  *
+ * @example
+ *     import { Img } from '@bspk/ui/Img';
+ *
+ *     export function Example() {
+ *         return <Img alt="Example alt" src="Example src" />;
+ *     }
+ *
  * @name Img
  */
 function Img({ alt, ...props }: ElementProps<ImgProps, 'img'>) {

@@ -38,6 +38,17 @@ export type EmptyStateProps = {
 /**
  * A design pattern component that indicates to users that system has no content to display.
  *
+ * @example
+ *     import { EmptyState } from '@bspk/ui/EmptyState';
+ *
+ *     export function Example() {
+ *         return (
+ *             <EmptyState body="Example body" header="Example header">
+ *                 Example EmptyState
+ *             </EmptyState>
+ *         );
+ *     }
+ *
  * @name EmptyState
  */
 function EmptyState({ children, header, body, callToAction, bodyAlign = 'center' }: EmptyStateProps) {

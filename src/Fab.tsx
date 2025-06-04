@@ -45,6 +45,14 @@ export type FabProps<As extends ElementType = 'button'> = Pick<
  * A button that highlights a primary action that is elevated above the body content of a page; normally fixed to the
  * bottom right of a screen.
  *
+ * @example
+ *     import { SvgBolt } from '@bspk/icons/Bolt';
+ *     import { Fab } from '@bspk/ui/Fab';
+ *
+ *     export function Example() {
+ *         return <Fab icon={<SvgBolt />} label="Example label" placement="bottom-right" variant="neutral" />;
+ *     }
+ *
  * @name Fab
  */
 function Fab<As extends ElementType = 'button'>({
