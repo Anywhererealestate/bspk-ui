@@ -10,7 +10,10 @@ import { useFloatingMenu } from './hooks/useFloatingMenu';
 import { useId } from './hooks/useId';
 //import { useFloatingMenu } from './hooks/useFloatingMenu';
 
-export type SearchBarProps<T extends MenuItem = MenuItem> = Pick<MenuProps<T>, 'itemCount' | 'noResultsMessage'> &
+export type SearchBarProps<T extends MenuItem = MenuItem> = Pick<
+    MenuProps<T>,
+    'itemCount' | 'noResultsMessage'
+> &
     Pick<TextInputProps, 'aria-label' | 'id' | 'inputRef' | 'name' | 'size'> & {
         /** The current value of the search bar. */
         value?: string;
@@ -73,6 +76,40 @@ export type SearchBarProps<T extends MenuItem = MenuItem> = Pick<MenuProps<T>, '
 /**
  * Component description coming soon.
  *
+ * @example
+ *     import { useState } from 'react';
+ *     import { SearchBar } from '@bspk/ui/SearchBar';
+ *
+ *     export function Example() {
+ *         const [searchText, setSearchText] = useState<string>('');
+ *
+ *         const handleItemSelect = (item) =>
+ *             console.log('Selected item:', item);
+ *
+ *         return (
+ *             <SearchBar
+ *                 aria-label="Example aria-label"
+ *                 items={[
+ *                     { value: '1', label: 'Apple Pie' },
+ *                     { value: '2', label: 'Banana Split' },
+ *                     { value: '3', label: 'Cherry Tart' },
+ *                     { value: '4', label: 'Dragonfruit Sorbet' },
+ *                     { value: '5', label: 'Elderberry Jam' },
+ *                     { value: '6', label: 'Fig Newton' },
+ *                     { value: '7', label: 'Grape Soda' },
+ *                     { value: '8', label: 'Honeydew Smoothie' },
+ *                     { value: '9', label: 'Ice Cream Sandwich' },
+ *                     { value: '10', label: 'Jackfruit Pudding' },
+ *                 ]}
+ *                 name="Example name"
+ *                 placeholder="Search"
+ *                 value={searchText}
+ *                 onChange={setSearchText}
+ *                 onSelect={handleItemSelect}
+ *             />
+ *         );
+ *     }
+ *
  * @name SearchBar
  */
 function SearchBar({
@@ -92,7 +129,12 @@ function SearchBar({
 }: SearchBarProps) {
     const id = useId(idProp);
     const {
-        triggerProps: { ref: triggerRef, onClick, onKeyDownCapture, ...triggerProps },
+        triggerProps: {
+            ref: triggerRef,
+            onClick,
+            onKeyDownCapture,
+            ...triggerProps
+        },
         menuProps,
         closeMenu,
     } = useFloatingMenu({
@@ -154,7 +196,9 @@ function SearchBar({
                         }
                         onChange={(selectedValues, event) => {
                             event?.preventDefault();
-                            const item = items?.find((i) => i.value === selectedValues[0]);
+                            const item = items?.find(
+                                (i) => i.value === selectedValues[0],
+                            );
                             onSelect?.(item);
                             onChange(item?.label || '');
                             closeMenu();

@@ -39,6 +39,18 @@ export type TooltipProps = {
 /**
  * Brief message that provide additional guidance and helps users perform an action if needed.
  *
+ * @example
+ *     import { Tooltip } from '@bspk/ui/Tooltip';
+ *     import { Button } from '@bspk/ui/Button';
+ *
+ *     export function Example() {
+ *         return (
+ *             <Tooltip label="I explain what this button does" placement="top">
+ *                 <Button>Click me</Button>
+ *             </Tooltip>
+ *         );
+ *     }
+ *
  * @name Tooltip
  */
 function Tooltip({

@@ -1,6 +1,13 @@
 import { SvgClose } from '@bspk/icons/Close';
 import './popover.scss';
-import { ReactElement, cloneElement, useId, useMemo, useRef, useState } from 'react';
+import {
+    ReactElement,
+    cloneElement,
+    useId,
+    useMemo,
+    useRef,
+    useState,
+} from 'react';
 
 import { Button } from './Button';
 import { Portal } from './Portal';
@@ -41,11 +48,45 @@ export type PopoverProps = CommonProps<'disabled'> & {
 };
 
 /**
- * Brief message that provide additional guidance and helps users perform an action if needed.
+ * Brief message that provide additional guidance and helps users perform an
+ * action if needed.
+ *
+ * @example
+ *     import { useState } from 'react';
+ *     import { Popover } from '@bspk/ui/Popover';
+ *     import { Button } from '@bspk/ui/Button';
+ *
+ *     export function Example() {
+ *         const [showPopover, setShowPopover] = useState<boolean>(false);
+ *
+ *         const togglePopover = () => setShowPopover(!showPopover);
+ *         const onPopoverCallToActionClick = () => alert('Action clicked');
+ *
+ *         return (
+ *             <Popover
+ *                 placement="bottom"
+ *                 content="This is a popover content"
+ *                 header="Popover Header"
+ *                 callToAction={{
+ *                     label: 'Action',
+ *                     onClick: onPopoverCallToActionClick,
+ *                 }}
+ *             >
+ *                 <Button label="Toggle popover" onClick={togglePopover} />
+ *             </Popover>
+ *         );
+ *     }
  *
  * @name Popover
  */
-function Popover({ placement = 'top', header, content, callToAction, children, disabled = false }: PopoverProps) {
+function Popover({
+    placement = 'top',
+    header,
+    content,
+    callToAction,
+    children,
+    disabled = false,
+}: PopoverProps) {
     const id = useId();
     const [show, setShow] = useState(false);
     const arrowRef = useRef<HTMLElement | null>(null);
@@ -83,13 +124,20 @@ function Popover({ placement = 'top', header, content, callToAction, children, d
                     id={id}
                     ref={(node) => {
                         elements.setFloating(node);
-                        elements.setTrigger(document.querySelector<HTMLElement>(`[aria-describedby="${id}"]`));
+                        elements.setTrigger(
+                            document.querySelector<HTMLElement>(
+                                `[aria-describedby="${id}"]`,
+                            ),
+                        );
                     }}
                     style={floatingStyles}
                 >
                     <header>
                         <Txt variant="heading-h6">{header}</Txt>
-                        <button aria-label="Close" onClick={() => setShow(false)}>
+                        <button
+                            aria-label="Close"
+                            onClick={() => setShow(false)}
+                        >
                             <SvgClose />
                         </button>
                     </header>

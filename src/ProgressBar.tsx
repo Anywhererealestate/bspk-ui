@@ -36,6 +36,14 @@ export type ProgressBarProps = {
  * occurring in the background.
  *
  * @name ProgressBar
+ * @example
+ *      import { ProgressBar } from '@bspk/ui/ProgressBar';
+ *
+ *      export function Example() {
+ *          return (
+ *              <ProgressBar label="Example label" completion={50} />
+ *          );
+ *      }
  */
 function ProgressBar({ size = 'large', completion = 0, align = 'center', label }: ProgressBarProps) {
     const id = useId();

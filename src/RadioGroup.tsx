@@ -53,6 +53,31 @@ export type RadioGroupProps = CommonProps<'name'> & {
 /**
  * A group of radios that allows users to choose one or more items from a list or turn an feature on or off.
  *
+ * @example
+ *     import { useState } from 'react';
+ *     import { RadioGroup } from '@bspk/ui/RadioGroup';
+ *
+ *     export function Example() {
+ *         const [selectedOption, setSelectedOption] = useState<string>('1');
+ *
+ *         return (
+ *             <RadioGroup
+ *                 name="Example name"
+ *                 onChange={(nextValue) => setSelectedOption(nextValue)}
+ *                 options={[
+ *                     {
+ *                         value: '1',
+ *                         label: 'Option 1',
+ *                         description: 'Description here',
+ *                     },
+ *                     { value: '2', label: 'Option 2' },
+ *                     { value: '3', label: 'Option 3' },
+ *                 ]}
+ *                 value={selectedOption}
+ *             />
+ *         );
+ *     }
+ *
  * @name RadioGroup
  */
 function RadioGroup({

@@ -24,6 +24,23 @@ export type SwitchProps = CommonProps<'aria-label' | 'disabled' | 'name' | 'valu
  * immediate reaction in each state. This is the base element and if used directly you must wrap it with a label. This
  * will more often be used in the SwitchOption component.
  *
+ * @example
+ *     import { useState } from 'react';
+ *     import { Switch } from '@bspk/ui/Switch';
+ *
+ *     export function Example() {
+ *         const [isChecked, setIsChecked] = useState<boolean>(false);
+ *
+ *         return (
+ *             <Switch
+ *                 aria-label="Example aria-label"
+ *                 name="Example name"
+ *                 onChange={setIsChecked}
+ *                 checked={isChecked}
+ *             />
+ *         );
+ *     }
+ *
  * @element
  *
  * @name Switch
