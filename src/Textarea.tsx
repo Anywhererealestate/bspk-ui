@@ -130,6 +130,7 @@ function Textarea({
                 placeholder={placeholder}
                 ref={innerRef}
                 value={value}
+                wrap="hard"
             />
             <div aria-hidden data-replicated-value />
         </div>

@@ -22,7 +22,7 @@ export type SwitchProps = CommonProps<'aria-label' | 'disabled' | 'name' | 'valu
 /**
  * A control element that allows users to toggle between two states, typically representing on/off and inherits
  * immediate reaction in each state. This is the base element and if used directly you must wrap it with a label. This
- * will more often be used in the SwitchOption or SwitchGroup component.
+ * will more often be used in the SwitchOption component.
  *
  * @element
  *

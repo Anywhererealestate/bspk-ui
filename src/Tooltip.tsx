@@ -4,13 +4,19 @@ import { ReactElement, cloneElement, useId, useMemo, useRef, useState } from 're
 import { Portal } from './Portal';
 import { Placement, useFloating } from './hooks/useFloating';
 
+const DEFAULT = {
+    placement: 'top',
+    showTail: true,
+    disabled: false,
+} as const;
+
 export type TooltipProps = {
     /**
      * The placement of the tooltip.
      *
      * @default top
      */
-    placement?: Placement;
+    placement?: Extract<Placement, 'bottom' | 'left' | 'right' | 'top'>;
     /** The tooltip content. */
     label: string;
     /**
@@ -27,7 +33,7 @@ export type TooltipProps = {
      *
      * @default true
      */
-    tail?: boolean;
+    showTail?: boolean;
 };
 
 /**
@@ -35,7 +41,13 @@ export type TooltipProps = {
  *
  * @name Tooltip
  */
-function Tooltip({ placement = 'top', label, children, disabled = false, tail = true }: TooltipProps) {
+function Tooltip({
+    placement = DEFAULT.placement,
+    label,
+    children,
+    disabled = DEFAULT.disabled,
+    showTail = DEFAULT.showTail,
+}: TooltipProps) {
     const id = useId();
     const [show, setShow] = useState(false);
 
@@ -56,7 +68,7 @@ function Tooltip({ placement = 'top', label, children, disabled = false, tail = 
     const { floatingStyles, middlewareData, elements } = useFloating({
         placement: placement,
         strategy: 'fixed',
-        offsetOptions: 8,
+        offsetOptions: 4,
         arrowRef,
         hide: !show,
     });
@@ -80,7 +92,7 @@ function Tooltip({ placement = 'top', label, children, disabled = false, tail = 
                         style={floatingStyles}
                     >
                         <span data-text>{label}</span>
-                        {tail !== false && (
+                        {showTail !== false && (
                             <span
                                 aria-hidden
                                 data-arrow

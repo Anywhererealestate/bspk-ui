@@ -1,7 +1,11 @@
+import { useId } from 'react';
+
 import { Radio } from './Radio';
 import { ToggleOptionProps, ToggleOption } from './ToggleOption';
 
 import { ElementProps, CommonProps } from './';
+
+import './radio-group.scss';
 
 export type RadioGroupOption = Pick<ToggleOptionProps, 'description' | 'label'> & Required<CommonProps<'value'>>;
 
@@ -29,8 +33,8 @@ export type RadioGroupProps = CommonProps<'name'> & {
      *
      * @example
      *     [
-     *         { value: '1', label: 'Option 1', description: 'Description here' },
-     *         { value: '2', label: 'Option 2' },
+     *         { value: '1', label: 'Option 1' },
+     *         { value: '2', label: 'Option 2', description: 'Description here' },
      *         { value: '3', label: 'Option 3' },
      *     ];
      *
@@ -39,11 +43,11 @@ export type RadioGroupProps = CommonProps<'name'> & {
      */
     options: RadioGroupOption[];
     /**
-     * The size of the radio group labels.
+     * The label of the radio group.
      *
-     * @default base
+     * @required
      */
-    size?: 'base' | 'large' | 'small';
+    label: string;
 };
 
 /**
@@ -56,29 +60,29 @@ function RadioGroup({
     options = [],
     name,
     value: groupValue,
-    size = 'base',
+    label: groupLabel,
     ...props
 }: ElementProps<RadioGroupProps, 'div'>) {
+    const id = `radio-group-${useId()}`;
+
     return (
-        <div {...props} data-bspk="radio-group" role="radiogroup" style={{ display: 'contents' }}>
-            {options.map(({ label, description, value }, index) => {
-                return (
-                    <ToggleOption
-                        description={description}
-                        key={`toggle-option-${value || index}`}
-                        label={label}
-                        size={size}
-                    >
-                        <Radio
-                            aria-label={label}
-                            checked={groupValue === value}
-                            name={name}
-                            onChange={(checked) => checked && onChange(value)}
-                            value={value}
-                        />
-                    </ToggleOption>
-                );
-            })}
+        <div {...props} aria-labelledby={`${id}-label`} data-bspk="radio-group" role="group">
+            <label id={`${id}-label`}>{groupLabel}</label>
+            <div role="radiogroup">
+                {options.map(({ label, description, value }, index) => {
+                    return (
+                        <ToggleOption description={description} key={`toggle-option-${value || index}`} label={label}>
+                            <Radio
+                                aria-label={label}
+                                checked={groupValue === value}
+                                name={name}
+                                onChange={(checked) => checked && onChange(value)}
+                                value={value}
+                            />
+                        </ToggleOption>
+                    );
+                })}
+            </div>
         </div>
     );
 }
