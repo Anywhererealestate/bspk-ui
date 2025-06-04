@@ -27,6 +27,14 @@ export type ProgressCircleProps = {
  * Rotating circle or pill that indicates the status or state of completion for a process that’s part of a user flow.
  *
  * @name ProgressCircle
+ * @example
+ *      import { ProgressCircle } from '@bspk/ui/ProgressCircle';
+ *
+ *      export function Example() {
+ *          return (
+ *              <ProgressCircle label="Example label"/>
+ *          );
+ *      }
  */
 function ProgressCircle({ label, labelPosition, size = 'medium' }: ProgressCircleProps) {
     let variant: TxtVariant = 'labels-base';

@@ -22,7 +22,8 @@ export type TabGroupOption = {
      */
     label: string;
     /**
-     * Determines if the element is [disabled](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled).
+     * Determines if the element is
+     * [disabled](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled).
      *
      * @default false
      */
@@ -86,15 +87,15 @@ export type TabGroupProps = {
      */
     size?: TabGroupSize;
     /**
-     * When 'fill' the options will fill the width of the container. When 'hug', the options will be as wide as their
-     * content.
+     * When 'fill' the options will fill the width of the container. When 'hug',
+     * the options will be as wide as their content.
      *
      * @default hug
      */
     width?: 'fill' | 'hug';
     /**
-     * When width is 'hug' this determines if the trailing underline should be showing. When width is 'fill' this
-     * property isn't applicable.
+     * When width is 'hug' this determines if the trailing underline should be
+     * showing. When width is 'fill' this property isn't applicable.
      *
      * @default false
      */
@@ -103,6 +104,26 @@ export type TabGroupProps = {
 
 /**
  * Navigation tool that organizes content across different screens and views.
+ *
+ * @example
+ *     import { useState } from 'react';
+ *     import { TabGroup } from '@bspk/ui/TabGroup';
+ *
+ *     export function Example() {
+ *         const [selectedTab, setSelectedTab] = useState<string>();
+ *
+ *         return (
+ *             <TabGroup
+ *                 onChange={setSelectedTab}
+ *                 options={[
+ *                     { value: '1', label: 'Option 1' },
+ *                     { value: '2', label: 'Option 2' },
+ *                     { value: '3', label: 'Option 3' },
+ *                 ]}
+ *                 value={selectedTab}
+ *             />
+ *         );
+ *     }
  *
  * @name TabGroup
  */
@@ -143,7 +164,10 @@ function TabGroup({
                             {(isActive && item.iconActive) || item.icon}
                             {item.label}
                             {item.badge && !item.disabled && !isActive && (
-                                <Badge count={item.badge} size={TAB_BADGE_SIZES[size]} />
+                                <Badge
+                                    count={item.badge}
+                                    size={TAB_BADGE_SIZES[size]}
+                                />
                             )}
                         </span>
                     </button>

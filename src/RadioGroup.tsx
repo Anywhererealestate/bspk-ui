@@ -3,7 +3,11 @@ import { ToggleOptionProps, ToggleOption } from './ToggleOption';
 
 import { ElementProps, CommonProps } from './';
 
-export type RadioGroupOption = Pick<ToggleOptionProps, 'description' | 'label'> & Required<CommonProps<'value'>>;
+export type RadioGroupOption = Pick<
+    ToggleOptionProps,
+    'description' | 'label'
+> &
+    Required<CommonProps<'value'>>;
 
 export type RadioGroupProps = CommonProps<'name'> & {
     /**
@@ -29,7 +33,11 @@ export type RadioGroupProps = CommonProps<'name'> & {
      *
      * @example
      *     [
-     *         { value: '1', label: 'Option 1', description: 'Description here' },
+     *         {
+     *             value: '1',
+     *             label: 'Option 1',
+     *             description: 'Description here',
+     *         },
      *         { value: '2', label: 'Option 2' },
      *         { value: '3', label: 'Option 3' },
      *     ];
@@ -47,7 +55,33 @@ export type RadioGroupProps = CommonProps<'name'> & {
 };
 
 /**
- * A group of radios that allows users to choose one or more items from a list or turn an feature on or off.
+ * A group of radios that allows users to choose one or more items from a list
+ * or turn an feature on or off.
+ *
+ * @example
+ *     import { useState } from 'react';
+ *     import { RadioGroup } from '@bspk/ui/RadioGroup';
+ *
+ *     export function Example() {
+ *         const [selectedOption, setSelectedOption] = useState<string>('1');
+ *
+ *         return (
+ *             <RadioGroup
+ *                 name="Example name"
+ *                 onChange={(nextValue) => setSelectedOption(nextValue)}
+ *                 options={[
+ *                     {
+ *                         value: '1',
+ *                         label: 'Option 1',
+ *                         description: 'Description here',
+ *                     },
+ *                     { value: '2', label: 'Option 2' },
+ *                     { value: '3', label: 'Option 3' },
+ *                 ]}
+ *                 value={selectedOption}
+ *             />
+ *         );
+ *     }
  *
  * @name RadioGroup
  */
@@ -60,7 +94,12 @@ function RadioGroup({
     ...props
 }: ElementProps<RadioGroupProps, 'div'>) {
     return (
-        <div {...props} data-bspk="radio-group" role="radiogroup" style={{ display: 'contents' }}>
+        <div
+            {...props}
+            data-bspk="radio-group"
+            role="radiogroup"
+            style={{ display: 'contents' }}
+        >
             {options.map(({ label, description, value }, index) => {
                 return (
                     <ToggleOption

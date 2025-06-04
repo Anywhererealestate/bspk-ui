@@ -11,7 +11,9 @@ const DEFAULT = {
     textSize: 'medium',
 } as const;
 
-export type TextareaProps = CommonProps<'aria-label' | 'disabled' | 'id' | 'readOnly' | 'required'> &
+export type TextareaProps = CommonProps<
+    'aria-label' | 'disabled' | 'id' | 'readOnly' | 'required'
+> &
     InvalidPropsLibrary & {
         /**
          * Callback when the value of the field changes.
@@ -19,7 +21,10 @@ export type TextareaProps = CommonProps<'aria-label' | 'disabled' | 'id' | 'read
          * @type (next: String, Event) => void
          * @required
          */
-        onChange: (next: string, event?: ChangeEvent<HTMLTextAreaElement>) => void;
+        onChange: (
+            next: string,
+            event?: ChangeEvent<HTMLTextAreaElement>,
+        ) => void;
         /**
          * The text size of the field.
          *
@@ -67,11 +72,30 @@ export type TextareaProps = CommonProps<'aria-label' | 'disabled' | 'id' | 'read
     };
 
 /**
- * A component that allows users to input large amounts of text that could span multiple lines.
+ * A component that allows users to input large amounts of text that could span
+ * multiple lines.
  *
- * This component gives you a textarea HTML element that automatically adjusts its height to match the length of the
- * content within maximum and minimum rows. A character counter when a maxLength is set to show the number of characters
- * remaining below the limit.
+ * This component gives you a textarea HTML element that automatically adjusts
+ * its height to match the length of the content within maximum and minimum
+ * rows. A character counter when a maxLength is set to show the number of
+ * characters remaining below the limit.
+ *
+ * @example
+ *     import { useState } from 'react';
+ *     import { Textarea } from '@bspk/ui/Textarea';
+ *
+ *     export function Example() {
+ *         const [value, setValue] = useState<string>('');
+ *
+ *         return (
+ *             <Textarea
+ *                 aria-label="Example aria-label"
+ *                 name="Example name"
+ *                 onChange={setValue}
+ *                 value={value}
+ *             />
+ *         );
+ *     }
  *
  * @element
  *
@@ -95,8 +119,14 @@ function Textarea({
     const id = useId(idProp);
     const invalid = !otherProps.readOnly && !otherProps.disabled && invalidProp;
     // ensure minRows and maxRows are within bounds
-    const minRows = Math.min(DEFAULT.maxRows, Math.max(minRowsProp, DEFAULT.minRows));
-    const maxRows = Math.max(DEFAULT.minRows, Math.min(maxRowsProp, DEFAULT.maxRows));
+    const minRows = Math.min(
+        DEFAULT.maxRows,
+        Math.max(minRowsProp, DEFAULT.minRows),
+    );
+    const maxRows = Math.max(
+        DEFAULT.minRows,
+        Math.min(maxRowsProp, DEFAULT.maxRows),
+    );
 
     return (
         <div
@@ -125,7 +155,8 @@ function Textarea({
                     const target = event.target as HTMLTextAreaElement;
                     // we know the textarea was resized, so we don't want to auto-size it
                     if (target.style.height) return;
-                    (target.nextSibling as HTMLElement).innerText = `${target.value}\n`;
+                    (target.nextSibling as HTMLElement).innerText =
+                        `${target.value}\n`;
                 }}
                 placeholder={placeholder}
                 ref={innerRef}

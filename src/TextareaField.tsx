@@ -3,12 +3,35 @@ import { TextareaProps, Textarea } from './Textarea';
 import { Txt } from './Txt';
 import { tryIntParse } from './utils/tryIntPsrse';
 
-export type TextareaFieldProps = Pick<FormFieldProps, 'controlId' | 'errorMessage' | 'helperText' | 'label'> &
+export type TextareaFieldProps = Pick<
+    FormFieldProps,
+    'controlId' | 'errorMessage' | 'helperText' | 'label'
+> &
     TextareaProps;
 /**
- * A component that allows users to input large amounts of text that could span multiple lines.
+ * A component that allows users to input large amounts of text that could span
+ * multiple lines.
  *
  * This component takes properties from the FormField and Textarea components.
+ *
+ * @example
+ *     import { useState } from 'react';
+ *     import { TextareaField } from '@bspk/ui/TextareaField';
+ *
+ *     export function Example() {
+ *         const [value, setValue] = useState<string>();
+ *
+ *         return (
+ *             <TextareaField
+ *                 aria-label="Example aria-label"
+ *                 controlId="Example controlId"
+ *                 label="Example label"
+ *                 name="Example name"
+ *                 onChange={setValue}
+ *                 value={value}
+ *             />
+ *         );
+ *     }
  *
  * @name TextareaField
  */
@@ -26,7 +49,8 @@ function TextareaField({
     ...textareaProps
 }: TextareaFieldProps) {
     const maxLength = tryIntParse(maxLengthProp) || -1;
-    const errorMessage = (!readOnly && !disabled && errorMessageProp) || undefined;
+    const errorMessage =
+        (!readOnly && !disabled && errorMessageProp) || undefined;
 
     if (typeof onChange !== 'function') return null;
 
@@ -38,7 +62,12 @@ function TextareaField({
             helperText={helperText}
             label={label}
             labelTrailing={
-                <Txt style={{ color: 'var(--foreground-neutral-on-surface-variant-02)' }} variant="body-small">
+                <Txt
+                    style={{
+                        color: 'var(--foreground-neutral-on-surface-variant-02)',
+                    }}
+                    variant="body-small"
+                >
                     {`${textareaProps?.value?.length || 0}${maxLength > 0 ? `/${maxLength}` : ''}`}
                 </Txt>
             }

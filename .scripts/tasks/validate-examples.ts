@@ -12,31 +12,32 @@ import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 
-// import { typesMeta } from '../../../bspk-demo/src/meta';
+import { typesMeta } from '../../../bspk-demo/src/meta';
 import { componentsDir, kebabCase, prettyLint } from '../utils';
 
-// const getDefaultState = (prop: any): any => {
-//     if (prop.example) return prop.example;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const getDefaultState = (prop: any): any => {
+    if (prop.example) return prop.example;
 
-//     // if the prop is not required, we don't need to set a default value
-//     if (!prop.required) return;
+    // if the prop is not required, we don't need to set a default value
+    if (!prop.required) return;
 
-//     if (prop.type === 'string' || prop.type === 'multiline') return `Example ${prop.name}`;
+    if (prop.type === 'string' || prop.type === 'multiline') return `Example ${prop.name}`;
 
-//     if (prop.type === 'number') return '{0}';
+    if (prop.type === 'number') return '{0}';
 
-//     if (prop.type === 'boolean') return '{false}';
+    if (prop.type === 'boolean') return '{false}';
 
-//     if (prop.type === 'array') return '{[]}';
+    if (prop.type === 'array') return '{[]}';
 
-//     if (prop.type === 'object') return '{{}}';
+    if (prop.type === 'object') return '{{}}';
 
-//     if (typeof prop.type === 'string' && prop.type.startsWith('Array<')) return '{[]}';
+    if (typeof prop.type === 'string' && prop.type.startsWith('Array<')) return '{[]}';
 
-//     if (prop.options && prop.options.length > 0) {
-//         return `"${prop.options[0]}"`;
-//     }
-// };
+    if (prop.options && prop.options.length > 0) {
+        return `"${prop.options[0]}"`;
+    }
+};
 
 function jsDocParse(content: string) {
     try {
@@ -103,68 +104,68 @@ const componentFiles = fs
         };
     });
 
-// const generatedExample = (component: (typeof componentFiles)[0]) => {
-//     const propsDef = typesMeta.find((meta) => meta.name === `${component.name}Props`);
+const generatedExample = (component: (typeof componentFiles)[0]) => {
+    const propsDef = typesMeta.find((meta) => meta.name === `${component.name}Props`);
 
-//     const propNames = propsDef?.properties?.map((prop) => prop.name) || [];
+    const propNames = propsDef?.properties?.map((prop) => prop.name) || [];
 
-//     const propsStringified =
-//         propsDef?.properties
-//             ?.map((prop) => {
-//                 if (prop.name === 'children') return null;
+    const propsStringified =
+        propsDef?.properties
+            ?.map((prop) => {
+                if (prop.name === 'children') return null;
 
-//                 const strValue = prop.example || prop.default;
+                const strValue = prop.example || prop.default;
 
-//                 if (!strValue && !prop.required && prop.name !== 'value') return null;
+                if (!strValue && !prop.required && prop.name !== 'value') return null;
 
-//                 let value = '';
+                let value = '';
 
-//                 if (prop.name === 'value') value = `{state}`;
-//                 else if (prop.type === 'string') value = `"${strValue || getDefaultState(prop) || ''}"`;
-//                 else if (typeof prop.type === 'string' && prop.type.startsWith('Array<')) value = `{${strValue || ''}}`;
-//                 else if (prop.name.match(/^on[A-Z]/)) {
-//                     if (prop.name !== 'onChange') value = `{() => action('Called "${prop.name}" function')}`;
-//                     // some props have value and checked properties - we look for checked first
-//                     else if (propNames.includes('checked')) value = `{(checked) => setState(checked)}`;
-//                     else if (propNames.includes('value')) value = `{(nextValue) => setState(nextValue) }`;
-//                     else value = `{() => { console.warn('onChange function called') }}`;
-//                 }
+                if (prop.name === 'value') value = `{state}`;
+                else if (prop.type === 'string') value = `"${strValue || getDefaultState(prop) || ''}"`;
+                else if (typeof prop.type === 'string' && prop.type.startsWith('Array<')) value = `{${strValue || ''}}`;
+                else if (prop.name.match(/^on[A-Z]/)) {
+                    if (prop.name !== 'onChange') value = `{() => action('Called "${prop.name}" function')}`;
+                    // some props have value and checked properties - we look for checked first
+                    else if (propNames.includes('checked')) value = `{(checked) => setState(checked)}`;
+                    else if (propNames.includes('value')) value = `{(nextValue) => setState(nextValue) }`;
+                    else value = `{() => { console.warn('onChange function called') }}`;
+                }
 
-//                 return value ? `${prop.name}=${value}` : '';
-//             })
-//             .filter(Boolean)
-//             .join(' ') || '';
+                return value ? `${prop.name}=${value}` : '';
+            })
+            .filter(Boolean)
+            .join(' ') || '';
 
-//     let reactStuff = '';
+    let reactStuff = '';
 
-//     if (propsStringified.includes('setState')) {
-//         let stateType = propsDef?.properties?.find((prop) => prop.name === 'value')?.type || 'string';
+    if (propsStringified.includes('setState')) {
+        let stateType = propsDef?.properties?.find((prop) => prop.name === 'value')?.type || 'string';
 
-//         if (stateType === 'multiline') stateType = 'string';
+        if (stateType === 'multiline') stateType = 'string';
 
-//         reactStuff = `const [state, setState] = React.useState<${stateType}>();`;
-//     }
+        reactStuff = `const [state, setState] = React.useState<${stateType}>();`;
+    }
 
-//     return `
-//    import { ${component.name} } from '@bspk/ui/${component.name}';
+    return `
+   import { ${component.name} } from '@bspk/ui/${component.name}';
 
-//    export function Example() {
+   export function Example() {
 
-//         ${reactStuff}
+        ${reactStuff}
 
-//        return (
-//            ${
-//                (propNames.includes('children')
-//                    ? `<${component.name} ${propsStringified}>
-//                Example ${component.name}
-//            </${component.name}>`
-//                    : `<${component.name} ${propsStringified} />`) || ''
-//            }
-//        );
-//    }
+       return (
+           ${
+               (propNames.includes('children')
+                   ? `<${component.name} ${propsStringified}>
+               Example ${component.name}
+           </${component.name}>`
+                   : `<${component.name} ${propsStringified} />`) || ''
+           }
+       );
+   }
 
-//    `;
-// };
+   `;
+};
 
 const examplesDir = path.resolve(__dirname, '../.scripts/temp');
 execSync(`mkdir -p ${examplesDir}`, { stdio: 'inherit' });
@@ -187,8 +188,8 @@ componentFiles.forEach((component) => {
     if (!example) {
         missingExamples.push(component.name);
         // If no example is found, we generate a default one
-        //example = generatedExample(component);
-        return;
+        example = generatedExample(component);
+        // return;
     }
 
     /// make it pass linter
