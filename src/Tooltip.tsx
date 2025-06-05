@@ -78,7 +78,7 @@ function Tooltip({
     const arrowRef = useRef<HTMLElement | null>(null);
 
     const { floatingStyles, middlewareData, elements } = useFloating({
-        placement: placement,
+        placement,
         strategy: 'fixed',
         offsetOptions: showTail ? 8 : 4,
         arrowRef,
@@ -104,15 +104,19 @@ function Tooltip({
                         style={floatingStyles}
                     >
                         <span data-text>{label}</span>
-                        {showTail !== false && (
-                            <span
-                                aria-hidden
-                                data-arrow
-                                ref={(node) => {
-                                    arrowRef.current = node;
-                                }}
-                            />
-                        )}
+                        <span
+                            aria-hidden
+                            data-arrow
+                            ref={(node) => {
+                                arrowRef.current = node;
+                            }}
+                            style={{
+                                zIndex: 1000,
+                                opacity: showTail ? 1 : 0,
+                                left: middlewareData.arrow?.x != null ? `${middlewareData.arrow?.x}px` : '',
+                                top: middlewareData.arrow?.y != null ? `${middlewareData.arrow?.y}px` : '',
+                            }}
+                        />
                     </div>
                 </Portal>
             )}

@@ -238,9 +238,6 @@ export const examples: (setState: DemoSetState, action: DemoAction) => Record<st
         presets: setPresets<BadgeProps>([
             {
                 label: 'With Context',
-                state: {
-                    surfaceBorder: true,
-                },
             },
         ]),
     },
