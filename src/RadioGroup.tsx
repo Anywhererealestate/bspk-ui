@@ -48,6 +48,12 @@ export type RadioGroupProps = CommonProps<'name'> & {
      * @required
      */
     label: string;
+    /**
+     * Shows the RadioGroup label. When label isn't showing it is used as the aria-label prop.
+     *
+     * @default true
+     */
+    showLabel?: boolean;
 };
 
 /**
@@ -86,13 +92,21 @@ function RadioGroup({
     name,
     value: groupValue,
     label: groupLabel,
+    showLabel = true,
     ...props
 }: ElementProps<RadioGroupProps, 'div'>) {
     const id = `radio-group-${useId()}`;
 
     return (
-        <div {...props} aria-labelledby={`${id}-label`} data-bspk="radio-group" role="group">
-            <label id={`${id}-label`}>{groupLabel}</label>
+        <div
+            {...props}
+            aria-label={!showLabel ? groupLabel : undefined}
+            aria-labelledby={showLabel ? `${id}-label` : undefined}
+            data-bspk="radio-group"
+            id={id}
+            role="group"
+        >
+            {showLabel && <label id={`${id}-label`}>{groupLabel}</label>}
             <div role="radiogroup">
                 {options.map(({ label, description, value }, index) => {
                     return (
