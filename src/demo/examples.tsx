@@ -1,3 +1,4 @@
+/* eslint-disable @cspell/spellchecker */
 import { SvgCircle } from '@bspk/icons/Circle';
 import { SvgContentCopy } from '@bspk/icons/ContentCopy';
 import { SvgDiamond } from '@bspk/icons/Diamond';
@@ -7,6 +8,7 @@ import { SvgSquareFill } from '@bspk/icons/SquareFill';
 import { CSSProperties } from 'react';
 
 import { Avatar, AvatarProps } from '../Avatar';
+import { BadgeProps } from '../Badge';
 import { BannerAlertProps } from '../BannerAlert';
 import { Button, ButtonProps } from '../Button';
 import { Checkbox } from '../Checkbox';
@@ -215,6 +217,29 @@ export const examples: (setState: DemoSetState, action: DemoAction) => Record<st
                 state: {
                     name: 'Andre Giant',
                     image: '/profile.jpg',
+                },
+            },
+        ]),
+    },
+    Badge: {
+        containerStyle: { width: '100%' },
+        render: ({ props, Component, preset }) => {
+            if (preset?.label === 'With Context') {
+                return (
+                    <>
+                        <Component {...props} style={{ width: 'fit-content' }}>
+                            <Avatar image="/profile.jpg" name="Bob Boberson" />
+                        </Component>
+                    </>
+                );
+            }
+            return <Component {...props} />;
+        },
+        presets: setPresets<BadgeProps>([
+            {
+                label: 'With Context',
+                state: {
+                    surfaceBorder: true,
                 },
             },
         ]),

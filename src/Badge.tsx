@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 import './badge.scss';
 import { tryIntParse } from './utils/tryIntPsrse';
 
@@ -33,6 +35,14 @@ export type BadgeProps = {
      * @default false
      */
     surfaceBorder?: boolean;
+    /**
+     * The context for which the badge is applied.
+     *
+     * Could be a button, link, or any other element that the badge is associated with.
+     *
+     * @type
+     */
+    children?: ReactNode;
 };
 
 /**
@@ -49,22 +59,39 @@ export type BadgeProps = {
  *
  * @name Badge
  */
-function Badge({ count: countProp, size = 'small', variant = 'primary', surfaceBorder }: BadgeProps) {
+function Badge({ count: countProp, size = 'small', variant = 'primary', surfaceBorder, children }: BadgeProps) {
     const count: number | null = tryIntParse(countProp);
 
-    return (
-        count !== null && (
-            <sup
-                data-bspk="badge"
-                data-size={size}
-                data-surface-border={surfaceBorder || undefined}
-                data-variant={variant}
-            >
-                {count > 99 ? '99+' : count}
-            </sup>
-        )
+    if (count === null) return;
+
+    const badge = (
+        <sup data-bspk="badge" data-size={size} data-surface-border={surfaceBorder || undefined} data-variant={variant}>
+            {count > 99 ? '99+' : count}
+        </sup>
     );
+
+    if (children) {
+        return (
+            <span data-bspk="badge-wrapper">
+                {children}
+                {badge}
+            </span>
+        );
+    }
+
+    return badge;
 }
+
+// position: relative;
+// display: -webkit-inline-box;
+// display: -webkit-inline-flex;
+// display: -ms-inline-flexbox;
+// display: inline-flex
+// ;
+// vertical-align: middle;
+// -webkit-flex-shrink: 0;
+// -ms-flex-negative: 0;
+// flex-shrink: 0;
 
 Badge.bspkName = 'Badge';
 

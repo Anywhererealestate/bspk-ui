@@ -1,5 +1,8 @@
 [data-bspk='badge'] {
     --size: var(--spacing-sizing-06);
+    --padding-x: var(--spacing-sizing-02);
+    --padding-y: 0;
+    --border-width: 0;
 
     display: flex;
     align-items: center;
@@ -8,15 +11,17 @@
     height: var(--size);
     width: fit-content;
     min-width: var(--size);
-    padding: 0 var(--spacing-sizing-02);
     font: var(--labels-x-small);
     color: var(--foreground-brand-on-primary);
     background: var(--surface-brand-primary);
 
+    // clip padding based on border width
+    padding: calc(var(--padding-y) - var(--border-width)) calc(var(--padding-x) - var(--border-width));
+
     &[data-size='x-small'] {
         --size: var(--spacing-sizing-05);
-
-        padding: 2px var(--spacing-sizing-01);
+        --padding-x: 2px;
+        --padding-y: var(--spacing-sizing-01);
     }
 
     &[data-variant='secondary'] {
@@ -25,17 +30,28 @@
     }
 
     &[data-surface-border] {
-        position: relative;
+        --border-width: 2px;
 
-        &::after {
-            display: block;
-            content: ' ';
-            position: absolute;
-            inset: 0;
-            border-radius: var(--radius-circular);
-            border: 2px solid var(--surface-neutral-t1-base);
-            z-index: 1;
-        }
+        border: 2px solid var(--surface-neutral-t1-base);
+    }
+}
+
+[data-bspk='badge-wrapper'] {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: fit-content;
+    height: fit-content;
+    flex-shrink: 0;
+
+    [data-bspk='badge'] {
+        position: absolute;
+        top: 0;
+        right: 0;
+        transform: scale(1) translate(50%, -50%);
+        transform-origin: 100% 0%;
+        z-index: 2;
     }
 }
 
