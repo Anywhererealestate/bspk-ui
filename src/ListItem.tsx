@@ -68,7 +68,7 @@ export type ListItemProps<As extends ElementType = 'div'> = CommonProps<'active'
  * The ListItemButton is a more limited Button with context specific options.
  *
  * @example
- *     import { SvgSquare } from '@bspk/icons/square';
+ *     import { SvgSquare } from '@bspk/icons/Square';
  *     import { ListItem } from '@bspk/ui/ListItem';
  *
  *     export function Example() {

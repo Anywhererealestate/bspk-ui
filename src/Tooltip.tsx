@@ -80,7 +80,7 @@ function Tooltip({
     const { floatingStyles, middlewareData, elements } = useFloating({
         placement: placement,
         strategy: 'fixed',
-        offsetOptions: 4,
+        offsetOptions: showTail ? 8 : 4,
         arrowRef,
         hide: !show,
     });
@@ -110,10 +110,6 @@ function Tooltip({
                                 data-arrow
                                 ref={(node) => {
                                     arrowRef.current = node;
-                                }}
-                                style={{
-                                    left: `${middlewareData?.arrow?.x}px`,
-                                    top: `${middlewareData?.arrow?.y}px`,
                                 }}
                             />
                         )}

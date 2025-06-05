@@ -48,7 +48,7 @@ export type FormFieldProps = CommonProps<'required'> &
  * Children may be one of the following: TextInput, Dropdown, DatePicker, or TimePicker.
  *
  * @example
- *     import { TextInput } from '../../src/TextInput';
+ *     import { TextInput } from '@bspk/ui/TextInput';
  *     import { FormField } from '@bspk/ui/FormField';
  *
  *     export function Example() {

@@ -67,26 +67,38 @@ a {
 }
 
 a[data-subtle] {
+    text-decoration: none;
     color: var(--foreground-neutral-on-surface);
 
     &:hover {
+        text-decoration: underline;
         color: var(--foreground-link-text-subtle-hovered);
     }
 
-    &:disabled {
+    &:active {
+        text-decoration: underline;
+    }
+
+    &[disabled] {
         pointer-events: none;
         color: var(--foreground-link-text-subtle-disabled);
     }
 }
 
 a[data-subtle-inverse] {
+    text-decoration: none;
     color: var(--foreground-neutral-inverse-on-surface);
 
     &:hover {
+        text-decoration: underline;
         color: var(--foreground-link-text-subtle-inverse-hovered);
     }
 
-    &:disabled {
+    &:active {
+        text-decoration: underline;
+    }
+
+    &[disabled] {
         pointer-events: none;
         color: var(--foreground-link-text-subtle-inversed-disabled);
     }
