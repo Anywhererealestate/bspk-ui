@@ -1,15 +1,14 @@
 import './tooltip.scss';
-import {
-    ReactElement,
-    cloneElement,
-    useId,
-    useMemo,
-    useRef,
-    useState,
-} from 'react';
+import { ReactElement, cloneElement, useId, useMemo, useRef, useState } from 'react';
 
 import { Portal } from './Portal';
 import { Placement, useFloating } from './hooks/useFloating';
+
+const DEFAULT = {
+    placement: 'top',
+    showTail: true,
+    disabled: false,
+} as const;
 
 export type TooltipProps = {
     /**
@@ -17,7 +16,7 @@ export type TooltipProps = {
      *
      * @default top
      */
-    placement?: Placement;
+    placement?: Extract<Placement, 'bottom' | 'left' | 'right' | 'top'>;
     /** The tooltip content. */
     label: string;
     /**
@@ -34,12 +33,11 @@ export type TooltipProps = {
      *
      * @default true
      */
-    tail?: boolean;
+    showTail?: boolean;
 };
 
 /**
- * Brief message that provide additional guidance and helps users perform an
- * action if needed.
+ * Brief message that provide additional guidance and helps users perform an action if needed.
  *
  * @example
  *     import { Tooltip } from '@bspk/ui/Tooltip';
@@ -56,11 +54,11 @@ export type TooltipProps = {
  * @name Tooltip
  */
 function Tooltip({
-    placement = 'top',
+    placement = DEFAULT.placement,
     label,
     children,
-    disabled = false,
-    tail = true,
+    disabled = DEFAULT.disabled,
+    showTail = DEFAULT.showTail,
 }: TooltipProps) {
     const id = useId();
     const [show, setShow] = useState(false);
@@ -82,7 +80,7 @@ function Tooltip({
     const { floatingStyles, middlewareData, elements } = useFloating({
         placement: placement,
         strategy: 'fixed',
-        offsetOptions: 8,
+        offsetOptions: 4,
         arrowRef,
         hide: !show,
     });
@@ -100,17 +98,13 @@ function Tooltip({
                         id={id}
                         ref={(node) => {
                             elements.setFloating(node);
-                            elements.setTrigger(
-                                document.querySelector<HTMLElement>(
-                                    `[aria-describedby="${id}"]`,
-                                ),
-                            );
+                            elements.setTrigger(document.querySelector<HTMLElement>(`[aria-describedby="${id}"]`));
                         }}
                         role="tooltip"
                         style={floatingStyles}
                     >
                         <span data-text>{label}</span>
-                        {tail !== false && (
+                        {showTail !== false && (
                             <span
                                 aria-hidden
                                 data-arrow

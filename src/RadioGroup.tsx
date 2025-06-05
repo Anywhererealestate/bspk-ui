@@ -1,13 +1,13 @@
+import { useId } from 'react';
+
 import { Radio } from './Radio';
 import { ToggleOptionProps, ToggleOption } from './ToggleOption';
 
 import { ElementProps, CommonProps } from './';
 
-export type RadioGroupOption = Pick<
-    ToggleOptionProps,
-    'description' | 'label'
-> &
-    Required<CommonProps<'value'>>;
+import './radio-group.scss';
+
+export type RadioGroupOption = Pick<ToggleOptionProps, 'description' | 'label'> & Required<CommonProps<'value'>>;
 
 export type RadioGroupProps = CommonProps<'name'> & {
     /**
@@ -33,12 +33,8 @@ export type RadioGroupProps = CommonProps<'name'> & {
      *
      * @example
      *     [
-     *         {
-     *             value: '1',
-     *             label: 'Option 1',
-     *             description: 'Description here',
-     *         },
-     *         { value: '2', label: 'Option 2' },
+     *         { value: '1', label: 'Option 1' },
+     *         { value: '2', label: 'Option 2', description: 'Description here' },
      *         { value: '3', label: 'Option 3' },
      *     ];
      *
@@ -47,16 +43,21 @@ export type RadioGroupProps = CommonProps<'name'> & {
      */
     options: RadioGroupOption[];
     /**
-     * The size of the radio group labels.
+     * The label of the radio group.
      *
-     * @default base
+     * @required
      */
-    size?: 'base' | 'large' | 'small';
+    label: string;
+    /**
+     * Shows the RadioGroup label. When label isn't showing it is used as the aria-label prop.
+     *
+     * @default true
+     */
+    showLabel?: boolean;
 };
 
 /**
- * A group of radios that allows users to choose one or more items from a list
- * or turn an feature on or off.
+ * A group of radios that allows users to choose one or more items from a list or turn an feature on or off.
  *
  * @example
  *     import { useState } from 'react';
@@ -90,34 +91,37 @@ function RadioGroup({
     options = [],
     name,
     value: groupValue,
-    size = 'base',
+    label: groupLabel,
+    showLabel = true,
     ...props
 }: ElementProps<RadioGroupProps, 'div'>) {
+    const id = `radio-group-${useId()}`;
+
     return (
         <div
             {...props}
+            aria-label={!showLabel ? groupLabel : undefined}
+            aria-labelledby={showLabel ? `${id}-label` : undefined}
             data-bspk="radio-group"
-            role="radiogroup"
-            style={{ display: 'contents' }}
+            id={id}
+            role="group"
         >
-            {options.map(({ label, description, value }, index) => {
-                return (
-                    <ToggleOption
-                        description={description}
-                        key={`toggle-option-${value || index}`}
-                        label={label}
-                        size={size}
-                    >
-                        <Radio
-                            aria-label={label}
-                            checked={groupValue === value}
-                            name={name}
-                            onChange={(checked) => checked && onChange(value)}
-                            value={value}
-                        />
-                    </ToggleOption>
-                );
-            })}
+            {showLabel && <label id={`${id}-label`}>{groupLabel}</label>}
+            <div role="radiogroup">
+                {options.map(({ label, description, value }, index) => {
+                    return (
+                        <ToggleOption description={description} key={`toggle-option-${value || index}`} label={label}>
+                            <Radio
+                                aria-label={label}
+                                checked={groupValue === value}
+                                name={name}
+                                onChange={(checked) => checked && onChange(value)}
+                                value={value}
+                            />
+                        </ToggleOption>
+                    );
+                })}
+            </div>
         </div>
     );
 }

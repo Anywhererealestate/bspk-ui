@@ -3,9 +3,7 @@ import { ChangeEvent } from 'react';
 
 import { CommonProps } from './';
 
-export type SwitchProps = CommonProps<
-    'aria-label' | 'disabled' | 'name' | 'value'
-> & {
+export type SwitchProps = CommonProps<'aria-label' | 'disabled' | 'name' | 'value'> & {
     /**
      * Marks the control as checked.
      *
@@ -22,10 +20,9 @@ export type SwitchProps = CommonProps<
 };
 
 /**
- * A control element that allows users to toggle between two states, typically
- * representing on/off and inherits immediate reaction in each state. This is
- * the base element and if used directly you must wrap it with a label. This
- * will more often be used in the SwitchOption or SwitchGroup component.
+ * A control element that allows users to toggle between two states, typically representing on/off and inherits
+ * immediate reaction in each state. This is the base element and if used directly you must wrap it with a label. This
+ * will more often be used in the SwitchOption component.
  *
  * @example
  *     import { useState } from 'react';
@@ -63,9 +60,7 @@ function Switch(props: SwitchProps) {
                 aria-disabled={disabled || undefined}
                 checked={checked}
                 disabled={disabled || undefined}
-                onChange={(event) =>
-                    props.onChange(!!event.target.checked, event)
-                }
+                onChange={(event) => props.onChange(!!event.target.checked, event)}
                 type="checkbox"
             />
             <span aria-hidden />

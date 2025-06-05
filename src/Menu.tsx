@@ -213,6 +213,7 @@ function Menu({
                         <Checkbox
                             aria-label={selectAll}
                             checked={!!allSelected}
+                            indeterminate={!allSelected && selectedValues.length > 0}
                             name=""
                             onChange={(checked) => {
                                 onChange?.(checked ? items.map((item) => item.value) : []);

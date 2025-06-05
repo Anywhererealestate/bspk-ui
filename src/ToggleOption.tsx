@@ -3,17 +3,20 @@ import { ReactElement } from 'react';
 
 export type ToggleOptionProps = {
     /**
-     * The label of the field. Also used as the aria-label of the checkbox.
+     * The label of the option. Also used as the aria-label of the checkbox.
      *
      * @required
      */
     label: string;
-    /** The description of the field. */
+    /**
+     * The description of the option.
+     *
+     * @type multiline
+     * @type multiline
+     */
     description?: string;
     /** The control element to use. */
     children?: ReactElement;
-    /** The size of the control option label. */
-    size?: 'base' | 'large' | 'small';
 };
 
 /**
@@ -21,9 +24,9 @@ export type ToggleOptionProps = {
  *
  * @name ToggleOption
  */
-function ToggleOption({ label, description, children, size }: ToggleOptionProps) {
+function ToggleOption({ label, description, children }: ToggleOptionProps) {
     return (
-        <label data-bspk="toggle-option" data-size={size}>
+        <label data-bspk="toggle-option">
             <span data-control>{children}</span>
             <span data-content>
                 <span data-label>{label}</span>

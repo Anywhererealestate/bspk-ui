@@ -16,6 +16,7 @@
         align-items: unset;
     }
 
+    // this media query targets touch devices
     @media (any-pointer: coarse) {
         min-height: var(--spacing-sizing-12);
     }
@@ -34,26 +35,6 @@
     [data-description] {
         font: var(--body-small);
         color: var(--foreground-neutral-on-surface-variant-01);
-    }
-
-    &[data-size='small'] {
-        [data-label] {
-            font: var(--labels-small);
-        }
-
-        [data-description] {
-            font: var(--body-x-small);
-        }
-    }
-
-    &[data-size='large'] {
-        [data-label] {
-            font: var(--labels-large);
-        }
-
-        [data-description] {
-            font: var(--body-base);
-        }
     }
 
     &:not(:has(:disabled)) {

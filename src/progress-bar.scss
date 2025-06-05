@@ -29,8 +29,6 @@
     }
 
     &[data-size='small'] {
-        max-width: 248px;
-
         [data-bar] {
             height: var(--spacing-sizing-01);
         }

@@ -478,6 +478,9 @@ export const examples: (setState: DemoSetState, action: DemoAction) => Record<st
             );
         },
     },
+    ProgressBar: {
+        containerStyle: { width: '80%' },
+    },
     ProgressionStepper: {
         presets: setPresets<ProgressionStepperProps>([
             {

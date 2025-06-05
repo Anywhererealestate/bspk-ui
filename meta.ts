@@ -350,10 +350,6 @@ function generateTypes() {
                     componentFiles.find((f) => f.fileName === `${definitionName.replace(/Props$/, '')}.tsx`) || null;
             }
 
-            if (definitionName === 'BadgeProps') {
-                console.log(componentFile);
-            }
-
             const context = { componentFile, parent: definitionName };
 
             if (!definition?.properties && !definition?.allOf) return;
