@@ -111,9 +111,7 @@ function Button<As extends ElementType = 'button'>(props: ElementProps<ButtonPro
     const label = typeof children === 'string' ? children : labelProp || '';
 
     // ignore showLabel=false if there is no icon
-    // added parens only for clear readilibity, these do not change functionality
     const hideLabel = (showLabel === false) && icon;
-    // these parens make it so tooltip will show the tooltip copy and not the label copy
     const toolTip = toolTipProp || (hideLabel ? label : undefined);
     const { logError } = useErrorLogger();
     logError(!!icon && !isValidIcon(icon), 'Button - The icon prop must be a valid icon element.');
