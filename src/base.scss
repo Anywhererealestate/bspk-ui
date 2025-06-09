@@ -34,15 +34,14 @@ body[data-bspk] {
     --z-index-navbar: 700;
     --z-index-footer: 600;
 
-    height: 100%;
-    scroll-behavior: smooth;
-
     @media (prefers-reduced-motion) {
         [data-animated] {
             animation: none !important;
         }
     }
 
+    height: 100%;
+    scroll-behavior: smooth;
     font: var(--body-base);
     background-color: var(--background-base);
     color: var(--foreground-neutral-on-surface);
