@@ -1,13 +1,13 @@
 import { useEffect } from 'react';
 /**
- * A hook which calls a method when a click occurs outside of the provided ref. Used inside the Dropdown and Modal
+ * A hook which calls a method when a click occurs outside of the provided ref. Used inside the DropDown and Modal
  * components.
  *
  * @example
  *     import { useOutsideClick } from '@bspk/ui/hooks/useOutsideClick';
  *     import React, { useRef, useState } from 'react';
  *
- *     export function Dropdown() {
+ *     export function Example() {
  *     const [isOpen, setIsOpen] = useState(false);
  *     const containerRef = useRef<HTMLDivElement>(null);
  *

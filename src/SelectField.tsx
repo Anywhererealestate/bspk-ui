@@ -1,8 +1,8 @@
-import { DropdownProps, Dropdown } from './Dropdown';
 import { FormFieldProps, FormField } from './FormField';
+import { SelectProps, Select } from './Select';
 
-export type DropdownFieldProps = Pick<
-    DropdownProps,
+export type SelectFieldProps = Pick<
+    SelectProps,
     | 'disabled'
     | 'itemCount'
     | 'name'
@@ -19,15 +19,15 @@ export type DropdownFieldProps = Pick<
 /**
  * A component that allows users to input large amounts of text that could span multiple lines.
  *
- * This component takes properties from the FormField and Dropdown components.
+ * This component takes properties from the FormField and Select components.
  *
  * @example
- *     import { DropdownField } from '@bspk/ui/DropdownField';
+ *     import { SelectField } from '@bspk/ui/SelectField';
  *
  *     export function Example() {
  *         const [state, setState] = React.useState(['option1']);
  *         return (
- *             <DropdownField
+ *             <SelectField
  *                 controlId="Example controlId"
  *                 label="Example label"
  *                 name="Example name"
@@ -43,23 +43,23 @@ export type DropdownFieldProps = Pick<
  *         );
  *     }
  *
- * @name DropdownField
+ * @name SelectField
  */
-function DropdownField({
+function SelectField({
     label,
     errorMessage: errorMessageProp,
     helperText,
     controlId: id,
     labelTrailing,
     required,
-    ...dropdownProps
-}: DropdownFieldProps) {
-    const errorMessage = (!dropdownProps.readOnly && !dropdownProps.disabled && errorMessageProp) || undefined;
+    ...selectProps
+}: SelectFieldProps) {
+    const errorMessage = (!selectProps.readOnly && !selectProps.disabled && errorMessageProp) || undefined;
 
     return (
         <FormField
             controlId={id}
-            data-bspk="dropdown-field"
+            data-bspk="select-field"
             errorMessage={errorMessage}
             helperText={helperText}
             label={label}
@@ -67,14 +67,14 @@ function DropdownField({
             required={required}
         >
             {(fieldProps) => (
-                <Dropdown {...dropdownProps} {...fieldProps} aria-label={label} id={id} invalid={!!errorMessage} />
+                <Select {...selectProps} {...fieldProps} aria-label={label} id={id} invalid={!!errorMessage} />
             )}
         </FormField>
     );
 }
 
-DropdownField.bspkName = 'DropdownField';
+SelectField.bspkName = 'SelectField';
 
-export { DropdownField };
+export { SelectField };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

@@ -10,7 +10,8 @@
 export type CheckboxOptionProps = Pick<
     CheckboxProps,
     'checked' | 'disabled' | 'indeterminate' | 'name' | 'onChange' | 'readOnly' | 'value'
-> & InvalidPropsLibrary &
+> &
+    InvalidPropsLibrary &
     Pick<ToggleOptionProps, 'description' | 'label'>;
 ```
 
@@ -33,7 +34,7 @@ union, tuple, or different types of data. Interfaces can only be used to describ
 
 - **Tooltip / Popover**: `1100`
 - **Dialog**: `1000`
-- **Dropdown**: `900`
+- **DropDown**: `900`
 - **Fab**: `800`
 - **Navbar**: `700`
 - **Footer**: `600`

@@ -1,6 +1,6 @@
 import { SvgChevronRight } from '@bspk/icons/ChevronRight';
 
-import './dropdown.scss';
+import './select.scss';
 import { ListItem } from './ListItem';
 import { Menu, MenuProps } from './Menu';
 import { Portal } from './Portal';
@@ -10,20 +10,20 @@ import { useId } from './hooks/useId';
 
 import { CommonProps, InvalidPropsLibrary } from './';
 
-export type DropdownOption = Record<string, unknown> & {
+export type SelectOption = Record<string, unknown> & {
     /** The value of the option. */
     value: string;
     /** The label of the option. This is the text that will be displayed on the option. */
     label: string;
 };
 
-export type DropdownProps<T extends DropdownOption = DropdownOption> = CommonProps<
+export type SelectProps<T extends SelectOption = SelectOption> = CommonProps<
     'aria-label' | 'disabled' | 'id' | 'name' | 'readOnly' | 'size'
 > &
     InvalidPropsLibrary &
     Pick<MenuProps<T>, 'isMulti' | 'itemCount' | 'renderListItem' | 'selectAll'> & {
         /**
-         * Array of options to display in the dropdown
+         * Array of options to display in the select
          *
          * @example
          *     [
@@ -39,7 +39,7 @@ export type DropdownProps<T extends DropdownOption = DropdownOption> = CommonPro
          *         { value: '10', label: 'Option 10' },
          *     ];
          *
-         * @type Array<DropdownOption>
+         * @type Array<SelectOption>
          * @required
          */
         options: T[];
@@ -50,18 +50,18 @@ export type DropdownProps<T extends DropdownOption = DropdownOption> = CommonPro
          */
         value?: Array<string>;
         /**
-         * Placeholder for the dropdown
+         * Placeholder for the select
          *
          * @default Select one...
          */
         placeholder?: string;
         /**
-         * The placement of the dropdown menu. Will be ignored if the menu is too close to the edge of the screen.
+         * The placement of the select menu. Will be ignored if the menu is too close to the edge of the screen.
          *
          * @default bottom
          */
         placement?: Extract<Placement, 'bottom' | 'top'>;
-        /** The style of the dropdown. */
+        /** The style of the select. */
         style?: React.CSSProperties;
         /**
          * The function to call when the selected values change.
@@ -75,15 +75,15 @@ export type DropdownProps<T extends DropdownOption = DropdownOption> = CommonPro
  * A field element that allows users to select one option from a list of available choices. *
  *
  * @example
- *     import { Dropdown } from '@bspk/ui/Dropdown';
+ *     import { Select } from '@bspk/ui/Select';
  *
  *     export function Example() {
  *         const [selected, setSelected] = React.useState<string[]>([]);
  *         return (
- *             <Dropdown
+ *             <Select
  *                 aria-label="Select an option"
  *                 itemCount={5}
- *                 name="example-dropdown"
+ *                 name="example-select"
  *                 onChange={setSelected}
  *                 options={[
  *                     { value: '1', label: 'Option 1' },
@@ -104,9 +104,9 @@ export type DropdownProps<T extends DropdownOption = DropdownOption> = CommonPro
  *         );
  *     }
  *
- * @name Dropdown
+ * @name Select
  */
-function Dropdown({
+function Select({
     options = [],
     value: selected,
     onChange,
@@ -125,7 +125,7 @@ function Dropdown({
     renderListItem,
     style: styleProp,
     selectAll,
-}: DropdownProps) {
+}: SelectProps) {
     const id = useId(propId);
 
     const { triggerProps, menuProps, closeMenu } = useFloatingMenu({
@@ -138,7 +138,7 @@ function Dropdown({
         },
     });
 
-    const dropdownLabel = isMulti
+    const selectLabel = isMulti
         ? `${selected?.length || 0} option${selected?.length !== 1 ? 's' : ''} selected`
         : options.find((o) => o.value === selected?.[0])?.label;
 
@@ -147,8 +147,8 @@ function Dropdown({
             <input defaultValue={selected} name={name} type="hidden" />
             <button
                 aria-label={ariaLabel}
-                data-bspk="dropdown"
-                data-empty={dropdownLabel ? undefined : ''}
+                data-bspk="select"
+                data-empty={selectLabel ? undefined : ''}
                 data-invalid={invalid || undefined}
                 data-size={size}
                 disabled={disabled || readOnly}
@@ -156,8 +156,8 @@ function Dropdown({
                 style={styleProp}
                 {...triggerProps}
             >
-                <ListItem data-placeholder="" label={dropdownLabel || placeholder} readOnly />
-                <span data-svg>
+                <ListItem data-placeholder="" label={selectLabel || placeholder} readOnly />
+                <span data-icon>
                     <SvgChevronRight />
                 </span>
             </button>
@@ -182,8 +182,8 @@ function Dropdown({
     );
 }
 
-Dropdown.bspkName = 'Dropdown';
+Select.bspkName = 'Select';
 
-export { Dropdown };
+export { Select };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

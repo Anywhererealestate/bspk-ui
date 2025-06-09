@@ -12,7 +12,6 @@ import { BadgeProps } from '../Badge';
 import { BannerAlertProps } from '../BannerAlert';
 import { Button, ButtonProps } from '../Button';
 import { Checkbox } from '../Checkbox';
-import { DropdownOption, DropdownProps } from '../Dropdown';
 import { EmptyStateProps } from '../EmptyState';
 import { Img } from '../Img';
 import { LEADING_COMPONENTS, TRAILING_COMPONENTS, ListItem } from '../ListItem';
@@ -23,6 +22,7 @@ import { ProgressionStepperProps } from '../ProgressionStepper';
 import { Radio } from '../Radio';
 import { SearchBarProps } from '../SearchBar';
 import { SegmentedControlProps } from '../SegmentedControl';
+import { SelectOption, SelectProps } from '../Select';
 import { Switch } from '../Switch';
 import { TabGroupProps } from '../TabGroup';
 import { Tag } from '../Tag';
@@ -309,8 +309,8 @@ export const examples: (setState: DemoSetState, action: DemoAction) => Record<st
             );
         },
     },
-    Dropdown: {
-        presets: setPresets<DropdownProps>(() => {
+    Select: {
+        presets: setPresets<SelectProps>(() => {
             return [
                 {
                     label: 'Simple',
@@ -322,7 +322,7 @@ export const examples: (setState: DemoSetState, action: DemoAction) => Record<st
                 },
                 {
                     label: 'Trailing Tags',
-                    state: asProps<DropdownProps<DropdownOption & { tag?: string; tagColor?: ColorVariant }>>({
+                    state: asProps<SelectProps<SelectOption & { tag?: string; tagColor?: ColorVariant }>>({
                         options: [
                             //
                             { value: 'a', label: 'Package A', tag: 'Recommended', tagColor: 'blue' },
@@ -344,7 +344,7 @@ export const examples: (setState: DemoSetState, action: DemoAction) => Record<st
                 },
                 {
                     label: 'Trailing Text',
-                    state: asProps<DropdownProps<DropdownOption & { price: number }>>({
+                    state: asProps<SelectProps<SelectOption & { price: number }>>({
                         options: [
                             //
                             { value: '1', label: 'Option A', price: 400 },
@@ -367,7 +367,7 @@ export const examples: (setState: DemoSetState, action: DemoAction) => Record<st
                 {
                     label: 'Leading Avatar',
                     state: asProps<
-                        DropdownProps<
+                        SelectProps<
                             MenuItem & {
                                 profile: AvatarProps;
                             }

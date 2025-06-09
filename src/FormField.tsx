@@ -29,7 +29,7 @@ export type FormFieldProps = CommonProps<'required'> &
         /** The id of the control. */
         controlId: string;
         /**
-         * The children of the form field. This should be a control such as TextInput, Dropdown, DatePicker, or
+         * The children of the form field. This should be a control such as TextInput, Select, DatePicker, or
          * TimePicker.
          *
          * @type (childProps: FieldControlProps) => JSX.Element
@@ -45,7 +45,7 @@ export type FormFieldProps = CommonProps<'required'> &
 /**
  * Wrapper component for form controls.
  *
- * Children may be one of the following: TextInput, Dropdown, DatePicker, or TimePicker.
+ * Children may be one of the following: TextInput, Select, DatePicker, or TimePicker.
  *
  * @example
  *     import { TextInput } from '@bspk/ui/TextInput';

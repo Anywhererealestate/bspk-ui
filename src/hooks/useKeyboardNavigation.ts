@@ -4,7 +4,7 @@ import { EVENT_KEY } from '../utils/keyboard';
 import { scrollElementIntoView } from '../utils/scrollElementIntoView';
 
 /**
- * This hook provides keyboard navigation for a list of elements. Used inside the Dropdown component.
+ * This hook provides keyboard navigation for a list of elements. Used inside the Select component.
  *
  * @example
  *     import { useRef } from 'react';
