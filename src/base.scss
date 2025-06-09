@@ -10,15 +10,6 @@
 
 @use './colors';
 
-:root {
-    --z-index-tooltip-popover: 1100;
-    --z-index-dialog: 1000;
-    --z-index-dropdown: 900;
-    --z-index-fab: 800;
-    --z-index-navbar: 700;
-    --z-index-footer: 600;
-}
-
 *,
 *::before,
 *::after {
@@ -30,145 +21,230 @@
     padding: 0;
 }
 
-@media (prefers-reduced-motion) {
-    [data-animated] {
-        animation: none !important;
-    }
-}
-
-body,
-html {
+html:has(body[data-bspk]) {
     height: 100%;
     scroll-behavior: smooth;
 }
 
-body {
+body[data-bspk] {
+    --z-index-tooltip-popover: 1100;
+    --z-index-dialog: 1000;
+    --z-index-dropdown: 900;
+    --z-index-fab: 800;
+    --z-index-navbar: 700;
+    --z-index-footer: 600;
+
+    height: 100%;
+    scroll-behavior: smooth;
+
+    @media (prefers-reduced-motion) {
+        [data-animated] {
+            animation: none !important;
+        }
+    }
+
     font: var(--body-base);
     background-color: var(--background-base);
     color: var(--foreground-neutral-on-surface);
-}
 
-a {
-    color: var(--foreground-link-text-default);
+    a {
+        color: var(--foreground-link-text-default);
 
-    &:not([disabled]):hover {
-        color: var(--foreground-link-text-default-hovered);
+        &:not([disabled]) {
+            &:hover {
+                color: var(--foreground-link-text-default-hovered);
+            }
+
+            &:active {
+                color: var(--foreground-link-text-default);
+                filter: brightness(80%);
+            }
+
+            &:visited {
+                color: var(--foreground-link-text-default-visited);
+            }
+        }
+
+        &[disabled] {
+            pointer-events: none;
+            cursor: text;
+            color: var(--foreground-link-text-default-disabled);
+        }
+
+        &[data-default] {
+            color: var(--foreground-link-text-default) !important;
+        }
+
+        &[data-hover] {
+            color: var(--foreground-link-text-default-hovered) !important;
+        }
+
+        &[data-active] {
+            color: var(--foreground-link-text-default) !important;
+            filter: brightness(80%);
+        }
+
+        &[data-visited] {
+            color: var(--foreground-link-text-default-visited) !important;
+        }
     }
 
-    &:not([disabled]):visited {
-        color: var(--foreground-link-text-default-visited);
+    a[data-subtle] {
+        text-decoration: none;
+        color: var(--foreground-neutral-on-surface);
+
+        &:not([disabled]) {
+            &:hover {
+                text-decoration: underline;
+                color: var(--foreground-link-text-subtle-hovered);
+            }
+
+            &:active {
+                text-decoration: underline;
+                color: var(--foreground-link-text-subtle-pressed);
+            }
+
+            &:visited {
+                color: var(--foreground-neutral-on-surface);
+            }
+        }
+
+        &[disabled] {
+            pointer-events: none;
+            color: var(--foreground-link-text-subtle-disabled);
+        }
+
+        &[data-default] {
+            text-decoration: none;
+            color: var(--foreground-neutral-on-surface);
+        }
+
+        &[data-hover] {
+            text-decoration: underline;
+            color: var(--foreground-link-text-subtle-hovered) !important;
+        }
+
+        &[data-active] {
+            text-decoration: underline;
+            color: var(--foreground-link-text-subtle-pressed) !important;
+        }
+
+        &[data-visited] {
+            color: var(--foreground-neutral-on-surface) !important;
+        }
     }
 
-    &[disabled] {
-        pointer-events: none;
-        cursor: text;
-        color: var(--foreground-link-text-default-disabled);
+    a[data-subtle-inverse] {
+        text-decoration: none;
+        color: var(--foreground-neutral-inverse-on-surface);
+
+        &:not([disabled]) {
+            &:hover {
+                text-decoration: underline;
+                color: var(--foreground-link-text-subtle-inverse-hovered);
+            }
+
+            &:active {
+                text-decoration: underline;
+                color: var(--foreground-link-text-subtle-inverse-pressed);
+            }
+
+            &:visited {
+                color: var(--foreground-neutral-inverse-on-surface);
+            }
+        }
+
+        &[disabled] {
+            pointer-events: none;
+            color: var(--foreground-link-text-subtle-inversed-disabled);
+        }
+
+        &[data-default] {
+            text-decoration: none;
+            color: var(--foreground-neutral-inverse-on-surface);
+        }
+
+        &[data-hover] {
+            text-decoration: underline;
+            color: var(--foreground-link-text-subtle-inverse-hovered) !important;
+        }
+
+        &[data-active] {
+            text-decoration: underline;
+            color: var(--foreground-link-text-subtle-inverse-pressed) !important;
+        }
+
+        &[data-visited] {
+            color: var(--foreground-neutral-inverse-on-surface) !important;
+        }
     }
-}
 
-a[data-subtle] {
-    text-decoration: none;
-    color: var(--foreground-neutral-on-surface);
-
-    &:hover {
-        text-decoration: underline;
-        color: var(--foreground-link-text-subtle-hovered);
+    /** Remove default input autofill styles */
+    input:-internal-autofill-previewed,
+    input:-internal-autofill-selected,
+    textarea:-internal-autofill-previewed,
+    textarea:-internal-autofill-selected,
+    select:-internal-autofill-previewed,
+    select:-internal-autofill-selected {
+        transition:
+            color calc(infinity * 1s) step-end,
+            background-color calc(infinity * 1s) step-end;
     }
 
-    &:active {
-        text-decoration: underline;
+    [data-sr-only] {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border-width: 0;
     }
 
-    &[disabled] {
-        pointer-events: none;
-        color: var(--foreground-link-text-subtle-disabled);
-    }
-}
-
-a[data-subtle-inverse] {
-    text-decoration: none;
-    color: var(--foreground-neutral-inverse-on-surface);
-
-    &:hover {
-        text-decoration: underline;
-        color: var(--foreground-link-text-subtle-inverse-hovered);
-    }
-
-    &:active {
-        text-decoration: underline;
-    }
-
-    &[disabled] {
-        pointer-events: none;
-        color: var(--foreground-link-text-subtle-inversed-disabled);
-    }
-}
-
-/** Remove default input autofill styles */
-input:-internal-autofill-previewed,
-input:-internal-autofill-selected,
-textarea:-internal-autofill-previewed,
-textarea:-internal-autofill-selected,
-select:-internal-autofill-previewed,
-select:-internal-autofill-selected {
-    transition:
-        color calc(infinity * 1s) step-end,
-        background-color calc(infinity * 1s) step-end;
-}
-
-[data-sr-only] {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border-width: 0;
-}
-
-ol {
-    list-style-type: decimal;
-
-    li {
+    ol {
         list-style-type: decimal;
-        margin-left: var(--spacing-sizing-05);
+
+        li {
+            list-style-type: decimal;
+            margin-left: var(--spacing-sizing-05);
+        }
     }
-}
 
-ul {
-    list-style-type: disc;
-
-    li {
+    ul {
         list-style-type: disc;
-        margin-left: var(--spacing-sizing-05);
+
+        li {
+            list-style-type: disc;
+            margin-left: var(--spacing-sizing-05);
+        }
     }
-}
 
-[data-touch-target] {
-    display: none;
-    touch-action: manipulation;
-    -webkit-tap-highlight-color: transparent;
-    -webkit-touch-callout: none;
-    user-select: none;
-    position: absolute;
-    z-index: 1;
-    height: 100%;
-    width: 100%;
-    top: auto;
-    left: auto;
-}
-
-[data-touch-target] ~ * {
-    position: relative;
-    z-index: 2;
-}
-
-/* if touchscreen */
-@media (any-pointer: coarse) {
     [data-touch-target] {
-        display: block;
+        display: none;
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
+        -webkit-touch-callout: none;
+        user-select: none;
+        position: absolute;
+        z-index: 1;
+        height: 100%;
+        width: 100%;
+        top: auto;
+        left: auto;
+    }
+
+    [data-touch-target] ~ * {
+        position: relative;
+        z-index: 2;
+    }
+
+    /* if touchscreen */
+    @media (any-pointer: coarse) {
+        [data-touch-target] {
+            display: block;
+        }
     }
 }
 

@@ -2,6 +2,8 @@
  * This script generates the styles provider components for each brand.
  *
  * If we need to change the styles provider we should do it here and run the script to ensure consistency.
+ *
+ * $ npx tsx .scripts/tasks/generate-style-providers.ts
  */
 
 import fs from 'fs';
