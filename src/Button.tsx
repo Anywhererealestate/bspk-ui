@@ -102,7 +102,8 @@ function Button<As extends ElementType = 'button'>(props: ElementProps<ButtonPro
         disabled = false,
         label: labelProp,
         icon,
-        showLabel: showLabelProp = true,
+        // showLabel: showLabelProp = true,
+        showLabel= true,
         toolTip: toolTipProp,
         children,
         ...containerProps
@@ -110,10 +111,8 @@ function Button<As extends ElementType = 'button'>(props: ElementProps<ButtonPro
     const label = typeof children === 'string' ? children : labelProp || '';
 
     // ignore showLabel=false if there is no icon
-    const hideLabel = showLabelProp === false && icon;
-
-    const toolTip = toolTipProp || hideLabel ? label : undefined;
-
+    const hideLabel = (showLabel === false) && icon;
+    const toolTip = toolTipProp || (hideLabel ? label : undefined);
     const { logError } = useErrorLogger();
     logError(!!icon && !isValidIcon(icon), 'Button - The icon prop must be a valid icon element.');
     logError(!label, 'Button - The button must have a label.');
