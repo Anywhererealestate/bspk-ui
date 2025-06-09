@@ -34,17 +34,17 @@ body[data-bspk] {
     --z-index-navbar: 700;
     --z-index-footer: 600;
 
-    @media (prefers-reduced-motion) {
-        [data-animated] {
-            animation: none !important;
-        }
-    }
-
     height: 100%;
     scroll-behavior: smooth;
     font: var(--body-base);
     background-color: var(--background-base);
     color: var(--foreground-neutral-on-surface);
+
+    @media (prefers-reduced-motion) {
+        [data-animated] {
+            animation: none !important;
+        }
+    }
 
     a {
         color: var(--foreground-link-text-default);
