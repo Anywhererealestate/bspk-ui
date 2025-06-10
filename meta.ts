@@ -461,6 +461,8 @@ async function createMeta() {
     const componentImport = (name: string) =>
         `${name}: React.lazy(() => import('@bspk/ui/${name}').then((module) => ({ default: module.${name} })))`;
 
+    const uiVersion = execSync('npm view @bspk/ui version', { encoding: 'utf-8' }).trim();
+
     fs.writeFileSync(
         metaFilePath,
         [
@@ -469,6 +471,8 @@ async function createMeta() {
             `import React from 'react';`,
 
             fs.readFileSync(path.resolve(__dirname, 'meta-types.ts'), { encoding: 'utf-8' }),
+
+            `export const VERSION = '${uiVersion}' as const;`,
 
             `export const componentsMeta: ComponentMeta[] = ${JSON.stringify(componentsMeta, null, 2)} as const;`,
 
