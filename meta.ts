@@ -142,8 +142,6 @@ function generateComponentMeta({
     name,
     jsDocs,
 }: ComponentFile): ComponentMeta | null {
-    const stats = fs.statSync(componentFile);
-
     const componentFunctionMatch = content.match(new RegExp(`function ${name}[(<]`));
 
     if (!componentFunctionMatch) {
@@ -190,7 +188,6 @@ function generateComponentMeta({
         name,
         slug,
         dependencies,
-        modified: stats.mtime.toISOString(),
         usage,
         css,
         hasTouchTarget: css.includes('data-touch-target'),
