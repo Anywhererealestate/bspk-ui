@@ -29,8 +29,8 @@ const slug = kebabCase(componentName);
 fs.writeFileSync(
     componentFilePath,
 
-    `import { ReactNode } from 'react';
-import './${slug}.scss';
+    `import './${slug}.scss';
+import { ReactNode } from 'react';
 
 const DEFAULT = {
     variant: 'none',
@@ -74,6 +74,19 @@ function ${componentName}({ children, variant = DEFAULT.variant }: ${componentNa
 ${componentName}.bspkName = '${componentName}';
 
 export { ${componentName} };
+
+/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
+`,
+);
+
+fs.writeFileSync(
+    path.join(componentsDir, `${slug}.scss`),
+    `[data-bspk='chip'] {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: fit-content;
+}
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
 `,
