@@ -62,18 +62,22 @@ body[data-bspk] {
 
     a {
         color: var(--foreground-link-text-default);
+        font: var(--labels-base);
 
         &:not([disabled]) {
-            &:hover {
+            &:hover,
+            &[data-pseudo='hover'] {
                 color: var(--foreground-link-text-default-hovered);
             }
 
-            &:active {
+            &:active,
+            &[data-pseudo='active'] {
                 color: var(--foreground-link-text-default);
                 filter: brightness(80%);
             }
 
-            &:visited {
+            &:visited,
+            &[data-pseudo='visited'] {
                 color: var(--foreground-link-text-default-visited);
             }
         }
@@ -83,23 +87,6 @@ body[data-bspk] {
             cursor: text;
             color: var(--foreground-link-text-default-disabled);
         }
-
-        &[data-default] {
-            color: var(--foreground-link-text-default) !important;
-        }
-
-        &[data-hover] {
-            color: var(--foreground-link-text-default-hovered) !important;
-        }
-
-        &[data-active] {
-            color: var(--foreground-link-text-default) !important;
-            filter: brightness(80%);
-        }
-
-        &[data-visited] {
-            color: var(--foreground-link-text-default-visited) !important;
-        }
     }
 
     a[data-subtle] {
@@ -107,17 +94,20 @@ body[data-bspk] {
         color: var(--foreground-neutral-on-surface);
 
         &:not([disabled]) {
-            &:hover {
+            &:hover,
+            &[data-pseudo='hover'] {
                 text-decoration: underline;
                 color: var(--foreground-link-text-subtle-hovered);
             }
 
-            &:active {
+            &:active,
+            &[data-pseudo='active'] {
                 text-decoration: underline;
                 color: var(--foreground-link-text-subtle-pressed);
             }
 
-            &:visited {
+            &:visited,
+            &[data-pseudo='visited'] {
                 color: var(--foreground-neutral-on-surface);
             }
         }
@@ -126,25 +116,6 @@ body[data-bspk] {
             pointer-events: none;
             color: var(--foreground-link-text-subtle-disabled);
         }
-
-        &[data-default] {
-            text-decoration: none;
-            color: var(--foreground-neutral-on-surface);
-        }
-
-        &[data-hover] {
-            text-decoration: underline;
-            color: var(--foreground-link-text-subtle-hovered) !important;
-        }
-
-        &[data-active] {
-            text-decoration: underline;
-            color: var(--foreground-link-text-subtle-pressed) !important;
-        }
-
-        &[data-visited] {
-            color: var(--foreground-neutral-on-surface) !important;
-        }
     }
 
     a[data-subtle-inverse] {
@@ -152,43 +123,27 @@ body[data-bspk] {
         color: var(--foreground-neutral-inverse-on-surface);
 
         &:not([disabled]) {
-            &:hover {
+            &:hover,
+            &[data-pseudo='hover'] {
                 text-decoration: underline;
                 color: var(--foreground-link-text-subtle-inverse-hovered);
             }
 
-            &:active {
+            &:active,
+            &[data-pseudo='active'] {
                 text-decoration: underline;
                 color: var(--foreground-link-text-subtle-inverse-pressed);
             }
 
-            &:visited {
-                color: var(--foreground-neutral-inverse-on-surface);
+            &:visited,
+            &[data-pseudo='visited'] {
+                color: var(--foreground-neutral-on-inverse-surface);
             }
         }
 
         &[disabled] {
             pointer-events: none;
             color: var(--foreground-link-text-subtle-inversed-disabled);
-        }
-
-        &[data-default] {
-            text-decoration: none;
-            color: var(--foreground-neutral-inverse-on-surface);
-        }
-
-        &[data-hover] {
-            text-decoration: underline;
-            color: var(--foreground-link-text-subtle-inverse-hovered) !important;
-        }
-
-        &[data-active] {
-            text-decoration: underline;
-            color: var(--foreground-link-text-subtle-inverse-pressed) !important;
-        }
-
-        &[data-visited] {
-            color: var(--foreground-neutral-inverse-on-surface) !important;
         }
     }
 }
