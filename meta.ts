@@ -401,6 +401,7 @@ function generateTypes() {
                 properties,
                 id: kebabCase(definitionName),
                 description: definition.description,
+                components: componentFile?.name ? [componentFile.name] : [],
             });
         });
 
@@ -414,7 +415,18 @@ function generateTypes() {
             )
             ?.filter((name, index, arr) => arr.indexOf(name) === index);
 
-        if (references && references.length > 0) nextType.references = references;
+        if (!references || references.length === 0) return;
+
+        nextType.references = references;
+
+        if (!nextType.components || nextType.components.length === 0) return;
+
+        nextTypes
+            .filter((t) => references.includes(t.name))
+            .forEach((t) => {
+                t.components = t.components || [];
+                t.components.push(...nextType.components!);
+            });
     });
 
     const duplicateIds = nextTypes.flatMap((t) => t.id).filter((id, index, arr) => arr.indexOf(id) !== index);
@@ -428,8 +440,9 @@ function generateTypes() {
     return nextTypes;
 }
 
+let componentsMeta: ComponentMeta[] = [];
 async function createMeta() {
-    const componentsMeta: ComponentMeta[] = componentFiles
+    componentsMeta = componentFiles
         .flatMap((component) => generateComponentMeta(component) || [])
         // filter out dependencies that aren't components
         .map((m, _, arr): ComponentMeta => {
