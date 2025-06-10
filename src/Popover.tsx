@@ -1,5 +1,5 @@
-import { SvgClose } from '@bspk/icons/Close';
 import './popover.scss';
+import { SvgClose } from '@bspk/icons/Close';
 import { ReactElement, cloneElement, useId, useMemo, useRef, useState } from 'react';
 
 import { Button } from './Button';

@@ -1,6 +1,5 @@
-import '@bspk/styles/century-21.css';
 import './base.scss';
-
+import '@bspk/styles/century-21.css';
 /**
  * Utility to provide the Century 21 styles to the application.
  *

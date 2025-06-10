@@ -1,6 +1,6 @@
+import './select.scss';
 import { SvgChevronRight } from '@bspk/icons/ChevronRight';
 
-import './select.scss';
 import { ListItem } from './ListItem';
 import { Menu, MenuProps } from './Menu';
 import { Portal } from './Portal';

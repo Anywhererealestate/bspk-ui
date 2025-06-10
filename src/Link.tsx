@@ -1,7 +1,7 @@
+import './link.scss';
 import { SvgChevronRight } from '@bspk/icons/ChevronRight';
 import { SvgLink } from '@bspk/icons/Link';
 import { SvgOpenInNew } from '@bspk/icons/OpenInNew';
-import './link.scss';
 import { AnchorHTMLAttributes } from 'react';
 
 import { CommonPropsLibrary, ElementProps } from '.';
