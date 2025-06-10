@@ -3,44 +3,31 @@ import { AriaAttributes, useId, useState } from 'react';
 import { CommonProps, InvalidPropsLibrary } from '..';
 import { EVENT_KEY } from '../utils/keyboard';
 
-import { Placement, useFloating } from './useFloating';
+import { useFloating, UseFloatingProps } from './useFloating';
 import { useKeyboardNavigation } from './useKeyboardNavigation';
 import { useOutsideClick } from './useOutsideClick';
 
-export type UseFloatingMenuProps = {
-    placement: Placement;
-    triggerProps?: CommonProps<'disabled' | 'readOnly'> & InvalidPropsLibrary;
-};
+export type UseComboboxProps = CommonProps<'disabled' | 'readOnly'> &
+    InvalidPropsLibrary &
+    Pick<UseFloatingProps, 'offsetOptions' | 'placement' | 'refWidth'>;
 
-export type UseFloatingMenuReturn = {
-    menuProps: {
-        activeIndex: number;
-        'data-placement': Placement | undefined;
-        id: string;
-        innerRef: (node: HTMLElement | null) => void;
-        role: 'listbox';
-        style: React.CSSProperties;
-        tabIndex: number;
-    };
-    triggerProps: {
-        'aria-activedescendant': string | undefined;
-        'aria-controls': string;
-        'aria-expanded': boolean;
-        'aria-haspopup': AriaAttributes['aria-haspopup'];
-        'aria-invalid': boolean | undefined;
-        'aria-owns': string;
-        'aria-readonly': boolean | undefined;
-        'aria-errormessage': string | undefined;
-        role: 'combobox';
-        tabIndex: number;
-        ref: (node: HTMLElement | null) => void;
-        onClick: (event: React.MouseEvent) => void;
-        onKeyDownCapture: (event: React.KeyboardEvent) => boolean;
-    };
-    closeMenu: () => void;
-};
-
-export function useFloatingMenu({ placement, triggerProps }: UseFloatingMenuProps): UseFloatingMenuReturn {
+/**
+ * Utility hook to manage a combobox component.
+ *
+ * It provides functionality for showing/hiding the menu, handling keyboard navigation, and managing ARIA attributes.
+ *
+ * @param {UseComboboxProps} props - The properties to configure the combobox.
+ * @returns {object} An object containing props for the menu and toggle elements, and a function to close the menu.
+ */
+export function useCombobox({
+    placement = 'bottom',
+    refWidth = true,
+    disabled,
+    errorMessage,
+    invalid,
+    readOnly,
+    offsetOptions,
+}: UseComboboxProps) {
     const menuId = useId();
 
     const [show, setShow] = useState(false);
@@ -50,8 +37,8 @@ export function useFloatingMenu({ placement, triggerProps }: UseFloatingMenuProp
     const { floatingStyles, middlewareData, elements } = useFloating({
         placement,
         strategy: 'fixed',
-        offsetOptions: 4,
-        refWidth: true,
+        offsetOptions,
+        refWidth,
         hide: !show,
     });
 
@@ -75,15 +62,16 @@ export function useFloatingMenu({ placement, triggerProps }: UseFloatingMenuProp
             style: floatingStyles,
             tabIndex: -1,
         },
-        triggerProps: {
-            'aria-errormessage': triggerProps?.errorMessage || undefined,
+        toggleProps: {
+            'aria-errormessage': errorMessage || undefined,
             'aria-activedescendant': selectedId || undefined,
             'aria-controls': menuId,
+            'aria-disabled': disabled || undefined,
             'aria-expanded': show,
             'aria-haspopup': 'listbox' as AriaAttributes['aria-haspopup'],
-            'aria-invalid': triggerProps?.invalid || undefined,
+            'aria-invalid': invalid || undefined,
             'aria-owns': menuId,
-            'aria-readonly': triggerProps?.readOnly || undefined,
+            'aria-readonly': readOnly || undefined,
             role: 'combobox',
             tabIndex: 0,
             ref: (node: HTMLElement | null) => elements.setTrigger(node),

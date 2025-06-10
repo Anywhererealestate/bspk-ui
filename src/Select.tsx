@@ -4,8 +4,8 @@ import './select.scss';
 import { ListItem } from './ListItem';
 import { Menu, MenuProps } from './Menu';
 import { Portal } from './Portal';
+import { useCombobox } from './hooks/useCombobox';
 import { Placement } from './hooks/useFloating';
-import { useFloatingMenu } from './hooks/useFloatingMenu';
 import { useId } from './hooks/useId';
 
 import { CommonProps, InvalidPropsLibrary } from './';
@@ -119,7 +119,6 @@ function Select({
     invalid,
     errorMessage,
     readOnly,
-    placement = 'bottom',
     name,
     isMulti,
     renderListItem,
@@ -128,14 +127,13 @@ function Select({
 }: SelectProps) {
     const id = useId(propId);
 
-    const { triggerProps, menuProps, closeMenu } = useFloatingMenu({
-        placement,
-        triggerProps: {
-            disabled,
-            invalid,
-            readOnly,
-            errorMessage,
-        },
+    const { toggleProps, menuProps, closeMenu } = useCombobox({
+        placement: 'bottom',
+        disabled,
+        invalid,
+        readOnly,
+        errorMessage,
+        offsetOptions: 4,
     });
 
     const selectLabel = isMulti
@@ -154,7 +152,7 @@ function Select({
                 disabled={disabled || readOnly}
                 id={id}
                 style={styleProp}
-                {...triggerProps}
+                {...toggleProps}
             >
                 <ListItem data-placeholder="" label={selectLabel || placeholder} readOnly />
                 <span data-icon>

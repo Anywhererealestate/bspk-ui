@@ -6,14 +6,10 @@ import { MenuItem, MenuProps, Menu } from './Menu';
 import { Portal } from './Portal';
 import { TextInputProps, TextInput } from './TextInput';
 import { Txt } from './Txt';
-import { useFloatingMenu } from './hooks/useFloatingMenu';
+import { useCombobox } from './hooks/useCombobox';
 import { useId } from './hooks/useId';
-//import { useFloatingMenu } from './hooks/useFloatingMenu';
 
-export type SearchBarProps<T extends MenuItem = MenuItem> = Pick<
-    MenuProps<T>,
-    'itemCount' | 'noResultsMessage'
-> &
+export type SearchBarProps<T extends MenuItem = MenuItem> = Pick<MenuProps<T>, 'itemCount' | 'noResultsMessage'> &
     Pick<TextInputProps, 'aria-label' | 'id' | 'inputRef' | 'name' | 'size'> & {
         /** The current value of the search bar. */
         value?: string;
@@ -83,8 +79,7 @@ export type SearchBarProps<T extends MenuItem = MenuItem> = Pick<
  *     export function Example() {
  *         const [searchText, setSearchText] = useState<string>('');
  *
- *         const handleItemSelect = (item) =>
- *             console.log('Selected item:', item);
+ *         const handleItemSelect = (item) => console.log('Selected item:', item);
  *
  *         return (
  *             <SearchBar
@@ -129,15 +124,10 @@ function SearchBar({
 }: SearchBarProps) {
     const id = useId(idProp);
     const {
-        triggerProps: {
-            ref: triggerRef,
-            onClick,
-            onKeyDownCapture,
-            ...triggerProps
-        },
+        toggleProps: { ref: triggerRef, onClick, onKeyDownCapture, ...triggerProps },
         menuProps,
         closeMenu,
-    } = useFloatingMenu({
+    } = useCombobox({
         placement: 'bottom-start',
     });
 
@@ -162,8 +152,8 @@ function SearchBar({
                     size={size}
                     value={value}
                     {...triggerProps}
-                    onClick={(event) => {
-                        if (items?.length) onClick(event);
+                    onClick={() => {
+                        if (items?.length) onClick();
                     }}
                     onKeyDownCapture={(event) => {
                         const handled = onKeyDownCapture(event);
@@ -196,9 +186,7 @@ function SearchBar({
                         }
                         onChange={(selectedValues, event) => {
                             event?.preventDefault();
-                            const item = items?.find(
-                                (i) => i.value === selectedValues[0],
-                            );
+                            const item = items?.find((i) => i.value === selectedValues[0]);
                             onSelect?.(item);
                             onChange(item?.label || '');
                             closeMenu();

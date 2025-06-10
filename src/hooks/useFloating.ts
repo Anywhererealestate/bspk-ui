@@ -32,6 +32,45 @@ export type { Placement, Strategy };
 
 const TRANSITION_DELAY = 250;
 
+export type UseFloatingProps = {
+    /**
+     * The preferred placement of the floating element.
+     *
+     * This determines where the floating element will be positioned relative to the reference element.
+     *
+     * @default bottom
+     */
+    placement: Placement;
+    /** A ref object for the arrow element. */
+    arrowRef?: React.MutableRefObject<HTMLElement | null>;
+    /**
+     * The positioning strategy ('absolute' or 'fixed').
+     *
+     * When set to 'fixed', the floating element will be positioned relative to the viewport.
+     *
+     * When set to 'absolute', the floating element will be positioned relative to the nearest positioned ancestor.
+     *
+     * @default fixed
+     */
+    strategy?: Strategy;
+    /**
+     * The offset options for the floating element.
+     *
+     * @default 0
+     */
+    offsetOptions?: OffsetOptions;
+    /**
+     * When set to true, the width of the floating element will match the width of the reference element.
+     *
+     * When set to an HTMLElement, the width of the floating element will match the width of that HTMLElement.
+     *
+     * @default true
+     */
+    refWidth?: HTMLElement | boolean;
+    /** Whether to hide the floating element. */
+    hide?: boolean;
+};
+
 /**
  *
  *
@@ -39,20 +78,13 @@ const TRANSITION_DELAY = 250;
  * @returns
  */
 export function useFloating<TriggerElementType extends HTMLElement>({
-    placement,
+    placement = 'bottom',
     arrowRef,
-    strategy,
+    strategy = 'fixed',
     offsetOptions = 0,
-    refWidth,
+    refWidth = true,
     hide = false,
-}: {
-    placement: Placement;
-    arrowRef?: React.MutableRefObject<HTMLElement | null>;
-    strategy?: Strategy;
-    offsetOptions?: OffsetOptions;
-    refWidth?: boolean;
-    hide?: boolean;
-}) {
+}: UseFloatingProps) {
     const [floatingStyles, setFloatingStylesState] = useState<React.CSSProperties>({
         opacity: 0,
         pointerEvents: 'none',
@@ -71,18 +103,6 @@ export function useFloating<TriggerElementType extends HTMLElement>({
     const [triggerElement, setTriggerElement] = useState<TriggerElementType | null>(null);
 
     const [floatingElement, setFloatingElement] = useState<HTMLElement | null>(null);
-
-    // const elements: {
-    //   trigger: HTMLElement | null;
-    //   floating: HTMLElement | null;
-    //   setReference: (node: TriggerElementType | null) => void;
-    //   setFloating: (node: HTMLElement | null) => void;
-    // } = {
-    //   trigger: triggerElement,
-    //   floating: floatingElement,
-    //   setReference: setTriggerElement,
-    //   setFloating: setFloatingElement,
-    // };
 
     const computeDebounce = useTimeout();
     const transitionDelay = useTimeout();
@@ -129,7 +149,8 @@ export function useFloating<TriggerElementType extends HTMLElement>({
                         size({
                             apply({ rects, elements }: MiddlewareState) {
                                 Object.assign(elements.floating.style, {
-                                    width: `${rects.reference.width}px`,
+                                    width:
+                                        refWidth === true ? `${rects.reference.width}px` : `${refWidth.offsetWidth}px`,
                                 });
                             },
                         }),
