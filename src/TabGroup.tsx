@@ -22,8 +22,7 @@ export type TabGroupOption = {
      */
     label: string;
     /**
-     * Determines if the element is
-     * [disabled](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled).
+     * Determines if the element is [disabled](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled).
      *
      * @default false
      */
@@ -87,15 +86,15 @@ export type TabGroupProps = {
      */
     size?: TabGroupSize;
     /**
-     * When 'fill' the options will fill the width of the container. When 'hug',
-     * the options will be as wide as their content.
+     * When 'fill' the options will fill the width of the container. When 'hug', the options will be as wide as their
+     * content.
      *
      * @default hug
      */
     width?: 'fill' | 'hug';
     /**
-     * When width is 'hug' this determines if the trailing underline should be
-     * showing. When width is 'fill' this property isn't applicable.
+     * When width is 'hug' this determines if the trailing underline should be showing. When width is 'fill' this
+     * property isn't applicable.
      *
      * @default false
      */
@@ -164,10 +163,7 @@ function TabGroup({
                             {(isActive && item.iconActive) || item.icon}
                             {item.label}
                             {item.badge && !item.disabled && !isActive && (
-                                <Badge
-                                    count={item.badge}
-                                    size={TAB_BADGE_SIZES[size]}
-                                />
+                                <Badge count={item.badge} size={TAB_BADGE_SIZES[size]} />
                             )}
                         </span>
                     </button>

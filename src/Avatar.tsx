@@ -54,12 +54,13 @@ export type AvatarProps = {
      */
     initials?: string;
     /**
-     * The icon to display in the avatar. This needs to be an icon from the @bspk/icons library.
+     * The icon to display in the avatar. This needs to be an icon from the
      *
      * @example
      *     <SvgPerson />;
      *
      * @type BspkIcon
+     * @bspk/icons library.
      */
     icon?: ReactNode;
     /**

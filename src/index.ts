@@ -1,7 +1,9 @@
 /**
  * There are no barrel files for this repository.
  *
- * Components should be imported directly like "import { Txt } from @bspk/ui/Txt".
+ * Components should be imported directly like "import { Txt } from
+ *
+ * @bspk/ui/Txt".
  */
 
 import { ComponentProps, JSXElementConstructor, ReactNode } from 'react';

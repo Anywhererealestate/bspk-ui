@@ -35,15 +35,14 @@ export type ProgressBarProps = {
  * A progress bar is a horizontal visual indicator that let’s the user know the progression of a task or operation
  * occurring in the background.
  *
- * @name ProgressBar
  * @example
- *      import { ProgressBar } from '@bspk/ui/ProgressBar';
+ *     import { ProgressBar } from '@bspk/ui/ProgressBar';
  *
- *      export function Example() {
- *          return (
- *              <ProgressBar label="Example label" completion={50} />
- *          );
- *      }
+ *     export function Example() {
+ *         return <ProgressBar label="Example label" completion={50} />;
+ *     }
+ *
+ * @name ProgressBar
  */
 function ProgressBar({ size = 'large', completion = 0, align = 'center', label }: ProgressBarProps) {
     const id = useId();

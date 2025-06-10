@@ -65,19 +65,14 @@ export type ProgressionStepperProps = {
 /**
  * A progress stepper is a horizontal visual indicator that let’s the user know the progression of the current process.
  *
- * @name ProgressionStepper
  * @example
  *     import { ProgressionStepper } from '@bspk/ui/ProgressionStepper';
  *
  *     export function Example() {
- *         return (
- *             <ProgressionStepper steps={[
- *                 { name: 'Step 1' },
- *                 { name: 'Step 2' },
- *                 { name: 'Step 3' },
- *             ]} />
- *         );
+ *         return <ProgressionStepper steps={[{ name: 'Step 1' }, { name: 'Step 2' }, { name: 'Step 3' }]} />;
  *     }
+ *
+ * @name ProgressionStepper
  */
 function ProgressionStepper({
     steps = [],

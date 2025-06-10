@@ -146,7 +146,9 @@ export type Preset<P> = {
     isDefault?: boolean;
 };
 
-export type DemoPreset<P = Record<string, unknown>> = Preset<P> & { value: string };
+export type DemoPreset<P = Record<string, unknown>> = Preset<P> & {
+    value: string;
+};
 
 export function createUid(prefix: string = 'uid'): string {
     return `${prefix}-${Math.random().toString(36).substring(2, 9)}`;
@@ -322,11 +324,28 @@ export const examples: (setState: DemoSetState, action: DemoAction) => Record<st
                 },
                 {
                     label: 'Trailing Tags',
-                    state: asProps<SelectProps<SelectOption & { tag?: string; tagColor?: ColorVariant }>>({
+                    state: asProps<
+                        SelectProps<
+                            SelectOption & {
+                                tag?: string;
+                                tagColor?: ColorVariant;
+                            }
+                        >
+                    >({
                         options: [
                             //
-                            { value: 'a', label: 'Package A', tag: 'Recommended', tagColor: 'blue' },
-                            { value: 'b', label: 'Package B', tag: 'Best Value', tagColor: 'green' },
+                            {
+                                value: 'a',
+                                label: 'Package A',
+                                tag: 'Recommended',
+                                tagColor: 'blue',
+                            },
+                            {
+                                value: 'b',
+                                label: 'Package B',
+                                tag: 'Best Value',
+                                tagColor: 'green',
+                            },
                             { value: 'c', label: 'Package C' },
                             { value: 'd', label: 'Package D' },
                         ],
@@ -380,9 +399,21 @@ export const examples: (setState: DemoSetState, action: DemoAction) => Record<st
                                 label: 'Jessica P.',
                                 profile: { name: 'Jessica P.' },
                             },
-                            { value: 'Louis', label: 'Louis L.', profile: { name: 'Louis L.' } },
-                            { value: 'Harvey', label: 'Harvey S.', profile: { name: 'Harvey S.' } },
-                            { value: 'Mike', label: 'Mike R.', profile: { name: 'Mike R.' } },
+                            {
+                                value: 'Louis',
+                                label: 'Louis L.',
+                                profile: { name: 'Louis L.' },
+                            },
+                            {
+                                value: 'Harvey',
+                                label: 'Harvey S.',
+                                profile: { name: 'Harvey S.' },
+                            },
+                            {
+                                value: 'Mike',
+                                label: 'Mike R.',
+                                profile: { name: 'Mike R.' },
+                            },
                         ],
                         renderListItem: (props) => {
                             return {
@@ -479,7 +510,12 @@ export const examples: (setState: DemoSetState, action: DemoAction) => Record<st
         presets: setPresets<PopoverProps>([
             {
                 label: 'With CallToAction',
-                state: { callToAction: { label: 'Click me', onClick: () => action('Call to action clicked!') } },
+                state: {
+                    callToAction: {
+                        label: 'Click me',
+                        onClick: () => action('Call to action clicked!'),
+                    },
+                },
             },
         ]),
     },
@@ -568,9 +604,24 @@ export const examples: (setState: DemoSetState, action: DemoAction) => Record<st
                 label: 'With icons',
                 state: {
                     options: [
-                        { value: '1', label: 'Option 1', icon: <SvgDiamond />, iconActive: <SvgDiamondFill /> },
-                        { value: '2', label: 'Disabled 2', disabled: true, icon: <SvgCircle /> },
-                        { value: '3', label: 'Option 3', icon: <SvgSquare />, iconActive: <SvgSquareFill /> },
+                        {
+                            value: '1',
+                            label: 'Option 1',
+                            icon: <SvgDiamond />,
+                            iconActive: <SvgDiamondFill />,
+                        },
+                        {
+                            value: '2',
+                            label: 'Disabled 2',
+                            disabled: true,
+                            icon: <SvgCircle />,
+                        },
+                        {
+                            value: '3',
+                            label: 'Option 3',
+                            icon: <SvgSquare />,
+                            iconActive: <SvgSquareFill />,
+                        },
                     ],
                 },
             },
@@ -641,9 +692,24 @@ export const examples: (setState: DemoSetState, action: DemoAction) => Record<st
                 label: 'With icons',
                 state: {
                     options: [
-                        { value: '1', label: 'Option 1', icon: <SvgDiamond />, iconActive: <SvgDiamondFill /> },
-                        { value: '2', label: 'Disabled 2', disabled: true, icon: <SvgCircle /> },
-                        { value: '3', label: 'Option 3', icon: <SvgSquare />, iconActive: <SvgSquareFill /> },
+                        {
+                            value: '1',
+                            label: 'Option 1',
+                            icon: <SvgDiamond />,
+                            iconActive: <SvgDiamondFill />,
+                        },
+                        {
+                            value: '2',
+                            label: 'Disabled 2',
+                            disabled: true,
+                            icon: <SvgCircle />,
+                        },
+                        {
+                            value: '3',
+                            label: 'Option 3',
+                            icon: <SvgSquare />,
+                            iconActive: <SvgSquareFill />,
+                        },
                     ],
                 },
             },
@@ -658,8 +724,20 @@ export const examples: (setState: DemoSetState, action: DemoAction) => Record<st
                             iconActive: <SvgDiamondFill />,
                             badge: 1,
                         },
-                        { value: '2', label: 'Disabled 2', disabled: true, icon: <SvgCircle />, badge: 2 },
-                        { value: '3', label: 'Option 3', icon: <SvgSquare />, iconActive: <SvgSquare />, badge: 3 },
+                        {
+                            value: '2',
+                            label: 'Disabled 2',
+                            disabled: true,
+                            icon: <SvgCircle />,
+                            badge: 2,
+                        },
+                        {
+                            value: '3',
+                            label: 'Option 3',
+                            icon: <SvgSquare />,
+                            iconActive: <SvgSquare />,
+                            badge: 3,
+                        },
                     ],
                 },
             },

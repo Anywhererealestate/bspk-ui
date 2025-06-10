@@ -51,8 +51,7 @@ export type TagProps<As extends ElementType = 'span'> = {
 };
 
 /**
- * A non-interactive visual indicators to draw attention or categorization of a
- * component.
+ * A non-interactive visual indicators to draw attention or categorization of a component.
  *
  * @example
  *     import { Tag } from '@bspk/ui/Tag';

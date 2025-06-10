@@ -12,7 +12,12 @@ export function ExamplePlaceholder({
     direction = 'row',
     ...props
 }: ElementProps<
-    { hideSize?: boolean; height?: number | string; width?: number | string; direction?: 'column' | 'row' },
+    {
+        hideSize?: boolean;
+        height?: number | string;
+        width?: number | string;
+        direction?: 'column' | 'row';
+    },
     'div'
 >) {
     const ref = useRef<HTMLDivElement | null>(null);

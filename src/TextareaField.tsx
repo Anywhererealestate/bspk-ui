@@ -3,14 +3,10 @@ import { TextareaProps, Textarea } from './Textarea';
 import { Txt } from './Txt';
 import { tryIntParse } from './utils/tryIntPsrse';
 
-export type TextareaFieldProps = Pick<
-    FormFieldProps,
-    'controlId' | 'errorMessage' | 'helperText' | 'label'
-> &
+export type TextareaFieldProps = Pick<FormFieldProps, 'controlId' | 'errorMessage' | 'helperText' | 'label'> &
     TextareaProps;
 /**
- * A component that allows users to input large amounts of text that could span
- * multiple lines.
+ * A component that allows users to input large amounts of text that could span multiple lines.
  *
  * This component takes properties from the FormField and Textarea components.
  *
@@ -49,8 +45,7 @@ function TextareaField({
     ...textareaProps
 }: TextareaFieldProps) {
     const maxLength = tryIntParse(maxLengthProp) || -1;
-    const errorMessage =
-        (!readOnly && !disabled && errorMessageProp) || undefined;
+    const errorMessage = (!readOnly && !disabled && errorMessageProp) || undefined;
 
     if (typeof onChange !== 'function') return null;
 

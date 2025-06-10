@@ -33,8 +33,15 @@ export type RadioGroupProps = CommonProps<'name'> & {
      *
      * @example
      *     [
-     *         { value: '1', label: 'Option 1' },
-     *         { value: '2', label: 'Option 2', description: 'Description here' },
+     *         {
+     *             value: '1',
+     *             label: 'Option 1',
+     *         },
+     *         {
+     *             value: '2',
+     *             label: 'Option 2',
+     *             description: 'Description here',
+     *         },
      *         { value: '3', label: 'Option 3' },
      *     ];
      *

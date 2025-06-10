@@ -3,12 +3,7 @@ import { TextInputProps, TextInput } from './TextInput';
 
 import { InvalidPropsLibrary } from '.';
 
-export type TextFieldProps =
-    InvalidPropsLibrary &
-    Pick<
-        FormFieldProps,
-        'controlId' | 'errorMessage' | 'helperText' | 'label' | 'labelTrailing'
-    > &
+export type TextFieldProps = InvalidPropsLibrary &
     Pick<
         TextInputProps,
         | 'autoComplete'
@@ -24,11 +19,11 @@ export type TextFieldProps =
         | 'trailing'
         | 'type'
         | 'value'
-    >;
+    > &
+    Pick<FormFieldProps, 'controlId' | 'errorMessage' | 'helperText' | 'label' | 'labelTrailing'>;
 
 /**
- * A text input that allows users to enter text, numbers or symbols in a
- * singular line.
+ * A text input that allows users to enter text, numbers or symbols in a singular line.
  *
  * This component takes properties from the FormField and TextInput components.
  *
@@ -61,9 +56,7 @@ function TextField({
     required,
     ...inputProps
 }: TextFieldProps) {
-    const errorMessage =
-        (!inputProps.readOnly && !inputProps.disabled && errorMessageProp) ||
-        undefined;
+    const errorMessage = (!inputProps.readOnly && !inputProps.disabled && errorMessageProp) || undefined;
 
     return (
         <FormField
@@ -76,13 +69,7 @@ function TextField({
             required={required}
         >
             {(fieldProps) => (
-                <TextInput
-                    {...inputProps}
-                    {...fieldProps}
-                    aria-label={label}
-                    id={controlId}
-                    required={required}
-                />
+                <TextInput {...inputProps} {...fieldProps} aria-label={label} id={controlId} required={required} />
             )}
         </FormField>
     );

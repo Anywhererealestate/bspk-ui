@@ -1,10 +1,5 @@
 import { SvgCancel } from '@bspk/icons/Cancel';
-import {
-    ChangeEvent,
-    HTMLInputAutoCompleteAttribute,
-    HTMLInputTypeAttribute,
-    ReactNode,
-} from 'react';
+import { ChangeEvent, HTMLInputAutoCompleteAttribute, HTMLInputTypeAttribute, ReactNode } from 'react';
 
 import { useId } from './hooks/useId';
 
@@ -20,14 +15,7 @@ export const DEFAULT = {
 } as const;
 
 export type TextInputProps = CommonProps<
-    | 'aria-label'
-    | 'disabled'
-    | 'id'
-    | 'name'
-    | 'readOnly'
-    | 'required'
-    | 'size'
-    | 'value'
+    'aria-label' | 'disabled' | 'id' | 'name' | 'readOnly' | 'required' | 'size' | 'value'
 > &
     InvalidPropsLibrary & {
         /**
@@ -53,8 +41,7 @@ export type TextInputProps = CommonProps<
          */
         type?: Extract<HTMLInputTypeAttribute, 'number' | 'text'>;
         /**
-         * Specifies if user agent has any permission to provide automated
-         * assistance in filling out form field values.
+         * Specifies if user agent has any permission to provide automated assistance in filling out form field values.
          * https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete
          *
          * @default off
@@ -63,9 +50,8 @@ export type TextInputProps = CommonProps<
     };
 
 /**
- * A text input that allows users to enter text, numbers or symbols in a
- * singular line. This is the base element and is not intended to be used
- * directly. Use the TextField component.
+ * A text input that allows users to enter text, numbers or symbols in a singular line. This is the base element and is
+ * not intended to be used directly. Use the TextField component.
  *
  * @example
  *     import { useState } from 'react';
@@ -74,14 +60,7 @@ export type TextInputProps = CommonProps<
  *     export function Example() {
  *         const [value, setValue] = useState<string>('');
  *
- *         return (
- *             <TextInput
- *                 aria-label="Example aria-label"
- *                 name="Example name"
- *                 onChange={setValue}
- *                 value={value}
- *             />
- *         );
+ *         return <TextInput aria-label="Example aria-label" name="Example name" onChange={setValue} value={value} />;
  *     }
  *
  * @element

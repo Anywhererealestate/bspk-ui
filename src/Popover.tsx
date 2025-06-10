@@ -1,13 +1,6 @@
 import { SvgClose } from '@bspk/icons/Close';
 import './popover.scss';
-import {
-    ReactElement,
-    cloneElement,
-    useId,
-    useMemo,
-    useRef,
-    useState,
-} from 'react';
+import { ReactElement, cloneElement, useId, useMemo, useRef, useState } from 'react';
 
 import { Button } from './Button';
 import { Portal } from './Portal';
@@ -48,8 +41,7 @@ export type PopoverProps = CommonProps<'disabled'> & {
 };
 
 /**
- * Brief message that provide additional guidance and helps users perform an
- * action if needed.
+ * Brief message that provide additional guidance and helps users perform an action if needed.
  *
  * @example
  *     import { useState } from 'react';
@@ -79,14 +71,7 @@ export type PopoverProps = CommonProps<'disabled'> & {
  *
  * @name Popover
  */
-function Popover({
-    placement = 'top',
-    header,
-    content,
-    callToAction,
-    children,
-    disabled = false,
-}: PopoverProps) {
+function Popover({ placement = 'top', header, content, callToAction, children, disabled = false }: PopoverProps) {
     const id = useId();
     const [show, setShow] = useState(false);
     const arrowRef = useRef<HTMLElement | null>(null);
@@ -124,20 +109,13 @@ function Popover({
                     id={id}
                     ref={(node) => {
                         elements.setFloating(node);
-                        elements.setTrigger(
-                            document.querySelector<HTMLElement>(
-                                `[aria-describedby="${id}"]`,
-                            ),
-                        );
+                        elements.setTrigger(document.querySelector<HTMLElement>(`[aria-describedby="${id}"]`));
                     }}
                     style={floatingStyles}
                 >
                     <header>
                         <Txt variant="heading-h6">{header}</Txt>
-                        <button
-                            aria-label="Close"
-                            onClick={() => setShow(false)}
-                        >
+                        <button aria-label="Close" onClick={() => setShow(false)}>
                             <SvgClose />
                         </button>
                     </header>

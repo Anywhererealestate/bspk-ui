@@ -26,7 +26,8 @@
         "prepare": "husky",
         "pre:commit": "tsx .scripts/pre-commit.ts",
         "tsc": "tsc",
-        "meta": "tsx meta.ts"
+        "meta": "tsx meta.ts",
+        "pretty": "npx prettier --write src/"
     },
     "publishConfig": {
         "access": "public"
