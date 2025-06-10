@@ -1,6 +1,5 @@
-import '@bspk/styles/anywhere.css';
 import './base.scss';
-
+import '@bspk/styles/anywhere.css';
 /**
  * Utility to provide the Anywhere styles to the application.
  *

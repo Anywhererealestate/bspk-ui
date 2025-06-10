@@ -1,5 +1,5 @@
-import { SvgClose } from '@bspk/icons/Close';
 import './modal.scss';
+import { SvgClose } from '@bspk/icons/Close';
 import { useMemo } from 'react';
 
 import { Button } from './Button';

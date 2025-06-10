@@ -1,7 +1,7 @@
+import './inline-alert.scss';
 import { SvgCheckCircleFill } from '@bspk/icons/CheckCircleFill';
 import { SvgErrorFill } from '@bspk/icons/ErrorFill';
 import { SvgInfoFill } from '@bspk/icons/InfoFill';
-import './inline-alert.scss';
 import { ReactNode } from 'react';
 
 import { Txt } from './Txt';

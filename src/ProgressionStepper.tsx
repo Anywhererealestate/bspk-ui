@@ -1,6 +1,6 @@
+import './progression-stepper.scss';
 import { SvgCheck } from '@bspk/icons/Check';
 
-import './progression-stepper.scss';
 import { ElementProps } from '.';
 
 /** A progress stepper item is a single step in the progress bar. */

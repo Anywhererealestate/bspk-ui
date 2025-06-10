@@ -1,6 +1,5 @@
-/* eslint-disable react/no-multi-comp */
-
 import './progress-circle.scss';
+/* eslint-disable react/no-multi-comp */
 import { useId } from 'react';
 
 import { Txt } from './Txt';

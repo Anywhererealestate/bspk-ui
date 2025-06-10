@@ -1,6 +1,6 @@
+import './menu-button.scss';
 import { SvgMenu } from '@bspk/icons/Menu';
 
-import './menu-button.scss';
 import { ButtonProps } from './Button';
 
 import { ElementProps } from '.';

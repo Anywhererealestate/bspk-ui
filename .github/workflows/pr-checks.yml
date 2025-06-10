@@ -7,6 +7,15 @@ on:
             - main
 
 jobs:
+    sematic-pr:
+        name: Validate PR title
+        runs-on: ubuntu-latest
+        permissions:
+            pull-requests: read
+        steps:
+            - uses: amannn/action-semantic-pull-request@v5
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     run-lint:
         name: Build / Lint / Check CSS Variables
         runs-on: ubuntu-latest
