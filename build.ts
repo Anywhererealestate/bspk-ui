@@ -3,6 +3,19 @@ import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 
+// This script builds the project by cleaning the /dist directory, compiling TypeScript and Sass files, and injecting CSS into JS files.
+// we only want to build if dist does not exist
+
+console.log('⚡️\t Building BSPK UI');
+
+if (!fs.existsSync('./dist')) {
+    console.log('⚡️\t Creating /dist directory');
+    fs.mkdirSync('./dist', { recursive: true });
+} else {
+    console.log('⚡️\t /dist directory already exists, skipping build');
+    process.exit(0);
+}
+
 console.log('\n');
 console.log('⚡️\t Cleaning /dist');
 execSync('rm -rf dist', { stdio: 'inherit' });
