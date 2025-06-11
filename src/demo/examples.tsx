@@ -14,6 +14,7 @@ import { Button, ButtonProps } from '../Button';
 import { Checkbox } from '../Checkbox';
 import { EmptyStateProps } from '../EmptyState';
 import { Img } from '../Img';
+import { LinkProps } from '../Link';
 import { LEADING_COMPONENTS, TRAILING_COMPONENTS, ListItem } from '../ListItem';
 import { MenuItem } from '../Menu';
 import { ModalProps } from '../Modal';
@@ -32,6 +33,7 @@ import { ColorVariant } from '../utils/colorVariants';
 
 import { ExampleModalRender } from './ExampleModalRender';
 import { ExamplePlaceholder } from './ExamplePlaceholder';
+import { LinkDemo } from './LinkDemo';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -471,6 +473,34 @@ export const examples: (setState: DemoSetState, action: DemoAction) => Record<st
         containerStyle: { width: '100%' },
         presets: buttonExamplePresets,
     },
+    Link: {
+        containerStyle: {
+            width: '100%',
+        },
+        render: ({ props, preset, Component }) => {
+            if (preset?.label === 'Pseudo States') return <LinkDemo props={props as LinkProps} />;
+
+            return (
+                <div
+                    style={{
+                        display: 'flex',
+                        width: '100%',
+                        justifyContent: 'center',
+                        background: props.variant === 'subtle-inverse' ? 'black' : '',
+                        minHeight: 'var(--spacing-sizing-24)',
+                    }}
+                >
+                    <Component {...props} />
+                </div>
+            );
+        },
+        presets: setPresets<LinkProps>([
+            {
+                label: 'Pseudo States',
+                state: {},
+            },
+        ]),
+    },
     ListItem: {
         containerStyle: { width: '50%' },
         propRenderOverrides: (state) => {
@@ -518,23 +548,6 @@ export const examples: (setState: DemoSetState, action: DemoAction) => Record<st
                 },
             },
         ]),
-    },
-    Link: {
-        render: ({ props, Component }) => {
-            return (
-                <div
-                    style={{
-                        display: 'flex',
-                        width: '100%',
-                        justifyContent: 'center',
-                        background: props.variant === 'subtle-inverse' ? 'black' : '',
-                        minHeight: 'var(--spacing-sizing-24)',
-                    }}
-                >
-                    <Component {...props} />
-                </div>
-            );
-        },
     },
     ProgressBar: {
         containerStyle: { width: '80%' },

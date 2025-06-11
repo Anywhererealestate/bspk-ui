@@ -27,7 +27,8 @@
         "pre:commit": "tsx .scripts/pre-commit.ts",
         "tsc": "tsc",
         "meta": "tsx meta.ts",
-        "pretty": "npx prettier --write src/"
+        "pretty": "npx prettier --write src/",
+        "postinstall": "npm run build"
     },
     "publishConfig": {
         "access": "public"
