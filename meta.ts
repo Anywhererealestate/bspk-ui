@@ -484,13 +484,15 @@ async function createMeta() {
     const componentImport = (name: string) =>
         `${name}: React.lazy(() => import('@bspk/ui/${name}').then((module) => ({ default: module.${name} })))`;
 
-    const branch = execSync('git branch --show-current', { encoding: 'utf-8' }).trim();
-
     let uiVersion = `${execSync('npm view @bspk/ui version', { encoding: 'utf-8' }).trim()}`;
 
-    console.info(`Branch: ${branch}`);
-
-    if (branch === 'dev') uiVersion = `${uiVersion}.${generatePrettyBuildNumber()}`;
+    if (process.env.DEV_GIT_TOKEN) {
+        const hash = execSync('git rev-parse --short HEAD', { encoding: 'utf-8' }).trim();
+        console.info(`Branch: ${hash}`);
+        if (hash === 'dev') uiVersion = `${uiVersion}.${generatePrettyBuildNumber()}`;
+    } else {
+        console.info(`Not a test build.`);
+    }
 
     fs.writeFileSync(
         metaFilePath,
