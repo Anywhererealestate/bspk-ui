@@ -1,8 +1,5 @@
 import './link.scss';
-import { SvgChevronRight } from '@bspk/icons/ChevronRight';
-import { SvgLink } from '@bspk/icons/Link';
-import { SvgOpenInNew } from '@bspk/icons/OpenInNew';
-import { AnchorHTMLAttributes } from 'react';
+import { AnchorHTMLAttributes, ComponentType, lazy, LazyExoticComponent, Suspense } from 'react';
 
 import { CommonPropsLibrary, ElementProps } from '.';
 
@@ -59,6 +56,19 @@ export type LinkProps = Pick<CommonPropsLibrary, 'disabled'> & {
  * @name Link
  */
 function Link({ label, trailingIcon, size, variant, target = '_self', ...props }: ElementProps<LinkProps, 'a'>) {
+    let LazyIcon: LazyExoticComponent<ComponentType<unknown>> | undefined = undefined;
+
+    if (trailingIcon === 'external')
+        LazyIcon = lazy(() => import('@bspk/icons/OpenInNew').then((module) => ({ default: module.SvgOpenInNew })));
+
+    if (trailingIcon === 'chevron')
+        LazyIcon = lazy(() =>
+            import('@bspk/icons/ChevronRight').then((module) => ({ default: module.SvgChevronRight })),
+        );
+
+    if (trailingIcon === 'link')
+        LazyIcon = lazy(() => import('@bspk/icons/Link').then((module) => ({ default: module.SvgLink })));
+
     return (
         <a
             {...props}
@@ -66,12 +76,15 @@ function Link({ label, trailingIcon, size, variant, target = '_self', ...props }
             data-size={size}
             data-subtle={variant === 'subtle' || undefined}
             data-subtle-inverse={variant === 'subtle-inverse' || undefined}
+            data-trailing-icon={trailingIcon || undefined}
             target={trailingIcon === 'external' ? '_blank' : target}
         >
             <span>{label}</span>
-            {trailingIcon === 'external' && <SvgOpenInNew />}
-            {trailingIcon === 'chevron' && <SvgChevronRight />}
-            {trailingIcon === 'link' && <SvgLink />}
+            {LazyIcon && (
+                <Suspense fallback={null}>
+                    <LazyIcon />
+                </Suspense>
+            )}
         </a>
     );
 }
