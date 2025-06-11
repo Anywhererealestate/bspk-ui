@@ -487,6 +487,9 @@ async function createMeta() {
     const branch = execSync('git branch --show-current', { encoding: 'utf-8' }).trim();
 
     let uiVersion = `${execSync('npm view @bspk/ui version', { encoding: 'utf-8' }).trim()}`;
+
+    console.info(`Branch: ${branch}`);
+
     if (branch === 'dev') uiVersion = `${uiVersion}.${generatePrettyBuildNumber()}`;
 
     fs.writeFileSync(
