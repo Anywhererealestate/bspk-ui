@@ -487,9 +487,9 @@ async function createMeta() {
     let uiVersion = `${execSync('npm view @bspk/ui version', { encoding: 'utf-8' }).trim()}`;
 
     if (process.env.DEV_GIT_TOKEN) {
-        const hash = execSync('git rev-parse --short HEAD', { encoding: 'utf-8' }).trim();
-        console.info(`Branch: ${hash}`);
-        if (hash === 'dev') uiVersion = `${uiVersion}.${generatePrettyBuildNumber()}`;
+        const demoHash = execSync('git rev-parse --short HEAD', { encoding: 'utf-8' }).trim();
+        const uiHash = execSync('npm list @bspk/ui', { encoding: 'utf-8' }).trim().split('#')[1].substring(0, 7);
+        uiVersion = `${uiVersion}.${demoHash}.${uiHash}`;
     } else {
         console.info(`Not a test build.`);
     }
