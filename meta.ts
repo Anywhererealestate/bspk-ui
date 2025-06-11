@@ -25,6 +25,16 @@ const { componentsDir, hooksDir, rootPath } = {
     rootPath: path.resolve(__dirname),
 } as const;
 
+function generatePrettyBuildNumber() {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    return `${year}${month}${day}-${hours}${minutes}`;
+}
+
 function jsDocParse(content: string) {
     try {
         const contentTrimmed = content
@@ -474,7 +484,10 @@ async function createMeta() {
     const componentImport = (name: string) =>
         `${name}: React.lazy(() => import('@bspk/ui/${name}').then((module) => ({ default: module.${name} })))`;
 
-    const uiVersion = execSync('npm view @bspk/ui version', { encoding: 'utf-8' }).trim();
+    const branch = execSync('git branch --show-current', { encoding: 'utf-8' }).trim();
+
+    let uiVersion = `${execSync('npm view @bspk/ui version', { encoding: 'utf-8' }).trim()}`;
+    if (branch === 'dev') uiVersion = `${uiVersion}.${generatePrettyBuildNumber()}`;
 
     fs.writeFileSync(
         metaFilePath,
