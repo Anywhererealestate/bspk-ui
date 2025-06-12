@@ -9,7 +9,7 @@ export type AvatarGroupProps = {
      *
      * @example
      *     [
-     *         { name: 'Jane Doe', image: '/path/to/image.jpg' },
+     *         { name: 'Jane Doe', image: '/profile.jpg' },
      *         { name: 'John Smith', initials: 'JS' },
      *     ];
      *

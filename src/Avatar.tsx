@@ -27,7 +27,7 @@ export type AvatarProps = {
      * The name of the person or entity represented by the avatar. This is used for accessibility purposes.
      *
      * @example
-     *     Jane Doe
+     *     Andre Giant
      *
      * @required
      */
@@ -88,8 +88,8 @@ export type AvatarProps = {
  *     function Example() {
  *         return (
  *             <Avatar
- *                 name="Jane Doe"
- *                 initials="JD"
+ *                 name="Andre Giant"
+ *                 initials="AR"
  *                 color="blue"
  *                 size="large"
  *                 icon={<SvgPerson />}
