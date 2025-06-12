@@ -79,7 +79,7 @@ export type AvatarProps = {
 };
 
 /**
- * An avatar is a visual representation of a user or entity. It can be used to display an initials, icon, image.
+ * An avatar is a visual representation of a user or entity. It can be used to display an initials, icon, or image.
  *
  * @example
  *     import { Avatar } from '@bspk/ui/Avatar';

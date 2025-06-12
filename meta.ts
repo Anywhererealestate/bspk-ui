@@ -495,7 +495,7 @@ async function createMeta() {
         uiHash =
             process.env.DEV_GIT_TOKEN === 'local'
                 ? 'local'
-                : execSync('git rev-parse --short HEAD', { encoding: 'utf-8' }).trim();
+                : execSync('npm explore @bspk/ui -- git rev-parse --short HEAD', { encoding: 'utf-8' }).trim();
         uiVersion = `${uiVersion}.${uiHash}`;
         mode = 'development';
     } else {
