@@ -1,10 +1,10 @@
+import './banner-alert.scss';
 import { SvgCheckCircleFill } from '@bspk/icons/CheckCircleFill';
 import { SvgClose } from '@bspk/icons/Close';
 import { SvgErrorFill } from '@bspk/icons/ErrorFill';
 import { SvgInfoFill } from '@bspk/icons/InfoFill';
 import { SvgWarningFill } from '@bspk/icons/WarningFill';
 
-import './banner-alert.scss';
 import { ElementProps, AlertVariant, CallToActionButton } from './';
 
 export type BannerAlertProps = {

@@ -1,5 +1,5 @@
-import { SvgSearch } from '@bspk/icons/Search';
 import './search-bar.scss';
+import { SvgSearch } from '@bspk/icons/Search';
 import { useRef } from 'react';
 
 import { MenuItem, MenuProps, Menu } from './Menu';

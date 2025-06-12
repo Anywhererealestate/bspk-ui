@@ -1,9 +1,9 @@
+import './tag.scss';
 import { ElementType, ReactNode } from 'react';
 
 import { ColorVariant } from './utils/colorVariants';
 
 import { ElementProps } from './';
-import './tag.scss';
 
 export type TagProps<As extends ElementType = 'span'> = {
     /**

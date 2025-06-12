@@ -1,6 +1,5 @@
-import '@bspk/styles/era.css';
 import './base.scss';
-
+import '@bspk/styles/era.css';
 /**
  * Utility to provide the ERA styles to the application.
  *

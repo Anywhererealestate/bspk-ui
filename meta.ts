@@ -101,34 +101,42 @@ const ENUM_SIZE_ORDER = [
     'xxxxx-large',
 ];
 
-const metaFilePath = process.argv[2];
+const metaFileDirectory = process.argv.find((arg) => arg.startsWith('out='))?.substring(4) || '';
 
-if (!metaFilePath) {
+const fileChanged = process.argv.find((arg) => arg.startsWith('update='))?.substring(7) || '';
+
+const uiHash = process.argv.find((arg) => arg.startsWith('hash='))?.substring(5) || '';
+
+const build = process.argv.find((arg) => arg.startsWith('build='))?.substring(6) || '0';
+
+if (!metaFileDirectory) {
     console.error('Please provide a path to the meta file.');
     process.exit(1);
 }
 
-const componentFiles = fs
-    .readdirSync(componentsDir)
-    .filter((f) => f.endsWith('.tsx'))
-    .map((fileName) => {
-        const filePath = path.resolve(componentsDir, fileName);
-        const content = fs.readFileSync(filePath, 'utf-8');
-        return {
-            filePath,
-            name: fileName.replace(/\.[^.]+$/, ''),
-            fileName,
-            content,
-            // eslint-disable-next-line no-useless-escape
-            jsDocs: content.match(/\/\*\*\s*\n([^\*]|(\*(?!\/)))*\*\//g)?.map((jsDoc) => {
-                const doc = jsDocParse(jsDoc);
-                return {
-                    id: kebabCase(doc.description),
-                    ...doc,
-                } as Record<string, string>;
-            }),
-        };
-    });
+const componentFiles = fs.readdirSync(componentsDir).flatMap((fileName) => {
+    if (!fileName.endsWith('.tsx')) return [];
+
+    const filePath = path.resolve(componentsDir, fileName);
+
+    if (fileChanged && !filePath.includes(fileChanged)) return [];
+
+    const content = fs.readFileSync(filePath, 'utf-8');
+    return {
+        filePath,
+        name: fileName.replace(/\.[^.]+$/, ''),
+        fileName,
+        content,
+        // eslint-disable-next-line no-useless-escape
+        jsDocs: content.match(/\/\*\*\s*\n([^\*]|(\*(?!\/)))*\*\//g)?.map((jsDoc) => {
+            const doc = jsDocParse(jsDoc);
+            return {
+                id: kebabCase(doc.description),
+                ...doc,
+            } as Record<string, string>;
+        }),
+    };
+});
 
 type ComponentFile = (typeof componentFiles)[0];
 
@@ -142,8 +150,6 @@ function generateComponentMeta({
     name,
     jsDocs,
 }: ComponentFile): ComponentMeta | null {
-    const stats = fs.statSync(componentFile);
-
     const componentFunctionMatch = content.match(new RegExp(`function ${name}[(<]`));
 
     if (!componentFunctionMatch) {
@@ -190,7 +196,6 @@ function generateComponentMeta({
         name,
         slug,
         dependencies,
-        modified: stats.mtime.toISOString(),
         usage,
         css,
         hasTouchTarget: css.includes('data-touch-target'),
@@ -232,7 +237,11 @@ function generateTypes() {
 
         if (!f.name.endsWith('.tsx') && !f.name.endsWith('.ts')) return [];
 
-        const content = fs.readFileSync(path.resolve(f.parentPath, f.name), 'utf-8');
+        const filePath = path.resolve(f.parentPath, f.name);
+
+        if (fileChanged && !filePath.includes(fileChanged)) return [];
+
+        const content = fs.readFileSync(filePath, 'utf-8');
 
         // we want to ignore some problematic utility components
         return content.includes('export type') || content.includes('export interface')
@@ -404,6 +413,7 @@ function generateTypes() {
                 properties,
                 id: kebabCase(definitionName),
                 description: definition.description,
+                components: componentFile?.name ? [componentFile.name] : [],
             });
         });
 
@@ -417,7 +427,18 @@ function generateTypes() {
             )
             ?.filter((name, index, arr) => arr.indexOf(name) === index);
 
-        if (references && references.length > 0) nextType.references = references;
+        if (!references || references.length === 0) return;
+
+        nextType.references = references;
+
+        if (!nextType.components || nextType.components.length === 0) return;
+
+        nextTypes
+            .filter((t) => references.includes(t.name))
+            .forEach((t) => {
+                t.components = t.components || [];
+                t.components.push(...nextType.components!);
+            });
     });
 
     const duplicateIds = nextTypes.flatMap((t) => t.id).filter((id, index, arr) => arr.indexOf(id) !== index);
@@ -431,8 +452,9 @@ function generateTypes() {
     return nextTypes;
 }
 
+let componentsMeta: ComponentMeta[] = [];
 async function createMeta() {
-    const componentsMeta: ComponentMeta[] = componentFiles
+    componentsMeta = componentFiles
         .flatMap((component) => generateComponentMeta(component) || [])
         // filter out dependencies that aren't components
         .map((m, _, arr): ComponentMeta => {
@@ -444,10 +466,15 @@ async function createMeta() {
 
     componentsMeta.sort((a, b) => a.name.localeCompare(b.name));
 
-    const hookFiles = fs
-        .readdirSync(hooksDir)
-        .map((f) => `${hooksDir}/${f}`)
-        .filter((f) => f.endsWith('.tsx') || f.endsWith('.ts'));
+    const hookFiles = fs.readdirSync(hooksDir).flatMap((f) => {
+        if (!f.endsWith('.tsx') && !f.endsWith('.ts')) return [];
+
+        const filePath = path.resolve(hooksDir, f);
+
+        if (fileChanged && !filePath.includes(fileChanged)) return [];
+
+        return filePath;
+    });
 
     const metaComponentNames: string[] = componentsMeta.map((m) => m.name);
 
@@ -464,22 +491,118 @@ async function createMeta() {
     const componentImport = (name: string) =>
         `${name}: React.lazy(() => import('@bspk/ui/${name}').then((module) => ({ default: module.${name} })))`;
 
+    const uiVersion = `${execSync('npm view @bspk/ui version', { encoding: 'utf-8' }).trim()}`;
+
+    let mode = 'production';
+
+    if (uiHash === 'local' || process.env.DEV_GIT_TOKEN) {
+        mode = 'development';
+        console.info(`Development meta build.`);
+    } else {
+        console.info(`Production meta build.`);
+    }
+
+    const metaJsonPath = path.join(metaFileDirectory, 'meta.json');
+
+    const updateJsonOnly = fileChanged && fs.existsSync(metaJsonPath);
+
+    if (updateJsonOnly) {
+        const {
+            componentsMeta: previousComponentMeta,
+            utilitiesMeta: previousUtilitiesMeta,
+            typesMeta: previousTypesMeta,
+        } = JSON.parse(fs.readFileSync(metaJsonPath, { encoding: 'utf-8' })) as {
+            componentsMeta: ComponentMeta[];
+            utilitiesMeta: UtilityMeta[];
+            typesMeta: TypeMeta[];
+        };
+
+        const updatedMeta = {
+            componentsMeta,
+            utilitiesMeta,
+            typesMeta,
+        };
+
+        updatedMeta.componentsMeta.forEach((component) => {
+            const existingIndex = previousComponentMeta.findIndex((c: ComponentMeta) => c.name === component.name);
+
+            if (existingIndex !== -1) {
+                previousComponentMeta[existingIndex] = component;
+            } else {
+                previousComponentMeta.push(component);
+            }
+        });
+
+        updatedMeta.utilitiesMeta.forEach((utility) => {
+            const existingIndex = previousUtilitiesMeta.findIndex((u: UtilityMeta) => u.name === utility.name);
+
+            if (existingIndex !== -1) {
+                previousUtilitiesMeta[existingIndex] = utility;
+            } else {
+                previousUtilitiesMeta.push(utility);
+            }
+        });
+
+        updatedMeta.typesMeta.forEach((type) => {
+            const existingIndex = previousTypesMeta.findIndex((t: TypeMeta) => t.name === type.name);
+
+            if (existingIndex !== -1) {
+                previousTypesMeta[existingIndex] = type;
+            } else {
+                previousTypesMeta.push(type);
+            }
+        });
+
+        fs.writeFileSync(
+            metaJsonPath,
+            JSON.stringify(
+                {
+                    LAST_UPDATED: new Date().toISOString(),
+                    VERSION: uiVersion,
+                    UI_HASH: uiHash,
+                    BUILD: build,
+                    MODE: mode,
+                    componentsMeta: previousComponentMeta,
+                    utilitiesMeta: previousUtilitiesMeta,
+                    typesMeta: previousTypesMeta,
+                },
+                null,
+                2,
+            ),
+        );
+
+        console.info('Update meta complete.');
+        process.exit(0);
+    }
+
+    fs.writeFileSync(
+        metaJsonPath,
+        JSON.stringify(
+            {
+                LAST_UPDATED: new Date().toISOString(),
+                VERSION: uiVersion,
+                UI_HASH: uiHash,
+                BUILD: build,
+                MODE: mode,
+                componentsMeta,
+                utilitiesMeta,
+                typesMeta,
+            },
+            null,
+            2,
+        ),
+    );
+
+    const metaFilePath = path.join(metaFileDirectory, 'meta.ts');
+
     fs.writeFileSync(
         metaFilePath,
         [
-            `/** This file is generated by the @bspk/ui/meta.ts script with data scraped from the library. */`,
-
             `import React from 'react';`,
 
+            `export { MODE, UI_HASH, VERSION, BUILD, componentsMeta, typesMeta, utilitiesMeta } from 'src/meta.json';`,
+
             fs.readFileSync(path.resolve(__dirname, 'meta-types.ts'), { encoding: 'utf-8' }),
-
-            `export const componentsMeta: ComponentMeta[] = ${JSON.stringify(componentsMeta, null, 2)} as const;`,
-
-            `export const utilitiesMeta: UtilityMeta[] = ${JSON.stringify(utilitiesMeta, null, 2)} as const;`,
-
-            `export const typesMeta: TypeMeta[] = ${JSON.stringify(typesMeta, null, 2)} as const;`,
-
-            `export type MetaTypeName = '${typesMeta.map((t) => t.name).join("' | '")}';`,
 
             `export type MetaComponentName = '${metaComponentNames.join("' | '")}';`,
 

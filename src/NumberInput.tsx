@@ -1,7 +1,7 @@
+import './number-input.scss';
 import { SvgAdd } from '@bspk/icons/Add';
 import { SvgRemove } from '@bspk/icons/Remove';
 
-import './number-input.scss';
 import { useId } from './hooks/useId';
 import { useLongPress } from './hooks/useLongPress';
 

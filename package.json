@@ -1,6 +1,6 @@
 {
     "name": "@bspk/ui",
-    "version": "1.1.28",
+    "version": "1.1.32",
     "license": "CC-BY-4.0",
     "type": "module",
     "files": [
@@ -9,7 +9,8 @@
         "README.md",
         "LICENSE",
         "meta.ts",
-        "meta-types.ts"
+        "meta-types.ts",
+        "build.ts"
     ],
     "exports": {
         "./*": "./dist/*.js",
@@ -27,7 +28,8 @@
         "pre:commit": "tsx .scripts/pre-commit.ts",
         "tsc": "tsc",
         "meta": "tsx meta.ts",
-        "pretty": "npx prettier --write src/"
+        "pretty": "npx prettier --write src/",
+        "postinstall": "npm run build"
     },
     "publishConfig": {
         "access": "public"

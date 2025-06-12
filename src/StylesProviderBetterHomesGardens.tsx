@@ -1,6 +1,5 @@
-import '@bspk/styles/better-homes-gardens.css';
 import './base.scss';
-
+import '@bspk/styles/better-homes-gardens.css';
 /**
  * Utility to provide the Better Homes & Gardens styles to the application.
  *

@@ -14,6 +14,7 @@ export type TypeMeta = BaseMeta & {
     id: string;
     references?: string[];
     properties?: TypeProperty[];
+    components?: string[];
 };
 
 export type TypeProperty = {
@@ -34,7 +35,6 @@ export type TypeProperty = {
 export type ComponentMeta = BaseMeta & {
     slug: string;
     dependencies: string[];
-    modified: string;
     css: string;
     hasTouchTarget: boolean;
     usage?: {

@@ -1,5 +1,5 @@
-import { Avatar, AvatarProps, SizeVariant } from './Avatar';
 import './avatar-group.scss';
+import { Avatar, AvatarProps, SizeVariant } from './Avatar';
 
 export type AvatarItem = Pick<AvatarProps, 'color' | 'icon' | 'image' | 'initials' | 'name'>;
 
@@ -9,7 +9,7 @@ export type AvatarGroupProps = {
      *
      * @example
      *     [
-     *         { name: 'Jane Doe', image: '/path/to/image.jpg' },
+     *         { name: 'Jane Doe', image: '/profile.jpg' },
      *         { name: 'John Smith', initials: 'JS' },
      *     ];
      *

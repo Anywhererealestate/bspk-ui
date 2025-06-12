@@ -1,11 +1,10 @@
+import './text-input.scss';
 import { SvgCancel } from '@bspk/icons/Cancel';
 import { ChangeEvent, HTMLInputAutoCompleteAttribute, HTMLInputTypeAttribute, ReactNode } from 'react';
 
 import { useId } from './hooks/useId';
 
 import { ElementProps, CommonProps, InvalidPropsLibrary, SetRef } from '.';
-
-import './text-input.scss';
 
 export const DEFAULT = {
     size: 'medium',

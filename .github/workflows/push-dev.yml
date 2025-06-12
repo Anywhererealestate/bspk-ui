@@ -1,0 +1,15 @@
+#curl -X POST -d {} https://api.netlify.com/build_hooks/684ad3a3a1044956c6fa39c6
+
+name: Trigger Netlify Build on Dev Push
+
+on:
+    push:
+        branches:
+            - dev
+
+jobs:
+    trigger-netlify-build:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Trigger Netlify Build Hook
+              run: curl -X POST -d '{}' https://api.netlify.com/build_hooks/684ad3a3a1044956c6fa39c6

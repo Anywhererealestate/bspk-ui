@@ -1,6 +1,5 @@
-import '@bspk/styles/coldwell-banker.css';
 import './base.scss';
-
+import '@bspk/styles/coldwell-banker.css';
 /**
  * Utility to provide the Coldwell Banker styles to the application.
  *
