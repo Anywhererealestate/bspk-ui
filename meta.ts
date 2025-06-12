@@ -489,12 +489,12 @@ async function createMeta() {
     const componentImport = (name: string) =>
         `${name}: React.lazy(() => import('@bspk/ui/${name}').then((module) => ({ default: module.${name} })))`;
 
-    let uiVersion = `${execSync('npm view @bspk/ui version', { encoding: 'utf-8' }).trim()}`;
+    const uiVersion = `${execSync('npm view @bspk/ui version', { encoding: 'utf-8' }).trim()}`;
+
     let mode = 'production';
 
     if (process.env.DEV_GIT_TOKEN) {
         console.info(`Development meta build.`);
-        uiVersion = `${uiVersion}.${uiHash}`;
         mode = 'development';
     } else {
         console.info(`Production meta build.`);
