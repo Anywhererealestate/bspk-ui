@@ -107,6 +107,8 @@ const fileChanged = process.argv.find((arg) => arg.startsWith('update='))?.subst
 
 const uiHash = process.argv.find((arg) => arg.startsWith('hash='))?.substring(5) || '';
 
+const build = process.argv.find((arg) => arg.startsWith('build='))?.substring(6) || '0';
+
 if (!metaFileDirectory) {
     console.error('Please provide a path to the meta file.');
     process.exit(1);
@@ -558,6 +560,7 @@ async function createMeta() {
                     LAST_UPDATED: new Date().toISOString(),
                     VERSION: uiVersion,
                     UI_HASH: uiHash,
+                    BUILD: build,
                     MODE: mode,
                     componentsMeta: previousComponentMeta,
                     utilitiesMeta: previousUtilitiesMeta,
@@ -579,6 +582,7 @@ async function createMeta() {
                 LAST_UPDATED: new Date().toISOString(),
                 VERSION: uiVersion,
                 UI_HASH: uiHash,
+                BUILD: build,
                 MODE: mode,
                 componentsMeta,
                 utilitiesMeta,
@@ -596,7 +600,7 @@ async function createMeta() {
         [
             `import React from 'react';`,
 
-            `export { MODE, UI_HASH, VERSION, componentsMeta, typesMeta, utilitiesMeta } from 'src/meta.json';`,
+            `export { MODE, UI_HASH, VERSION, BUILD, componentsMeta, typesMeta, utilitiesMeta } from 'src/meta.json';`,
 
             fs.readFileSync(path.resolve(__dirname, 'meta-types.ts'), { encoding: 'utf-8' }),
 
