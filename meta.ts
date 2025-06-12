@@ -101,8 +101,11 @@ const ENUM_SIZE_ORDER = [
     'xxxxx-large',
 ];
 
-const metaFileDirectory = process.argv[2];
-const fileChanged = process.argv[3];
+const metaFileDirectory = process.argv.find((arg) => arg.startsWith('out='))?.substring(4) || '';
+
+const fileChanged = process.argv.find((arg) => arg.startsWith('update='))?.substring(7) || '';
+
+const uiHash = process.argv.find((arg) => arg.startsWith('hash='))?.substring(5) || '';
 
 if (!metaFileDirectory) {
     console.error('Please provide a path to the meta file.');
@@ -488,14 +491,9 @@ async function createMeta() {
 
     let uiVersion = `${execSync('npm view @bspk/ui version', { encoding: 'utf-8' }).trim()}`;
     let mode = 'production';
-    let uiHash = '';
 
     if (process.env.DEV_GIT_TOKEN) {
         console.info(`Development meta build.`);
-        uiHash =
-            process.env.DEV_GIT_TOKEN === 'local'
-                ? 'local'
-                : execSync('npm explore @bspk/ui -- git rev-parse --short HEAD', { encoding: 'utf-8' }).trim();
         uiVersion = `${uiVersion}.${uiHash}`;
         mode = 'development';
     } else {
