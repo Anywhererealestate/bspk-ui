@@ -2,6 +2,7 @@
     position: fixed;
     pointer-events: none;
     z-index: var(--z-index-tooltip-popover);
+    width: max-content !important;
 
     [data-text] {
         display: block;
