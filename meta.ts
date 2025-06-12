@@ -493,7 +493,7 @@ async function createMeta() {
 
     let mode = 'production';
 
-    if (process.env.DEV_GIT_TOKEN) {
+    if (uiHash === 'local') {
         console.info(`Development meta build.`);
         mode = 'development';
     } else {
