@@ -495,9 +495,9 @@ async function createMeta() {
 
     let mode = 'production';
 
-    if (uiHash === 'local') {
-        console.info(`Development meta build.`);
+    if (uiHash === 'local' || process.env.DEV_GIT_TOKEN) {
         mode = 'development';
+        console.info(`Development meta build.`);
     } else {
         console.info(`Production meta build.`);
     }
