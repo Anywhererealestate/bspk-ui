@@ -37,8 +37,6 @@ export type LinkProps = Pick<CommonPropsLibrary, 'disabled'> & {
      * `trailingIcon` is set to `external`, this will default to `_blank`.
      *
      * @default _self
-     *
-     * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-target
      */
     target?: '_blank' | '_parent' | '_self' | '_top';
 };

@@ -8,6 +8,11 @@ import path from 'path';
 
 console.log('⚡️\t Building BSPK UI');
 
+if (process.argv[2] === 'force') {
+    console.log('⚡️\t Cleaning /dist');
+    execSync('rm -rf ./dist', { stdio: 'inherit' });
+}
+
 if (!fs.existsSync('./dist')) {
     console.log('⚡️\t Creating /dist directory');
     fs.mkdirSync('./dist', { recursive: true });
@@ -17,8 +22,6 @@ if (!fs.existsSync('./dist')) {
 }
 
 console.log('\n');
-console.log('⚡️\t Cleaning /dist');
-execSync('rm -rf dist', { stdio: 'inherit' });
 
 console.log('⚡️\t Compiling Typescript');
 execSync('npm run tsc', { stdio: 'inherit' });
