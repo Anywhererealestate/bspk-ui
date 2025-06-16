@@ -16,6 +16,31 @@
     main {
         overflow: auto;
         flex: 1;
+        padding: var(--spacing-sizing-04) 0;
+    }
+
+    > footer {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: flex-start;
+        gap: var(--spacing-sizing-04);
+    }
+
+    // we make the width responsive to the viewport
+    @media (width < 640px) {
+        > footer {
+            [data-bspk='button'] {
+                width: 50%;
+            }
+
+            &[data-button-format='vertical'] {
+                flex-direction: column-reverse;
+
+                [data-bspk='button'] {
+                    width: 100%;
+                }
+            }
+        }
     }
 }
 

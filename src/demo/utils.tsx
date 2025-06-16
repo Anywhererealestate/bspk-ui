@@ -62,7 +62,7 @@ export type TypeProperty = {
 
 export type DemoAction = (...str: unknown[]) => void;
 
-export type DemoSetState = (next: Record<string, unknown>) => void;
+export type DemoSetState<Props = Record<string, unknown>> = (next: Partial<Props>) => void;
 
 export type DevPhase =
     | 'AccessibilityReview'
@@ -87,13 +87,24 @@ export type TypePropertyDemoWithControls = Pick<TypeProperty, 'type'> &
         multiline?: boolean;
     };
 
+export type ComponentExampleRenderProps<Props = Record<string, unknown>> = {
+    props: Props;
+    preset?: DemoPreset;
+    setState: DemoSetState<Props>;
+    Component: React.ComponentType<Props>;
+};
+
+export type ComponentExampleRender<Props = Record<string, unknown>> = (
+    params: ComponentExampleRenderProps<Props>,
+) => React.ReactNode;
+
 export type ComponentExample<Props = Record<string, unknown>> = {
     /**
      * The style of the wrapping component.
      *
      * //
      */
-    containerStyle?: React.CSSProperties | ((state: Record<string, unknown>) => React.CSSProperties);
+    containerStyle?: React.CSSProperties | ((state: Props) => React.CSSProperties);
     /**
      * Takes the current state and returns the props to be passed to the component.
      *
@@ -104,12 +115,12 @@ export type ComponentExample<Props = Record<string, unknown>> = {
      * @returns The props to be passed directly into the component.
      */
     propRenderOverrides?: (
-        state: Record<string, unknown>,
+        state: Props,
         context?: {
             [key: string]: unknown;
             preset?: DemoPreset;
         },
-    ) => Record<string, unknown>;
+    ) => Props;
     /**
      * True to hide all or a list of variants to hide.
      *
@@ -129,11 +140,7 @@ export type ComponentExample<Props = Record<string, unknown>> = {
      *
      * If you only need to update the props of the component, you can use renderProps.
      */
-    render?: (params: {
-        props: Props;
-        preset?: DemoPreset;
-        Component: React.ComponentType<Record<string, unknown>>;
-    }) => React.ReactNode;
+    render?: ComponentExampleRender<Props>;
     /**
      * Useful for overriding the default props controls in the demo.
      *
@@ -147,7 +154,7 @@ export type ComponentExample<Props = Record<string, unknown>> = {
 };
 
 export type ComponentExampleFn<Props = Record<string, unknown>> = (params: {
-    setState: DemoSetState;
+    setState: DemoSetState<Props>;
     action: DemoAction;
 }) => ComponentExample<Props>;
 
@@ -167,8 +174,3 @@ export type DemoPreset<P = Record<string, unknown>> = Preset<P> & {
 export function createUid(prefix: string = 'uid'): string {
     return `${prefix}-${Math.random().toString(36).substring(2, 9)}`;
 }
-
-export const asProps = <P extends Record<string, unknown>>(p: Partial<P>): Partial<P> => p;
-
-// export const setPresets = <P extends Record<string, unknown>>(p: Preset<P>[] | (() => Preset<P>[])) =>
-//     typeof p === 'function' ? p() : p;

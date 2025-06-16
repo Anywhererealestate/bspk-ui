@@ -120,7 +120,7 @@ function TextInput({
                 ref={inputRef}
                 required={required || undefined}
                 type={type}
-                value={value}
+                value={value || ''}
             />
             {trailing && <span data-trailing>{trailing}</span>}
             <button aria-label="clear" data-clear onClick={() => onChange('')}>
