@@ -1,12 +1,18 @@
 import { useId } from 'react';
 
-import { Button } from '../Button';
-import { ModalProps, Modal } from '../Modal';
-import { useModalState } from '../hooks/useModalState';
+import { Button } from '../../Button';
+import { ModalProps, Modal } from '../../Modal';
+import { useModalState } from '../../hooks/useModalState';
+import { ComponentExampleFn, Preset, DemoSetState } from '../utils';
 
-import { Preset, DemoSetState } from './examples';
+export const ModalExample: ComponentExampleFn = ({ setState }) => ({
+    hideVariants: true,
+    render: ({ props, preset }) => (
+        <ExampleModalRender preset={preset} props={props as ModalProps} setState={setState} />
+    ),
+});
 
-export function ExampleModalRender({
+function ExampleModalRender({
     props,
     preset,
     setState,

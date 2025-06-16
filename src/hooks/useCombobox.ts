@@ -17,7 +17,7 @@ export type UseComboboxProps = CommonProps<'disabled' | 'readOnly'> &
  * It provides functionality for showing/hiding the menu, handling keyboard navigation, and managing ARIA attributes.
  *
  * @param {UseComboboxProps} props - The properties to configure the combobox.
- * @returns {object} An object containing props for the menu and toggle elements, and a function to close the menu.
+ * @returns An object containing props for the menu and toggle elements, and a function to close the menu.
  */
 export function useCombobox({
     placement = 'bottom',
