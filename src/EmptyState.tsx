@@ -18,6 +18,7 @@ export type EmptyStateProps = {
     /**
      * The body of the empty state.
      *
+     * @type multiline
      * @required
      */
     body: string;
@@ -26,9 +27,9 @@ export type EmptyStateProps = {
      *
      * @default center
      */
-    bodyAlign?: 'center' | 'left' | 'right';
+    bodyAlign?: 'center' | 'left';
     /**
-     * This property may be undefined or an object containing required CallToActionButton properties.
+     * Optional CallToActionButton properties.
      *
      * @type CallToActionButton
      */

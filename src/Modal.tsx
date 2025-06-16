@@ -1,26 +1,70 @@
 import './modal.scss';
 import { SvgClose } from '@bspk/icons/Close';
-import { useMemo } from 'react';
+import { ReactNode, useMemo } from 'react';
 
-import { Button } from './Button';
+import { Button, ButtonProps } from './Button';
 import { DialogProps, Dialog } from './Dialog';
 import { Txt } from './Txt';
-import { useId } from './hooks/useId';
-import { srOnly } from './utils/srOnly';
+import { useResponsive } from './hooks/useResponsive';
 
-export type ModalProps = DialogProps & {
+import { CallToActionButton } from '.';
+
+export type ModalCallToAction = Pick<ButtonProps, 'destructive'> & Pick<CallToActionButton, 'label' | 'onClick'>;
+
+export type ModalProps = Pick<DialogProps, 'id' | 'innerRef' | 'onClose' | 'open'> & {
     /**
      * Modal header.
+     *
+     * @example
+     *     Change your email
      *
      * @required
      */
     header: string;
     /**
-     * Modal description.
+     * Modal description. Used for the
+     * [aria-description](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-description)
+     * attribute.
+     *
+     * @example
+     *     Email change confirmation.
      *
      * @required
      */
     description: string;
+    /**
+     * Whether to show the cancel button in the footer.
+     *
+     * Providing a string will set the label of the cancel button.
+     *
+     * @default false
+     */
+    cancelButton?: boolean | string;
+    /**
+     * The call to action button to display in the footer of the modal.
+     *
+     * @example
+     *     {
+     *     label: 'Confirm',
+     *     onClick: () => action('Confirm clicked'),
+     *     }
+     */
+    callToAction?: ModalCallToAction;
+    /**
+     * The format of the buttons in the footer. Ignored if not mobile.
+     *
+     * @default horizontal
+     */
+    buttonFormat?: 'horizontal' | 'vertical';
+    /**
+     * The content of the modal.
+     *
+     * @example
+     *     Are you sure you want to change your email address? A confirmation email will be sent to your new address to verify the change. Please check your inbox and follow the instructions to complete the process.
+     *
+     * @type multiline
+     */
+    children?: ReactNode;
 };
 
 /**
@@ -52,31 +96,49 @@ export type ModalProps = DialogProps & {
  *         );
  *     }
  *
+ * @ignoreRefs ButtonProps
+ *
  * @name Modal
  */
 function Modal({
-    //
     header,
     description,
     children,
-    id: idProp,
+    callToAction,
+    cancelButton,
+    buttonFormat = 'horizontal',
     ...dialogProps
 }: ModalProps) {
-    const id = useId(idProp);
+    const { isMobile } = useResponsive();
 
-    const ids = useMemo(
-        () => ({
-            description: `dialog-dialog-${id}-description`,
-            title: `dialog-dialog-${id}-title`,
-        }),
-        [id],
-    );
+    const buttons: ButtonProps[] = useMemo(() => {
+        const nextButtons: ButtonProps[] = [];
+
+        if (callToAction) {
+            nextButtons.push({
+                ...callToAction,
+                variant: 'primary',
+                size: isMobile ? 'medium' : 'small',
+            });
+        }
+
+        if (callToAction && cancelButton) {
+            nextButtons.push({
+                label: typeof cancelButton === 'string' ? cancelButton : 'Cancel',
+                onClick: dialogProps.onClose,
+                variant: 'tertiary',
+                size: isMobile ? 'medium' : 'small',
+            });
+        }
+
+        return nextButtons;
+    }, [callToAction, cancelButton, dialogProps.onClose, isMobile]);
 
     return (
-        <Dialog {...dialogProps} aria-describedby={ids.description} aria-labelledby={ids.title}>
+        <Dialog {...dialogProps} aria-description={description} aria-label={header} placement="center" showScrim={true}>
             <div data-bspk="modal">
                 <header>
-                    <Txt as="div" data-dialog-title id={ids.title} variant="heading-h4">
+                    <Txt as="div" data-dialog-title variant="heading-h4">
                         {header}
                     </Txt>
                     <Button
@@ -87,12 +149,14 @@ function Modal({
                         variant="tertiary"
                     />
                 </header>
-                <main>
-                    <p {...srOnly(children)} data-dialog-description id={ids.description}>
-                        {description}
-                    </p>
-                    {children}
-                </main>
+                <main>{children}</main>
+                {Array.isArray(buttons) && buttons.length > 0 && (
+                    <footer data-button-format={buttonFormat}>
+                        {buttons.map((buttonProps, idx) => (
+                            <Button key={idx} {...buttonProps} size={isMobile ? 'medium' : 'small'} />
+                        ))}
+                    </footer>
+                )}
             </div>
         </Dialog>
     );

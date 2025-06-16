@@ -1,10 +1,10 @@
 import { AvatarProps, Avatar } from '../../Avatar';
-import { MenuItem } from '../../Menu';
+import { RenderListItemParams } from '../../Menu';
 import { SelectProps, SelectOption } from '../../Select';
 import { Tag } from '../../Tag';
 import { Txt } from '../../Txt';
 import { ColorVariant } from '../../utils/colorVariants';
-import { asProps, ComponentExample } from '../utils';
+import { ComponentExample } from '../utils';
 
 export const SelectExample: ComponentExample<SelectProps> = {
     presets: [
@@ -18,14 +18,7 @@ export const SelectExample: ComponentExample<SelectProps> = {
         },
         {
             label: 'Trailing Tags',
-            state: asProps<
-                SelectProps<
-                    SelectOption & {
-                        tag?: string;
-                        tagColor?: ColorVariant;
-                    }
-                >
-            >({
+            state: {
                 options: [
                     //
                     {
@@ -43,7 +36,14 @@ export const SelectExample: ComponentExample<SelectProps> = {
                     { value: 'c', label: 'Package C' },
                     { value: 'd', label: 'Package D' },
                 ],
-                renderListItem: (props) => {
+                renderListItem: (
+                    props: RenderListItemParams<
+                        SelectOption & {
+                            tag?: string;
+                            tagColor?: ColorVariant;
+                        }
+                    >,
+                ) => {
                     return {
                         trailing:
                             props.item.tag && props.item.tagColor ? (
@@ -53,18 +53,18 @@ export const SelectExample: ComponentExample<SelectProps> = {
                             ) : null,
                     };
                 },
-            }),
+            } as Partial<SelectProps<SelectOption & { tag?: string; tagColor?: ColorVariant }>>,
         },
         {
             label: 'Trailing Text',
-            state: asProps<SelectProps<SelectOption & { price: number }>>({
+            state: {
                 options: [
-                    //
                     { value: '1', label: 'Option A', price: 400 },
                     { value: '2', label: 'Option B', price: 1000 },
                     { value: '3', label: 'Option C', price: 1600 },
                     { value: '4', label: 'Option D', price: 2000 },
                 ],
+
                 renderListItem: (props) => {
                     return {
                         trailing: (
@@ -75,17 +75,11 @@ export const SelectExample: ComponentExample<SelectProps> = {
                         ),
                     };
                 },
-            }),
+            } as Partial<SelectProps<SelectOption & { price: number }>>,
         },
         {
             label: 'Leading Avatar',
-            state: asProps<
-                SelectProps<
-                    MenuItem & {
-                        profile: AvatarProps;
-                    }
-                >
-            >({
+            state: {
                 options: [
                     //
                     {
@@ -114,7 +108,7 @@ export const SelectExample: ComponentExample<SelectProps> = {
                         leading: <Avatar size="small" {...props.item.profile} />,
                     };
                 },
-            }),
+            } as Partial<SelectProps<SelectOption & { profile: AvatarProps }>>,
         },
     ],
 };

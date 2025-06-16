@@ -35,9 +35,9 @@ export type DialogProps = CommonProps<'id'> & {
     /**
      * Whether the dialog should have a scrim behind it.
      *
-     * @default false
+     * @default true
      */
-    hideScrim?: boolean;
+    showScrim?: boolean;
 };
 
 /**
@@ -72,10 +72,11 @@ function Dialog({
     onClose,
     open,
     placement = 'center',
-    hideScrim,
+    showScrim,
     id: idProp,
     ...containerProps
 }: ElementProps<DialogProps, 'div'>) {
+    const hideScrim = showScrim === false;
     const id = useId(idProp);
     const boxRef = useRef<HTMLDivElement | null>(null);
     const [visibility, setVisibilityState] = useState<'hidden' | 'hiding' | 'show' | 'showing'>(

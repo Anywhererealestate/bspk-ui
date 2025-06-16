@@ -22,6 +22,8 @@
             margin-bottom: 0;
         }
 
+        width: calc(100% - var(--spacing-sizing-08));
+
         // we make the width responsive to the viewport
         @media (width >= 640px) {
             width: 90%;

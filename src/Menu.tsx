@@ -73,7 +73,11 @@ export type MenuProps<T extends MenuItem = MenuItem> = CommonProps<'disabled' | 
     innerRef?: SetRef<HTMLDivElement>;
     /** Message to display when no results are found */
     noResultsMessage?: ReactNode;
-    /** The index of the currently highlighted item. */
+    /**
+     * The index of the currently highlighted item.
+     *
+     * @default undefined
+     */
     activeIndex?: number;
     /** The values of the selected items */
     selectedValues?: string[];

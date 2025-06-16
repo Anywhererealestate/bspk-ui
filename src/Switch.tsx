@@ -58,7 +58,7 @@ function Switch(props: SwitchProps) {
             <input
                 {...otherProps}
                 aria-disabled={disabled || undefined}
-                checked={checked}
+                checked={!!checked}
                 disabled={disabled || undefined}
                 onChange={(event) => props.onChange(!!event.target.checked, event)}
                 type="checkbox"

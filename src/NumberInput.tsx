@@ -150,7 +150,7 @@ function NumberInput({
                 }}
                 readOnly={readOnly}
                 type="number"
-                value={value}
+                value={typeof value === 'number' ? value : ''}
             />
             {!centered && (
                 <>
