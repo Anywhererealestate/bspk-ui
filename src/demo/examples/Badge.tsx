@@ -10,7 +10,7 @@ export const BadgeExample: ComponentExample<BadgeProps> = {
         if (preset?.label === 'With Context') {
             return (
                 <>
-                    <Component {...props} style={{ width: 'fit-content' }}>
+                    <Component {...props}>
                         <Avatar image="/profile.jpg" name="Andre Giant" />
                     </Component>
                 </>
