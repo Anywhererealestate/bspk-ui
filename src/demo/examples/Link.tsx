@@ -1,7 +1,37 @@
 import { Fragment, useId } from 'react';
 
-import { Link, LinkProps } from '../Link';
-import { Txt } from '../Txt';
+import { LinkProps, Link } from '../../Link';
+import { Txt } from '../../Txt';
+import { ComponentExample } from '../utils';
+
+export const LinkExample: ComponentExample<LinkProps> = {
+    containerStyle: {
+        width: '100%',
+    },
+    render: ({ props, preset, Component }) => {
+        if (preset?.label === 'Pseudo States') return <LinkDemo props={props} />;
+
+        return (
+            <div
+                style={{
+                    display: 'flex',
+                    width: '100%',
+                    justifyContent: 'center',
+                    background: props.variant === 'subtle-inverse' ? 'black' : '',
+                    minHeight: 'var(--spacing-sizing-24)',
+                }}
+            >
+                <Component {...props} />
+            </div>
+        );
+    },
+    presets: [
+        {
+            label: 'Pseudo States',
+            state: {},
+        },
+    ],
+};
 
 export function LinkDemo(params: { props?: LinkProps }) {
     const states = ['default', 'hover', 'active', 'disabled', 'visited', 'focus'];

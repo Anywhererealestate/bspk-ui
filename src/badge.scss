@@ -1,6 +1,5 @@
 [data-bspk='badge'] {
     --size: var(--spacing-sizing-06);
-    --padding-x: var(--spacing-sizing-02);
 
     display: flex;
     align-items: center;
@@ -8,15 +7,16 @@
     border-radius: var(--radius-circular);
     height: var(--size);
     width: fit-content;
-    padding: 0 var(--padding-x);
     min-width: var(--size);
     font: var(--labels-x-small);
     color: var(--foreground-brand-on-primary);
     background: var(--surface-brand-primary);
+    padding: 0 var(--spacing-sizing-02);
 
     &[data-size='x-small'] {
         --size: var(--spacing-sizing-05);
-        --padding-x: var(--spacing-sizing-01);
+
+        padding: 2px var(--spacing-sizing-01);
     }
 
     &[data-variant='secondary'] {
@@ -25,7 +25,6 @@
     }
 
     &[data-surface-border] {
-        padding: 0 calc(var(--padding-x) - 2px);
         border: 2px solid var(--surface-neutral-t1-base);
     }
 }
