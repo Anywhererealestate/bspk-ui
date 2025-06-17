@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useRef } from 'react';
 
-import { ElementProps } from '..';
+import { AlertVariant, ElementProps } from '..';
 import { Txt } from '../Txt';
 
 const dimension = (value: number | string) => (typeof value === 'number' ? `${value}px` : `${value}`);
@@ -60,7 +60,7 @@ export type TypeProperty = {
     exampleType?: string;
 };
 
-export type DemoAction = (...str: unknown[]) => void;
+export type DemoAction = (message: string, variant?: AlertVariant) => void;
 
 export type DemoSetState<Props = Record<string, unknown>> = (next: Partial<Props>) => void;
 
