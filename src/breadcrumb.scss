@@ -1,0 +1,14 @@
+[data-bspk='breadcrumb'] {
+    width: 100%;
+
+    ol {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        list-style: none;
+
+        li {
+            display: flex;
+        }
+    }
+}
