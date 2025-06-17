@@ -77,21 +77,23 @@ export type FormFieldProps = CommonProps<'required'> &
 function FormField({
     label,
     invalid,
-    errorMessage,
-    helperText,
+    errorMessage: errorMessageProp,
+    helperText: helperTextProp,
     children,
     labelTrailing,
     controlId,
     required,
 }: FormFieldProps) {
-    const errorMessageId = errorMessage && `${controlId}-error-message`;
-    const helperTextId = helperText && `${controlId}-helper-text`;
+    const errorMessage = invalid && errorMessageProp ? errorMessageProp : undefined;
+    const errorMessageId = errorMessage ? `${controlId}-error-message` : undefined;
+    const helperText = !invalid && helperTextProp ? helperTextProp : undefined;
+    const helperTextId = !errorMessage && helperText ? `${controlId}-helper-text` : undefined;
 
     if (typeof children !== 'function') return null;
 
     return (
         <div data-bspk="form-field" data-invalid={invalid || undefined}>
-            <Layout as="header">
+            <Layout as="div">
                 <label htmlFor={controlId}>
                     <Txt as="span" variant="labels-small">
                         {label}
@@ -105,7 +107,7 @@ function FormField({
                 {labelTrailing}
             </Layout>
             {children({
-                invalid: !!errorMessage,
+                invalid,
                 'aria-describedby': helperTextId,
                 'aria-errormessage': errorMessageId,
             })}

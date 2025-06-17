@@ -68,7 +68,7 @@ function Layout<As extends ElementType = 'div'>({
     return (
         <As
             {...props}
-            data-bspk="layout"
+            // data-bspk="layout" -- Utility components do not need a data-bspk attribute
             style={{
                 ...style,
                 display: 'flex',

@@ -27,9 +27,17 @@ export type TextInputProps = CommonProps<
         containerRef?: SetRef<HTMLDivElement>;
         /** The ref of the input. */
         inputRef?: SetRef<HTMLInputElement>;
-        /** The trailing element to display in the field. */
+        /**
+         * The trailing element to display in the field.
+         *
+         * @exampleType string
+         */
         trailing?: ReactNode;
-        /** The leading element to display in the field. */
+        /**
+         * The leading element to display in the field.
+         *
+         * @exampleType string
+         */
         leading?: ReactNode;
         /** The placeholder of the field. */
         placeholder?: string;
@@ -40,8 +48,7 @@ export type TextInputProps = CommonProps<
          */
         type?: Extract<HTMLInputTypeAttribute, 'number' | 'text'>;
         /**
-         * Specifies if user agent has any permission to provide automated assistance in filling out form field values.
-         * https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete
+         * Specifies if user agent has any permission to provide automated assistance in filling out form field values
          *
          * @default off
          */

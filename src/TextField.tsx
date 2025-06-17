@@ -1,26 +1,25 @@
 import { FormFieldProps, FormField } from './FormField';
 import { TextInputProps, TextInput } from './TextInput';
 
-import { InvalidPropsLibrary } from '.';
-
-export type TextFieldProps = InvalidPropsLibrary &
-    Pick<
-        TextInputProps,
-        | 'autoComplete'
-        | 'disabled'
-        | 'inputRef'
-        | 'leading'
-        | 'name'
-        | 'onChange'
-        | 'placeholder'
-        | 'readOnly'
-        | 'required'
-        | 'size'
-        | 'trailing'
-        | 'type'
-        | 'value'
-    > &
-    Pick<FormFieldProps, 'controlId' | 'errorMessage' | 'helperText' | 'label' | 'labelTrailing'>;
+export type TextFieldProps = Pick<
+    TextInputProps,
+    | 'autoComplete'
+    | 'disabled'
+    | 'errorMessage'
+    | 'inputRef'
+    | 'invalid'
+    | 'leading'
+    | 'name'
+    | 'onChange'
+    | 'placeholder'
+    | 'readOnly'
+    | 'required'
+    | 'size'
+    | 'trailing'
+    | 'type'
+    | 'value'
+> &
+    Pick<FormFieldProps, 'controlId' | 'helperText' | 'label' | 'labelTrailing'>;
 
 /**
  * A text input that allows users to enter text, numbers or symbols in a singular line.
@@ -49,27 +48,34 @@ export type TextFieldProps = InvalidPropsLibrary &
  */
 function TextField({
     label,
-    errorMessage: errorMessageProp,
+    errorMessage,
     helperText,
     controlId,
     labelTrailing,
     required,
+    invalid,
     ...inputProps
 }: TextFieldProps) {
-    const errorMessage = (!inputProps.readOnly && !inputProps.disabled && errorMessageProp) || undefined;
-
     return (
         <FormField
             controlId={controlId}
             data-bspk="text-field"
             errorMessage={errorMessage}
             helperText={helperText}
+            invalid={!inputProps.readOnly && !inputProps.disabled && invalid}
             label={label}
             labelTrailing={labelTrailing}
             required={required}
         >
             {(fieldProps) => (
-                <TextInput {...inputProps} {...fieldProps} aria-label={label} id={controlId} required={required} />
+                <TextInput
+                    {...inputProps}
+                    {...fieldProps}
+                    aria-label={label}
+                    id={controlId}
+                    required={required}
+                    value={inputProps.value ?? ''}
+                />
             )}
         </FormField>
     );

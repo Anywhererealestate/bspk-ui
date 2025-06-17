@@ -1,9 +1,8 @@
 import { ComponentExample, ExamplePlaceholder } from '../utils';
 
 export const CardExample: ComponentExample = {
-    propRenderOverrides: (state) => ({
-        ...state,
-        children: (
+    render: ({ props, Component }) => (
+        <Component {...props}>
             <ExamplePlaceholder
                 style={{
                     height: '200px',
@@ -11,6 +10,6 @@ export const CardExample: ComponentExample = {
                     minWidth: '250px',
                 }}
             />
-        ),
-    }),
+        </Component>
+    ),
 };

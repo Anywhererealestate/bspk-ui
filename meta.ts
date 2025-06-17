@@ -316,15 +316,10 @@ function generateTypes() {
             description: jsDoc?.description || definition.description,
             default: definition.default === 'undefined' ? undefined : definition.default,
             type: definition.type?.toString(),
-            properties:
-                definition.properties &&
-                Object.entries(definition.properties)?.flatMap(([name2, definition2]) =>
-                    typeof definition2 === 'boolean'
-                        ? []
-                        : defineProperty(name2, definition2, definition.required || [], context) || [],
-                ),
+            exampleType: jsDoc?.exampleType,
             minimum: definition.minimum,
             maximum: definition.maximum,
+            options: jsDoc?.options?.split(',').map((o) => o.trim()),
             example: jsDoc?.example,
         };
 
@@ -341,10 +336,11 @@ function generateTypes() {
             next.type = definition.$ref.split('/').pop() as string;
 
             if (definitions && definitions[next.type] && typeof definitions[next.type] !== 'boolean') {
-                next.options = cleanUpDefinitionEnums(definitions[next.type] as TJS.Definition);
+                next.options = cleanUpDefinitionEnums(definitions[next.type] as TJS.Definition) || next.options;
             }
         }
 
+        if (next.exampleType) console.log({ next });
         return next;
     };
 

@@ -41,7 +41,8 @@
             linear-gradient(var(--surface-neutral-t1-base), var(--surface-neutral-t1-base));
     }
 
-    &[data-disabled] {
+    &[data-disabled],
+    &:has(input[disabled]) {
         --border-color: var(--stroke-neutral-disabled-light);
 
         background:

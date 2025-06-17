@@ -5,31 +5,23 @@ import { SvgDiamond } from '@bspk/icons/Diamond';
 import { Avatar } from '../../Avatar';
 import { Checkbox } from '../../Checkbox';
 import { Img } from '../../Img';
-import { LEADING_COMPONENTS, TRAILING_COMPONENTS, ListItem } from '../../ListItem';
+import { ListItem, ListItemProps } from '../../ListItem';
 import { Radio } from '../../Radio';
 import { Switch } from '../../Switch';
 import { Tag } from '../../Tag';
 import { Txt } from '../../Txt';
 import { ComponentExampleFn, DemoAction, DemoSetState } from '../utils';
 
-export const ListItemExample: ComponentExampleFn = ({ action, setState }) => ({
+export const ListItemExample: ComponentExampleFn<ListItemProps> = ({ action, setState }) => ({
     containerStyle: { width: '50%' },
-    propRenderOverrides: (state) => {
-        return {
-            ...state,
-            leading: createChildrenElement(state, 'leading', setState, action),
-            trailing: createChildrenElement(state, 'trailing', setState, action),
-        };
-    },
-    propControlsOverrides: {
-        leading: {
-            options: [...LEADING_COMPONENTS],
-            type: 'select',
-        },
-        trailing: {
-            options: [...TRAILING_COMPONENTS],
-            type: 'select',
-        },
+    render: ({ props, Component, id }) => {
+        return (
+            <Component
+                {...props}
+                leading={createChildrenElement(props, 'leading', setState, action, id)}
+                trailing={createChildrenElement(props, 'trailing', setState, action, id)}
+            />
+        );
     },
 });
 
@@ -38,6 +30,7 @@ export const createChildrenElement = (
     name: string,
     setState: DemoSetState,
     action: DemoAction,
+    id?: string,
 ) => {
     const componentName = state[name];
 
@@ -46,15 +39,18 @@ export const createChildrenElement = (
         if (componentName === 'Radio') As = Radio;
         else if (componentName === 'Switch') As = Switch;
 
+        const toggleName = `data-${name}-toggle-${id}`;
         return (
             <As
                 aria-label={`${componentName} demo`}
-                checked={state[`${name}-toggle`]}
+                checked={state[toggleName]}
+                disabled={state.disabled}
                 name={`${name}-toggle`}
                 onChange={(checked: boolean) => {
-                    setState({ [`${name}-toggle`]: checked });
+                    setState({ [toggleName]: checked });
                 }}
                 onClick={() => action(`${name} ${componentName} clicked`)}
+                readOnly={state.readOnly}
                 value={`${name}-${componentName}`}
             />
         );

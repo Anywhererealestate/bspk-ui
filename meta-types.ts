@@ -21,11 +21,11 @@ export type TypeProperty = {
     name: string;
     description?: string;
     type?: string[] | string;
+    exampleType?: string;
     default?: unknown;
     required?: boolean;
     options?: number[] | string[];
     variants?: string[];
-    properties?: TypeProperty[];
     references?: string[];
     minimum?: number;
     maximum?: number;

@@ -53,11 +53,11 @@ export type TypeProperty = {
     required?: boolean;
     options?: number[] | string[];
     variants?: string[];
-    properties?: TypeProperty[];
     references?: string[];
     minimum?: number;
     maximum?: number;
     example?: string;
+    exampleType?: string;
 };
 
 export type DemoAction = (...str: unknown[]) => void;
@@ -73,7 +73,6 @@ export type DevPhase =
     | 'WorkInProgress';
 
 export type TypePropertyDemo = Omit<TypeProperty, 'example'> & {
-    properties?: TypePropertyDemo[];
     libraryDefault?: TypeProperty['default'];
     label?: string;
     example?: any;
@@ -83,7 +82,6 @@ export type TypePropertyDemoWithControls = Pick<TypeProperty, 'type'> &
     TypePropertyDemo & {
         haveControl: boolean;
         typeOptions: number[] | string[] | undefined;
-        properties?: TypePropertyDemoWithControls[];
         multiline?: boolean;
     };
 
@@ -92,6 +90,11 @@ export type ComponentExampleRenderProps<Props = Record<string, unknown>> = {
     preset?: DemoPreset;
     setState: DemoSetState<Props>;
     Component: React.ComponentType<Props>;
+    context?: {
+        [key: string]: unknown;
+        preset?: DemoPreset;
+    };
+    id: string;
 };
 
 export type ComponentExampleRender<Props = Record<string, unknown>> = (
@@ -105,22 +108,6 @@ export type ComponentExample<Props = Record<string, unknown>> = {
      * //
      */
     containerStyle?: React.CSSProperties | ((state: Props) => React.CSSProperties);
-    /**
-     * Takes the current state and returns the props to be passed to the component.
-     *
-     * This is useful for dynamically generating props based on the state and context of the component.
-     *
-     * @param state The current state of the component.
-     * @param context The context of the component, which can include the current preset.
-     * @returns The props to be passed directly into the component.
-     */
-    propRenderOverrides?: (
-        state: Props,
-        context?: {
-            [key: string]: unknown;
-            preset?: DemoPreset;
-        },
-    ) => Props;
     /**
      * True to hide all or a list of variants to hide.
      *
@@ -141,16 +128,6 @@ export type ComponentExample<Props = Record<string, unknown>> = {
      * If you only need to update the props of the component, you can use renderProps.
      */
     render?: ComponentExampleRender<Props>;
-    /**
-     * Useful for overriding the default props controls in the demo.
-     *
-     * If you change the type of a prop, you will probably need to specificy how to render them in renderProps.
-     *
-     * See the ListItem example for an of how to use this.
-     */
-    propControlsOverrides?: {
-        [key: string]: Partial<TypePropertyDemo>;
-    };
 };
 
 export type ComponentExampleFn<Props = Record<string, unknown>> = (params: {

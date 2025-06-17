@@ -33,6 +33,11 @@ export const LinkExample: ComponentExample<LinkProps> = {
     ],
 };
 
+/**
+ * This component demonstrates the different pseudo states of the Link component.
+ *
+ * It is used in the LinkExample preset "Pseudo States", and also the Typography page.
+ */
 export function LinkDemo(params: { props?: LinkProps }) {
     const states = ['default', 'hover', 'active', 'disabled', 'visited', 'focus'];
 

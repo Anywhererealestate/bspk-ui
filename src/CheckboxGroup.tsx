@@ -5,7 +5,7 @@ import { ElementProps, CommonProps } from './';
 
 export type CheckboxGroupOption = Pick<ToggleOptionProps, 'description' | 'label'> & Required<CommonProps<'value'>>;
 
-export type CheckboxGroupProps = CommonProps<'aria-label'> & {
+export type CheckboxGroupProps = CommonProps<'aria-label' | 'disabled' | 'readOnly'> & {
     /**
      * The function to call when the checkboxes are changed.
      *
@@ -86,6 +86,8 @@ function CheckboxGroup({
     values = [],
     selectAll,
     selectAllProps,
+    disabled,
+    readOnly,
     ...props
 }: ElementProps<CheckboxGroupProps, 'div'>) {
     return (
@@ -96,9 +98,11 @@ function CheckboxGroup({
                         <Checkbox
                             aria-label={selectAllProps?.label || 'All'}
                             checked={!!values.length && values.length === options.length}
+                            disabled={disabled}
                             indeterminate={!!values.length && values.length < options.length}
                             name={name}
                             onChange={(checked) => onChange(checked ? options.map((o) => o.value) : [])}
+                            readOnly={readOnly}
                             value="all"
                         />
                     </ToggleOption>
@@ -109,10 +113,12 @@ function CheckboxGroup({
                     <Checkbox
                         aria-label={label}
                         checked={values.includes(value)}
+                        disabled={disabled}
                         name={name}
                         onChange={(checked) => {
                             onChange(checked ? [...values, value] : values.filter((v) => v !== value));
                         }}
+                        readOnly={readOnly}
                         value={value}
                     />
                 </ToggleOption>

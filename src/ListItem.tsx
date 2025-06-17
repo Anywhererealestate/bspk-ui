@@ -32,6 +32,9 @@ export type ListItemProps<As extends ElementType = 'div'> = CommonProps<'active'
      * The leading element to display in the ListItem.
      *
      * Leading elements may only be one of the following [Icon](/icons), Img, Avatar.
+     *
+     * @exampleType select
+     * @options Icon, Img, Avatar
      */
     leading?: ReactNode;
     /**
@@ -48,7 +51,8 @@ export type ListItemProps<As extends ElementType = 'div'> = CommonProps<'active'
      * Trailing elements may only be one of the following [Icon](/icons), Checkbox, ListItemButton, Radio, Switch, Tag,
      * Txt.
      *
-     * @type ReactNode
+     * @exampleType select
+     * @options Checkbox, Icon, ListItemButton, Radio, Switch, Tag, Txt
      */
     trailing?: ReactNode;
 };

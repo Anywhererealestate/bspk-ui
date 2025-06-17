@@ -62,7 +62,6 @@ body[data-bspk] {
 
     a {
         color: var(--foreground-link-text-default);
-        font: var(--labels-base);
 
         &:not([disabled]) {
             &:hover,
