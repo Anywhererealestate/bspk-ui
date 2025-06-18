@@ -1,14 +1,14 @@
+import { MenuProps } from '../../Menu';
 import { ComponentExample } from '../utils';
 
 import { SelectExample } from './Select';
 
-export const MenuExample: ComponentExample = {
+export const MenuExample: ComponentExample<MenuProps> = {
     presets: [
         {
             label: 'Links',
             state: {
                 isMulti: false,
-                itemsAs: 'a',
                 items: [
                     {
                         label: 'Link 1',
