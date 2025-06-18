@@ -8,6 +8,7 @@ import { EmptyStateExample as EmptyState } from './examples/EmptyState';
 import { FabExample as Fab } from './examples/Fab';
 import { LinkExample as Link } from './examples/Link';
 import { ListItemExample as ListItem } from './examples/ListItem';
+import { MenuExample as Menu } from './examples/Menu';
 import { ModalExample as Modal } from './examples/Modal';
 import { PopoverExample as Popover } from './examples/Popover';
 import { ProgressionStepperExample as ProgressionStepper } from './examples/ProgressionStepper';
@@ -39,6 +40,7 @@ export const examples: Record<string, ComponentExample | ComponentExampleFn> = {
     Fab,
     Link,
     ListItem,
+    Menu,
     Modal,
     Popover,
     ProgressBar,

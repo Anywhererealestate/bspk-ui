@@ -10,7 +10,9 @@ export const SelectExample: ComponentExample<SelectProps> = {
     presets: [
         {
             label: 'Simple',
-            state: {},
+            state: {
+                isMulti: false,
+            },
         },
         {
             label: 'Multi',
@@ -19,6 +21,7 @@ export const SelectExample: ComponentExample<SelectProps> = {
         {
             label: 'Trailing Tags',
             state: {
+                isMulti: false,
                 options: [
                     //
                     {
@@ -58,6 +61,7 @@ export const SelectExample: ComponentExample<SelectProps> = {
         {
             label: 'Trailing Text',
             state: {
+                isMulti: false,
                 options: [
                     { value: '1', label: 'Option A', price: 400 },
                     { value: '2', label: 'Option B', price: 1000 },
@@ -80,6 +84,7 @@ export const SelectExample: ComponentExample<SelectProps> = {
         {
             label: 'Leading Avatar',
             state: {
+                isMulti: false,
                 options: [
                     //
                     {
