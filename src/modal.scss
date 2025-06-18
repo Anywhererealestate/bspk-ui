@@ -1,7 +1,6 @@
 [data-bspk='modal'] {
     display: flex;
     flex-direction: column;
-    overflow: hidden;
     gap: var(--spacing-sizing-02);
     padding: var(--spacing-sizing-04);
 
@@ -14,7 +13,6 @@
     }
 
     main {
-        overflow: auto;
         flex: 1;
         padding: var(--spacing-sizing-04) 0;
     }

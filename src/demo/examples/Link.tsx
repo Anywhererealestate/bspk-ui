@@ -28,7 +28,6 @@ export const LinkExample: ComponentExample<LinkProps> = {
     presets: [
         {
             label: 'Pseudo States',
-            state: {},
         },
     ],
 };
