@@ -45,7 +45,7 @@ export const examples: Record<string, ComponentExample | ComponentExampleFn> = {
     NumberInput: {
         hideVariants: true,
         render: ({ props, Component }) => {
-            console.log({ props });
+            // console.log({ props });
             return <Component {...props} />;
         },
     },

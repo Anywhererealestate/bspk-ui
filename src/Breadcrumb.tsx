@@ -19,8 +19,8 @@ export type BreadcrumbItem = CommonProps<'disabled'> & {
     href: string;
 };
 
-export type BreadcrumbProps = CommonProps<'aria-label' | 'disabled' | 'id' | 'name' | 'readOnly' | 'size'> &
-    Pick<MenuProps, 'isMulti' | 'itemCount' | 'itemsAs' | 'renderListItem' | 'selectAll'> & {
+export type BreadcrumbProps = CommonProps<'aria-label' | 'id' | 'name'> &
+    Pick<MenuProps, 'itemCount' | 'renderListItem' | 'selectAll'> & {
         // /**
         //  * The number of items to display in the menu
         //  *
@@ -88,12 +88,12 @@ export type BreadcrumbProps = CommonProps<'aria-label' | 'disabled' | 'id' | 'na
  */
 function Breadcrumb({
     'aria-label': ariaLabel,
-    disabled,
+    // disabled,
     id: propId,
     name,
-    readOnly,
+    // readOnly,
     items,
-    renderListItem,
+    // renderListItem,
 }: BreadcrumbProps) {
     const id = useId(propId);
     // const safeItems = useMemo(() => (Array.isArray(items) ? items : []), [items]);
@@ -106,13 +106,12 @@ function Breadcrumb({
 
     const { toggleProps, menuProps, toggleRef } = useCombobox({
         placement: 'bottom',
-        disabled,
-        readOnly,
+        // disabled,
+        // readOnly,
         refWidth: false,
     });
 
-    const menuItems = safeItems.slice(1, safeItemCount - 1).map((item, idx) => ({
-        value: String(idx + 1),
+    const menuItems = safeItems.slice(1, safeItemCount - 1).map((item) => ({
         label: item.label,
         href: item.href,
     }));
@@ -122,9 +121,10 @@ function Breadcrumb({
     //     return (
     //         <a
     //             href={item.href}
+    //             role="menuitem"
     //             // Optionally add target="_blank" if you want to open in a new tab
     //         >
-    //             item.label{' '}
+    //             {item.label}
     //         </a>
     //     );
     // };
@@ -177,7 +177,7 @@ function Breadcrumb({
                         <li key="BCindex">
                             <Button
                                 aria-label={ariaLabel}
-                                disabled={disabled || readOnly}
+                                // disabled={disabled || readOnly}
                                 id={id}
                                 innerRef={toggleRef}
                                 label="..."
@@ -188,15 +188,7 @@ function Breadcrumb({
                             />
 
                             <Portal>
-                                <Menu
-                                    data-bspk="breadcrumb-menu"
-                                    data-floating
-                                    isMulti={false}
-                                    itemCount={menuItems.length}
-                                    items={menuItems}
-                                    renderListItem={renderListItem}
-                                    {...menuProps}
-                                />
+                                <Menu isMulti={false} itemCount={menuItems.length} items={menuItems} {...menuProps} />
                             </Portal>
                             <SvgChevronRight />
                         </li>
