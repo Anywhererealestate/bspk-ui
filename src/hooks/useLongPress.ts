@@ -1,52 +1,55 @@
-import { ComponentProps, useRef } from 'react';
+import { useRef, useState } from 'react';
 
 import { useTimeout } from './useTimeout';
 
-export function useLongPress(callback: (pressCount: number) => void, ms: number = 2000, isDisabled = false) {
-    const longPressTimeout = useTimeout();
-    const longPressCount = useRef(1);
-    const duration = useRef(ms);
+export const MIN_INTERVAL = 250; // Minimum interval in milliseconds
+export const INTERVAL_DECREASE_FACTOR = 0.75; // Percent by which the interval decreases each time
+export const INITIAL_INTERVAL = 1000; // Initial interval in milliseconds
 
-    const stop = () => {
-        longPressCount.current = 1;
-        duration.current = ms;
-        longPressTimeout.clear();
-    };
+const isTriggerElementDisabled = (element: HTMLElement | null) =>
+    !element ||
+    (element as HTMLButtonElement).disabled ||
+    element.getAttribute('disabled') === 'true' ||
+    element.getAttribute('aria-disabled') === 'true' ||
+    element.getAttribute('data-disabled') === 'true' ||
+    !element.isConnected ||
+    !element.offsetParent;
 
-    const start = () => {
-        duration.current /= 2;
-        longPressTimeout.set(
-            () => {
-                callback(longPressCount.current);
-                longPressCount.current += 1;
-                start();
-            },
-            //
-            Math.max(duration.current, 100),
-        );
-    };
+export function useLongPress(callback: () => void, disabled: boolean) {
+    const timeout = useTimeout();
+    const intervalRef = useRef(INITIAL_INTERVAL);
 
-    const buttonProps: ComponentProps<'button'> = {
-        onMouseDown: (event) => {
-            event.preventDefault();
-            if (isDisabled) return;
+    const [triggerElement, setTriggerElement] = useState<HTMLButtonElement | null>(null);
 
-            callback(longPressCount.current);
-            start();
-        },
-        onMouseMove: (event) => {
-            event.preventDefault();
-            if (event.movementX > 100 || event.movementY > 100) stop();
-        },
-        onMouseLeave: () => stop(),
-        onMouseUp: () => stop(),
+    if (disabled)
+        return {
+            onMouseDown: () => {},
+            onMouseUp: () => {},
+            setTriggerElement: () => {},
+        };
+
+    const run = () => {
+        // If the element is not connected or disabled, clear the timeout, and prevent the callback
+        if (isTriggerElementDisabled(triggerElement)) return;
+        callback();
+        // Decrease the interval for the next call, but not below MIN_INTERVAL
+        if (intervalRef.current > MIN_INTERVAL) intervalRef.current = intervalRef.current * INTERVAL_DECREASE_FACTOR;
+        timeout.set(run, intervalRef.current);
     };
 
     return {
-        start,
-        stop,
-        buttonProps,
-        timeout: longPressTimeout,
+        onMouseDown: () => {
+            intervalRef.current = INITIAL_INTERVAL;
+            callback();
+            timeout.set(run, intervalRef.current);
+        },
+        onMouseUp: () => {
+            timeout.clear();
+        },
+        onMouseLeave: () => {
+            timeout.clear();
+        },
+        setTriggerElement,
     };
 }
 

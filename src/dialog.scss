@@ -11,7 +11,6 @@
         background: var(--surface-neutral-t1-base);
         color: var(--foreground-neutral-on-surface);
         max-height: calc(100vh - var(--spacing-sizing-24));
-        overflow: scroll;
         z-index: 2;
 
         > :first-of-type {
