@@ -1,5 +1,5 @@
 import './menu.scss';
-import { ComponentProps, CSSProperties, ReactNode, useMemo } from 'react';
+import { ComponentProps, CSSProperties, ElementType, ReactNode, useMemo } from 'react';
 
 import { Checkbox } from './Checkbox';
 import { ListItem } from './ListItem';
@@ -39,8 +39,9 @@ export type MenuItem = CommonProps<'disabled'> & {
     /** The unique id of the menu item. */
     id?: string;
 };
-
-export type MenuProps<T extends MenuItem = MenuItem> = CommonProps<'disabled' | 'id'> & {
+export type MenuProps<T extends MenuItem = MenuItem, ItemsAs extends ElementType = 'button'> = CommonProps<
+    'disabled' | 'id'
+> & {
     /**
      * The number of items to display in the menu
      *
@@ -69,6 +70,13 @@ export type MenuProps<T extends MenuItem = MenuItem> = CommonProps<'disabled' | 
      * @type Array<MenuItem>
      */
     items?: T[];
+    /**
+     * The element type to render menu items as.
+     *
+     * @default button
+     * @type ElementType
+     */
+    itemsAs?: ItemsAs;
     /** A ref to the inner div element. */
     innerRef?: SetRef<HTMLDivElement>;
     /** Message to display when no results are found */
@@ -112,7 +120,7 @@ export type MenuProps<T extends MenuItem = MenuItem> = CommonProps<'disabled' | 
      * @example
      *     (selectedValues, event) => setState({ selectedValues });
      */
-    onChange?: (selectedValues: string[], event?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+    onChange?: (selectedValues: string[], event?: React.MouseEvent<HTMLElement, MouseEvent>) => void;
 };
 
 /**
@@ -161,6 +169,7 @@ function Menu({
     renderListItem,
     isMulti,
     selectAll: selectAllProp,
+    itemsAs = 'button',
     ...props
 }: ElementProps<MenuProps, 'div'>) {
     const menuId = useId(idProp);
@@ -204,11 +213,10 @@ function Menu({
         >
             {isMulti && selectAll && (
                 <ListItem
-                    as="button"
                     data-selected={allSelected || undefined}
                     key="select-all"
                     label={selectAll}
-                    onClick={(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+                    onClick={(event: React.MouseEvent<HTMLElement, MouseEvent>) => {
                         onChange?.(allSelected ? [] : items.map((item) => item.value), event);
                     }}
                     role="option"
@@ -250,10 +258,7 @@ function Menu({
                               active={activeIndex === index || undefined}
                               aria-disabled={item.disabled || undefined}
                               aria-posinset={index + 1}
-                              aria-selected={selected || undefined}
-                              as="button"
-                              //data-selected={selected || undefined}
-                              disabled={item.disabled || undefined}
+                              as={itemsAs}
                               id={itemId}
                               key={itemId}
                               label={renderProps?.label?.toString() || item.label?.toString()}
@@ -294,6 +299,9 @@ function Menu({
                                       renderProps?.trailing
                                   )
                               }
+                              aria-selected={selected || undefined}
+                              //data-selected={selected || undefined}
+                              disabled={item.disabled || undefined}
                           />
                       );
                   })
