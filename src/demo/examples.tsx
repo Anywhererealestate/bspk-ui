@@ -42,6 +42,13 @@ export const examples: Record<string, ComponentExample | ComponentExampleFn> = {
     ListItem,
     Menu,
     Modal,
+    NumberInput: {
+        hideVariants: true,
+        render: ({ props, Component }) => {
+            console.log({ props });
+            return <Component {...props} />;
+        },
+    },
     Popover,
     ProgressBar,
     ProgressionStepper,

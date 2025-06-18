@@ -1,5 +1,5 @@
 import './list-item.scss';
-import { ElementType, ReactNode } from 'react';
+import { AnchorHTMLAttributes, ElementType, ReactNode } from 'react';
 
 import { ButtonProps, Button } from './Button';
 import { ChildElement, getChildrenElements } from './utils/children';
@@ -55,6 +55,12 @@ export type ListItemProps<As extends ElementType = 'div'> = CommonProps<'active'
      * @options Checkbox, Icon, ListItemButton, Radio, Switch, Tag, Txt
      */
     trailing?: ReactNode;
+    /**
+     * The [href](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/a#href) of the list item.
+     *
+     * If the href is provided, the ListItem will render as an anchor element (`<a>`).
+     */
+    href?: AnchorHTMLAttributes<unknown>['href'];
 };
 
 /**
@@ -113,7 +119,7 @@ function ListItem<As extends ElementType = 'div'>({
 
     const requiredAs: ElementType[] = [];
 
-    if ('href' in props) requiredAs.push('a');
+    if (props.href) requiredAs.push('a');
 
     if (trailing?.name) {
         // if trailing is a ListItemButton and As is a button, change As to div
@@ -147,7 +153,7 @@ function ListItem<As extends ElementType = 'div'>({
             data-bspk="list-item"
             data-component={leading?.name || undefined}
             data-readonly={readOnly || undefined}
-            role={as !== 'button' && 'onClick' in props ? 'button' : undefined}
+            role={props.href ? undefined : 'button'}
         >
             <span data-inner>
                 {leading && (
