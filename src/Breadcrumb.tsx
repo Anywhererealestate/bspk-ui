@@ -20,7 +20,7 @@ export type BreadcrumbItem = CommonProps<'disabled'> & {
 };
 
 export type BreadcrumbProps = CommonProps<'aria-label' | 'disabled' | 'id' | 'name' | 'readOnly' | 'size'> &
-    Pick<MenuProps, 'isMulti' | 'itemCount' | 'renderListItem' | 'selectAll'> & {
+    Pick<MenuProps, 'isMulti' | 'itemCount' | 'itemsAs' | 'renderListItem' | 'selectAll'> & {
         // /**
         //  * The number of items to display in the menu
         //  *
@@ -116,6 +116,18 @@ function Breadcrumb({
         label: item.label,
         href: item.href,
     }));
+
+    // const renderMenuListItem = ({ item }) => {
+    //     console.log('renderMenuListItem href:', item.href, '\nlabel:', item.label, '\n\n');
+    //     return (
+    //         <a
+    //             href={item.href}
+    //             // Optionally add target="_blank" if you want to open in a new tab
+    //         >
+    //             item.label{' '}
+    //         </a>
+    //     );
+    // };
 
     // console.log(
     //     'Breadcrumb items: ',
