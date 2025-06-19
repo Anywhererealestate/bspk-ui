@@ -6,6 +6,7 @@ import { Button } from './Button';
 import { Link } from './Link';
 import { Menu, MenuProps } from './Menu';
 import { Portal } from './Portal';
+import { Txt } from './Txt';
 import { useCombobox } from './hooks/useCombobox';
 import { useId } from './hooks/useId';
 
@@ -160,7 +161,7 @@ function Breadcrumb({
             <ol>
                 {safeItemCount > 5 && (
                     <>
-                        <li key="BCindex change to match index">
+                        <li key={`breadcrumb-1-${safeItems[0].label}`}>
                             <Link href={safeItems[0].href} label={safeItems[0].label} />
                             <SvgChevronRight />
                         </li>
@@ -182,19 +183,25 @@ function Breadcrumb({
                             </Portal>
                             <SvgChevronRight />
                         </li>
-                        <li key="BCindex fix">
-                            <Link href={safeItems[safeItemCount - 1].href} label={safeItems[safeItemCount - 1].label} />
+                        <li key={`breadcrumb-${safeItemCount}-${safeItems[safeItemCount - 1].label}`}>
+                            <Txt variant="body-base">{safeItems[safeItemCount - 1].label}</Txt>
                         </li>
                     </>
                 )}
-                {safeItemCount >= 2 &&
-                    safeItemCount <= 5 &&
-                    safeItems.map((item) => (
-                        <li key="BCindex">
-                            <Link href={item.href} label={item.label} />
-                            {safeItems.length - 1 && <SvgChevronRight />}
+
+                {safeItemCount >= 2 && safeItemCount <= 5 && (
+                    <>
+                        {safeItems.slice(0, safeItemCount - 1).map((item, idx) => (
+                            <li key={`breadcrumb-${idx}-${item.label}`}>
+                                <Link href={item.href} label={item.label} />
+                                {safeItems.length - 1 && <SvgChevronRight />}
+                            </li>
+                        ))}
+                        <li key={`breadcrumb-${safeItemCount - 1}-${safeItems[safeItemCount - 1].label}`}>
+                            <Txt variant="body-base">{safeItems[safeItemCount - 1].label}</Txt>
                         </li>
-                    ))}
+                    </>
+                )}
             </ol>
         </nav>
     );

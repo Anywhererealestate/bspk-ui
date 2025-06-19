@@ -15,6 +15,21 @@ export const BreadcrumbExample: ComponentExample<BreadcrumbProps> = {
             },
         },
         {
+            label: '2 Items (minimum)',
+            state: {
+                items: [
+                    {
+                        label: 'item 1',
+                        href: '#link-1',
+                    },
+                    {
+                        label: 'item 2',
+                        href: '#link-2',
+                    },
+                ],
+            },
+        },
+        {
             label: '3 Items',
             state: {
                 items: [
