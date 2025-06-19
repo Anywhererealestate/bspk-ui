@@ -31,7 +31,7 @@ export type BreadcrumbItem = {
     href: string;
 };
 
-export type BreadcrumbProps = CommonProps<'aria-label' | 'id' | 'name'> & {
+export type BreadcrumbProps = CommonProps<'id'> & {
     /**
      * The array of breadcrumb items.
      *
@@ -89,7 +89,7 @@ export type BreadcrumbProps = CommonProps<'aria-label' | 'id' | 'name'> & {
  *
  * @name Breadcrumb
  */
-function Breadcrumb({ 'aria-label': ariaLabel, id: propId, name, items = [] }: BreadcrumbProps) {
+function Breadcrumb({ id: propId, items }: BreadcrumbProps) {
     const id = useId(propId);
     const safeItems = Array.isArray(items) ? items : [];
     const itemCount = safeItems.length;
@@ -120,12 +120,11 @@ function Breadcrumb({ 'aria-label': ariaLabel, id: propId, name, items = [] }: B
                         </li>
                         <li key={`${safeItemCount - 2}-items`}>
                             <Button
-                                aria-label={ariaLabel}
+                                // aria-label={ariaLabel}
                                 icon={<SvgMoreHoriz />}
                                 id={id}
                                 innerRef={toggleRef}
-                                label="..."
-                                name={name}
+                                label={`access to ${safeItemCount - 2} breadcrumb items`}
                                 showLabel={false}
                                 size="small"
                                 toolTip={`${safeItemCount - 2} pages`}
@@ -144,13 +143,13 @@ function Breadcrumb({ 'aria-label': ariaLabel, id: propId, name, items = [] }: B
                 {safeItemCount >= 2 &&
                     safeItemCount <= 5 &&
                     displayItems.slice(0, safeItemCount - 1).map((item, idx) => (
-                        <li key={`breadcrumb-${idx}-${item.label}`}>
+                        <li key={`${idx}-${item.label.replace(/\s+/g, '')}`}>
                             <Link href={item.href} label={item.label} />
                             {breadcrumbIcon}
                         </li>
                     ))}
                 {safeItemCount >= 2 && safeItemCount <= 10 && (
-                    <li key={`breadcrumb-${safeItemCount - 1}-${displayItems[safeItemCount - 1].label}`}>
+                    <li key={`${safeItemCount - 1}-${displayItems[safeItemCount - 1].label.replace(/\s+/g, '')}`}>
                         <Txt variant="body-base">{displayItems[safeItemCount - 1].label}</Txt>
                     </li>
                 )}
