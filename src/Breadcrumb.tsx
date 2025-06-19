@@ -12,7 +12,7 @@ import { useId } from './hooks/useId';
 import { CommonProps } from './';
 
 // export type BreadcrumbItem = {
-export type BreadcrumbItem = CommonProps<'disabled'> & {
+export type BreadcrumbItem = {
     /** The label of the breadcrumb item. */
     label: string;
     /** The href of the breadcrumb item. */
@@ -20,35 +20,30 @@ export type BreadcrumbItem = CommonProps<'disabled'> & {
 };
 
 export type BreadcrumbProps = CommonProps<'aria-label' | 'id' | 'name'> &
-    Pick<MenuProps, 'itemCount' | 'renderListItem' | 'selectAll'> & {
-        // /**
-        //  * The number of items to display in the menu
-        //  *
-        //  * @default 2
-        //  * @minimum 2
-        //  * @maximum 10
-        //  */
-        // itemCount?: number;
+    Pick<MenuProps, 'renderListItem'> & {
         /**
          * The array of breadcrumb items.
          *
          * @example
          *     [
-         *         { label: 'level 1', href: 'https://bspk.anywhere.re/breadcrumb' },
-         *         { label: 'level 2', href: 'https://bspk.anywhere.re/breadcrumb' },
-         *         { label: 'level 3', href: 'https://bspk.anywhere.re/breadcrumb' },
-         *         { label: 'level 4', href: 'https://bspk.anywhere.re/breadcrumb' },
-         *         { label: 'level 5', href: 'https://bspk.anywhere.re/breadcrumb' },
-         *         { label: 'level 6', href: 'https://bspk.anywhere.re/breadcrumb' },
-         *         { label: 'level 7', href: 'https://bspk.anywhere.re/breadcrumb' },
-         *         { label: 'level 8', href: 'https://bspk.anywhere.re/breadcrumb' },
-         *         { label: 'level 9', href: 'https://bspk.anywhere.re/breadcrumb' },
-         *         { label: 'level 10', href: 'https://bspk.anywhere.re/breadcrumb' },
+         *         { label: 'level 1', href: 'https://bspk.anywhere.re' },
+         *         { label: 'level 2', href: 'https://bspk.anywhere.re' },
+         *         { label: 'level 3', href: 'https://bspk.anywhere.re' },
+         *         { label: 'level 4', href: 'https://bspk.anywhere.re' },
+         *         { label: 'level 5', href: 'https://bspk.anywhere.re' },
+         *         { label: 'level 6', href: 'https://bspk.anywhere.re' },
+         *         { label: 'level 7', href: 'https://bspk.anywhere.re' },
+         *         { label: 'level 8', href: 'https://bspk.anywhere.re' },
+         *         { label: 'level 9', href: 'https://bspk.anywhere.re' },
+         *         { label: 'level 10', href: 'https://bspk.anywhere.re' },
          *     ];
          *
          * @type Array<BreadcrumbItem>
          * @required
+         * @minimum 2
+         * @maximum 10
          */
+
         items: BreadcrumbItem[];
 
         /**
@@ -77,8 +72,16 @@ export type BreadcrumbProps = CommonProps<'aria-label' | 'id' | 'name'> &
  *         return (
  *             <Breadcrumb
  *                 items={[
- *                     { label: '1 EXAMPLE', href: 'https://bspk.anywhere.re/breadcrumb' },
- *                     { label: '2', href: 'https://bspk.anywhere.re/breadcrumb' },
+ *                     { label: 'level 1', href: 'https://bspk.anywhere.re' },
+ *                     { label: 'level 2', href: 'https://bspk.anywhere.re' },
+ *                     { label: 'level 3', href: 'https://bspk.anywhere.re' },
+ *                     { label: 'level 4', href: 'https://bspk.anywhere.re' },
+ *                     { label: 'level 5', href: 'https://bspk.anywhere.re' },
+ *                     { label: 'level 6', href: 'https://bspk.anywhere.re' },
+ *                     { label: 'level 7', href: 'https://bspk.anywhere.re' },
+ *                     { label: 'level 8', href: 'https://bspk.anywhere.re' },
+ *                     { label: 'level 9', href: 'https://bspk.anywhere.re' },
+ *                     { label: 'level 10', href: 'https://bspk.anywhere.re' },
  *                 ]}
  *             />
  *         );
@@ -92,7 +95,7 @@ function Breadcrumb({
     id: propId,
     name,
     // readOnly,
-    items,
+    items = [],
     // renderListItem,
 }: BreadcrumbProps) {
     const id = useId(propId);
@@ -115,19 +118,6 @@ function Breadcrumb({
         label: item.label,
         href: item.href,
     }));
-
-    // const renderMenuListItem = ({ item }) => {
-    //     console.log('renderMenuListItem href:', item.href, '\nlabel:', item.label, '\n\n');
-    //     return (
-    //         <a
-    //             href={item.href}
-    //             role="menuitem"
-    //             // Optionally add target="_blank" if you want to open in a new tab
-    //         >
-    //             {item.label}
-    //         </a>
-    //     );
-    // };
 
     // console.log(
     //     'Breadcrumb items: ',
@@ -197,15 +187,11 @@ function Breadcrumb({
                         </li>
                     </>
                 )}
-                {safeItemCount <= 5 &&
+                {safeItemCount >= 2 &&
+                    safeItemCount <= 5 &&
                     safeItems.map((item) => (
                         <li key="BCindex">
-                            <Link
-                                href={item.href}
-                                label={item.label}
-                                // size={size}
-                                // variant={variant}
-                            />
+                            <Link href={item.href} label={item.label} />
                             {safeItems.length - 1 && <SvgChevronRight />}
                         </li>
                     ))}
