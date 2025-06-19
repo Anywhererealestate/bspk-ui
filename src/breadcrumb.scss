@@ -6,9 +6,11 @@
         align-items: center;
         justify-content: center;
         list-style: none;
+        gap: 8px;
 
         li {
             display: flex;
+            gap: 8px;
         }
     }
 }
