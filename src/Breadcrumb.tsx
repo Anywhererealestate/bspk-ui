@@ -100,70 +100,42 @@ function Breadcrumb({
     // renderListItem,
 }: BreadcrumbProps) {
     const id = useId(propId);
-    // const safeItems = useMemo(() => (Array.isArray(items) ? items : []), [items]);
     const safeItems = Array.isArray(items) ? items : [];
     const itemCount = safeItems.length;
-    const minItemCount = 2;
+    // const minItemCount = 2;
     const maxItemCount = 10;
-    const fallbackItemCount = itemCount > maxItemCount ? maxItemCount : 0;
-    const safeItemCount = itemCount >= minItemCount && itemCount <= maxItemCount ? itemCount : fallbackItemCount;
+    const safeItemCount = itemCount > maxItemCount ? maxItemCount : itemCount;
+    // const safeItemCount = itemCount >= minItemCount && itemCount <= maxItemCount ? itemCount : fallbackItemCount;
+    const displayItems = itemCount > safeItemCount ? safeItems.slice(itemCount - safeItemCount, itemCount) : safeItems;
 
     const { toggleProps, menuProps, toggleRef } = useCombobox({
         placement: 'bottom',
-        // disabled,
-        // readOnly,
         refWidth: false,
     });
 
-    const menuItems = safeItems.slice(1, safeItemCount - 1).map((item) => ({
+    const menuItems = displayItems.slice(1, safeItemCount - 1).map((item) => ({
         label: item.label,
         href: item.href,
     }));
 
+    const breadcrumbIcon = <SvgChevronRight aria-hidden={true} />;
+
     // console.log(
-    //     'Breadcrumb items: ',
-    //     items,
+    //     'itemCount: ',
+    //     itemCount,
 
-    //     '\ntypeof items: ',
-    //     typeof items,
-
-    //     ' \nArray.isArray(items): ',
-    //     Array.isArray(items),
-
-    //     '\nBreadcrumb safeItems: ',
-    //     safeItems,
-
-    //     '\ntypeof safeItems: ',
-    //     typeof safeItems,
-
-    //     ' \nArray.isArray(safeItems): ',
-    //     Array.isArray(safeItems),
-
-    //     '\nBreadcrumb menuItems: ',
-    //     menuItems,
-
-    //     '\ntypeof menuItems: ',
-    //     typeof menuItems,
-
-    //     ' \nArray.isArray(menuItems): ',
-    //     Array.isArray(menuItems),
-
-    //     '\nBreadcrumb safeItemCount: ',
+    //     'safeItemCount: ',
     //     safeItemCount,
-    //     '\ntypeof safeItemCount: ',
-    //     typeof safeItemCount,
-
-    //     '\n\nmenuProps: ',
-    //     menuProps,
+    //     '\n\n',
     // );
     return (
         <nav data-bspk="breadcrumb" data-item-count={safeItemCount || undefined}>
             <ol>
                 {safeItemCount > 5 && (
                     <>
-                        <li key={`breadcrumb-1-${safeItems[0].label}`}>
-                            <Link href={safeItems[0].href} label={safeItems[0].label} />
-                            <SvgChevronRight />
+                        <li key={`breadcrumb-1-${displayItems[0].label.replace(/\s+/g, '')}`}>
+                            <Link href={displayItems[0].href} label={displayItems[0].label} />
+                            {breadcrumbIcon}
                         </li>
                         <li key="BCindex">
                             <Button
@@ -181,26 +153,23 @@ function Breadcrumb({
                             <Portal>
                                 <Menu isMulti={false} itemCount={menuItems.length} items={menuItems} {...menuProps} />
                             </Portal>
-                            <SvgChevronRight />
-                        </li>
-                        <li key={`breadcrumb-${safeItemCount}-${safeItems[safeItemCount - 1].label}`}>
-                            <Txt variant="body-base">{safeItems[safeItemCount - 1].label}</Txt>
+                            {breadcrumbIcon}
                         </li>
                     </>
                 )}
 
-                {safeItemCount >= 2 && safeItemCount <= 5 && (
-                    <>
-                        {safeItems.slice(0, safeItemCount - 1).map((item, idx) => (
-                            <li key={`breadcrumb-${idx}-${item.label}`}>
-                                <Link href={item.href} label={item.label} />
-                                {safeItems.length - 1 && <SvgChevronRight />}
-                            </li>
-                        ))}
-                        <li key={`breadcrumb-${safeItemCount - 1}-${safeItems[safeItemCount - 1].label}`}>
-                            <Txt variant="body-base">{safeItems[safeItemCount - 1].label}</Txt>
+                {safeItemCount >= 2 &&
+                    safeItemCount <= 5 &&
+                    safeItems.slice(0, safeItemCount - 1).map((item, idx) => (
+                        <li key={`breadcrumb-${idx}-${item.label}`}>
+                            <Link href={item.href} label={item.label} />
+                            {breadcrumbIcon}
                         </li>
-                    </>
+                    ))}
+                {safeItemCount >= 2 && safeItemCount <= 10 && (
+                    <li key={`breadcrumb-${safeItemCount - 1}-${displayItems[safeItemCount - 1].label}`}>
+                        <Txt variant="body-base">{displayItems[safeItemCount - 1].label}</Txt>
+                    </li>
                 )}
             </ol>
         </nav>
