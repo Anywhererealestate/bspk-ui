@@ -4,4 +4,13 @@
     min-width: 300px;
 }
 
+[data-bspk='no-items-found'] {
+    display: flex;
+    flex-direction: column;
+    padding: var(--spacing-sizing-08) var(--spacing-sizing-04);
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sizing-03);
+}
+
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

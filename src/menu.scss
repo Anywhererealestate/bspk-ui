@@ -8,23 +8,12 @@
     border-radius: var(--radius-large);
     display: flex;
     flex-direction: column;
+    padding: var(--spacing-sizing-02) var(--spacing-sizing-02);
 
     --item-size: var(--spacing-sizing-12);
 
     &[data-floating] {
         z-index: var(--z-index-dropdown);
-    }
-
-    &[data-item-count] {
-        height: calc(var(--item-count) * var(--item-size));
-        overflow-y: scroll;
-    }
-
-    &[data-no-items] {
-        padding: var(--spacing-sizing-08) var(--spacing-sizing-04);
-        align-items: center;
-        justify-content: center;
-        gap: var(--spacing-sizing-03);
     }
 
     [data-bspk='list-item'] {

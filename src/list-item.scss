@@ -1,3 +1,9 @@
+body[data-bspk] a[data-bspk='list-item'] {
+    color: unset !important;
+    text-decoration: !important;
+    font: !important;
+}
+
 [data-bspk='list-item'] {
     display: block;
     width: 100%;

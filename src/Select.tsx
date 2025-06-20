@@ -2,7 +2,7 @@ import './select.scss';
 import { SvgChevronRight } from '@bspk/icons/ChevronRight';
 
 import { ListItem } from './ListItem';
-import { Menu, MenuProps } from './Menu';
+import { Listbox, ListboxProps } from './Listbox';
 import { Portal } from './Portal';
 import { useCombobox } from './hooks/useCombobox';
 import { Placement } from './hooks/useFloating';
@@ -21,7 +21,7 @@ export type SelectProps<T extends SelectOption = SelectOption> = CommonProps<
     'aria-label' | 'disabled' | 'id' | 'name' | 'readOnly' | 'size'
 > &
     InvalidPropsLibrary &
-    Pick<MenuProps<T>, 'isMulti' | 'itemCount' | 'renderListItem' | 'selectAll'> & {
+    Pick<ListboxProps<T>, 'isMulti' | 'itemDisplayCount' | 'listItemProps' | 'selectAll'> & {
         /**
          * Array of options to display in the select
          *
@@ -113,7 +113,7 @@ function Select({
     'aria-label': ariaLabel,
     placeholder = 'Select...',
     size = 'medium',
-    itemCount = 5,
+    itemDisplayCount: itemCount = 5,
     disabled,
     id: propId,
     invalid,
@@ -121,7 +121,7 @@ function Select({
     readOnly,
     name,
     isMulti,
-    renderListItem,
+    listItemProps,
     style: styleProp,
     selectAll,
 }: SelectProps) {
@@ -160,17 +160,17 @@ function Select({
                 </span>
             </button>
             <Portal>
-                <Menu
+                <Listbox
                     data-floating
                     isMulti={isMulti}
-                    itemCount={itemCount}
+                    itemDisplayCount={itemCount}
                     items={options}
+                    listItemProps={listItemProps}
                     onChange={(next, event) => {
                         event?.preventDefault();
                         if (!isMulti) closeMenu();
                         onChange?.(next);
                     }}
-                    renderListItem={renderListItem}
                     selectAll={selectAll}
                     selectedValues={selected}
                     {...menuProps}

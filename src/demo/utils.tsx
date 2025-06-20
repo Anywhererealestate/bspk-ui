@@ -62,7 +62,9 @@ export type TypeProperty = {
 
 export type DemoAction = (message: string, variant?: AlertVariant) => void;
 
-export type DemoSetState<Props = Record<string, unknown>> = (next: Partial<Props>) => void;
+export type DemoSetState<Props = Record<string, unknown>> = (
+    next: Partial<Props> | ((prev: Props) => Partial<Props>),
+) => void;
 
 export type DevPhase =
     | 'AccessibilityReview'

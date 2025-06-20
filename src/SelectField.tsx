@@ -4,7 +4,7 @@ import { SelectProps, Select } from './Select';
 export type SelectFieldProps = Pick<
     SelectProps,
     | 'disabled'
-    | 'itemCount'
+    | 'itemDisplayCount'
     | 'name'
     | 'onChange'
     | 'options'

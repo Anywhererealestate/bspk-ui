@@ -340,7 +340,6 @@ function generateTypes() {
             }
         }
 
-        if (next.exampleType) console.log({ next });
         return next;
     };
 

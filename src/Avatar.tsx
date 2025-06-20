@@ -82,19 +82,16 @@ export type AvatarProps = {
  * An avatar is a visual representation of a user or entity. It can be used to display an initials, icon, or image.
  *
  * @example
- *     import { Avatar } from '@bspk/ui/Avatar';
- *     import { SvgPerson } from '@bspk/icons/Person';
- *
  *     function Example() {
  *         return (
  *             <Avatar
- *                 name="Andre Giant"
- *                 initials="AR"
  *                 color="blue"
- *                 size="large"
  *                 icon={<SvgPerson />}
  *                 image="/profile.jpg"
+ *                 initials="AR"
+ *                 name="Andre Giant"
  *                 showTooltip={true}
+ *                 size="large"
  *             />
  *         );
  *     }
