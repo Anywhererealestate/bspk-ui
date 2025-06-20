@@ -1,6 +1,7 @@
 import { AvatarExample as Avatar } from './examples/Avatar';
 import { BadgeExample as Badge } from './examples/Badge';
 import { BannerAlertExample as BannerAlert } from './examples/BannerAlert';
+import { BreadcrumbExample as Breadcrumb } from './examples/Breadcrumb';
 import { ButtonExample as Button } from './examples/Button';
 import { CardExample as Card } from './examples/Card';
 import { DividerExample as Divider } from './examples/Divider';
@@ -33,6 +34,7 @@ export const examples: Record<string, ComponentExample | ComponentExampleFn> = {
     Avatar,
     Badge,
     BannerAlert,
+    Breadcrumb,
     Button,
     Card,
     Divider,

@@ -37,7 +37,7 @@ export type BreadcrumbProps = CommonProps<'id'> & {
     /**
      * The array of breadcrumb items.
      *
-     * If **less than 2** items are provided, no items will render.
+     * If **less than 2** items are provided, the component will not render.
      *
      * @example
      *     [
@@ -99,22 +99,25 @@ function Breadcrumb({ id: propId, items }: BreadcrumbProps) {
         refWidth: false,
     });
 
-    const menuItems = safeItems.slice(1, itemCount - 1).map((item) => ({
+    const middleItems = safeItems.slice(1, itemCount - 1).map((item) => ({
         label: item.label,
         href: item.href,
     }));
 
     const breadcrumbIcon = <SvgChevronRight aria-hidden={true} />;
 
+    if (itemCount < 2) {
+        return null; // No items to render
+    }
     return (
         <nav aria-label="Breadcrumb" data-bspk="breadcrumb" id={id}>
             <ol>
-                {itemCount > 5 && (
+                <li key="Breadcrumb-0">
+                    <Link href={safeItems[0].href} label={safeItems[0].label} />
+                    {breadcrumbIcon}
+                </li>
+                {itemCount > 5 ? (
                     <>
-                        <li key="Breadcrumb-0">
-                            <Link href={safeItems[0].href} label={safeItems[0].label} />
-                            {breadcrumbIcon}
-                        </li>
                         <li key={`Breadcrumb-${itemCount - 2}-items`}>
                             <Button
                                 icon={<SvgMoreHoriz />}
@@ -128,26 +131,29 @@ function Breadcrumb({ id: propId, items }: BreadcrumbProps) {
                             />
 
                             <Portal>
-                                <Menu isMulti={false} itemCount={menuItems.length} items={menuItems} {...menuProps} />
+                                <Menu
+                                    isMulti={false}
+                                    itemCount={middleItems.length}
+                                    items={middleItems}
+                                    {...menuProps}
+                                />
                             </Portal>
                             {breadcrumbIcon}
                         </li>
                     </>
+                ) : (
+                    <>
+                        {safeItems.slice(1, itemCount - 1).map((item, idx) => (
+                            <li key={`Breadcrumb-${idx}`}>
+                                <Link href={item.href} label={item.label} />
+                                {breadcrumbIcon}
+                            </li>
+                        ))}
+                    </>
                 )}
-
-                {itemCount >= 2 &&
-                    itemCount <= 5 &&
-                    safeItems.slice(0, itemCount - 1).map((item, idx) => (
-                        <li key={`Breadcrumb-${idx}`}>
-                            <Link href={item.href} label={item.label} />
-                            {breadcrumbIcon}
-                        </li>
-                    ))}
-                {itemCount >= 2 && (
-                    <li aria-current="true" key={`Breadcrumb-${itemCount - 1}`}>
-                        <Txt variant="body-base">{safeItems[itemCount - 1].label}</Txt>
-                    </li>
-                )}
+                <li aria-current="true" key={`Breadcrumb-${itemCount - 1}`}>
+                    <Txt variant="body-base">{safeItems[itemCount - 1].label}</Txt>
+                </li>
             </ol>
         </nav>
     );
