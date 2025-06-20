@@ -8,7 +8,7 @@ export const BreadcrumbExample: ComponentExample<BreadcrumbProps> = {
             state: {
                 items: [
                     {
-                        label: 'item 1',
+                        label: 'Item 1',
                         href: '#link-1',
                     },
                 ],
@@ -19,31 +19,12 @@ export const BreadcrumbExample: ComponentExample<BreadcrumbProps> = {
             state: {
                 items: [
                     {
-                        label: 'item 1',
+                        label: 'Item 1',
                         href: '#link-1',
                     },
                     {
-                        label: 'item 2',
+                        label: 'Item 2',
                         href: '#link-2',
-                    },
-                ],
-            },
-        },
-        {
-            label: '3 Items',
-            state: {
-                items: [
-                    {
-                        label: 'item 1',
-                        href: '#link-1',
-                    },
-                    {
-                        label: 'item 2',
-                        href: '#link-2',
-                    },
-                    {
-                        label: 'item 3',
-                        href: '#link-3',
                     },
                 ],
             },
@@ -53,114 +34,55 @@ export const BreadcrumbExample: ComponentExample<BreadcrumbProps> = {
             state: {
                 items: [
                     {
-                        label: 'item 1',
+                        label: 'Item 1',
                         href: '#link-1',
                     },
                     {
-                        label: 'item 2',
+                        label: 'Item 2',
                         href: '#link-2',
                     },
                     {
-                        label: 'item 3',
+                        label: 'Item 3',
                         href: '#link-3',
                     },
                     {
-                        label: 'item 4',
+                        label: 'Item 4',
                         href: '#link-4',
                     },
                     {
-                        label: 'item 5',
+                        label: 'Item 5',
                         href: '#link-5',
                     },
                 ],
             },
         },
         {
-            label: '7 Items',
+            label: '6 Items',
             state: {
                 items: [
                     {
-                        label: 'item 1',
+                        label: 'Item 1',
                         href: '#link-1',
                     },
                     {
-                        label: 'item 2',
+                        label: 'Item 2',
                         href: '#link-2',
                     },
                     {
-                        label: 'item 3',
+                        label: 'Item 3',
                         href: '#link-3',
                     },
                     {
-                        label: 'item 4',
+                        label: 'Item 4',
                         href: '#link-4',
                     },
                     {
-                        label: 'item 5',
+                        label: 'Item 5',
                         href: '#link-5',
                     },
                     {
-                        label: 'item 6',
+                        label: 'Item 6',
                         href: '#link-6',
-                    },
-                    {
-                        label: 'item 7',
-                        href: '#link-7',
-                    },
-                ],
-            },
-        },
-        {
-            label: '12 Items',
-            state: {
-                items: [
-                    {
-                        label: 'item 1',
-                        href: '#link-1',
-                    },
-                    {
-                        label: 'item 2',
-                        href: '#link-2',
-                    },
-                    {
-                        label: 'item 3',
-                        href: '#link-3',
-                    },
-                    {
-                        label: 'item 4',
-                        href: '#link-4',
-                    },
-                    {
-                        label: 'item 5',
-                        href: '#link-5',
-                    },
-                    {
-                        label: 'item 6',
-                        href: '#link-6',
-                    },
-                    {
-                        label: 'item 7',
-                        href: '#link-7',
-                    },
-                    {
-                        label: 'item 8',
-                        href: '#link-8',
-                    },
-                    {
-                        label: 'item 9',
-                        href: '#link-9',
-                    },
-                    {
-                        label: 'item 10',
-                        href: '#link-10',
-                    },
-                    {
-                        label: 'item 11',
-                        href: '#link-11',
-                    },
-                    {
-                        label: 'item 12',
-                        href: '#link-12',
                     },
                 ],
             },

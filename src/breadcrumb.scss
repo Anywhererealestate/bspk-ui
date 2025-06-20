@@ -4,13 +4,13 @@
     ol {
         display: flex;
         align-items: center;
-        flex-wrap: wrap;
+        flex-flow: row wrap;
         list-style: none;
-        gap: 8px;
+        gap: var(--spacing-sizing-02);
 
         li {
             display: flex;
-            gap: 8px;
+            gap: var(--spacing-sizing-02);
         }
     }
 }
