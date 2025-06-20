@@ -17,14 +17,18 @@ export type BreadcrumbItem = {
     /**
      * The label of the breadcrumb item.
      *
-     * @default ''
+     * @example
+     *     'level 1';
+     *
      * @required
      */
     label: string;
     /**
      * The href of the breadcrumb item.
      *
-     * @default 'missing href'
+     * @example
+     *     'https://bspk.anywhere.re';
+     *
      * @required
      */
     href: string;
@@ -104,7 +108,7 @@ function Breadcrumb({ id: propId, items }: BreadcrumbProps) {
     const breadcrumbIcon = <SvgChevronRight aria-hidden={true} />;
 
     return (
-        <nav aria-label="Breadcrumb" data-bspk="breadcrumb" data-item-count={itemCount || undefined}>
+        <nav aria-label="Breadcrumb" data-bspk="breadcrumb" id={id}>
             <ol>
                 {itemCount > 5 && (
                     <>
@@ -115,7 +119,6 @@ function Breadcrumb({ id: propId, items }: BreadcrumbProps) {
                         <li key={`Breadcrumb-${itemCount - 2}-items`}>
                             <Button
                                 icon={<SvgMoreHoriz />}
-                                id={id}
                                 innerRef={toggleRef}
                                 label={`access to ${itemCount - 2} breadcrumb items`}
                                 showLabel={false}
