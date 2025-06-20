@@ -12,7 +12,6 @@ import { useId } from './hooks/useId';
 
 import { CommonProps } from './';
 
-// export type BreadcrumbItem = {
 export type BreadcrumbItem = {
     /**
      * The label of the breadcrumb item.
