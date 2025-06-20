@@ -1,7 +1,6 @@
 import './breadcrumb.scss';
 import { SvgChevronRight } from '@bspk/icons/ChevronRight';
 import { SvgMoreHoriz } from '@bspk/icons/MoreHoriz';
-// import { useMemo } from 'react';
 
 import { Button } from './Button';
 import { Link } from './Link';
@@ -114,13 +113,12 @@ function Breadcrumb({ id: propId, items }: BreadcrumbProps) {
             <ol>
                 {safeItemCount > 5 && (
                     <>
-                        <li key={`1-${displayItems[0].label.replace(/\s+/g, '')}`}>
+                        <li key="Breadcrumb-0">
                             <Link href={displayItems[0].href} label={displayItems[0].label} />
                             {breadcrumbIcon}
                         </li>
-                        <li key={`${safeItemCount - 2}-items`}>
+                        <li key={`Breadcrumb-${safeItemCount - 2}-items`}>
                             <Button
-                                // aria-label={ariaLabel}
                                 icon={<SvgMoreHoriz />}
                                 id={id}
                                 innerRef={toggleRef}
@@ -143,13 +141,17 @@ function Breadcrumb({ id: propId, items }: BreadcrumbProps) {
                 {safeItemCount >= 2 &&
                     safeItemCount <= 5 &&
                     displayItems.slice(0, safeItemCount - 1).map((item, idx) => (
-                        <li key={`${idx}-${item.label.replace(/\s+/g, '')}`}>
-                            <Link href={item.href} label={item.label} />
+                        <li key={`Breadcrumb-${idx}`}>
+                            <Link
+                                href={item.href}
+                                // label={item.label}
+                                label={`${idx}-${item.label.replace(/\s+/g, '-')}`}
+                            />
                             {breadcrumbIcon}
                         </li>
                     ))}
                 {safeItemCount >= 2 && safeItemCount <= 10 && (
-                    <li key={`${safeItemCount - 1}-${displayItems[safeItemCount - 1].label.replace(/\s+/g, '')}`}>
+                    <li key={`Breadcrumb-${safeItemCount - 1}`}>
                         <Txt variant="body-base">{displayItems[safeItemCount - 1].label}</Txt>
                     </li>
                 )}
