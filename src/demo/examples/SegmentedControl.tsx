@@ -12,7 +12,7 @@ export const SegmentedControlExample: ComponentExample<SegmentedControlProps> = 
     presets: [
         {
             label: 'With icons',
-            state: {
+            propState: {
                 options: [
                     {
                         value: '1',

@@ -109,7 +109,7 @@ function Popover({ placement = 'top', header, content, callToAction, children, d
                     id={id}
                     ref={(node) => {
                         elements.setFloating(node);
-                        elements.setTrigger(document.querySelector<HTMLElement>(`[aria-describedby="${id}"]`));
+                        elements.setReference(document.querySelector<HTMLElement>(`[aria-describedby="${id}"]`));
                     }}
                     style={floatingStyles}
                 >

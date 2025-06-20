@@ -6,7 +6,7 @@ export const TextInputExample: ComponentExample<TextInputProps> = {
     presets: [
         {
             label: 'Currency',
-            state: {
+            propState: {
                 type: 'number',
                 leading: '$',
                 trailing: undefined,
@@ -15,7 +15,7 @@ export const TextInputExample: ComponentExample<TextInputProps> = {
         },
         {
             label: 'Percent',
-            state: {
+            propState: {
                 type: 'number',
                 leading: undefined,
                 trailing: '%',
@@ -24,7 +24,7 @@ export const TextInputExample: ComponentExample<TextInputProps> = {
         },
         {
             label: 'Dimension',
-            state: {
+            propState: {
                 type: 'number',
                 leading: undefined,
                 placeholder: 'dimensions',

@@ -588,6 +588,27 @@ async function createMeta() {
         ),
     );
 
+    const examplesFilePath = path.join(metaFileDirectory, 'examples.ts');
+
+    const componentsWithExamples = componentFiles.filter(({ name }) =>
+        fs.existsSync(path.resolve(__dirname, 'src', 'demo', 'examples', `${name}.tsx`)),
+    );
+
+    fs.writeFileSync(
+        examplesFilePath,
+        `${componentsWithExamples
+            .map(({ name }) => `import { ${name}Example as ${name} } from '@bspk/ui/demo/examples/${name}';`)
+            .join('\n')}
+import { ComponentExample, ComponentExampleFn } from '@bspk/ui/demo/utils';
+import { MetaComponentName } from 'src/meta';
+
+export const examples: Partial<Record<MetaComponentName, ComponentExample<any> | ComponentExampleFn<any>>> = {
+${componentsWithExamples.map(({ name }) => `    ${name},`).join('\n')}
+}`,
+    );
+
+    pretty(examplesFilePath);
+
     const metaFilePath = path.join(metaFileDirectory, 'meta.ts');
 
     fs.writeFileSync(

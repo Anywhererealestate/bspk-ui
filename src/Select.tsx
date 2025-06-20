@@ -127,7 +127,7 @@ function Select({
 }: SelectProps) {
     const id = useId(propId);
 
-    const { toggleProps, menuProps, closeMenu } = useCombobox({
+    const { toggleProps, menuProps, closeMenu, elements } = useCombobox({
         placement: 'bottom',
         disabled,
         invalid,
@@ -144,17 +144,18 @@ function Select({
         <>
             <input defaultValue={selected} name={name} type="hidden" />
             <button
-                aria-label={ariaLabel}
+                aria-label={ariaLabel || selectLabel || placeholder}
                 data-bspk="select"
                 data-empty={selectLabel ? undefined : ''}
                 data-invalid={invalid || undefined}
                 data-size={size}
                 disabled={disabled || readOnly}
                 id={id}
+                ref={elements.setReference}
                 style={styleProp}
                 {...toggleProps}
             >
-                <ListItem data-placeholder="" label={selectLabel || placeholder} readOnly />
+                <ListItem as="span" data-placeholder="" label={selectLabel || placeholder} readOnly />
                 <span data-icon>
                     <SvgChevronRight />
                 </span>
@@ -162,6 +163,7 @@ function Select({
             <Portal>
                 <Listbox
                     data-floating
+                    innerRef={elements.setFloating}
                     isMulti={isMulti}
                     itemDisplayCount={itemCount}
                     items={options}

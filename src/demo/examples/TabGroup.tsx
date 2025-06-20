@@ -12,7 +12,7 @@ export const TabGroupExample: ComponentExample<TabGroupProps> = {
     presets: [
         {
             label: 'With icons',
-            state: {
+            propState: {
                 options: [
                     {
                         value: '1',
@@ -37,7 +37,7 @@ export const TabGroupExample: ComponentExample<TabGroupProps> = {
         },
         {
             label: 'With badges',
-            state: {
+            propState: {
                 options: [
                     {
                         value: '1',

@@ -69,6 +69,8 @@ export type ButtonProps<As extends ElementType = 'button'> = CommonProps<'disabl
     toolTip?: string;
     /** The function to call when the button is clicked. */
     onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+    /** A ref to the button element. */
+    innerRef?: React.Ref<HTMLButtonElement>;
 };
 
 /**
@@ -106,6 +108,7 @@ function Button<As extends ElementType = 'button'>(props: ElementProps<ButtonPro
         showLabel = true,
         toolTip: toolTipProp,
         children,
+        innerRef,
         ...containerProps
     } = props;
     const label = typeof children === 'string' ? children : labelProp || '';
@@ -127,6 +130,7 @@ function Button<As extends ElementType = 'button'>(props: ElementProps<ButtonPro
             data-variant={variant}
             data-width={width}
             disabled={disabled || undefined}
+            ref={innerRef}
         >
             {children && typeof children !== 'string' ? (
                 children
