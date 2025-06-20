@@ -74,7 +74,6 @@ export function useCombobox({
             'aria-readonly': readOnly || undefined,
             role: 'combobox',
             tabIndex: 0,
-            ref: (node: HTMLElement | null) => elements.setTrigger(node),
             onClick: () => {
                 setShow((prev) => !prev);
             },
@@ -93,6 +92,7 @@ export function useCombobox({
                 return handleKeyNavigation?.(event.nativeEvent);
             },
         },
+        toggleRef: (node: HTMLElement | null) => elements.setTrigger(node),
         closeMenu,
     };
 }

@@ -35,9 +35,11 @@ export type MenuItem = CommonProps<'disabled'> & {
     /** The content to display in the menu item. */
     label: string;
     /** The value of the menu item. */
-    value: string;
+    value?: string;
     /** The unique id of the menu item. */
     id?: string;
+    /** The possible link href. This is handled in the ListItem. */
+    href?: string;
 };
 export type MenuProps<T extends MenuItem = MenuItem, ItemsAs extends ElementType = 'button'> = CommonProps<
     'disabled' | 'id'
@@ -183,7 +185,14 @@ function Menu({
     const { items, itemCount } = useMemo(() => {
         const itemsNext = Array.isArray(itemsProp) ? itemsProp : [];
         return {
-            items: itemsNext,
+            items: itemsNext.map((item, index) => {
+                const itemId = item.id || menuItemId(menuId, index);
+                return {
+                    ...item,
+                    id: itemId,
+                    value: item.value || itemId,
+                };
+            }),
             // Ensure itemCount is within the range of items.length
             itemCount: Math.min(
                 itemsNext.length,
@@ -237,8 +246,6 @@ function Menu({
             )}
             {items.length
                 ? items.map((item, index) => {
-                      const itemId = item.id || menuItemId(menuId, index);
-
                       const selected = Boolean(Array.isArray(selectedValues) && selectedValues.includes(item.value));
 
                       const renderProps = renderListItem?.({
@@ -249,7 +256,7 @@ function Menu({
                           isMulti,
                           menuId: menuId || '',
                           selected,
-                          itemId,
+                          itemId: item.id,
                       });
 
                       return (
@@ -258,26 +265,33 @@ function Menu({
                               active={activeIndex === index || undefined}
                               aria-disabled={item.disabled || undefined}
                               aria-posinset={index + 1}
+                              aria-selected={selected || undefined}
                               as={itemsAs}
-                              id={itemId}
-                              key={itemId}
+                              disabled={item.disabled || undefined}
+                              href={item.href}
+                              id={item.id}
+                              key={item.id}
                               label={renderProps?.label?.toString() || item.label?.toString()}
-                              onClick={(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-                                  if (renderProps) renderProps?.onClick?.(event);
+                              onClick={
+                                  item.href
+                                      ? undefined
+                                      : (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+                                            if (renderProps) renderProps?.onClick?.(event);
 
-                                  if (onChange) {
-                                      if (!isMulti) {
-                                          onChange?.([item.value], event);
-                                          return;
-                                      }
-                                      onChange(
-                                          selected
-                                              ? selectedValues.filter((value) => value !== item.value)
-                                              : [...selectedValues, item.value],
-                                          event,
-                                      );
-                                  }
-                              }}
+                                            if (onChange) {
+                                                if (!isMulti) {
+                                                    onChange?.([item.value], event);
+                                                    return;
+                                                }
+                                                onChange(
+                                                    selected
+                                                        ? selectedValues.filter((value) => value !== item.value)
+                                                        : [...selectedValues, item.value],
+                                                    event,
+                                                );
+                                            }
+                                        }
+                              }
                               role="option"
                               tabIndex={-1}
                               trailing={
@@ -299,9 +313,6 @@ function Menu({
                                       renderProps?.trailing
                                   )
                               }
-                              aria-selected={selected || undefined}
-                              //data-selected={selected || undefined}
-                              disabled={item.disabled || undefined}
                           />
                       );
                   })

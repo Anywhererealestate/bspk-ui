@@ -124,9 +124,10 @@ function SearchBar({
 }: SearchBarProps) {
     const id = useId(idProp);
     const {
-        toggleProps: { ref: triggerRef, onClick, onKeyDownCapture, ...triggerProps },
+        toggleProps: { onClick, onKeyDownCapture, ...triggerProps },
         menuProps,
         closeMenu,
+        toggleRef,
     } = useCombobox({
         placement: 'bottom-start',
     });
@@ -139,7 +140,7 @@ function SearchBar({
                 <TextInput
                     aria-label={ariaLabel}
                     autoComplete="off"
-                    containerRef={triggerRef}
+                    containerRef={toggleRef}
                     id={id}
                     inputRef={(node) => {
                         inputRef?.(node || null);

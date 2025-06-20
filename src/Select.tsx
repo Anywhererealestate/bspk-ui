@@ -127,7 +127,7 @@ function Select({
 }: SelectProps) {
     const id = useId(propId);
 
-    const { toggleProps, menuProps, closeMenu } = useCombobox({
+    const { toggleProps, menuProps, closeMenu, toggleRef } = useCombobox({
         placement: 'bottom',
         disabled,
         invalid,
@@ -151,6 +151,7 @@ function Select({
                 data-size={size}
                 disabled={disabled || readOnly}
                 id={id}
+                ref={toggleRef}
                 style={styleProp}
                 {...toggleProps}
             >
