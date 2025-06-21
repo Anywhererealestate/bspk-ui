@@ -64,6 +64,8 @@ export type DialogProps = CommonProps<'id'> & {
  *     }
  *
  * @name Dialog
+ * @phase Utility
+
  */
 function Dialog({
     //

@@ -6,7 +6,6 @@ import { Button } from './Button';
 import { Link } from './Link';
 import { ListItem } from './ListItem';
 import { Menu } from './Menu';
-import { Portal } from './Portal';
 import { Txt } from './Txt';
 import { useCombobox } from './hooks/useCombobox';
 import { useId } from './hooks/useId';
@@ -87,6 +86,7 @@ export type BreadcrumbProps = CommonProps<'id'> & {
  *     }
  *
  * @name Breadcrumb
+ * @phase Backlog
  */
 function Breadcrumb({ id: propId, items: itemsProp }: BreadcrumbProps) {
     const id = useId(propId);
@@ -124,11 +124,9 @@ function Breadcrumb({ id: propId, items: itemsProp }: BreadcrumbProps) {
                                 {...toggleProps}
                             />
 
-                            <Portal>
-                                <Menu {...menuProps} innerRef={elements.setFloating}>
-                                    {middleItems.map((item) => ListItem(item))}
-                                </Menu>
-                            </Portal>
+                            <Menu {...menuProps} innerRef={elements.setFloating}>
+                                {middleItems.map((item) => ListItem(item))}
+                            </Menu>
                             {breadcrumbIcon}
                         </li>
                     </>

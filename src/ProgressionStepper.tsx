@@ -73,6 +73,8 @@ export type ProgressionStepperProps = {
  *     }
  *
  * @name ProgressionStepper
+ * @phase Backlog
+
  */
 function ProgressionStepper({
     steps = [],

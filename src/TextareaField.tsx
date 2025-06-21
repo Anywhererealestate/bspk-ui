@@ -30,6 +30,8 @@ export type TextareaFieldProps = Pick<FormFieldProps, 'controlId' | 'errorMessag
  *     }
  *
  * @name TextareaField
+ * @phase DesignReview
+
  */
 function TextareaField({
     label,

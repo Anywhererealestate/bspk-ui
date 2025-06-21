@@ -5,6 +5,7 @@ import { useId } from './hooks/useId';
 import { CommonProps, ElementProps, SetRef } from './';
 
 import './menu.scss';
+import { Portal } from './Portal';
 
 export function menuItemId(menuId: string, index: number) {
     return `menu-${menuId}-item-${index}`;
@@ -38,14 +39,17 @@ export type MenuProps = CommonProps<'id'> & {
  *     }
  *
  * @name Menu
+ * @phase DesignReview
  */
 function Menu({ innerRef, id: idProp, children, ...props }: ElementProps<MenuProps, 'div'>) {
     const menuId = useId(idProp);
 
     return (
-        <div {...props} data-bspk="menu" id={menuId} ref={innerRef} role="menu" style={props.style}>
-            {children}
-        </div>
+        <Portal>
+            <div role="menu" {...props} data-bspk="menu" id={menuId} ref={innerRef}>
+                {children}
+            </div>
+        </Portal>
     );
 }
 

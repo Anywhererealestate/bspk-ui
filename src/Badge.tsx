@@ -58,6 +58,8 @@ export type BadgeProps = {
  * @exampleDescription This example shows a badge with a count of 5, size small, and primary variant.
  *
  * @name Badge
+ * @phase DesignReview
+
  */
 function Badge({ count: countProp, size = 'small', variant = 'primary', surfaceBorder, children }: BadgeProps) {
     const count: number | null = tryIntParse(countProp);

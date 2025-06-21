@@ -23,6 +23,8 @@ export type ToggleOptionProps = {
  * A utility component that wraps a checkbox, radio, and switch.
  *
  * @name ToggleOption
+ * @phase Backlog
+
  */
 function ToggleOption({ label, description, children }: ToggleOptionProps) {
     return (

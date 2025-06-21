@@ -43,6 +43,8 @@ export type ProgressBarProps = {
  *     }
  *
  * @name ProgressBar
+ * @phase DesignReview
+
  */
 function ProgressBar({ size = 'large', completion = 0, align = 'center', label }: ProgressBarProps) {
     const id = useId();

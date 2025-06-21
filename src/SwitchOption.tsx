@@ -9,6 +9,8 @@ export type SwitchOptionProps = Omit<SwitchProps, 'aria-label'> & Pick<ToggleOpt
  * If only a switch is needed, consider using the `Switch` component directly.
  *
  * @name SwitchOption
+ * @phase DesignReview
+
  */
 function SwitchOption({ label: labelProp, description, ...checkboxProps }: SwitchOptionProps) {
     const label = labelProp || description;

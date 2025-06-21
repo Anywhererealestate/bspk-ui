@@ -70,6 +70,8 @@ export type PopoverProps = CommonProps<'disabled'> & {
  *     }
  *
  * @name Popover
+ * @phase DesignReview
+
  */
 function Popover({ placement = 'top', header, content, callToAction, children, disabled = false }: PopoverProps) {
     const id = useId();

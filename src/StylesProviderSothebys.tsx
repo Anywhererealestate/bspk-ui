@@ -4,6 +4,8 @@ import '@bspk/styles/sothebys.css';
  * Utility to provide the Sotheby's styles to the application.
  *
  * @name StylesProviderSothebys
+ * @phase Utility
+
  */
 function StylesProviderSothebys() {
     return <></>;

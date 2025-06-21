@@ -99,6 +99,8 @@ export type ModalProps = Pick<DialogProps, 'id' | 'innerRef' | 'onClose' | 'open
  * @ignoreRefs ButtonProps
  *
  * @name Modal
+ * @phase WorkInProgress
+
  */
 function Modal({
     header,

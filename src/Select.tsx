@@ -3,7 +3,6 @@ import { SvgChevronRight } from '@bspk/icons/ChevronRight';
 
 import { ListItem } from './ListItem';
 import { Listbox, ListboxProps } from './Listbox';
-import { Portal } from './Portal';
 import { useCombobox } from './hooks/useCombobox';
 import { Placement } from './hooks/useFloating';
 import { useId } from './hooks/useId';
@@ -105,6 +104,7 @@ export type SelectProps<T extends SelectOption = SelectOption> = CommonProps<
  *     }
  *
  * @name Select
+ * @phase DesignReview
  */
 function Select({
     options = [],
@@ -160,24 +160,22 @@ function Select({
                     <SvgChevronRight />
                 </span>
             </button>
-            <Portal>
-                <Listbox
-                    data-floating
-                    innerRef={elements.setFloating}
-                    isMulti={isMulti}
-                    itemDisplayCount={itemCount}
-                    items={options}
-                    listItemProps={listItemProps}
-                    onChange={(next, event) => {
-                        event?.preventDefault();
-                        if (!isMulti) closeMenu();
-                        onChange?.(next);
-                    }}
-                    selectAll={selectAll}
-                    selectedValues={selected}
-                    {...menuProps}
-                />
-            </Portal>
+            <Listbox
+                data-floating
+                innerRef={elements.setFloating}
+                isMulti={isMulti}
+                itemDisplayCount={itemCount}
+                items={options}
+                listItemProps={listItemProps}
+                onChange={(next, event) => {
+                    event?.preventDefault();
+                    if (!isMulti) closeMenu();
+                    onChange?.(next);
+                }}
+                selectAll={selectAll}
+                selectedValues={selected}
+                {...menuProps}
+            />
         </>
     );
 }

@@ -128,6 +128,7 @@ export type ListboxProps<Item extends ListboxItemProps = ListboxItemProps> = Com
  *     }
  *
  * @name Listbox
+ * @phase Backlog
  */
 function Listbox<Item extends ListboxItemProps>({
     itemDisplayCount: itemCountProp = 5,
@@ -167,7 +168,6 @@ function Listbox<Item extends ListboxItemProps>({
         <Menu
             {...props}
             aria-multiselectable={isMulti || undefined}
-            data-bspk="listbox"
             data-disabled={disabled || undefined}
             data-item-count={itemCount || undefined}
             data-no-items={!items.length || undefined}

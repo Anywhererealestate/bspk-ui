@@ -66,7 +66,7 @@ export type DemoSetState<Props = Record<string, unknown>> = (
     next: Partial<Props> | ((prev: Props) => Partial<Props>),
 ) => void;
 
-export type DevPhase =
+export type ComponentPhase =
     | 'AccessibilityReview'
     | 'Backlog'
     | 'DesignReview'

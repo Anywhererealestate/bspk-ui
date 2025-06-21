@@ -56,6 +56,8 @@ const insetToVariable = (insetProp: number | string) => {
  *     }
  *
  * @name Divider
+ * @phase DesignReview
+
  */
 function Divider({
     padding = true,

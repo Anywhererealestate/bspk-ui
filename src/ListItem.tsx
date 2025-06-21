@@ -95,6 +95,8 @@ export type ListItemProps<As extends ElementType = 'div'> = CommonProps<'active'
  * @subComponents ListItemButton
  *
  * @name ListItem
+ * @phase DesignReview
+
  */
 function ListItem<As extends ElementType = 'div'>({
     as,

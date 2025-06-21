@@ -4,6 +4,8 @@ import '@bspk/styles/denali-boss.css';
  * Utility to provide the Denali Boss styles to the application.
  *
  * @name StylesProviderDenaliBoss
+ * @phase Utility
+
  */
 function StylesProviderDenaliBoss() {
     return <></>;

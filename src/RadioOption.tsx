@@ -22,6 +22,8 @@ export type RadioOptionProps = InvalidPropsLibrary &
  * If only a radio button is needed, consider using the `Radio` component directly.
  *
  * @name RadioOption
+ * @phase Utility
+
  */
 function RadioOption({ label: labelProp, description, ...checkboxProps }: RadioOptionProps) {
     const label = labelProp || description;

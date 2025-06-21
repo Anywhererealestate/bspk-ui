@@ -80,6 +80,8 @@ export type SkeletonProps = {
  * @exampleDescription This example shows a skeleton loading state for an image but can be used for any element.
  *
  * @name Skeleton
+ * @phase DesignReview
+
  */
 function Skeleton({
     width = 100,

@@ -4,6 +4,8 @@ import '@bspk/styles/corcoran.css';
  * Utility to provide the Corcoran styles to the application.
  *
  * @name StylesProviderCorcoran
+ * @phase Utility
+
  */
 function StylesProviderCorcoran() {
     return <></>;

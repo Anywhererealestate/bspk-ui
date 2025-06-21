@@ -4,6 +4,8 @@ import '@bspk/styles/cartus.css';
  * Utility to provide the Cartus styles to the application.
  *
  * @name StylesProviderCartus
+ * @phase Utility
+
  */
 function StylesProviderCartus() {
     return <></>;

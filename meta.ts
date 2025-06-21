@@ -14,7 +14,7 @@ import { fileURLToPath } from 'url';
 
 import * as TJS from 'typescript-json-schema';
 
-import { ComponentMeta, TypeProperty, UtilityMeta, TypeMeta } from './meta-types';
+import { ComponentMeta, TypeProperty, UtilityMeta, TypeMeta, ComponentPhase } from './meta-types';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -199,6 +199,7 @@ function generateComponentMeta({
         usage,
         css,
         hasTouchTarget: css.includes('data-touch-target'),
+        phase: (componentDoc.phase || 'Backlog') as unknown as ComponentPhase,
     };
 }
 

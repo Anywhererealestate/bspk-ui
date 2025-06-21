@@ -18,6 +18,8 @@ export type MenuButtonProps = Pick<ButtonProps, 'as' | 'onClick'>;
  *     }
  *
  * @name MenuButton
+ * @phase Utility
+
  */
 function MenuButton(props: ElementProps<MenuButtonProps, 'button'>) {
     return (

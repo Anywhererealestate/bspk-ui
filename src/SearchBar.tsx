@@ -3,7 +3,6 @@ import { SvgSearch } from '@bspk/icons/Search';
 import { useRef } from 'react';
 
 import { Listbox, ListboxProps, ListboxItemProps } from './Listbox';
-import { Portal } from './Portal';
 import { TextInputProps, TextInput } from './TextInput';
 import { Txt } from './Txt';
 import { useCombobox } from './hooks/useCombobox';
@@ -106,6 +105,7 @@ export type SearchBarProps<T extends ListboxItemProps = ListboxItemProps> = Pick
  *     }
  *
  * @name SearchBar
+ * @phase DesignReview
  */
 function SearchBar({
     itemDisplayCount: itemCount,
@@ -167,34 +167,32 @@ function SearchBar({
                 />
             </div>
             {showMenu && (
-                <Portal>
-                    <Listbox
-                        itemDisplayCount={itemCount}
-                        items={items}
-                        onChange={(selectedValues, event) => {
-                            event?.preventDefault();
-                            const item = items?.find((i) => i.value === selectedValues[0]);
-                            onSelect?.(item);
-                            onChange(item?.label || '');
-                            closeMenu();
-                        }}
-                        ref={elements.setFloating}
-                        {...menuProps}
-                    >
-                        {!!value?.length && !items?.length && (
-                            <div data-bspk="no-items-found">
-                                <Txt as="div" variant="heading-h5">
-                                    No results found
+                <Listbox
+                    innerRef={elements.setFloating}
+                    itemDisplayCount={itemCount}
+                    items={items}
+                    onChange={(selectedValues, event) => {
+                        event?.preventDefault();
+                        const item = items?.find((i) => i.value === selectedValues[0]);
+                        onSelect?.(item);
+                        onChange(item?.label || '');
+                        closeMenu();
+                    }}
+                    {...menuProps}
+                >
+                    {!!value?.length && !items?.length && (
+                        <div data-bspk="no-items-found">
+                            <Txt as="div" variant="heading-h5">
+                                No results found
+                            </Txt>
+                            {noResultsMessage && (
+                                <Txt as="div" variant="body-base">
+                                    {noResultsMessage}
                                 </Txt>
-                                {noResultsMessage && (
-                                    <Txt as="div" variant="body-base">
-                                        {noResultsMessage}
-                                    </Txt>
-                                )}
-                            </div>
-                        )}
-                    </Listbox>
-                </Portal>
+                            )}
+                        </div>
+                    )}
+                </Listbox>
             )}
         </>
     );
