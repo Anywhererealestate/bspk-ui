@@ -32,7 +32,7 @@ export const AvatarExample: ComponentExample = {
             label: 'With Image',
             state: {
                 name: 'Andre Giant',
-                image: '/profile.jpg',
+                image: './assets/profile.jpg',
             },
         },
     ] as Preset<AvatarProps>[],
