@@ -5,7 +5,7 @@ import { Tooltip } from './Tooltip';
 import { isValidIcon } from './utils/children';
 import { useErrorLogger } from './utils/errors';
 
-import { ButtonSize, CommonProps, ElementProps } from './';
+import { ButtonSize, CommonProps, ElementProps, SetRef } from './';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'tertiary';
 
@@ -69,8 +69,8 @@ export type ButtonProps<As extends ElementType = 'button'> = CommonProps<'disabl
     toolTip?: string;
     /** The function to call when the button is clicked. */
     onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-    /** A ref to the button element. */
-    innerRef?: React.Ref<HTMLButtonElement>;
+    /** A ref to the Button element. */
+    innerRef?: SetRef<HTMLButtonElement>;
 };
 
 /**
