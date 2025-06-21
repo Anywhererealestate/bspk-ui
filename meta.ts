@@ -199,9 +199,20 @@ function generateComponentMeta({
         usage,
         css,
         hasTouchTarget: css.includes('data-touch-target'),
-        phase: (componentDoc.phase || 'Backlog') as unknown as ComponentPhase,
+        phase: (COMPONENT_PHASES.includes(componentDoc.phase as ComponentPhase)
+            ? componentDoc.phase
+            : 'Backlog') as ComponentPhase,
     };
 }
+
+const COMPONENT_PHASES: ComponentPhase[] = [
+    'AccessibilityReview',
+    'Backlog',
+    'DesignReview',
+    'ProductionReady',
+    'Utility',
+    'WorkInProgress',
+] as const;
 
 async function generateUtilityMeta(utilityFile: string): Promise<UtilityMeta | null> {
     const content = fs.readFileSync(utilityFile, 'utf-8');
