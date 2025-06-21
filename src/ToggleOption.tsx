@@ -24,7 +24,6 @@ export type ToggleOptionProps = {
  *
  * @name ToggleOption
  * @phase Backlog
-
  */
 function ToggleOption({ label, description, children }: ToggleOptionProps) {
     return (

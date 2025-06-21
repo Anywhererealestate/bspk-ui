@@ -59,7 +59,6 @@ export type AvatarGroupProps = {
  *
  * @name AvatarGroup
  * @phase Backlog
-
  */
 function AvatarGroup({ items, size = 'small', max = 5, variant }: AvatarGroupProps) {
     if (!Array.isArray(items) || !items?.length) return null;

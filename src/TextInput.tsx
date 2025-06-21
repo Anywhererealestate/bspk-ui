@@ -73,7 +73,6 @@ export type TextInputProps = CommonProps<
  *
  * @name TextInput
  * @phase DesignReview
-
  */
 function TextInput({
     invalid: invalidProp,

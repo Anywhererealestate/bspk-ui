@@ -168,6 +168,7 @@ function Listbox<Item extends ListboxItemProps>({
         <Menu
             {...props}
             aria-multiselectable={isMulti || undefined}
+            data-bspk="listbox"
             data-disabled={disabled || undefined}
             data-item-count={itemCount || undefined}
             data-no-items={!items.length || undefined}

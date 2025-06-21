@@ -59,7 +59,6 @@ export type BadgeProps = {
  *
  * @name Badge
  * @phase DesignReview
-
  */
 function Badge({ count: countProp, size = 'small', variant = 'primary', surfaceBorder, children }: BadgeProps) {
     const count: number | null = tryIntParse(countProp);

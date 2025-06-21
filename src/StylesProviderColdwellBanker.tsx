@@ -5,7 +5,6 @@ import '@bspk/styles/coldwell-banker.css';
  *
  * @name StylesProviderColdwellBanker
  * @phase Utility
-
  */
 function StylesProviderColdwellBanker() {
     return <></>;

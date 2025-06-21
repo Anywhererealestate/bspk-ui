@@ -5,7 +5,6 @@ import '@bspk/styles/anywhere.css';
  *
  * @name StylesProviderAnywhere
  * @phase Utility
-
  */
 function StylesProviderAnywhere() {
     return <></>;

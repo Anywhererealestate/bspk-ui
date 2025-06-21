@@ -1,6 +1,4 @@
 [data-bspk='menu'] {
-    /*! --item-count: is set via inline style */
-
     width: 332px;
     border: 1px solid var(--stroke-neutral-low);
     background-color: var(--surface-neutral-t1-base);
@@ -9,6 +7,7 @@
     display: flex;
     flex-direction: column;
     padding: var(--spacing-sizing-02) var(--spacing-sizing-02);
+    overflow: auto;
 
     --item-size: var(--spacing-sizing-12);
 

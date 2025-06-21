@@ -36,7 +36,6 @@ export type ProgressionStepperBarProps = {
  *
  * @name ProgressionStepperBar
  * @phase DesignReview
-
  */
 function ProgressionStepperBar({
     stepCount,

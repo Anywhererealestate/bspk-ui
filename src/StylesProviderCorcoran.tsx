@@ -5,7 +5,6 @@ import '@bspk/styles/corcoran.css';
  *
  * @name StylesProviderCorcoran
  * @phase Utility
-
  */
 function StylesProviderCorcoran() {
     return <></>;

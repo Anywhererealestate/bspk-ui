@@ -5,7 +5,6 @@ import '@bspk/styles/cartus.css';
  *
  * @name StylesProviderCartus
  * @phase Utility
-
  */
 function StylesProviderCartus() {
     return <></>;

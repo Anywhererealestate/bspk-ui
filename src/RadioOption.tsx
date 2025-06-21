@@ -23,7 +23,6 @@ export type RadioOptionProps = InvalidPropsLibrary &
  *
  * @name RadioOption
  * @phase Utility
-
  */
 function RadioOption({ label: labelProp, description, ...checkboxProps }: RadioOptionProps) {
     const label = labelProp || description;

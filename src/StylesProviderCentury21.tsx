@@ -5,7 +5,6 @@ import '@bspk/styles/century-21.css';
  *
  * @name StylesProviderCentury21
  * @phase Utility
-
  */
 function StylesProviderCentury21() {
     return <></>;

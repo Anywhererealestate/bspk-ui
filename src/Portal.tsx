@@ -23,7 +23,6 @@ export type PortalProps = {
  *
  * @name Portal
  * @phase Utility
-
  */
 function Portal({ children, container }: PortalProps) {
     const [portalContainer, setPortalContainer] = useState<HTMLElement | null>(container || null);

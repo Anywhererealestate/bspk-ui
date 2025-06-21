@@ -1,11 +1,11 @@
 import { ReactNode } from 'react';
 
+import { Portal } from './Portal';
 import { useId } from './hooks/useId';
 
 import { CommonProps, ElementProps, SetRef } from './';
 
 import './menu.scss';
-import { Portal } from './Portal';
 
 export function menuItemId(menuId: string, index: number) {
     return `menu-${menuId}-item-${index}`;

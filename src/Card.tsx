@@ -43,7 +43,6 @@ export type CardProps = {
  *
  * @name Card
  * @phase DesignReview
-
  */
 function Card({ children, showPadding, variant = 'elevated' }: CardProps) {
     return (

@@ -1,3 +1,4 @@
+/* eslint-disable react/no-multi-comp */
 import './breadcrumb.scss';
 import { SvgChevronRight } from '@bspk/icons/ChevronRight';
 import { SvgMoreHoriz } from '@bspk/icons/MoreHoriz';
@@ -60,6 +61,8 @@ export type BreadcrumbProps = CommonProps<'id'> & {
     items: BreadcrumbItem[];
 };
 
+const BreadcrumbDivider = () => <SvgChevronRight aria-hidden={true} />;
+
 /**
  * Used to indicate the current page's location within a navigational hierarchy.
  *
@@ -99,8 +102,6 @@ function Breadcrumb({ id: propId, items: itemsProp }: BreadcrumbProps) {
 
     const middleItems = items.slice(1, items.length - 1);
 
-    const breadcrumbIcon = <SvgChevronRight aria-hidden={true} />;
-
     if (items.length < 2) return null; // No items to render
 
     return (
@@ -108,37 +109,33 @@ function Breadcrumb({ id: propId, items: itemsProp }: BreadcrumbProps) {
             <ol>
                 <li>
                     <Link href={items[0].href} label={items[0].label} />
-                    {breadcrumbIcon}
+                    <BreadcrumbDivider />
                 </li>
                 {items.length > 5 ? (
-                    <>
-                        <li>
-                            <Button
-                                icon={<SvgMoreHoriz />}
-                                innerRef={elements.setReference}
-                                label={`access to ${middleItems.length} breadcrumb items`}
-                                showLabel={false}
-                                size="small"
-                                toolTip={`${middleItems.length} pages`}
-                                variant="tertiary"
-                                {...toggleProps}
-                            />
+                    <li>
+                        <Button
+                            icon={<SvgMoreHoriz />}
+                            innerRef={elements.setReference}
+                            label={`Access to ${middleItems.length} pages`}
+                            showLabel={false}
+                            size="small"
+                            toolTip={`${middleItems.length} pages`}
+                            variant="tertiary"
+                            {...toggleProps}
+                        />
 
-                            <Menu {...menuProps} innerRef={elements.setFloating}>
-                                {middleItems.map((item) => ListItem(item))}
-                            </Menu>
-                            {breadcrumbIcon}
-                        </li>
-                    </>
+                        <Menu {...menuProps} innerRef={elements.setFloating}>
+                            {middleItems.map((item) => ListItem(item))}
+                        </Menu>
+                        <BreadcrumbDivider />
+                    </li>
                 ) : (
-                    <>
-                        {middleItems.map((item, idx) => (
-                            <li key={`Breadcrumb-${idx}`}>
-                                <Link href={item.href} label={item.label} />
-                                {breadcrumbIcon}
-                            </li>
-                        ))}
-                    </>
+                    middleItems.map((item, idx) => (
+                        <li key={`Breadcrumb-${idx}`}>
+                            <Link {...item} />
+                            <BreadcrumbDivider />
+                        </li>
+                    ))
                 )}
                 <li aria-current="true">
                     <Txt variant="body-base">{items[items.length - 1].label}</Txt>

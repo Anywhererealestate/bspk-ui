@@ -10,7 +10,6 @@ export type SwitchOptionProps = Omit<SwitchProps, 'aria-label'> & Pick<ToggleOpt
  *
  * @name SwitchOption
  * @phase DesignReview
-
  */
 function SwitchOption({ label: labelProp, description, ...checkboxProps }: SwitchOptionProps) {
     const label = labelProp || description;

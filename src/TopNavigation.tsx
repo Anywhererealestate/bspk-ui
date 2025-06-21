@@ -10,7 +10,6 @@ export type TopNavigationProps = {
  *
  * @name TopNavigation
  * @phase Backlog
-
  */
 function TopNavigation({ children }: TopNavigationProps) {
     return <div data-bspk="top-navigation">{children}</div>;

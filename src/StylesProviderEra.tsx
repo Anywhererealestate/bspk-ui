@@ -5,7 +5,6 @@ import '@bspk/styles/era.css';
  *
  * @name StylesProviderEra
  * @phase Utility
-
  */
 function StylesProviderEra() {
     return <></>;

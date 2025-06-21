@@ -5,7 +5,6 @@ import '@bspk/styles/sothebys.css';
  *
  * @name StylesProviderSothebys
  * @phase Utility
-
  */
 function StylesProviderSothebys() {
     return <></>;

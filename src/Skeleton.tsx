@@ -81,7 +81,6 @@ export type SkeletonProps = {
  *
  * @name Skeleton
  * @phase DesignReview
-
  */
 function Skeleton({
     width = 100,

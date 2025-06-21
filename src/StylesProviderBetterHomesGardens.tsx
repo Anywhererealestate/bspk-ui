@@ -5,7 +5,6 @@ import '@bspk/styles/better-homes-gardens.css';
  *
  * @name StylesProviderBetterHomesGardens
  * @phase Utility
-
  */
 function StylesProviderBetterHomesGardens() {
     return <></>;

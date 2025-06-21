@@ -84,7 +84,6 @@ export type NumberInputProps = CommonProps<'aria-label' | 'disabled' | 'id' | 'n
  *
  * @name NumberInput
  * @phase DesignReview
-
  */
 function NumberInput({
     value,

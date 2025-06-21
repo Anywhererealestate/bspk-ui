@@ -5,7 +5,6 @@ import '@bspk/styles/denali-boss.css';
  *
  * @name StylesProviderDenaliBoss
  * @phase Utility
-
  */
 function StylesProviderDenaliBoss() {
     return <></>;
