@@ -1,12 +1,18 @@
 [data-bspk='form-field'] {
-    box-sizing: border-box;
     width: 100%;
     display: flex;
     flex-direction: column;
     gap: var(--spacing-sizing-01);
 
-    header label {
+    header {
         flex-grow: 1;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+        label {
+            flex-grow: 1;
+        }
     }
 }
 

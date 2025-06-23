@@ -7,7 +7,6 @@ body[data-bspk] a[data-bspk='list-item'] {
 [data-bspk='list-item'] {
     display: block;
     width: 100%;
-    box-sizing: border-box;
     padding: 0 var(--spacing-sizing-02);
     background: unset;
     border: unset;
@@ -27,7 +26,6 @@ body[data-bspk] a[data-bspk='list-item'] {
         height: 100%;
         width: 100%;
         min-height: var(--spacing-sizing-09);
-        box-sizing: border-box;
         display: flex;
         flex-direction: row;
         gap: var(--spacing-sizing-03);

@@ -109,6 +109,8 @@ const uiHash = process.argv.find((arg) => arg.startsWith('hash='))?.substring(5)
 
 const build = process.argv.find((arg) => arg.startsWith('build='))?.substring(6) || '0';
 
+const examplesFileChanged = fileChanged.includes('src/demo/examples');
+
 if (!metaFileDirectory) {
     console.error('Please provide a path to the meta file.');
     process.exit(1);
@@ -119,7 +121,7 @@ const componentFiles = fs.readdirSync(componentsDir).flatMap((fileName) => {
 
     const filePath = path.resolve(componentsDir, fileName);
 
-    if (fileChanged && !filePath.includes(fileChanged)) return [];
+    if (fileChanged && !examplesFileChanged && !filePath.includes(fileChanged)) return [];
 
     const content = fs.readFileSync(filePath, 'utf-8');
     return {
@@ -140,9 +142,10 @@ const componentFiles = fs.readdirSync(componentsDir).flatMap((fileName) => {
 
 type ComponentFile = (typeof componentFiles)[0];
 
-fs.writeFileSync(path.resolve(__dirname, 'component-files.json'), JSON.stringify(componentFiles, null, 2), {
-    encoding: 'utf-8',
-});
+if (examplesFileChanged) {
+    createExamples();
+    process.exit(0);
+}
 
 function generateComponentMeta({
     filePath: componentFile,
@@ -600,27 +603,6 @@ async function createMeta() {
         ),
     );
 
-    const examplesFilePath = path.join(metaFileDirectory, 'examples.ts');
-
-    const componentsWithExamples = componentFiles.filter(({ name }) =>
-        fs.existsSync(path.resolve(__dirname, 'src', 'demo', 'examples', `${name}.tsx`)),
-    );
-
-    fs.writeFileSync(
-        examplesFilePath,
-        `${componentsWithExamples
-            .map(({ name }) => `import { ${name}Example as ${name} } from '@bspk/ui/demo/examples/${name}';`)
-            .join('\n')}
-import { ComponentExample, ComponentExampleFn } from '@bspk/ui/demo/utils';
-import { MetaComponentName } from 'src/meta';
-
-export const examples: Partial<Record<MetaComponentName, ComponentExample<any> | ComponentExampleFn<any>>> = {
-${componentsWithExamples.map(({ name }) => `    ${name},`).join('\n')}
-}`,
-    );
-
-    pretty(examplesFilePath);
-
     const metaFilePath = path.join(metaFileDirectory, 'meta.ts');
 
     fs.writeFileSync(
@@ -656,8 +638,33 @@ export const BUILD = meta.BUILD as string;`,
     };
 }
 
+function createExamples() {
+    const examplesFilePath = path.join(metaFileDirectory, 'examples.ts');
+
+    const componentsWithExamples = componentFiles.filter(({ name }) =>
+        fs.existsSync(path.resolve(__dirname, 'src', 'demo', 'examples', `${name}.tsx`)),
+    );
+
+    fs.writeFileSync(
+        examplesFilePath,
+        `${componentsWithExamples
+            .map(({ name }) => `import { ${name}Example as ${name} } from '@bspk/ui/demo/examples/${name}';`)
+            .join('\n')}
+import { ComponentExample, ComponentExampleFn } from '@bspk/ui/demo/utils';
+import { MetaComponentName } from 'src/meta';
+
+export const examples: Partial<Record<MetaComponentName, ComponentExample<any> | ComponentExampleFn<any>>> = {
+${componentsWithExamples.map(({ name }) => `    ${name},`).join('\n')}
+}`,
+    );
+
+    pretty(examplesFilePath);
+}
+
 async function main() {
     await createMeta();
+
+    createExamples();
 
     process.exit(0);
 }

@@ -3,8 +3,15 @@ import { TextareaProps, Textarea } from './Textarea';
 import { Txt } from './Txt';
 import { tryIntParse } from './utils/tryIntPsrse';
 
-export type TextareaFieldProps = Pick<FormFieldProps, 'controlId' | 'errorMessage' | 'helperText' | 'label'> &
-    TextareaProps;
+export type TextareaFieldProps = Pick<FormFieldProps, 'controlId' | 'helperText' | 'label'> &
+    TextareaProps & {
+        /**
+         * Whether the character count should be displayed.
+         *
+         * @default true
+         */
+        characterCount?: boolean;
+    };
 /**
  * A component that allows users to input large amounts of text that could span multiple lines.
  *
@@ -43,6 +50,7 @@ function TextareaField({
     readOnly,
     disabled,
     required,
+    characterCount = true,
     ...textareaProps
 }: TextareaFieldProps) {
     const maxLength = tryIntParse(maxLengthProp) || -1;
@@ -56,16 +64,19 @@ function TextareaField({
             data-bspk="textarea-field"
             errorMessage={errorMessage}
             helperText={helperText}
+            invalid={invalid}
             label={label}
             labelTrailing={
-                <Txt
-                    style={{
-                        color: 'var(--foreground-neutral-on-surface-variant-02)',
-                    }}
-                    variant="body-small"
-                >
-                    {`${textareaProps?.value?.length || 0}${maxLength > 0 ? `/${maxLength}` : ''}`}
-                </Txt>
+                characterCount && (
+                    <Txt
+                        style={{
+                            color: 'var(--foreground-neutral-on-surface-variant-02)',
+                        }}
+                        variant="body-small"
+                    >
+                        {`${textareaProps?.value?.length || 0}${maxLength > 0 ? `/${maxLength}` : ''}`}
+                    </Txt>
+                )
             }
             required={required}
         >
