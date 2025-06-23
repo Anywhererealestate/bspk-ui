@@ -48,7 +48,7 @@ export type MenuProps = CommonProps<'id'> & {
  * @name Menu
  * @phase DesignReview
  */
-function Menu({ innerRef, id: idProp, children, portal, ...props }: ElementProps<MenuProps, 'div'>) {
+function Menu({ innerRef, id: idProp, children, portal = true, ...props }: ElementProps<MenuProps, 'div'>) {
     const menuId = useId(idProp);
 
     const menu = (
