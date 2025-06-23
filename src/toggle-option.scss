@@ -29,6 +29,7 @@
     [data-label] {
         color: var(--foreground-neutral-on-surface);
         font: var(--labels-base);
+        text-wrap: nowrap;
     }
 
     [data-description] {

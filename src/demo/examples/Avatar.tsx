@@ -1,7 +1,7 @@
 import { AvatarProps } from '../../Avatar';
-import { ComponentExample, Preset } from '../utils';
+import { ComponentExample } from '../utils';
 
-export const AvatarExample: ComponentExample = {
+export const AvatarExample: ComponentExample<AvatarProps> = {
     presets: [
         {
             label: 'Name Only',
@@ -9,7 +9,7 @@ export const AvatarExample: ComponentExample = {
                 name: 'Andre Giant',
                 image: undefined, // Ensure no image is set
                 initials: undefined, // Ensure no initials are set
-                icon: undefined, // Ensure no icon is set
+                showIcon: false,
             },
         },
         {
@@ -18,13 +18,14 @@ export const AvatarExample: ComponentExample = {
                 name: 'Andre Giant',
                 initials: 'GA',
                 image: undefined, // Ensure no image is set
+                showIcon: false,
             },
         },
         {
             label: 'With Icon',
             propState: {
                 name: 'Andre Giant',
-                icon: 'Person',
+                showIcon: true,
                 image: undefined, // Ensure no image is set
             },
         },
@@ -33,7 +34,8 @@ export const AvatarExample: ComponentExample = {
             propState: {
                 name: 'Andre Giant',
                 image: '/profile.jpg',
+                showIcon: false,
             },
         },
-    ] as Preset<AvatarProps>[],
+    ],
 };
