@@ -7,6 +7,7 @@ import { SvgLogout } from '@bspk/icons/Logout';
 import { SvgMenuBook } from '@bspk/icons/MenuBook';
 import { SvgSettings } from '@bspk/icons/Settings';
 
+import { ElementProps } from '../..';
 import { Avatar } from '../../Avatar';
 import { Divider } from '../../Divider';
 import { ListItem } from '../../ListItem';
@@ -14,10 +15,16 @@ import { MenuProps } from '../../Menu';
 import { Switch } from '../../Switch';
 import { ComponentExampleFn } from '../utils';
 
-export const MenuExample: ComponentExampleFn<MenuProps & { 'data-dark-mode': boolean }> = ({ action }) => ({
+export const MenuExample: ComponentExampleFn<ElementProps<MenuProps, 'div'> & { 'data-dark-mode': boolean }> = ({
+    action,
+}) => ({
     render: ({ props, Component, setState }) => {
         return (
-            <Component {...props}>
+            <Component
+                {...props}
+                portal={false}
+                style={{ padding: 'var(--spacing-sizing-02) var(--spacing-sizing-02)' }}
+            >
                 <ListItem
                     label="Michael Scott"
                     leading={<Avatar image="/profile2.jpg" name="Michael Scott" />}
