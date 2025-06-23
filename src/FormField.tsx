@@ -1,9 +1,8 @@
 import './form-field.scss';
 import { InlineAlert } from './InlineAlert';
-import { Layout } from './Layout';
 import { Txt } from './Txt';
 
-import { CommonProps, InvalidPropsLibrary } from './';
+import { CommonProps, ElementProps, InvalidPropsLibrary } from './';
 
 export type FieldControlProps = {
     /**
@@ -84,7 +83,7 @@ function FormField({
     labelTrailing,
     controlId,
     required,
-}: FormFieldProps) {
+}: ElementProps<FormFieldProps, 'div'>) {
     const errorMessage = invalid && errorMessageProp ? errorMessageProp : undefined;
     const errorMessageId = errorMessage ? `${controlId}-error-message` : undefined;
     const helperText = !invalid && helperTextProp ? helperTextProp : undefined;
@@ -94,7 +93,7 @@ function FormField({
 
     return (
         <div data-bspk="form-field" data-invalid={invalid || undefined}>
-            <Layout as="div">
+            <header>
                 <label htmlFor={controlId}>
                     <Txt as="span" variant="labels-small">
                         {label}
@@ -106,7 +105,7 @@ function FormField({
                     )}
                 </label>
                 {labelTrailing}
-            </Layout>
+            </header>
             {children({
                 invalid,
                 'aria-describedby': helperTextId,

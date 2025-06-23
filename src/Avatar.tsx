@@ -1,8 +1,8 @@
 import './avatar.scss';
-import { ReactNode, useMemo } from 'react';
+import { SvgPerson } from '@bspk/icons/Person';
+import { useMemo } from 'react';
 
 import { Tooltip } from './Tooltip';
-import { isValidIcon } from './utils/children';
 import { ColorVariant } from './utils/colorVariants';
 
 const DEFAULT = {
@@ -43,26 +43,22 @@ export type AvatarProps = {
      *
      * @default grey
      */
-    color?: ColorVariant;
+    color?: Exclude<ColorVariant, 'white'>;
     /**
      * The initials to display in the avatar limited to 2 characters.
      *
      * If not provided, the first two letters of the name will be used as initials.
      *
      * @example
-     *     JD;
+     *     AG;
      */
     initials?: string;
     /**
-     * The icon to display in the avatar. This needs to be an icon from the
+     * Whether to show the icon in the avatar.
      *
-     * @example
-     *     <SvgPerson />;
-     *
-     * @type BspkIcon
-     * @bspk/icons library.
+     * @default true
      */
-    icon?: ReactNode;
+    showIcon?: boolean;
     /**
      * The url to the image to display in the avatar.
      *
@@ -108,7 +104,7 @@ function Avatar({
     initials: initialsProp,
     color = DEFAULT.color,
     size = DEFAULT.size,
-    icon,
+    showIcon,
     image,
     name: ariaLabel,
     showTooltip = DEFAULT.showTooltip,
@@ -116,7 +112,12 @@ function Avatar({
     const children = useMemo(() => {
         if (image) return <img alt={ariaLabel} src={image} />;
 
-        if (isValidIcon(icon)) return <span data-icon>{icon}</span>;
+        if (showIcon)
+            return (
+                <span data-icon>
+                    <SvgPerson />
+                </span>
+            );
 
         let initials = initialsProp;
 
@@ -131,7 +132,7 @@ function Avatar({
         if (initials) return <span data-initials>{initials.slice(0, 2)}</span>;
 
         return null;
-    }, [ariaLabel, icon, image, initialsProp]);
+    }, [ariaLabel, showIcon, image, initialsProp]);
 
     if (!children) return null;
 

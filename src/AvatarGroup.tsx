@@ -1,7 +1,7 @@
 import './avatar-group.scss';
 import { Avatar, AvatarProps, SizeVariant } from './Avatar';
 
-export type AvatarItem = Pick<AvatarProps, 'color' | 'icon' | 'image' | 'initials' | 'name'>;
+export type AvatarItem = Pick<AvatarProps, 'color' | 'image' | 'initials' | 'name' | 'showIcon'>;
 
 export type AvatarGroupProps = {
     /**
@@ -72,7 +72,7 @@ function AvatarGroup({ items, size = 'small', max = 5, variant }: AvatarGroupPro
                     <Avatar key={index} {...item} size={size} />
                 ))}
                 {overFlowCount > 0 && (
-                    <div aria-hidden data-bspk="avatar" data-size={size}>
+                    <div aria-hidden data-bspk="avatar" data-color="white" data-size={size}>
                         <span data-overflow-count>+{overFlowCount}</span>
                     </div>
                 )}

@@ -62,6 +62,8 @@ export type ${componentName}Props = {
  *     }
  *
  * @name ${componentName}
+ * @phase WorkInProgress
+ * 
  */
 function ${componentName}({ children, variant = DEFAULT.variant }: ${componentName}Props) {
     return (

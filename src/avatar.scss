@@ -76,25 +76,25 @@
     &[data-size='xx-large'] {
         --height: var(--spacing-sizing-17);
         --font: var(--subheader-xx-large);
-        --svg-size: var(--spacing-sizing-09);
+        --svg-size: var(--spacing-sizing-12);
     }
 
     &[data-size='xxx-large'] {
         --height: var(--spacing-sizing-19);
         --font: var(--display-regular-small);
-        --svg-size: var(--spacing-sizing-12);
+        --svg-size: var(--spacing-sizing-15);
     }
 
     &[data-size='xxxx-large'] {
         --height: var(--spacing-sizing-21);
         --font: var(--display-regular-medium);
-        --svg-size: var(--spacing-sizing-15);
+        --svg-size: var(--spacing-sizing-17);
     }
 
     &[data-size='xxxxx-large'] {
         --height: var(--spacing-sizing-23);
         --font: var(--display-regular-large);
-        --svg-size: var(--spacing-sizing-17);
+        --svg-size: var(--spacing-sizing-18);
     }
 }
 
