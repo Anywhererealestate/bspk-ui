@@ -1,119 +1,116 @@
-import { AvatarProps, Avatar } from '../../Avatar';
-import { RenderListItemParams } from '../../Menu';
-import { SelectProps, SelectOption } from '../../Select';
+import { Avatar } from '../../Avatar';
+import { SelectProps } from '../../Select';
 import { Tag } from '../../Tag';
 import { Txt } from '../../Txt';
-import { ColorVariant } from '../../utils/colorVariants';
 import { ComponentExample } from '../utils';
 
+const trailingPrice = (price: number) => (
+    <Txt>{`${new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+    }).format(price / 100)}`}</Txt>
+);
+
+const DEFAULT_OPTIONS = [
+    { value: '1', label: 'Option 1' },
+    { value: '2', label: 'Option 2' },
+    { value: '3', label: 'Option 3' },
+    { value: '4', label: 'Option 4' },
+    { value: '5', label: 'Option 5' },
+    { value: '6', label: 'Option 6' },
+    { value: '7', label: 'Option 7' },
+    { value: '8', label: 'Option 8' },
+    { value: '9', label: 'Option 9' },
+    { value: '10', label: 'Option 10' },
+];
+
 export const SelectExample: ComponentExample<SelectProps> = {
+    defaultState: {
+        'aria-label': 'Demo Select',
+        options: DEFAULT_OPTIONS,
+    },
     presets: [
         {
             label: 'Simple',
-            state: {
-                isMulti: false,
-            },
+            propState: { isMulti: false },
         },
         {
             label: 'Multi',
-            state: { isMulti: true },
+            propState: { isMulti: true },
         },
         {
             label: 'Trailing Tags',
-            state: {
+            propState: {
                 isMulti: false,
                 options: [
                     //
                     {
                         value: 'a',
                         label: 'Package A',
-                        tag: 'Recommended',
-                        tagColor: 'blue',
+                        trailing: (
+                            <Tag color="blue" size="x-small">
+                                Recommended
+                            </Tag>
+                        ),
                     },
                     {
                         value: 'b',
                         label: 'Package B',
-                        tag: 'Best Value',
-                        tagColor: 'green',
+                        trailing: (
+                            <Tag color="green" size="x-small">
+                                Best Value
+                            </Tag>
+                        ),
                     },
                     { value: 'c', label: 'Package C' },
                     { value: 'd', label: 'Package D' },
                 ],
-                renderListItem: (
-                    props: RenderListItemParams<
-                        SelectOption & {
-                            tag?: string;
-                            tagColor?: ColorVariant;
-                        }
-                    >,
-                ) => {
-                    return {
-                        trailing:
-                            props.item.tag && props.item.tagColor ? (
-                                <Tag color={props.item.tagColor!} size="x-small">
-                                    {props.item.tag}
-                                </Tag>
-                            ) : null,
-                    };
-                },
-            } as Partial<SelectProps<SelectOption & { tag?: string; tagColor?: ColorVariant }>>,
+            },
         },
         {
             label: 'Trailing Text',
-            state: {
+            propState: {
                 isMulti: false,
                 options: [
-                    { value: '1', label: 'Option A', price: 400 },
-                    { value: '2', label: 'Option B', price: 1000 },
-                    { value: '3', label: 'Option C', price: 1600 },
-                    { value: '4', label: 'Option D', price: 2000 },
+                    {
+                        value: '1',
+                        label: 'Option A',
+                        trailing: trailingPrice(400),
+                    },
+                    { value: '2', label: 'Option B', trailing: trailingPrice(1000) },
+                    { value: '3', label: 'Option C', trailing: trailingPrice(1600) },
+                    { value: '4', label: 'Option D', trailing: trailingPrice(2000) },
                 ],
-
-                renderListItem: (props) => {
-                    return {
-                        trailing: (
-                            <Txt>{`${new Intl.NumberFormat('en-US', {
-                                style: 'currency',
-                                currency: 'USD',
-                            }).format(props.item.price / 100)}`}</Txt>
-                        ),
-                    };
-                },
-            } as Partial<SelectProps<SelectOption & { price: number }>>,
+            },
         },
         {
             label: 'Leading Avatar',
-            state: {
+            propState: {
                 isMulti: false,
                 options: [
                     //
                     {
                         value: 'Jessica',
                         label: 'Jessica P.',
-                        profile: { name: 'Jessica P.' },
+                        leading: <Avatar name="Jessica P." size="small" />,
                     },
                     {
                         value: 'Louis',
                         label: 'Louis L.',
-                        profile: { name: 'Louis L.' },
+                        leading: <Avatar name="Louis L." size="small" />,
                     },
                     {
                         value: 'Harvey',
                         label: 'Harvey S.',
-                        profile: { name: 'Harvey S.' },
+                        leading: <Avatar name="Harvey S." size="small" />,
                     },
                     {
                         value: 'Mike',
                         label: 'Mike R.',
-                        profile: { name: 'Mike R.' },
+                        leading: <Avatar name="Mike R." size="small" />,
                     },
                 ],
-                renderListItem: (props) => {
-                    return {
-                        leading: <Avatar size="small" {...props.item.profile} />,
-                    };
-                },
-            } as Partial<SelectProps<SelectOption & { profile: AvatarProps }>>,
+            },
         },
     ],
 };

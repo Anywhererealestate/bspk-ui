@@ -5,7 +5,7 @@ export const AvatarExample: ComponentExample = {
     presets: [
         {
             label: 'Name Only',
-            state: {
+            propState: {
                 name: 'Andre Giant',
                 image: undefined, // Ensure no image is set
                 initials: undefined, // Ensure no initials are set
@@ -14,7 +14,7 @@ export const AvatarExample: ComponentExample = {
         },
         {
             label: 'With Initials',
-            state: {
+            propState: {
                 name: 'Andre Giant',
                 initials: 'GA',
                 image: undefined, // Ensure no image is set
@@ -22,7 +22,7 @@ export const AvatarExample: ComponentExample = {
         },
         {
             label: 'With Icon',
-            state: {
+            propState: {
                 name: 'Andre Giant',
                 icon: 'Person',
                 image: undefined, // Ensure no image is set
@@ -30,7 +30,7 @@ export const AvatarExample: ComponentExample = {
         },
         {
             label: 'With Image',
-            state: {
+            propState: {
                 name: 'Andre Giant',
                 image: '/profile.jpg',
             },

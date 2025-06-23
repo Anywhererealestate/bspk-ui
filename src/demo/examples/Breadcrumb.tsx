@@ -5,7 +5,7 @@ export const BreadcrumbExample: ComponentExample<BreadcrumbProps> = {
     presets: [
         {
             label: '1 Item (nothing visible)',
-            state: {
+            propState: {
                 items: [
                     {
                         label: 'Item 1',
@@ -16,7 +16,7 @@ export const BreadcrumbExample: ComponentExample<BreadcrumbProps> = {
         },
         {
             label: '2 Items (minimum)',
-            state: {
+            propState: {
                 items: [
                     {
                         label: 'Item 1',
@@ -31,7 +31,7 @@ export const BreadcrumbExample: ComponentExample<BreadcrumbProps> = {
         },
         {
             label: '5 Items',
-            state: {
+            propState: {
                 items: [
                     {
                         label: 'Item 1',
@@ -58,7 +58,7 @@ export const BreadcrumbExample: ComponentExample<BreadcrumbProps> = {
         },
         {
             label: '6 Items',
-            state: {
+            propState: {
                 items: [
                     {
                         label: 'Item 1',

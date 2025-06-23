@@ -52,6 +52,7 @@ export type TooltipProps = {
  *     }
  *
  * @name Tooltip
+ * @phase DesignReview
  */
 function Tooltip({
     placement = DEFAULT.placement,
@@ -98,7 +99,7 @@ function Tooltip({
                         id={id}
                         ref={(node) => {
                             elements.setFloating(node);
-                            elements.setTrigger(document.querySelector<HTMLElement>(`[aria-describedby="${id}"]`));
+                            elements.setReference(document.querySelector<HTMLElement>(`[aria-describedby="${id}"]`));
                         }}
                         role="tooltip"
                         style={floatingStyles}

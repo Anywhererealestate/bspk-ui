@@ -62,9 +62,11 @@ export type TypeProperty = {
 
 export type DemoAction = (message: string, variant?: AlertVariant) => void;
 
-export type DemoSetState<Props = Record<string, unknown>> = (next: Partial<Props>) => void;
+export type DemoSetState<Props = Record<string, unknown>> = (
+    next: Partial<Props> | ((prev: Props) => Partial<Props>),
+) => void;
 
-export type DevPhase =
+export type ComponentPhase =
     | 'AccessibilityReview'
     | 'Backlog'
     | 'DesignReview'
@@ -107,7 +109,7 @@ export type ComponentExample<Props = Record<string, unknown>> = {
      *
      * //
      */
-    containerStyle?: React.CSSProperties | ((state: Props) => React.CSSProperties);
+    containerStyle?: React.CSSProperties | ((propState: Props) => React.CSSProperties);
     /**
      * True to hide all or a list of variants to hide.
      *
@@ -115,11 +117,17 @@ export type ComponentExample<Props = Record<string, unknown>> = {
      */
     hideVariants?: string[] | true;
     /**
-     * This is used to set the initial state of the component.
+     * This is used to set the initial propState of the component.
      *
      * Specifically to highlight certain features of the component.
      */
     presets?: Preset<Props>[];
+    /**
+     * This is used to set the initial propState of the component before any preset propState is applied.
+     *
+     * Specifically to highlight certain features of the component.
+     */
+    defaultState?: Partial<Props>;
     /**
      * The component to render in the example.
      *
@@ -135,12 +143,12 @@ export type ComponentExampleFn<Props = Record<string, unknown>> = (params: {
     action: DemoAction;
 }) => ComponentExample<Props>;
 
-export type Preset<P> = {
+export type Preset<Props> = {
     /** The name of the preset. This is used to display the preset in the UI. */
     label: string;
     /** The props of the component. This is used to set props of the component. These values can't be changed in the UI. */
-    state?: Partial<P>;
-    /** Determines if the preset is the default preset. This is used to set the initial state of the component. */
+    propState?: Partial<Props>;
+    /** Determines if the preset is the default preset. This is used to set the initial propState of the component. */
     isDefault?: boolean;
 };
 

@@ -4,6 +4,7 @@ import '@bspk/styles/era.css';
  * Utility to provide the ERA styles to the application.
  *
  * @name StylesProviderEra
+ * @phase Utility
  */
 function StylesProviderEra() {
     return <></>;

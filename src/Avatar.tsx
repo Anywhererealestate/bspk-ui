@@ -88,13 +88,13 @@ export type AvatarProps = {
  *     function Example() {
  *         return (
  *             <Avatar
- *                 name="Andre Giant"
- *                 initials="AR"
  *                 color="blue"
- *                 size="large"
  *                 icon={<SvgPerson />}
  *                 image="/profile.jpg"
+ *                 initials="AR"
+ *                 name="Andre Giant"
  *                 showTooltip={true}
+ *                 size="large"
  *             />
  *         );
  *     }
@@ -102,6 +102,7 @@ export type AvatarProps = {
  * @exampleDescription The image if provided is displayed first, followed by the icon if provided, and finally the initials. If no initials are provided, the first two letters of the name will be used as initials.
  *
  * @name Avatar
+ * @phase DesignReview
  */
 function Avatar({
     initials: initialsProp,

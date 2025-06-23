@@ -2,8 +2,7 @@ import './select.scss';
 import { SvgChevronRight } from '@bspk/icons/ChevronRight';
 
 import { ListItem } from './ListItem';
-import { Menu, MenuProps } from './Menu';
-import { Portal } from './Portal';
+import { Listbox, ListboxProps } from './Listbox';
 import { useCombobox } from './hooks/useCombobox';
 import { Placement } from './hooks/useFloating';
 import { useId } from './hooks/useId';
@@ -21,7 +20,7 @@ export type SelectProps<T extends SelectOption = SelectOption> = CommonProps<
     'aria-label' | 'disabled' | 'id' | 'name' | 'readOnly' | 'size'
 > &
     InvalidPropsLibrary &
-    Pick<MenuProps<T>, 'isMulti' | 'itemCount' | 'renderListItem' | 'selectAll'> & {
+    Pick<ListboxProps<T>, 'isMulti' | 'itemDisplayCount' | 'listItemProps' | 'selectAll'> & {
         /**
          * Array of options to display in the select
          *
@@ -105,6 +104,7 @@ export type SelectProps<T extends SelectOption = SelectOption> = CommonProps<
  *     }
  *
  * @name Select
+ * @phase DesignReview
  */
 function Select({
     options = [],
@@ -113,7 +113,7 @@ function Select({
     'aria-label': ariaLabel,
     placeholder = 'Select...',
     size = 'medium',
-    itemCount = 5,
+    itemDisplayCount: itemCount = 5,
     disabled,
     id: propId,
     invalid,
@@ -121,13 +121,13 @@ function Select({
     readOnly,
     name,
     isMulti,
-    renderListItem,
+    listItemProps,
     style: styleProp,
     selectAll,
 }: SelectProps) {
     const id = useId(propId);
 
-    const { toggleProps, menuProps, closeMenu, toggleRef } = useCombobox({
+    const { toggleProps, menuProps, closeMenu, elements } = useCombobox({
         placement: 'bottom',
         disabled,
         invalid,
@@ -144,39 +144,38 @@ function Select({
         <>
             <input defaultValue={selected} name={name} type="hidden" />
             <button
-                aria-label={ariaLabel}
+                aria-label={ariaLabel || selectLabel || placeholder}
                 data-bspk="select"
                 data-empty={selectLabel ? undefined : ''}
                 data-invalid={invalid || undefined}
                 data-size={size}
                 disabled={disabled || readOnly}
                 id={id}
-                ref={toggleRef}
+                ref={elements.setReference}
                 style={styleProp}
                 {...toggleProps}
             >
-                <ListItem data-placeholder="" label={selectLabel || placeholder} readOnly />
+                <ListItem as="span" data-placeholder="" label={selectLabel || placeholder} readOnly />
                 <span data-icon>
                     <SvgChevronRight />
                 </span>
             </button>
-            <Portal>
-                <Menu
-                    data-floating
-                    isMulti={isMulti}
-                    itemCount={itemCount}
-                    items={options}
-                    onChange={(next, event) => {
-                        event?.preventDefault();
-                        if (!isMulti) closeMenu();
-                        onChange?.(next);
-                    }}
-                    renderListItem={renderListItem}
-                    selectAll={selectAll}
-                    selectedValues={selected}
-                    {...menuProps}
-                />
-            </Portal>
+            <Listbox
+                data-floating
+                innerRef={elements.setFloating}
+                isMulti={isMulti}
+                itemDisplayCount={itemCount}
+                items={options}
+                listItemProps={listItemProps}
+                onChange={(next, event) => {
+                    event?.preventDefault();
+                    if (!isMulti) closeMenu();
+                    onChange?.(next);
+                }}
+                selectAll={selectAll}
+                selectedValues={selected}
+                {...menuProps}
+            />
         </>
     );
 }

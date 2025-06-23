@@ -1,30 +1,59 @@
+import { SvgAccountCircle } from '@bspk/icons/AccountCircle';
+import { SvgDarkMode } from '@bspk/icons/DarkMode';
+import { SvgDarkModeFill } from '@bspk/icons/DarkModeFill';
+import { SvgHelp } from '@bspk/icons/Help';
+import { SvgLicense } from '@bspk/icons/License';
+import { SvgLogout } from '@bspk/icons/Logout';
+import { SvgMenuBook } from '@bspk/icons/MenuBook';
+import { SvgSettings } from '@bspk/icons/Settings';
+
+import { Avatar } from '../../Avatar';
+import { Divider } from '../../Divider';
+import { ListItem } from '../../ListItem';
 import { MenuProps } from '../../Menu';
-import { ComponentExample } from '../utils';
+import { Switch } from '../../Switch';
+import { ComponentExampleFn } from '../utils';
 
-import { SelectExample } from './Select';
-
-export const MenuExample: ComponentExample<MenuProps> = {
-    presets: [
-        {
-            label: 'Links',
-            state: {
-                isMulti: false,
-                items: [
-                    {
-                        label: 'Link 1',
-                        href: '#link-1',
-                    },
-                    {
-                        label: 'Link 2',
-                        href: '#link-2',
-                    },
-                    {
-                        label: 'Link 3',
-                        href: '#link-3',
-                    },
-                ],
-            },
-        },
-        ...(SelectExample.presets || []),
-    ],
-};
+export const MenuExample: ComponentExampleFn<MenuProps & { 'data-dark-mode': boolean }> = ({ action }) => ({
+    render: ({ props, Component, setState }) => {
+        return (
+            <Component {...props}>
+                <ListItem
+                    label="Michael Scott"
+                    leading={<Avatar image="/profile2.jpg" name="Michael Scott" />}
+                    subText="michael.scott@email.com"
+                />
+                <Divider inset={2} padding />
+                <ListItem href="#/my-profile" label="My profile" leading={<SvgAccountCircle />} />
+                <ListItem href="#/settings" label="Settings" leading={<SvgSettings />} />
+                <ListItem
+                    label="Dark mode"
+                    leading={props['data-dark-mode'] ? <SvgDarkModeFill /> : <SvgDarkMode />}
+                    trailing={
+                        <Switch
+                            aria-label="Dark mode"
+                            checked={!!props['data-dark-mode']}
+                            name="dark-mode"
+                            onChange={() => {
+                                setState((prev) => ({ 'data-dark-mode': !prev['data-dark-mode'] }));
+                                action('Dark mode toggled');
+                            }}
+                        />
+                    }
+                />
+                <Divider inset={2} padding={false} thickness="light" />
+                <ListItem href="#/guide-tutorial" label="Guide and tutorial" leading={<SvgMenuBook />} />
+                <ListItem href="#/help-center" label="Help center" leading={<SvgHelp />} />
+                <Divider inset={2} padding />
+                <ListItem href="#/go-premium" label="Go premium" leading={<SvgLicense />} />
+                <ListItem
+                    label="Log out"
+                    leading={<SvgLogout />}
+                    onClick={() => {
+                        action('Log out clicked');
+                    }}
+                />
+            </Component>
+        );
+    },
+});

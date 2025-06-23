@@ -23,9 +23,12 @@
 
     &:has(img) {
         overflow: hidden;
+        align-items: start;
+        justify-content: start;
     }
 
     img {
+        vertical-align: top;
         max-width: 100%;
     }
 

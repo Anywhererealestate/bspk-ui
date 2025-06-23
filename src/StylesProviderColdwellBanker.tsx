@@ -4,6 +4,7 @@ import '@bspk/styles/coldwell-banker.css';
  * Utility to provide the Coldwell Banker styles to the application.
  *
  * @name StylesProviderColdwellBanker
+ * @phase Utility
  */
 function StylesProviderColdwellBanker() {
     return <></>;

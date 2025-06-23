@@ -44,7 +44,7 @@ export function useCombobox({
 
     const { handleKeyNavigation, selectedIndex: activeIndex, selectedId } = useKeyboardNavigation(elements.floating);
 
-    useOutsideClick([elements.floating, elements.trigger], (event) => {
+    useOutsideClick([elements.floating, elements.reference], (event) => {
         event?.stopPropagation();
         if (!show) return;
         closeMenu();
@@ -55,9 +55,6 @@ export function useCombobox({
             activeIndex,
             'data-placement': middlewareData?.offset?.placement,
             id: menuId,
-            innerRef: (node: HTMLElement | null) => {
-                elements.setFloating(node);
-            },
             role: 'listbox',
             style: floatingStyles,
             tabIndex: -1,
@@ -92,8 +89,8 @@ export function useCombobox({
                 return handleKeyNavigation?.(event.nativeEvent);
             },
         },
-        toggleRef: (node: HTMLElement | null) => elements.setTrigger(node),
         closeMenu,
+        elements,
     };
 }
 

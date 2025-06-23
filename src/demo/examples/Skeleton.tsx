@@ -13,7 +13,7 @@ export const SkeletonExample: ComponentExample<SkeletonProps> = {
     presets: [
         {
             label: 'Loading Transition',
-            state: {
+            propState: {
                 textVariant: 'body-base',
                 textLines: 3,
             },

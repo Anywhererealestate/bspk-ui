@@ -4,6 +4,7 @@ import '@bspk/styles/better-homes-gardens.css';
  * Utility to provide the Better Homes & Gardens styles to the application.
  *
  * @name StylesProviderBetterHomesGardens
+ * @phase Utility
  */
 function StylesProviderBetterHomesGardens() {
     return <></>;

@@ -5,20 +5,20 @@ export const ButtonExample: ComponentExample<ButtonProps> = {
     presets: [
         {
             label: 'Icon & Text',
-            state: {
+            propState: {
                 icon: 'Add',
                 label: 'Add',
             },
         },
         {
             label: 'Text only',
-            state: {
+            propState: {
                 label: 'Add',
             },
         },
         {
             label: 'Icon only',
-            state: {
+            propState: {
                 showLabel: false,
                 icon: 'Add',
                 label: 'Add',

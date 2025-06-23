@@ -65,6 +65,7 @@ export type TagProps<As extends ElementType = 'span'> = {
  *     }
  *
  * @name Tag
+ * @phase AccessibilityReview
  */
 function Tag<As extends ElementType = 'span'>({
     children,

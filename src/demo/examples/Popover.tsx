@@ -15,7 +15,7 @@ export const PopoverExample: ComponentExampleFn<PopoverProps> = ({ action }) => 
     presets: [
         {
             label: 'With CallToAction',
-            state: {
+            propState: {
                 callToAction: {
                     label: 'Click me',
                     onClick: () => action('Call to action clicked!'),

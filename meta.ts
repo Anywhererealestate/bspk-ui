@@ -14,7 +14,7 @@ import { fileURLToPath } from 'url';
 
 import * as TJS from 'typescript-json-schema';
 
-import { ComponentMeta, TypeProperty, UtilityMeta, TypeMeta } from './meta-types';
+import { ComponentMeta, TypeProperty, UtilityMeta, TypeMeta, ComponentPhase } from './meta-types';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -199,8 +199,20 @@ function generateComponentMeta({
         usage,
         css,
         hasTouchTarget: css.includes('data-touch-target'),
+        phase: (COMPONENT_PHASES.includes(componentDoc.phase as ComponentPhase)
+            ? componentDoc.phase
+            : 'Backlog') as ComponentPhase,
     };
 }
+
+const COMPONENT_PHASES: ComponentPhase[] = [
+    'AccessibilityReview',
+    'Backlog',
+    'DesignReview',
+    'ProductionReady',
+    'Utility',
+    'WorkInProgress',
+] as const;
 
 async function generateUtilityMeta(utilityFile: string): Promise<UtilityMeta | null> {
     const content = fs.readFileSync(utilityFile, 'utf-8');
@@ -340,7 +352,6 @@ function generateTypes() {
             }
         }
 
-        if (next.exampleType) console.log({ next });
         return next;
     };
 
@@ -588,6 +599,27 @@ async function createMeta() {
             2,
         ),
     );
+
+    const examplesFilePath = path.join(metaFileDirectory, 'examples.ts');
+
+    const componentsWithExamples = componentFiles.filter(({ name }) =>
+        fs.existsSync(path.resolve(__dirname, 'src', 'demo', 'examples', `${name}.tsx`)),
+    );
+
+    fs.writeFileSync(
+        examplesFilePath,
+        `${componentsWithExamples
+            .map(({ name }) => `import { ${name}Example as ${name} } from '@bspk/ui/demo/examples/${name}';`)
+            .join('\n')}
+import { ComponentExample, ComponentExampleFn } from '@bspk/ui/demo/utils';
+import { MetaComponentName } from 'src/meta';
+
+export const examples: Partial<Record<MetaComponentName, ComponentExample<any> | ComponentExampleFn<any>>> = {
+${componentsWithExamples.map(({ name }) => `    ${name},`).join('\n')}
+}`,
+    );
+
+    pretty(examplesFilePath);
 
     const metaFilePath = path.join(metaFileDirectory, 'meta.ts');
 

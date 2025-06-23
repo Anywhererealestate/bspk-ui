@@ -36,6 +36,7 @@ export type NumberFieldProps = InvalidPropsLibrary &
  *     }
  *
  * @name NumberField
+ * @phase DesignReview
  */
 function NumberField({
     label,

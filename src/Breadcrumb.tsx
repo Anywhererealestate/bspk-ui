@@ -1,11 +1,12 @@
+/* eslint-disable react/no-multi-comp */
 import './breadcrumb.scss';
 import { SvgChevronRight } from '@bspk/icons/ChevronRight';
 import { SvgMoreHoriz } from '@bspk/icons/MoreHoriz';
 
 import { Button } from './Button';
 import { Link } from './Link';
+import { ListItem } from './ListItem';
 import { Menu } from './Menu';
-import { Portal } from './Portal';
 import { Txt } from './Txt';
 import { useCombobox } from './hooks/useCombobox';
 import { useId } from './hooks/useId';
@@ -17,7 +18,7 @@ export type BreadcrumbItem = {
      * The label of the breadcrumb item.
      *
      * @example
-     *     'level 1';
+     *     'Page 1';
      *
      * @required
      */
@@ -41,26 +42,26 @@ export type BreadcrumbProps = CommonProps<'id'> & {
      *
      * @example
      *     [
-     *         { label: 'level 1', href: 'https://bspk.anywhere.re' },
-     *         { label: 'level 2', href: 'https://bspk.anywhere.re' },
-     *         { label: 'level 3', href: 'https://bspk.anywhere.re' },
-     *         { label: 'level 4', href: 'https://bspk.anywhere.re' },
-     *         { label: 'level 5', href: 'https://bspk.anywhere.re' },
-     *         { label: 'level 6', href: 'https://bspk.anywhere.re' },
-     *         { label: 'level 7', href: 'https://bspk.anywhere.re' },
-     *         { label: 'level 8', href: 'https://bspk.anywhere.re' },
-     *         { label: 'level 9', href: 'https://bspk.anywhere.re' },
-     *         { label: 'level 10', href: 'https://bspk.anywhere.re' },
+     *         { label: 'Level 1', href: '#level-1' },
+     *         { label: 'Level 2', href: '#level-2' },
+     *         { label: 'Level 3', href: '#level-3' },
+     *         { label: 'Level 4', href: '#level-4' },
+     *         { label: 'Level 5', href: '#level-5' },
+     *         { label: 'Level 6', href: '#level-6' },
+     *         { label: 'Level 7', href: '#level-7' },
+     *         { label: 'Level 8', href: '#level-8' },
+     *         { label: 'Level 9', href: '#level-9' },
+     *         { label: 'Level 10', href: '#level-10' },
      *     ];
      *
      * @type Array<BreadcrumbItem>
      * @required
-     * @minimum 2
-     * @maximum 10
      */
 
     items: BreadcrumbItem[];
 };
+
+const BreadcrumbDivider = () => <SvgChevronRight aria-hidden={true} />;
 
 /**
  * Used to indicate the current page's location within a navigational hierarchy.
@@ -88,71 +89,56 @@ export type BreadcrumbProps = CommonProps<'id'> & {
  *     }
  *
  * @name Breadcrumb
+ * @phase Backlog
  */
-function Breadcrumb({ id: propId, items }: BreadcrumbProps) {
+function Breadcrumb({ id: propId, items: itemsProp }: BreadcrumbProps) {
     const id = useId(propId);
-    const safeItems = Array.isArray(items) ? items : [];
-    const itemCount = safeItems.length;
+    const items = Array.isArray(itemsProp) ? itemsProp : [];
 
-    const { toggleProps, menuProps, toggleRef } = useCombobox({
+    const { toggleProps, menuProps, elements } = useCombobox({
         placement: 'bottom',
         refWidth: false,
     });
 
-    const middleItems = safeItems.slice(1, itemCount - 1).map((item) => ({
-        label: item.label,
-        href: item.href,
-    }));
+    const middleItems = items.slice(1, items.length - 1);
 
-    const breadcrumbIcon = <SvgChevronRight aria-hidden={true} />;
+    if (items.length < 2) return null; // No items to render
 
-    if (itemCount < 2) {
-        return null; // No items to render
-    }
     return (
         <nav aria-label="Breadcrumb" data-bspk="breadcrumb" id={id}>
             <ol>
-                <li key="Breadcrumb-0">
-                    <Link href={safeItems[0].href} label={safeItems[0].label} />
-                    {breadcrumbIcon}
+                <li>
+                    <Link href={items[0].href} label={items[0].label} />
+                    <BreadcrumbDivider />
                 </li>
-                {itemCount > 5 ? (
-                    <>
-                        <li key={`Breadcrumb-${itemCount - 2}-items`}>
-                            <Button
-                                icon={<SvgMoreHoriz />}
-                                innerRef={toggleRef}
-                                label={`access to ${itemCount - 2} breadcrumb items`}
-                                showLabel={false}
-                                size="small"
-                                toolTip={`${itemCount - 2} pages`}
-                                variant="tertiary"
-                                {...toggleProps}
-                            />
+                {items.length > 5 ? (
+                    <li>
+                        <Button
+                            icon={<SvgMoreHoriz />}
+                            innerRef={elements.setReference}
+                            label={`Access to ${middleItems.length} pages`}
+                            showLabel={false}
+                            size="small"
+                            toolTip={`${middleItems.length} pages`}
+                            variant="tertiary"
+                            {...toggleProps}
+                        />
 
-                            <Portal>
-                                <Menu
-                                    isMulti={false}
-                                    itemCount={middleItems.length}
-                                    items={middleItems}
-                                    {...menuProps}
-                                />
-                            </Portal>
-                            {breadcrumbIcon}
-                        </li>
-                    </>
+                        <Menu {...menuProps} innerRef={elements.setFloating}>
+                            {middleItems.map((item) => ListItem(item))}
+                        </Menu>
+                        <BreadcrumbDivider />
+                    </li>
                 ) : (
-                    <>
-                        {safeItems.slice(1, itemCount - 1).map((item, idx) => (
-                            <li key={`Breadcrumb-${idx}`}>
-                                <Link href={item.href} label={item.label} />
-                                {breadcrumbIcon}
-                            </li>
-                        ))}
-                    </>
+                    middleItems.map((item, idx) => (
+                        <li key={`Breadcrumb-${idx}`}>
+                            <Link {...item} />
+                            <BreadcrumbDivider />
+                        </li>
+                    ))
                 )}
-                <li aria-current="true" key={`Breadcrumb-${itemCount - 1}`}>
-                    <Txt variant="body-base">{safeItems[itemCount - 1].label}</Txt>
+                <li aria-current="true">
+                    <Txt variant="body-base">{items[items.length - 1].label}</Txt>
                 </li>
             </ol>
         </nav>
