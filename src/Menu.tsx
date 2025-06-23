@@ -20,6 +20,13 @@ export type MenuProps = CommonProps<'id'> & {
      * @required
      */
     children: ReactNode;
+    /**
+     * Should the menu be rendered in a portal? This is useful for menus that need to be rendered outside of the normal
+     * DOM flow, such as dropdowns or modals.
+     *
+     * @default true
+     */
+    portal?: boolean;
 };
 
 /**
@@ -41,16 +48,16 @@ export type MenuProps = CommonProps<'id'> & {
  * @name Menu
  * @phase DesignReview
  */
-function Menu({ innerRef, id: idProp, children, ...props }: ElementProps<MenuProps, 'div'>) {
+function Menu({ innerRef, id: idProp, children, portal, ...props }: ElementProps<MenuProps, 'div'>) {
     const menuId = useId(idProp);
 
-    return (
-        <Portal>
-            <div role="menu" {...props} data-bspk="menu" id={menuId} ref={innerRef}>
-                {children}
-            </div>
-        </Portal>
+    const menu = (
+        <div role="menu" {...props} data-bspk="menu" id={menuId} ref={innerRef}>
+            {children}
+        </div>
     );
+
+    return portal ? <Portal>{menu}</Portal> : menu;
 }
 
 Menu.bspkName = 'Menu';
