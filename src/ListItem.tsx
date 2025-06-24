@@ -1,11 +1,12 @@
-import './list-item.scss';
 import { AnchorHTMLAttributes, ElementType, ReactNode } from 'react';
 
 import { ButtonProps, Button } from './Button';
 import { ChildElement, getChildrenElements } from './utils/children';
 import { useErrorLogger } from './utils/errors';
 
-import { CommonProps, ElementProps } from './';
+import { CommonProps, ElementProps, SetRef } from './';
+
+import './list-item.scss';
 
 export const LEADING_COMPONENTS = Object.freeze(['Icon', 'Img', 'Avatar']);
 
@@ -19,7 +20,9 @@ export const TRAILING_COMPONENTS = Object.freeze([
     'Txt',
 ]);
 
-export type ListItemProps<As extends ElementType = 'div'> = CommonProps<'active' | 'disabled' | 'readOnly'> & {
+export type ListItemProps<As extends ElementType = 'div', T = HTMLElement> = CommonProps<
+    'active' | 'disabled' | 'readOnly'
+> & {
     /**
      * The element type to render as.
      *
@@ -27,7 +30,6 @@ export type ListItemProps<As extends ElementType = 'div'> = CommonProps<'active'
      * @type ElementType
      */
     as?: As;
-
     /**
      * The leading element to display in the ListItem.
      *
@@ -61,6 +63,8 @@ export type ListItemProps<As extends ElementType = 'div'> = CommonProps<'active'
      * If the href is provided, the ListItem will render as an anchor element (`<a>`).
      */
     href?: AnchorHTMLAttributes<unknown>['href'];
+    /** A ref to the list item div element. */
+    innerRef?: SetRef<T>;
 };
 
 /**
@@ -97,7 +101,7 @@ export type ListItemProps<As extends ElementType = 'div'> = CommonProps<'active'
  * @name ListItem
  * @phase DesignReview
  */
-function ListItem<As extends ElementType = 'div'>({
+function ListItem<As extends ElementType = 'div', T = HTMLElement>({
     as,
     disabled,
     invalid,
@@ -108,8 +112,9 @@ function ListItem<As extends ElementType = 'div'>({
     active,
     readOnly,
     errorMessage,
+    innerRef,
     ...props
-}: ElementProps<ListItemProps<As>, As>) {
+}: ElementProps<ListItemProps<As, T>, As>) {
     let As: ElementType = as || 'div';
 
     const { logError } = useErrorLogger();
@@ -154,6 +159,7 @@ function ListItem<As extends ElementType = 'div'>({
             data-bspk="list-item"
             data-component={leading?.name || undefined}
             data-readonly={readOnly || undefined}
+            ref={innerRef}
             role={props.href ? undefined : 'button'}
         >
             <span data-inner>

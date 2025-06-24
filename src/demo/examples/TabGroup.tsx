@@ -19,24 +19,56 @@ export const TabGroupExample: ComponentExample<TabGroupProps> = {
                         label: 'Option 1',
                         icon: <SvgDiamond />,
                         iconActive: <SvgDiamondFill />,
+                        badge: undefined,
                     },
                     {
                         value: '2',
                         label: 'Disabled 2',
                         disabled: true,
                         icon: <SvgCircle />,
+                        badge: undefined,
                     },
                     {
                         value: '3',
                         label: 'Option 3',
                         icon: <SvgSquare />,
                         iconActive: <SvgSquareFill />,
+                        badge: undefined,
                     },
                 ],
             },
         },
         {
             label: 'With badges',
+            propState: {
+                options: [
+                    {
+                        value: '1',
+                        label: 'Option 1',
+                        icon: undefined,
+                        iconActive: undefined,
+                        badge: 1,
+                    },
+                    {
+                        value: '2',
+                        label: 'Disabled 2',
+                        disabled: true,
+                        icon: undefined,
+                        iconActive: undefined,
+                        badge: 2,
+                    },
+                    {
+                        value: '3',
+                        label: 'Option 3',
+                        icon: undefined,
+                        iconActive: undefined,
+                        badge: 3,
+                    },
+                ],
+            },
+        },
+        {
+            label: 'With icons & badges',
             propState: {
                 options: [
                     {
@@ -57,7 +89,7 @@ export const TabGroupExample: ComponentExample<TabGroupProps> = {
                         value: '3',
                         label: 'Option 3',
                         icon: <SvgSquare />,
-                        iconActive: <SvgSquare />,
+                        iconActive: <SvgSquareFill />,
                         badge: 3,
                     },
                 ],

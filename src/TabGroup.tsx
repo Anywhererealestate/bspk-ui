@@ -56,7 +56,7 @@ export type TabGroupProps = {
      * @example
      *     [
      *         { value: '1', label: 'Option 1' },
-     *         { value: '2', label: 'Option 2' },
+     *         { value: '2', label: 'Disabled 2 ', disabled: true },
      *         { value: '3', label: 'Option 3' },
      *     ];
      *
@@ -163,9 +163,7 @@ function TabGroup({
                         <span>
                             {(isActive && item.iconActive) || item.icon}
                             {item.label}
-                            {item.badge && !item.disabled && !isActive && (
-                                <Badge count={item.badge} size={TAB_BADGE_SIZES[size]} />
-                            )}
+                            {item.badge && !item.disabled && <Badge count={item.badge} size={TAB_BADGE_SIZES[size]} />}
                         </span>
                     </button>
                 );
