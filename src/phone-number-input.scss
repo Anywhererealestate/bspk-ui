@@ -2,11 +2,13 @@
     [data-bspk='text-input'] {
         padding-left: 0;
     }
+
     [data-bspk='divider'] {
         margin-left: 0;
         margin-top: var(--spacing-sizing-01);
         margin-bottom: var(--spacing-sizing-01);
     }
+
     [data-bspk='country-code-select'] {
         border: 0;
         padding: var(--spacing-sizing-02);
@@ -17,11 +19,13 @@
         }
     }
 }
+
 @media (width < 640px) {
     [data-bspk-inner='country-code-select-menu'] {
         display: none;
     }
 }
+
 @media (width >= 640px) {
     [data-bspk-inner='country-code-select-modal'] {
         display: none !important;
