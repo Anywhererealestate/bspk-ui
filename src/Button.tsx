@@ -96,6 +96,7 @@ export type ButtonProps<As extends ElementType = 'button'> = CommonProps<'disabl
  * @phase DesignReview
  */
 function Button<As extends ElementType = 'button'>(props: ElementProps<ButtonProps<As>, As>): JSX.Element {
+    console.log('\nicon pre:', icon, '\n\ntypeof icon', typeof icon);
     const {
         size = 'medium',
         variant = 'primary',
@@ -120,7 +121,7 @@ function Button<As extends ElementType = 'button'>(props: ElementProps<ButtonPro
     const { logError } = useErrorLogger();
     logError(!!icon && !isValidIcon(icon), 'Button - The icon prop must be a valid icon element.');
     logError(!label, 'Button - The button must have a label.');
-
+    console.log('\nicon:', icon, '\n\ntypeof icon', typeof icon);
     const button = (
         <As
             {...containerProps}

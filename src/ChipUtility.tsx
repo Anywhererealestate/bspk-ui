@@ -1,10 +1,6 @@
 import './chipUtility.scss';
 import { Svg360 } from '@bspk/icons/360';
-import {
-    CSSProperties,
-    ReactNode,
-    // isValidElement
-} from 'react';
+import { CSSProperties, ReactNode, isValidElement } from 'react';
 
 import { isValidIcon } from './utils/children';
 
@@ -72,6 +68,8 @@ function ChipUtility({
     style: styleProp,
     trailingIcon,
 }: ChipUtilityProps) {
+    console.log('\nleadingIcon', leadingIcon, '\n typeof leadingIcon', typeof leadingIcon);
+    console.log('\ntrailingIcon', trailingIcon);
     return (
         <span
             data-bspk="chip"
@@ -81,8 +79,8 @@ function ChipUtility({
             // onClick={disabled ? undefined : onClick}
             style={styleProp}
         >
-            {!!leadingIcon && isValidIcon(leadingIcon) && <span data-button-icon>{leadingIcon}</span>}
             <Svg360 />
+            {!!leadingIcon && isValidElement(leadingIcon) && <span data-chip-icon>{leadingIcon}</span>}
             {label}
             {trailingIcon}
         </span>
