@@ -39,6 +39,18 @@ export const SelectExample: ComponentExample<SelectProps> = {
             propState: { isMulti: true },
         },
         {
+            label: 'Long text',
+            propState: {
+                isMulti: false,
+                options: [
+                    { value: '1', label: 'This is a very long option that should truncate' },
+                    { value: '2', label: 'This is another long option that should truncate' },
+                    { value: '3', label: 'Short option' },
+                    { value: '4', label: 'Another short option' },
+                ],
+            },
+        },
+        {
             label: 'Trailing Tags',
             propState: {
                 isMulti: false,

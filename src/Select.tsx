@@ -1,11 +1,14 @@
 import './select.scss';
 import { SvgChevronRight } from '@bspk/icons/ChevronRight';
+import { useMemo } from 'react';
 
 import { ListItem } from './ListItem';
 import { Listbox, ListboxProps } from './Listbox';
+import { Tooltip } from './Tooltip';
 import { useCombobox } from './hooks/useCombobox';
 import { Placement } from './hooks/useFloating';
 import { useId } from './hooks/useId';
+import { useTruncatedText } from './hooks/useTruncatedText';
 
 import { CommonProps, InvalidPropsLibrary } from './';
 
@@ -128,7 +131,7 @@ function Select({
     const id = useId(propId);
 
     const { toggleProps, menuProps, closeMenu, elements } = useCombobox({
-        placement: 'bottom',
+        placement: 'bottom-start',
         disabled,
         invalid,
         readOnly,
@@ -136,30 +139,46 @@ function Select({
         offsetOptions: 4,
     });
 
-    const selectLabel = isMulti
-        ? `${selected?.length || 0} option${selected?.length !== 1 ? 's' : ''} selected`
-        : options.find((o) => o.value === selected?.[0])?.label;
+    const selectLabel = useMemo(
+        () =>
+            isMulti
+                ? `${selected?.length || 0} option${selected?.length !== 1 ? 's' : ''} selected`
+                : options.find((o) => o.value === selected?.[0])?.label,
+        [isMulti, options, selected],
+    );
+
+    const { setElement, isTruncated } = useTruncatedText();
 
     return (
         <>
             <input defaultValue={selected} name={name} type="hidden" />
-            <button
-                aria-label={ariaLabel || selectLabel || placeholder}
-                data-bspk="select"
-                data-empty={selectLabel ? undefined : ''}
-                data-invalid={invalid || undefined}
-                data-size={size}
-                disabled={disabled || readOnly}
-                id={id}
-                ref={elements.setReference}
-                style={styleProp}
-                {...toggleProps}
-            >
-                <ListItem as="span" data-placeholder="" label={selectLabel || placeholder} readOnly />
-                <span data-icon>
-                    <SvgChevronRight />
-                </span>
-            </button>
+            <Tooltip disabled={!isTruncated} label={selectLabel || placeholder}>
+                <button
+                    aria-label={ariaLabel || selectLabel || placeholder}
+                    data-bspk="select"
+                    data-empty={selectLabel ? undefined : ''}
+                    data-invalid={invalid || undefined}
+                    data-size={size}
+                    disabled={disabled || readOnly}
+                    id={id}
+                    ref={elements.setReference}
+                    style={styleProp}
+                    {...toggleProps}
+                >
+                    <ListItem
+                        as="span"
+                        data-placeholder
+                        innerRef={(node) => {
+                            if (node) setElement(node.querySelector<HTMLElement>('[data-text]'));
+                        }}
+                        label={selectLabel || placeholder}
+                        readOnly
+                    />
+                    <span data-icon>
+                        <SvgChevronRight />
+                    </span>
+                </button>
+            </Tooltip>
             <Listbox
                 data-floating
                 innerRef={elements.setFloating}

@@ -1,27 +1,27 @@
 /* eslint-disable @cspell/spellchecker */
 import { useState, useEffect } from 'react';
 
-import { SkeletonProps } from '../../Skeleton';
+import { SkeletonTextProps } from '../../SkeletonText';
 import { useTimeout } from '../../hooks/useTimeout';
 import { ComponentExample } from '../utils';
 
-export const SkeletonExample: ComponentExample<SkeletonProps> = {
+export const SkeletonTextExample: ComponentExample<SkeletonTextProps> = {
     render: ({ props, preset, Component }) => {
-        if (preset?.label === 'Loading Transition') return <SkeletonTransition {...props} Component={Component} />;
+        if (preset?.label === 'Loading Transition') return <SkeletonTextTransition {...props} Component={Component} />;
         return <Component {...props} />;
     },
     presets: [
         {
             label: 'Loading Transition',
             propState: {
-                textVariant: 'body-base',
-                textLines: 3,
+                variant: 'body-base',
+                lines: 3,
             },
         },
     ],
 };
 
-function SkeletonTransition({ Component, ...props }: { Component: React.ComponentType<Record<string, unknown>> }) {
+function SkeletonTextTransition({ Component, ...props }: { Component: React.ComponentType<Record<string, unknown>> }) {
     const loadingTimeout = useTimeout();
     const [loaded, setLoaded] = useState(false);
     useEffect(() => {

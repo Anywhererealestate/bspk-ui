@@ -3,7 +3,6 @@ import { SearchBarProps } from '../../SearchBar';
 import { ComponentExample } from '../utils';
 
 export const SearchBarExample: ComponentExample = {
-    containerStyle: { width: '400px' },
     render: ({ props: state, Component }) => {
         const props = { ...state } as SearchBarProps;
 

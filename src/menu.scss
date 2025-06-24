@@ -7,6 +7,7 @@
     display: flex;
     flex-direction: column;
     overflow: auto;
+    min-width: fit-content;
 
     --item-size: var(--spacing-sizing-12);
 

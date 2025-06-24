@@ -2,37 +2,25 @@
 import './skeleton.scss';
 import { CSSProperties, ReactNode } from 'react';
 
-import { TxtVariant } from './utils/txtVariants';
-
 export type SkeletonProps = {
     /**
      * The variant of the skeleton that best hints the content being loaded.
      *
-     * @default text
+     * @default rectangular
      */
-    variant?: 'circular' | 'photo' | 'profile' | 'rectangular' | 'text' | 'thumbnail';
+    variant?: 'circular' | 'photo' | 'profile' | 'rectangular' | 'thumbnail';
     /**
-     * The variant of the text being loaded. This is only used when variant is 'text'.
-     *
-     * @default body-base
-     */
-    textVariant?: TxtVariant;
-    /**
-     * The number of lines showing. This is only used when variant is 'text'.
-     *
-     * @default 3
-     */
-    textLines?: number;
-    /**
-     * The width of the skeleton. This is ignored when variant is 'text', 'profile', or 'thumbnail'.
+     * The width of the skeleton. This is ignored when variant is 'profile' or 'thumbnail'.
      *
      * @default 200
+     * @type number
      */
     width?: number | string;
     /**
-     * The height of the skeleton. This is ignored when variant is 'text', 'profile', or 'thumbnail'.
+     * The height of the skeleton. This is ignored when variant is 'profile' or 'thumbnail'.
      *
      * @default 100
+     * @type number
      */
     height?: number | string;
     /**
@@ -41,8 +29,6 @@ export type SkeletonProps = {
      * When the value is undefined, null or false the skeleton will appear.
      *
      * If the value is provided, the skeleton will not appear and the content will be displayed instead.
-     *
-     * @default null
      */
     children?: ReactNode | null;
 };
@@ -54,7 +40,7 @@ export type SkeletonProps = {
  * page by using skeletons. It feels like things are happening immediately, then the information is incrementally
  * displayed on the screen.
  *
- * This component can be used to create skeletons for various types of content, such as text, images, or profiles.
+ * This component can be used to create skeletons for various types of content, such as images or profiles.
  *
  * You can use this component directly or use the specific use case components: SkeletonPhoto, SkeletonProfile,
  * SkeletonRectangular, SkeletonText, SkeletonThumbnail, SkeletonCircular.
@@ -63,17 +49,17 @@ export type SkeletonProps = {
  *     import { Skeleton } from '@bspk/ui/skeleton';
  *
  *     function Example(item: { title: string; src: string } | null) {
- *         return item ? (
- *             <img
- *                 style={{
- *                     width: 210,
- *                     height: 118,
- *                 }}
- *                 alt={item.title}
- *                 src={item.src}
- *             />
- *         ) : (
- *             <Skeleton variant="photo" width={210} height={118} />
+ *         return (
+ *             <Skeleton variant="photo" width={210} height={118}>
+ *                 <img
+ *                     style={{
+ *                         width: 210,
+ *                         height: 118,
+ *                     }}
+ *                     alt={item.title}
+ *                     src={item.src}
+ *                 />
+ *             </Skeleton>
  *         );
  *     }
  *
@@ -82,14 +68,7 @@ export type SkeletonProps = {
  * @name Skeleton
  * @phase DesignReview
  */
-function Skeleton({
-    width = 100,
-    height = 100,
-    textLines = 3,
-    textVariant: textSize,
-    variant = 'text',
-    children = null,
-}: SkeletonProps) {
+function Skeleton({ width = 100, height = 100, variant = 'rectangular', children = null }: SkeletonProps) {
     return children !== null && children !== undefined && children !== false ? (
         children
     ) : (
@@ -102,15 +81,10 @@ function Skeleton({
             style={
                 {
                     '--height': typeof height === 'number' ? `${height}px` : height,
-                    '--text-height': `var(--${textSize}-size)`,
-                    '--text-margin': `calc(var(--${textSize}-line-height) - var(--${textSize}-size))`,
                     '--width': typeof width === 'number' ? `${width}px` : width,
                 } as CSSProperties
             }
-        >
-            {variant === 'text' &&
-                [...Array(Math.max(1, textLines || 0))].map((_, index) => <div data-line key={index} />)}
-        </div>
+        />
     );
 }
 
@@ -119,30 +93,23 @@ Skeleton.bspkName = 'Skeleton';
 function SkeletonCircular(props: Pick<SkeletonProps, 'height' | 'width'>) {
     return <Skeleton {...props} variant="circular" />;
 }
+
 function SkeletonPhoto(props: Pick<SkeletonProps, 'height' | 'width'>) {
     return <Skeleton {...props} variant="photo" />;
 }
+
 function SkeletonProfile(props: Pick<SkeletonProps, 'height' | 'width'>) {
     return <Skeleton {...props} variant="profile" />;
 }
+
 function SkeletonRectangular(props: Pick<SkeletonProps, 'height' | 'width'>) {
     return <Skeleton {...props} variant="rectangular" />;
 }
-function SkeletonText(props: Pick<SkeletonProps, 'textLines' | 'textVariant'>) {
-    return <Skeleton {...props} variant="text" />;
-}
+
 function SkeletonThumbnail(props: Pick<SkeletonProps, 'height' | 'width'>) {
     return <Skeleton {...props} variant="thumbnail" />;
 }
 
-export {
-    Skeleton,
-    SkeletonCircular,
-    SkeletonPhoto,
-    SkeletonProfile,
-    SkeletonRectangular,
-    SkeletonText,
-    SkeletonThumbnail,
-};
+export { Skeleton, SkeletonCircular, SkeletonPhoto, SkeletonProfile, SkeletonRectangular, SkeletonThumbnail };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

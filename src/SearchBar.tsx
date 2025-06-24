@@ -9,7 +9,7 @@ import { useCombobox } from './hooks/useCombobox';
 import { useId } from './hooks/useId';
 
 export type SearchBarProps<T extends ListboxItemProps = ListboxItemProps> = Pick<ListboxProps<T>, 'itemDisplayCount'> &
-    Pick<TextInputProps, 'aria-label' | 'id' | 'inputRef' | 'name' | 'size'> & {
+    Pick<TextInputProps, 'aria-label' | 'disabled' | 'id' | 'inputRef' | 'name' | 'size'> & {
         /** The current value of the search bar. */
         value?: string;
         /**
@@ -121,6 +121,7 @@ function SearchBar({
     value,
     onChange,
     showMenu = true,
+    disabled = false,
 }: SearchBarProps) {
     const id = useId(idProp);
 
@@ -142,6 +143,7 @@ function SearchBar({
                     aria-label={ariaLabel}
                     autoComplete="off"
                     containerRef={elements.setReference}
+                    disabled={disabled}
                     id={id}
                     inputRef={(node) => {
                         inputRef?.(node || null);
@@ -159,9 +161,7 @@ function SearchBar({
                     }}
                     onKeyDownCapture={(event) => {
                         const handled = onKeyDownCapture(event);
-
                         if (handled) return;
-
                         inputRefLocal.current?.focus();
                     }}
                 />

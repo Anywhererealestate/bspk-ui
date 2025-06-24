@@ -98,10 +98,14 @@ body[data-bspk] a[data-bspk='list-item'] {
     [data-item-label] {
         flex: 100%;
         text-align: left;
+        text-wrap: nowrap;
+        max-width: 100%;
 
         [data-text] {
             font: var(--labels-base);
             color: var(--foreground-neutral-on-surface);
+            text-overflow: ellipsis;
+            overflow: hidden;
         }
 
         [data-sub-text] {
