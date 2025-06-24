@@ -17,7 +17,6 @@
 
     [data-bspk='list-item'] {
         min-height: var(--item-size);
-        height: var(--item-size);
 
         &[data-selected] {
             background-color: var(--surface-brand-primary-highlight);

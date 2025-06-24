@@ -59,7 +59,9 @@ export type TextareaProps = CommonProps<'aria-label' | 'disabled' | 'id' | 'read
         /**
          * The maximum number of rows that the textarea will show.
          *
-         * @default 10
+         * When set the textarea will automatically adjust its height to fit the content up to this limit.
+         *
+         * @default 3
          * @minimum 3
          * @maximum 10
          */

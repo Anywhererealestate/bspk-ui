@@ -21,7 +21,12 @@ export const SkeletonTextExample: ComponentExample<SkeletonTextProps> = {
     ],
 };
 
-function SkeletonTextTransition({ Component, ...props }: { Component: React.ComponentType<Record<string, unknown>> }) {
+function SkeletonTextTransition({
+    Component,
+    ...props
+}: SkeletonTextProps & {
+    Component: React.ComponentType<SkeletonTextProps>;
+}) {
     const loadingTimeout = useTimeout();
     const [loaded, setLoaded] = useState(false);
     useEffect(() => {

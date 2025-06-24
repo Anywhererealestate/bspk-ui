@@ -29,6 +29,7 @@ export function ExamplePlaceholder({
             data-example-placeholder
             ref={ref}
             style={{
+                ...props.style,
                 width: dimension(width),
                 height: dimension(height),
                 flexDirection: direction,

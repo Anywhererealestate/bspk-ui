@@ -2,14 +2,16 @@
     display: flex;
     width: 100%;
     flex-direction: row;
-    padding: 0 var(--spacing-sizing-01) 0 0;
+    padding: var(--spacing-sizing-03) var(--spacing-sizing-01) 0 0;
     gap: var(--spacing-sizing-02);
     user-select: none;
     background: unset;
     border: unset;
     cursor: pointer;
     min-height: var(--spacing-sizing-08);
-    align-items: center;
+    align-items: flex-start;
+    justify-content: flex-start;
+    max-width: 100%;
 
     &:has([data-description]) {
         align-items: unset;
@@ -29,7 +31,6 @@
     [data-label] {
         color: var(--foreground-neutral-on-surface);
         font: var(--labels-base);
-        text-wrap: nowrap;
     }
 
     [data-description] {
