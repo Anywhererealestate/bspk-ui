@@ -1,5 +1,4 @@
 /* eslint-disable react/no-multi-comp */
-import './skeleton.scss';
 import { CSSProperties, ReactNode } from 'react';
 
 export type SkeletonProps = {

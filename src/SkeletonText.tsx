@@ -1,4 +1,3 @@
-import './skeleton.scss';
 import { CSSProperties, ReactNode } from 'react';
 
 import { TxtVariant } from './utils/txtVariants';
@@ -64,8 +63,7 @@ function SkeletonText({ lines = 3, variant, children = null }: SkeletonTextProps
         <div
             aria-busy="true"
             aria-label="Loading"
-            data-bspk="skeleton"
-            data-variant="text"
+            data-bspk="skeleton-text"
             role="status"
             style={
                 {
