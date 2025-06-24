@@ -137,11 +137,11 @@ function Button<As extends ElementType = 'button'>(props: ElementProps<ButtonPro
                 children
             ) : (
                 <>
-                    <span data-touch-target />
                     {!!icon && isValidElement(icon) && <span data-button-icon>{icon}</span>}
                     {!hideLabel && <span data-button-label>{label}</span>}
                 </>
             )}
+            <span data-touch-target />
         </As>
     );
 
