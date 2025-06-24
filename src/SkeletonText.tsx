@@ -27,19 +27,10 @@ export type SkeletonTextProps = {
 };
 
 /**
- * A visual placeholder for an element while it is in a loading state.
- *
- * The data for your components might not be immediately available. You can improve the perceived responsiveness of the
- * page by using skeletons. It feels like things are happening immediately, then the information is incrementally
- * displayed on the screen.
- *
- * This component can be used to create skeletons for various types of content, such as text, images, or profiles.
- *
- * You can use this component directly or use the specific use case components: SkeletonTextPhoto, SkeletonTextProfile,
- * SkeletonTextRectangular, SkeletonTextText, SkeletonTextThumbnail, SkeletonTextCircular.
+ * A visual placeholder for an text while it is in a loading state.
  *
  * @example
- *     import { SkeletonText } from '@bspk/ui/skeleton';
+ *     import { SkeletonText } from '@bspk/ui/SkeletonText';
  *
  *     function Example(item: { content: string } | null) {
  *         return (

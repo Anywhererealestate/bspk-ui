@@ -209,7 +209,6 @@ body[data-bspk] {
     flex-direction: column;
     gap: var(--text-margin);
     animation: skeleton-pulse 1.5s infinite;
-    background: var(--foreground-neutral-skeleton-element);
     width: 100%;
     height: fit-content;
 
