@@ -14,12 +14,14 @@ export const ChipUtilityExample: ComponentExample<ChipUtilityProps> = {
             propState: {
                 label: 'chip',
                 leadingIcon: 'Add',
+                trailingIcon: '',
             },
         },
         {
             label: 'Trailing Icon',
             propState: {
                 label: 'chip',
+                leadingIcon: '',
                 trailingIcon: 'Add',
             },
         },
@@ -29,6 +31,14 @@ export const ChipUtilityExample: ComponentExample<ChipUtilityProps> = {
                 label: 'chip',
                 leadingIcon: 'Add',
                 trailingIcon: 'Add',
+            },
+        },
+        {
+            label: 'Invalid Icons',
+            propState: {
+                label: 'chip',
+                leadingIcon: 'Bumblebee',
+                trailingIcon: 'Rabbit',
             },
         },
     ],

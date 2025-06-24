@@ -1,12 +1,18 @@
 import './chipUtility.scss';
-import { Svg360 } from '@bspk/icons/360';
-import { CSSProperties, ReactNode, isValidElement } from 'react';
+import { ReactNode, isValidElement } from 'react';
 
 import { isValidIcon } from './utils/children';
 
-import { CommonProps } from '.';
+// import { CommonProps } from '.';
 
-export type ChipUtilityProps = CommonProps<'disabled'> & {
+export type ChipUtilityProps = {
+    /**
+     * Is the chip disabled.
+     *
+     * @default false
+     */
+    disabled?: boolean;
+
     /**
      * Is the chip elevated or flat. If flat the drop shadow is removed.
      *
@@ -14,7 +20,16 @@ export type ChipUtilityProps = CommonProps<'disabled'> & {
      */
     flat?: boolean;
 
+    /**
+     * The label of the chip.
+     *
+     * @example
+     *     Chip Label;
+     */
     label?: string;
+
+    /** The function to call when the chip is clicked. */
+    onClick?: (event: React.MouseEvent<HTMLSpanElement, MouseEvent>) => void;
 
     /**
      * Whether the chip is currently selected.
@@ -22,18 +37,16 @@ export type ChipUtilityProps = CommonProps<'disabled'> & {
      * @default false
      */
     selected?: boolean;
-    /** The style of the chip. */
-    style?: CSSProperties;
-    /** The function to call when the chip is clicked. */
-    // onClick?: (event: React.MouseEvent<HTMLSpanElement, MouseEvent>) => void;
+
     /**
-     * The icon of the button.
+     * The leading icon of the chip.
      *
      * @type BspkIcon
      */
     leadingIcon?: ReactNode;
+
     /**
-     * The icon of the button.
+     * The trailing icon of the chip.
      *
      * @type BspkIcon
      */
@@ -58,32 +71,34 @@ export type ChipUtilityProps = CommonProps<'disabled'> & {
  * @phase WorkInProgress
  */
 function ChipUtility({
-    // children = '',
     flat = false,
     disabled = false,
     label,
     selected = false,
     leadingIcon,
-    // onClick,
-    style: styleProp,
+    onClick,
     trailingIcon,
 }: ChipUtilityProps) {
-    console.log('\nleadingIcon', leadingIcon, '\n typeof leadingIcon', typeof leadingIcon);
-    console.log('\ntrailingIcon', trailingIcon);
     return (
-        <span
-            data-bspk="chip"
+        <button
+            data-bspk="chipUtility"
             data-disabled={disabled || undefined}
             data-flat={flat || undefined}
             data-selected={selected || undefined}
-            // onClick={disabled ? undefined : onClick}
-            style={styleProp}
+            onClick={disabled ? undefined : onClick}
         >
-            <Svg360 />
-            {!!leadingIcon && isValidElement(leadingIcon) && <span data-chip-icon>{leadingIcon}</span>}
+            {isValidIcon(leadingIcon) && isValidElement(leadingIcon) && (
+                <span aria-hidden="true" data-chip-icon>
+                    {leadingIcon}
+                </span>
+            )}
             {label}
-            {trailingIcon}
-        </span>
+            {isValidIcon(trailingIcon) && isValidElement(trailingIcon) && (
+                <span aria-hidden="true" data-chip-icon>
+                    {trailingIcon}
+                </span>
+            )}
+        </button>
     );
 }
 
