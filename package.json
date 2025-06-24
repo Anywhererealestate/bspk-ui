@@ -40,7 +40,8 @@
     "dependencies": {
         "@bspk/styles": "^1.0.0",
         "@floating-ui/dom": "^1.6.13",
-        "focus-trap-react": "^11.0.1"
+        "focus-trap-react": "^11.0.1",
+        "libphonenumber-js": "^1.12.9"
     },
     "peerDependencies": {
         "@bspk/icons": "^1.0.3",

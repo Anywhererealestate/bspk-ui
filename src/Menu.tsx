@@ -38,6 +38,8 @@ export type MenuItem = CommonProps<'disabled'> & {
     value: string;
     /** The unique id of the menu item. */
     id?: string;
+    /** The leading element to display. */
+    leading?: ReactNode | null;
 };
 
 export type MenuProps<T extends MenuItem = MenuItem> = CommonProps<'disabled' | 'id'> & {
@@ -257,6 +259,7 @@ function Menu({
                               id={itemId}
                               key={itemId}
                               label={renderProps?.label?.toString() || item.label?.toString()}
+                              leading={item.leading ?? renderProps?.leading}
                               onClick={(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
                                   if (renderProps) renderProps?.onClick?.(event);
 
