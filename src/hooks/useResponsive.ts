@@ -2,15 +2,16 @@ import { useDebounceState } from './useDebounceState';
 import { useIsomorphicEffect } from './useIsomorphicEffect';
 
 export function useResponsive() {
-    const [deviceWidth, setDeviceWidth] = useDebounceState(0, 250);
+    const [deviceWidth, setDeviceWidth] = useDebounceState(0, window.innerWidth);
+
+    const updateWidth = () => setDeviceWidth(window.innerWidth);
 
     useIsomorphicEffect(() => {
-        // Add event listener for window resize
-        window.addEventListener('resize', () => setDeviceWidth(window.innerWidth));
+        updateWidth();
+        window.addEventListener('resize', updateWidth);
 
-        // Cleanup function to remove the event listener
         return () => {
-            window.removeEventListener('resize', () => setDeviceWidth(window.innerWidth));
+            window.removeEventListener('resize', updateWidth);
         };
     });
 

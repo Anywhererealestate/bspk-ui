@@ -1,5 +1,3 @@
-import { SvgKeyboardArrowDown } from '@bspk/icons/KeyboardArrowDown';
-import { SvgKeyboardArrowUp } from '@bspk/icons/KeyboardArrowUp';
 import { SvgIcon } from '@bspk/icons/SvgIcon';
 import { AsYouType, getCountryCallingCode } from 'libphonenumber-js';
 import { useMemo, useState } from 'react';
@@ -7,66 +5,20 @@ import { useMemo, useState } from 'react';
 import './phone-number-input.scss';
 
 import { Divider } from './Divider';
-import { FormField, FormFieldProps } from './FormField';
 import { ListItem } from './ListItem';
-import { Menu } from './Menu';
+import { Listbox } from './Listbox';
 import { Modal } from './Modal';
-import { Portal } from './Portal';
 import { TextInput, TextInputProps } from './TextInput';
 import { Txt } from './Txt';
 import { useCombobox } from './hooks/useCombobox';
+import { useResponsive } from './hooks/useResponsive';
 import { countryCodeData, countryCodes, SupportedCountryCode } from './utils/countryCodes';
 import { guessUserCountryCode } from './utils/guessUserCountryCode';
 
 import { InvalidPropsLibrary } from 'src';
 
-export type PhoneNumberInputProps = InvalidPropsLibrary &
-    Pick<
-        TextInputProps,
-        | 'autoComplete'
-        | 'disabled'
-        | 'inputRef'
-        | 'leading'
-        | 'name'
-        | 'placeholder'
-        | 'readOnly'
-        | 'required'
-        | 'size'
-        | 'trailing'
-        | 'type'
-        | 'value'
-    > &
-    Pick<FormFieldProps, 'controlId' | 'errorMessage' | 'helperText' | 'label' | 'labelTrailing'> & {
-        /**
-         * The default country code to select when the component is rendered. If not provided, it will attempt to guess
-         * based on the user's locale. If the guessed country code is not supported, it will default to 'US'.
-         */
-        initialCountryCode?: SupportedCountryCode;
-    } & {
-        onChange: (value: string, countryCode: SupportedCountryCode) => void;
-    };
-
-/**
- * A text input that allows users to enter text phone numbers with country codes.
- *
- * @example
- *     <PhoneNumberInput label="Phone Number" initialCountryCode="US" />;
- *
- * @name PhoneNumberInput
- */
-function PhoneNumberInput({
-    label,
-    errorMessage: errorMessageProp,
-    helperText,
-    controlId,
-    labelTrailing,
-    required,
-    value,
-    onChange,
-    initialCountryCode,
-    ...inputProps
-}: PhoneNumberInputProps) {
-    const { countryCodeSelectOptions, defaultCountryCode } = useMemo(() => {
+const useCountryCodeSelectOptions = (initialCountryCode?: SupportedCountryCode) => {
+    return useMemo(() => {
         const selectOptions = countryCodes.map((code) => {
             const countryCodeDetails = countryCodeData[code];
 
@@ -82,16 +34,81 @@ function PhoneNumberInput({
         return { countryCodeSelectOptions: selectOptions, defaultCountryCode: defaultCode };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+};
+
+export type PhoneNumberInputProps = InvalidPropsLibrary &
+    Pick<
+        TextInputProps,
+        | 'aria-label'
+        | 'autoComplete'
+        | 'disabled'
+        | 'inputRef'
+        | 'name'
+        | 'placeholder'
+        | 'readOnly'
+        | 'required'
+        | 'size'
+        | 'type'
+        | 'value'
+    > & {
+        /**
+         * The default country code to select when the component is rendered. If not provided, it will attempt to guess
+         * based on the user's locale. If the guessed country code is not supported, it will default to 'US'.
+         */
+        initialCountryCode?: SupportedCountryCode;
+        /**
+         * Disables formatting of the phone number input in the UI. values returned by `onChange` are always
+         * unformatted.
+         */
+        disableFormatting?: boolean;
+        /** Handler for change events. Contains the raw phone number value and the selected country code. */
+        onChange: (value: string, countryCode: SupportedCountryCode) => void;
+    };
+
+/**
+ * A text input that allows users to enter text phone numbers with country codes.
+ *
+ * @example
+ *     <PhoneNumberInput aria-label="Phone Number" initialCountryCode="US" value={value} onChange={onChange} />;
+ *
+ * @name PhoneNumberInput
+ * @phase WorkInProgress
+ */
+function PhoneNumberInput({
+    errorMessage,
+    required,
+    value,
+    onChange,
+    disableFormatting,
+    initialCountryCode,
+    'aria-label': ariaLabel,
+    ...inputProps
+}: PhoneNumberInputProps) {
+    const { isMobile } = useResponsive();
+    const {
+        toggleProps,
+        menuProps,
+        closeMenu,
+        elements,
+        isOpen: showCountryCodeSelectMenu,
+    } = useCombobox({
+        placement: 'bottom',
+        errorMessage,
+    });
+
+    const { countryCodeSelectOptions, defaultCountryCode } = useCountryCodeSelectOptions(initialCountryCode);
 
     const [countryCode, setCountryCode] = useState<SupportedCountryCode>(defaultCountryCode);
 
-    const errorMessage = (!inputProps.readOnly && !inputProps.disabled && errorMessageProp) || undefined;
-
     const formattedValue = useMemo(() => {
+        if (disableFormatting) {
+            return value;
+        }
+
         const formatter = new AsYouType(countryCode);
 
         return formatter.input(value || '');
-    }, [value, countryCode]);
+    }, [value, countryCode, disableFormatting]);
 
     const { callingCode, selectedCodeData } = useMemo(() => {
         const selectedValue = (countryCode || 'US') as SupportedCountryCode;
@@ -105,94 +122,76 @@ function PhoneNumberInput({
 
     const handleChange = (newValue: string) => {
         const rawNumber = newValue.replace(/\D/g, '');
+        if (rawNumber === value) return;
 
         onChange(rawNumber, countryCode);
     };
 
-    const { toggleProps, menuProps, closeMenu } = useCombobox({
-        placement: 'bottom',
-        errorMessage,
-        offsetOptions: 4,
-    });
-
-    const { ref, ...restToggleProps } = toggleProps;
-
-    const showCountryCodeSelectMenu = menuProps.style.display !== 'none';
+    const setRef = (el: HTMLDivElement | null) => {
+        elements.setReference(el);
+    };
 
     return (
-        <div data-bspk="phone-number-input" ref={ref}>
-            <FormField
-                controlId={controlId}
+        <div data-bspk="phone-number-input" ref={setRef}>
+            <TextInput
+                onChange={handleChange}
+                value={formattedValue}
+                {...inputProps}
+                aria-label={ariaLabel}
                 errorMessage={errorMessage}
-                helperText={helperText}
-                label={label}
-                labelTrailing={labelTrailing}
-                required={required}
-            >
-                {(fieldProps) => (
-                    <TextInput
-                        onChange={handleChange}
-                        value={formattedValue}
-                        {...inputProps}
-                        {...fieldProps}
-                        aria-label={label}
-                        id={controlId}
-                        leading={
-                            <div style={{ display: 'flex', alignItems: 'center' }}>
-                                <button {...restToggleProps} data-bspk="country-code-select">
-                                    <SvgIcon name={selectedCodeData.flagIconName} />
+                leading={
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <button {...(inputProps.disabled ? {} : toggleProps)} data-bspk="country-code-select">
+                            <SvgIcon name={selectedCodeData.flagIconName} />
 
-                                    <span data-icon>
-                                        {showCountryCodeSelectMenu ? <SvgKeyboardArrowUp /> : <SvgKeyboardArrowDown />}
-                                    </span>
-                                </button>
-                                <Portal>
-                                    <Menu
-                                        data-bspk-inner="country-code-select-menu"
-                                        data-floating
-                                        itemCount={countryCodeSelectOptions.length}
-                                        items={countryCodeSelectOptions}
-                                        onChange={(next, event) => {
-                                            event?.preventDefault();
+                            <SvgIcon name="KeyboardArrowDown" />
+                        </button>
+
+                        {isMobile ? (
+                            <Modal
+                                data-bspk-inner="country-code-select-modal"
+                                description="select a country code for your phone number"
+                                header="Country Code"
+                                onClose={closeMenu}
+                                open={showCountryCodeSelectMenu}
+                            >
+                                {countryCodeSelectOptions.map((option) => (
+                                    <ListItem
+                                        active={countryCode === option.value}
+                                        data-bspk="country-code-select-option"
+                                        key={option.value}
+                                        label={option.label}
+                                        leading={option.leading}
+                                        onClick={() => {
+                                            setCountryCode(option.value as SupportedCountryCode);
                                             closeMenu();
-                                            setCountryCode(next[0] as SupportedCountryCode);
                                         }}
-                                        selectedValues={[countryCode]}
-                                        {...menuProps}
                                     />
-                                </Portal>
+                                ))}
+                            </Modal>
+                        ) : (
+                            <Listbox
+                                data-bspk-inner="country-code-select-menu"
+                                data-floating
+                                innerRef={elements.setFloating}
+                                items={countryCodeSelectOptions}
+                                onChange={(next, event) => {
+                                    event?.preventDefault();
+                                    closeMenu();
+                                    setCountryCode(next[0] as SupportedCountryCode);
+                                }}
+                                selectedValues={[countryCode]}
+                                {...menuProps}
+                            />
+                        )}
 
-                                <Divider orientation="vertical" />
+                        <Divider orientation="vertical" />
 
-                                <Txt>{`+${callingCode}`}</Txt>
-                            </div>
-                        }
-                        required={required}
-                    />
-                )}
-            </FormField>
-
-            <Modal
-                data-bspk-inner="country-code-select-modal"
-                description="select a country code for your phone number"
-                header="Country Code"
-                onClose={closeMenu}
-                open={showCountryCodeSelectMenu}
-            >
-                {countryCodeSelectOptions.map((option) => (
-                    <ListItem
-                        active={countryCode === option.value}
-                        data-bspk="country-code-select-option"
-                        key={option.value}
-                        label={option.label}
-                        leading={option.leading}
-                        onClick={() => {
-                            setCountryCode(option.value as SupportedCountryCode);
-                            closeMenu();
-                        }}
-                    />
-                ))}
-            </Modal>
+                        <Txt>{`+${callingCode}`}</Txt>
+                    </div>
+                }
+                required={required}
+            />
         </div>
     );
 }

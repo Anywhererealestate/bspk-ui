@@ -1,4 +1,6 @@
 [data-bspk='phone-number-input'] {
+    width: 100%;
+
     [data-bspk='text-input'] {
         padding-left: 0;
     }
@@ -15,20 +17,20 @@
         background: none;
         cursor: pointer;
 
-        [data-icon] {
+        [data-bspk-name='KeyboardArrowDown'] {
             margin-left: var(--spacing-sizing-02);
         }
     }
-}
 
-@media (width < 640px) {
-    [data-bspk-inner='country-code-select-menu'] {
-        display: none;
+    [data-bspk='country-code'] {
+        font: var(--body-base);
+        color: var(--foreground-neutral-on-surface);
     }
-}
 
-@media (width >= 640px) {
-    [data-bspk-inner='country-code-select-modal'] {
-        display: none !important;
+    [data-disabled] {
+        [data-bspk='country-code-select'],
+        [data-bspk='txt'] {
+            cursor: default;
+        }
     }
 }
