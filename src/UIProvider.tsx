@@ -5,7 +5,7 @@ import { useDebounceState } from './hooks/useDebounceState';
 import { useIsomorphicEffect } from './hooks/useIsomorphicEffect';
 import { UIContext, ColorTheme } from './utils/uiContext';
 
-export const UIProvider = ({ children }: { children: ReactNode }) => {
+function UIProvider({ children }: { children: ReactNode }) {
     const [theme, setTheme] = useState<ColorTheme>('light');
     const [deviceWidth, setDeviceWidth] = useDebounceState(() => {
         return typeof window !== 'undefined' ? window.innerWidth : 0;
@@ -30,4 +30,8 @@ export const UIProvider = ({ children }: { children: ReactNode }) => {
             {children}
         </UIContext.Provider>
     );
-};
+}
+
+UIProvider.bspkName = 'UIProvider';
+
+export { UIProvider };
