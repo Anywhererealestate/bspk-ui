@@ -233,6 +233,7 @@ body[data-bspk] {
     --width: is set via inline style
     */
 
+    animation: skeleton-pulse 1.5s infinite;
     background: var(--foreground-neutral-skeleton-element);
 
     &[data-variant='rectangular'],

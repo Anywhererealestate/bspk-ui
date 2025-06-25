@@ -54,7 +54,7 @@ export type SelectProps<T extends SelectOption = SelectOption> = CommonProps<
         /**
          * Placeholder for the select
          *
-         * @default Select one...
+         * @default Select one
          */
         placeholder?: string;
         /**
@@ -114,7 +114,7 @@ function Select({
     value: selected,
     onChange,
     'aria-label': ariaLabel,
-    placeholder = 'Select...',
+    placeholder = 'Select one',
     size = 'medium',
     itemDisplayCount: itemCount = 5,
     disabled,

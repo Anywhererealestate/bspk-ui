@@ -48,11 +48,18 @@ export type MenuProps = CommonProps<'id'> & {
  * @name Menu
  * @phase DesignReview
  */
-function Menu({ innerRef, id: idProp, children, portal = true, ...props }: ElementProps<MenuProps, 'div'>) {
+function Menu({
+    //
+    innerRef,
+    id: idProp,
+    children,
+    portal = true,
+    ...props
+}: ElementProps<MenuProps, 'div'>) {
     const menuId = useId(idProp);
 
     const menu = (
-        <div role="menu" {...props} data-bspk="menu" id={menuId} ref={innerRef}>
+        <div role="listbox" {...props} data-bspk="menu" id={menuId} ref={innerRef}>
             {children}
         </div>
     );

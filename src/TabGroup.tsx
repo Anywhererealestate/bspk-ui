@@ -53,6 +53,8 @@ export type TabGroupProps = {
     /**
      * The tabs to display. Each tab has a label and an optional leading icon.
      *
+     * Minimum of two tab options are required. Maximum of seven tab options are ideal.
+     *
      * @example
      *     [
      *         { value: '1', label: 'Option 1' },

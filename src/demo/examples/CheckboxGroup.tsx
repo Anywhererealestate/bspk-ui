@@ -1,10 +1,7 @@
-import { RadioGroupProps } from '../../RadioGroup';
+import { CheckboxGroupProps } from '../../CheckboxGroup';
 import { ComponentExample } from '../utils';
 
-import { RadioExample } from './Radio';
-
-export const RadioGroupExample: ComponentExample<RadioGroupProps> = {
-    ...RadioExample,
+export const CheckboxGroupExample: ComponentExample<CheckboxGroupProps> = {
     presets: [
         {
             label: 'With Descriptions',
