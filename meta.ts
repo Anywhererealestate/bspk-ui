@@ -101,7 +101,7 @@ const ENUM_SIZE_ORDER = [
     'xxxxx-large',
 ];
 
-const metaFileDirectory = process.argv.find((arg) => arg.startsWith('out='))?.substring(4) || '';
+const outDirectory = process.argv.find((arg) => arg.startsWith('out='))?.substring(4) || '';
 
 const fileChanged = process.argv.find((arg) => arg.startsWith('update='))?.substring(7) || '';
 
@@ -111,7 +111,7 @@ const build = process.argv.find((arg) => arg.startsWith('build='))?.substring(6)
 
 const examplesFileChanged = fileChanged.includes('src/demo/examples');
 
-if (!metaFileDirectory) {
+if (!outDirectory) {
     console.error('Please provide a path to the meta file.');
     process.exit(1);
 }
@@ -512,7 +512,7 @@ async function createMeta() {
         console.info(`Production meta build.`);
     }
 
-    const metaJsonPath = path.join(metaFileDirectory, 'meta.json');
+    const metaJsonPath = path.join(outDirectory, 'data.json');
 
     const updateJsonOnly = fileChanged && fs.existsSync(metaJsonPath);
 
@@ -603,13 +603,13 @@ async function createMeta() {
         ),
     );
 
-    const metaFilePath = path.join(metaFileDirectory, 'meta.ts');
+    const metaFilePath = path.join(outDirectory, 'index.ts');
 
     fs.writeFileSync(
         metaFilePath,
         [
             `import React from 'react';
-import meta from 'src/meta.json';
+import meta from 'src/meta/data.json';
 
 export const componentsMeta = meta.componentsMeta as ComponentMeta[];
 export const utilitiesMeta = meta.utilitiesMeta as UtilityMeta[];
@@ -639,7 +639,7 @@ export const BUILD = meta.BUILD as string;`,
 }
 
 function createExamples() {
-    const examplesFilePath = path.join(metaFileDirectory, 'examples.ts');
+    const examplesFilePath = path.join(outDirectory, 'examples.ts');
 
     const componentsWithExamples = componentFiles.filter(({ name }) =>
         fs.existsSync(path.resolve(__dirname, 'src', 'demo', 'examples', `${name}.tsx`)),

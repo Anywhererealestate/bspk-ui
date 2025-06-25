@@ -5,8 +5,18 @@ import { useDebounceState } from './hooks/useDebounceState';
 import { useIsomorphicEffect } from './hooks/useIsomorphicEffect';
 import { UIContext, ColorTheme } from './utils/uiContext';
 
-function UIProvider({ children }: { children: ReactNode }) {
+export type UIProviderProps = {
+    children: ReactNode;
+};
+
+/**
+ * UIProvider is a React context provider that manages the UI state, including theme and responsive state.
+ *
+ * @name UIProvider
+ */
+function UIProvider({ children }: UIProviderProps) {
     const [theme, setTheme] = useState<ColorTheme>('light');
+
     const [deviceWidth, setDeviceWidth] = useDebounceState(() => {
         return typeof window !== 'undefined' ? window.innerWidth : 0;
     }, 250);
