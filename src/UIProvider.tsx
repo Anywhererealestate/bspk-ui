@@ -8,15 +8,11 @@ import { UIContext, ColorTheme } from './utils/uiContext';
 export const UIProvider = ({ children }: { children: ReactNode }) => {
     const [theme, setTheme] = useState<ColorTheme>('light');
     const [deviceWidth, setDeviceWidth] = useDebounceState(() => {
-        // Initialize device width based on window size
-        if (typeof window !== 'undefined') {
-            return window.innerWidth;
-        }
-        return 0; // Default to 0 if window is not available (e.g., during SSR)
+        return typeof window !== 'undefined' ? window.innerWidth : 0;
     }, 250);
 
     useIsomorphicEffect(() => {
-        document.documentElement.setAttribute('data-theme', theme);
+        document.documentElement.dataset.theme = theme;
     }, [theme]);
 
     useEventListener('resize', () => setDeviceWidth(window.innerWidth));
