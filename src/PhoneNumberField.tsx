@@ -29,7 +29,7 @@ export type PhoneNumberFieldProps = InvalidPropsLibrary &
  *     <PhoneNumberField label="Phone Number" initialCountryCode="US" value={value} onChange={onChange} />;
  *
  * @name PhoneNumberField
- * @phase WorkInProgress
+ * @phase DesignReview
  */
 function PhoneNumberField({
     label,

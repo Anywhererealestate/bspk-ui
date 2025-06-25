@@ -79,7 +79,7 @@ export type PhoneNumberInputProps = InvalidPropsLibrary &
  *     <PhoneNumberInput aria-label="Phone Number" initialCountryCode="US" value={value} onChange={onChange} />;
  *
  * @name PhoneNumberInput
- * @phase WorkInProgress
+ * @phase DesignReview
  */
 function PhoneNumberInput({
     errorMessage,
