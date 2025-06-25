@@ -21,11 +21,13 @@ const useCountryCodeSelectOptions = (initialCountryCode?: SupportedCountryCode) 
     return useMemo(() => {
         const selectOptions = countryCodes.map((code) => {
             const countryCodeDetails = countryCodeData[code];
+            const callingCodeString = `(+${getCountryCallingCode(code)})`;
 
             return {
                 value: code,
-                label: `${countryCodeDetails?.name} (+${getCountryCallingCode(code)})`,
+                label: `${countryCodeDetails?.name}`,
                 leading: countryCodeDetails?.flagIconName ? <SvgIcon name={countryCodeDetails?.flagIconName} /> : null,
+                trailing: <Txt>{callingCodeString}</Txt>,
             };
         });
 
@@ -173,6 +175,7 @@ function PhoneNumberInput({
                                             setCountryCode(option.value as SupportedCountryCode);
                                             closeMenu();
                                         }}
+                                        trailing={option.trailing}
                                     />
                                 ))}
                             </Modal>
