@@ -55,12 +55,17 @@ export type PhoneNumberInputProps = InvalidPropsLibrary &
     > & {
         /**
          * The default country code to select when the component is rendered. If not provided, it will attempt to guess
-         * based on the user's locale. If the guessed country code is not supported, it will default to 'US'.
+         * based on the user's locale. If the guessed country code is not supported, it will default to 'US'. Based on
+         * [ISO](https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes) 2-digit country codes.
+         *
+         * @type string
          */
         initialCountryCode?: SupportedCountryCode;
         /**
          * Disables formatting of the phone number input in the UI. values returned by `onChange` are always
          * unformatted.
+         *
+         * @type boolean
          */
         disableFormatting?: boolean;
         /** Handler for change events. Contains the raw phone number value and the selected country code. */
@@ -78,12 +83,10 @@ export type PhoneNumberInputProps = InvalidPropsLibrary &
  */
 function PhoneNumberInput({
     errorMessage,
-    required,
     value,
     onChange,
     disableFormatting,
     initialCountryCode,
-    'aria-label': ariaLabel,
     disabled,
     invalid,
     readOnly,
@@ -145,7 +148,6 @@ function PhoneNumberInput({
                 onChange={handleChange}
                 value={formattedValue}
                 {...inputProps}
-                aria-label={ariaLabel}
                 disabled={disabled}
                 errorMessage={errorMessage}
                 invalid={invalid}
@@ -201,7 +203,6 @@ function PhoneNumberInput({
                     </div>
                 }
                 readOnly={readOnly}
-                required={required}
             />
         </div>
     );
