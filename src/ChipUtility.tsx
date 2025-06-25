@@ -60,7 +60,7 @@ export type ChipUtilityProps = {
  *     }
  *
  * @name ChipUtility
- * @phase DesignReview
+ * @phase Utility
  */
 function ChipUtility({
     flat = false,
