@@ -77,7 +77,7 @@ export type UseFloatingProps = {
  * @param param0
  * @returns
  */
-export function useFloating<TriggerElementType extends HTMLElement>({
+export function useFloating<ReferenceElementType extends HTMLElement>({
     placement = 'bottom',
     arrowRef,
     strategy = 'fixed',
@@ -100,7 +100,7 @@ export function useFloating<TriggerElementType extends HTMLElement>({
 
     const [middlewareData, setMiddlewareData] = useState<MiddlewareData>({});
 
-    const [triggerElement, setTriggerElement] = useState<TriggerElementType | null>(null);
+    const [referenceElement, setReferenceElement] = useState<ReferenceElementType | null>(null);
 
     const [floatingElement, setFloatingElement] = useState<HTMLElement | null>(null);
 
@@ -112,7 +112,7 @@ export function useFloating<TriggerElementType extends HTMLElement>({
         transitionDelay.clear();
 
         // check if the reference or floating element is null
-        if (triggerElement === null || floatingElement === null) return;
+        if (referenceElement === null || floatingElement === null) return;
 
         if (hide) {
             if (floatingElement?.style.top)
@@ -136,9 +136,9 @@ export function useFloating<TriggerElementType extends HTMLElement>({
 
         computeDebounce.set(() => {
             // check again if the reference or floating element is null
-            if (hide || triggerElement === null || floatingElement === null) return;
+            if (hide || referenceElement === null || floatingElement === null) return;
 
-            computePosition(triggerElement, floatingElement, {
+            computePosition(referenceElement, floatingElement, {
                 placement: placement,
                 strategy,
                 middleware: [
@@ -180,7 +180,7 @@ export function useFloating<TriggerElementType extends HTMLElement>({
     }, [
         computeDebounce,
         transitionDelay,
-        triggerElement,
+        referenceElement,
         floatingElement,
         hide,
         placement,
@@ -199,20 +199,20 @@ export function useFloating<TriggerElementType extends HTMLElement>({
     }, [compute, computeDebounce, hide, transitionDelay]);
 
     useEffect(() => {
-        if (hide || triggerElement === null || floatingElement === null) return;
+        if (hide || referenceElement === null || floatingElement === null) return;
 
-        const cleanup = autoUpdate(triggerElement, floatingElement, compute);
+        const cleanup = autoUpdate(referenceElement, floatingElement, compute);
 
         return () => {
             cleanup();
         };
-    }, [compute, hide, floatingElement, triggerElement]);
+    }, [compute, hide, floatingElement, referenceElement]);
 
     return {
         elements: {
-            trigger: triggerElement,
+            reference: referenceElement,
             floating: floatingElement,
-            setTrigger: setTriggerElement,
+            setReference: setReferenceElement,
             setFloating: setFloatingElement,
         },
         floatingStyles,

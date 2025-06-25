@@ -1,26 +1,22 @@
-import { useState } from 'react';
-
-import { useIsomorphicLayoutEffect } from './useIsomorphicLayoutEffect';
+import { useDebounceState } from './useDebounceState';
+import { useIsomorphicEffect } from './useIsomorphicEffect';
 
 export function useResponsive() {
-    const [isMobile, setIsMobile] = useState(false);
+    const [deviceWidth, setDeviceWidth] = useDebounceState(0, 250);
 
-    useIsomorphicLayoutEffect(() => {
-        const handleResize = () => {
-            setIsMobile(window.innerWidth < 640);
-        };
-
-        // Initial check
-        handleResize();
-
+    useIsomorphicEffect(() => {
         // Add event listener for window resize
-        window.addEventListener('resize', handleResize);
+        window.addEventListener('resize', () => setDeviceWidth(window.innerWidth));
 
         // Cleanup function to remove the event listener
         return () => {
-            window.removeEventListener('resize', handleResize);
+            window.removeEventListener('resize', () => setDeviceWidth(window.innerWidth));
         };
     });
 
-    return { isMobile };
+    return {
+        isMobile: deviceWidth < 640,
+        isTablet: deviceWidth > 640 && deviceWidth < 1024,
+        isDesktop: deviceWidth >= 1024,
+    };
 }

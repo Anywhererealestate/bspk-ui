@@ -53,10 +53,12 @@ export type TabGroupProps = {
     /**
      * The tabs to display. Each tab has a label and an optional leading icon.
      *
+     * Minimum of two tab options are required. Maximum of seven tab options are ideal.
+     *
      * @example
      *     [
      *         { value: '1', label: 'Option 1' },
-     *         { value: '2', label: 'Option 2' },
+     *         { value: '2', label: 'Disabled 2 ', disabled: true },
      *         { value: '3', label: 'Option 3' },
      *     ];
      *
@@ -125,6 +127,7 @@ export type TabGroupProps = {
  *     }
  *
  * @name TabGroup
+ * @phase DesignReview
  */
 function TabGroup({
     //
@@ -162,9 +165,7 @@ function TabGroup({
                         <span>
                             {(isActive && item.iconActive) || item.icon}
                             {item.label}
-                            {item.badge && !item.disabled && !isActive && (
-                                <Badge count={item.badge} size={TAB_BADGE_SIZES[size]} />
-                            )}
+                            {item.badge && !item.disabled && <Badge count={item.badge} size={TAB_BADGE_SIZES[size]} />}
                         </span>
                     </button>
                 );

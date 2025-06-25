@@ -5,7 +5,7 @@ import { Tooltip } from './Tooltip';
 import { isValidIcon } from './utils/children';
 import { useErrorLogger } from './utils/errors';
 
-import { ButtonSize, CommonProps, ElementProps } from './';
+import { ButtonSize, CommonProps, ElementProps, SetRef } from './';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'tertiary';
 
@@ -69,6 +69,8 @@ export type ButtonProps<As extends ElementType = 'button'> = CommonProps<'disabl
     toolTip?: string;
     /** The function to call when the button is clicked. */
     onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+    /** A ref to the Button element. */
+    innerRef?: SetRef<HTMLButtonElement>;
 };
 
 /**
@@ -91,6 +93,7 @@ export type ButtonProps<As extends ElementType = 'button'> = CommonProps<'disabl
  *     }
  *
  * @name Button
+ * @phase DesignReview
  */
 function Button<As extends ElementType = 'button'>(props: ElementProps<ButtonProps<As>, As>): JSX.Element {
     const {
@@ -106,6 +109,7 @@ function Button<As extends ElementType = 'button'>(props: ElementProps<ButtonPro
         showLabel = true,
         toolTip: toolTipProp,
         children,
+        innerRef,
         ...containerProps
     } = props;
     const label = typeof children === 'string' ? children : labelProp || '';
@@ -127,16 +131,17 @@ function Button<As extends ElementType = 'button'>(props: ElementProps<ButtonPro
             data-variant={variant}
             data-width={width}
             disabled={disabled || undefined}
+            ref={innerRef}
         >
             {children && typeof children !== 'string' ? (
                 children
             ) : (
                 <>
-                    <span data-touch-target />
                     {!!icon && isValidElement(icon) && <span data-button-icon>{icon}</span>}
                     {!hideLabel && <span data-button-label>{label}</span>}
                 </>
             )}
+            <span data-touch-target />
         </As>
     );
 

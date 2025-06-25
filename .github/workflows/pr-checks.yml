@@ -5,6 +5,7 @@ on:
         types: [opened, reopened, synchronize, edited, ready_for_review]
         branches:
             - main
+            - dev
 
 jobs:
     sematic-pr:

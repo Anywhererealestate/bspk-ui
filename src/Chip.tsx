@@ -58,6 +58,7 @@ export type ChipProps = CommonProps<'disabled'> & {
  *     }
  *
  * @name Chip
+ * @phase DesignReview
  */
 function Chip({
     children = '',

@@ -5,7 +5,7 @@ export const ProgressionStepperExample: ComponentExample<ProgressionStepperProps
     presets: [
         {
             label: 'Horizontal',
-            state: {
+            propState: {
                 variant: 'horizontal',
                 currentStep: 2,
                 steps: [{ name: 'Name of step 1' }, { name: 'Name of step 2' }, { name: 'Name of step 3' }],
@@ -13,7 +13,7 @@ export const ProgressionStepperExample: ComponentExample<ProgressionStepperProps
         },
         {
             label: 'Vertical',
-            state: {
+            propState: {
                 variant: 'vertical',
                 currentStep: 2,
                 steps: [
@@ -34,7 +34,7 @@ export const ProgressionStepperExample: ComponentExample<ProgressionStepperProps
         },
         {
             label: 'Widget',
-            state: {
+            propState: {
                 variant: 'widget',
                 currentStep: 2,
                 steps: [

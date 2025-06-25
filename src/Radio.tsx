@@ -27,6 +27,7 @@ export type RadioProps = CommonProps<'aria-label' | 'disabled' | 'name'> &
  * @element
  *
  * @name Radio
+ * @phase Utility
  */
 function Radio(props: ElementProps<RadioProps, 'input'>) {
     const { checked = false, invalid, disabled, onChange, errorMessage, ...otherProps } = props;

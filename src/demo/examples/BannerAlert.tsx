@@ -16,7 +16,7 @@ export const BannerAlertExample: ComponentExampleFn<BannerAlertProps> = ({ actio
     presets: [
         {
             label: 'With CallToAction',
-            state: {
+            propState: {
                 callToAction: {
                     label: 'Click me',
                     onClick: () => action('Call to action clicked!'),
@@ -25,7 +25,7 @@ export const BannerAlertExample: ComponentExampleFn<BannerAlertProps> = ({ actio
         },
         {
             label: 'Without OnClose',
-            state: {
+            propState: {
                 onClose: undefined,
             },
         },

@@ -1,5 +1,6 @@
 import { ElementType } from 'react';
 
+import { SkeletonText } from './SkeletonText';
 import { TxtVariant } from './utils/txtVariants';
 
 import { ElementProps } from './';
@@ -27,6 +28,14 @@ export type TxtProps<As extends ElementType = 'span'> = {
     variant?: TxtVariant;
     /** The id of the element. */
     id?: string;
+    /**
+     * The number of lines to display for skeleton text.
+     *
+     * If not provided, it defaults to 0, meaning no skeleton lines will be shown.
+     *
+     * @default 0
+     */
+    skeletonLines?: number;
 };
 
 /**
@@ -40,17 +49,19 @@ export type TxtProps<As extends ElementType = 'span'> = {
  *     }
  *
  * @name Txt
+ * @phase DesignReview
  */
 function Txt<As extends ElementType = 'span'>({
     children,
     as,
     variant = 'body-base',
     style: styleProp,
+    skeletonLines = 0,
     ...containerProps
 }: ElementProps<TxtProps<As>, As>) {
     const content = children?.toString();
 
-    if (!content) return null;
+    if (!content) return skeletonLines ? <SkeletonText lines={skeletonLines} variant={variant} /> : null;
 
     const As: ElementType = as || 'span';
 

@@ -6,7 +6,7 @@
  * @bspk/ui/Txt".
  */
 
-import { ComponentProps, JSXElementConstructor, ReactNode } from 'react';
+import { JSXElementConstructor, ReactNode, ComponentPropsWithoutRef } from 'react';
 
 export type AlertVariant = 'error' | 'informational' | 'success' | 'warning';
 
@@ -16,7 +16,7 @@ export type ElementProps<
     P extends Record<string, unknown>,
     E extends JSXElementConstructor<unknown> | keyof JSX.IntrinsicElements,
     O extends string = '',
-> = Omit<ComponentProps<E>, O | keyof P> & P;
+> = Omit<ComponentPropsWithoutRef<E>, O | keyof P> & P;
 
 export type ButtonSize = 'large' | 'medium' | 'small' | 'x-small';
 

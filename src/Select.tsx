@@ -1,12 +1,14 @@
 import './select.scss';
 import { SvgChevronRight } from '@bspk/icons/ChevronRight';
+import { useMemo } from 'react';
 
 import { ListItem } from './ListItem';
-import { Menu, MenuProps } from './Menu';
-import { Portal } from './Portal';
+import { Listbox, ListboxProps } from './Listbox';
+import { Tooltip } from './Tooltip';
 import { useCombobox } from './hooks/useCombobox';
 import { Placement } from './hooks/useFloating';
 import { useId } from './hooks/useId';
+import { useTruncatedText } from './hooks/useTruncatedText';
 
 import { CommonProps, InvalidPropsLibrary } from './';
 
@@ -21,7 +23,7 @@ export type SelectProps<T extends SelectOption = SelectOption> = CommonProps<
     'aria-label' | 'disabled' | 'id' | 'name' | 'readOnly' | 'size'
 > &
     InvalidPropsLibrary &
-    Pick<MenuProps<T>, 'isMulti' | 'itemCount' | 'renderListItem' | 'selectAll'> & {
+    Pick<ListboxProps<T>, 'isMulti' | 'itemDisplayCount' | 'listItemProps' | 'selectAll'> & {
         /**
          * Array of options to display in the select
          *
@@ -52,7 +54,7 @@ export type SelectProps<T extends SelectOption = SelectOption> = CommonProps<
         /**
          * Placeholder for the select
          *
-         * @default Select one...
+         * @default Select one
          */
         placeholder?: string;
         /**
@@ -105,15 +107,16 @@ export type SelectProps<T extends SelectOption = SelectOption> = CommonProps<
  *     }
  *
  * @name Select
+ * @phase DesignReview
  */
 function Select({
     options = [],
     value: selected,
     onChange,
     'aria-label': ariaLabel,
-    placeholder = 'Select...',
+    placeholder = 'Select one',
     size = 'medium',
-    itemCount = 5,
+    itemDisplayCount: itemCount = 5,
     disabled,
     id: propId,
     invalid,
@@ -121,14 +124,14 @@ function Select({
     readOnly,
     name,
     isMulti,
-    renderListItem,
+    listItemProps,
     style: styleProp,
     selectAll,
 }: SelectProps) {
     const id = useId(propId);
 
-    const { toggleProps, menuProps, closeMenu } = useCombobox({
-        placement: 'bottom',
+    const { toggleProps, menuProps, closeMenu, elements } = useCombobox({
+        placement: 'bottom-start',
         disabled,
         invalid,
         readOnly,
@@ -136,46 +139,62 @@ function Select({
         offsetOptions: 4,
     });
 
-    const selectLabel = isMulti
-        ? `${selected?.length || 0} option${selected?.length !== 1 ? 's' : ''} selected`
-        : options.find((o) => o.value === selected?.[0])?.label;
+    const selectLabel = useMemo(
+        () =>
+            isMulti
+                ? `${selected?.length || 0} option${selected?.length !== 1 ? 's' : ''} selected`
+                : options.find((o) => o.value === selected?.[0])?.label,
+        [isMulti, options, selected],
+    );
+
+    const { setElement, isTruncated } = useTruncatedText();
 
     return (
         <>
             <input defaultValue={selected} name={name} type="hidden" />
-            <button
-                aria-label={ariaLabel}
-                data-bspk="select"
-                data-empty={selectLabel ? undefined : ''}
-                data-invalid={invalid || undefined}
-                data-size={size}
-                disabled={disabled || readOnly}
-                id={id}
-                style={styleProp}
-                {...toggleProps}
-            >
-                <ListItem data-placeholder="" label={selectLabel || placeholder} readOnly />
-                <span data-icon>
-                    <SvgChevronRight />
-                </span>
-            </button>
-            <Portal>
-                <Menu
-                    data-floating
-                    isMulti={isMulti}
-                    itemCount={itemCount}
-                    items={options}
-                    onChange={(next, event) => {
-                        event?.preventDefault();
-                        if (!isMulti) closeMenu();
-                        onChange?.(next);
-                    }}
-                    renderListItem={renderListItem}
-                    selectAll={selectAll}
-                    selectedValues={selected}
-                    {...menuProps}
-                />
-            </Portal>
+            <Tooltip disabled={!isTruncated} label={selectLabel || placeholder}>
+                <button
+                    aria-label={ariaLabel || selectLabel || placeholder}
+                    data-bspk="select"
+                    data-empty={selectLabel ? undefined : ''}
+                    data-invalid={invalid || undefined}
+                    data-size={size}
+                    disabled={disabled || readOnly}
+                    id={id}
+                    ref={elements.setReference}
+                    style={styleProp}
+                    {...toggleProps}
+                >
+                    <ListItem
+                        as="span"
+                        data-placeholder
+                        innerRef={(node) => {
+                            if (node) setElement(node.querySelector<HTMLElement>('[data-text]'));
+                        }}
+                        label={selectLabel || placeholder}
+                        readOnly
+                    />
+                    <span data-icon>
+                        <SvgChevronRight />
+                    </span>
+                </button>
+            </Tooltip>
+            <Listbox
+                data-floating
+                innerRef={elements.setFloating}
+                isMulti={isMulti}
+                itemDisplayCount={itemCount}
+                items={options}
+                listItemProps={listItemProps}
+                onChange={(next, event) => {
+                    event?.preventDefault();
+                    if (!isMulti) closeMenu();
+                    onChange?.(next);
+                }}
+                selectAll={selectAll}
+                selectedValues={selected}
+                {...menuProps}
+            />
         </>
     );
 }

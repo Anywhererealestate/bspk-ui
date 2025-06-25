@@ -29,7 +29,8 @@
         "tsc": "tsc",
         "meta": "tsx meta.ts",
         "pretty": "npx prettier --write src/",
-        "postinstall": "npm run build"
+        "postinstall": "npm run build",
+        "newc": "tsx .scripts/tasks/new-component.ts"
     },
     "publishConfig": {
         "access": "public"

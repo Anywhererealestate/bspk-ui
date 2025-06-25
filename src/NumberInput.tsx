@@ -1,11 +1,15 @@
 import './number-input.scss';
 import { SvgAdd } from '@bspk/icons/Add';
 import { SvgRemove } from '@bspk/icons/Remove';
+import { useState } from 'react';
 
 import { useId } from './hooks/useId';
 import { useLongPress } from './hooks/useLongPress';
 
 import { CommonProps, InvalidPropsLibrary } from '.';
+
+const MAX = 99;
+const MIN = 0;
 
 const DEFAULT = {
     align: 'center',
@@ -14,23 +18,23 @@ const DEFAULT = {
     readOnly: false,
 } as const;
 
-function isNumber(value: unknown): number | undefined {
+function isNumber(value: unknown, fallbackValue: number | undefined = undefined): number | undefined {
     if (typeof value === 'number') return value;
-    if (typeof value !== 'string') return undefined;
+    if (typeof value !== 'string') return fallbackValue;
     const num = Number(value);
-    return isNaN(num) ? undefined : num;
+    return isNaN(num) ? fallbackValue : num;
 }
 
 export type NumberInputProps = CommonProps<'aria-label' | 'disabled' | 'id' | 'name' | 'readOnly' | 'size'> &
     InvalidPropsLibrary & {
         /** The value of the control. */
-        value?: number;
+        value?: number | string;
         /**
          * Callback when the value changes.
          *
          * @required
          */
-        onChange: (value: number | undefined) => void;
+        onChange: (value: number | string | undefined) => void;
         /**
          * The alignment of the input box. Centered between the plus and minus buttons or to the left of the buttons.
          *
@@ -50,6 +54,7 @@ export type NumberInputProps = CommonProps<'aria-label' | 'disabled' | 'id' | 'n
          * Defines the [minimum](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/min) value that is
          * accepted.
          *
+         * @default 0
          * @minimum 0
          */
         min?: number;
@@ -78,6 +83,7 @@ export type NumberInputProps = CommonProps<'aria-label' | 'disabled' | 'id' | 'n
  *     }
  *
  * @name NumberInput
+ * @phase DesignReview
  */
 function NumberInput({
     value,
@@ -95,30 +101,18 @@ function NumberInput({
 }: NumberInputProps) {
     const centered = align !== 'left';
     const inputId = useId(inputIdProp);
-    const max = isNumber(maxProp);
-    const min = isNumber(minProp);
+    const max = Math.min(MAX, isNumber(maxProp) || MAX);
+    const min = Math.max(MIN, isNumber(minProp) || MIN);
+    const valueNumber = isNumber(value) || 0;
 
-    const fix = (nextValue: number | string | undefined) => {
-        const next = isNumber(nextValue);
+    const [inputElement, setInputElement] = useState<HTMLInputElement | null>(null);
 
-        if (typeof next !== 'number' || isNaN(next)) {
-            onChange(undefined);
-            return;
-        }
-
-        let fixValue = next;
-        if (typeof min !== 'undefined' && next < min) fixValue = min;
-        if (typeof max !== 'undefined' && next > max) fixValue = max;
-        if (fixValue !== value) onChange(fixValue);
-    };
-
-    const buttonProps = {
-        min,
-        max,
-        disabled,
-        readOnly,
-        onChange: fix,
-        value,
+    const onIncrement = (increment: -1 | 1) => {
+        let nextValue = (isNumber(inputElement!.value) || 0) + increment;
+        if (nextValue > max) nextValue = max;
+        if (nextValue < min) nextValue = min;
+        inputElement!.value = String(nextValue);
+        onChange(nextValue);
     };
 
     return (
@@ -133,64 +127,68 @@ function NumberInput({
             data-size={size}
             data-stepper-input
         >
-            {!!centered && <IncrementButton {...buttonProps} increment={-1} />}
+            {!!centered && (
+                <IncrementButton disabled={valueNumber + -1 < min} increment={-1} onIncrement={onIncrement} />
+            )}
             <input
                 aria-label={ariaLabel}
+                defaultValue={String(valueNumber)}
                 disabled={disabled}
                 id={inputId}
                 max={max}
                 min={min}
                 name={name}
-                onBlur={(event) => {
-                    // Fix the value on blur to ensure it is a valid number
-                    fix(event.target.value);
-                }}
-                onChange={(event) => {
-                    onChange(isNumber(event.target.value));
+                onBlur={() => {
+                    if (!inputElement) return;
+
+                    let nextValue = isNumber(inputElement.value);
+
+                    if (typeof nextValue === 'undefined') {
+                        onChange(undefined);
+                        inputElement.value = '';
+                        return;
+                    }
+
+                    nextValue = Math.max(min, nextValue);
+                    nextValue = Math.min(max || 99, nextValue);
+                    onChange(nextValue);
+                    inputElement.value = nextValue.toString();
                 }}
                 readOnly={readOnly}
+                ref={(node) => node && setInputElement(node)}
                 type="number"
-                value={typeof value === 'number' ? value : ''}
             />
             {!centered && (
                 <>
                     <div aria-hidden data-divider />
-                    <IncrementButton {...buttonProps} increment={-1} />
+                    <IncrementButton disabled={valueNumber + -1 < min} increment={-1} onIncrement={onIncrement} />
                 </>
             )}
-            <IncrementButton {...buttonProps} increment={1} />
+            <IncrementButton disabled={valueNumber + 1 > max} increment={1} onIncrement={onIncrement} />
         </div>
     );
 }
 
+type IncrementButtonProps = {
+    disabled: boolean;
+    increment: -1 | 1;
+    onIncrement: (increment: -1 | 1) => void;
+};
+
 // eslint-disable-next-line react/no-multi-comp
-function IncrementButton({
-    increment,
-    min,
-    max,
-    readOnly,
-    disabled,
-    onChange,
-    value,
-}: Pick<NumberInputProps, 'disabled' | 'max' | 'min' | 'onChange' | 'readOnly' | 'value'> & { increment: -1 | 1 }) {
+function IncrementButton({ increment, disabled, onIncrement }: IncrementButtonProps) {
     const add = increment === 1;
-    const prevValue = isNumber(value) || 0;
 
-    const isDisabled =
-        readOnly ||
-        disabled ||
-        (typeof min !== 'undefined' && prevValue + increment < min) ||
-        (typeof max !== 'undefined' && prevValue + increment > max);
-
-    const longPress = useLongPress((pressCounter) => onChange(prevValue + increment * pressCounter), 2000, isDisabled);
+    const { setTriggerElement, ...handlers } = useLongPress(() => onIncrement(increment), disabled);
 
     return (
         <button
             aria-label={`${add ? 'Increase' : 'Decrease'} value`}
             data-increment={increment}
-            disabled={isDisabled}
+            disabled={disabled}
+            ref={setTriggerElement}
             type="button"
-            {...longPress.buttonProps}
+            {...handlers}
         >
             {add ? <SvgAdd /> : <SvgRemove />}
         </button>

@@ -41,11 +41,20 @@ export type ComponentMeta = BaseMeta & {
         code: string;
         description?: string;
     };
+    phase: ComponentPhase;
 };
 
 export type UtilityMeta = BaseMeta & {
     param?: string;
     returns?: string;
 };
+
+export type ComponentPhase =
+    | 'AccessibilityReview'
+    | 'Backlog'
+    | 'DesignReview'
+    | 'ProductionReady'
+    | 'Utility'
+    | 'WorkInProgress';
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

@@ -7,15 +7,14 @@ import { useRef, useEffect, useMemo } from 'react';
  *     import { useTimeout } from '@bspk/ui/hooks/useTimeout';
  *     import { useEffect } from 'react';
  *
- *     function MyComponent() {
- *     const timeoutRef = useTimeout();
+ *     export function MyComponent() {
+ *     const timeout = useTimeout();
  *
- *     useEffect(() => {
- *     timeoutRef.current = setTimeout(() => {
- *     console.log('Timeout triggered');
- *     }, 1000);
- *     }, []);
- *     return <div>Check the console after 1 second</div>;
+ *     const handleClick = () => {
+ *     timeout.set(() => console.log('Timeout triggered'), 1000);
+ *     };
+ *
+ *     return <Button onClick={handleClick}>Click here then check the console.</Button>;
  *     }
  *
  * @returns A ref object that can be used to store a timeout id.

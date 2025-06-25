@@ -7,7 +7,7 @@ Thank you for considering contributing to @bspk/ui! We appreciate your help in i
 1. **Clone the repository**:
 
 ```bash
-git clone https://gitlab.com/realogy/experience-pods/shared-packages/bspk-ui.git
+git clone https://github.com/Anywhererealestate/bspk-ui.git
 ```
 
 2. **Create a new branch**:
@@ -35,7 +35,9 @@ git push origin feature/your-feature-name
 
 ## Reporting Issues
 
-If you find a bug or have a feature request, please open an issue on the [issue tracker](https://gitlab.com/realogy/experience-pods/shared-packages/bspk-ui/-/issues).
+If you find a bug or have a feature request, please create a ticket on the [BSPK Jira Board](https://anywherere.atlassian.net/jira/software/c/projects/BSPK/boards/3011).
+
+If you don't have access to the Anywhere Atlassian Jira we will be opening the Github issues tracker soon.
 
 Thank you for your contributions!
 

@@ -4,8 +4,11 @@ import { NumberInputProps, NumberInput } from './NumberInput';
 import { InvalidPropsLibrary } from '.';
 
 export type NumberFieldProps = InvalidPropsLibrary &
-    Pick<FormFieldProps, 'controlId' | 'errorMessage' | 'helperText' | 'label' | 'labelTrailing' | 'required'> &
-    Pick<NumberInputProps, 'align' | 'disabled' | 'id' | 'name' | 'onChange' | 'readOnly' | 'size' | 'value'>;
+    Pick<
+        NumberInputProps,
+        'align' | 'disabled' | 'id' | 'max' | 'min' | 'name' | 'onChange' | 'readOnly' | 'size' | 'value'
+    > &
+    Pick<FormFieldProps, 'controlId' | 'errorMessage' | 'helperText' | 'label' | 'labelTrailing' | 'required'>;
 
 /**
  * A input element that allows users to either input a numerical value or singularly increase or decrease the values by
@@ -33,6 +36,7 @@ export type NumberFieldProps = InvalidPropsLibrary &
  *     }
  *
  * @name NumberField
+ * @phase DesignReview
  */
 function NumberField({
     label,

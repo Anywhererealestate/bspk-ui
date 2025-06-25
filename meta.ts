@@ -14,7 +14,7 @@ import { fileURLToPath } from 'url';
 
 import * as TJS from 'typescript-json-schema';
 
-import { ComponentMeta, TypeProperty, UtilityMeta, TypeMeta } from './meta-types';
+import { ComponentMeta, TypeProperty, UtilityMeta, TypeMeta, ComponentPhase } from './meta-types';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -109,6 +109,8 @@ const uiHash = process.argv.find((arg) => arg.startsWith('hash='))?.substring(5)
 
 const build = process.argv.find((arg) => arg.startsWith('build='))?.substring(6) || '0';
 
+const examplesFileChanged = fileChanged.includes('src/demo/examples');
+
 if (!metaFileDirectory) {
     console.error('Please provide a path to the meta file.');
     process.exit(1);
@@ -119,7 +121,7 @@ const componentFiles = fs.readdirSync(componentsDir).flatMap((fileName) => {
 
     const filePath = path.resolve(componentsDir, fileName);
 
-    if (fileChanged && !filePath.includes(fileChanged)) return [];
+    if (fileChanged && !examplesFileChanged && !filePath.includes(fileChanged)) return [];
 
     const content = fs.readFileSync(filePath, 'utf-8');
     return {
@@ -140,9 +142,10 @@ const componentFiles = fs.readdirSync(componentsDir).flatMap((fileName) => {
 
 type ComponentFile = (typeof componentFiles)[0];
 
-fs.writeFileSync(path.resolve(__dirname, 'component-files.json'), JSON.stringify(componentFiles, null, 2), {
-    encoding: 'utf-8',
-});
+if (examplesFileChanged) {
+    createExamples();
+    process.exit(0);
+}
 
 function generateComponentMeta({
     filePath: componentFile,
@@ -199,8 +202,20 @@ function generateComponentMeta({
         usage,
         css,
         hasTouchTarget: css.includes('data-touch-target'),
+        phase: (COMPONENT_PHASES.includes(componentDoc.phase as ComponentPhase)
+            ? componentDoc.phase
+            : 'Backlog') as ComponentPhase,
     };
 }
+
+const COMPONENT_PHASES: ComponentPhase[] = [
+    'AccessibilityReview',
+    'Backlog',
+    'DesignReview',
+    'ProductionReady',
+    'Utility',
+    'WorkInProgress',
+] as const;
 
 async function generateUtilityMeta(utilityFile: string): Promise<UtilityMeta | null> {
     const content = fs.readFileSync(utilityFile, 'utf-8');
@@ -340,7 +355,6 @@ function generateTypes() {
             }
         }
 
-        if (next.exampleType) console.log({ next });
         return next;
     };
 
@@ -624,8 +638,33 @@ export const BUILD = meta.BUILD as string;`,
     };
 }
 
+function createExamples() {
+    const examplesFilePath = path.join(metaFileDirectory, 'examples.ts');
+
+    const componentsWithExamples = componentFiles.filter(({ name }) =>
+        fs.existsSync(path.resolve(__dirname, 'src', 'demo', 'examples', `${name}.tsx`)),
+    );
+
+    fs.writeFileSync(
+        examplesFilePath,
+        `${componentsWithExamples
+            .map(({ name }) => `import { ${name}Example as ${name} } from '@bspk/ui/demo/examples/${name}';`)
+            .join('\n')}
+import { ComponentExample, ComponentExampleFn } from '@bspk/ui/demo/utils';
+import { MetaComponentName } from 'src/meta';
+
+export const examples: Partial<Record<MetaComponentName, ComponentExample<any> | ComponentExampleFn<any>>> = {
+${componentsWithExamples.map(({ name }) => `    ${name},`).join('\n')}
+}`,
+    );
+
+    pretty(examplesFilePath);
+}
+
 async function main() {
     await createMeta();
+
+    createExamples();
 
     process.exit(0);
 }

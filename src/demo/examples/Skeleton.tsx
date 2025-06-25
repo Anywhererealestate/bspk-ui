@@ -1,9 +1,10 @@
 /* eslint-disable @cspell/spellchecker */
 import { useState, useEffect } from 'react';
 
+import { Avatar } from '../../Avatar';
 import { SkeletonProps } from '../../Skeleton';
 import { useTimeout } from '../../hooks/useTimeout';
-import { ComponentExample } from '../utils';
+import { ComponentExample, ExamplePlaceholder } from '../utils';
 
 export const SkeletonExample: ComponentExample<SkeletonProps> = {
     render: ({ props, preset, Component }) => {
@@ -13,27 +14,47 @@ export const SkeletonExample: ComponentExample<SkeletonProps> = {
     presets: [
         {
             label: 'Loading Transition',
-            state: {
-                textVariant: 'body-base',
-                textLines: 3,
+            propState: {
+                width: '100px',
+                height: '100px',
             },
         },
     ],
 };
 
-function SkeletonTransition({ Component, ...props }: { Component: React.ComponentType<Record<string, unknown>> }) {
+function SkeletonTransition({
+    Component,
+    ...props
+}: SkeletonProps & { Component: React.ComponentType<SkeletonProps> }) {
     const loadingTimeout = useTimeout();
     const [loaded, setLoaded] = useState(false);
     useEffect(() => {
+        setLoaded(false);
         loadingTimeout.set(() => setLoaded(true), 3000);
-    }, [loadingTimeout]);
+    }, [loadingTimeout, props.variant]);
+
     return (
         <Component {...props}>
             {loaded && (
-                <p>
-                    Synergestic actionables turn the ship, or vertical integration, offerings locked and loaded, so get
-                    buy-in.
-                </p>
+                <>
+                    {props.variant === 'rectangular' && (
+                        <ExamplePlaceholder height={props.height} width={props.width} />
+                    )}
+                    {props.variant === 'circular' && (
+                        <ExamplePlaceholder
+                            height={props.height}
+                            style={{ borderRadius: '100%' }}
+                            width={props.width}
+                        />
+                    )}
+                    {props.variant === 'photo' && (
+                        <ExamplePlaceholder height={props.height} width={props.width}>
+                            Loaded
+                        </ExamplePlaceholder>
+                    )}
+                    {props.variant === 'profile' && <Avatar color="red" name="Bob Boberson" />}
+                    {props.variant === 'thumbnail' && <ExamplePlaceholder height={props.height} width={props.width} />}
+                </>
             )}
         </Component>
     );

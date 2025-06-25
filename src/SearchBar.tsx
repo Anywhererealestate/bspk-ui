@@ -2,15 +2,14 @@ import './search-bar.scss';
 import { SvgSearch } from '@bspk/icons/Search';
 import { useRef } from 'react';
 
-import { MenuItem, MenuProps, Menu } from './Menu';
-import { Portal } from './Portal';
+import { Listbox, ListboxProps, ListboxItemProps } from './Listbox';
 import { TextInputProps, TextInput } from './TextInput';
 import { Txt } from './Txt';
 import { useCombobox } from './hooks/useCombobox';
 import { useId } from './hooks/useId';
 
-export type SearchBarProps<T extends MenuItem = MenuItem> = Pick<MenuProps<T>, 'itemCount' | 'noResultsMessage'> &
-    Pick<TextInputProps, 'aria-label' | 'id' | 'inputRef' | 'name' | 'size'> & {
+export type SearchBarProps<T extends ListboxItemProps = ListboxItemProps> = Pick<ListboxProps<T>, 'itemDisplayCount'> &
+    Pick<TextInputProps, 'aria-label' | 'disabled' | 'id' | 'inputRef' | 'name' | 'size'> & {
         /** The current value of the search bar. */
         value?: string;
         /**
@@ -34,7 +33,7 @@ export type SearchBarProps<T extends MenuItem = MenuItem> = Pick<MenuProps<T>, '
          * @type (item: MenuItem) => void
          * @required
          */
-        onSelect: (item?: MenuItem) => void;
+        onSelect: (item?: ListboxItemProps) => void;
         /**
          * Content to display in the menu.
          *
@@ -106,9 +105,10 @@ export type SearchBarProps<T extends MenuItem = MenuItem> = Pick<MenuProps<T>, '
  *     }
  *
  * @name SearchBar
+ * @phase DesignReview
  */
 function SearchBar({
-    itemCount,
+    itemDisplayCount: itemCount,
     items,
     noResultsMessage,
     placeholder = 'Search',
@@ -121,12 +121,15 @@ function SearchBar({
     value,
     onChange,
     showMenu = true,
+    disabled = false,
 }: SearchBarProps) {
     const id = useId(idProp);
+
     const {
-        toggleProps: { ref: triggerRef, onClick, onKeyDownCapture, ...triggerProps },
+        toggleProps: { onClick, onKeyDownCapture, ...triggerProps },
         menuProps,
         closeMenu,
+        elements,
     } = useCombobox({
         placement: 'bottom-start',
     });
@@ -139,7 +142,8 @@ function SearchBar({
                 <TextInput
                     aria-label={ariaLabel}
                     autoComplete="off"
-                    containerRef={triggerRef}
+                    containerRef={elements.setReference}
+                    disabled={disabled}
                     id={id}
                     inputRef={(node) => {
                         inputRef?.(node || null);
@@ -157,43 +161,38 @@ function SearchBar({
                     }}
                     onKeyDownCapture={(event) => {
                         const handled = onKeyDownCapture(event);
-
                         if (handled) return;
-
                         inputRefLocal.current?.focus();
                     }}
                 />
             </div>
             {showMenu && (
-                <Portal>
-                    <Menu
-                        itemCount={itemCount}
-                        items={items}
-                        noResultsMessage={
-                            !!value?.length &&
-                            !items?.length && (
-                                <>
-                                    <Txt as="div" variant="heading-h5">
-                                        No results found
-                                    </Txt>
-                                    {noResultsMessage && (
-                                        <Txt as="div" variant="body-base">
-                                            {noResultsMessage}
-                                        </Txt>
-                                    )}
-                                </>
-                            )
-                        }
-                        onChange={(selectedValues, event) => {
-                            event?.preventDefault();
-                            const item = items?.find((i) => i.value === selectedValues[0]);
-                            onSelect?.(item);
-                            onChange(item?.label || '');
-                            closeMenu();
-                        }}
-                        {...menuProps}
-                    />
-                </Portal>
+                <Listbox
+                    innerRef={elements.setFloating}
+                    itemDisplayCount={itemCount}
+                    items={items}
+                    onChange={(selectedValues, event) => {
+                        event?.preventDefault();
+                        const item = items?.find((i) => i.value === selectedValues[0]);
+                        onSelect?.(item);
+                        onChange(item?.label || '');
+                        closeMenu();
+                    }}
+                    {...menuProps}
+                >
+                    {!!value?.length && !items?.length && (
+                        <div data-bspk="no-items-found">
+                            <Txt as="div" variant="heading-h5">
+                                No results found
+                            </Txt>
+                            {noResultsMessage && (
+                                <Txt as="div" variant="body-base">
+                                    {noResultsMessage}
+                                </Txt>
+                            )}
+                        </div>
+                    )}
+                </Listbox>
             )}
         </>
     );

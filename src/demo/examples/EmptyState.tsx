@@ -21,7 +21,7 @@ export const EmptyStateExample: ComponentExampleFn<EmptyStateProps> = ({ action 
     presets: [
         {
             label: 'With CallToAction',
-            state: {
+            propState: {
                 callToAction: {
                     label: 'Add payment method',
                     onClick: () => action('Add payment method clicked!'),

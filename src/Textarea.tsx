@@ -1,5 +1,5 @@
 import './textarea.scss';
-import { ChangeEvent, CSSProperties } from 'react';
+import { ChangeEvent, CSSProperties, useRef } from 'react';
 
 import { useId } from './hooks/useId';
 
@@ -59,7 +59,9 @@ export type TextareaProps = CommonProps<'aria-label' | 'disabled' | 'id' | 'read
         /**
          * The maximum number of rows that the textarea will show.
          *
-         * @default 10
+         * When set the textarea will automatically adjust its height to fit the content up to this limit.
+         *
+         * @default 3
          * @minimum 3
          * @maximum 10
          */
@@ -86,6 +88,7 @@ export type TextareaProps = CommonProps<'aria-label' | 'disabled' | 'id' | 'read
  * @element
  *
  * @name Textarea
+ * @phase DesignReview
  */
 function Textarea({
     invalid: invalidProp,
@@ -107,6 +110,16 @@ function Textarea({
     // ensure minRows and maxRows are within bounds
     const minRows = Math.min(DEFAULT.maxRows, Math.max(minRowsProp, DEFAULT.minRows));
     const maxRows = Math.max(DEFAULT.minRows, Math.min(maxRowsProp, DEFAULT.maxRows));
+
+    const onInput = () => {
+        const target = textareaElement.current;
+        if (!target) return;
+        // we know the textarea was resized, so we don't want to auto-size it
+        if (target.style.height) return;
+        (target.nextSibling as HTMLElement).innerText = `${target.value}\n`;
+    };
+
+    const textareaElement = useRef<HTMLTextAreaElement | null>(null);
 
     return (
         <div
@@ -131,14 +144,13 @@ function Textarea({
                     target.scrollTop = 0;
                 }}
                 onChange={(event) => onChange(event.target.value, event)}
-                onInput={(event) => {
-                    const target = event.target as HTMLTextAreaElement;
-                    // we know the textarea was resized, so we don't want to auto-size it
-                    if (target.style.height) return;
-                    (target.nextSibling as HTMLElement).innerText = `${target.value}\n`;
-                }}
+                onInput={onInput}
                 placeholder={placeholder}
-                ref={innerRef}
+                ref={(node) => {
+                    innerRef?.(node);
+                    textareaElement.current = node;
+                    onInput();
+                }}
                 value={value}
                 wrap="hard"
             />
