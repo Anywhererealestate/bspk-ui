@@ -3,8 +3,6 @@ import { ReactNode, isValidElement } from 'react';
 
 import { isValidIcon } from './utils/children';
 
-// import { CommonProps } from '.';
-
 export type ChipUtilityProps = {
     /**
      * Is the chip disabled.
@@ -12,14 +10,12 @@ export type ChipUtilityProps = {
      * @default false
      */
     disabled?: boolean;
-
     /**
      * Is the chip elevated or flat. If flat the drop shadow is removed.
      *
      * @default false
      */
     flat?: boolean;
-
     /**
      * The label of the chip.
      *
@@ -27,24 +23,20 @@ export type ChipUtilityProps = {
      *     Chip Label;
      */
     label?: string;
-
     /** The function to call when the chip is clicked. */
-    onClick?: (event: React.MouseEvent<HTMLSpanElement, MouseEvent>) => void;
-
+    onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
     /**
      * Whether the chip is currently selected.
      *
      * @default false
      */
     selected?: boolean;
-
     /**
      * The leading icon of the chip.
      *
      * @type BspkIcon
      */
     leadingIcon?: ReactNode;
-
     /**
      * The trailing icon of the chip.
      *
