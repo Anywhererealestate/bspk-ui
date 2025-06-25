@@ -5,7 +5,7 @@ import { ReactNode, useMemo } from 'react';
 import { Button, ButtonProps } from './Button';
 import { DialogProps, Dialog } from './Dialog';
 import { Txt } from './Txt';
-import { useResponsive } from './hooks/useResponsive';
+import { useUIContext } from './hooks/useUIContext';
 
 import { CallToActionButton } from '.';
 
@@ -110,7 +110,7 @@ function Modal({
     buttonFormat = 'horizontal',
     ...dialogProps
 }: ModalProps) {
-    const { isMobile } = useResponsive();
+    const { isMobile } = useUIContext();
 
     const buttons: ButtonProps[] = useMemo(() => {
         const nextButtons: ButtonProps[] = [];
