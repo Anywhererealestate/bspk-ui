@@ -90,6 +90,7 @@ export function useCombobox({
             },
         },
         closeMenu,
+        isOpen: show,
         elements,
     };
 }
