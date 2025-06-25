@@ -82,6 +82,9 @@ function PhoneNumberInput({
     disableFormatting,
     initialCountryCode,
     'aria-label': ariaLabel,
+    disabled,
+    invalid,
+    readOnly,
     ...inputProps
 }: PhoneNumberInputProps) {
     const { isMobile } = useUIContext();
@@ -93,6 +96,9 @@ function PhoneNumberInput({
         isOpen: showCountryCodeSelectMenu,
     } = useCombobox({
         placement: 'bottom',
+        disabled,
+        invalid,
+        readOnly,
         errorMessage,
     });
 
@@ -138,10 +144,12 @@ function PhoneNumberInput({
                 value={formattedValue}
                 {...inputProps}
                 aria-label={ariaLabel}
+                disabled={disabled}
                 errorMessage={errorMessage}
+                invalid={invalid}
                 leading={
                     <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <button {...(inputProps.disabled ? {} : toggleProps)} data-bspk="country-code-select">
+                        <button {...(disabled ? {} : toggleProps)} data-bspk="country-code-select">
                             <SvgIcon name={selectedCodeData.flagIconName} />
 
                             <SvgIcon name="KeyboardArrowDown" />
@@ -149,7 +157,6 @@ function PhoneNumberInput({
 
                         {isMobile ? (
                             <Modal
-                                data-bspk-inner="country-code-select-modal"
                                 description="select a country code for your phone number"
                                 header="Country Code"
                                 onClose={closeMenu}
@@ -171,9 +178,9 @@ function PhoneNumberInput({
                             </Modal>
                         ) : (
                             <Listbox
-                                data-bspk-inner="country-code-select-menu"
                                 data-floating
                                 innerRef={elements.setFloating}
+                                itemDisplayCount={countryCodeSelectOptions.length}
                                 items={countryCodeSelectOptions}
                                 onChange={(next, event) => {
                                     event?.preventDefault();
@@ -190,6 +197,7 @@ function PhoneNumberInput({
                         <Txt>{`+${callingCode}`}</Txt>
                     </div>
                 }
+                readOnly={readOnly}
                 required={required}
             />
         </div>

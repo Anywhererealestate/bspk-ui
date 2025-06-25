@@ -27,9 +27,12 @@
         color: var(--foreground-neutral-on-surface);
     }
 
+    [data-bspk='txt'] {
+        cursor: default;
+    }
+
     [data-disabled] {
-        [data-bspk='country-code-select'],
-        [data-bspk='txt'] {
+        [data-bspk='country-code-select'] {
             cursor: default;
         }
     }
