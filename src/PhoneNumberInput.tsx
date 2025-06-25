@@ -11,7 +11,7 @@ import { Modal } from './Modal';
 import { TextInput, TextInputProps } from './TextInput';
 import { Txt } from './Txt';
 import { useCombobox } from './hooks/useCombobox';
-import { useResponsive } from './hooks/useResponsive';
+import { useUIContext } from './hooks/useUIContext';
 import { countryCodeData, countryCodes, SupportedCountryCode } from './utils/countryCodes';
 import { guessUserCountryCode } from './utils/guessUserCountryCode';
 
@@ -84,7 +84,7 @@ function PhoneNumberInput({
     'aria-label': ariaLabel,
     ...inputProps
 }: PhoneNumberInputProps) {
-    const { isMobile } = useResponsive();
+    const { isMobile } = useUIContext();
     const {
         toggleProps,
         menuProps,

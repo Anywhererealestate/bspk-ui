@@ -10,8 +10,8 @@ import { useTimeout } from './useTimeout';
  * @returns A tuple containing the current state and a debounced setter function that updates the state after the
  *   specified delay
  */
-export function useDebounceState<T>(defaultValue: T, delay = 1000) {
-    const [state, setState] = useState<T>(defaultValue);
+export function useDebounceState<T>(initialState: T | (() => T), delay = 1000) {
+    const [state, setState] = useState<T>(initialState);
     const timeout = useTimeout();
 
     return [state, (nextState: SetStateAction<T>) => timeout.set(() => setState(nextState), delay)] as const;
