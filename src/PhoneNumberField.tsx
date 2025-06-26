@@ -1,26 +1,25 @@
 import { FormField, FormFieldProps } from './FormField';
 import { PhoneNumberInput, PhoneNumberInputProps } from './PhoneNumberInput';
-import { TextInputProps } from './TextInput';
 
-import { InvalidPropsLibrary } from 'src';
-
-export type PhoneNumberFieldProps = InvalidPropsLibrary &
-    Pick<
-        TextInputProps,
-        | 'autoComplete'
-        | 'disabled'
-        | 'inputRef'
-        | 'invalid'
-        | 'name'
-        | 'placeholder'
-        | 'readOnly'
-        | 'required'
-        | 'size'
-        | 'type'
-        | 'value'
-    > &
-    Pick<FormFieldProps, 'controlId' | 'errorMessage' | 'helperText' | 'label' | 'labelTrailing'> &
-    Pick<PhoneNumberInputProps, 'disableFormatting' | 'initialCountryCode' | 'inputRef' | 'onChange'>;
+export type PhoneNumberFieldProps = Pick<
+    PhoneNumberInputProps,
+    | 'autoComplete'
+    | 'disabled'
+    | 'disableFormatting'
+    | 'errorMessage'
+    | 'initialCountryCode'
+    | 'inputRef'
+    | 'invalid'
+    | 'name'
+    | 'onChange'
+    | 'placeholder'
+    | 'readOnly'
+    | 'required'
+    | 'size'
+    | 'type'
+    | 'value'
+> &
+    Pick<FormFieldProps, 'controlId' | 'helperText' | 'label' | 'labelTrailing'>;
 
 /**
  * A text input that allows users to enter text phone numbers with country codes.

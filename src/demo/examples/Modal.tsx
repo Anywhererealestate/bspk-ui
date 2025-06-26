@@ -27,7 +27,6 @@ export const ModalExample: ComponentExampleFn<ModalProps> = ({ action }) => ({
             propState: {
                 header: 'Header Only',
                 description: 'This modal has no buttons.',
-                open: true,
                 children: (
                     <>
                         {Array(30)

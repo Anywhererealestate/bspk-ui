@@ -158,54 +158,54 @@ function PhoneNumberInput({
 
                             <SvgIcon name="KeyboardArrowDown" />
                         </button>
-
-                        {isMobile ? (
-                            <Modal
-                                data-bspk-owner="phone-number-input"
-                                description="select a country code for your phone number"
-                                header="Country Code"
-                                onClose={closeMenu}
-                                open={showCountryCodeSelectMenu}
-                            >
-                                {countryCodeSelectOptions.map((option) => (
-                                    <ListItem
-                                        active={countryCode === option.value}
-                                        data-bspk="country-code-select-option"
-                                        key={option.value}
-                                        label={option.label}
-                                        leading={option.leading}
-                                        onClick={() => {
-                                            setCountryCode(option.value as SupportedCountryCode);
-                                            closeMenu();
-                                        }}
-                                        trailing={option.trailing}
-                                    />
-                                ))}
-                            </Modal>
-                        ) : (
-                            <Listbox
-                                data-bspk-owner="phone-number-input"
-                                data-floating
-                                innerRef={elements.setFloating}
-                                itemDisplayCount={countryCodeSelectOptions.length}
-                                items={countryCodeSelectOptions}
-                                onChange={(next, event) => {
-                                    event?.preventDefault();
-                                    closeMenu();
-                                    setCountryCode(next[0] as SupportedCountryCode);
-                                }}
-                                selectedValues={[countryCode]}
-                                {...menuProps}
-                            />
-                        )}
-
                         <Divider orientation="vertical" />
-
                         <Txt>{`+${callingCode}`}</Txt>
                     </div>
                 }
                 readOnly={readOnly}
             />
+            {showCountryCodeSelectMenu && (
+                <>
+                    {isMobile ? (
+                        <Modal
+                            data-bspk-owner="phone-number-input"
+                            description="select a country code for your phone number"
+                            header="Country Code"
+                            onClose={closeMenu}
+                            open={showCountryCodeSelectMenu}
+                        >
+                            {countryCodeSelectOptions.map((option) => (
+                                <ListItem
+                                    active={countryCode === option.value}
+                                    data-bspk="country-code-select-option"
+                                    key={option.value}
+                                    label={option.label}
+                                    leading={option.leading}
+                                    onClick={() => {
+                                        setCountryCode(option.value as SupportedCountryCode);
+                                        closeMenu();
+                                    }}
+                                    trailing={option.trailing}
+                                />
+                            ))}
+                        </Modal>
+                    ) : (
+                        <Listbox
+                            data-bspk-owner="phone-number-input"
+                            innerRef={elements.setFloating}
+                            itemDisplayCount={countryCodeSelectOptions.length}
+                            items={countryCodeSelectOptions}
+                            onChange={(next, event) => {
+                                event?.preventDefault();
+                                closeMenu();
+                                setCountryCode(next[0] as SupportedCountryCode);
+                            }}
+                            selectedValues={[countryCode]}
+                            {...menuProps}
+                        />
+                    )}
+                </>
+            )}
         </div>
     );
 }

@@ -5,7 +5,7 @@ import { useTruncatedText } from './hooks/useTruncatedText';
 
 import { ElementConstructorProps } from '.';
 
-export type TruncatedProps<As extends ElementType = 'span'> = ElementConstructorProps<'span'> & {
+export type TruncatedProps<As extends ElementType = 'span'> = ElementConstructorProps<'span', 'children'> & {
     /**
      * The element type to render as.
      *

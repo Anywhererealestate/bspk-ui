@@ -63,7 +63,7 @@ export type SearchBarProps<T extends ListboxItemProps = ListboxItemProps> = Pick
         /**
          * Whether to show or hide menu.
          *
-         * @default true
+         * @default false
          */
         showMenu?: boolean;
     };
@@ -120,7 +120,7 @@ function SearchBar({
     onSelect,
     value,
     onChange,
-    showMenu = true,
+    showMenu = false,
     disabled = false,
 }: SearchBarProps) {
     const id = useId(idProp);

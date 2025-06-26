@@ -133,7 +133,14 @@ function Breadcrumb({ id: propId, items: itemsProp }: BreadcrumbProps) {
                         />
 
                         {open && (
-                            <Menu innerRef={elements.setFloating} style={{ ...floatingStyles, width: '200px' }}>
+                            <Menu
+                                innerRef={elements.setFloating}
+                                itemDisplayCount={false}
+                                style={{
+                                    ...floatingStyles,
+                                    width: '200px',
+                                }}
+                            >
                                 {middleItems.map((item, idx) => (
                                     <ListItem key={`Breadcrumb-${idx}`} {...item} />
                                 ))}

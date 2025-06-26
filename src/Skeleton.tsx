@@ -1,5 +1,7 @@
 /* eslint-disable react/no-multi-comp */
-import { CSSProperties, ReactNode } from 'react';
+import { ReactNode } from 'react';
+
+import { cssWithVars } from './utils/cwv';
 
 export type SkeletonProps = {
     /**
@@ -77,12 +79,10 @@ function Skeleton({ width = 100, height = 100, variant = 'rectangular', children
             data-bspk="skeleton"
             data-variant={variant}
             role="status"
-            style={
-                {
-                    '--height': typeof height === 'number' ? `${height}px` : height,
-                    '--width': typeof width === 'number' ? `${width}px` : width,
-                } as CSSProperties
-            }
+            style={cssWithVars({
+                '--height': typeof height === 'number' ? `${height}px` : height,
+                '--width': typeof width === 'number' ? `${width}px` : width,
+            })}
         />
     );
 }

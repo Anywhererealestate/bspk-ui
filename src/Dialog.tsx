@@ -4,6 +4,7 @@ import { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
 
 import { Portal } from './Portal';
 import { useId } from './hooks/useId';
+import { useLockBodyScroll } from './hooks/useLockBodyScroll';
 import { useOutsideClick } from './hooks/useOutsideClick';
 
 import { CommonProps, ElementProps, SetRef } from './';
@@ -133,6 +134,8 @@ function Dialog({
     }, [handleKeyDown, visibility]);
 
     useOutsideClick([boxRef.current], onClose, !open);
+
+    useLockBodyScroll(visibility !== 'hidden');
 
     return (
         visibility !== 'hidden' && (

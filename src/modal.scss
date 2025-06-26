@@ -16,6 +16,7 @@
     main {
         flex: 1;
         overflow-y: auto;
+        max-height: fit-content;
     }
 
     > footer {

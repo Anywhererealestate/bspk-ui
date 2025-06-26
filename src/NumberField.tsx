@@ -1,14 +1,22 @@
 import { FormFieldProps, FormField } from './FormField';
 import { NumberInputProps, NumberInput } from './NumberInput';
 
-import { InvalidPropsLibrary } from '.';
-
-export type NumberFieldProps = InvalidPropsLibrary &
-    Pick<
-        NumberInputProps,
-        'align' | 'disabled' | 'id' | 'max' | 'min' | 'name' | 'onChange' | 'readOnly' | 'size' | 'value'
-    > &
-    Pick<FormFieldProps, 'controlId' | 'errorMessage' | 'helperText' | 'label' | 'labelTrailing' | 'required'>;
+export type NumberFieldProps = Pick<
+    NumberInputProps,
+    | 'align'
+    | 'disabled'
+    | 'errorMessage'
+    | 'id'
+    | 'invalid'
+    | 'max'
+    | 'min'
+    | 'name'
+    | 'onChange'
+    | 'readOnly'
+    | 'size'
+    | 'value'
+> &
+    Pick<FormFieldProps, 'controlId' | 'helperText' | 'label' | 'labelTrailing' | 'required'>;
 
 /**
  * A input element that allows users to either input a numerical value or singularly increase or decrease the values by

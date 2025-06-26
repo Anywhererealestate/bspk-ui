@@ -1,7 +1,8 @@
 import './textarea.scss';
-import { ChangeEvent, CSSProperties, useRef } from 'react';
+import { ChangeEvent, useRef } from 'react';
 
 import { useId } from './hooks/useId';
+import { cssWithVars } from './utils/cwv';
 
 import { CommonProps, InvalidPropsLibrary, SetRef } from './';
 
@@ -125,12 +126,10 @@ function Textarea({
         <div
             data-bspk="textarea"
             data-size={textSize}
-            style={
-                {
-                    '--min-rows': minRows,
-                    '--max-rows': maxRows,
-                } as CSSProperties
-            }
+            style={cssWithVars({
+                '--min-rows': minRows,
+                '--max-rows': maxRows,
+            })}
         >
             <textarea
                 {...otherProps}

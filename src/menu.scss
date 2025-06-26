@@ -1,6 +1,5 @@
 [data-bspk='menu'] {
     --item-size: var(--spacing-sizing-12);
-    --item-count: 0;
     --overflow-y: hidden;
 
     width: 332px;
@@ -12,7 +11,6 @@
     display: flex;
     flex-direction: column;
     overflow: hidden var(--overflow-y);
-    max-height: calc(calc(var(--item-count) * var(--item-size)) + 2px /* borders */);
 
     &[data-floating] {
         z-index: var(--z-index-dropdown);

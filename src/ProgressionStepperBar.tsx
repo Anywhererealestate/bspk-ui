@@ -1,5 +1,6 @@
 import './progression-stepper-bar.scss';
-import { CSSProperties } from 'react';
+
+import { cssWithVars } from './utils/cwv';
 
 export type ProgressionStepperBarProps = {
     /**
@@ -45,7 +46,7 @@ function ProgressionStepperBar({
     const stepCompleted = Math.min(stepCompletedProp, stepCount);
 
     return (
-        <div data-bspk="progression-stepper-bar" data-size={size} style={{ '--steps': stepCount } as CSSProperties}>
+        <div data-bspk="progression-stepper-bar" data-size={size} style={cssWithVars({ '--steps': stepCount })}>
             <div data-steps>
                 {Array.from({ length: stepCount }, (_, i) => (
                     <div data-complete={i < stepCompleted || undefined} data-step={i} key={i} />

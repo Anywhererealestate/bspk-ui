@@ -1,5 +1,6 @@
-import { CSSProperties, ReactNode } from 'react';
+import { ReactNode } from 'react';
 
+import { cssWithVars } from './utils/cwv';
 import { TxtVariant } from './utils/txtVariants';
 
 export type SkeletonTextProps = {
@@ -56,12 +57,10 @@ function SkeletonText({ lines = 3, variant, children = null }: SkeletonTextProps
             aria-label="Loading"
             data-bspk="skeleton-text"
             role="status"
-            style={
-                {
-                    '--text-height': `var(--${variant}-size)`,
-                    '--text-margin': `calc(var(--${variant}-line-height) - var(--${variant}-size))`,
-                } as CSSProperties
-            }
+            style={cssWithVars({
+                '--text-height': `var(--${variant}-size)`,
+                '--text-margin': `calc(var(--${variant}-line-height) - var(--${variant}-size))`,
+            })}
         >
             {[...Array(Math.max(1, lines || 0))].map((_, index) => (
                 <div data-line key={index} />

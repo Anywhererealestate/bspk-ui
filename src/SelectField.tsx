@@ -5,16 +5,16 @@ export type SelectFieldProps = Pick<
     SelectProps,
     | 'disabled'
     | 'itemDisplayCount'
+    | 'label'
     | 'name'
     | 'onChange'
     | 'options'
     | 'placeholder'
-    | 'placement'
     | 'readOnly'
     | 'size'
     | 'value'
 > &
-    Pick<FormFieldProps, 'controlId' | 'errorMessage' | 'helperText' | 'label' | 'labelTrailing' | 'required'>;
+    Pick<FormFieldProps, 'controlId' | 'errorMessage' | 'helperText' | 'labelTrailing' | 'required'>;
 
 /**
  * A component that allows users to input large amounts of text that could span multiple lines.
@@ -67,9 +67,7 @@ function SelectField({
             labelTrailing={labelTrailing}
             required={required}
         >
-            {(fieldProps) => (
-                <Select {...selectProps} {...fieldProps} aria-label={label} id={id} invalid={!!errorMessage} />
-            )}
+            {(fieldProps) => <Select {...selectProps} {...fieldProps} id={id} invalid={!!errorMessage} label={label} />}
         </FormField>
     );
 }

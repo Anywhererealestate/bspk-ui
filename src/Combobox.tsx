@@ -1,13 +1,14 @@
 /* eslint-disable react/no-multi-comp */
-import { CSSProperties, ReactNode, useMemo } from 'react';
+import { ReactNode, useMemo } from 'react';
 
 import { Checkbox } from './Checkbox';
 import { ListItem, ListItemProps } from './ListItem';
-import { Menu } from './Menu';
+import { Menu, MenuProps } from './Menu';
 import { Modal, ModalProps } from './Modal';
 import { ToggleProps, useCombobox, UseComboboxProps } from './hooks/useCombobox';
 import { useId } from './hooks/useId';
 import { useUIContext } from './hooks/useUIContext';
+import { cssWithVars } from './utils/cwv';
 
 import { CommonProps, ElementProps } from '.';
 
@@ -27,19 +28,10 @@ export type ComboboxItemProps = CommonProps<'disabled'> &
         value: string;
     };
 
-export type ComboboxProps<Item extends ComboboxItemProps = ComboboxItemProps> = CommonProps<
-    'data-bspk-owner' | 'id' | 'readOnly'
-> &
+export type ComboboxProps<Item extends ComboboxItemProps = ComboboxItemProps> = CommonProps<'data-bspk-owner' | 'id'> &
+    Pick<MenuProps, 'itemDisplayCount'> &
     Pick<ModalProps, 'description' | 'header'> &
     Pick<UseComboboxProps, 'disabled' | 'errorMessage' | 'invalid' | 'offsetOptions' | 'readOnly' | 'refWidth'> & {
-        /**
-         * The number of items to display in the listbox
-         *
-         * @default 5
-         * @minimum 3
-         * @maximum 10
-         */
-        itemDisplayCount?: number;
         /**
          * Content to display in the listbox.
          *
@@ -141,7 +133,7 @@ export type ComboboxProps<Item extends ComboboxItemProps = ComboboxItemProps> = 
  * @phase Utility
  */
 function Combobox<Item extends ComboboxItemProps>({
-    itemDisplayCount: itemCountProp = 5,
+    itemDisplayCount,
     items = [],
     onChange,
     value: selectedValues = [],
@@ -185,12 +177,6 @@ function Combobox<Item extends ComboboxItemProps>({
         return selectAllProp === true ? DEFAULT.selectAll : false;
     }, [isMulti, selectAllProp]);
 
-    const maxDisplayCount = Math.min(items.length, itemCountProp, MAX_ITEM_COUNT);
-
-    let itemCount = itemCountProp;
-    if (itemCountProp < MIN_ITEM_COUNT) itemCount = MIN_ITEM_COUNT;
-    if (itemCountProp > maxDisplayCount) itemCount = maxDisplayCount;
-
     const allSelected = useMemo(
         () => !!(items.length && items.every((item) => selectedValues.includes(item.value))),
         [items, selectedValues],
@@ -228,22 +214,19 @@ function Combobox<Item extends ComboboxItemProps>({
                     aria-multiselectable={isMulti || undefined}
                     data-bspk="listbox"
                     data-disabled={disabled || undefined}
-                    data-item-count={itemCount || undefined}
                     data-no-items={!items.length || undefined}
                     hidden={!isOpen}
                     id={menuId}
                     innerRef={(node) => {
                         elements.setFloating(node);
                     }}
+                    itemCount={items.length}
+                    itemDisplayCount={itemDisplayCount}
                     role="listbox"
-                    style={
-                        {
-                            ...props.style,
-                            ...menuProps.style,
-                            '--item-count': itemCount,
-                            '--overflow-y': items.length > maxDisplayCount ? 'scroll' : undefined,
-                        } as CSSProperties
-                    }
+                    style={cssWithVars({
+                        ...props.style,
+                        ...menuProps.style,
+                    })}
                     tabIndex={-1}
                 >
                     <ListItems

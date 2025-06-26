@@ -1,4 +1,6 @@
 import './divider.scss';
+import { cssWithVars } from './utils/cwv';
+
 import { ElementProps } from './';
 
 export type DividerProps = {
@@ -74,12 +76,10 @@ function Divider({
             data-orientation={orientation}
             data-thickness={thickness}
             role="separator"
-            style={
-                {
-                    ...props.style,
-                    '--inset': insetToVariable(inset),
-                } as React.CSSProperties
-            }
+            style={cssWithVars({
+                ...props.style,
+                '--inset': insetToVariable(inset),
+            })}
         />
     );
 }
