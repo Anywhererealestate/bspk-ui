@@ -110,6 +110,7 @@ function Modal({
     callToAction,
     cancelButton,
     buttonFormat = 'horizontal',
+    innerRef,
     ...dialogProps
 }: ModalProps) {
     const { isMobile } = useUIContext();
@@ -173,7 +174,7 @@ function Modal({
             placement="center"
             showScrim={true}
         >
-            <div data-bspk="modal" style={{ height: modalHeight }}>
+            <div data-bspk="modal" ref={(node) => innerRef?.(node)} style={{ height: modalHeight }}>
                 <header>
                     <Txt as="div" data-dialog-title variant="heading-h4">
                         {header}

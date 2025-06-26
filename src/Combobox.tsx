@@ -28,10 +28,10 @@ export type ComboboxItemProps = CommonProps<'disabled'> &
     };
 
 export type ComboboxProps<Item extends ComboboxItemProps = ComboboxItemProps> = CommonProps<
-    'data-bspk-owner' | 'disabled' | 'id' | 'readOnly'
+    'data-bspk-owner' | 'id' | 'readOnly'
 > &
     Pick<ModalProps, 'description' | 'header'> &
-    UseComboboxProps & {
+    Pick<UseComboboxProps, 'disabled' | 'errorMessage' | 'invalid' | 'offsetOptions' | 'readOnly' | 'refWidth'> & {
         /**
          * The number of items to display in the listbox
          *
@@ -98,6 +98,12 @@ export type ComboboxProps<Item extends ComboboxItemProps = ComboboxItemProps> = 
          * Usually only used for showing no items found.
          */
         children: (referenceProps: ToggleProps & { setReference: (node: HTMLElement) => void }) => ReactNode;
+        /**
+         * The label for the select element, used for accessibility, and the dropdown modal header.
+         *
+         * @required
+         */
+        label: string;
     };
 
 /**
@@ -147,15 +153,14 @@ function Combobox<Item extends ComboboxItemProps>({
     invalid,
     readOnly,
     errorMessage,
-    refOutsideClick = true,
     refWidth,
     offsetOptions = 4,
     header,
     description,
-    placement = 'bottom-start',
     ...props
 }: ElementProps<ComboboxProps<Item>, 'div'>) {
     const menuId = useId(idProp);
+    const { isMobile } = useUIContext();
 
     const {
         toggleProps,
@@ -164,9 +169,9 @@ function Combobox<Item extends ComboboxItemProps>({
         isOpen,
         elements,
     } = useCombobox({
-        refOutsideClick,
+        refOutsideClick: !isMobile,
         refWidth,
-        placement,
+        placement: 'bottom-start',
         disabled,
         invalid,
         readOnly,
@@ -191,8 +196,6 @@ function Combobox<Item extends ComboboxItemProps>({
         [items, selectedValues],
     );
 
-    const { isMobile } = useUIContext();
-
     /* data-bspk="combobox" -- I don't need a wrapper here and this passes lint. :) */
     return (
         <>
@@ -202,7 +205,6 @@ function Combobox<Item extends ComboboxItemProps>({
                     data-bspk-owner={props['data-bspk-owner'] || undefined}
                     description={description}
                     header={header}
-                    innerRef={elements.setFloating}
                     onClose={closeMenu}
                     open={isOpen}
                 >
@@ -230,7 +232,9 @@ function Combobox<Item extends ComboboxItemProps>({
                     data-no-items={!items.length || undefined}
                     hidden={!isOpen}
                     id={menuId}
-                    innerRef={elements.setFloating}
+                    innerRef={(node) => {
+                        elements.setFloating(node);
+                    }}
                     role="listbox"
                     style={
                         {

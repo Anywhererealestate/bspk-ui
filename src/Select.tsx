@@ -15,7 +15,7 @@ export type SelectOption = Record<string, unknown> & {
     label: string;
 };
 
-export type SelectProps<T extends SelectOption = SelectOption> = CommonProps<'aria-label' | 'name' | 'size'> &
+export type SelectProps<T extends SelectOption = SelectOption> = CommonProps<'name' | 'size'> &
     Pick<
         ComboboxProps<T>,
         | 'disabled'
@@ -24,6 +24,7 @@ export type SelectProps<T extends SelectOption = SelectOption> = CommonProps<'ar
         | 'invalid'
         | 'isMulti'
         | 'itemDisplayCount'
+        | 'label'
         | 'onChange'
         | 'readOnly'
         | 'selectAll'
@@ -56,6 +57,12 @@ export type SelectProps<T extends SelectOption = SelectOption> = CommonProps<'ar
          * @default Select one
          */
         placeholder?: string;
+        /**
+         * The description for the select.
+         *
+         * This is typically used to provide additional context or instructions for the user.
+         */
+        description?: string;
     };
 
 /**
@@ -68,7 +75,7 @@ export type SelectProps<T extends SelectOption = SelectOption> = CommonProps<'ar
  *         const [selected, setSelected] = React.useState<string[]>([]);
  *         return (
  *             <Select
- *                 aria-label="Select an option"
+ *                 label="Select an option"
  *                 itemCount={5}
  *                 name="example-select"
  *                 onChange={setSelected}
@@ -98,7 +105,7 @@ function Select({
     options = [],
     value: selected,
     onChange,
-    'aria-label': ariaLabel,
+    label,
     placeholder = 'Select one',
     size = 'medium',
     itemDisplayCount = 5,
@@ -110,6 +117,7 @@ function Select({
     name,
     isMulti,
     selectAll,
+    description,
     ...props
 }: ElementProps<SelectProps, 'button'>) {
     const id = useId(propId);
@@ -126,16 +134,16 @@ function Select({
 
     return (
         <Combobox
-            aria-label={ariaLabel}
-            description=""
+            description={description || ''}
             disabled={disabled}
             errorMessage={errorMessage}
-            header=""
+            header={placeholder || label}
             id={id}
             invalid={invalid}
             isMulti={isMulti}
             itemDisplayCount={itemDisplayCount}
             items={options}
+            label={label}
             onChange={onChange}
             readOnly={readOnly}
             selectAll={selectAll}
@@ -145,7 +153,7 @@ function Select({
                 <>
                     <input defaultValue={selected} name={name} type="hidden" />
                     <button
-                        aria-label={ariaLabel || selectedItem?.label || placeholder}
+                        aria-label={label || selectedItem?.label || placeholder}
                         data-bspk="select"
                         data-empty={selectedItem?.label ? undefined : ''}
                         data-invalid={invalid || undefined}
