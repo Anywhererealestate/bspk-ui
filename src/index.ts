@@ -18,6 +18,11 @@ export type ElementProps<
     O extends string = '',
 > = Omit<ComponentPropsWithoutRef<E>, O | keyof P> & P;
 
+export type ElementConstructorProps<
+    E extends JSXElementConstructor<unknown> | keyof JSX.IntrinsicElements,
+    O extends string = '',
+> = Omit<ComponentPropsWithoutRef<E>, O>;
+
 export type ButtonSize = 'large' | 'medium' | 'small' | 'x-small';
 
 export type CallToActionButton = {
@@ -60,6 +65,8 @@ export type InvalidPropsLibrary = {
      */
     errorMessage?: string;
 };
+
+export type InvalidProps<K extends keyof InvalidPropsLibrary> = Pick<InvalidPropsLibrary, K>;
 
 export type CommonPropsLibrary = {
     /** The id of the element. If not provided one will be generated. */
@@ -118,6 +125,12 @@ export type CommonPropsLibrary = {
      * @required
      */
     'aria-label': string;
+    /**
+     * This is a utility attribute used to identify the owning component of another component.
+     *
+     * This is used to identify the component in the UI library and is not intended for public use.
+     */
+    'data-bspk-owner'?: string;
 };
 
 export type Brand =

@@ -1,17 +1,19 @@
 import './modal.scss';
 import { SvgClose } from '@bspk/icons/Close';
-import { ReactNode, useMemo } from 'react';
+import { ReactNode, useEffect, useMemo, useRef, useState } from 'react';
 
 import { Button, ButtonProps } from './Button';
 import { DialogProps, Dialog } from './Dialog';
 import { Txt } from './Txt';
+import { useEventListener } from './hooks/useAddEventListener';
+import { useDebounceCallback } from './hooks/useDebounceCallback';
 import { useUIContext } from './hooks/useUIContext';
 
 import { CallToActionButton } from '.';
 
 export type ModalCallToAction = Pick<ButtonProps, 'destructive'> & Pick<CallToActionButton, 'label' | 'onClick'>;
 
-export type ModalProps = Pick<DialogProps, 'id' | 'innerRef' | 'onClose' | 'open'> & {
+export type ModalProps = Pick<DialogProps, 'data-bspk-owner' | 'id' | 'innerRef' | 'onClose' | 'open'> & {
     /**
      * Modal header.
      *
@@ -135,9 +137,43 @@ function Modal({
         return nextButtons;
     }, [callToAction, cancelButton, dialogProps.onClose, isMobile]);
 
+    const [modalHeight, setModalHeight] = useState<number | string>('100%');
+
+    const onResize = () => {
+        const el = modalRefs.current;
+
+        if (!el || !el.dialogBox || !el.modal) return;
+
+        setModalHeight(`${el.dialogBox.offsetHeight}px`);
+    };
+
+    useEffect(onResize, []);
+
+    useEventListener('resize', useDebounceCallback(onResize, 100));
+
+    const modalRefs = useRef<{
+        dialogBox: HTMLDivElement | null;
+        modal: HTMLDivElement | null;
+        header: HTMLDivElement | null;
+        footer: HTMLDivElement | null;
+        main: HTMLDivElement | null;
+    } | null>(null);
+
     return (
-        <Dialog {...dialogProps} aria-description={description} aria-label={header} placement="center" showScrim={true}>
-            <div data-bspk="modal">
+        <Dialog
+            {...dialogProps}
+            aria-description={description}
+            aria-label={header}
+            innerRef={(node) => {
+                if (!node) return;
+                const dialogBox = node.querySelector<HTMLDivElement>('[data-dialog-box]');
+                if (!dialogBox) return;
+                setModalHeight(`${dialogBox.offsetHeight}px`);
+            }}
+            placement="center"
+            showScrim={true}
+        >
+            <div data-bspk="modal" style={{ height: modalHeight }}>
                 <header>
                     <Txt as="div" data-dialog-title variant="heading-h4">
                         {header}

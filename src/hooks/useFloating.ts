@@ -38,9 +38,9 @@ export type UseFloatingProps = {
      *
      * This determines where the floating element will be positioned relative to the reference element.
      *
-     * @default bottom
+     * @default bottom-start
      */
-    placement: Placement;
+    placement?: Placement;
     /** A ref object for the arrow element. */
     arrowRef?: React.MutableRefObject<HTMLElement | null>;
     /**
@@ -71,20 +71,31 @@ export type UseFloatingProps = {
     hide?: boolean;
 };
 
+export type UseFloatingElements<ReferenceElementType extends HTMLElement = HTMLElement> = {
+    reference: ReferenceElementType | null;
+    floating: HTMLElement | null;
+    setReference: (element: ReferenceElementType | null) => void;
+    setFloating: (element: HTMLElement | null) => void;
+};
+
 /**
  *
  *
  * @param param0
  * @returns
  */
-export function useFloating<ReferenceElementType extends HTMLElement>({
-    placement = 'bottom',
+export function useFloating<ReferenceElementType extends HTMLElement = HTMLElement>({
+    placement = 'bottom-start',
     arrowRef,
     strategy = 'fixed',
     offsetOptions = 0,
     refWidth = true,
     hide = false,
-}: UseFloatingProps) {
+}: UseFloatingProps): {
+    elements: UseFloatingElements<ReferenceElementType>;
+    floatingStyles: React.CSSProperties;
+    middlewareData: MiddlewareData;
+} {
     const [floatingStyles, setFloatingStylesState] = useState<React.CSSProperties>({
         opacity: 0,
         pointerEvents: 'none',

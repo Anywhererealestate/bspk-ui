@@ -16,6 +16,7 @@
         padding: var(--spacing-sizing-02);
         background: none;
         cursor: pointer;
+        outline: none;
 
         [data-bspk-name='KeyboardArrowDown'] {
             margin-left: var(--spacing-sizing-02);
@@ -34,6 +35,15 @@
     [data-disabled] {
         [data-bspk='country-code-select'] {
             cursor: default;
+        }
+    }
+}
+
+[data-bspk-owner='phone-number-input'] {
+    [data-bspk='list-item'] {
+        [data-trailing] {
+            font: var(--body-base);
+            color: var(--foreground-neutral-on-surface);
         }
     }
 }

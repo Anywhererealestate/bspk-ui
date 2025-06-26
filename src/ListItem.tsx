@@ -1,6 +1,7 @@
 import { AnchorHTMLAttributes, ElementType, ReactNode } from 'react';
 
 import { ButtonProps, Button } from './Button';
+import { Truncated } from './Truncated';
 import { ChildElement, getChildrenElements } from './utils/children';
 import { useErrorLogger } from './utils/errors';
 
@@ -18,6 +19,7 @@ export const TRAILING_COMPONENTS = Object.freeze([
     'Switch',
     'Tag',
     'Txt',
+    'string',
 ]);
 
 export type ListItemProps<As extends ElementType = 'div', T = HTMLElement> = CommonProps<
@@ -169,7 +171,7 @@ function ListItem<As extends ElementType = 'div', T = HTMLElement>({
                     </span>
                 )}
                 <span data-item-label>
-                    <span data-text>{label}</span>
+                    <Truncated data-text>{label}</Truncated>
                     {subText && <span data-sub-text>{subText}</span>}
                 </span>
                 {trailing && (

@@ -1,4 +1,5 @@
 [data-bspk='modal'] {
+    max-height: 100%;
     display: flex;
     flex-direction: column;
     gap: var(--spacing-sizing-02);
@@ -15,6 +16,7 @@
     main {
         flex: 1;
         padding: var(--spacing-sizing-04) 0;
+        overflow-y: auto;
     }
 
     > footer {

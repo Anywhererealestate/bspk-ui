@@ -17,7 +17,7 @@ export type CheckboxOptionProps = InvalidPropsLibrary &
 /**
  * A control that allows users to choose one or more items from a list or turn an feature on or off.
  *
- * If only a Checkbox is needed, consider using the `Checkbox` component directly.
+ * If only a Checkbox is needed, consider using the Checkbox component directly.
  *
  * @example
  *     import { CheckboxOption } from '@bspk/ui/CheckboxOption';

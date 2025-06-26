@@ -5,7 +5,7 @@ import { useMemo, useState } from 'react';
 import './phone-number-input.scss';
 
 import { Divider } from './Divider';
-import { ListItem } from './ListItem';
+import { ListItem, ListItemProps } from './ListItem';
 import { Listbox } from './Listbox';
 import { Modal } from './Modal';
 import { TextInput, TextInputProps } from './TextInput';
@@ -19,7 +19,7 @@ import { InvalidPropsLibrary } from 'src';
 
 const useCountryCodeSelectOptions = (initialCountryCode?: SupportedCountryCode) => {
     return useMemo(() => {
-        const selectOptions = countryCodes.map((code) => {
+        const selectOptions = countryCodes.map((code): ListItemProps & { value: string } => {
             const countryCodeDetails = countryCodeData[code];
             const callingCodeString = `(+${getCountryCallingCode(code)})`;
 
@@ -27,7 +27,7 @@ const useCountryCodeSelectOptions = (initialCountryCode?: SupportedCountryCode) 
                 value: code,
                 label: `${countryCodeDetails?.name}`,
                 leading: countryCodeDetails?.flagIconName ? <SvgIcon name={countryCodeDetails?.flagIconName} /> : null,
-                trailing: <Txt>{callingCodeString}</Txt>,
+                trailing: callingCodeString,
             };
         });
 
@@ -161,6 +161,7 @@ function PhoneNumberInput({
 
                         {isMobile ? (
                             <Modal
+                                data-bspk-owner="phone-number-input"
                                 description="select a country code for your phone number"
                                 header="Country Code"
                                 onClose={closeMenu}
@@ -183,6 +184,7 @@ function PhoneNumberInput({
                             </Modal>
                         ) : (
                             <Listbox
+                                data-bspk-owner="phone-number-input"
                                 data-floating
                                 innerRef={elements.setFloating}
                                 itemDisplayCount={countryCodeSelectOptions.length}

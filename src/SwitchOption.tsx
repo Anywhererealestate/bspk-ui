@@ -6,7 +6,7 @@ export type SwitchOptionProps = Omit<SwitchProps, 'aria-label'> & Pick<ToggleOpt
 /**
  * A control that allows users to choose one or more items from a list or turn an feature on or off.
  *
- * If only a switch is needed, consider using the `Switch` component directly.
+ * If only a switch is needed, consider using the Switch component directly.
  *
  * @name SwitchOption
  * @phase DesignReview

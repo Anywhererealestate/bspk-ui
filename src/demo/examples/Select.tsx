@@ -125,4 +125,5 @@ export const SelectExample: ComponentExample<SelectProps> = {
             },
         },
     ],
+    hideVariants: true,
 };

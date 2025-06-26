@@ -1,15 +1,18 @@
 [data-bspk='menu'] {
+    --item-size: var(--spacing-sizing-12);
+    --item-count: 0;
+    --overflow-y: hidden;
+
     width: 332px;
+    box-sizing: border-box;
     border: 1px solid var(--stroke-neutral-low);
     background-color: var(--surface-neutral-t1-base);
     box-shadow: var(--drop-shadow-float);
     border-radius: var(--radius-large);
     display: flex;
     flex-direction: column;
-    overflow: auto;
-    min-width: fit-content;
-
-    --item-size: var(--spacing-sizing-12);
+    overflow: hidden var(--overflow-y);
+    max-height: calc(calc(var(--item-count) * var(--item-size)) + 2px /* borders */);
 
     &[data-floating] {
         z-index: var(--z-index-dropdown);

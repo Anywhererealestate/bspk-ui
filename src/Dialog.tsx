@@ -8,13 +8,16 @@ import { useOutsideClick } from './hooks/useOutsideClick';
 
 import { CommonProps, ElementProps, SetRef } from './';
 
-export type DialogProps = CommonProps<'id'> & {
+export type DialogProps = CommonProps<'data-bspk-owner' | 'id'> & {
     /** The content of the dialog. */
     children?: ReactNode;
     /** A ref to the dialog element. */
     innerRef?: SetRef<HTMLDivElement>;
     /**
      * If the dialog should appear.
+     *
+     * @example
+     *     false;
      *
      * @default false
      */

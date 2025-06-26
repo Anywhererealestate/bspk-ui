@@ -178,8 +178,8 @@ function Listbox<Item extends ListboxItemProps>({
             style={
                 {
                     ...props.style,
-                    height: items.length > 0 ? `calc(${itemCount} * var(--item-size))` : undefined,
-                    overflowY: items.length > maxDisplayCount ? 'scroll' : undefined,
+                    '--item-count': itemCount,
+                    '--overflow-y': items.length > maxDisplayCount ? 'scroll' : undefined,
                 } as CSSProperties
             }
         >

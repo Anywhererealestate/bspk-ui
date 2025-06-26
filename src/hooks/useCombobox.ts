@@ -3,13 +3,41 @@ import { AriaAttributes, useId, useState } from 'react';
 import { CommonProps, InvalidPropsLibrary } from '..';
 import { EVENT_KEY } from '../utils/keyboard';
 
-import { useFloating, UseFloatingProps } from './useFloating';
+import { useFloating, UseFloatingElements, UseFloatingProps } from './useFloating';
 import { useKeyboardNavigation } from './useKeyboardNavigation';
 import { useOutsideClick } from './useOutsideClick';
 
 export type UseComboboxProps = CommonProps<'disabled' | 'readOnly'> &
     InvalidPropsLibrary &
-    Pick<UseFloatingProps, 'offsetOptions' | 'placement' | 'refWidth'>;
+    Pick<UseFloatingProps, 'offsetOptions' | 'placement' | 'refWidth'> & {
+        /**
+         * The element to use for outside click detection.
+         *
+         * If set to true, it will use the floating, and reference elements.
+         *
+         * If set to HTMLElements, it will use those element for outside click detection.
+         *
+         * If set to false, it will not use outside click detection.
+         */
+        refOutsideClick?: HTMLElement[] | boolean;
+    };
+
+export type ComboboxContext = ReturnType<typeof useCombobox>;
+export type ToggleProps = {
+    'aria-errormessage'?: string | undefined;
+    'aria-activedescendant'?: string | undefined;
+    'aria-controls': string;
+    'aria-disabled'?: boolean | undefined;
+    'aria-expanded': boolean;
+    'aria-haspopup': AriaAttributes['aria-haspopup'];
+    'aria-invalid'?: boolean | undefined;
+    'aria-owns': string;
+    'aria-readonly'?: boolean | undefined;
+    role: 'combobox';
+    tabIndex: number;
+    onClick: () => void;
+    onKeyDownCapture: (event: React.KeyboardEvent) => boolean;
+};
 
 /**
  * Utility hook to manage a combobox component.
@@ -27,7 +55,21 @@ export function useCombobox({
     invalid,
     readOnly,
     offsetOptions,
-}: UseComboboxProps) {
+    refOutsideClick = true,
+}: UseComboboxProps): {
+    menuProps: {
+        activeIndex: number;
+        'data-placement': string | undefined;
+        id: string;
+        role: 'listbox';
+        style: React.CSSProperties;
+        tabIndex: -1;
+    };
+    toggleProps: ToggleProps;
+    closeMenu: () => void;
+    isOpen: boolean;
+    elements: UseFloatingElements;
+} {
     const menuId = useId();
 
     const [show, setShow] = useState(false);
@@ -44,11 +86,15 @@ export function useCombobox({
 
     const { handleKeyNavigation, selectedIndex: activeIndex, selectedId } = useKeyboardNavigation(elements.floating);
 
-    useOutsideClick([elements.floating, elements.reference], (event) => {
-        event?.stopPropagation();
-        if (!show) return;
-        closeMenu();
-    });
+    useOutsideClick(
+        refOutsideClick === true ? [elements.floating, elements.reference] : refOutsideClick || null,
+        (event) => {
+            event?.stopPropagation();
+            if (!show) return;
+            closeMenu();
+        },
+        !show || disabled || readOnly,
+    );
 
     return {
         menuProps: {
