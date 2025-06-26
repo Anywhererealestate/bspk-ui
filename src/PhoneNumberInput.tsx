@@ -153,7 +153,11 @@ function PhoneNumberInput({
                 invalid={invalid}
                 leading={
                     <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <button {...(disabled ? {} : toggleProps)} data-bspk="country-code-select">
+                        <button
+                            {...(disabled ? {} : toggleProps)}
+                            aria-label="Open country code menu"
+                            data-bspk="country-code-select"
+                        >
                             <SvgIcon name={selectedCodeData.flagIconName} />
 
                             <SvgIcon name="KeyboardArrowDown" />
@@ -199,7 +203,7 @@ function PhoneNumberInput({
 
                         <Divider orientation="vertical" />
 
-                        <Txt>{`+${callingCode}`}</Txt>
+                        <span aria-label="Country code" style={{ cursor: 'default' }}>{`+${callingCode}`}</span>
                     </div>
                 }
                 readOnly={readOnly}
