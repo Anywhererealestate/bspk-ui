@@ -57,7 +57,7 @@ body[data-bspk] a[data-bspk='list-item'] {
         height: 100%;
         width: 100%;
         overflow: hidden;
-        min-height: var(--spacing-sizing-09);
+        min-height: var(--item-size);
         display: flex;
         flex-direction: row;
         gap: var(--spacing-sizing-03);
