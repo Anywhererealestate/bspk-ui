@@ -104,7 +104,7 @@ function Breadcrumb({ id: propId, items: itemsProp }: BreadcrumbProps) {
 
     const [open, setOpen] = useState(false);
 
-    useOutsideClick([elements.reference], () => {
+    useOutsideClick([elements.reference, elements.floating], () => {
         setOpen(false);
     });
 
