@@ -129,7 +129,7 @@ function Menu({
                 maxHeight:
                     itemDisplayCount === false
                         ? 'auto'
-                        : `calc(calc(${itemDisplayCount} * var(--item-size)) + 2px /* borders */)`,
+                        : `calc(calc(${itemDisplayCount} * var(--list-item-height)) + 2px /* borders */)`,
             })}
         >
             {children}

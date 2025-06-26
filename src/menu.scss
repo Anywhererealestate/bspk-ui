@@ -1,5 +1,4 @@
 [data-bspk='menu'] {
-    --item-size: var(--spacing-sizing-12);
     --overflow-y: hidden;
 
     width: 332px;
@@ -17,8 +16,6 @@
     }
 
     [data-bspk='list-item'] {
-        min-height: var(--item-size);
-
         &[data-selected] {
             background-color: var(--surface-brand-primary-highlight);
         }

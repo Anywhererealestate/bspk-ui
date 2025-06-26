@@ -105,7 +105,7 @@ export type ComponentExampleRender<Props = Record<string, unknown>> = (
     params: ComponentExampleRenderProps<Props>,
 ) => React.ReactNode;
 
-export type ComponentExample<Props = Record<string, unknown>> = {
+export type ComponentExample<Props = Record<string, unknown>, PropName = keyof Props> = {
     /**
      * The style of the wrapping component.
      *
@@ -117,7 +117,7 @@ export type ComponentExample<Props = Record<string, unknown>> = {
      *
      * Helpful for hiding variants that can have unexpected collisions with the other examples.
      */
-    hideVariants?: (keyof Props)[] | true;
+    hideVariants?: PropName[] | true;
     /**
      * This is used to set the initial propState of the component.
      *
@@ -139,7 +139,7 @@ export type ComponentExample<Props = Record<string, unknown>> = {
      */
     render?: ComponentExampleRender<Props>;
     /** We may not want certain props editable in the props table. */
-    disableProps?: (keyof Props)[];
+    disableProps?: PropName[];
 };
 
 export type ComponentExampleFn<Props = Record<string, unknown>> = (params: {

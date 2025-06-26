@@ -1,15 +1,14 @@
 import './radio-group.scss';
 import { useId } from 'react';
 
-import { Radio, RadioProps } from './Radio';
+import { Radio } from './Radio';
 import { ToggleOptionProps, ToggleOption } from './ToggleOption';
 
 import { ElementProps, CommonProps } from './';
 
-export type RadioGroupOption = Pick<ToggleOptionProps, 'description' | 'label'> &
-    Required<CommonProps<'disabled' | 'value'>>;
+export type RadioGroupOption = Pick<ToggleOptionProps, 'description' | 'label'> & Required<CommonProps<'value'>>;
 
-export type RadioGroupProps = CommonProps<'name'> & {
+export type RadioGroupProps = CommonProps<'disabled' | 'name'> & {
     /**
      * The value of the control.
      *
