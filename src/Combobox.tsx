@@ -149,9 +149,10 @@ function Combobox<Item extends ComboboxItemProps>({
     errorMessage,
     refOutsideClick = true,
     refWidth,
-    offsetOptions,
+    offsetOptions = 4,
     header,
     description,
+    placement = 'bottom-start',
     ...props
 }: ElementProps<ComboboxProps<Item>, 'div'>) {
     const menuId = useId(idProp);
@@ -165,12 +166,12 @@ function Combobox<Item extends ComboboxItemProps>({
     } = useCombobox({
         refOutsideClick,
         refWidth,
-        placement: 'bottom-start',
+        placement,
         disabled,
         invalid,
         readOnly,
         errorMessage,
-        offsetOptions: offsetOptions || 4,
+        offsetOptions,
     });
 
     const selectAll = useMemo((): string | false => {

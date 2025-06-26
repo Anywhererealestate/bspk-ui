@@ -4,7 +4,6 @@ import { useMemo } from 'react';
 
 import { Combobox, ComboboxProps } from './Combobox';
 import { ListItem } from './ListItem';
-import { Placement } from './hooks/useFloating';
 import { useId } from './hooks/useId';
 
 import { CommonProps, ElementProps } from './';
@@ -57,12 +56,6 @@ export type SelectProps<T extends SelectOption = SelectOption> = CommonProps<'ar
          * @default Select one
          */
         placeholder?: string;
-        /**
-         * The placement of the select menu. Will be ignored if the menu is too close to the edge of the screen.
-         *
-         * @default bottom
-         */
-        placement?: Extract<Placement, 'bottom' | 'top'>;
     };
 
 /**
