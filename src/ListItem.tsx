@@ -156,6 +156,7 @@ function ListItem<As extends ElementType = 'div', T = HTMLElement>({
             aria-disabled={disabled || undefined}
             aria-errormessage={errorMessage || undefined}
             aria-invalid={invalid || undefined}
+            aria-label={label}
             data-action={actionable || undefined}
             data-active={active || undefined}
             data-bspk="list-item"

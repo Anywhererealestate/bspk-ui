@@ -164,6 +164,7 @@ function Listbox<Item extends ListboxItemProps>({
             {isMulti && selectAll && (
                 <ListItem
                     data-selected={allSelected || undefined}
+                    id={`${menuId}-select-all`}
                     key="select-all"
                     label={selectAll}
                     onClick={(event: React.MouseEvent<HTMLElement, MouseEvent>) => {
@@ -204,6 +205,7 @@ function Listbox<Item extends ListboxItemProps>({
                         aria-selected={selected || undefined}
                         as="button"
                         disabled={item.disabled || undefined}
+                        id={`${menuId}-item-${index}`}
                         key={`${menuId}-item-${index}`}
                         label={renderProps?.label?.toString() || item.label?.toString()}
                         onClick={(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {

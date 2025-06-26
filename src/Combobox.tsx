@@ -315,6 +315,7 @@ function ListItems({
                         aria-selected={selected || undefined}
                         as="button"
                         disabled={item.disabled || undefined}
+                        id={`${menuId}-item-${index}`}
                         key={`${menuId}-item-${index}`}
                         label={item.label}
                         onClick={(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {

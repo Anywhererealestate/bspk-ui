@@ -184,6 +184,7 @@ function PhoneNumberInput({
                                 <ListItem
                                     active={countryCode === option.value}
                                     data-bspk="country-code-select-option"
+                                    id={`${option.value}-country-code-select-option`}
                                     key={option.value}
                                     label={option.label}
                                     leading={option.leading}

@@ -134,7 +134,8 @@ function SearchBar({
         placement: 'bottom-start',
     });
 
-    const inputRefLocal = useRef<HTMLElement | null>(null);
+    const inputRefLocal = useRef<HTMLInputElement | null>(null);
+    const containerRefLocal = useRef<HTMLDivElement | null>(null);
 
     return (
         <>
@@ -142,7 +143,11 @@ function SearchBar({
                 <TextInput
                     aria-label={ariaLabel}
                     autoComplete="off"
-                    containerRef={elements.setReference}
+                    containerRef={(node) => {
+                        if (!node) return;
+                        containerRefLocal.current = node;
+                        elements.setReference(node);
+                    }}
                     disabled={disabled}
                     id={id}
                     inputRef={(node) => {
@@ -152,18 +157,22 @@ function SearchBar({
                     leading={<SvgSearch />}
                     name={name}
                     onChange={(str) => onChange(str)}
-                    placeholder={placeholder}
-                    size={size}
-                    value={value}
-                    {...triggerProps}
                     onClick={() => {
                         if (items?.length) onClick();
                     }}
+                    {...triggerProps}
                     onKeyDownCapture={(event) => {
                         const handled = onKeyDownCapture(event);
-                        if (handled) return;
-                        inputRefLocal.current?.focus();
+                        if (handled) {
+                            inputRefLocal.current?.blur();
+                            containerRefLocal.current?.focus();
+                            return;
+                        }
+                        // inputRefLocal.current?.focus();
                     }}
+                    placeholder={placeholder}
+                    size={size}
+                    value={value}
                 />
             </div>
             {showMenu && (
