@@ -22,6 +22,7 @@ export const MenuExample: ComponentExampleFn<ElementProps<MenuProps, 'div'> & { 
         return (
             <Component
                 {...props}
+                floating={false}
                 portal={false}
                 style={{ padding: 'var(--spacing-sizing-02) var(--spacing-sizing-02)' }}
             >
@@ -63,4 +64,5 @@ export const MenuExample: ComponentExampleFn<ElementProps<MenuProps, 'div'> & { 
             </Component>
         );
     },
+    disableProps: ['floating', 'portal'],
 });

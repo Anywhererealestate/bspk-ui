@@ -1,12 +1,13 @@
 import './radio-group.scss';
 import { useId } from 'react';
 
-import { Radio } from './Radio';
+import { Radio, RadioProps } from './Radio';
 import { ToggleOptionProps, ToggleOption } from './ToggleOption';
 
 import { ElementProps, CommonProps } from './';
 
-export type RadioGroupOption = Pick<ToggleOptionProps, 'description' | 'label'> & Required<CommonProps<'value'>>;
+export type RadioGroupOption = Pick<ToggleOptionProps, 'description' | 'label'> &
+    Required<CommonProps<'disabled' | 'value'>>;
 
 export type RadioGroupProps = CommonProps<'name'> & {
     /**
@@ -100,6 +101,7 @@ function RadioGroup({
     value: groupValue,
     label: groupLabel,
     showLabel = true,
+    disabled,
     ...props
 }: ElementProps<RadioGroupProps, 'div'>) {
     const id = `radio-group-${useId()}`;
@@ -110,6 +112,7 @@ function RadioGroup({
             aria-label={!showLabel ? groupLabel : undefined}
             aria-labelledby={showLabel ? `${id}-label` : undefined}
             data-bspk="radio-group"
+            data-disabled={disabled || undefined}
             id={id}
             role="group"
         >
@@ -121,6 +124,7 @@ function RadioGroup({
                             <Radio
                                 aria-label={label}
                                 checked={groupValue === value}
+                                disabled={disabled}
                                 name={name}
                                 onChange={(checked) => checked && onChange(value)}
                                 value={value}
