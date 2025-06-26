@@ -9,7 +9,6 @@ import { ListItem, ListItemProps } from './ListItem';
 import { Listbox } from './Listbox';
 import { Modal } from './Modal';
 import { TextInput, TextInputProps } from './TextInput';
-import { Txt } from './Txt';
 import { useCombobox } from './hooks/useCombobox';
 import { useUIContext } from './hooks/useUIContext';
 import { countryCodeData, countryCodes, SupportedCountryCode } from './utils/countryCodes';
@@ -74,6 +73,9 @@ export type PhoneNumberInputProps = InvalidPropsLibrary &
 
 /**
  * A text input that allows users to enter text phone numbers with country codes.
+ *
+ * This is the base element and if used must contain the field label contextually. This will more often be used in the
+ * PhoneNumberField component.
  *
  * @example
  *     <PhoneNumberInput aria-label="Phone Number" initialCountryCode="US" value={value} onChange={onChange} />;
@@ -153,13 +155,17 @@ function PhoneNumberInput({
                 invalid={invalid}
                 leading={
                     <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <button {...(disabled ? {} : toggleProps)} data-bspk="country-code-select">
+                        <button
+                            {...(disabled ? {} : toggleProps)}
+                            aria-label="Open country code menu"
+                            data-bspk="country-code-select"
+                        >
                             <SvgIcon name={selectedCodeData.flagIconName} />
 
                             <SvgIcon name="KeyboardArrowDown" />
                         </button>
                         <Divider orientation="vertical" />
-                        <Txt>{`+${callingCode}`}</Txt>
+                        <span aria-label="Country code" style={{ cursor: 'default' }}>{`+${callingCode}`}</span>
                     </div>
                 }
                 readOnly={readOnly}
