@@ -10,7 +10,6 @@ export type PhoneNumberFieldProps = InvalidPropsLibrary &
         | 'autoComplete'
         | 'disabled'
         | 'inputRef'
-        | 'invalid'
         | 'name'
         | 'placeholder'
         | 'readOnly'
@@ -19,8 +18,8 @@ export type PhoneNumberFieldProps = InvalidPropsLibrary &
         | 'type'
         | 'value'
     > &
-    Pick<FormFieldProps, 'controlId' | 'errorMessage' | 'helperText' | 'label' | 'labelTrailing'> &
-    Pick<PhoneNumberInputProps, 'disableFormatting' | 'initialCountryCode' | 'inputRef' | 'onChange'>;
+    Pick<FormFieldProps, 'controlId' | 'helperText' | 'label' | 'labelTrailing'> &
+    Pick<PhoneNumberInputProps, 'disableFormatting' | 'initialCountryCode' | 'onChange'>;
 
 /**
  * A text input that allows users to enter text phone numbers with country codes.
