@@ -73,7 +73,8 @@ export type PhoneNumberInputProps = InvalidPropsLibrary &
     };
 
 /**
- * A text input that allows users to enter text phone numbers with country codes.
+ * A text input that allows users to enter text phone numbers with country codes. This is the base element and if used
+ * directly you must wrap it with a label. This will more often be used in the PhoneNumberField component.
  *
  * @example
  *     <PhoneNumberInput aria-label="Phone Number" initialCountryCode="US" value={value} onChange={onChange} />;
