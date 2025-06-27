@@ -12,7 +12,6 @@ export const SearchBarExample: ComponentExample = {
             props.items = props.items?.filter((item: ComboboxItemProps) =>
                 item.label.toLowerCase().includes(searchValue),
             );
-        props.showMenu = !!searchValue;
 
         return <Component {...props} items={props.items || []} />;
     },
