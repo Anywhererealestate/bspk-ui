@@ -1,0 +1,21 @@
+[data-bspk='scrim'] {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: var(--z-index-scrim);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &[data-variant='dialog'] {
+        background-color: var(--background-scrim);
+    }
+
+    &[data-hidden] {
+        display: none;
+    }
+}
+
+/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

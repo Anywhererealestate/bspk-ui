@@ -117,8 +117,6 @@ function NumberInput({
 
     return (
         <div
-            aria-valuemax={max || undefined}
-            aria-valuemin={min || undefined}
             data-bspk="number-input"
             data-centered={centered || undefined}
             data-disabled={disabled || undefined}

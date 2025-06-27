@@ -89,7 +89,10 @@
 
     &:not(:disabled) {
         &:focus {
-            --select-border-color: var(--stroke-brand-primary);
+            --select-border-color: var(--stroke-neutral-focus);
+
+            border-width: 1px;
+            outline: 1px solid var(--stroke-neutral-focus);
         }
 
         &:hover {

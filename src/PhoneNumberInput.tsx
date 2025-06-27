@@ -101,6 +101,7 @@ function PhoneNumberInput({
         closeMenu,
         elements,
         isOpen: showCountryCodeSelectMenu,
+        activeIndex,
     } = useCombobox({
         placement: 'bottom',
         disabled,
@@ -180,9 +181,10 @@ function PhoneNumberInput({
                             onClose={closeMenu}
                             open={showCountryCodeSelectMenu}
                         >
-                            {countryCodeSelectOptions.map((option) => (
+                            {countryCodeSelectOptions.map((option, index) => (
                                 <ListItem
-                                    active={countryCode === option.value}
+                                    active={activeIndex === index || undefined}
+                                    aria-selected={countryCode === option.value}
                                     data-bspk="country-code-select-option"
                                     id={`${option.value}-country-code-select-option`}
                                     key={option.value}
@@ -198,6 +200,7 @@ function PhoneNumberInput({
                         </Modal>
                     ) : (
                         <Listbox
+                            activeIndex={activeIndex}
                             data-bspk-owner="phone-number-input"
                             innerRef={elements.setFloating}
                             itemDisplayCount={countryCodeSelectOptions.length}

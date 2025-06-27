@@ -1,4 +1,3 @@
-import './select.scss';
 import { SvgChevronRight } from '@bspk/icons/ChevronRight';
 import { useMemo } from 'react';
 
@@ -7,6 +6,8 @@ import { ListItem } from './ListItem';
 import { useId } from './hooks/useId';
 
 import { CommonProps, ElementProps } from './';
+
+import './select.scss';
 
 export type SelectOption = Record<string, unknown> & {
     /** The value of the option. */
@@ -149,7 +150,7 @@ function Select({
             selectAll={selectAll}
             value={selected || []}
         >
-            {({ setReference, ...toggleProps }) => (
+            {({ setReference, toggleProps }) => (
                 <>
                     <input defaultValue={selected} name={name} type="hidden" />
                     <button

@@ -24,7 +24,8 @@
 :root {
     --z-index-tooltip-popover: 1100;
     --z-index-dialog: 1000;
-    --z-index-dropdown: 900;
+    --z-index-dropdown: 1000;
+    --z-index-scrim: 900;
     --z-index-fab: 800;
     --z-index-navbar: 700;
     --z-index-footer: 600;
@@ -42,6 +43,12 @@ html:has(body[data-bspk]) {
     scrollbar-gutter: stable;
     overflow: hidden auto;
     scroll-behavior: smooth;
+}
+
+/* --scrollbar-width: defined inline in UIProvider */
+html:has([data-bspk='scrim']) {
+    overflow: hidden;
+    padding-right: var(--scrollbar-width);
 }
 
 body[data-bspk] {

@@ -2,18 +2,14 @@
 import './breadcrumb.scss';
 import { SvgChevronRight } from '@bspk/icons/ChevronRight';
 import { SvgMoreHoriz } from '@bspk/icons/MoreHoriz';
-import { useState } from 'react';
 
 import { Button } from './Button';
 import { Link } from './Link';
 import { ListItem } from './ListItem';
 import { Menu } from './Menu';
 import { Txt } from './Txt';
-import { useFloating } from './hooks/useFloating';
+import { useCombobox } from './hooks/useCombobox';
 import { useId } from './hooks/useId';
-import { useKeyboardNavigation } from './hooks/useKeyboardNavigation';
-import { useOutsideClick } from './hooks/useOutsideClick';
-import { EVENT_KEY } from './utils/keyboard';
 
 import { CommonProps } from './';
 
@@ -97,20 +93,10 @@ const BreadcrumbDivider = () => <SvgChevronRight aria-hidden={true} />;
  */
 function Breadcrumb({ id: propId, items: itemsProp }: BreadcrumbProps) {
     const id = useId(propId);
-    const menuId = `${id}-menu`;
     const items = Array.isArray(itemsProp) ? itemsProp : [];
 
-    const { elements, floatingStyles } = useFloating({
-        placement: 'bottom',
+    const { elements, isOpen, menuProps, toggleProps, activeIndex } = useCombobox({
         refWidth: false,
-    });
-
-    const { handleKeyNavigation, selectedIndex: activeIndex, selectedId } = useKeyboardNavigation(elements.floating);
-
-    const [open, setOpen] = useState(false);
-
-    useOutsideClick([elements.reference, elements.floating], () => {
-        setOpen(false);
     });
 
     const middleItems = items.slice(1, items.length - 1);
@@ -127,40 +113,24 @@ function Breadcrumb({ id: propId, items: itemsProp }: BreadcrumbProps) {
                 {items.length > 5 ? (
                     <li>
                         <Button
-                            aria-activedescendant={selectedId || undefined}
-                            aria-controls={menuId}
-                            aria-expanded={open}
-                            aria-haspopup="listbox"
-                            aria-owns={menuId}
                             icon={<SvgMoreHoriz />}
                             innerRef={elements.setReference}
                             label={`Access to ${middleItems.length} pages`}
-                            onClick={() => setOpen((prev) => !prev)}
-                            onKeyDownCapture={(event: React.KeyboardEvent): boolean => {
-                                if (event.key === EVENT_KEY.Tab || event.key === EVENT_KEY.Escape) {
-                                    setOpen(false);
-                                    return true;
-                                }
-                                return handleKeyNavigation?.(event.nativeEvent);
-                            }}
-                            role="combobox"
                             showLabel={false}
                             size="small"
-                            tabIndex={-1}
                             toolTip={`${middleItems.length} pages`}
                             variant="tertiary"
+                            {...toggleProps}
                         />
-                        {open && (
+                        {isOpen && (
                             <Menu
-                                id={menuId}
                                 innerRef={elements.setFloating}
                                 itemDisplayCount={false}
-                                role="listbox"
+                                {...menuProps}
                                 style={{
-                                    ...floatingStyles,
+                                    ...menuProps.style,
                                     width: '200px',
                                 }}
-                                tabIndex={-1}
                             >
                                 {middleItems.map((item, idx) => (
                                     <ListItem

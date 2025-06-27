@@ -2,10 +2,9 @@ import { AriaAttributes, useId, useState } from 'react';
 
 import { CommonProps, InvalidPropsLibrary } from '..';
 import { EVENT_KEY } from '../utils/keyboard';
+import { scrollElementIntoView } from '../utils/scrollElementIntoView';
 
 import { useFloating, UseFloatingElements, UseFloatingProps } from './useFloating';
-import { useKeyboardNavigation } from './useKeyboardNavigation';
-import { useOutsideClick } from './useOutsideClick';
 
 export type UseComboboxProps = CommonProps<'disabled' | 'readOnly'> &
     InvalidPropsLibrary &
@@ -39,6 +38,58 @@ export type ToggleProps = {
     onKeyDownCapture: (event: React.KeyboardEvent) => boolean;
 };
 
+function useKeyDownNavigation(containerElement: HTMLElement, setShow: (show: boolean) => void, disabled?: boolean) {
+    const [activeIndex, setActiveIndex] = useState(-1);
+
+    const itemElements = Array.from(containerElement?.children || []) as HTMLElement[];
+    const selectedId = itemElements[activeIndex]?.id;
+
+    const onKeyDownCapture = (event: React.KeyboardEvent): boolean => {
+        if (disabled) return false;
+
+        if (event.key === EVENT_KEY.Tab || event.key === EVENT_KEY.Escape) {
+            setShow(false);
+            return true;
+        }
+
+        if (event.key.startsWith('Arrow') && !containerElement) {
+            event.preventDefault();
+            setShow(true);
+            setActiveIndex(0);
+            return true;
+        }
+
+        if (!containerElement?.children.length) return false;
+
+        event.preventDefault();
+
+        if (event.key !== EVENT_KEY.Enter && !event.key.startsWith('Arrow')) return false;
+
+        if (event.key === EVENT_KEY.Enter && activeIndex !== -1) {
+            itemElements[activeIndex].click();
+            return true;
+        }
+
+        let next = 0;
+        if (event.key === EVENT_KEY.ArrowUp || event.key === EVENT_KEY.ArrowLeft) next = activeIndex - 1;
+        if (event.key === EVENT_KEY.ArrowDown || event.key === EVENT_KEY.ArrowRight) next = activeIndex + 1;
+        if (next < 0) next = itemElements.length - 1;
+        if (next >= itemElements.length) next = 0;
+
+        itemElements.forEach((el, index) => {
+            if (index === next) el.setAttribute('data-selected', 'true');
+            else el.removeAttribute('data-selected');
+        });
+
+        scrollElementIntoView(itemElements[next], containerElement);
+        setActiveIndex(next);
+
+        return true;
+    };
+
+    return { onKeyDownCapture, selectedId, activeIndex };
+}
+
 /**
  * Utility hook to manage a combobox component.
  *
@@ -55,15 +106,15 @@ export function useCombobox({
     invalid,
     readOnly,
     offsetOptions,
-    refOutsideClick = true,
 }: UseComboboxProps): {
+    activeIndex: number;
     menuProps: {
-        activeIndex: number;
         'data-placement': string | undefined;
         id: string;
         role: 'listbox';
         style: React.CSSProperties;
         tabIndex: -1;
+        onOutsideClick: () => void;
     };
     toggleProps: ToggleProps;
     closeMenu: () => void;
@@ -73,8 +124,6 @@ export function useCombobox({
     const menuId = useId();
 
     const [show, setShow] = useState(false);
-    const closeMenu = () => setShow(false);
-    const openMenu = () => setShow(true);
 
     const { floatingStyles, middlewareData, elements } = useFloating({
         placement,
@@ -84,26 +133,21 @@ export function useCombobox({
         hide: !show,
     });
 
-    const { handleKeyNavigation, selectedIndex: activeIndex, selectedId } = useKeyboardNavigation(elements.floating);
-
-    useOutsideClick(
-        refOutsideClick === true ? [elements.floating, elements.reference] : refOutsideClick || null,
-        (event) => {
-            event?.stopPropagation();
-            if (!show) return;
-            closeMenu();
-        },
-        !show || disabled || readOnly,
+    const { onKeyDownCapture, activeIndex, selectedId } = useKeyDownNavigation(
+        elements.floating as HTMLElement,
+        setShow,
+        disabled || readOnly,
     );
 
     return {
+        activeIndex,
         menuProps: {
-            activeIndex,
             'data-placement': middlewareData?.offset?.placement,
             id: menuId,
             role: 'listbox',
             style: floatingStyles,
             tabIndex: -1,
+            onOutsideClick: () => setShow(false),
         },
         toggleProps: {
             'aria-errormessage': errorMessage || undefined,
@@ -120,22 +164,9 @@ export function useCombobox({
             onClick: () => {
                 setShow((prev) => !prev);
             },
-            /**
-             * @param {React.KeyboardEvent} event
-             * @returns {boolean} True if event was handled internally
-             */
-            onKeyDownCapture: (event: React.KeyboardEvent): boolean => {
-                if (event.key === EVENT_KEY.Tab || event.key === EVENT_KEY.Escape) {
-                    closeMenu();
-                    return true;
-                }
-
-                openMenu();
-
-                return handleKeyNavigation?.(event.nativeEvent);
-            },
+            onKeyDownCapture,
         },
-        closeMenu,
+        closeMenu: () => setShow(false),
         isOpen: show,
         elements,
     };

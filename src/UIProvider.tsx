@@ -23,6 +23,10 @@ function UIProvider({ children }: UIProviderProps) {
 
     useIsomorphicEffect(() => {
         document.documentElement.dataset.theme = theme;
+        document.documentElement.style.setProperty(
+            '--scrollbar-width',
+            `${window.innerWidth - document.documentElement.clientWidth}px`,
+        );
     }, [theme]);
 
     useEventListener('resize', () => setDeviceWidth(window.innerWidth));

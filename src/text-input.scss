@@ -137,7 +137,9 @@
     }
 
     &:focus-within {
-        --border-color: var(--stroke-brand-primary);
+        --border-color: var(--stroke-neutral-focus);
+
+        outline: 1px solid var(--stroke-neutral-focus);
     }
 }
 

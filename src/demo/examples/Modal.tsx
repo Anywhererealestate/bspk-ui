@@ -21,6 +21,28 @@ export const ModalExample: ComponentExampleFn<ModalProps> = ({ action }) => ({
         );
     },
     presets: [
+        // confirmation modal
+        {
+            value: 'confirmation',
+            label: 'Modal (confirmation)',
+            propState: {
+                header: 'Confirmation Modal',
+                description: 'This modal has a call to action and a cancel button.',
+                children: (
+                    <>
+                        <p>
+                            This is a confirmation modal. It has a call to action and a cancel button. The call to
+                            action is the primary button and the cancel button is the tertiary button.
+                        </p>
+                    </>
+                ),
+                callToAction: {
+                    label: 'Call to Action',
+                    onClick: () => action('Call to Action clicked'),
+                },
+                cancelButton: 'Cancel',
+            },
+        },
         {
             value: 'super long content',
             label: 'Modal (scrolling)',
@@ -29,6 +51,10 @@ export const ModalExample: ComponentExampleFn<ModalProps> = ({ action }) => ({
                 description: 'This modal has no buttons.',
                 children: (
                     <>
+                        <p>
+                            This is a demo of a scrolling modal. Most modals won&apos;t scroll but mobile uses modals as
+                            dropdowns which may have more items than can fit in the screen.
+                        </p>
                         {Array(30)
                             .fill('')
                             .map((_, index) => (
@@ -41,10 +67,6 @@ export const ModalExample: ComponentExampleFn<ModalProps> = ({ action }) => ({
                             ))}
                     </>
                 ),
-                callToAction: {
-                    label: 'Call to Action',
-                    onClick: () => action('Call to Action clicked'),
-                },
             },
         },
     ],

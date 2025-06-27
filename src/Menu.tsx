@@ -1,8 +1,8 @@
 import { ReactNode, useMemo } from 'react';
 
 import { Portal } from './Portal';
+import { Scrim } from './Scrim';
 import { useId } from './hooks/useId';
-import { useLockBodyScroll } from './hooks/useLockBodyScroll';
 import { cssWithVars } from './utils/cwv';
 
 import { CommonProps, ElementProps, SetRef } from './';
@@ -29,7 +29,7 @@ function boundCount(itemLength = 0, itemDisplayCount = 0) {
         )
     );
 }
-export type MenuProps = CommonProps<'id'> & {
+export type MenuProps = CommonProps<'data-bspk-owner' | 'id'> & {
     /** A ref to the inner div element. */
     innerRef?: SetRef<HTMLDivElement>;
     /**
@@ -68,12 +68,8 @@ export type MenuProps = CommonProps<'id'> & {
      * @default true
      */
     floating?: boolean;
-    /**
-     * Whether the menu is hidden.
-     *
-     * @default false
-     */
-    hidden?: boolean;
+    /** A function that is called when the user clicks outside of the menu. */
+    onOutsideClick?: () => void;
 };
 
 /**
@@ -104,7 +100,7 @@ function Menu({
     itemDisplayCount: itemDisplayCountProp,
     itemCount,
     floating = true,
-    hidden = false,
+    onOutsideClick,
     ...props
 }: ElementProps<MenuProps, 'div'>) {
     const menuId = useId(idProp);
@@ -113,27 +109,29 @@ function Menu({
         return itemDisplayCountProp && boundCount(itemCount, itemDisplayCountProp);
     }, [itemCount, itemDisplayCountProp]);
 
-    useLockBodyScroll(floating && hidden !== true);
-
     const menu = (
-        <div
-            role="listbox"
-            {...props}
-            data-bspk="menu"
-            data-floating={floating || undefined}
-            id={menuId}
-            ref={innerRef}
-            style={cssWithVars({
-                ...props.style,
-                '--overflow-y': itemCount && itemDisplayCount && itemCount > itemDisplayCount ? 'scroll' : undefined,
-                maxHeight:
-                    itemDisplayCount === false
-                        ? 'auto'
-                        : `calc(calc(${itemDisplayCount} * var(--list-item-height)) + 2px /* borders */)`,
-            })}
-        >
-            {children}
-        </div>
+        <>
+            {floating && <Scrim data-bspk-owner="menu" onClick={() => onOutsideClick?.()} variant="dropdown" />}
+            <div
+                role="listbox"
+                {...props}
+                data-bspk="menu"
+                data-floating={floating || undefined}
+                id={menuId}
+                ref={innerRef}
+                style={cssWithVars({
+                    ...props.style,
+                    '--overflow-y':
+                        itemCount && itemDisplayCount && itemCount > itemDisplayCount ? 'scroll' : undefined,
+                    maxHeight:
+                        itemDisplayCount === false
+                            ? 'auto'
+                            : `calc(calc(${itemDisplayCount} * var(--list-item-height)) + 2px /* borders */)`,
+                })}
+            >
+                {children}
+            </div>
+        </>
     );
 
     return portal ? <Portal>{menu}</Portal> : menu;

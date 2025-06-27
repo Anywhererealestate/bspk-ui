@@ -89,7 +89,7 @@ export type ComboboxProps<Item extends ComboboxItemProps = ComboboxItemProps> = 
          *
          * Usually only used for showing no items found.
          */
-        children: (referenceProps: ToggleProps & { setReference: (node: HTMLElement) => void }) => ReactNode;
+        children: (params: { setReference: (node: HTMLElement) => void; toggleProps: ToggleProps }) => ReactNode;
         /**
          * The label for the select element, used for accessibility, and the dropdown modal header.
          *
@@ -100,34 +100,6 @@ export type ComboboxProps<Item extends ComboboxItemProps = ComboboxItemProps> = 
 
 /**
  * A utility widget that allows users to select one or more items from a list of choices.
- *
- * @example
- *     import React from 'react';
- *
- *     import { ListBox } from '@bspk/ui/ListBox';
- *
- *     export function Example() {
- *         const [selected, setSelected] = React.useState<string[]>([]);
- *
- *         return (
- *             <ListBox
- *                 items={[
- *                     { value: '1', label: 'Option 1' },
- *                     { value: '2', label: 'Option 2' },
- *                     { value: '3', label: 'Option 3' },
- *                     { value: '4', label: 'Option 4' },
- *                     { value: '5', label: 'Option 5' },
- *                     { value: '6', label: 'Option 6' },
- *                     { value: '7', label: 'Option 7' },
- *                     { value: '8', label: 'Option 8' },
- *                     { value: '9', label: 'Option 9' },
- *                     { value: '10', label: 'Option 10' },
- *                 ]}
- *                 onChange={(selectedValues: string[]) => setSelected(selectedValues)}
- *                 selectedValues={selected}
- *             />
- *         );
- *     }
  *
  * @name Combobox
  * @phase Utility
@@ -154,13 +126,7 @@ function Combobox<Item extends ComboboxItemProps>({
     const menuId = useId(idProp);
     const { isMobile } = useUIContext();
 
-    const {
-        toggleProps,
-        menuProps: { activeIndex, ...menuProps },
-        closeMenu,
-        isOpen,
-        elements,
-    } = useCombobox({
+    const { toggleProps, activeIndex, menuProps, closeMenu, isOpen, elements } = useCombobox({
         refOutsideClick: !isMobile,
         refWidth,
         placement: 'bottom-start',
@@ -182,10 +148,12 @@ function Combobox<Item extends ComboboxItemProps>({
         [items, selectedValues],
     );
 
+    if (!isOpen) return <>{children({ toggleProps, setReference: elements.setReference })}</>;
+
     /* data-bspk="combobox" -- I don't need a wrapper here and this passes lint. :) */
     return (
         <>
-            {children({ ...toggleProps, setReference: elements.setReference })}
+            {children({ toggleProps, setReference: elements.setReference })}
             {isMobile ? (
                 <Modal
                     data-bspk-owner={props['data-bspk-owner'] || undefined}
@@ -215,13 +183,13 @@ function Combobox<Item extends ComboboxItemProps>({
                     data-bspk="listbox"
                     data-disabled={disabled || undefined}
                     data-no-items={!items.length || undefined}
-                    hidden={!isOpen}
                     id={menuId}
                     innerRef={(node) => {
                         elements.setFloating(node);
                     }}
                     itemCount={items.length}
                     itemDisplayCount={itemDisplayCount}
+                    onOutsideClick={closeMenu}
                     role="listbox"
                     style={cssWithVars({
                         ...props.style,
@@ -312,7 +280,6 @@ function ListItems({
                         active={activeIndex === index || undefined}
                         aria-disabled={item.disabled || undefined}
                         aria-posinset={index + 1}
-                        aria-selected={selected || undefined}
                         as="button"
                         disabled={item.disabled || undefined}
                         id={`${menuId}-item-${index}`}
@@ -322,6 +289,7 @@ function ListItems({
                             onChange?.(isMulti ? multiSelectValue(selected, item.value) : [item.value], event);
                         }}
                         role="option"
+                        selected={selected || undefined}
                         tabIndex={-1}
                         trailing={
                             isMulti ? (

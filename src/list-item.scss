@@ -22,18 +22,17 @@ body[data-bspk] a[data-bspk='list-item'] {
         cursor: pointer;
     }
 
-    &[data-action] {
-        [data-pseudo='focus'] &,
-        &:focus-visible,
-        &:has(*:focus-visible) {
-            // outline: 2px solid var(--stroke-neutral-focus);
-            box-shadow: inset var(--stroke-neutral-focus) 0 0 0 2px;
+    [data-pseudo='focus'] &,
+    &:focus-visible,
+    &:has(*:focus-visible) {
+        outline: solid 2px var(--stroke-neutral-focus);
 
-            [data-inner] {
-                border-color: transparent;
-            }
+        [data-inner] {
+            border-color: transparent;
         }
+    }
 
+    &[data-action] {
         [data-pseudo='hover'] &,
         &:hover {
             background-color: var(--interactions-neutral-hover-opacity);
