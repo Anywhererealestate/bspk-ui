@@ -60,12 +60,6 @@ export type SearchBarProps<T extends ListboxItemProps = ListboxItemProps> = Pick
          * @type multiline
          */
         noResultsMessage?: string;
-        /**
-         * Whether to show or hide menu.
-         *
-         * @default false
-         */
-        showMenu?: boolean;
     };
 
 /**
@@ -120,12 +114,12 @@ function SearchBar({
     onSelect,
     value,
     onChange,
-    showMenu = false,
     disabled = false,
 }: SearchBarProps) {
     const id = useId(idProp);
 
     const {
+        isOpen,
         toggleProps: { onClick, onKeyDownCapture, ...triggerProps },
         menuProps,
         closeMenu,
@@ -175,7 +169,7 @@ function SearchBar({
                     value={value}
                 />
             </div>
-            {showMenu && (
+            {isOpen && (
                 <Listbox
                     innerRef={elements.setFloating}
                     itemDisplayCount={itemCount}
