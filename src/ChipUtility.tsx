@@ -1,7 +1,10 @@
 import './chip-utility.scss';
 import { ReactNode, isValidElement } from 'react';
 
+import { Badge, BadgeProps } from './Badge';
 import { isValidIcon } from './utils/children';
+
+export type badgeItem = Pick<BadgeProps, 'count' | 'size' | 'surfaceBorder' | 'variant'>;
 
 export type ChipUtilityProps = {
     /**
@@ -40,9 +43,20 @@ export type ChipUtilityProps = {
     /**
      * The trailing icon of the chip.
      *
+     * You can only have one of the trailing options, trailingIcon **or** trailingBadge. If both are present the
+     * trailingIcon will be visible.
+     *
      * @type BspkIcon
      */
     trailingIcon?: ReactNode;
+    /**
+     * The trailing Badge for use in the ChipFilter.
+     *
+     * If a trailingIcon is provided the Badge will **not** be visible.
+     *
+     * @type <badgeItem>
+     */
+    trailingBadge?: badgeItem;
 };
 
 /**
@@ -70,6 +84,7 @@ function ChipUtility({
     leadingIcon,
     onClick,
     trailingIcon,
+    trailingBadge,
 }: ChipUtilityProps) {
     return (
         <button
@@ -89,6 +104,14 @@ function ChipUtility({
                 <span aria-hidden="true" data-chip-icon>
                     {trailingIcon}
                 </span>
+            )}
+            {trailingBadge && !trailingIcon && (
+                <Badge
+                    count={trailingBadge.count}
+                    size={trailingBadge.size}
+                    surfaceBorder={trailingBadge.surfaceBorder}
+                    variant={trailingBadge.variant}
+                />
             )}
         </button>
     );

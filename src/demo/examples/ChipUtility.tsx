@@ -41,5 +41,22 @@ export const ChipUtilityExample: ComponentExample<ChipUtilityProps> = {
                 trailingIcon: 'Rabbit',
             },
         },
+        {
+            label: 'Trailing Badge',
+            propState: {
+                label: 'chip',
+                leadingIcon: 'Add',
+                trailingIcon: '',
+                trailingBadge: { count: 2, size: 'x-small' },
+            },
+        },
+        {
+            label: 'Trailing Badge Icon',
+            propState: {
+                label: 'chip',
+                trailingIcon: 'Cloud',
+                trailingBadge: { count: 2, size: 'x-small' },
+            },
+        },
     ],
 };
