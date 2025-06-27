@@ -4,6 +4,7 @@
     align-items: center;
     gap: var(--spacing-sizing-02);
     height: var(--spacing-sizing-08);
+    text-wrap: nowrap;
     padding: 0 var(--spacing-sizing-03);
     font: var(--labels-small);
     color: var(--foreground-neutral-on-surface-variant-01);
