@@ -29,6 +29,7 @@ function boundCount(itemLength = 0, itemDisplayCount = 0) {
         )
     );
 }
+
 export type MenuProps = CommonProps<'data-bspk-owner' | 'id'> & {
     /** A ref to the inner div element. */
     innerRef?: SetRef<HTMLDivElement>;
@@ -50,8 +51,8 @@ export type MenuProps = CommonProps<'data-bspk-owner' | 'id'> & {
      *
      * - If set to `false`, the menu will not have a maximum height and will grow to fit its content.
      * - If set to a number, the menu will display that many items before scrolling.
-     *
-     * @required
+     * - If not set or set to `undefined`, the menu will default to showing a minimum of 3 items and a maximum of 10
+     *   items.
      */
     itemDisplayCount?: number | false;
     /**

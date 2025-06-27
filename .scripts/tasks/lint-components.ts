@@ -14,7 +14,7 @@ const errors: string[] = [];
 
 const tempPath = path.resolve('./.scripts/.tmp');
 
-execSync(`mkdir -p ${tempPath} &&  npm run meta out=${tempPath}`);
+execSync(`mkdir -p ${tempPath} && npm run meta out=${tempPath}`);
 
 fs.readdirSync(path.resolve('./src')).forEach((file) => {
     if (!file.endsWith('.tsx')) return;

@@ -42,8 +42,6 @@ export type CallToActionButton = {
     size?: ButtonSize;
 };
 
-export type CommonProps<K extends keyof CommonPropsLibrary> = Pick<CommonPropsLibrary, K>;
-
 /**
  * The props that are common to input elements.
  *
@@ -132,6 +130,8 @@ export type CommonPropsLibrary = {
      */
     'data-bspk-owner'?: string;
 };
+
+export type CommonProps<K extends keyof CommonPropsLibrary> = Pick<CommonPropsLibrary, K>;
 
 export type Brand =
     | 'anywhere'
