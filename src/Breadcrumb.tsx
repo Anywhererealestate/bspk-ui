@@ -2,16 +2,14 @@
 import './breadcrumb.scss';
 import { SvgChevronRight } from '@bspk/icons/ChevronRight';
 import { SvgMoreHoriz } from '@bspk/icons/MoreHoriz';
-import { useState } from 'react';
 
 import { Button } from './Button';
 import { Link } from './Link';
 import { ListItem } from './ListItem';
 import { Menu } from './Menu';
 import { Txt } from './Txt';
-import { useFloating } from './hooks/useFloating';
+import { useCombobox } from './hooks/useCombobox';
 import { useId } from './hooks/useId';
-import { useOutsideClick } from './hooks/useOutsideClick';
 
 import { CommonProps } from './';
 
@@ -97,15 +95,8 @@ function Breadcrumb({ id: propId, items: itemsProp }: BreadcrumbProps) {
     const id = useId(propId);
     const items = Array.isArray(itemsProp) ? itemsProp : [];
 
-    const { elements, floatingStyles } = useFloating({
-        placement: 'bottom',
+    const { elements, isOpen, menuProps, toggleProps, activeIndex } = useCombobox({
         refWidth: false,
-    });
-
-    const [open, setOpen] = useState(false);
-
-    useOutsideClick([elements.reference], () => {
-        setOpen(false);
     });
 
     const middleItems = items.slice(1, items.length - 1);
@@ -125,17 +116,29 @@ function Breadcrumb({ id: propId, items: itemsProp }: BreadcrumbProps) {
                             icon={<SvgMoreHoriz />}
                             innerRef={elements.setReference}
                             label={`Access to ${middleItems.length} pages`}
-                            onClick={() => setOpen((prev) => !prev)}
                             showLabel={false}
                             size="small"
                             toolTip={`${middleItems.length} pages`}
                             variant="tertiary"
+                            {...toggleProps}
                         />
-
-                        {open && (
-                            <Menu innerRef={elements.setFloating} style={{ ...floatingStyles, width: '200px' }}>
+                        {isOpen && (
+                            <Menu
+                                innerRef={elements.setFloating}
+                                itemDisplayCount={false}
+                                {...menuProps}
+                                style={{
+                                    ...menuProps.style,
+                                    width: '200px',
+                                }}
+                            >
                                 {middleItems.map((item, idx) => (
-                                    <ListItem key={`Breadcrumb-${idx}`} {...item} />
+                                    <ListItem
+                                        key={`Breadcrumb-${idx}`}
+                                        {...item}
+                                        active={activeIndex === idx || undefined}
+                                        id={`${id}-item-${idx}`}
+                                    />
                                 ))}
                             </Menu>
                         )}

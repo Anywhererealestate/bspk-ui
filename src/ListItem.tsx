@@ -1,6 +1,7 @@
-import { AnchorHTMLAttributes, ElementType, ReactNode } from 'react';
+import { AnchorHTMLAttributes, ElementType, ReactNode, AriaRole } from 'react';
 
 import { ButtonProps, Button } from './Button';
+import { Truncated } from './Truncated';
 import { ChildElement, getChildrenElements } from './utils/children';
 import { useErrorLogger } from './utils/errors';
 
@@ -18,6 +19,7 @@ export const TRAILING_COMPONENTS = Object.freeze([
     'Switch',
     'Tag',
     'Txt',
+    'string',
 ]);
 
 export type ListItemProps<As extends ElementType = 'div', T = HTMLElement> = CommonProps<
@@ -65,6 +67,12 @@ export type ListItemProps<As extends ElementType = 'div', T = HTMLElement> = Com
     href?: AnchorHTMLAttributes<unknown>['href'];
     /** A ref to the list item div element. */
     innerRef?: SetRef<T>;
+    /**
+     * Whether the ListItem is selected.
+     *
+     * @default false
+     */
+    selected?: boolean;
 };
 
 /**
@@ -104,45 +112,36 @@ export type ListItemProps<As extends ElementType = 'div', T = HTMLElement> = Com
 function ListItem<As extends ElementType = 'div', T = HTMLElement>({
     as,
     disabled,
-    invalid,
     leading: leadingProp,
     trailing: trailingProp,
     label,
     subText,
     active,
     readOnly,
-    errorMessage,
     innerRef,
+    selected = false,
+    role: roleProp,
     ...props
 }: ElementProps<ListItemProps<As, T>, As>) {
     let As: ElementType = as || 'div';
-
-    const { logError } = useErrorLogger();
+    const role: AriaRole[] = ['option', roleProp || 'listitem'];
+    const AsInner: ElementType = 'span';
 
     const { leading, trailing } = useChildren(leadingProp, trailingProp);
 
     if (!label) return;
 
-    const requiredAs: ElementType[] = [];
-
-    if (props.href) requiredAs.push('a');
+    if (props.href) As = 'a';
 
     if (trailing?.name) {
         // if trailing is a ListItemButton and As is a button, change As to div
-        if (trailing?.name === 'ListItemButton') requiredAs.push('div');
-        if (['Checkbox', 'Radio', 'Switch'].includes(trailing.name)) requiredAs.push('label');
+        if (trailing?.name === 'ListItemButton') As = 'div';
+
+        if (['Checkbox', 'Radio', 'Switch'].includes(trailing.name)) {
+            As = 'div';
+            role.push('button');
+        }
     }
-
-    if (requiredAs.length === 1) {
-        As = requiredAs[0] as ElementType;
-    }
-
-    const requiredAsError = logError(
-        requiredAs.length > 1,
-        `ListItem: Multiple required elements detected. Using ${As} as the element type.`,
-    );
-
-    if (requiredAsError) As = requiredAs[0] as ElementType;
 
     if (!As && 'onClick' in props) As = 'button';
 
@@ -152,24 +151,25 @@ function ListItem<As extends ElementType = 'div', T = HTMLElement>({
         <As
             {...props}
             aria-disabled={disabled || undefined}
-            aria-errormessage={errorMessage || undefined}
-            aria-invalid={invalid || undefined}
+            aria-label={As === 'label' ? undefined : label}
+            aria-selected={selected || undefined}
             data-action={actionable || undefined}
             data-active={active || undefined}
             data-bspk="list-item"
             data-component={leading?.name || undefined}
             data-readonly={readOnly || undefined}
             ref={innerRef}
-            role={props.href ? undefined : 'button'}
+            role="option"
+            tabIndex={0}
         >
-            <span data-inner>
+            <AsInner data-inner>
                 {leading && (
                     <span data-component={leading.name} data-leading>
                         {leading.child}
                     </span>
                 )}
                 <span data-item-label>
-                    <span data-text>{label}</span>
+                    <Truncated data-text>{label}</Truncated>
                     {subText && <span data-sub-text>{subText}</span>}
                 </span>
                 {trailing && (
@@ -177,7 +177,7 @@ function ListItem<As extends ElementType = 'div', T = HTMLElement>({
                         {trailing.child}
                     </span>
                 )}
-            </span>
+            </AsInner>
         </As>
     );
 }

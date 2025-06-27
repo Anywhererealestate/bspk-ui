@@ -8,7 +8,7 @@ import { ElementProps, CommonProps } from './';
 
 export type RadioGroupOption = Pick<ToggleOptionProps, 'description' | 'label'> & Required<CommonProps<'value'>>;
 
-export type RadioGroupProps = CommonProps<'name'> & {
+export type RadioGroupProps = CommonProps<'disabled' | 'name'> & {
     /**
      * The value of the control.
      *
@@ -100,6 +100,7 @@ function RadioGroup({
     value: groupValue,
     label: groupLabel,
     showLabel = true,
+    disabled,
     ...props
 }: ElementProps<RadioGroupProps, 'div'>) {
     const id = `radio-group-${useId()}`;
@@ -110,6 +111,7 @@ function RadioGroup({
             aria-label={!showLabel ? groupLabel : undefined}
             aria-labelledby={showLabel ? `${id}-label` : undefined}
             data-bspk="radio-group"
+            data-disabled={disabled || undefined}
             id={id}
             role="group"
         >
@@ -121,6 +123,7 @@ function RadioGroup({
                             <Radio
                                 aria-label={label}
                                 checked={groupValue === value}
+                                disabled={disabled}
                                 name={name}
                                 onChange={(checked) => checked && onChange(value)}
                                 value={value}

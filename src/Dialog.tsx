@@ -3,18 +3,22 @@ import { FocusTrap } from 'focus-trap-react';
 import { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
 
 import { Portal } from './Portal';
+import { Scrim } from './Scrim';
 import { useId } from './hooks/useId';
 import { useOutsideClick } from './hooks/useOutsideClick';
 
 import { CommonProps, ElementProps, SetRef } from './';
 
-export type DialogProps = CommonProps<'id'> & {
+export type DialogProps = CommonProps<'data-bspk-owner' | 'id'> & {
     /** The content of the dialog. */
     children?: ReactNode;
     /** A ref to the dialog element. */
     innerRef?: SetRef<HTMLDivElement>;
     /**
      * If the dialog should appear.
+     *
+     * @example
+     *     false;
      *
      * @default false
      */
@@ -73,11 +77,10 @@ function Dialog({
     onClose,
     open,
     placement = 'center',
-    showScrim,
+    showScrim = true,
     id: idProp,
     ...containerProps
 }: ElementProps<DialogProps, 'div'>) {
-    const hideScrim = showScrim === false;
     const id = useId(idProp);
     const boxRef = useRef<HTMLDivElement | null>(null);
     const [visibility, setVisibilityState] = useState<'hidden' | 'hiding' | 'show' | 'showing'>(
@@ -134,6 +137,7 @@ function Dialog({
     return (
         visibility !== 'hidden' && (
             <Portal>
+                <Scrim data-bspk-owner="dialog" onClick={onClose} variant="dialog" visible={showScrim !== false} />
                 <div
                     {...containerProps}
                     data-bspk="dialog"
@@ -143,7 +147,6 @@ function Dialog({
                     ref={innerRef}
                     role="presentation"
                 >
-                    {!hideScrim && <div aria-hidden="true" data-dialog-backdrop />}
                     <FocusTrap
                         focusTrapOptions={{
                             fallbackFocus: () => boxRef.current!,

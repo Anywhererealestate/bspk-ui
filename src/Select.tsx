@@ -1,16 +1,13 @@
-import './select.scss';
 import { SvgChevronRight } from '@bspk/icons/ChevronRight';
 import { useMemo } from 'react';
 
+import { Combobox, ComboboxProps } from './Combobox';
 import { ListItem } from './ListItem';
-import { Listbox, ListboxProps } from './Listbox';
-import { Tooltip } from './Tooltip';
-import { useCombobox } from './hooks/useCombobox';
-import { Placement } from './hooks/useFloating';
 import { useId } from './hooks/useId';
-import { useTruncatedText } from './hooks/useTruncatedText';
 
-import { CommonProps, InvalidPropsLibrary } from './';
+import { CommonProps, ElementProps } from './';
+
+import './select.scss';
 
 export type SelectOption = Record<string, unknown> & {
     /** The value of the option. */
@@ -19,11 +16,21 @@ export type SelectOption = Record<string, unknown> & {
     label: string;
 };
 
-export type SelectProps<T extends SelectOption = SelectOption> = CommonProps<
-    'aria-label' | 'disabled' | 'id' | 'name' | 'readOnly' | 'size'
-> &
-    InvalidPropsLibrary &
-    Pick<ListboxProps<T>, 'isMulti' | 'itemDisplayCount' | 'listItemProps' | 'selectAll'> & {
+export type SelectProps<T extends SelectOption = SelectOption> = CommonProps<'name' | 'size'> &
+    Pick<
+        ComboboxProps<T>,
+        | 'disabled'
+        | 'errorMessage'
+        | 'id'
+        | 'invalid'
+        | 'isMulti'
+        | 'itemDisplayCount'
+        | 'label'
+        | 'onChange'
+        | 'readOnly'
+        | 'selectAll'
+        | 'value'
+    > & {
         /**
          * Array of options to display in the select
          *
@@ -46,35 +53,21 @@ export type SelectProps<T extends SelectOption = SelectOption> = CommonProps<
          */
         options: T[];
         /**
-         * Array of selected values
-         *
-         * @type Array<string>
-         */
-        value?: Array<string>;
-        /**
          * Placeholder for the select
          *
          * @default Select one
          */
         placeholder?: string;
         /**
-         * The placement of the select menu. Will be ignored if the menu is too close to the edge of the screen.
+         * The description for the select.
          *
-         * @default bottom
+         * This is typically used to provide additional context or instructions for the user.
          */
-        placement?: Extract<Placement, 'bottom' | 'top'>;
-        /** The style of the select. */
-        style?: React.CSSProperties;
-        /**
-         * The function to call when the selected values change.
-         *
-         * @required
-         */
-        onChange?: (value: string[], event?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+        description?: string;
     };
 
 /**
- * A field element that allows users to select one option from a list of available choices. *
+ * A field element that allows users to select one option from a list of available choices.
  *
  * @example
  *     import { Select } from '@bspk/ui/Select';
@@ -83,7 +76,7 @@ export type SelectProps<T extends SelectOption = SelectOption> = CommonProps<
  *         const [selected, setSelected] = React.useState<string[]>([]);
  *         return (
  *             <Select
- *                 aria-label="Select an option"
+ *                 label="Select an option"
  *                 itemCount={5}
  *                 name="example-select"
  *                 onChange={setSelected}
@@ -113,10 +106,10 @@ function Select({
     options = [],
     value: selected,
     onChange,
-    'aria-label': ariaLabel,
+    label,
     placeholder = 'Select one',
     size = 'medium',
-    itemDisplayCount: itemCount = 5,
+    itemDisplayCount = 5,
     disabled,
     id: propId,
     invalid,
@@ -124,78 +117,64 @@ function Select({
     readOnly,
     name,
     isMulti,
-    listItemProps,
-    style: styleProp,
     selectAll,
-}: SelectProps) {
+    description,
+    ...props
+}: ElementProps<SelectProps, 'button'>) {
     const id = useId(propId);
 
-    const { toggleProps, menuProps, closeMenu, elements } = useCombobox({
-        placement: 'bottom-start',
-        disabled,
-        invalid,
-        readOnly,
-        errorMessage,
-        offsetOptions: 4,
-    });
+    const selectedItem: SelectOption = useMemo(() => {
+        if (isMulti)
+            return {
+                label: `${selected?.length || 0} option${selected?.length !== 1 ? 's' : ''} selected`,
+                value: selected?.join(', ') || '',
+            };
 
-    const selectLabel = useMemo(
-        () =>
-            isMulti
-                ? `${selected?.length || 0} option${selected?.length !== 1 ? 's' : ''} selected`
-                : options.find((o) => o.value === selected?.[0])?.label,
-        [isMulti, options, selected],
-    );
-
-    const { setElement, isTruncated } = useTruncatedText();
+        return options.find((o) => o.value === selected?.[0]) || { label: placeholder, value: '' };
+    }, [isMulti, options, placeholder, selected]);
 
     return (
-        <>
-            <input defaultValue={selected} name={name} type="hidden" />
-            <Tooltip disabled={!isTruncated} label={selectLabel || placeholder}>
-                <button
-                    aria-label={ariaLabel || selectLabel || placeholder}
-                    data-bspk="select"
-                    data-empty={selectLabel ? undefined : ''}
-                    data-invalid={invalid || undefined}
-                    data-size={size}
-                    disabled={disabled || readOnly}
-                    id={id}
-                    ref={elements.setReference}
-                    style={styleProp}
-                    {...toggleProps}
-                >
-                    <ListItem
-                        as="span"
-                        data-placeholder
-                        innerRef={(node) => {
-                            if (node) setElement(node.querySelector<HTMLElement>('[data-text]'));
+        <Combobox
+            description={description || ''}
+            disabled={disabled}
+            errorMessage={errorMessage}
+            header={placeholder || label}
+            id={id}
+            invalid={invalid}
+            isMulti={isMulti}
+            itemDisplayCount={itemDisplayCount}
+            items={options}
+            label={label}
+            onChange={onChange}
+            readOnly={readOnly}
+            selectAll={selectAll}
+            value={selected || []}
+        >
+            {({ setReference, toggleProps }) => (
+                <>
+                    <input defaultValue={selected} name={name} type="hidden" />
+                    <button
+                        aria-label={label || selectedItem?.label || placeholder}
+                        data-bspk="select"
+                        data-empty={selectedItem?.label ? undefined : ''}
+                        data-invalid={invalid || undefined}
+                        data-size={size}
+                        disabled={disabled || readOnly}
+                        id={id}
+                        ref={(node) => {
+                            if (node) setReference(node);
                         }}
-                        label={selectLabel || placeholder}
-                        readOnly
-                    />
-                    <span data-icon>
-                        <SvgChevronRight />
-                    </span>
-                </button>
-            </Tooltip>
-            <Listbox
-                data-floating
-                innerRef={elements.setFloating}
-                isMulti={isMulti}
-                itemDisplayCount={itemCount}
-                items={options}
-                listItemProps={listItemProps}
-                onChange={(next, event) => {
-                    event?.preventDefault();
-                    if (!isMulti) closeMenu();
-                    onChange?.(next);
-                }}
-                selectAll={selectAll}
-                selectedValues={selected}
-                {...menuProps}
-            />
-        </>
+                        {...props}
+                        {...toggleProps}
+                    >
+                        <ListItem as="span" data-placeholder {...selectedItem} readOnly />
+                        <span data-icon>
+                            <SvgChevronRight />
+                        </span>
+                    </button>
+                </>
+            )}
+        </Combobox>
     );
 }
 

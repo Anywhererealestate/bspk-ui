@@ -13,7 +13,6 @@ import { Txt } from '../../Txt';
 import { ComponentExampleFn, DemoAction, DemoSetState } from '../utils';
 
 export const ListItemExample: ComponentExampleFn<ListItemProps> = ({ action, setState }) => ({
-    containerStyle: { width: '50%' },
     render: ({ props, Component, id }) => {
         return (
             <Component
@@ -23,6 +22,18 @@ export const ListItemExample: ComponentExampleFn<ListItemProps> = ({ action, set
             />
         );
     },
+    presets: [
+        // really long label
+        {
+            value: 'long-label',
+            label: 'Long Label',
+            propState: {
+                label: 'This is a really long label that should be truncated if it exceeds the width of the ListItem',
+                trailing: 'Checkbox',
+                leading: 'Avatar',
+            },
+        },
+    ],
 });
 
 export const createChildrenElement = (

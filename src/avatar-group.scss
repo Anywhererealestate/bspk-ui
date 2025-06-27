@@ -9,9 +9,5 @@
         justify-content: end;
         gap: var(--spacing-sizing-02);
         overflow: hidden;
-
-        & > * + * {
-            // margin-left: calc(var(--spacing-sizing-01) * -1);
-        }
     }
 }

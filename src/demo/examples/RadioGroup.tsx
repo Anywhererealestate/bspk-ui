@@ -4,7 +4,7 @@ import { ComponentExample } from '../utils';
 import { RadioExample } from './Radio';
 
 export const RadioGroupExample: ComponentExample<RadioGroupProps> = {
-    ...RadioExample,
+    render: RadioExample.render,
     presets: [
         {
             label: 'With Descriptions',

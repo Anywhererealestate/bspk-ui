@@ -5,11 +5,10 @@ import { useMemo, useState } from 'react';
 import './phone-number-input.scss';
 
 import { Divider } from './Divider';
-import { ListItem } from './ListItem';
+import { ListItem, ListItemProps } from './ListItem';
 import { Listbox } from './Listbox';
 import { Modal } from './Modal';
 import { TextInput, TextInputProps } from './TextInput';
-import { Txt } from './Txt';
 import { useCombobox } from './hooks/useCombobox';
 import { useUIContext } from './hooks/useUIContext';
 import { countryCodeData, countryCodes, SupportedCountryCode } from './utils/countryCodes';
@@ -19,7 +18,7 @@ import { InvalidPropsLibrary } from 'src';
 
 const useCountryCodeSelectOptions = (initialCountryCode?: SupportedCountryCode) => {
     return useMemo(() => {
-        const selectOptions = countryCodes.map((code) => {
+        const selectOptions = countryCodes.map((code): ListItemProps & { value: string } => {
             const countryCodeDetails = countryCodeData[code];
             const callingCodeString = `(+${getCountryCallingCode(code)})`;
 
@@ -27,7 +26,7 @@ const useCountryCodeSelectOptions = (initialCountryCode?: SupportedCountryCode) 
                 value: code,
                 label: `${countryCodeDetails?.name}`,
                 leading: countryCodeDetails?.flagIconName ? <SvgIcon name={countryCodeDetails?.flagIconName} /> : null,
-                trailing: <Txt>{callingCodeString}</Txt>,
+                trailing: callingCodeString,
             };
         });
 
@@ -73,8 +72,10 @@ export type PhoneNumberInputProps = InvalidPropsLibrary &
     };
 
 /**
- * A text input that allows users to enter text phone numbers with country codes. This is the base element and if used
- * directly you must wrap it with a label. This will more often be used in the PhoneNumberField component.
+ * A text input that allows users to enter text phone numbers with country codes.
+ *
+ * This is the base element and if used must contain the field label contextually. This will more often be used in the
+ * PhoneNumberField component.
  *
  * @example
  *     <PhoneNumberInput aria-label="Phone Number" initialCountryCode="US" value={value} onChange={onChange} />;
@@ -100,6 +101,7 @@ function PhoneNumberInput({
         closeMenu,
         elements,
         isOpen: showCountryCodeSelectMenu,
+        activeIndex,
     } = useCombobox({
         placement: 'bottom',
         disabled,
@@ -163,52 +165,57 @@ function PhoneNumberInput({
 
                             <SvgIcon name="KeyboardArrowDown" />
                         </button>
-
-                        {isMobile ? (
-                            <Modal
-                                description="select a country code for your phone number"
-                                header="Country Code"
-                                onClose={closeMenu}
-                                open={showCountryCodeSelectMenu}
-                            >
-                                {countryCodeSelectOptions.map((option) => (
-                                    <ListItem
-                                        active={countryCode === option.value}
-                                        data-bspk="country-code-select-option"
-                                        key={option.value}
-                                        label={option.label}
-                                        leading={option.leading}
-                                        onClick={() => {
-                                            setCountryCode(option.value as SupportedCountryCode);
-                                            closeMenu();
-                                        }}
-                                        trailing={option.trailing}
-                                    />
-                                ))}
-                            </Modal>
-                        ) : (
-                            <Listbox
-                                data-floating
-                                innerRef={elements.setFloating}
-                                itemDisplayCount={countryCodeSelectOptions.length}
-                                items={countryCodeSelectOptions}
-                                onChange={(next, event) => {
-                                    event?.preventDefault();
-                                    closeMenu();
-                                    setCountryCode(next[0] as SupportedCountryCode);
-                                }}
-                                selectedValues={[countryCode]}
-                                {...menuProps}
-                            />
-                        )}
-
                         <Divider orientation="vertical" />
-
                         <span aria-label="Country code" style={{ cursor: 'default' }}>{`+${callingCode}`}</span>
                     </div>
                 }
                 readOnly={readOnly}
             />
+            {showCountryCodeSelectMenu && (
+                <>
+                    {isMobile ? (
+                        <Modal
+                            data-bspk-owner="phone-number-input"
+                            description="select a country code for your phone number"
+                            header="Country Code"
+                            onClose={closeMenu}
+                            open={showCountryCodeSelectMenu}
+                        >
+                            {countryCodeSelectOptions.map((option, index) => (
+                                <ListItem
+                                    active={activeIndex === index || undefined}
+                                    aria-selected={countryCode === option.value}
+                                    data-bspk="country-code-select-option"
+                                    id={`${option.value}-country-code-select-option`}
+                                    key={option.value}
+                                    label={option.label}
+                                    leading={option.leading}
+                                    onClick={() => {
+                                        setCountryCode(option.value as SupportedCountryCode);
+                                        closeMenu();
+                                    }}
+                                    trailing={option.trailing}
+                                />
+                            ))}
+                        </Modal>
+                    ) : (
+                        <Listbox
+                            activeIndex={activeIndex}
+                            data-bspk-owner="phone-number-input"
+                            innerRef={elements.setFloating}
+                            itemDisplayCount={countryCodeSelectOptions.length}
+                            items={countryCodeSelectOptions}
+                            onChange={(next, event) => {
+                                event?.preventDefault();
+                                closeMenu();
+                                setCountryCode(next[0] as SupportedCountryCode);
+                            }}
+                            selectedValues={[countryCode]}
+                            {...menuProps}
+                        />
+                    )}
+                </>
+            )}
         </div>
     );
 }

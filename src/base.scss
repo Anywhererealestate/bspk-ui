@@ -21,18 +21,15 @@
     padding: 0;
 }
 
-html:has(body[data-bspk]) {
-    height: 100%;
-    scroll-behavior: smooth;
-}
-
 :root {
     --z-index-tooltip-popover: 1100;
     --z-index-dialog: 1000;
-    --z-index-dropdown: 900;
+    --z-index-dropdown: 1000;
+    --z-index-scrim: 900;
     --z-index-fab: 800;
     --z-index-navbar: 700;
     --z-index-footer: 600;
+    --list-item-height: var(--spacing-sizing-13);
 }
 
 @media (prefers-reduced-motion) {
@@ -41,24 +38,25 @@ html:has(body[data-bspk]) {
     }
 }
 
+html:has(body[data-bspk]) {
+    height: 100%;
+    scrollbar-gutter: stable;
+    overflow: hidden auto;
+    scroll-behavior: smooth;
+}
+
+/* --scrollbar-width: defined inline in UIProvider */
+html:has([data-bspk='scrim']) {
+    overflow: hidden;
+    padding-right: var(--scrollbar-width);
+}
+
 body[data-bspk] {
     height: 100%;
-    scroll-behavior: smooth;
     font: var(--body-base);
     background-color: var(--background-base);
     color: var(--foreground-neutral-on-surface);
-
-    /** Remove default input autofill styles */
-    input:-internal-autofill-previewed,
-    input:-internal-autofill-selected,
-    textarea:-internal-autofill-previewed,
-    textarea:-internal-autofill-selected,
-    select:-internal-autofill-previewed,
-    select:-internal-autofill-selected {
-        transition:
-            color calc(infinity * 1s) step-end,
-            background-color calc(infinity * 1s) step-end;
-    }
+    min-width: 343px;
 
     a {
         color: var(--foreground-link-text-default);

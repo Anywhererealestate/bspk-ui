@@ -19,7 +19,7 @@ export type RadioOptionProps = InvalidPropsLibrary &
 /**
  * A control that allows users to choose one or more items from a list or turn an feature on or off.
  *
- * If only a radio button is needed, consider using the `Radio` component directly.
+ * If only a radio button is needed, consider using the Radio component directly.
  *
  * @name RadioOption
  * @phase Utility

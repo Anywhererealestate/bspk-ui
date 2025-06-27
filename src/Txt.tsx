@@ -36,6 +36,12 @@ export type TxtProps<As extends ElementType = 'span'> = {
      * @default 0
      */
     skeletonLines?: number;
+    /**
+     * Inherit style and not set font style.
+     *
+     * @default false
+     */
+    inherit?: boolean;
 };
 
 /**
@@ -57,6 +63,7 @@ function Txt<As extends ElementType = 'span'>({
     variant = 'body-base',
     style: styleProp,
     skeletonLines = 0,
+    inherit,
     ...containerProps
 }: ElementProps<TxtProps<As>, As>) {
     const content = children?.toString();
@@ -66,7 +73,14 @@ function Txt<As extends ElementType = 'span'>({
     const As: ElementType = as || 'span';
 
     return (
-        <As {...containerProps} data-bspk="txt" style={{ ...styleProp, font: `var(--${variant})` }}>
+        <As
+            {...containerProps}
+            data-bspk="txt"
+            style={{
+                ...styleProp,
+                font: inherit ? undefined : `var(--${variant})`,
+            }}
+        >
             {content}
         </As>
     );

@@ -57,7 +57,7 @@ function generateColorVariants(variables: Record<string, string>) {
     const surfaceVariables = Object.keys(variables).filter((variable) => variable.includes('surface-spectrum'));
     const foregroundVariables = Object.keys(variables).filter((variable) => variable.includes('foreground-spectrum'));
 
-    const manualVariants = {
+    const manualVariants: Record<string, Record<string, `--${string}`>> = {
         grey: {
             foreground: '--foreground-neutral-on-surface-variant-01',
             surface: '--surface-neutral-t2-lowest',
@@ -90,7 +90,7 @@ function generateColorVariants(variables: Record<string, string>) {
         process.exit(1);
     }
 
-    const foundVariants: Record<string, unknown> = Object.fromEntries(
+    const foundVariants: Record<string, Record<string, `--${string}` | undefined>> = Object.fromEntries(
         surfaceVariables.map((surfaceVariable) => {
             const variant = surfaceVariable.replace('--surface-spectrum-', '');
             const foregroundVariable = foregroundVariables.find((variable) => variable.endsWith(variant));
@@ -98,8 +98,8 @@ function generateColorVariants(variables: Record<string, string>) {
             return [
                 variant,
                 {
-                    foreground: foregroundVariable,
-                    surface: surfaceVariable,
+                    foreground: foregroundVariable as `--${string}` | undefined,
+                    surface: surfaceVariable as `--${string}` | undefined,
                 },
             ];
         }),

@@ -26,7 +26,7 @@ const DEFAULT_OPTIONS = [
 
 export const SelectExample: ComponentExample<SelectProps> = {
     defaultState: {
-        'aria-label': 'Demo Select',
+        label: 'Demo Select',
         options: DEFAULT_OPTIONS,
     },
     presets: [
@@ -125,4 +125,5 @@ export const SelectExample: ComponentExample<SelectProps> = {
             },
         },
     ],
+    hideVariants: true,
 };

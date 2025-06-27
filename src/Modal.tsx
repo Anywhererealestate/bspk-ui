@@ -1,17 +1,52 @@
 import './modal.scss';
 import { SvgClose } from '@bspk/icons/Close';
-import { ReactNode, useMemo } from 'react';
+import { ReactNode, useMemo, useRef } from 'react';
 
 import { Button, ButtonProps } from './Button';
 import { DialogProps, Dialog } from './Dialog';
 import { Txt } from './Txt';
+import { useEventListener } from './hooks/useAddEventListener';
+import { useDebounceCallback } from './hooks/useDebounceCallback';
 import { useUIContext } from './hooks/useUIContext';
 
 import { CallToActionButton } from '.';
 
+// This hook is used to set the height of the modal based on the dialog box height.
+// It listens to the resize event and updates the modal height accordingly.
+function useDialogHeight() {
+    const onResize = () => {
+        const { dialogBox, modal } = modalRefs.current || {};
+        if (!dialogBox || !modal) return;
+        modal.style.height = `${dialogBox.offsetHeight}px`;
+        modal.style.visibility = '';
+    };
+
+    useEventListener('resize', useDebounceCallback(onResize, 100));
+
+    const modalRefs = useRef<{
+        dialogBox: HTMLDivElement | null;
+        modal: HTMLDivElement | null;
+    } | null>(null);
+
+    return {
+        setModalRefs: (node: HTMLElement | null) => {
+            if (!node) return;
+            const dialogBox = node.querySelector<HTMLDivElement>('[data-dialog-box]');
+            const modal = node.querySelector<HTMLDivElement>('[data-bspk="modal"]');
+            modalRefs.current = {
+                dialogBox,
+                modal,
+            };
+            if (!dialogBox || !modal) return;
+            modal.style.height = `${dialogBox.offsetHeight}px`;
+            modal.style.visibility = '';
+        },
+    };
+}
+
 export type ModalCallToAction = Pick<ButtonProps, 'destructive'> & Pick<CallToActionButton, 'label' | 'onClick'>;
 
-export type ModalProps = Pick<DialogProps, 'id' | 'innerRef' | 'onClose' | 'open'> & {
+export type ModalProps = Pick<DialogProps, 'data-bspk-owner' | 'id' | 'innerRef' | 'onClose' | 'open'> & {
     /**
      * Modal header.
      *
@@ -108,6 +143,7 @@ function Modal({
     callToAction,
     cancelButton,
     buttonFormat = 'horizontal',
+    innerRef,
     ...dialogProps
 }: ModalProps) {
     const { isMobile } = useUIContext();
@@ -135,9 +171,18 @@ function Modal({
         return nextButtons;
     }, [callToAction, cancelButton, dialogProps.onClose, isMobile]);
 
+    const { setModalRefs } = useDialogHeight();
+
     return (
-        <Dialog {...dialogProps} aria-description={description} aria-label={header} placement="center" showScrim={true}>
-            <div data-bspk="modal">
+        <Dialog
+            {...dialogProps}
+            aria-description={description}
+            aria-label={header}
+            innerRef={setModalRefs}
+            placement="center"
+            showScrim={true}
+        >
+            <div data-bspk="modal" ref={(node) => innerRef?.(node)} style={{ visibility: 'hidden' }}>
                 <header>
                     <Txt as="div" data-dialog-title variant="heading-h4">
                         {header}

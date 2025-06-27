@@ -1,5 +1,7 @@
 import './progress-bar.scss';
-import { CSSProperties, useId } from 'react';
+import { useId } from 'react';
+
+import { cssWithVars } from './utils/cwv';
 
 export type ProgressBarProps = {
     /**
@@ -62,7 +64,7 @@ function ProgressBar({ size = 'large', completion = 0, align = 'center', label }
             >
                 {completion}%
             </progress>
-            <div aria-hidden data-bar style={{ '--width': `${completion}%` } as CSSProperties} />
+            <div aria-hidden data-bar style={cssWithVars({ '--width': `${completion}%` })} />
             <label htmlFor={id}>{label}</label>
         </div>
     );

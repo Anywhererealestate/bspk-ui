@@ -79,6 +79,7 @@ export type TypePropertyDemo = Omit<TypeProperty, 'example'> & {
     libraryDefault?: TypeProperty['default'];
     label?: string;
     example?: any;
+    disabled?: boolean;
 };
 
 export type TypePropertyDemoWithControls = Pick<TypeProperty, 'type'> &
@@ -104,7 +105,7 @@ export type ComponentExampleRender<Props = Record<string, unknown>> = (
     params: ComponentExampleRenderProps<Props>,
 ) => React.ReactNode;
 
-export type ComponentExample<Props = Record<string, unknown>> = {
+export type ComponentExample<Props = Record<string, unknown>, PropName = keyof Props> = {
     /**
      * The style of the wrapping component.
      *
@@ -116,7 +117,7 @@ export type ComponentExample<Props = Record<string, unknown>> = {
      *
      * Helpful for hiding variants that can have unexpected collisions with the other examples.
      */
-    hideVariants?: string[] | true;
+    hideVariants?: PropName[] | true;
     /**
      * This is used to set the initial propState of the component.
      *
@@ -137,6 +138,8 @@ export type ComponentExample<Props = Record<string, unknown>> = {
      * If you only need to update the props of the component, you can use renderProps.
      */
     render?: ComponentExampleRender<Props>;
+    /** We may not want certain props editable in the props table. */
+    disableProps?: PropName[];
 };
 
 export type ComponentExampleFn<Props = Record<string, unknown>> = (params: {

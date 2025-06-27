@@ -6,7 +6,7 @@ export function useEventListener<
     KW extends keyof WindowEventMap,
     KH extends keyof HTMLElementEventMap & keyof SVGElementEventMap,
     KM extends keyof MediaQueryListEventMap,
-    T extends HTMLElement | MediaQueryList | SVGAElement | Window = HTMLElement,
+    T extends Document | HTMLElement | MediaQueryList | SVGAElement | Window = HTMLElement,
 >(
     eventName: KH | KM | KW,
     handler: (
@@ -18,6 +18,7 @@ export function useEventListener<
             | WindowEventMap[KW],
     ) => void,
     element?: T,
+    disabled?: boolean,
     options?: AddEventListenerOptions | boolean,
 ) {
     // Create a ref that stores handler
@@ -28,6 +29,8 @@ export function useEventListener<
     }, [handler]);
 
     useIsomorphicEffect(() => {
+        if (disabled) return;
+
         // Define the listening target
         const targetElement: T | Window = element ?? window;
 
