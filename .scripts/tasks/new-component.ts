@@ -10,7 +10,12 @@ import path from 'path';
 
 import { componentsDir, kebabCase } from '../utils';
 
-const componentName = process.argv[2];
+if (!process.argv[2]?.trim()) {
+    console.error('Please provide a component name.');
+    process.exit(1);
+}
+
+const componentName = capitalizeFirstLetter(process.argv[2]);
 
 if (!componentName) {
     console.error('Please provide a component name.');
@@ -83,7 +88,7 @@ export { ${componentName} };
 
 fs.writeFileSync(
     path.join(componentsDir, `${slug}.scss`),
-    `[data-bspk='chip'] {
+    `[data-bspk='${slug}'] {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -93,3 +98,7 @@ fs.writeFileSync(
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
 `,
 );
+
+function capitalizeFirstLetter(val) {
+    return String(val).charAt(0).toUpperCase() + String(val).slice(1);
+}
