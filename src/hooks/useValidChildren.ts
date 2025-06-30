@@ -1,7 +1,7 @@
 import { ReactNode, useMemo } from 'react';
 
-import { getChildrenElements } from '../utils/children';
-import { useErrorLogger } from '../utils/errors';
+import { getChildrenElements } from '@utils/children';
+import { useErrorLogger } from '@utils/errors';
 
 const VALID_CHILDREN = ['Icon', 'string'];
 

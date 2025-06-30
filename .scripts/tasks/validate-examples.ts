@@ -12,8 +12,9 @@ import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 
+import { componentsDir, kebabCase, prettyLint } from '@utils';
+
 import { typesMeta } from '../../../bspk-demo/src/meta';
-import { componentsDir, kebabCase, prettyLint } from '../utils';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const getDefaultState = (prop: any): any => {

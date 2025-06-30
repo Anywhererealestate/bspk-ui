@@ -77,7 +77,31 @@ export default [
             'import/no-duplicates': 'error',
             'import/no-empty-named-blocks': 'warn',
             'import/no-unresolved': 'off',
-            'import/order': ['warn', { alphabetize: { order: 'asc' }, 'newlines-between': 'always' }],
+            'import/order': [
+                'warn',
+                {
+                    alphabetize: { order: 'asc' },
+                    'newlines-between': 'always',
+                    pathGroups: [
+                        {
+                            pattern: '~/**',
+                            group: 'external',
+                            position: 'after',
+                        },
+                    ],
+                    groups: [
+                        'builtin',
+                        'external',
+                        'internal',
+                        'unknown',
+                        'parent',
+                        'sibling',
+                        'index',
+                        'object',
+                        'type',
+                    ],
+                },
+            ],
             'no-alert': 'error',
             'no-console': 'error',
             'no-debugger': 'error',

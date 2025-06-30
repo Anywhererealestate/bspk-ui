@@ -40,7 +40,7 @@ fs.readdirSync('./dist', { recursive: true, encoding: 'utf-8' }).forEach((fileNa
 
     if (!scssMatch) return;
 
-    const importRequire = `import { styleAdd } from './utils/styleAdd';`;
+    const importRequire = `import { styleAdd } from '@utils/styleAdd';`;
     const cssContent = fs.readFileSync(path.join('./dist', `${scssMatch[1]}.css`), 'utf-8');
 
     fs.writeFileSync(

@@ -2,7 +2,7 @@ import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 
-import { prettyLint } from '../utils';
+import { prettyLint } from '@utils';
 
 // get all files in src that end wth .tsx, .ts, .scss
 

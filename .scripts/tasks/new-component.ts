@@ -8,7 +8,7 @@
 import fs from 'fs';
 import path from 'path';
 
-import { componentsDir, kebabCase } from '../utils';
+import { componentsDir, kebabCase } from '@utils';
 
 if (!process.argv[2]?.trim()) {
     console.error('Please provide a component name.');

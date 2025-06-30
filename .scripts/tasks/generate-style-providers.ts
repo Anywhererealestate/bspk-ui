@@ -8,8 +8,9 @@
 
 import fs from 'fs';
 
+import { camelCase } from '@utils';
+
 import { BRANDS } from '../../src';
-import { camelCase } from '../utils';
 
 function generateStylesProviders() {
     BRANDS.forEach(({ slug, title }) => {

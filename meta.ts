@@ -17,7 +17,7 @@ import * as TJS from 'typescript-json-schema';
 import { ComponentMeta, TypeProperty, UtilityMeta, TypeMeta, ComponentPhase } from './meta-types';
 
 function getArgValue(name: string, defaultValue: string = ''): string {
-    const arg = process.argv.find((arg) => arg.startsWith(`${name}=`));
+    const arg = process.argv.find((arg2) => arg2.startsWith(`${name}=`));
     return arg ? arg.substring(name.length + 1) : defaultValue;
 }
 
