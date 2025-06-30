@@ -113,6 +113,7 @@ function ChipUtility({
                     variant={trailingBadge.variant}
                 />
             )}
+            <span data-touch-target />
         </button>
     );
 }
