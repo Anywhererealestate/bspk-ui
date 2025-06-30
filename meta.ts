@@ -16,6 +16,24 @@ import * as TJS from 'typescript-json-schema';
 
 import { ComponentMeta, TypeProperty, UtilityMeta, TypeMeta, ComponentPhase } from './meta-types';
 
+function getArgValue(name: string, defaultValue: string = ''): string {
+    const arg = process.argv.find((arg) => arg.startsWith(`${name}=`));
+    return arg ? arg.substring(name.length + 1) : defaultValue;
+}
+
+const outDirectory = getArgValue('out');
+const fileChanged = getArgValue('update');
+const uiHash = getArgValue('hash');
+const build = getArgValue('build', '0');
+const target = getArgValue('target');
+
+const examplesFileChanged = fileChanged.includes('src/demo/examples');
+
+if (!outDirectory) {
+    console.error('Please provide a path to the meta file.');
+    process.exit(1);
+}
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
@@ -100,21 +118,6 @@ const ENUM_SIZE_ORDER = [
     'xxxx-large',
     'xxxxx-large',
 ];
-
-const outDirectory = process.argv.find((arg) => arg.startsWith('out='))?.substring(4) || '';
-
-const fileChanged = process.argv.find((arg) => arg.startsWith('update='))?.substring(7) || '';
-
-const uiHash = process.argv.find((arg) => arg.startsWith('hash='))?.substring(5) || '';
-
-const build = process.argv.find((arg) => arg.startsWith('build='))?.substring(6) || '0';
-
-const examplesFileChanged = fileChanged.includes('src/demo/examples');
-
-if (!outDirectory) {
-    console.error('Please provide a path to the meta file.');
-    process.exit(1);
-}
 
 const componentFiles = fs.readdirSync(componentsDir).flatMap((fileName) => {
     if (!fileName.endsWith('.tsx')) return [];
@@ -608,10 +611,10 @@ async function createMeta() {
     fs.writeFileSync(
         metaFilePath,
         [
-            `import React from 'react';
-import meta from 'src/meta/data.json';
-
-export const componentsMeta = meta.componentsMeta as ComponentMeta[];
+            target === 'local'
+                ? `import meta from './data.json';`
+                : `import React from 'react';\nimport meta from 'src/meta/data.json';\n\n`,
+            `export const componentsMeta = meta.componentsMeta as ComponentMeta[];
 export const utilitiesMeta = meta.utilitiesMeta as UtilityMeta[];
 export const typesMeta = meta.typesMeta as TypeMeta[];
 export const MODE = meta.MODE as 'development' | 'production';
@@ -623,7 +626,9 @@ export const BUILD = meta.BUILD as string;`,
 
             `export type MetaComponentName = '${metaComponentNames.join("' | '")}';`,
 
-            `export const components: Partial<Record<MetaComponentName, React.LazyExoticComponent<any>>> = {${metaComponentNames.map(componentImport).join(',')}\n};`,
+            target === 'local'
+                ? ''
+                : `export const components: Partial<Record<MetaComponentName, React.LazyExoticComponent<any>>> = {${metaComponentNames.map(componentImport).join(',')}\n};`,
         ].join('\n\n'),
     );
 
@@ -664,7 +669,7 @@ ${componentsWithExamples.map(({ name }) => `    ${name},`).join('\n')}
 async function main() {
     await createMeta();
 
-    createExamples();
+    if (target !== 'local') createExamples();
 
     process.exit(0);
 }
