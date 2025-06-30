@@ -2,15 +2,19 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+
+    // justify-content is to center the data-touch-target
+    justify-content: center;
     gap: var(--spacing-sizing-02);
     height: var(--spacing-sizing-08);
     text-wrap: nowrap;
-    padding: 0 var(--spacing-sizing-03);
     font: var(--labels-small);
     color: var(--foreground-neutral-on-surface-variant-01);
     background-color: var(--surface-neutral-t1-base);
     border: 1px solid var(--stroke-neutral-low);
     border-radius: var(--radius-small);
+    padding: 0 var(--spacing-sizing-03);
+    position: relative;
 
     [data-touch-target] {
         min-width: var(--spacing-sizing-12);

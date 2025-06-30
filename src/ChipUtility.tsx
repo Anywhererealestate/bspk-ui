@@ -94,25 +94,27 @@ function ChipUtility({
             data-selected={selected || undefined}
             onClick={disabled ? undefined : onClick}
         >
-            {isValidIcon(leadingIcon) && isValidElement(leadingIcon) && (
-                <span aria-hidden="true" data-chip-icon>
-                    {leadingIcon}
-                </span>
-            )}
-            {label}
-            {isValidIcon(trailingIcon) && isValidElement(trailingIcon) && (
-                <span aria-hidden="true" data-chip-icon>
-                    {trailingIcon}
-                </span>
-            )}
-            {trailingBadge && !trailingIcon && (
-                <Badge
-                    count={trailingBadge.count}
-                    size={trailingBadge.size}
-                    surfaceBorder={trailingBadge.surfaceBorder}
-                    variant={trailingBadge.variant}
-                />
-            )}
+            <>
+                {isValidIcon(leadingIcon) && isValidElement(leadingIcon) && (
+                    <span aria-hidden="true" data-chip-icon>
+                        {leadingIcon}
+                    </span>
+                )}
+                <span>{label}</span>
+                {isValidIcon(trailingIcon) && isValidElement(trailingIcon) && (
+                    <span aria-hidden="true" data-chip-icon>
+                        {trailingIcon}
+                    </span>
+                )}
+                {trailingBadge && !trailingIcon && (
+                    <Badge
+                        count={trailingBadge.count}
+                        size={trailingBadge.size}
+                        surfaceBorder={trailingBadge.surfaceBorder}
+                        variant={trailingBadge.variant}
+                    />
+                )}
+            </>
             <span data-touch-target />
         </button>
     );
