@@ -4,7 +4,7 @@ import { ChipUtility, ChipUtilityProps } from './ChipUtility';
 
 export type ChipGroupItem = Pick<
     ChipUtilityProps,
-    'disabled' | 'flat' | 'label' | 'leadingIcon' | 'onClick' | 'selected' | 'trailingIcon'
+    'disabled' | 'flat' | 'label' | 'leadingIcon' | 'onClick' | 'selected' | 'trailingBadge' | 'trailingIcon'
 >;
 
 export type ChipGroupUtilityProps = {
