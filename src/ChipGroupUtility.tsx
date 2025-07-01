@@ -27,7 +27,7 @@ export type ChipGroupUtilityProps = {
      */
     items: ChipGroupItem[];
     /**
-     * The variant of the chip-group-utility.
+     * To allow chips to wrap or scroll.
      *
      * @default true
      */
