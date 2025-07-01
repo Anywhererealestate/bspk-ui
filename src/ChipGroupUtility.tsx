@@ -27,7 +27,7 @@ export type ChipGroupUtilityProps = {
      */
     items: ChipGroupItem[];
     /**
-     * To allow chips to wrap or scroll.
+     * To allow chips to wrap. If set to false chips will scroll.
      *
      * @default true
      */
@@ -60,7 +60,7 @@ export type ChipGroupUtilityProps = {
  * @name ChipGroupUtility
  * @phase Utility
  */
-function ChipGroupUtility({ items, wrap }: ChipGroupUtilityProps) {
+function ChipGroupUtility({ items, wrap = true }: ChipGroupUtilityProps) {
     return (
         <span data-bspk="chip-group-utility" data-wrap={wrap || undefined}>
             {items.map((item, idx) => (
