@@ -1,7 +1,10 @@
 import './chip-utility.scss';
 import { ReactNode, isValidElement } from 'react';
 
+import { Badge, BadgeProps } from './Badge';
 import { isValidIcon } from './utils/children';
+
+export type BadgeItem = Pick<BadgeProps, 'count' | 'size' | 'surfaceBorder' | 'variant'>;
 
 export type ChipUtilityProps = {
     /**
@@ -40,9 +43,18 @@ export type ChipUtilityProps = {
     /**
      * The trailing icon of the chip.
      *
+     * You can only have one of the trailing options, trailingIcon **or** trailingBadge. If both are present the
+     * trailingIcon will be visible.
+     *
      * @type BspkIcon
      */
     trailingIcon?: ReactNode;
+    /**
+     * The trailing Badge for use in the ChipFilter.
+     *
+     * If a trailingIcon is provided the Badge will **not** be visible.
+     */
+    trailingBadge?: BadgeItem;
 };
 
 /**
@@ -70,6 +82,7 @@ function ChipUtility({
     leadingIcon,
     onClick,
     trailingIcon,
+    trailingBadge,
 }: ChipUtilityProps) {
     return (
         <button
@@ -77,19 +90,31 @@ function ChipUtility({
             data-disabled={disabled || undefined}
             data-flat={flat || undefined}
             data-selected={selected || undefined}
+            data-touch-target-parent
             onClick={disabled ? undefined : onClick}
         >
-            {isValidIcon(leadingIcon) && isValidElement(leadingIcon) && (
-                <span aria-hidden="true" data-chip-icon>
-                    {leadingIcon}
-                </span>
-            )}
-            {label}
-            {isValidIcon(trailingIcon) && isValidElement(trailingIcon) && (
-                <span aria-hidden="true" data-chip-icon>
-                    {trailingIcon}
-                </span>
-            )}
+            <>
+                {isValidIcon(leadingIcon) && isValidElement(leadingIcon) && (
+                    <span aria-hidden="true" data-chip-icon>
+                        {leadingIcon}
+                    </span>
+                )}
+                <span>{label}</span>
+                {isValidIcon(trailingIcon) && isValidElement(trailingIcon) && (
+                    <span aria-hidden="true" data-chip-icon>
+                        {trailingIcon}
+                    </span>
+                )}
+                {trailingBadge && !trailingIcon && (
+                    <Badge
+                        count={trailingBadge.count}
+                        size={trailingBadge.size}
+                        surfaceBorder={trailingBadge.surfaceBorder}
+                        variant={trailingBadge.variant}
+                    />
+                )}
+            </>
+            <span data-touch-target />
         </button>
     );
 }
