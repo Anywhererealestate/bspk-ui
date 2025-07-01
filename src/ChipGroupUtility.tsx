@@ -33,7 +33,6 @@ export type ChipGroupUtilityProps = {
      */
     wrap?: boolean;
 };
-
 /**
  * Component description.
  *
@@ -41,7 +40,21 @@ export type ChipGroupUtilityProps = {
  *     import { ChipGroupUtility } from '@bspk/ui/ChipGroupUtility';
  *
  *     function Example() {
- *         return <ChipGroupUtility>Example ChipGroupUtility</ChipGroupUtility>;
+ *         return (
+ *             <ChipGroupUtility
+ *                 items={[
+ *                     { label: 'item 1' },
+ *                     { label: 'item 2' },
+ *                     { label: 'item 3' },
+ *                     { label: 'item 4' },
+ *                     { label: 'item 5' },
+ *                     { label: 'item 6' },
+ *                     { label: 'item 7' },
+ *                 ]}
+ *                 label="chip group example"
+ *                 wrap={true}
+ *             />
+ *         );
  *     }
  *
  * @name ChipGroupUtility
