@@ -45,7 +45,7 @@ export type ChipGroupUtilityProps = {
  *     }
  *
  * @name ChipGroupUtility
- * @phase WorkInProgress
+ * @phase Utility
  */
 function ChipGroupUtility({ items, wrap }: ChipGroupUtilityProps) {
     return (

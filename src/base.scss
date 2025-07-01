@@ -145,6 +145,13 @@ body[data-bspk] {
     }
 }
 
+[data-touch-target-parent] {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
 [data-touch-target] {
     display: none;
     touch-action: manipulation;

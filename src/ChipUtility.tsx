@@ -4,7 +4,7 @@ import { ReactNode, isValidElement } from 'react';
 import { Badge, BadgeProps } from './Badge';
 import { isValidIcon } from './utils/children';
 
-export type badgeItem = Pick<BadgeProps, 'count' | 'size' | 'surfaceBorder' | 'variant'>;
+export type BadgeItem = Pick<BadgeProps, 'count' | 'size' | 'surfaceBorder' | 'variant'>;
 
 export type ChipUtilityProps = {
     /**
@@ -53,10 +53,8 @@ export type ChipUtilityProps = {
      * The trailing Badge for use in the ChipFilter.
      *
      * If a trailingIcon is provided the Badge will **not** be visible.
-     *
-     * @type <badgeItem>
      */
-    trailingBadge?: badgeItem;
+    trailingBadge?: BadgeItem;
 };
 
 /**
@@ -92,6 +90,7 @@ function ChipUtility({
             data-disabled={disabled || undefined}
             data-flat={flat || undefined}
             data-selected={selected || undefined}
+            data-touch-target-parent
             onClick={disabled ? undefined : onClick}
         >
             <>

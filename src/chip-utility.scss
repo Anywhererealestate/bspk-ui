@@ -1,10 +1,5 @@
 [data-bspk='chip-utility'] {
-    display: flex;
     flex-direction: row;
-    align-items: center;
-
-    // justify-content is to center the data-touch-target
-    justify-content: center;
     gap: var(--spacing-sizing-02);
     height: var(--spacing-sizing-08);
     text-wrap: nowrap;
@@ -14,7 +9,6 @@
     border: 1px solid var(--stroke-neutral-low);
     border-radius: var(--radius-small);
     padding: 0 var(--spacing-sizing-03);
-    position: relative;
 
     [data-touch-target] {
         min-width: var(--spacing-sizing-12);
