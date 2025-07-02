@@ -15,3 +15,4 @@ src/meta.ts
 types.json
 component-files.json
 .tmp
+.scripts/temp.ts

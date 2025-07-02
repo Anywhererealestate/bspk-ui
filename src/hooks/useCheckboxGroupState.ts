@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState } from 'react';
 
-import { CheckboxProps } from '../Checkbox';
+import { CheckboxProps } from '-/components/Checkbox';
 
 /**
  * A hook to manage the state of a group of checkboxes. Used alongside the CheckboxGroup component.

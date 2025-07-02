@@ -1,0 +1,1 @@
+export { InlineAlert, InlineAlertProps } from './InlineAlert';

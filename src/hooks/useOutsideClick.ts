@@ -5,7 +5,7 @@ import { useEffect } from 'react';
  * components.
  *
  * @example
- *     import { useOutsideClick } from '@bspk/ui/hooks/useOutsideClick';
+ *     import { useOutsideClick } from '-/hooks/useOutsideClick';
  *     import React, { useRef, useState } from 'react';
  *
  *     export function Example() {

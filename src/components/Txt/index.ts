@@ -1,0 +1,1 @@
+export { Txt, TxtProps } from './Txt';

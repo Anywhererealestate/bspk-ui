@@ -1,0 +1,1 @@
+export { SwitchOption, SwitchOptionProps } from './SwitchOption';

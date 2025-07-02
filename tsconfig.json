@@ -20,16 +20,19 @@
         "rootDir": "./src",
         "outDir": "./dist",
         "paths": {
-            "@components/*": [
+            "-/components/*": [
                 "src/components/*"
             ],
-            "@hooks/*": [
+            "-/hooks/*": [
                 "src/hooks/*"
             ],
-            "@utils/*": [
+            "-/styles/*": [
+                "src/styles/*"
+            ],
+            "-/utils/*": [
                 "src/utils/*"
             ],
-            "@index": [
+            "-": [
                 "src/index.ts"
             ],
         },

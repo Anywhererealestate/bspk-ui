@@ -1,6 +1,9 @@
 /**
  * Custom hook to manage the positioning of a floating element relative to a reference element.
  *
+ * This hook uses the Floating UI library to compute the position of the floating element based on the reference
+ * element's position and the specified placement, strategy, and offset options.
+ *
  * @template ReferenceType - The type of the reference element, extending HTMLElement.
  * @param {Object} params - The parameters for the hook.
  * @param {Placement} params.placement - The preferred placement of the floating element.

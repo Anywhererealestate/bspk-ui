@@ -1,7 +1,7 @@
 import { AriaAttributes, useId, useState } from 'react';
 
-import { EVENT_KEY } from '@utils/keyboard';
-import { scrollElementIntoView } from '@utils/scrollElementIntoView';
+import { EVENT_KEY } from '-/utils/keyboard';
+import { scrollElementIntoView } from '-/utils/scrollElementIntoView';
 
 import { CommonProps, InvalidPropsLibrary } from '..';
 

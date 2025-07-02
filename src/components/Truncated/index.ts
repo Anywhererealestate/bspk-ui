@@ -1,0 +1,1 @@
+export { Truncated, TruncatedProps } from './Truncated';

@@ -1,0 +1,1 @@
+export { AvatarGroup, AvatarItem, AvatarGroupProps } from './AvatarGroup';

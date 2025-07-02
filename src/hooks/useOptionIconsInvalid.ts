@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 
-import { isValidIcon } from '@utils/children';
-import { useErrorLogger } from '@utils/errors';
+import { isValidIcon } from '-/utils/children';
+import { useErrorLogger } from '-/utils/errors';
 
 /**
  * A utility hook used within navigation components. Returns true if the icons are invalid.

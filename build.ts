@@ -1,54 +1,99 @@
 /* eslint-disable no-console */
-import { execSync } from 'child_process';
+import { execSync as execSyncBase } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 
-// This script builds the project by cleaning the /dist directory, compiling TypeScript and Sass files, and injecting CSS into JS files.
-// we only want to build if dist does not exist
+import packageData from './package.json';
+import { BRANDS } from './src';
 
-console.log('⚡️\t Building BSPK UI');
+const execSync = (command: string) => execSyncBase(command, { stdio: 'inherit' });
 
-if (process.argv[2] === 'force') {
-    console.log('⚡️\t Cleaning /dist');
-    execSync('rm -rf ./dist', { stdio: 'inherit' });
+const STYLES_SOURCE_DIR = path.dirname(import.meta.resolve('@bspk/styles/package.json').split('file:')[1]);
+
+const arg = process.argv[2];
+
+(() => {
+    console.log('⚡️\t Building BSPK UI');
+    generateDist();
+    copyBrandStyles();
+    fileProcessing();
+    componentExports();
+})();
+
+function generateDist() {
+    if (arg === 'force') execSync('rm -rf ./dist');
+
+    if (fs.existsSync('./dist')) {
+        console.log('⚡️\t /dist directory already exists, skipping build');
+        process.exit(0);
+    }
+
+    execSync('mkdir -p ./dist');
+    execSync('tsc && tsc-alias');
+    execSync('npm run sass');
+    execSync('mkdir -p ./dist/styles');
 }
 
-if (!fs.existsSync('./dist')) {
-    console.log('⚡️\t Creating /dist directory');
-    fs.mkdirSync('./dist', { recursive: true });
-} else {
-    console.log('⚡️\t /dist directory already exists, skipping build');
-    process.exit(0);
+function copyBrandStyles() {
+    BRANDS.forEach(({ slug }) => {
+        const brandStylesPath = path.resolve(STYLES_SOURCE_DIR, `${slug}.css`);
+        execSync(`cp ${brandStylesPath} ./dist/styles/${slug}.css`);
+        createImportableCss(brandStylesPath, path.resolve('./dist/styles/', `${slug}.css.js`));
+    });
 }
 
-console.log('\n');
+function fileProcessing() {
+    fs.readdirSync('./dist', { encoding: 'utf-8', recursive: true, withFileTypes: true }).forEach((dirent) => {
+        if (!dirent.isFile()) return;
 
-console.log('⚡️\t Compiling Typescript');
-execSync('npm run tsc', { stdio: 'inherit' });
+        const fileName = dirent.name;
+        const filePath = path.resolve(dirent.parentPath, fileName);
+        let fileContent = fs.readFileSync(filePath, 'utf-8');
 
-console.log('⚡️\t Compiling Sass');
-execSync('npm run sass', { stdio: 'inherit' });
+        // create importable css files
+        if (dirent.name.endsWith('.css')) {
+            const destPath = path.join(dirent.parentPath, dirent.name.replace('.css', '.css.js'));
+            createImportableCss(fileContent, destPath);
+            return;
+        }
 
-console.log('⚡️\t Injecting CSS into JS files');
-fs.readdirSync('./dist', { recursive: true, encoding: 'utf-8' }).forEach((fileName) => {
-    const filePath = path.join('./dist', fileName);
+        if (dirent.name.endsWith('.js')) {
+            // fix css and scss imports, including @bspk/styles imports
+            const cssImportMatches = [...fileContent.matchAll(/import '(.*\/)([^.]+).[s]*css';/g)];
+            fileContent = cssImportMatches.reduce((nextContent, [full, importPath, name]) => {
+                // this only works for jsj in the components directory
+                const nextImportPath = importPath.replace('@bspk/styles/', '../../styles/');
+                return nextContent.replace(full, `import '${nextImportPath}${name}.css.js';`);
+            }, fileContent);
 
-    if (!filePath.endsWith('.js')) return;
+            fs.writeFileSync(filePath, fileContent, 'utf-8');
+        }
+    });
+}
 
-    const fileContent = fs.readFileSync(filePath, 'utf-8');
-    const scssMatch = fileContent.match(/import\s+['"]([^'"]+)\.scss['"]/);
+function componentExports() {
+    const nextExports = { ...packageData['non-component-exports'] };
 
-    if (!scssMatch) return;
+    fs.readdirSync(path.resolve('./dist/components'), { withFileTypes: true }).forEach((dirent) => {
+        if (!dirent.isDirectory() || dirent.name.startsWith('.')) return;
 
-    const importRequire = `import { styleAdd } from '@utils/styleAdd';`;
-    const cssContent = fs.readFileSync(path.join('./dist', `${scssMatch[1]}.css`), 'utf-8');
+        nextExports[`./${dirent.name}/*`] = `./dist/components/${dirent.name}/*.js`;
+        nextExports[`./${dirent.name}`] = `./dist/components/${dirent.name}/index.js`;
+    });
 
+    (packageData.exports as Record<string, string>) = nextExports as Record<string, string>;
+    fs.writeFileSync(path.resolve('./package.json'), JSON.stringify(packageData, null, 4), 'utf-8');
+}
+
+function createImportableCss(cssContent: string, destPath: string, id?: string) {
     fs.writeFileSync(
-        filePath,
-        // Replace the import statement with the style-inject code
-        fileContent.replace(scssMatch[0], `${importRequire}\nstyleAdd(\`${cssContent.trim()}\`);`),
-        'utf-8',
+        destPath,
+        `/** * This file is generated by the build script.
+* Do not edit this file directly. */
+const style = document.createElement('style');
+style.appendChild(document.createTextNode(\`${cssContent.trim()}\`));
+document.head.appendChild(style);
+${id ? `\ndocument.querySelector('#${id}')?.remove(); style.id = '${id}';` : ''}
+`,
     );
-});
-
-console.log('\n⚡️\t Done!\n');
+}

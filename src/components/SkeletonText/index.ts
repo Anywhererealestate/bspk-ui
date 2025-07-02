@@ -1,0 +1,1 @@
+export { SkeletonText, SkeletonTextProps } from './SkeletonText';

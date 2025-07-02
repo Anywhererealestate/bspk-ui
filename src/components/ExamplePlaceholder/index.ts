@@ -1,0 +1,1 @@
+export { ExamplePlaceholder } from './ExamplePlaceholder';

@@ -1,0 +1,1 @@
+export { TabGroup, TabGroupSize, TabGroupOption, TabGroupProps } from './TabGroup';

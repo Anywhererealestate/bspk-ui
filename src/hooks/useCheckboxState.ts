@@ -1,13 +1,13 @@
 import { useState } from 'react';
 
-import { CheckboxProps } from '../Checkbox';
+import { CheckboxProps } from '-/components/Checkbox';
 
 /**
  * A hook to manage the state of a single checkbox. Used alongside the Checkbox component.
  *
  * @example
  *     import { Checkbox } from '@bspk/ui/Checkbox';
- *     import { useCheckboxState } from '@bspk/ui/hooks/useCheckboxState';
+ *     import { useCheckboxState } from '-/hooks/useCheckboxState';
  *
  *     export function Example() {
  *     const { checkboxProps } = useCheckboxState('fruits');

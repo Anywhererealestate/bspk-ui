@@ -1,0 +1,1 @@
+export { Fab, FabVariant, FabProps } from './Fab';

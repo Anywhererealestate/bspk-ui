@@ -1,13 +1,13 @@
 import { useState } from 'react';
 
-import { RadioProps } from '../Radio';
+import { RadioProps } from '-/components/Radio';
 
 /**
  * A hook to manage the state of a single radio. Used alongside the Radio component.
  *
  * @example
  *     import { Radio } from '@bspk/ui/Radio';
- *     import { useRadioState } from '@bspk/ui/hooks/useRadioState';
+ *     import { useRadioState } from '-/hooks/useRadioState';
  *
  *     export function Example() {
  *     const { radioProps } = useRadioState('fruits');

@@ -1,0 +1,1 @@
+export { Avatar, SizeVariant, AvatarProps } from './Avatar';

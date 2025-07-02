@@ -1,3 +1,3 @@
-import { getCssVariables, reportMissingVariables } from '@utils';
+import { getCssVariables, reportMissingVariables } from './utils';
 
 reportMissingVariables(getCssVariables());

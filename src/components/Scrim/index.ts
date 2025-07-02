@@ -1,0 +1,1 @@
+export { Scrim, ScrimProps } from './Scrim';

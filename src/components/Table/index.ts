@@ -1,0 +1,1 @@
+export { Table, TableRow, TableColumn, TableProps } from './Table';
