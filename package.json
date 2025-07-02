@@ -59,6 +59,8 @@
         "./CheckboxOption": "./dist/components/CheckboxOption/index.js",
         "./Chip/*": "./dist/components/Chip/*.js",
         "./Chip": "./dist/components/Chip/index.js",
+        "./ChipGroupUtility/*": "./dist/components/ChipGroupUtility/*.js",
+        "./ChipGroupUtility": "./dist/components/ChipGroupUtility/index.js",
         "./ChipUtility/*": "./dist/components/ChipUtility/*.js",
         "./ChipUtility": "./dist/components/ChipUtility/index.js",
         "./Combobox/*": "./dist/components/Combobox/*.js",
