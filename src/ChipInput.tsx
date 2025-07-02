@@ -12,7 +12,7 @@ export type ChipInputProps = Pick<ChipUtilityProps, 'label' | 'leadingIcon' | 'o
 };
 
 /**
- * Component description.
+ * A range of short form key words or pieces of information a customer enters within multi entry field.
  *
  * @example
  *     import { ChipInput } from '@bspk/ui/ChipInput';
@@ -29,7 +29,7 @@ export type ChipInputProps = Pick<ChipUtilityProps, 'label' | 'leadingIcon' | 'o
  *     }
  *
  * @name ChipInput
- * @phase WorkInProgress
+ * @phase DesignReview
  */
 function ChipInput({ label, leadingIcon, onClick, removable = true }: ChipInputProps) {
     return (
@@ -38,7 +38,6 @@ function ChipInput({ label, leadingIcon, onClick, removable = true }: ChipInputP
             leadingIcon={leadingIcon}
             onClick={onClick}
             trailingIcon={removable ? <SvgClose /> : undefined}
-            // trailingIcon={trailingIcon ? <SvgClose /> : undefined}
         />
     );
 }
