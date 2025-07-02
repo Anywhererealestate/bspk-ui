@@ -4,7 +4,7 @@ import { ComponentExample } from '../utils';
 export const ChipAssistExample: ComponentExample<ChipAssistProps> = {
     presets: [
         {
-            label: 'Suggestion example',
+            label: 'Assist example',
             propState: {
                 label: 'chip option',
                 leadingIcon: 'SignLanguage',
