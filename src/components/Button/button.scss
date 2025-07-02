@@ -1,8 +1,5 @@
 [data-bspk='button'] {
-    display: flex;
     flex-direction: row;
-    align-items: center;
-    justify-content: center;
     gap: var(--spacing-sizing-02);
     border: none;
     cursor: pointer;
@@ -10,7 +7,6 @@
     text-decoration: none;
     width: fit-content;
     font-family: var(--typeface);
-    position: relative;
 
     [data-touch-target] {
         min-width: var(--spacing-sizing-12);

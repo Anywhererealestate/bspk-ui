@@ -1,15 +1,19 @@
 [data-bspk='chip-utility'] {
-    display: flex;
     flex-direction: row;
-    align-items: center;
     gap: var(--spacing-sizing-02);
     height: var(--spacing-sizing-08);
-    padding: 0 var(--spacing-sizing-03);
+    text-wrap: nowrap;
     font: var(--labels-small);
     color: var(--foreground-neutral-on-surface-variant-01);
     background-color: var(--surface-neutral-t1-base);
     border: 1px solid var(--stroke-neutral-low);
     border-radius: var(--radius-small);
+    padding: 0 var(--spacing-sizing-03);
+
+    [data-touch-target] {
+        min-width: var(--spacing-sizing-12);
+        min-height: var(--spacing-sizing-12);
+    }
 
     &:not([data-flat]) {
         box-shadow: var(--drop-shadow-raise);

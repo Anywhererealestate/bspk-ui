@@ -127,6 +127,7 @@ function Button<As extends ElementType = 'button'>(props: ElementProps<ButtonPro
             data-bspk="button"
             data-destructive={destructive || undefined}
             data-size={size}
+            data-touch-target-parent
             data-variant={variant}
             data-width={width}
             disabled={disabled || undefined}
