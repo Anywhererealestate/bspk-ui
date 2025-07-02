@@ -1,4 +1,4 @@
-import { ChipUtility, ChipUtilityProps } from './ChipUtility';
+import { ChipUtility, ChipUtilityProps } from '-/components/ChipUtility';
 
 export type ChipSuggestionProps = Pick<ChipUtilityProps, 'label' | 'onClick'>;
 
