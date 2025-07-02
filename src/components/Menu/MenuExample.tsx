@@ -10,11 +10,12 @@ import { SvgSettings } from '@bspk/icons/Settings';
 import { Avatar } from '-/components/Avatar';
 import { Divider } from '-/components/Divider';
 import { ListItem } from '-/components/ListItem';
-import { MenuProps } from '-/components/Menu';
 import { Switch } from '-/components/Switch';
 import { ComponentExampleFn } from '-/utils/demo';
 
 import { ElementProps } from '../..';
+
+import { MenuProps } from '.';
 
 export const MenuExample: ComponentExampleFn<ElementProps<MenuProps, 'div'> & { 'data-dark-mode': boolean }> = ({
     action,

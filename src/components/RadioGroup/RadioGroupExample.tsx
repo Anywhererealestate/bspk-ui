@@ -1,6 +1,7 @@
 import { RadioExample } from '-/components/Radio/RadioExample';
-import { RadioGroupProps } from '-/components/RadioGroup';
 import { ComponentExample } from '-/utils/demo';
+
+import { RadioGroupProps } from '.';
 
 export const RadioGroupExample: ComponentExample<RadioGroupProps> = {
     render: RadioExample.render,

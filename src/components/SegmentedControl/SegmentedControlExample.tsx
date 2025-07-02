@@ -4,8 +4,9 @@ import { SvgDiamondFill } from '@bspk/icons/DiamondFill';
 import { SvgSquare } from '@bspk/icons/Square';
 import { SvgSquareFill } from '@bspk/icons/SquareFill';
 
-import { SegmentedControlProps } from '-/components/SegmentedControl';
 import { ComponentExample } from '-/utils/demo';
+
+import { SegmentedControlProps } from '.';
 
 export const SegmentedControlExample: ComponentExample<SegmentedControlProps> = {
     containerStyle: { width: '100%' },

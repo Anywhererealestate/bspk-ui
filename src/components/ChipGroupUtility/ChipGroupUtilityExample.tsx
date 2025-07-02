@@ -6,8 +6,9 @@ import { SvgLightbulb } from '@bspk/icons/Lightbulb';
 import { SvgOpportunities } from '@bspk/icons/Opportunities';
 import { SvgSignLanguage } from '@bspk/icons/SignLanguage';
 
-import { ChipGroupUtilityProps } from '../../ChipGroupUtility';
-import { ComponentExample } from '../utils';
+import { ComponentExample } from '-/utils/demo';
+
+import { ChipGroupUtilityProps } from '.';
 
 export const ChipGroupUtilityExample: ComponentExample<ChipGroupUtilityProps> = {
     presets: [

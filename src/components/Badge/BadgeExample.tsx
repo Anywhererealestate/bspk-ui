@@ -1,6 +1,7 @@
 import { Avatar } from '-/components/Avatar';
-import { BadgeProps } from '-/components/Badge';
 import { ComponentExample } from '-/utils/demo';
+
+import { BadgeProps } from '.';
 
 export const BadgeExample: ComponentExample<BadgeProps> = {
     containerStyle: { width: '100%' },

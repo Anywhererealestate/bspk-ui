@@ -1,5 +1,6 @@
-import { ChipUtilityProps } from '-/components/ChipUtility';
 import { ComponentExample } from '-/utils/demo';
+
+import { ChipUtilityProps } from '.';
 
 export const ChipUtilityExample: ComponentExample<ChipUtilityProps> = {
     presets: [

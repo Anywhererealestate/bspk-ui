@@ -4,8 +4,9 @@ import { SvgDiamondFill } from '@bspk/icons/DiamondFill';
 import { SvgSquare } from '@bspk/icons/Square';
 import { SvgSquareFill } from '@bspk/icons/SquareFill';
 
-import { TabGroupProps } from '-/components/TabGroup';
 import { ComponentExample } from '-/utils/demo';
+
+import { TabGroupProps } from '.';
 
 export const TabGroupExample: ComponentExample<TabGroupProps> = {
     containerStyle: { width: '100%' },

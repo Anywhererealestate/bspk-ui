@@ -1,5 +1,6 @@
-import { BannerAlertProps } from '-/components/BannerAlert';
 import { ComponentExampleFn } from '-/utils/demo';
+
+import { BannerAlertProps } from '.';
 
 export const BannerAlertExample: ComponentExampleFn<BannerAlertProps> = ({ action }) => ({
     containerStyle: { width: '100%' },

@@ -2,9 +2,10 @@
 
 import { Avatar } from '-/components/Avatar';
 import { ExamplePlaceholder } from '-/components/ExamplePlaceholder';
-import { SkeletonProps } from '-/components/Skeleton';
 import { useTimeout } from '-/hooks/useTimeout';
 import { ComponentExample } from '-/utils/demo';
+
+import { SkeletonProps } from '.';
 
 export const SkeletonExample: ComponentExample<SkeletonProps> = {
     render: ({ props, preset, Component }) => {

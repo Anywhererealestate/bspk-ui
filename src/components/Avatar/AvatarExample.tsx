@@ -1,5 +1,6 @@
-import { AvatarProps } from '-/components/Avatar';
 import { ComponentExample } from '-/utils/demo';
+
+import { AvatarProps } from '.';
 
 export const AvatarExample: ComponentExample<AvatarProps> = {
     presets: [

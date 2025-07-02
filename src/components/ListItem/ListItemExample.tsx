@@ -4,12 +4,13 @@ import { SvgDiamond } from '@bspk/icons/Diamond';
 import { Avatar } from '-/components/Avatar';
 import { Checkbox } from '-/components/Checkbox';
 import { Img } from '-/components/Img';
-import { ListItem, ListItemProps } from '-/components/ListItem';
 import { Radio } from '-/components/Radio';
 import { Switch } from '-/components/Switch';
 import { Tag } from '-/components/Tag';
 import { Txt } from '-/components/Txt';
 import { ComponentExampleFn, DemoAction, DemoSetState } from '-/utils/demo';
+
+import { ListItem, ListItemProps } from '.';
 
 export const ListItemExample: ComponentExampleFn<ListItemProps> = ({ action, setState }) => ({
     render: ({ props, Component, id }) => {

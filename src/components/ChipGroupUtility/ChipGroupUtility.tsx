@@ -1,6 +1,6 @@
-import './chip-group-utility.scss';
+import { ChipUtility, ChipUtilityProps } from '-/components/ChipUtility';
 
-import { ChipUtility, ChipUtilityProps } from './ChipUtility';
+import './chip-group-utility.scss';
 
 export type ChipGroupItem = Pick<
     ChipUtilityProps,
