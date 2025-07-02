@@ -39,23 +39,15 @@ export type ChipGroupProps = {
  * Component description.
  *
  * @example
- *     import { ChipGroupUtility } from '@bspk/ui/ChipGroupUtility';
+ *     import { ChipGroup } from '@bspk/ui/ChipGroup';
  *
  *     function Example() {
  *         return (
- *             <ChipGroupUtility
- *                 items={[
- *                     { label: 'item 1' },
- *                     { label: 'item 2' },
- *                     { label: 'item 3' },
- *                     { label: 'item 4' },
- *                     { label: 'item 5' },
- *                     { label: 'item 6' },
- *                     { label: 'item 7' },
- *                 ]}
- *                 label="chip group example"
- *                 wrap={true}
- *             />
+ *             <ChipGroup wrap={false}>
+ *                 <ChipSuggestion label="suggestion 1" onClick={() => console.log('Suggestion 1')} />
+ *                 <ChipSuggestion label="suggestion 2" onClick={() => console.log('Suggestion 2')} />
+ *                 <ChipSuggestion label="suggestion 3" onClick={() => console.log('Suggestion 3')} />
+ *             </ChipGroup>
  *         );
  *     }
  *
