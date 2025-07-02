@@ -1,18 +1,24 @@
 import { ChipAssistProps } from '../../ChipAssist';
-import { ComponentExample } from '../utils';
+import { ComponentExampleFn } from '../utils';
 
-export const ChipAssistExample: ComponentExample<ChipAssistProps> = {
+export const ChipAssistExample: ComponentExampleFn<ChipAssistProps> = ({ action }) => ({
+    containerStyle: { width: '100%' },
+    render: ({ props, Component }) => {
+        return <Component {...props} onClick={() => action('ChipAssist clicked!')} />;
+    },
     presets: [
         {
-            label: 'Assist example',
+            label: 'Basic ChipAssist',
+            propState: {
+                label: 'chip option',
+            },
+        },
+        {
+            label: 'with leadingIcon',
             propState: {
                 label: 'chip option',
                 leadingIcon: 'SignLanguage',
-                onClick: () => {
-                    // eslint-disable-next-line no-console
-                    console.log('Chip clicked!');
-                },
             },
         },
     ],
-};
+});

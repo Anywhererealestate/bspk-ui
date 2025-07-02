@@ -3,7 +3,7 @@ import { ChipUtility, ChipUtilityProps } from './ChipUtility';
 export type ChipAssistProps = Pick<ChipUtilityProps, 'label' | 'leadingIcon' | 'onClick'>;
 
 /**
- * Component description.
+ * A dynamic action element that helps trigger and perform an action for the customer. A supplement option to buttons.
  *
  * @example
  *     import { ChipAssist } from '@bspk/ui/ChipAssist';
@@ -20,7 +20,7 @@ export type ChipAssistProps = Pick<ChipUtilityProps, 'label' | 'leadingIcon' | '
  *     }
  *
  * @name ChipAssist
- * @phase WorkInProgress
+ * @phase DesignReview
  */
 function ChipAssist({ label, leadingIcon, onClick }: ChipAssistProps) {
     return <ChipUtility label={label} leadingIcon={leadingIcon} onClick={onClick} />;
