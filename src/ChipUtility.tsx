@@ -23,9 +23,11 @@ export type ChipUtilityProps = {
      * The label of the chip.
      *
      * @example
-     *     Chip Label;
+     *     'Hello I am Chip';
+     *
+     * @required
      */
-    label?: string;
+    label: string;
     /** The function to call when the chip is clicked. */
     onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
     /**
