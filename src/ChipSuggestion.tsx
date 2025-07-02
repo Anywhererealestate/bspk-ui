@@ -1,5 +1,3 @@
-import './chip-suggestion.scss';
-
 import { ChipUtility, ChipUtilityProps } from './ChipUtility';
 
 export type ChipSuggestionProps = Pick<ChipUtilityProps, 'label' | 'onClick'>;
