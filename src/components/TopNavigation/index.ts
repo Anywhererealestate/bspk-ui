@@ -1,1 +1,1 @@
-export { TopNavigation, TopNavigationProps } from './TopNavigation';
+export * from './TopNavigation';

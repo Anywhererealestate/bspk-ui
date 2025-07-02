@@ -1,1 +1,1 @@
-export { InlineAlert, InlineAlertProps } from './InlineAlert';
+export * from './InlineAlert';

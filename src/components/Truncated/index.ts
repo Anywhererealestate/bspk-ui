@@ -1,1 +1,1 @@
-export { Truncated, TruncatedProps } from './Truncated';
+export * from './Truncated';

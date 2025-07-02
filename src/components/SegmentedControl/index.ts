@@ -1,1 +1,1 @@
-export { SegmentedControl, SegmentedControlOption, SegmentedControlProps } from './SegmentedControl';
+export * from './SegmentedControl';

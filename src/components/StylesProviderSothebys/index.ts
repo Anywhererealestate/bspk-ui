@@ -1,1 +1,1 @@
-export { StylesProviderSothebys } from './StylesProviderSothebys';
+export * from './StylesProviderSothebys';

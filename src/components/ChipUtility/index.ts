@@ -1,1 +1,1 @@
-export { ChipUtility, ChipUtilityProps } from './ChipUtility';
+export * from './ChipUtility';

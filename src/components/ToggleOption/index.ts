@@ -1,1 +1,1 @@
-export { ToggleOption, ToggleOptionProps } from './ToggleOption';
+export * from './ToggleOption';

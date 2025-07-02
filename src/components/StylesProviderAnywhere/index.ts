@@ -1,1 +1,1 @@
-export { StylesProviderAnywhere } from './StylesProviderAnywhere';
+export * from './StylesProviderAnywhere';

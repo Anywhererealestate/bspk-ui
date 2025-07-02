@@ -1,1 +1,1 @@
-export { TabGroup, TabGroupSize, TabGroupOption, TabGroupProps } from './TabGroup';
+export * from './TabGroup';

@@ -1,1 +1,1 @@
-export { StylesProviderColdwellBanker } from './StylesProviderColdwellBanker';
+export * from './StylesProviderColdwellBanker';

@@ -1,1 +1,1 @@
-export { Fab, FabVariant, FabProps } from './Fab';
+export * from './Fab';

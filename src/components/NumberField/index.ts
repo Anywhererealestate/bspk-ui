@@ -1,1 +1,1 @@
-export { NumberField, NumberFieldProps } from './NumberField';
+export * from './NumberField';

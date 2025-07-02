@@ -1,1 +1,1 @@
-export { Modal, ModalCallToAction, ModalProps } from './Modal';
+export * from './Modal';

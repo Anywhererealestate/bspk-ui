@@ -1,1 +1,1 @@
-export { StylesProviderCorcoran } from './StylesProviderCorcoran';
+export * from './StylesProviderCorcoran';

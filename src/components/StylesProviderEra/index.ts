@@ -1,1 +1,1 @@
-export { StylesProviderEra } from './StylesProviderEra';
+export * from './StylesProviderEra';

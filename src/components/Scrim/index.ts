@@ -1,1 +1,1 @@
-export { Scrim, ScrimProps } from './Scrim';
+export * from './Scrim';

@@ -1,1 +1,1 @@
-export { ProgressionStepperBar, ProgressionStepperBarProps } from './ProgressionStepperBar';
+export * from './ProgressionStepperBar';

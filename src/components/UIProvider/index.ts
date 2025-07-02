@@ -1,1 +1,1 @@
-export { UIProvider, UIProviderProps } from './UIProvider';
+export * from './UIProvider';

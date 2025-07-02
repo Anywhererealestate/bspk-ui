@@ -1,1 +1,1 @@
-export { ExamplePlaceholder } from './ExamplePlaceholder';
+export * from './ExamplePlaceholder';

@@ -1,1 +1,1 @@
-export { ProgressionStepper, ProgressionStepperItem, ProgressionStepperProps } from './ProgressionStepper';
+export * from './ProgressionStepper';

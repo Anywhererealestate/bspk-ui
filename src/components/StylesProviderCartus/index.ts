@@ -1,1 +1,1 @@
-export { StylesProviderCartus } from './StylesProviderCartus';
+export * from './StylesProviderCartus';

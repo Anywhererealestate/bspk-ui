@@ -1,1 +1,1 @@
-export { Table, TableRow, TableColumn, TableProps } from './Table';
+export * from './Table';

@@ -1,1 +1,1 @@
-export { Txt, TxtProps } from './Txt';
+export * from './Txt';

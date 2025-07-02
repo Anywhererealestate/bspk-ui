@@ -1,1 +1,1 @@
-export { MenuButton, MenuButtonProps } from './MenuButton';
+export * from './MenuButton';

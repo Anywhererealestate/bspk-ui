@@ -1,1 +1,1 @@
-export { SwitchOption, SwitchOptionProps } from './SwitchOption';
+export * from './SwitchOption';

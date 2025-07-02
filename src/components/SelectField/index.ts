@@ -1,1 +1,1 @@
-export { SelectField, SelectFieldProps } from './SelectField';
+export * from './SelectField';

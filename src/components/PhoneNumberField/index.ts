@@ -1,1 +1,1 @@
-export { PhoneNumberField, PhoneNumberFieldProps } from './PhoneNumberField';
+export * from './PhoneNumberField';

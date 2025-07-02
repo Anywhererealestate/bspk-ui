@@ -1,1 +1,1 @@
-export { StylesProviderDenaliBoss } from './StylesProviderDenaliBoss';
+export * from './StylesProviderDenaliBoss';

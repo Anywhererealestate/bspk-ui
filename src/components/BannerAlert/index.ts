@@ -1,1 +1,1 @@
-export { BannerAlert, BannerAlertProps } from './BannerAlert';
+export * from './BannerAlert';

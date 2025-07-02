@@ -1,1 +1,1 @@
-export { StylesProviderCentury21 } from './StylesProviderCentury21';
+export * from './StylesProviderCentury21';
