@@ -7,14 +7,14 @@ import { fileURLToPath } from 'url';
 globalThis.__dirname = globalThis.__dirname || path.dirname(fileURLToPath(import.meta.url));
 
 export async function getLocalMeta(force = false) {
-    const tempDir = path.resolve(process.cwd(), '.scripts/.tmp');
+    const tempDir = path.resolve(process.cwd(), '.tmp');
 
     if (force || !fs.existsSync(`${tempDir}/index.ts`)) {
         execSync(`mkdir -p ${tempDir}`, { stdio: 'inherit' });
         execSync(`npm run meta out=${tempDir} target=local`, { stdio: 'inherit' });
     }
 
-    return import('../.scripts/.tmp/index.ts').then((module) => ({
+    return import(`${tempDir}/index.ts`).then((module) => ({
         ...module,
     }));
 }
