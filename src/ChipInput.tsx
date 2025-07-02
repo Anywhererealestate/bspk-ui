@@ -2,7 +2,7 @@ import { SvgClose } from '@bspk/icons/Close';
 
 import { ChipUtility, ChipUtilityProps } from './ChipUtility';
 
-export type ChipInputProps = Pick<ChipUtilityProps, 'label' | 'leadingIcon' | 'onClick' | 'trailingIcon'> & {
+export type ChipInputProps = Pick<ChipUtilityProps, 'label' | 'leadingIcon' | 'onClick'> & {
     /**
      * If true, a close icon will be added and the chip can be removed.
      *
@@ -38,6 +38,7 @@ function ChipInput({ label, leadingIcon, onClick, removable = true }: ChipInputP
             leadingIcon={leadingIcon}
             onClick={onClick}
             trailingIcon={removable ? <SvgClose /> : undefined}
+            // trailingIcon={trailingIcon ? <SvgClose /> : undefined}
         />
     );
 }
