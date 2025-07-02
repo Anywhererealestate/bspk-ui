@@ -3,7 +3,7 @@ import { ChipUtility, ChipUtilityProps } from './ChipUtility';
 export type ChipSuggestionProps = Pick<ChipUtilityProps, 'label' | 'onClick'>;
 
 /**
- * Component description.
+ * Dynamically generated options that are suggested to the customer as responses or prompts.
  *
  * @example
  *     import { ChipSuggestion } from '@bspk/ui/ChipSuggestion';
@@ -13,7 +13,7 @@ export type ChipSuggestionProps = Pick<ChipUtilityProps, 'label' | 'onClick'>;
  *     }
  *
  * @name ChipSuggestion
- * @phase WorkInProgress
+ * @phase DesignReview
  */
 function ChipSuggestion({ label, onClick }: ChipSuggestionProps) {
     return <ChipUtility label={label} onClick={onClick} />;

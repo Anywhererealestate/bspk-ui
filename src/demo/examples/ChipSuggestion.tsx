@@ -1,17 +1,17 @@
 import { ChipSuggestionProps } from '../../ChipSuggestion';
-import { ComponentExample } from '../utils';
+import { ComponentExampleFn } from '../utils';
 
-export const ChipSuggestionExample: ComponentExample<ChipSuggestionProps> = {
+export const ChipSuggestionExample: ComponentExampleFn<ChipSuggestionProps> = ({ action }) => ({
+    containerStyle: { width: '100%' },
+    render: ({ props, Component }) => {
+        return <Component {...props} onClick={() => action('ChipSuggestion clicked!')} />;
+    },
     presets: [
         {
-            label: 'Suggestion example',
+            label: 'ChipSuggestion example',
             propState: {
                 label: 'chip option',
-                onClick: () => {
-                    // eslint-disable-next-line no-console
-                    console.log('Chip clicked!');
-                },
             },
         },
     ],
-};
+});

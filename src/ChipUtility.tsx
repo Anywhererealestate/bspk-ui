@@ -24,6 +24,8 @@ export type ChipUtilityProps = {
      *
      * @example
      *     'Hello I am Chip';
+     *
+     * @required
      */
     label: string;
     /** The function to call when the chip is clicked. */
