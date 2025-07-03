@@ -1,97 +1,124 @@
-/* eslint-disable no-console */
-import { execSync as execSyncBase } from 'child_process';
-import fs from 'fs';
+/**
+ * Build script for BSPK UI
+ *
+ * This script compiles TypeScript files, processes CSS files, and prepares the final distribution package.
+ *
+ * It performs the following tasks:
+ *
+ * 1.
+ *
+ * Compiles TypeScript files using `tsc` and `tsc-alias`. 2. Processes SASS files using `npm run sass`. 3. Copies styles
+ * from `@bspk/styles` to a temporary directory. 4. Creates importable CSS files for each @bspk/styles brand. 5. Creates
+ * importable CSS files for each component. 6. Fixes import paths in JavaScript files. 7. Moves the temporary build
+ * directory to the final distribution directory. 8. Updates the package exports to include component directories.
+ *
+ * $ npx tsx build.ts
+ */
+import child_process from 'child_process';
+import fs_ from 'fs';
 import path from 'path';
+import util from 'util';
+
+import spinner from 'ora';
 
 import packageData from './package.json';
 import { BRANDS } from './src';
 
-const execSync = (command: string) => execSyncBase(command, { stdio: 'inherit' });
+const exec = util.promisify(child_process.exec);
+const writeFile = util.promisify(fs_.writeFile);
+const readDir = util.promisify(fs_.readdir);
+const readFile = (filePath: string) => util.promisify(fs_.readFile)(filePath, 'utf-8');
 
 const STYLES_SOURCE_DIR = path.dirname(import.meta.resolve('@bspk/styles/package.json').split('file:')[1]);
 
-const arg = process.argv[2];
+const tempPath = path.resolve('./.dist');
+const finalPath = path.resolve('./dist');
+const tempStylesPath = path.resolve('./.dist/styles');
 
-(() => {
-    console.log('⚡️\t Building BSPK UI');
-    generateDist();
-    copyBrandStyles();
-    fileProcessing();
-    componentExports();
-})();
+async function main() {
+    const startTime = Date.now();
 
-function generateDist() {
-    if (arg === 'force') execSync('rm -rf ./dist');
+    const loader = spinner({
+        text: 'Building BSPK UI...',
+        color: 'gray',
+        spinner: 'arc',
+    }).start();
 
-    if (fs.existsSync('./dist')) {
-        console.log('⚡️\t /dist directory already exists, skipping build');
-        process.exit(0);
-    }
+    await exec(`rm -rf ${tempPath} && mkdir -p ${tempStylesPath}`);
 
-    execSync('mkdir -p ./dist');
-    execSync('tsc && tsc-alias');
-    execSync('npm run sass');
-    execSync('mkdir -p ./dist/styles');
+    await exec('tsc && tsc-alias && npm run sass');
+
+    // copy the styles from @bspk/styles to the temp styles directory
+    await Promise.all(
+        BRANDS.map(async ({ slug }) => {
+            const brandStylesPath = path.resolve(STYLES_SOURCE_DIR, `${slug}.css`);
+            await exec(`cp ${brandStylesPath} ${path.resolve(tempStylesPath, `${slug}.css`)}`);
+        }),
+    );
+
+    await fileProcessing();
+
+    await exec(`rm -rf ${finalPath} && mv ${tempPath} ${finalPath}`);
+
+    await componentExports();
+
+    // copy .dist to dist
+
+    const endTime = Date.now();
+    loader.succeed(`BSPK UI build completed successfully (${(endTime - startTime) / 1000}s)`);
 }
 
-function copyBrandStyles() {
-    BRANDS.forEach(({ slug }) => {
-        const brandStylesPath = path.resolve(STYLES_SOURCE_DIR, `${slug}.css`);
-        execSync(`cp ${brandStylesPath} ./dist/styles/${slug}.css`);
-        createImportableCss(brandStylesPath, path.resolve('./dist/styles/', `${slug}.css.js`));
-    });
+main();
+
+async function fileProcessing() {
+    const allFiles = await readDir(tempPath, { encoding: 'utf-8', recursive: true, withFileTypes: true });
+
+    return Promise.all(
+        allFiles.map(async (dirent) => {
+            if (!dirent.isFile()) return;
+
+            const filePath = path.resolve(dirent.parentPath, dirent.name);
+
+            // make importable .css files
+            if (filePath.endsWith('.css')) {
+                await createImportableCss(await readFile(filePath), filePath.replace(/\.css$/, '.css.js'));
+            }
+
+            // fix import paths in .js files
+            if (filePath.endsWith('.js')) {
+                const newFileContent = (await readFile(filePath)).replace(
+                    /import ['"]([^'"]+\/)?([^.]+)\.(s?css)['"];?/g,
+                    (_match, importPath = '', name) => {
+                        const nextImportPath = (importPath || '').replace('@bspk/styles/', '../../styles/');
+                        return `import '${nextImportPath}${name}.css.js';`;
+                    },
+                );
+                await writeFile(filePath, newFileContent, 'utf-8');
+            }
+        }),
+    );
 }
 
-function fileProcessing() {
-    fs.readdirSync('./dist', { encoding: 'utf-8', recursive: true, withFileTypes: true }).forEach((dirent) => {
-        if (!dirent.isFile()) return;
+async function componentExports() {
+    const nextExports = { ...packageData['static-exports'] };
 
-        const fileName = dirent.name;
-        const filePath = path.resolve(dirent.parentPath, fileName);
-        let fileContent = fs.readFileSync(filePath, 'utf-8');
-
-        // create importable css files
-        if (dirent.name.endsWith('.css')) {
-            const destPath = path.join(dirent.parentPath, dirent.name.replace('.css', '.css.js'));
-            createImportableCss(fileContent, destPath);
-            return;
-        }
-
-        if (dirent.name.endsWith('.js')) {
-            // fix css and scss imports, including @bspk/styles imports
-            const cssImportMatches = [...fileContent.matchAll(/import '(.*\/)([^.]+).[s]*css';/g)];
-            fileContent = cssImportMatches.reduce((nextContent, [full, importPath, name]) => {
-                // this only works for jsj in the components directory
-                const nextImportPath = importPath.replace('@bspk/styles/', '../../styles/');
-                return nextContent.replace(full, `import '${nextImportPath}${name}.css.js';`);
-            }, fileContent);
-
-            fs.writeFileSync(filePath, fileContent, 'utf-8');
-        }
-    });
-}
-
-function componentExports() {
-    const nextExports = { ...packageData['non-component-exports'] };
-
-    fs.readdirSync(path.resolve('./dist/components'), { withFileTypes: true }).forEach((dirent) => {
+    (await readDir(path.resolve('./dist/components'), { withFileTypes: true })).forEach((dirent) => {
         if (!dirent.isDirectory() || dirent.name.startsWith('.')) return;
-
         nextExports[`./${dirent.name}/*`] = `./dist/components/${dirent.name}/*.js`;
         nextExports[`./${dirent.name}`] = `./dist/components/${dirent.name}/index.js`;
     });
 
     (packageData.exports as Record<string, string>) = nextExports as Record<string, string>;
-    fs.writeFileSync(path.resolve('./package.json'), JSON.stringify(packageData, null, 4), 'utf-8');
+    return writeFile(path.resolve('./package.json'), `${JSON.stringify(packageData, null, 4)}\n`, 'utf-8');
 }
 
-function createImportableCss(cssContent: string, destPath: string, id?: string) {
-    fs.writeFileSync(
+async function createImportableCss(cssContent: string, destPath: string, id?: string) {
+    return await writeFile(
         destPath,
         `/** * This file is generated by the build script.
 * Do not edit this file directly. */
 const style = document.createElement('style');
-style.appendChild(document.createTextNode(\`${cssContent.trim()}\`));
+style.appendChild(document.createTextNode(\`${cssContent}\`));
 document.head.appendChild(style);
 ${id ? `\ndocument.querySelector('#${id}')?.remove(); style.id = '${id}';` : ''}
 `,

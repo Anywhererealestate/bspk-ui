@@ -12,6 +12,7 @@ import fs from 'fs';
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
 
+import spinner from 'ora';
 import * as TJS from 'typescript-json-schema';
 
 import { ComponentMeta, TypeProperty, UtilityMeta, TypeMeta, ComponentPhase } from './meta-types';
@@ -133,6 +134,7 @@ const componentFiles = fs.readdirSync(componentsDir, { withFileTypes: true, enco
         filePath,
         name: dirent.name,
         content,
+        dir: path.resolve(dirent.parentPath, dirent.name),
         example: '',
         // eslint-disable-next-line no-useless-escape
         jsDocs: content.match(/\/\*\*\s*\n([^\*]|(\*(?!\/)))*\*\//g)?.map((jsDoc) => {
@@ -157,6 +159,7 @@ function generateComponentMeta({
     content,
     name,
     jsDocs,
+    dir,
 }: ComponentFile): ComponentMeta | null {
     const componentFunctionMatch = content.match(new RegExp(`function ${name}[(<]`));
 
@@ -172,7 +175,7 @@ function generateComponentMeta({
     const componentDoc = [...(jsDocs || [])].find((doc) => doc.name === name);
 
     if (!componentDoc) {
-        console.warn(`No JSDoc found for component ${name} for ${componentFile}`);
+        // console.warn(`No JSDoc found for component ${name} for ${componentFile}`);
         return null;
     }
 
@@ -189,7 +192,7 @@ function generateComponentMeta({
         //console.info(`No dependencies OR CSS found for component ${name} for ${componentFile}`);
     }
 
-    const cssPath = path.join(componentsDir, `${slug}.scss`);
+    const cssPath = path.join(dir, `${slug}.scss`);
 
     const css = fs.existsSync(cssPath) ? fs.readFileSync(cssPath, { encoding: 'utf-8' }) : '';
 
@@ -234,7 +237,7 @@ async function generateUtilityMeta(utilityFile: string): Promise<UtilityMeta | n
     const comment = content.match(/\/\*\*[\s\S]+?\*\//);
 
     if (!comment?.[0]) {
-        console.info(`No JSDoc found for hook ${utility} for ${hooksDir}/${utility}.tsx`);
+        // console.info(`No JSDoc found for hook ${utility} for ${hooksDir}/${utility}.tsx`);
         return null;
     }
 
@@ -678,10 +681,17 @@ ${componentsWithExamples.map(({ name }) => `    ${name},`).join('\n')}
 }
 
 async function main() {
+    const loader = spinner({
+        text: 'Building BSPK UI meta...',
+        color: 'gray',
+        spinner: 'arc',
+    }).start();
+
     await createMeta();
 
     createExamples();
 
+    loader.succeed(`BSPK UI meta build completed successfully`);
     process.exit(0);
 }
 

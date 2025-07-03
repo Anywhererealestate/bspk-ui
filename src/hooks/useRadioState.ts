@@ -7,7 +7,7 @@ import { RadioProps } from '-/components/Radio';
  *
  * @example
  *     import { Radio } from '@bspk/ui/Radio';
- *     import { useRadioState } from '-/hooks/useRadioState';
+ *     import { useRadioState } from '@bspk/ui/hooks/useRadioState';
  *
  *     export function Example() {
  *     const { radioProps } = useRadioState('fruits');

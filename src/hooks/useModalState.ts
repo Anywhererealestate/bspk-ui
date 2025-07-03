@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
  *
  * @example
  *     import { Modal } from '@bspk/ui/Modal';
- *     import { useModalState } from '-/hooks/useModalState';
+ *     import { useModalState } from '@bspk/ui/hooks/useModalState';
  *
  *     export function Example() {
  *     const modalProps = useModalState(false);

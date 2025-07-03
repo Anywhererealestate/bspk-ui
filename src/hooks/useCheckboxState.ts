@@ -7,7 +7,7 @@ import { CheckboxProps } from '-/components/Checkbox';
  *
  * @example
  *     import { Checkbox } from '@bspk/ui/Checkbox';
- *     import { useCheckboxState } from '-/hooks/useCheckboxState';
+ *     import { useCheckboxState } from '@bspk/ui/hooks/useCheckboxState';
  *
  *     export function Example() {
  *     const { checkboxProps } = useCheckboxState('fruits');
