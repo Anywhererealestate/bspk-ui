@@ -13,5 +13,12 @@ export const ChipSuggestionExample: ComponentExampleFn<ChipSuggestionProps> = ({
                 label: 'chip option',
             },
         },
+        {
+            label: 'disabled',
+            propState: {
+                label: 'chip option',
+                disabled: true,
+            },
+        },
     ],
 });

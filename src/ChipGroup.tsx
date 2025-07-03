@@ -1,12 +1,8 @@
 import './chip-group.scss';
 
-import { ReactElement } from 'react';
+import { ReactNode } from 'react';
 
-import { ChipAssist } from './ChipAssist';
-import { ChipFilter } from './ChipFilter';
-import { ChipInput } from './ChipInput';
-import { ChipSuggestion } from './ChipSuggestion';
-import { ChipUtility, ChipUtilityProps } from './ChipUtility';
+import { ChipUtilityProps } from './ChipUtility';
 
 export type ChipGroupItem = Pick<
     ChipUtilityProps,
@@ -21,19 +17,7 @@ export type ChipGroupProps = {
      */
     wrap?: boolean;
     /** Only ChipUtility, ChipInput, ChipFilter, ChipSuggestion, or ChipAssist components are allowed as children. */
-    children?:
-        | Array<
-              | ReactElement<typeof ChipAssist>
-              | ReactElement<typeof ChipFilter>
-              | ReactElement<typeof ChipInput>
-              | ReactElement<typeof ChipSuggestion>
-              | ReactElement<typeof ChipUtility>
-          >
-        | ReactElement<typeof ChipAssist>
-        | ReactElement<typeof ChipFilter>
-        | ReactElement<typeof ChipInput>
-        | ReactElement<typeof ChipSuggestion>
-        | ReactElement<typeof ChipUtility>;
+    children?: ReactNode;
 };
 /**
  * Component description.
