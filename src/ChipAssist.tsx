@@ -1,6 +1,6 @@
 import { ChipUtility, ChipUtilityProps } from './ChipUtility';
 
-export type ChipAssistProps = Pick<ChipUtilityProps, 'label' | 'leadingIcon' | 'onClick'>;
+export type ChipAssistProps = Pick<ChipUtilityProps, 'disabled' | 'label' | 'leadingIcon' | 'onClick'>;
 
 /**
  * A dynamic action element that helps trigger and perform an action for the customer. A supplement option to buttons.
@@ -22,8 +22,8 @@ export type ChipAssistProps = Pick<ChipUtilityProps, 'label' | 'leadingIcon' | '
  * @name ChipAssist
  * @phase DesignReview
  */
-function ChipAssist({ label, leadingIcon, onClick }: ChipAssistProps) {
-    return <ChipUtility label={label} leadingIcon={leadingIcon} onClick={onClick} />;
+function ChipAssist({ disabled, label, leadingIcon, onClick }: ChipAssistProps) {
+    return <ChipUtility disabled={disabled} label={label} leadingIcon={leadingIcon} onClick={onClick} />;
 }
 
 ChipAssist.bspkName = 'ChipAssist';

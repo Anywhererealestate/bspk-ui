@@ -20,5 +20,13 @@ export const ChipAssistExample: ComponentExampleFn<ChipAssistProps> = ({ action 
                 leadingIcon: 'SignLanguage',
             },
         },
+        {
+            label: 'disabled',
+            propState: {
+                label: 'chip option',
+                leadingIcon: 'SignLanguage',
+                disabled: true,
+            },
+        },
     ],
 });
