@@ -16,7 +16,7 @@ export type ChipGroupProps = {
      * @default true
      */
     wrap?: boolean;
-    /** Only ChipUtility, ChipInput, ChipFilter, ChipSuggestion, or ChipAssist components are allowed as children. */
+    /** Only ChipUtility, ChipInput, ChipFilter, ChipSuggestion, or ChipAssist components should be used as children. */
     children?: ReactNode;
 };
 /**
