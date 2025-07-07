@@ -22,7 +22,7 @@
         "test": "jest",
         "prepare": "husky",
         "pre:commit": "tsx .scripts/pre-commit.ts",
-        "tsc": "tsc && tsc-alias",
+        "tsc": "tsc && tsc-alias -p tsconfig.json",
         "meta": "tsx meta.ts",
         "pretty": "npx prettier --write src/",
         "postinstall": "npm run build",
