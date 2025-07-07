@@ -665,9 +665,7 @@ function createExamples() {
     fs.writeFileSync(
         examplesFilePath,
         `${componentsWithExamples
-            .map(
-                ({ name }) => `import { ${name}Example as ${name} } from '@bspk/ui/components/${name}/${name}Example';`,
-            )
+            .map(({ name }) => `import { ${name}Example as ${name} } from '@bspk/ui/${name}/${name}Example';`)
             .join('\n')}
 import { ComponentExample, ComponentExampleFn } from '@bspk/ui/utils/demo';
 import { MetaComponentName } from 'src/meta';
