@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /**
  * Build script for BSPK UI
  *
@@ -19,8 +20,6 @@ import fs_ from 'fs';
 import path from 'path';
 import util from 'util';
 
-import spinner from 'ora';
-
 import packageData from './package.json';
 import { BRANDS } from './src';
 
@@ -35,14 +34,14 @@ const tempPath = path.resolve('./.dist');
 const finalPath = path.resolve('./dist');
 const tempStylesPath = path.resolve('./.dist/styles');
 
+const RESET = '\x1b[0m';
+const GREEN = '\x1b[32m';
+const BLUE = '\x1b[34m';
+
 async function main() {
     const startTime = Date.now();
 
-    const loader = spinner({
-        text: 'Building BSPK UI...',
-        color: 'gray',
-        spinner: 'arc',
-    }).start();
+    console.log(`${BLUE}Building BSPK UI...${RESET}`);
 
     await exec(`rm -rf ${tempPath} && mkdir -p ${tempStylesPath}`);
 
@@ -65,7 +64,8 @@ async function main() {
     // copy .dist to dist
 
     const endTime = Date.now();
-    loader.succeed(`BSPK UI build completed successfully (${(endTime - startTime) / 1000}s)`);
+
+    console.log(`${GREEN}BSPK UI build completed successfully (${(endTime - startTime) / 1000}s)${RESET}`);
 }
 
 main();

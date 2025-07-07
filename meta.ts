@@ -12,10 +12,13 @@ import fs from 'fs';
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
 
-import spinner from 'ora';
 import * as TJS from 'typescript-json-schema';
 
 import { ComponentMeta, TypeProperty, UtilityMeta, TypeMeta, ComponentPhase } from './meta-types';
+
+const RESET = '\x1b[0m';
+const BLUE = '\x1b[34m';
+const GREEN = '\x1b[32m';
 
 function getArgValue(name: string, defaultValue: string = ''): string {
     const arg = process.argv.find((arg2) => arg2.startsWith(`${name}=`));
@@ -679,17 +682,13 @@ ${componentsWithExamples.map(({ name }) => `    ${name},`).join('\n')}
 }
 
 async function main() {
-    const loader = spinner({
-        text: 'Building BSPK UI meta...',
-        color: 'gray',
-        spinner: 'arc',
-    }).start();
+    console.log(`${BLUE}Building BSPK UI meta...${RESET}`);
 
     await createMeta();
 
     createExamples();
 
-    loader.succeed(`BSPK UI meta build completed successfully`);
+    console.log(`${GREEN}BSPK UI meta build completed successfully${RESET}`);
     process.exit(0);
 }
 
