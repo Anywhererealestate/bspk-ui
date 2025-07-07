@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { RadioProps } from '../Radio';
+import { RadioProps } from '-/components/Radio';
 
 /**
  * A hook to manage the state of a single radio. Used alongside the Radio component.

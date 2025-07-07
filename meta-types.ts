@@ -6,7 +6,7 @@
 export type BaseMeta = {
     name: string;
     description?: string;
-    file?: string;
+    file: string;
     example?: string;
 };
 

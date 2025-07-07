@@ -1,54 +1,126 @@
-/* eslint-disable no-console */
-import { execSync } from 'child_process';
-import fs from 'fs';
+/**
+ * Build script for BSPK UI
+ *
+ * This script compiles TypeScript files, processes CSS files, and prepares the final distribution package.
+ *
+ * It performs the following tasks:
+ *
+ * 1.
+ *
+ * Compiles TypeScript files using `tsc` and `tsc-alias`. 2. Processes SASS files using `npm run sass`. 3. Copies styles
+ * from `@bspk/styles` to a temporary directory. 4. Creates importable CSS files for each @bspk/styles brand. 5. Creates
+ * importable CSS files for each component. 6. Fixes import paths in JavaScript files. 7. Moves the temporary build
+ * directory to the final distribution directory. 8. Updates the package exports to include component directories.
+ *
+ * $ npx tsx build.ts
+ */
+import child_process from 'child_process';
+import fs_ from 'fs';
 import path from 'path';
+import util from 'util';
 
-// This script builds the project by cleaning the /dist directory, compiling TypeScript and Sass files, and injecting CSS into JS files.
-// we only want to build if dist does not exist
+import spinner from 'ora';
 
-console.log('⚡️\t Building BSPK UI');
+import packageData from './package.json';
+import { BRANDS } from './src';
 
-if (process.argv[2] === 'force') {
-    console.log('⚡️\t Cleaning /dist');
-    execSync('rm -rf ./dist', { stdio: 'inherit' });
-}
+const exec = util.promisify(child_process.exec);
+const writeFile = util.promisify(fs_.writeFile);
+const readDir = util.promisify(fs_.readdir);
+const readFile = (filePath: string) => util.promisify(fs_.readFile)(filePath, 'utf-8');
 
-if (!fs.existsSync('./dist')) {
-    console.log('⚡️\t Creating /dist directory');
-    fs.mkdirSync('./dist', { recursive: true });
-} else {
-    console.log('⚡️\t /dist directory already exists, skipping build');
-    process.exit(0);
-}
+const STYLES_SOURCE_DIR = path.dirname(import.meta.resolve('@bspk/styles/package.json').split('file:')[1]);
 
-console.log('\n');
+const tempPath = path.resolve('./.dist');
+const finalPath = path.resolve('./dist');
+const tempStylesPath = path.resolve('./.dist/styles');
 
-console.log('⚡️\t Compiling Typescript');
-execSync('npm run tsc', { stdio: 'inherit' });
+async function main() {
+    const startTime = Date.now();
 
-console.log('⚡️\t Compiling Sass');
-execSync('npm run sass', { stdio: 'inherit' });
+    const loader = spinner({
+        text: 'Building BSPK UI...',
+        color: 'gray',
+        spinner: 'arc',
+    }).start();
 
-console.log('⚡️\t Injecting CSS into JS files');
-fs.readdirSync('./dist', { recursive: true, encoding: 'utf-8' }).forEach((fileName) => {
-    const filePath = path.join('./dist', fileName);
+    await exec(`rm -rf ${tempPath} && mkdir -p ${tempStylesPath}`);
 
-    if (!filePath.endsWith('.js')) return;
+    await exec('tsc && tsc-alias && npm run sass');
 
-    const fileContent = fs.readFileSync(filePath, 'utf-8');
-    const scssMatch = fileContent.match(/import\s+['"]([^'"]+)\.scss['"]/);
-
-    if (!scssMatch) return;
-
-    const importRequire = `import { styleAdd } from './utils/styleAdd';`;
-    const cssContent = fs.readFileSync(path.join('./dist', `${scssMatch[1]}.css`), 'utf-8');
-
-    fs.writeFileSync(
-        filePath,
-        // Replace the import statement with the style-inject code
-        fileContent.replace(scssMatch[0], `${importRequire}\nstyleAdd(\`${cssContent.trim()}\`);`),
-        'utf-8',
+    // copy the styles from @bspk/styles to the temp styles directory
+    await Promise.all(
+        BRANDS.map(async ({ slug }) => {
+            const brandStylesPath = path.resolve(STYLES_SOURCE_DIR, `${slug}.css`);
+            await exec(`cp ${brandStylesPath} ${path.resolve(tempStylesPath, `${slug}.css`)}`);
+        }),
     );
-});
 
-console.log('\n⚡️\t Done!\n');
+    await fileProcessing();
+
+    await exec(`rm -rf ${finalPath} && mv ${tempPath} ${finalPath}`);
+
+    await componentExports();
+
+    // copy .dist to dist
+
+    const endTime = Date.now();
+    loader.succeed(`BSPK UI build completed successfully (${(endTime - startTime) / 1000}s)`);
+}
+
+main();
+
+async function fileProcessing() {
+    const allFiles = await readDir(tempPath, { encoding: 'utf-8', recursive: true, withFileTypes: true });
+
+    return Promise.all(
+        allFiles.map(async (dirent) => {
+            if (!dirent.isFile()) return;
+
+            const filePath = path.resolve(dirent.parentPath, dirent.name);
+
+            // make importable .css files
+            if (filePath.endsWith('.css')) {
+                await createImportableCss(await readFile(filePath), filePath.replace(/\.css$/, '.css.js'));
+            }
+
+            // fix import paths in .js files
+            if (filePath.endsWith('.js')) {
+                const newFileContent = (await readFile(filePath)).replace(
+                    /import ['"]([^'"]+\/)?([^.]+)\.(s?css)['"];?/g,
+                    (_match, importPath = '', name) => {
+                        const nextImportPath = (importPath || '').replace('@bspk/styles/', '../../styles/');
+                        return `import '${nextImportPath}${name}.css.js';`;
+                    },
+                );
+                await writeFile(filePath, newFileContent, 'utf-8');
+            }
+        }),
+    );
+}
+
+async function componentExports() {
+    const nextExports = { ...packageData['static-exports'] };
+
+    (await readDir(path.resolve('./dist/components'), { withFileTypes: true })).forEach((dirent) => {
+        if (!dirent.isDirectory() || dirent.name.startsWith('.')) return;
+        nextExports[`./${dirent.name}/*`] = `./dist/components/${dirent.name}/*.js`;
+        nextExports[`./${dirent.name}`] = `./dist/components/${dirent.name}/index.js`;
+    });
+
+    (packageData.exports as Record<string, string>) = nextExports as Record<string, string>;
+    return writeFile(path.resolve('./package.json'), `${JSON.stringify(packageData, null, 4)}\n`, 'utf-8');
+}
+
+async function createImportableCss(cssContent: string, destPath: string, id?: string) {
+    return await writeFile(
+        destPath,
+        `/** * This file is generated by the build script.
+* Do not edit this file directly. */
+const style = document.createElement('style');
+style.appendChild(document.createTextNode(\`${cssContent}\`));
+document.head.appendChild(style);
+${id ? `\ndocument.querySelector('#${id}')?.remove(); style.id = '${id}';` : ''}
+`,
+    );
+}

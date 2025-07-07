@@ -14,5 +14,6 @@ package
 src/meta.ts
 types.json
 component-files.json
-.scripts/temp
-.scripts/**/.*.ts
+.tmp
+.scripts/temp.ts
+.dist

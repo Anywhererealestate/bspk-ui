@@ -5,10 +5,13 @@
  * $ npx tsx .scripts/tasks/new-component.ts ${componentName}
  */
 
+import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 
-import { componentsDir, kebabCase } from '../utils';
+import { kebabCase } from '../utils';
+
+const componentsDir = path.resolve(__dirname, '../src/components');
 
 if (!process.argv[2]?.trim()) {
     console.error('Please provide a component name.');
@@ -22,12 +25,19 @@ if (!componentName) {
     process.exit(1);
 }
 
-const componentFilePath = path.join(componentsDir, `${componentName}.tsx`);
+const componentDirectoryPath = path.resolve(componentsDir, componentName);
+
+const componentFilePath = path.join(componentDirectoryPath, `${componentName}.tsx`);
 
 if (fs.existsSync(componentFilePath)) {
-    console.error(`Component ${componentName} already exists.`);
-    process.exit(1);
+    if (process.argv[3] !== 'force') {
+        console.error(`Component ${componentName} already exists at ${componentFilePath}.`);
+        process.exit(1);
+    }
+    execSync(`rm -rf ${componentDirectoryPath}`, { stdio: 'inherit' });
 }
+
+execSync(`mkdir -p ${componentDirectoryPath}`, { stdio: 'inherit' });
 
 const slug = kebabCase(componentName);
 
@@ -35,7 +45,6 @@ fs.writeFileSync(
     componentFilePath,
 
     `import './${slug}.scss';
-import { ReactNode } from 'react';
 
 const DEFAULT = {
     variant: 'none',
@@ -47,7 +56,7 @@ export type ${componentName}Props = {
      *
      * @required
      */
-    children: ReactNode;
+    children: string;
     /**
      * The variant of the ${slug}.
      *
@@ -87,7 +96,7 @@ export { ${componentName} };
 );
 
 fs.writeFileSync(
-    path.join(componentsDir, `${slug}.scss`),
+    path.join(componentDirectoryPath, `${slug}.scss`),
     `[data-bspk='${slug}'] {
     display: flex;
     flex-direction: column;
@@ -98,6 +107,8 @@ fs.writeFileSync(
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
 `,
 );
+
+console.info(`\n${componentName} component generated at ${componentFilePath}`);
 
 function capitalizeFirstLetter(val) {
     return String(val).charAt(0).toUpperCase() + String(val).slice(1);

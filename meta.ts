@@ -12,16 +12,36 @@ import fs from 'fs';
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
 
+import spinner from 'ora';
 import * as TJS from 'typescript-json-schema';
 
 import { ComponentMeta, TypeProperty, UtilityMeta, TypeMeta, ComponentPhase } from './meta-types';
 
+function getArgValue(name: string, defaultValue: string = ''): string {
+    const arg = process.argv.find((arg2) => arg2.startsWith(`${name}=`));
+    return arg ? arg.substring(name.length + 1) : defaultValue;
+}
+
+const outDirectory = getArgValue('out');
+const fileChanged = getArgValue('update');
+const uiHash = getArgValue('hash');
+const build = getArgValue('build', '0');
+const target = getArgValue('target');
+
+const examplesFileChanged = fileChanged.includes('src/demo/examples');
+
+if (!outDirectory) {
+    console.error('Please provide a path to the meta file.');
+    process.exit(1);
+}
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const { componentsDir, hooksDir, rootPath } = {
-    componentsDir: path.resolve(__dirname, 'src'),
+const { componentsDir, srcDir, hooksDir, rootPath } = {
+    srcDir: path.resolve(__dirname, 'src'),
     hooksDir: path.resolve(__dirname, 'src', 'hooks'),
+    componentsDir: path.resolve(__dirname, 'src', 'components'),
     rootPath: path.resolve(__dirname),
 } as const;
 
@@ -101,34 +121,21 @@ const ENUM_SIZE_ORDER = [
     'xxxxx-large',
 ];
 
-const outDirectory = process.argv.find((arg) => arg.startsWith('out='))?.substring(4) || '';
+const componentFiles = fs.readdirSync(componentsDir, { withFileTypes: true, encoding: 'utf-8' }).flatMap((dirent) => {
+    if (!dirent.isDirectory()) return [];
 
-const fileChanged = process.argv.find((arg) => arg.startsWith('update='))?.substring(7) || '';
-
-const uiHash = process.argv.find((arg) => arg.startsWith('hash='))?.substring(5) || '';
-
-const build = process.argv.find((arg) => arg.startsWith('build='))?.substring(6) || '0';
-
-const examplesFileChanged = fileChanged.includes('src/demo/examples');
-
-if (!outDirectory) {
-    console.error('Please provide a path to the meta file.');
-    process.exit(1);
-}
-
-const componentFiles = fs.readdirSync(componentsDir).flatMap((fileName) => {
-    if (!fileName.endsWith('.tsx')) return [];
-
-    const filePath = path.resolve(componentsDir, fileName);
+    const filePath = path.resolve(dirent.parentPath, dirent.name, `${dirent.name}.tsx`);
+    if (!fs.existsSync(filePath)) return [];
 
     if (fileChanged && !examplesFileChanged && !filePath.includes(fileChanged)) return [];
 
     const content = fs.readFileSync(filePath, 'utf-8');
     return {
         filePath,
-        name: fileName.replace(/\.[^.]+$/, ''),
-        fileName,
+        name: dirent.name,
         content,
+        dir: path.resolve(dirent.parentPath, dirent.name),
+        example: '',
         // eslint-disable-next-line no-useless-escape
         jsDocs: content.match(/\/\*\*\s*\n([^\*]|(\*(?!\/)))*\*\//g)?.map((jsDoc) => {
             const doc = jsDocParse(jsDoc);
@@ -152,6 +159,7 @@ function generateComponentMeta({
     content,
     name,
     jsDocs,
+    dir,
 }: ComponentFile): ComponentMeta | null {
     const componentFunctionMatch = content.match(new RegExp(`function ${name}[(<]`));
 
@@ -167,13 +175,15 @@ function generateComponentMeta({
     const componentDoc = [...(jsDocs || [])].find((doc) => doc.name === name);
 
     if (!componentDoc) {
-        console.warn(`No JSDoc found for component ${name} for ${componentFile}`);
+        // console.warn(`No JSDoc found for component ${name} for ${componentFile}`);
         return null;
     }
 
     const slug = kebabCase(componentDoc.name);
 
-    const dependencies = [...content.matchAll(/import { ([^}]+) } from '\.\/([a-zA-Z]+)';/g)]
+    const dependenciesMatches = [...content.matchAll(/import { ([^}]+) } from '-\/components\/([a-zA-Z]+)';/g)];
+
+    const dependencies = dependenciesMatches
         //
         ?.flatMap((d) => d.slice(1).flatMap((x) => x.split(', ')))
         .filter((d, i, arr) => arr.indexOf(d) === i);
@@ -182,7 +192,7 @@ function generateComponentMeta({
         //console.info(`No dependencies OR CSS found for component ${name} for ${componentFile}`);
     }
 
-    const cssPath = path.join(componentsDir, `${slug}.scss`);
+    const cssPath = path.join(dir, `${slug}.scss`);
 
     const css = fs.existsSync(cssPath) ? fs.readFileSync(cssPath, { encoding: 'utf-8' }) : '';
 
@@ -195,7 +205,7 @@ function generateComponentMeta({
 
     return {
         description: componentDoc.description,
-        file: componentFile.split(componentsDir)[1],
+        file: componentFile.split(srcDir)[1],
         name,
         slug,
         dependencies,
@@ -205,7 +215,7 @@ function generateComponentMeta({
         phase: (COMPONENT_PHASES.includes(componentDoc.phase as ComponentPhase)
             ? componentDoc.phase
             : 'Backlog') as ComponentPhase,
-    };
+    } as ComponentMeta;
 }
 
 const COMPONENT_PHASES: ComponentPhase[] = [
@@ -227,7 +237,7 @@ async function generateUtilityMeta(utilityFile: string): Promise<UtilityMeta | n
     const comment = content.match(/\/\*\*[\s\S]+?\*\//);
 
     if (!comment?.[0]) {
-        console.info(`No JSDoc found for hook ${utility} for ${hooksDir}/${utility}.tsx`);
+        // console.info(`No JSDoc found for hook ${utility} for ${hooksDir}/${utility}.tsx`);
         return null;
     }
 
@@ -241,13 +251,13 @@ async function generateUtilityMeta(utilityFile: string): Promise<UtilityMeta | n
     return {
         description: utilityDoc.description,
         example: utilityDoc.example,
-        file: utilityFile.split(componentsDir)[1],
+        file: utilityFile.split(srcDir)[1],
         name: utility,
     };
 }
 
 function generateTypes() {
-    const files = fs.readdirSync(componentsDir, { recursive: true, withFileTypes: true }).flatMap((f) => {
+    const files = fs.readdirSync(srcDir, { recursive: true, withFileTypes: true }).flatMap((f) => {
         if (!f.isFile()) return [];
 
         if (!f.name.endsWith('.tsx') && !f.name.endsWith('.ts')) return [];
@@ -279,6 +289,15 @@ function generateTypes() {
             strictNullChecks: true,
             esModuleInterop: true,
             baseUrl: '.',
+            rootDir: './src',
+            outDir: './dist',
+            paths: {
+                '-/components/*': ['src/components/*'],
+                '-/hooks/*': ['src/hooks/*'],
+                '-/styles/*': ['src/styles/*'],
+                '-/utils/*': ['src/utils/*'],
+                '-': ['src/index.ts'],
+            },
         },
         rootPath,
     );
@@ -365,8 +384,7 @@ function generateTypes() {
             let componentFile: ComponentFile | null = null;
             // only care about ComponentProps
             if (definitionName.endsWith('Props')) {
-                componentFile =
-                    componentFiles.find((f) => f.fileName === `${definitionName.replace(/Props$/, '')}.tsx`) || null;
+                componentFile = componentFiles.find((f) => f.name === definitionName.replace(/Props$/, '')) || null;
             }
 
             const context = { componentFile, parent: definitionName };
@@ -419,6 +437,7 @@ function generateTypes() {
             }
 
             nextTypes.push({
+                file: componentFile?.filePath.split(srcDir)[1] || '',
                 name: definitionName,
                 properties,
                 id: kebabCase(definitionName),
@@ -514,74 +533,69 @@ async function createMeta() {
 
     const metaJsonPath = path.join(outDirectory, 'data.json');
 
-    const updateJsonOnly = fileChanged && fs.existsSync(metaJsonPath);
+    const prevMetaJson =
+        fileChanged && fs.existsSync(metaJsonPath) ? fs.readFileSync(metaJsonPath, { encoding: 'utf-8' }) : null;
 
-    if (updateJsonOnly) {
-        const {
-            componentsMeta: previousComponentMeta,
-            utilitiesMeta: previousUtilitiesMeta,
-            typesMeta: previousTypesMeta,
-        } = JSON.parse(fs.readFileSync(metaJsonPath, { encoding: 'utf-8' })) as {
+    if (prevMetaJson) {
+        const prevMeta = JSON.parse(prevMetaJson) as {
             componentsMeta: ComponentMeta[];
             utilitiesMeta: UtilityMeta[];
             typesMeta: TypeMeta[];
         };
 
-        const updatedMeta = {
+        const newMeta = {
             componentsMeta,
             utilitiesMeta,
             typesMeta,
         };
 
-        updatedMeta.componentsMeta.forEach((component) => {
-            const existingIndex = previousComponentMeta.findIndex((c: ComponentMeta) => c.name === component.name);
-
+        newMeta.componentsMeta.forEach((component) => {
+            const existingIndex = prevMeta.componentsMeta.findIndex((c: ComponentMeta) => c.name === component.name);
             if (existingIndex !== -1) {
-                previousComponentMeta[existingIndex] = component;
+                prevMeta.componentsMeta[existingIndex] = component;
             } else {
-                previousComponentMeta.push(component);
+                prevMeta.componentsMeta.push(component);
             }
         });
 
-        updatedMeta.utilitiesMeta.forEach((utility) => {
-            const existingIndex = previousUtilitiesMeta.findIndex((u: UtilityMeta) => u.name === utility.name);
-
+        newMeta.utilitiesMeta.forEach((utility) => {
+            const existingIndex = prevMeta.utilitiesMeta.findIndex((u: UtilityMeta) => u.name === utility.name);
             if (existingIndex !== -1) {
-                previousUtilitiesMeta[existingIndex] = utility;
+                prevMeta.utilitiesMeta[existingIndex] = utility;
             } else {
-                previousUtilitiesMeta.push(utility);
+                prevMeta.utilitiesMeta.push(utility);
             }
         });
 
-        updatedMeta.typesMeta.forEach((type) => {
-            const existingIndex = previousTypesMeta.findIndex((t: TypeMeta) => t.name === type.name);
-
+        newMeta.typesMeta.forEach((type) => {
+            const existingIndex = prevMeta.typesMeta.findIndex((t: TypeMeta) => t.name === type.name);
             if (existingIndex !== -1) {
-                previousTypesMeta[existingIndex] = type;
+                prevMeta.typesMeta[existingIndex] = type;
             } else {
-                previousTypesMeta.push(type);
+                prevMeta.typesMeta.push(type);
             }
         });
 
-        fs.writeFileSync(
-            metaJsonPath,
-            JSON.stringify(
-                {
-                    LAST_UPDATED: new Date().toISOString(),
-                    VERSION: uiVersion,
-                    UI_HASH: uiHash,
-                    BUILD: build,
-                    MODE: mode,
-                    componentsMeta: previousComponentMeta,
-                    utilitiesMeta: previousUtilitiesMeta,
-                    typesMeta: previousTypesMeta,
-                },
-                null,
-                2,
-            ),
+        const newMetaJson = JSON.stringify(
+            {
+                VERSION: uiVersion,
+                UI_HASH: uiHash,
+                BUILD: build,
+                MODE: mode,
+                ...newMeta,
+            },
+            null,
+            2,
         );
 
-        console.info('Update meta complete.');
+        // if no change in meta, do not write the file
+        if (prevMetaJson === newMetaJson) {
+            console.info('No changes in meta, skipping write.');
+        } else {
+            fs.writeFileSync(metaJsonPath, newMetaJson);
+            console.info('Update meta complete.');
+        }
+
         process.exit(0);
     }
 
@@ -589,7 +603,6 @@ async function createMeta() {
         metaJsonPath,
         JSON.stringify(
             {
-                LAST_UPDATED: new Date().toISOString(),
                 VERSION: uiVersion,
                 UI_HASH: uiHash,
                 BUILD: build,
@@ -608,10 +621,10 @@ async function createMeta() {
     fs.writeFileSync(
         metaFilePath,
         [
-            `import React from 'react';
-import meta from 'src/meta/data.json';
-
-export const componentsMeta = meta.componentsMeta as ComponentMeta[];
+            target === 'local'
+                ? `import meta from './data.json';`
+                : `import React from 'react';\nimport meta from 'src/meta/data.json';\n\n`,
+            `export const componentsMeta = meta.componentsMeta as ComponentMeta[];
 export const utilitiesMeta = meta.utilitiesMeta as UtilityMeta[];
 export const typesMeta = meta.typesMeta as TypeMeta[];
 export const MODE = meta.MODE as 'development' | 'production';
@@ -623,7 +636,9 @@ export const BUILD = meta.BUILD as string;`,
 
             `export type MetaComponentName = '${metaComponentNames.join("' | '")}';`,
 
-            `export const components: Partial<Record<MetaComponentName, React.LazyExoticComponent<any>>> = {${metaComponentNames.map(componentImport).join(',')}\n};`,
+            target === 'local'
+                ? ''
+                : `export const components: Partial<Record<MetaComponentName, React.LazyExoticComponent<any>>> = {${metaComponentNames.map(componentImport).join(',')}\n};`,
         ].join('\n\n'),
     );
 
@@ -639,18 +654,20 @@ export const BUILD = meta.BUILD as string;`,
 }
 
 function createExamples() {
+    if (target === 'local') return;
+
     const examplesFilePath = path.join(outDirectory, 'examples.ts');
 
     const componentsWithExamples = componentFiles.filter(({ name }) =>
-        fs.existsSync(path.resolve(__dirname, 'src', 'demo', 'examples', `${name}.tsx`)),
+        fs.existsSync(path.resolve(__dirname, `src/components/${name}/example.tsx`)),
     );
 
     fs.writeFileSync(
         examplesFilePath,
         `${componentsWithExamples
-            .map(({ name }) => `import { ${name}Example as ${name} } from '@bspk/ui/demo/examples/${name}';`)
+            .map(({ name }) => `import { ${name}Example as ${name} } from '@bspk/ui/${name}/${name}Example';`)
             .join('\n')}
-import { ComponentExample, ComponentExampleFn } from '@bspk/ui/demo/utils';
+import { ComponentExample, ComponentExampleFn } from '@bspk/ui/utils/demo';
 import { MetaComponentName } from 'src/meta';
 
 export const examples: Partial<Record<MetaComponentName, ComponentExample<any> | ComponentExampleFn<any>>> = {
@@ -662,10 +679,17 @@ ${componentsWithExamples.map(({ name }) => `    ${name},`).join('\n')}
 }
 
 async function main() {
+    const loader = spinner({
+        text: 'Building BSPK UI meta...',
+        color: 'gray',
+        spinner: 'arc',
+    }).start();
+
     await createMeta();
 
     createExamples();
 
+    loader.succeed(`BSPK UI meta build completed successfully`);
     process.exit(0);
 }
 
