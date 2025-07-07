@@ -49,5 +49,13 @@ export const ChipFilterExample: ComponentExampleFn<ChipFilterProps> = ({ action 
                 trailingBadgeCount: 3,
             },
         },
+        {
+            label: 'disabled',
+            propState: {
+                label: 'chip option',
+                trailingBadgeCount: 3,
+                disabled: true,
+            },
+        },
     ],
 });

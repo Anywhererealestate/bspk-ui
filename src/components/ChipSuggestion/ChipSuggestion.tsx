@@ -1,6 +1,6 @@
 import { ChipUtility, ChipUtilityProps } from '-/components/ChipUtility';
 
-export type ChipSuggestionProps = Pick<ChipUtilityProps, 'label' | 'onClick'>;
+export type ChipSuggestionProps = Pick<ChipUtilityProps, 'disabled' | 'label' | 'onClick'>;
 
 /**
  * Dynamically generated options that are suggested to the customer as responses or prompts.
@@ -15,8 +15,8 @@ export type ChipSuggestionProps = Pick<ChipUtilityProps, 'label' | 'onClick'>;
  * @name ChipSuggestion
  * @phase DesignReview
  */
-function ChipSuggestion({ label, onClick }: ChipSuggestionProps) {
-    return <ChipUtility label={label} onClick={onClick} />;
+function ChipSuggestion({ disabled, label, onClick }: ChipSuggestionProps) {
+    return <ChipUtility disabled={disabled} label={label} onClick={onClick} />;
 }
 
 ChipSuggestion.bspkName = 'ChipSuggestion';

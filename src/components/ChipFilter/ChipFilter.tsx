@@ -6,7 +6,7 @@ import { ChipUtility, ChipUtilityProps } from '-/components/ChipUtility';
 
 export type chipTrailingIcon = 'SvgChevronRight' | 'SvgClose' | 'SvgKeyboardArrowDown';
 
-export type ChipFilterProps = Pick<ChipUtilityProps, 'label' | 'leadingIcon' | 'onClick'> & {
+export type ChipFilterProps = Pick<ChipUtilityProps, 'disabled' | 'label' | 'leadingIcon' | 'onClick'> & {
     /**
      * The trailing icon of the filter chip.
      *
@@ -43,7 +43,7 @@ export type ChipFilterProps = Pick<ChipUtilityProps, 'label' | 'leadingIcon' | '
  * @name ChipFilter
  * @phase DesignReview
  */
-function ChipFilter({ label, leadingIcon, onClick, trailingIcon, trailingBadgeCount }: ChipFilterProps) {
+function ChipFilter({ disabled, label, leadingIcon, onClick, trailingIcon, trailingBadgeCount }: ChipFilterProps) {
     const trailingIconComponent =
         trailingIcon === 'SvgChevronRight' ? (
             <SvgChevronRight />
@@ -54,6 +54,7 @@ function ChipFilter({ label, leadingIcon, onClick, trailingIcon, trailingBadgeCo
         ) : undefined;
     return (
         <ChipUtility
+            disabled={disabled}
             label={label}
             leadingIcon={leadingIcon}
             onClick={onClick}

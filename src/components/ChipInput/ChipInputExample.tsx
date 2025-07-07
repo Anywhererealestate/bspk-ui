@@ -36,5 +36,13 @@ export const ChipInputExample: ComponentExampleFn<ChipInputProps> = ({ action })
                 removable: false,
             },
         },
+        {
+            label: 'disabled',
+            propState: {
+                label: 'chip option',
+                leadingIcon: 'SignLanguage',
+                disabled: true,
+            },
+        },
     ],
 });
