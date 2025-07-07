@@ -2,7 +2,7 @@ import './chip-group.scss';
 
 import { ReactNode } from 'react';
 
-import { ChipUtilityProps } from './ChipUtility';
+import { ChipUtilityProps } from '../ChipUtility';
 
 export type ChipGroupItem = Pick<
     ChipUtilityProps,
