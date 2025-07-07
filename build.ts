@@ -30,9 +30,8 @@ const readFile = (filePath: string) => util.promisify(fs_.readFile)(filePath, 'u
 
 const STYLES_SOURCE_DIR = path.dirname(import.meta.resolve('@bspk/styles/package.json').split('file:')[1]);
 
-const tempPath = path.resolve('./.dist');
-const finalPath = path.resolve('./dist');
-const tempStylesPath = path.resolve('./.dist/styles');
+const dist = path.resolve('./dist');
+const tempStylesPath = path.resolve('./dist/styles');
 
 const RESET = '\x1b[0m';
 const GREEN = '\x1b[32m';
@@ -43,7 +42,7 @@ async function main() {
 
     console.log(`${BLUE}Building BSPK UI...${RESET}`);
 
-    await exec(`rm -rf ${tempPath} && mkdir -p ${tempStylesPath}`);
+    await exec(`rm -rf ${dist} && mkdir -p ${tempStylesPath}`);
 
     await exec('tsc && tsc-alias && npm run sass');
 
@@ -57,11 +56,9 @@ async function main() {
 
     await fileProcessing();
 
-    await exec(`rm -rf ${finalPath} && mv ${tempPath} ${finalPath}`);
-
     await componentExports();
 
-    // copy .dist to dist
+    // copy dist to dist
 
     const endTime = Date.now();
 
@@ -71,7 +68,7 @@ async function main() {
 main();
 
 async function fileProcessing() {
-    const allFiles = await readDir(tempPath, { encoding: 'utf-8', recursive: true, withFileTypes: true });
+    const allFiles = await readDir(dist, { encoding: 'utf-8', recursive: true, withFileTypes: true });
 
     return Promise.all(
         allFiles.map(async (dirent) => {

@@ -13,7 +13,7 @@
         "build.ts"
     ],
     "scripts": {
-        "sass": "sass --no-source-map --silence-deprecation=mixed-decls src:.dist",
+        "sass": "sass --no-source-map --silence-deprecation=mixed-decls src:dist",
         "build": "tsx build.ts",
         "lint:css": "npx stylelint '**/*.scss'",
         "lint": "eslint && tsc --noEmit && stylelint '**/*.scss'",
