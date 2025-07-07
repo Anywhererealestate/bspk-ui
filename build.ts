@@ -44,7 +44,7 @@ async function main() {
 
     await exec(`rm -rf ${dist} && mkdir -p ${tempStylesPath}`);
 
-    await exec('tsc && tsc-alias && npm run sass');
+    await exec('tsc && tsc-alias -p tsconfig.json && npm run sass');
 
     // copy the styles from @bspk/styles to the temp styles directory
     await Promise.all(
