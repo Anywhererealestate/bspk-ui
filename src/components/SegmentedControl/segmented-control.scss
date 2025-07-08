@@ -65,22 +65,22 @@
             border-bottom: 1px solid transparent;
             justify-content: center;
             gap: var(--spacing-sizing-01);
-            border-radius: var(--radius-small);
+            border-radius: var(--radius-sm);
             padding: var(--spacing-sizing-02) var(--spacing-sizing-03);
         }
 
         &:first-of-type {
             [data-outer] {
-                border-top-left-radius: var(--radius-medium);
-                border-bottom-left-radius: var(--radius-medium);
+                border-top-left-radius: var(--radius-md);
+                border-bottom-left-radius: var(--radius-md);
                 padding-left: var(--spacing-sizing-01);
             }
         }
 
         &:last-of-type {
             [data-outer] {
-                border-top-right-radius: var(--radius-medium);
-                border-bottom-right-radius: var(--radius-medium);
+                border-top-right-radius: var(--radius-md);
+                border-bottom-right-radius: var(--radius-md);
                 padding-right: var(--spacing-sizing-01);
             }
         }

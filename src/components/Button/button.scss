@@ -111,7 +111,7 @@
 
         background: linear-gradient(var(--primary-background), var(--primary-background));
         color: var(--foreground-brand-on-primary);
-        border-radius: var(--radius-small);
+        border-radius: var(--radius-sm);
 
         &[disabled] {
             color: var(--foreground-neutral-disabled-on-surface);
@@ -148,7 +148,7 @@
 
     &[data-variant='secondary'] {
         border: solid 1px var(--stroke-neutral-base);
-        border-radius: var(--radius-small);
+        border-radius: var(--radius-sm);
         color: var(--foreground-neutral-on-surface-variant-01);
 
         &[disabled] {

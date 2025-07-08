@@ -220,7 +220,7 @@ body[data-bspk] {
     [data-line] {
         width: 100%;
         background: var(--foreground-neutral-skeleton-element);
-        border-radius: var(--radius-small);
+        border-radius: var(--radius-sm);
         height: var(--text-height);
     }
 
@@ -247,11 +247,11 @@ body[data-bspk] {
         min-height: var(--spacing-sizing-08);
         height: var(--height, var(--width));
         width: var(--width, var(--height));
-        border-radius: var(--radius-small);
+        border-radius: var(--radius-sm);
     }
 
     &[data-variant='photo'] {
-        border-radius: var(--radius-medium);
+        border-radius: var(--radius-md);
     }
 
     &[data-variant='circular'] {
@@ -269,7 +269,7 @@ body[data-bspk] {
     &[data-variant='thumbnail'] {
         width: var(--spacing-sizing-12);
         height: var(--spacing-sizing-12);
-        border-radius: var(--radius-small);
+        border-radius: var(--radius-sm);
     }
 }
 

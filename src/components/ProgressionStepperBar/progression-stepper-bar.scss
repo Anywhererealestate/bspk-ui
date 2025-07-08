@@ -22,7 +22,7 @@
             width: 100%;
             height: var(--height);
             min-width: var(--spacing-sizing-02);
-            border-radius: var(--radius-small);
+            border-radius: var(--radius-sm);
             background: var(--surface-neutral-t3-low);
 
             &[data-complete] {

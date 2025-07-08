@@ -9,7 +9,7 @@
     color: var(--foreground-neutral-on-surface-variant-01);
     background-color: var(--surface-neutral-t1-base);
     border: 1px solid var(--stroke-neutral-low);
-    border-radius: var(--radius-small);
+    border-radius: var(--radius-sm);
 
     &:not([data-flat]) {
         box-shadow: var(--drop-shadow-raise);
