@@ -19,6 +19,8 @@ import { ComponentMeta, TypeProperty, UtilityMeta, TypeMeta, ComponentPhase } fr
 const RESET = '\x1b[0m';
 const BLUE = '\x1b[34m';
 const GREEN = '\x1b[32m';
+const ORANGE = '\x1b[38;5;208m';
+const YELLOW = '\x1b[33m';
 
 function getArgValue(name: string, defaultValue: string = ''): string {
     const arg = process.argv.find((arg2) => arg2.startsWith(`${name}=`));
@@ -529,10 +531,12 @@ async function createMeta() {
 
     if (uiHash === 'local' || process.env.DEV_GIT_TOKEN) {
         mode = 'development';
-        console.info(`Development meta build.`);
+        console.info(`${ORANGE}Development meta build.${RESET}`);
     } else {
-        console.info(`Production meta build.`);
+        console.info(`${YELLOW}Production meta build.${RESET}`);
     }
+
+    if (fileChanged) console.info(`${ORANGE}Updated: ${fileChanged}${RESET}`);
 
     const metaJsonPath = path.join(outDirectory, 'data.json');
 
