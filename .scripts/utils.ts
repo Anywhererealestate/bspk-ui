@@ -6,6 +6,19 @@ import { fileURLToPath } from 'url';
 
 globalThis.__dirname = globalThis.__dirname || path.dirname(fileURLToPath(import.meta.url));
 
+export async function getLocalMeta(force = false) {
+    const tempDir = path.resolve(process.cwd(), '.tmp');
+
+    if (force || !fs.existsSync(`${tempDir}/index.ts`)) {
+        execSync(`mkdir -p ${tempDir}`, { stdio: 'inherit' });
+        execSync(`npm run meta out=${tempDir} target=local`, { stdio: 'inherit' });
+    }
+
+    return import(`${tempDir}/index.ts`).then((module) => ({
+        ...module,
+    }));
+}
+
 export async function pretty(filePath: string) {
     execSync(`npx prettier --write "${filePath}"`, { stdio: 'inherit' });
 }
@@ -43,10 +56,11 @@ export function camelCase(str: string, lowerFirst = false) {
         .replace(/^([a-zA-Z])/, (_, char) => (lowerFirst ? char.toLowerCase() : char.toUpperCase()));
 }
 
-export const { componentsDir, hooksDir, rootPath } = {
-    componentsDir: path.resolve(__dirname, '..', 'src'),
-    hooksDir: path.resolve(__dirname, '..', 'src', 'hooks'),
-    rootPath: path.resolve(__dirname, '..'),
+export const { componentsDir, srcDir, hooksDir, rootPath } = {
+    srcDir: path.resolve(__dirname, 'src'),
+    hooksDir: path.resolve(__dirname, 'src', 'hooks'),
+    componentsDir: path.resolve(__dirname, 'src', 'components'),
+    rootPath: path.resolve(__dirname),
 } as const;
 
 export function reportMissingVariables(variables: Record<string, string>) {

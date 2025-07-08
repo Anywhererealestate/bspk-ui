@@ -1,0 +1,51 @@
+[data-bspk='badge'] {
+    --size: var(--spacing-sizing-06);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-circular);
+    height: var(--size);
+    width: fit-content;
+    min-width: var(--size);
+    font: var(--labels-x-small);
+    color: var(--foreground-brand-on-primary);
+    background: var(--surface-brand-primary);
+    padding: 0 var(--spacing-sizing-02);
+
+    &[data-size='x-small'] {
+        --size: var(--spacing-sizing-05);
+
+        padding: 2px var(--spacing-sizing-01);
+    }
+
+    &[data-variant='secondary'] {
+        color: var(--foreground-brand-on-secondary);
+        background: var(--surface-brand-secondary);
+    }
+
+    &[data-surface-border] {
+        border: 2px solid var(--surface-neutral-t1-base);
+    }
+}
+
+[data-bspk='badge-wrapper'] {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: fit-content;
+    height: fit-content;
+    flex-shrink: 0;
+
+    [data-bspk='badge'] {
+        position: absolute;
+        top: 0;
+        right: 0;
+        transform: scale(1) translate(50%, -50%);
+        transform-origin: 100% 0%;
+        z-index: 2;
+    }
+}
+
+/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

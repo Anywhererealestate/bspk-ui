@@ -1,0 +1,16 @@
+[data-bspk='breadcrumb'] {
+    width: 100%;
+
+    ol {
+        display: flex;
+        align-items: center;
+        flex-flow: row wrap;
+        list-style: none;
+        gap: var(--spacing-sizing-02);
+
+        li {
+            display: flex;
+            gap: var(--spacing-sizing-02);
+        }
+    }
+}

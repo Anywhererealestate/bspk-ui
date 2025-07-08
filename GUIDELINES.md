@@ -4,7 +4,7 @@
 
 ### Basics
 
-- Use `type` over `interface` to define object shapes. Types are more flexible and can define primitive, intersection,
+- Use `type` over `interface` to define object shapes. Types are more flexible and can define primitive, intersections etc.
 
 ```typescript
 export type CheckboxOptionProps = Pick<

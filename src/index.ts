@@ -6,7 +6,51 @@
  * @bspk/ui/Txt".
  */
 
-import { ComponentProps, JSXElementConstructor, ReactNode } from 'react';
+import { JSXElementConstructor, ReactNode, ComponentPropsWithoutRef } from 'react';
+
+export const BRANDS: {
+    /** The title of the brand. */
+    title: string;
+    /** The slug of the brand, used in URLs and identifiers. */
+    slug: Brand;
+}[] = [
+    {
+        title: 'Anywhere',
+        slug: 'anywhere',
+    },
+    {
+        title: 'Better Homes & Gardens',
+        slug: 'better-homes-gardens',
+    },
+    {
+        title: 'Cartus',
+        slug: 'cartus',
+    },
+    {
+        title: 'Century 21',
+        slug: 'century-21',
+    },
+    {
+        title: 'Coldwell Banker',
+        slug: 'coldwell-banker',
+    },
+    {
+        title: 'Corcoran',
+        slug: 'corcoran',
+    },
+    {
+        title: 'Denali Boss',
+        slug: 'denali-boss',
+    },
+    {
+        title: 'ERA',
+        slug: 'era',
+    },
+    {
+        title: "Sotheby's",
+        slug: 'sothebys',
+    },
+] as const;
 
 export type AlertVariant = 'error' | 'informational' | 'success' | 'warning';
 
@@ -16,7 +60,12 @@ export type ElementProps<
     P extends Record<string, unknown>,
     E extends JSXElementConstructor<unknown> | keyof JSX.IntrinsicElements,
     O extends string = '',
-> = Omit<ComponentProps<E>, O | keyof P> & P;
+> = Omit<ComponentPropsWithoutRef<E>, O | keyof P> & P;
+
+export type ElementConstructorProps<
+    E extends JSXElementConstructor<unknown> | keyof JSX.IntrinsicElements,
+    O extends string = '',
+> = Omit<ComponentPropsWithoutRef<E>, O>;
 
 export type ButtonSize = 'large' | 'medium' | 'small' | 'x-small';
 
@@ -36,8 +85,6 @@ export type CallToActionButton = {
     /** The size of the call to action button. */
     size?: ButtonSize;
 };
-
-export type CommonProps<K extends keyof CommonPropsLibrary> = Pick<CommonPropsLibrary, K>;
 
 /**
  * The props that are common to input elements.
@@ -60,6 +107,8 @@ export type InvalidPropsLibrary = {
      */
     errorMessage?: string;
 };
+
+export type InvalidProps<K extends keyof InvalidPropsLibrary> = Pick<InvalidPropsLibrary, K>;
 
 export type CommonPropsLibrary = {
     /** The id of the element. If not provided one will be generated. */
@@ -118,7 +167,15 @@ export type CommonPropsLibrary = {
      * @required
      */
     'aria-label': string;
+    /**
+     * This is a utility attribute used to identify the owning component of another component.
+     *
+     * This is used to identify the component in the UI library and is not intended for public use.
+     */
+    'data-bspk-owner'?: string;
 };
+
+export type CommonProps<K extends keyof CommonPropsLibrary> = Pick<CommonPropsLibrary, K>;
 
 export type Brand =
     | 'anywhere'
@@ -130,17 +187,5 @@ export type Brand =
     | 'denali-boss'
     | 'era'
     | 'sothebys';
-
-export const BRANDS: { title: string; slug: Brand }[] = [
-    { title: 'Anywhere', slug: 'anywhere' },
-    { title: 'Better Homes & Gardens', slug: 'better-homes-gardens' },
-    { title: 'Cartus', slug: 'cartus' },
-    { title: 'Century 21', slug: 'century-21' },
-    { title: 'Coldwell Banker', slug: 'coldwell-banker' },
-    { title: 'Corcoran', slug: 'corcoran' },
-    { title: 'Denali Boss', slug: 'denali-boss' },
-    { title: 'ERA', slug: 'era' },
-    { title: "Sotheby's", slug: 'sothebys' },
-] as const;
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

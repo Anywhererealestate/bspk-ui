@@ -1,6 +1,9 @@
 /**
  * Custom hook to manage the positioning of a floating element relative to a reference element.
  *
+ * This hook uses the Floating UI library to compute the position of the floating element based on the reference
+ * element's position and the specified placement, strategy, and offset options.
+ *
  * @template ReferenceType - The type of the reference element, extending HTMLElement.
  * @param {Object} params - The parameters for the hook.
  * @param {Placement} params.placement - The preferred placement of the floating element.
@@ -38,9 +41,9 @@ export type UseFloatingProps = {
      *
      * This determines where the floating element will be positioned relative to the reference element.
      *
-     * @default bottom
+     * @default bottom-start
      */
-    placement: Placement;
+    placement?: Placement;
     /** A ref object for the arrow element. */
     arrowRef?: React.MutableRefObject<HTMLElement | null>;
     /**
@@ -71,20 +74,31 @@ export type UseFloatingProps = {
     hide?: boolean;
 };
 
+export type UseFloatingElements<ReferenceElementType extends HTMLElement = HTMLElement> = {
+    reference: ReferenceElementType | null;
+    floating: HTMLElement | null;
+    setReference: (element: ReferenceElementType | null) => void;
+    setFloating: (element: HTMLElement | null) => void;
+};
+
 /**
  *
  *
  * @param param0
  * @returns
  */
-export function useFloating<TriggerElementType extends HTMLElement>({
-    placement = 'bottom',
+export function useFloating<ReferenceElementType extends HTMLElement = HTMLElement>({
+    placement = 'bottom-start',
     arrowRef,
     strategy = 'fixed',
     offsetOptions = 0,
     refWidth = true,
     hide = false,
-}: UseFloatingProps) {
+}: UseFloatingProps): {
+    elements: UseFloatingElements<ReferenceElementType>;
+    floatingStyles: React.CSSProperties;
+    middlewareData: MiddlewareData;
+} {
     const [floatingStyles, setFloatingStylesState] = useState<React.CSSProperties>({
         opacity: 0,
         pointerEvents: 'none',
@@ -100,7 +114,7 @@ export function useFloating<TriggerElementType extends HTMLElement>({
 
     const [middlewareData, setMiddlewareData] = useState<MiddlewareData>({});
 
-    const [triggerElement, setTriggerElement] = useState<TriggerElementType | null>(null);
+    const [referenceElement, setReferenceElement] = useState<ReferenceElementType | null>(null);
 
     const [floatingElement, setFloatingElement] = useState<HTMLElement | null>(null);
 
@@ -112,7 +126,7 @@ export function useFloating<TriggerElementType extends HTMLElement>({
         transitionDelay.clear();
 
         // check if the reference or floating element is null
-        if (triggerElement === null || floatingElement === null) return;
+        if (referenceElement === null || floatingElement === null) return;
 
         if (hide) {
             if (floatingElement?.style.top)
@@ -136,9 +150,9 @@ export function useFloating<TriggerElementType extends HTMLElement>({
 
         computeDebounce.set(() => {
             // check again if the reference or floating element is null
-            if (hide || triggerElement === null || floatingElement === null) return;
+            if (hide || referenceElement === null || floatingElement === null) return;
 
-            computePosition(triggerElement, floatingElement, {
+            computePosition(referenceElement, floatingElement, {
                 placement: placement,
                 strategy,
                 middleware: [
@@ -180,7 +194,7 @@ export function useFloating<TriggerElementType extends HTMLElement>({
     }, [
         computeDebounce,
         transitionDelay,
-        triggerElement,
+        referenceElement,
         floatingElement,
         hide,
         placement,
@@ -199,20 +213,20 @@ export function useFloating<TriggerElementType extends HTMLElement>({
     }, [compute, computeDebounce, hide, transitionDelay]);
 
     useEffect(() => {
-        if (hide || triggerElement === null || floatingElement === null) return;
+        if (hide || referenceElement === null || floatingElement === null) return;
 
-        const cleanup = autoUpdate(triggerElement, floatingElement, compute);
+        const cleanup = autoUpdate(referenceElement, floatingElement, compute);
 
         return () => {
             cleanup();
         };
-    }, [compute, hide, floatingElement, triggerElement]);
+    }, [compute, hide, floatingElement, referenceElement]);
 
     return {
         elements: {
-            trigger: triggerElement,
+            reference: referenceElement,
             floating: floatingElement,
-            setTrigger: setTriggerElement,
+            setReference: setReferenceElement,
             setFloating: setFloatingElement,
         },
         floatingStyles,

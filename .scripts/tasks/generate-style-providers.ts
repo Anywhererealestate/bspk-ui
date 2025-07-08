@@ -4,29 +4,38 @@
  * If we need to change the styles provider we should do it here and run the script to ensure consistency.
  *
  * $ npx tsx .scripts/tasks/generate-style-providers.ts
+ *
+ * Generates styles provider components for each brand.
+ *
+ * @cliName gsp
  */
 
+import { execSync } from 'child_process';
 import fs from 'fs';
 
-import { BRANDS } from '../../src';
+import packageData from '../../package.json';
 import { camelCase } from '../utils';
+
+const BRANDS = packageData.brands;
 
 function generateStylesProviders() {
     BRANDS.forEach(({ slug, title }) => {
         const componentName = `StylesProvider${camelCase(title)}`;
 
+        execSync(`mkdir -p ./src/components/${componentName}`, { stdio: 'inherit' });
+
         fs.writeFileSync(
-            `./src/${componentName}.tsx`,
+            `./src/components/${componentName}/${componentName}.tsx`,
             `import '@bspk/styles/${slug}.css';
-import './base.scss';
+import '../../base.scss';
 
 /**
  * Utility to provide the ${title} styles to the application.
  *
  * @name ${componentName}
  */
-function ${componentName}() {
-    return <></>;
+function ${componentName}(): JSX.Element | null {
+    return null;
 }
 
 ${componentName}.bspkName = '${componentName}';

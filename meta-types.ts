@@ -6,7 +6,7 @@
 export type BaseMeta = {
     name: string;
     description?: string;
-    file?: string;
+    file: string;
     example?: string;
 };
 
@@ -21,11 +21,11 @@ export type TypeProperty = {
     name: string;
     description?: string;
     type?: string[] | string;
+    exampleType?: string;
     default?: unknown;
     required?: boolean;
     options?: number[] | string[];
     variants?: string[];
-    properties?: TypeProperty[];
     references?: string[];
     minimum?: number;
     maximum?: number;
@@ -41,11 +41,20 @@ export type ComponentMeta = BaseMeta & {
         code: string;
         description?: string;
     };
+    phase: ComponentPhase;
 };
 
 export type UtilityMeta = BaseMeta & {
     param?: string;
     returns?: string;
 };
+
+export type ComponentPhase =
+    | 'AccessibilityReview'
+    | 'Backlog'
+    | 'DesignReview'
+    | 'ProductionReady'
+    | 'Utility'
+    | 'WorkInProgress';
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

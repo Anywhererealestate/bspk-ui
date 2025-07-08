@@ -1,0 +1,49 @@
+[data-bspk='phone-number-input'] {
+    width: 100%;
+
+    [data-bspk='text-input'] {
+        padding-left: 0;
+    }
+
+    [data-bspk='divider'] {
+        margin-left: 0;
+        margin-top: var(--spacing-sizing-01);
+        margin-bottom: var(--spacing-sizing-01);
+    }
+
+    [data-bspk='country-code-select'] {
+        border: 0;
+        padding: var(--spacing-sizing-02);
+        background: none;
+        cursor: pointer;
+        outline: none;
+
+        [data-bspk-name='KeyboardArrowDown'] {
+            margin-left: var(--spacing-sizing-02);
+        }
+    }
+
+    [data-bspk='country-code'] {
+        font: var(--body-base);
+        color: var(--foreground-neutral-on-surface);
+    }
+
+    [data-bspk='txt'] {
+        cursor: default;
+    }
+
+    [data-disabled] {
+        [data-bspk='country-code-select'] {
+            cursor: default;
+        }
+    }
+}
+
+[data-bspk-owner='phone-number-input'] {
+    [data-bspk='list-item'] {
+        [data-trailing] {
+            font: var(--body-base);
+            color: var(--foreground-neutral-on-surface);
+        }
+    }
+}

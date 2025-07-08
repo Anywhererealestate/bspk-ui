@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+
 /**
  * A hook which calls a method when a click occurs outside of the provided ref. Used inside the DropDown and Modal
  * components.
@@ -29,12 +30,12 @@ import { useEffect } from 'react';
  * @param disabled - Whether the hook should be disabled. Defaults to false.
  */
 export function useOutsideClick(
-    elements: (HTMLElement | null)[],
+    elements: (HTMLElement | null)[] | null,
     callback: (event?: MouseEvent) => void,
     disabled?: boolean,
 ) {
     useEffect(() => {
-        if (!elements.length || disabled) return;
+        if (!elements?.length || disabled) return;
 
         const handleClickOutside = (event: MouseEvent) => {
             if (disabled || elements?.some?.((element) => element?.contains?.(event.target as Node))) return;

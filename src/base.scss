@@ -21,18 +21,15 @@
     padding: 0;
 }
 
-html:has(body[data-bspk]) {
-    height: 100%;
-    scroll-behavior: smooth;
-}
-
 :root {
     --z-index-tooltip-popover: 1100;
     --z-index-dialog: 1000;
-    --z-index-dropdown: 900;
+    --z-index-dropdown: 1000;
+    --z-index-scrim: 900;
     --z-index-fab: 800;
     --z-index-navbar: 700;
     --z-index-footer: 600;
+    --list-item-height: var(--spacing-sizing-13);
 }
 
 @media (prefers-reduced-motion) {
@@ -41,28 +38,28 @@ html:has(body[data-bspk]) {
     }
 }
 
+html:has(body[data-bspk]) {
+    height: 100%;
+    scrollbar-gutter: stable;
+    overflow: hidden auto;
+    scroll-behavior: smooth;
+}
+
+/* --scrollbar-width: defined inline in UIProvider */
+html:has([data-bspk='scrim']) {
+    overflow: hidden;
+    padding-right: var(--scrollbar-width);
+}
+
 body[data-bspk] {
     height: 100%;
-    scroll-behavior: smooth;
     font: var(--body-base);
     background-color: var(--background-base);
     color: var(--foreground-neutral-on-surface);
-
-    /** Remove default input autofill styles */
-    input:-internal-autofill-previewed,
-    input:-internal-autofill-selected,
-    textarea:-internal-autofill-previewed,
-    textarea:-internal-autofill-selected,
-    select:-internal-autofill-previewed,
-    select:-internal-autofill-selected {
-        transition:
-            color calc(infinity * 1s) step-end,
-            background-color calc(infinity * 1s) step-end;
-    }
+    min-width: 343px;
 
     a {
         color: var(--foreground-link-text-default);
-        font: var(--labels-base);
 
         &:not([disabled]) {
             &:hover,
@@ -148,6 +145,13 @@ body[data-bspk] {
     }
 }
 
+[data-touch-target-parent] {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
 [data-touch-target] {
     display: none;
     touch-action: manipulation;
@@ -183,6 +187,89 @@ body[data-bspk] {
 @media (any-pointer: coarse) {
     [data-touch-target] {
         display: block;
+    }
+}
+
+@keyframes skeleton-pulse {
+    0% {
+        opacity: 0.8;
+    }
+
+    50% {
+        opacity: 0.4;
+    }
+
+    100% {
+        opacity: 0.8;
+    }
+}
+
+[data-bspk='skeleton-text'] {
+    /*! 
+    --text-margin: is set via inline style
+    --text-height: is set via inline style
+    */
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--text-margin);
+    animation: skeleton-pulse 1.5s infinite;
+    width: 100%;
+    height: fit-content;
+
+    [data-line] {
+        width: 100%;
+        background: var(--foreground-neutral-skeleton-element);
+        border-radius: var(--radius-small);
+        height: var(--text-height);
+    }
+
+    // if there are 2 lines or more, make the last line 80% width
+    &:has([data-line]:nth-child(2)) {
+        [data-line]:last-child {
+            width: 80%;
+        }
+    }
+}
+
+[data-bspk='skeleton'] {
+    /*! 
+    --height: is set via inline style
+    --width: is set via inline style
+    */
+
+    animation: skeleton-pulse 1.5s infinite;
+    background: var(--foreground-neutral-skeleton-element);
+
+    &[data-variant='rectangular'],
+    &[data-variant='photo'] {
+        min-width: var(--spacing-sizing-08);
+        min-height: var(--spacing-sizing-08);
+        height: var(--height, var(--width));
+        width: var(--width, var(--height));
+        border-radius: var(--radius-small);
+    }
+
+    &[data-variant='photo'] {
+        border-radius: var(--radius-medium);
+    }
+
+    &[data-variant='circular'] {
+        border-radius: 100%;
+        width: var(--width);
+        aspect-ratio: 1/1;
+    }
+
+    &[data-variant='profile'] {
+        border-radius: 100%;
+        width: var(--spacing-sizing-10);
+        aspect-ratio: 1/1;
+    }
+
+    &[data-variant='thumbnail'] {
+        width: var(--spacing-sizing-12);
+        height: var(--spacing-sizing-12);
+        border-radius: var(--radius-small);
     }
 }
 
