@@ -35,6 +35,7 @@
         padding: 0 var(--spacing-sizing-03);
         font: var(--labels-base);
         justify-content: space-between;
+        cursor: pointer;
 
         &[data-head='first'] {
             border-top-left-radius: var(--radius-medium);
@@ -43,7 +44,6 @@
         &[data-head='last'] {
             border-top-right-radius: var(--radius-medium);
         }
-        cursor: pointer;
     }
 }
 
