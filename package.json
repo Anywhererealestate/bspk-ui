@@ -10,7 +10,8 @@
         "LICENSE",
         "meta.ts",
         "meta-types.ts",
-        "build.ts"
+        "build.ts",
+        "tsconfig.json"
     ],
     "scripts": {
         "sass": "sass --no-source-map --silence-deprecation=mixed-decls src:dist",
