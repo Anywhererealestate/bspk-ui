@@ -13,8 +13,10 @@
 import { execSync } from 'child_process';
 import fs from 'fs';
 
-import { BRANDS } from '../../src';
+import packageData from '../../package.json';
 import { camelCase } from '../utils';
+
+const BRANDS = packageData.brands;
 
 function generateStylesProviders() {
     BRANDS.forEach(({ slug, title }) => {

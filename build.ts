@@ -23,7 +23,8 @@ import path from 'path';
 import util from 'util';
 
 import packageData from './package.json';
-import { BRANDS } from './src';
+
+const BRANDS = packageData.brands;
 
 const exec = util.promisify(child_process.exec);
 const writeFile = util.promisify(fs_.writeFile);

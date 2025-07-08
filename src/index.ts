@@ -144,16 +144,4 @@ export type Brand =
     | 'era'
     | 'sothebys';
 
-export const BRANDS: { title: string; slug: Brand }[] = [
-    { title: 'Anywhere', slug: 'anywhere' },
-    { title: 'Better Homes & Gardens', slug: 'better-homes-gardens' },
-    { title: 'Cartus', slug: 'cartus' },
-    { title: 'Century 21', slug: 'century-21' },
-    { title: 'Coldwell Banker', slug: 'coldwell-banker' },
-    { title: 'Corcoran', slug: 'corcoran' },
-    { title: 'Denali Boss', slug: 'denali-boss' },
-    { title: 'ERA', slug: 'era' },
-    { title: "Sotheby's", slug: 'sothebys' },
-] as const;
-
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
