@@ -46,5 +46,7 @@
         "dist",
         "acceptance-tests",
         "package",
+        "src/**/*.spec.ts",
+        "src/**/*.test.ts"
     ]
 }
