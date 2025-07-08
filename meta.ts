@@ -28,12 +28,9 @@ function getArgValue(name: string, defaultValue: string = ''): string {
 }
 
 const outDirectory = getArgValue('out');
-const fileChanged = getArgValue('update');
 const uiHash = getArgValue('hash');
 const build = getArgValue('build', '0');
 const target = getArgValue('target');
-
-const examplesFileChanged = fileChanged.includes('src/demo/examples');
 
 if (!outDirectory) {
     console.error('Please provide a path to the meta file.');
@@ -132,8 +129,6 @@ const componentFiles = fs.readdirSync(componentsDir, { withFileTypes: true, enco
     const filePath = path.resolve(dirent.parentPath, dirent.name, `${dirent.name}.tsx`);
     if (!fs.existsSync(filePath)) return [];
 
-    if (fileChanged && !examplesFileChanged && !filePath.includes(fileChanged)) return [];
-
     const content = fs.readFileSync(filePath, 'utf-8');
     return {
         filePath,
@@ -153,11 +148,6 @@ const componentFiles = fs.readdirSync(componentsDir, { withFileTypes: true, enco
 });
 
 type ComponentFile = (typeof componentFiles)[0];
-
-if (examplesFileChanged) {
-    createExamples();
-    process.exit(0);
-}
 
 function generateComponentMeta({
     filePath: componentFile,
@@ -268,8 +258,6 @@ function generateTypes() {
         if (!f.name.endsWith('.tsx') && !f.name.endsWith('.ts')) return [];
 
         const filePath = path.resolve(f.parentPath, f.name);
-
-        if (fileChanged && !filePath.includes(fileChanged)) return [];
 
         const content = fs.readFileSync(filePath, 'utf-8');
 
@@ -505,8 +493,6 @@ async function createMeta() {
 
         const filePath = path.resolve(hooksDir, f);
 
-        if (fileChanged && !filePath.includes(fileChanged)) return [];
-
         return filePath;
     });
 
@@ -536,75 +522,7 @@ async function createMeta() {
         console.info(`${YELLOW}Production meta build.${RESET}`);
     }
 
-    if (fileChanged) console.info(`${ORANGE}Updated: ${fileChanged}${RESET}`);
-
     const metaJsonPath = path.join(outDirectory, 'data.json');
-
-    const prevMetaJson =
-        fileChanged && fs.existsSync(metaJsonPath) ? fs.readFileSync(metaJsonPath, { encoding: 'utf-8' }) : null;
-
-    if (prevMetaJson) {
-        const prevMeta = JSON.parse(prevMetaJson) as {
-            componentsMeta: ComponentMeta[];
-            utilitiesMeta: UtilityMeta[];
-            typesMeta: TypeMeta[];
-        };
-
-        const newMeta = {
-            componentsMeta,
-            utilitiesMeta,
-            typesMeta,
-        };
-
-        newMeta.componentsMeta.forEach((component) => {
-            const existingIndex = prevMeta.componentsMeta.findIndex((c: ComponentMeta) => c.name === component.name);
-            if (existingIndex !== -1) {
-                prevMeta.componentsMeta[existingIndex] = component;
-            } else {
-                prevMeta.componentsMeta.push(component);
-            }
-        });
-
-        newMeta.utilitiesMeta.forEach((utility) => {
-            const existingIndex = prevMeta.utilitiesMeta.findIndex((u: UtilityMeta) => u.name === utility.name);
-            if (existingIndex !== -1) {
-                prevMeta.utilitiesMeta[existingIndex] = utility;
-            } else {
-                prevMeta.utilitiesMeta.push(utility);
-            }
-        });
-
-        newMeta.typesMeta.forEach((type) => {
-            const existingIndex = prevMeta.typesMeta.findIndex((t: TypeMeta) => t.name === type.name);
-            if (existingIndex !== -1) {
-                prevMeta.typesMeta[existingIndex] = type;
-            } else {
-                prevMeta.typesMeta.push(type);
-            }
-        });
-
-        const newMetaJson = JSON.stringify(
-            {
-                VERSION: uiVersion,
-                UI_HASH: uiHash,
-                BUILD: build,
-                MODE: mode,
-                ...newMeta,
-            },
-            null,
-            2,
-        );
-
-        // if no change in meta, do not write the file
-        if (prevMetaJson === newMetaJson) {
-            console.info('No changes in meta, skipping write.');
-        } else {
-            fs.writeFileSync(metaJsonPath, newMetaJson);
-            console.info('Update meta complete.');
-        }
-
-        process.exit(0);
-    }
 
     fs.writeFileSync(
         metaJsonPath,
@@ -666,7 +584,7 @@ function createExamples() {
     const examplesFilePath = path.join(outDirectory, 'examples.ts');
 
     const componentsWithExamples = componentFiles.filter(({ name }) =>
-        fs.existsSync(path.resolve(__dirname, `src/components/${name}/example.tsx`)),
+        fs.existsSync(path.resolve(__dirname, `src/components/${name}/${name}Example.tsx`)),
     );
 
     fs.writeFileSync(

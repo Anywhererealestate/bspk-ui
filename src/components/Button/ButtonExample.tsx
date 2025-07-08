@@ -15,6 +15,7 @@ export const ButtonExample: ComponentExample<ButtonProps> = {
             label: 'Text only',
             propState: {
                 label: 'Add',
+                icon: undefined,
             },
         },
         {
