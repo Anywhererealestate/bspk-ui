@@ -15,7 +15,7 @@ const errors: string[] = [];
 const { componentsMeta, typesMeta } = await getLocalMeta();
 
 fs.readdirSync(path.resolve('./src/components'), { withFileTypes: true }).forEach((dirent) => {
-    if (!dirent.isDirectory()) {
+    if (!dirent.isDirectory() && dirent.name !== '.DS_Store') {
         errors.push(`❌ ${dirent.name} is in the components directory but is not a directory. Please remove it.`);
         return;
     }
@@ -25,7 +25,14 @@ fs.readdirSync(path.resolve('./src/components'), { withFileTypes: true }).forEac
 
 if (!errors.length)
     componentsMeta.forEach(({ name, slug }) => {
+        const indexPath = path.resolve(`./src/components/${name}/index.tsx`);
+
         const content = fs.readFileSync(path.resolve(`./src/components/${name}/${name}.tsx`), 'utf-8');
+
+        if (!fs.existsSync(indexPath)) {
+            errors.push(`❌ ${name} does not have an index.tsx file. Please create one.`);
+            return;
+        }
 
         const propNameMatch = content.match(/\.bspkName = '([^']+)'/);
         const dataNameMatch = content.match(/data-bspk="([^"]+)"/);

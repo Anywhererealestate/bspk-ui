@@ -5,6 +5,7 @@ import '../../base.scss';
  * Utility to provide the Sotheby's styles to the application.
  *
  * @name StylesProviderSothebys
+ * @phase Utility
  */
 function StylesProviderSothebys(): JSX.Element | null {
     return null;

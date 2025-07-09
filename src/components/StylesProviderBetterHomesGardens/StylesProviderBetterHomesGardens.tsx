@@ -5,6 +5,7 @@ import '../../base.scss';
  * Utility to provide the Better Homes & Gardens styles to the application.
  *
  * @name StylesProviderBetterHomesGardens
+ * @phase Utility
  */
 function StylesProviderBetterHomesGardens(): JSX.Element | null {
     return null;

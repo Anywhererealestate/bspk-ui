@@ -5,6 +5,7 @@ import '../../base.scss';
  * Utility to provide the Anywhere styles to the application.
  *
  * @name StylesProviderAnywhere
+ * @phase Utility
  */
 function StylesProviderAnywhere(): JSX.Element | null {
     return null;
