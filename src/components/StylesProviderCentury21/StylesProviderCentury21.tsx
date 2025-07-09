@@ -16,4 +16,3 @@ StylesProviderCentury21.bspkName = 'StylesProviderCentury21';
 export { StylesProviderCentury21 };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
-

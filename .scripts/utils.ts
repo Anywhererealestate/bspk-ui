@@ -67,10 +67,10 @@ export function reportMissingVariables(variables: Record<string, string>) {
     // ensure all sass files in src do not reference variables not in anywhere.css
 
     const srcFiles = fs
-        .readdirSync(path.resolve(__dirname, '../src'), { withFileTypes: true })
+        .readdirSync(path.resolve(__dirname, '../src'), { withFileTypes: true, recursive: true })
         .filter((file) => file.isFile() && file.name.endsWith('.scss'))
         .map((file) => {
-            const filePath = path.resolve(__dirname, '../src', file.name);
+            const filePath = path.resolve(file.parentPath, file.name);
             return {
                 content: fs.readFileSync(filePath, 'utf-8'),
                 filePath,
