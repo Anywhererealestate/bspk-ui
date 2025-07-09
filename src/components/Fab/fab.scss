@@ -113,7 +113,7 @@
     }
 
     &[data-round] {
-        border-radius: var(--radius-circular);
+        border-radius: var(--radius-full);
         aspect-ratio: 1/1;
         padding: 0;
     }
