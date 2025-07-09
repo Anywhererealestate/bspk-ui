@@ -15,14 +15,14 @@
         width: 100%;
         height: var(--spacing-sizing-02);
         background-color: var(--surface-neutral-t3-low);
-        border-radius: var(--radius-small);
+        border-radius: var(--radius-sm);
 
         &::after {
             content: '';
             display: block;
             height: 100%;
             background-color: var(--foreground-brand-primary);
-            border-radius: var(--radius-small);
+            border-radius: var(--radius-sm);
             width: var(--width);
             transition: width 0.3s;
         }

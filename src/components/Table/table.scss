@@ -6,7 +6,7 @@
     display: grid;
     color: var(--foreground-neutral-on-surface);
     font: var(--labels-base);
-    border-radius: var(--radius-medium);
+    border-radius: var(--radius-md);
     border: 1px solid var(--stroke-neutral-low);
 
     [data-cell] {
@@ -36,11 +36,11 @@
         font: var(--labels-base);
 
         &[data-head='first'] {
-            border-top-left-radius: var(--radius-medium);
+            border-top-left-radius: var(--radius-md);
         }
 
         &[data-head='last'] {
-            border-top-right-radius: var(--radius-medium);
+            border-top-right-radius: var(--radius-md);
         }
     }
 }
