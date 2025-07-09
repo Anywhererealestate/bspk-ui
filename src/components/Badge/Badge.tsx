@@ -68,11 +68,9 @@ function Badge({ count: countProp, size = 'small', variant = 'primary', surfaceB
 
     const badge = (
         <sup data-bspk="badge" data-size={size} data-surface-border={surfaceBorder || undefined} data-variant={variant}>
-            nice {count > 99 ? '99+' : count}
+            {count > 99 ? '99+' : count}
         </sup>
     );
-
-    console.log(123);
 
     if (children) {
         return (
