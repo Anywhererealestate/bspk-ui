@@ -25,7 +25,14 @@ fs.readdirSync(path.resolve('./src/components'), { withFileTypes: true }).forEac
 
 if (!errors.length)
     componentsMeta.forEach(({ name, slug }) => {
+        const indexPath = path.resolve(`./src/components/${name}/index.tsx`);
+
         const content = fs.readFileSync(path.resolve(`./src/components/${name}/${name}.tsx`), 'utf-8');
+
+        if (!fs.existsSync(indexPath)) {
+            errors.push(`❌ ${name} does not have an index.tsx file. Please create one.`);
+            return;
+        }
 
         const propNameMatch = content.match(/\.bspkName = '([^']+)'/);
         const dataNameMatch = content.match(/data-bspk="([^"]+)"/);

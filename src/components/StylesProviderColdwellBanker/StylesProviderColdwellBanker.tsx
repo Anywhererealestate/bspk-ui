@@ -5,6 +5,7 @@ import '../../base.scss';
  * Utility to provide the Coldwell Banker styles to the application.
  *
  * @name StylesProviderColdwellBanker
+ * @phase Utility
  */
 function StylesProviderColdwellBanker(): JSX.Element | null {
     return null;

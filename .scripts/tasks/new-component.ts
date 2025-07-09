@@ -108,6 +108,8 @@ fs.writeFileSync(
 `,
 );
 
+fs.writeFileSync(path.join(componentDirectoryPath, 'index.tsx'), `export * from './${componentName}';\n`);
+
 console.info(`\n${componentName} component generated at ${componentFilePath}`);
 
 function capitalizeFirstLetter(val) {
