@@ -15,7 +15,7 @@ const errors: string[] = [];
 const { componentsMeta, typesMeta } = await getLocalMeta();
 
 fs.readdirSync(path.resolve('./src/components'), { withFileTypes: true }).forEach((dirent) => {
-    if (!dirent.isDirectory()) {
+    if (!dirent.isDirectory() && dirent.name !== '.DS_Store') {
         errors.push(`❌ ${dirent.name} is in the components directory but is not a directory. Please remove it.`);
         return;
     }
