@@ -188,7 +188,9 @@
         "./Txt/*": "./dist/components/Txt/*.js",
         "./Txt": "./dist/components/Txt/index.js",
         "./UIProvider/*": "./dist/components/UIProvider/*.js",
-        "./UIProvider": "./dist/components/UIProvider/index.js"
+        "./UIProvider": "./dist/components/UIProvider/index.js",
+        "./UploadItem/*": "./dist/components/UploadItem/*.js",
+        "./UploadItem": "./dist/components/UploadItem/index.js"
     },
     "publishConfig": {
         "access": "public"

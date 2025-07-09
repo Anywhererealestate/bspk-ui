@@ -30,7 +30,7 @@ export type UploadItemProps = {
  * @phase WorkInProgress
  */
 function UploadItem({ fileName = 'here I am' }: UploadItemProps) {
-    console.log(`LABEL: ${fileName}`);
+    // console.log(`LABEL: ${fileName}`);
     return (
         <ListItem
             label={fileName}
