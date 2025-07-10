@@ -53,6 +53,12 @@ export type TextInputProps = CommonProps<
          * @default off
          */
         autoComplete?: HTMLInputAutoCompleteAttribute;
+        /**
+         * Specifies if the clear button should be shown. This should almost always be true, but can be set to false.
+         *
+         * @default true
+         */
+        showClearButton?: boolean;
     };
 
 /**
@@ -93,6 +99,7 @@ function TextInput({
     autoComplete = DEFAULT.autoComplete,
     containerRef,
     errorMessage,
+    showClearButton = true,
     ...otherProps
 }: ElementProps<TextInputProps, 'div'>) {
     const id = useId(idProp);
@@ -102,6 +109,7 @@ function TextInput({
     return (
         <div
             data-bspk="text-input"
+            data-clear-hidden={showClearButton === false || undefined}
             data-disabled={disabled || undefined}
             data-empty={!value.toString().length || undefined}
             data-invalid={invalid || undefined}
@@ -112,6 +120,7 @@ function TextInput({
             {...otherProps}
         >
             {leading && <span data-leading>{leading}</span>}
+
             <input
                 aria-errormessage={errorMessage || undefined}
                 aria-invalid={invalid || undefined}
@@ -130,10 +139,14 @@ function TextInput({
                 type={type}
                 value={value || ''}
             />
+
             {trailing && <span data-trailing>{trailing}</span>}
-            <button aria-label="clear" data-clear onClick={() => onChange('')}>
-                <SvgCancel />
-            </button>
+
+            {showClearButton !== false && (
+                <button aria-label="clear" data-clear onClick={() => onChange('')}>
+                    <SvgCancel />
+                </button>
+            )}
         </div>
     );
 }
