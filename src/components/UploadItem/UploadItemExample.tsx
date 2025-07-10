@@ -1,6 +1,6 @@
 import { ComponentExampleFn } from '-/utils/demo';
 
-import { UploadItemProps } from './UploadItem';
+import { UploadItemProps } from '.';
 
 export const UploadItemExample: ComponentExampleFn<UploadItemProps> = ({ action }) => ({
     render: ({ props, Component }) => {
