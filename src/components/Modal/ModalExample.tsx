@@ -4,7 +4,6 @@ import { Checkbox } from '-/components/Checkbox';
 import { ListItem } from '-/components/ListItem';
 import { ComponentExampleFn } from '-/utils/demo';
 
-
 export const ModalExample: ComponentExampleFn<ModalProps> = ({ action }) => ({
     hideVariants: true,
     render: ({ props, setState }) => {

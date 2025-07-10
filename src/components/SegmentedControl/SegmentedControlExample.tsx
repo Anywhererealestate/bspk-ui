@@ -7,7 +7,6 @@ import { SvgSquareFill } from '@bspk/icons/SquareFill';
 import { SegmentedControlProps } from '.';
 import { ComponentExample } from '-/utils/demo';
 
-
 export const SegmentedControlExample: ComponentExample<SegmentedControlProps> = {
     containerStyle: { width: '100%' },
     presets: [

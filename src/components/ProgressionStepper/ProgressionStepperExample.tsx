@@ -1,7 +1,6 @@
 import { ProgressionStepperProps } from '.';
 import { ComponentExample } from '-/utils/demo';
 
-
 export const ProgressionStepperExample: ComponentExample<ProgressionStepperProps> = {
     presets: [
         {

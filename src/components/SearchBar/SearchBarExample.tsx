@@ -2,7 +2,6 @@ import { SearchBarProps } from '.';
 import { ComboboxItemProps } from '-/components/Combobox';
 import { ComponentExample } from '-/utils/demo';
 
-
 export const SearchBarExample: ComponentExample = {
     render: ({ props: state, Component }) => {
         const props = { ...state } as SearchBarProps;

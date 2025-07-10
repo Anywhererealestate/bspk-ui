@@ -1,7 +1,6 @@
 import { TextareaFieldProps } from '.';
 import { ComponentExample } from '-/utils/demo';
 
-
 export const TextareaFieldExample: ComponentExample<TextareaFieldProps> = {
     render: ({ Component, props }) => {
         const tooManyCharacters = Boolean(props.value && props.maxLength && props.value?.length > props.maxLength);

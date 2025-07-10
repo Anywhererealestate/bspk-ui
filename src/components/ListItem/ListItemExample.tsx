@@ -11,7 +11,6 @@ import { Tag } from '-/components/Tag';
 import { Txt } from '-/components/Txt';
 import { ComponentExampleFn, DemoAction, DemoSetState } from '-/utils/demo';
 
-
 export const ListItemExample: ComponentExampleFn<ListItemProps> = ({ action, setState }) => ({
     render: ({ props, Component, id }) => {
         return (

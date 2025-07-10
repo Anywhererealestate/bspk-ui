@@ -5,7 +5,6 @@ import { CommonProps, InvalidPropsLibrary } from '-/types/common';
 import { EVENT_KEY } from '-/utils/keyboard';
 import { scrollElementIntoView } from '-/utils/scrollElementIntoView';
 
-
 export type UseComboboxProps = CommonProps<'disabled' | 'readOnly'> &
     InvalidPropsLibrary &
     Pick<UseFloatingProps, 'offsetOptions' | 'placement' | 'refWidth'> & {

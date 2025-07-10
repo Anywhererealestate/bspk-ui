@@ -7,7 +7,6 @@ import { SvgSquareFill } from '@bspk/icons/SquareFill';
 import { TabGroupProps } from '.';
 import { ComponentExample } from '-/utils/demo';
 
-
 export const TabGroupExample: ComponentExample<TabGroupProps> = {
     containerStyle: { width: '100%' },
     presets: [

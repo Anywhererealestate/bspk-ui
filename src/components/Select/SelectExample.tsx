@@ -4,7 +4,6 @@ import { Tag } from '-/components/Tag';
 import { Txt } from '-/components/Txt';
 import { ComponentExample } from '-/utils/demo';
 
-
 const trailingPrice = (price: number) => (
     <Txt>{`${new Intl.NumberFormat('en-US', {
         style: 'currency',

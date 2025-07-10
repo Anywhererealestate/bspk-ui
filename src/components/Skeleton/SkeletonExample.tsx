@@ -6,7 +6,6 @@ import { ExamplePlaceholder } from '-/components/ExamplePlaceholder';
 import { useTimeout } from '-/hooks/useTimeout';
 import { ComponentExample } from '-/utils/demo';
 
-
 export const SkeletonExample: ComponentExample<SkeletonProps> = {
     render: ({ props, preset, Component }) => {
         if (preset?.label === 'Loading Transition') return <SkeletonTransition {...props} Component={Component} />;

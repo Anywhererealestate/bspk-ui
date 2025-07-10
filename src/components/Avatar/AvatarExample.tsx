@@ -1,7 +1,6 @@
 import { AvatarProps } from '.';
 import { ComponentExample } from '-/utils/demo';
 
-
 export const AvatarExample: ComponentExample<AvatarProps> = {
     presets: [
         {

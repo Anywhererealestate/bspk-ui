@@ -4,7 +4,6 @@ import { SkeletonTextProps } from '.';
 import { useTimeout } from '-/hooks/useTimeout';
 import { ComponentExample } from '-/utils/demo';
 
-
 export const SkeletonTextExample: ComponentExample<SkeletonTextProps> = {
     render: ({ props, preset, Component }) => {
         if (preset?.label === 'Loading Transition') return <SkeletonTextTransition {...props} Component={Component} />;

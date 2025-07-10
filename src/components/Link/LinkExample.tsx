@@ -4,7 +4,6 @@ import { LinkProps, Link } from '.';
 import { Txt } from '-/components/Txt';
 import { ComponentExample } from '-/utils/demo';
 
-
 export const LinkExample: ComponentExample<LinkProps> = {
     containerStyle: {
         width: '100%',

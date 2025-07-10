@@ -2,7 +2,6 @@ import { PopoverProps } from '.';
 import { Button } from '-/components/Button';
 import { ComponentExampleFn } from '-/utils/demo';
 
-
 export const PopoverExample: ComponentExampleFn<PopoverProps> = ({ action }) => ({
     render: ({ props, Component }) => {
         return (

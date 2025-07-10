@@ -2,7 +2,6 @@ import { EmptyStateProps } from '.';
 import { ExamplePlaceholder } from '-/components/ExamplePlaceholder';
 import { ComponentExampleFn } from '-/utils/demo';
 
-
 export const EmptyStateExample: ComponentExampleFn<EmptyStateProps> = ({ action }) => ({
     containerStyle: { width: '100%' },
     render: ({ props: { children, ...props }, context, Component }) => (

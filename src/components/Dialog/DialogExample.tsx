@@ -2,7 +2,6 @@ import { DialogProps } from '.';
 import { Button } from '-/components/Button';
 import { ComponentExample } from '-/utils/demo';
 
-
 export const DialogExample: ComponentExample<DialogProps> = {
     render: ({ props, setState, Component }) => {
         const label = 'Open Dialog';
