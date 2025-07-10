@@ -16,7 +16,7 @@ import { getCssVariables, getStylesRoot, prettyLint, reportMissingVariables } fr
 function main() {
     const variables = getCssVariables();
 
-    copyCCStylesToSrc();
+    copyStylesLibraryCss();
 
     execSync(`npm un @bspk/styles && npm i @bspk/styles@latest`, { stdio: 'inherit' });
 
@@ -29,7 +29,7 @@ function main() {
 
 main();
 
-function copyCCStylesToSrc() {
+function copyStylesLibraryCss() {
     fs.readdirSync(getStylesRoot(), 'utf8').forEach((file) => {
         if (file.endsWith('.css')) {
             const filePath = path.resolve(getStylesRoot(), file);
@@ -77,7 +77,7 @@ function generateTxtVariants(variables: Record<string, string>) {
         [
             `export const TXT_VARIANTS = ${JSON.stringify([...variants])} as const;`,
             `export type TxtVariant = typeof TXT_VARIANTS[number];`,
-        ].join('\n'),
+        ].join('\n')
     );
 }
 
@@ -109,7 +109,7 @@ function generateColorVariants(variables: Record<string, string>) {
             [
                 !variables[foreground] ? `Missing foreground variable for ${variant}` : [],
                 !variables[surface] ? `Missing surface variable for ${variant}` : [],
-            ].flat(),
+            ].flat()
         )
         .filter(Boolean);
 
@@ -130,7 +130,7 @@ function generateColorVariants(variables: Record<string, string>) {
                     surface: surfaceVariable as `--${string}` | undefined,
                 },
             ];
-        }),
+        })
     );
 
     const variants = { ...manualVariants, ...foundVariants };
@@ -140,7 +140,7 @@ function generateColorVariants(variables: Record<string, string>) {
         [
             `export const COLOR_VARIANTS = ${JSON.stringify(Object.keys(variants))} as const;`,
             `export type ColorVariant = typeof COLOR_VARIANTS[number];`,
-        ].join('\n'),
+        ].join('\n')
     );
 
     const cssFilePath = path.resolve(__dirname, '../src/styles/colors.scss');
@@ -155,16 +155,16 @@ function generateColorVariants(variables: Record<string, string>) {
             --foreground: var(${foreground});
             --background: var(${surface});
         }
-    `,
+    `
                 )
-                .join('\n'),
-        ),
+                .join('\n')
+        )
     );
 
     execSync(
         //
         `npx prettier --write '${cssFilePath}' && npx stylelint '${cssFilePath}' --fix`,
-        { stdio: 'inherit' },
+        { stdio: 'inherit' }
     );
 }
 

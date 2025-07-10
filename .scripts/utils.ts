@@ -122,10 +122,13 @@ export function reportMissingVariables(variables: Record<string, string>) {
     console.log('No undefined CSS variables found :)');
 }
 
+export function getStylesRoot() {
+    return path.resolve(__dirname, '../node_modules/@bspk/styles');
+}
+
 export function getCssVariables() {
-    // reference only - import '@bspk/styles/anywhere.css';
     // we use the anywhere.css file to extract the variables --- all brands have the same variables
-    const anywhereCssFile = path.resolve(__dirname, '../node_modules/@bspk/styles/anywhere.css');
+    const anywhereCssFile = path.resolve(getStylesRoot(), 'anywhere.css');
     const variableMatches = fs.readFileSync(anywhereCssFile, 'utf8').matchAll(/(--[^:]+):\s*([^\n;]+)/g);
     return Object.fromEntries([...variableMatches].map((match) => [match[1], match[2]]));
 }
