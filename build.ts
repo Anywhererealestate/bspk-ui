@@ -128,7 +128,8 @@ function aliasToRelative(fileContent: string, filePath: string) {
         const [fullMatch, importedValue, aliasPathMatched, actualImportedFile] = match;
 
         const relativePath = tsConfigPathsToRelative[aliasPathMatched] || '';
-        const relativeFilePath = path.relative(path.dirname(filePath), path.resolve(relativePath, actualImportedFile));
+        const relativeFilePath =
+            path.relative(path.dirname(filePath), path.resolve(relativePath, actualImportedFile)) || '.';
         const newImport = `import ${importedValue}'${relativeFilePath}';`;
 
         fileContent = fileContent.replace(fullMatch, newImport);
