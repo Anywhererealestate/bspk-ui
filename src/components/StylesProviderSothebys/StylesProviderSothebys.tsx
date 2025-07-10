@@ -1,5 +1,5 @@
 import '@bspk/styles/sothebys.css';
-import '../../base.scss';
+import '-/styles/base.scss';
 
 /**
  * Utility to provide the Sotheby's styles to the application.

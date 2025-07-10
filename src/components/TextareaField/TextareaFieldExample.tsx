@@ -1,6 +1,6 @@
+import { TextareaFieldProps } from '.';
 import { ComponentExample } from '-/utils/demo';
 
-import { TextareaFieldProps } from '.';
 
 export const TextareaFieldExample: ComponentExample<TextareaFieldProps> = {
     render: ({ Component, props }) => {

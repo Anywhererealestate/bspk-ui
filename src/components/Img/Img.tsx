@@ -1,4 +1,4 @@
-import { ElementProps } from '-';
+import { ElementProps } from '-/types/common';
 
 export type ImgProps = {
     /**

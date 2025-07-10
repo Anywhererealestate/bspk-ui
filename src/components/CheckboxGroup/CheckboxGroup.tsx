@@ -1,6 +1,6 @@
-import { ElementProps, CommonProps } from '-';
 import { Checkbox } from '-/components/Checkbox';
 import { ToggleOptionProps, ToggleOption } from '-/components/ToggleOption';
+import { ElementProps, CommonProps } from '-/types/common';
 
 export type CheckboxGroupOption = Pick<ToggleOptionProps, 'description' | 'label'> & Required<CommonProps<'value'>>;
 

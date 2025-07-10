@@ -1,6 +1,6 @@
 import { CSSProperties, ReactNode } from 'react';
 
-import { CommonProps } from '-';
+import { CommonProps } from '-/types/common';
 
 import './chip.scss';
 

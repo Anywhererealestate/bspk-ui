@@ -1,6 +1,6 @@
+import { BreadcrumbProps } from '.';
 import { ComponentExample } from '-/utils/demo';
 
-import { BreadcrumbProps } from '.';
 
 export const BreadcrumbExample: ComponentExample<BreadcrumbProps> = {
     presets: [

@@ -1,6 +1,6 @@
+import { ButtonProps } from '.';
 import { ComponentExample } from '-/utils/demo';
 
-import { ButtonProps } from '.';
 
 export const ButtonExample: ComponentExample<ButtonProps> = {
     presets: [

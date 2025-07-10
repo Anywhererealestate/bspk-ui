@@ -1,6 +1,6 @@
+import { ChipSuggestionProps } from '.';
 import { ComponentExampleFn } from '-/utils/demo';
 
-import { ChipSuggestionProps } from '.';
 
 export const ChipSuggestionExample: ComponentExampleFn<ChipSuggestionProps> = ({ action }) => ({
     containerStyle: { width: '100%' },

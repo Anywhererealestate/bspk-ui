@@ -7,14 +7,13 @@ import { SvgLightbulb } from '@bspk/icons/Lightbulb';
 import { SvgOpportunities } from '@bspk/icons/Opportunities';
 import { SvgSignLanguage } from '@bspk/icons/SignLanguage';
 
+import { ChipAssist } from '-/components/ChipAssist';
+import { ChipFilter } from '-/components/ChipFilter';
+import { ChipGroup, ChipGroupProps } from '-/components/ChipGroup';
+import { ChipInput } from '-/components/ChipInput';
+import { ChipSuggestion } from '-/components/ChipSuggestion';
+import { ChipUtility } from '-/components/ChipUtility';
 import { ComponentExampleFn } from '-/utils/demo';
-
-import { ChipAssist } from '../ChipAssist';
-import { ChipFilter } from '../ChipFilter';
-import { ChipGroup, ChipGroupProps } from '../ChipGroup';
-import { ChipInput } from '../ChipInput';
-import { ChipSuggestion } from '../ChipSuggestion';
-import { ChipUtility } from '../ChipUtility';
 
 export const ChipGroupExample: ComponentExampleFn<ChipGroupProps> = ({ action }) => ({
     presets: [

@@ -1,4 +1,4 @@
-import { ElementProps } from '-';
+import { ElementProps } from '-/types/common';
 import { cssWithVars } from '-/utils/cwv';
 import './divider.scss';
 

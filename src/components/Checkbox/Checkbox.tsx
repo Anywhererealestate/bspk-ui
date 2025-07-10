@@ -1,6 +1,6 @@
 import { ChangeEvent, useEffect, useRef } from 'react';
 
-import { CommonProps, ElementProps, InvalidPropsLibrary } from '-';
+import { CommonProps, ElementProps, InvalidPropsLibrary } from '-/types/common';
 
 import './checkbox.scss';
 

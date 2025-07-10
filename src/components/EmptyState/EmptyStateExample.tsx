@@ -1,7 +1,7 @@
+import { EmptyStateProps } from '.';
 import { ExamplePlaceholder } from '-/components/ExamplePlaceholder';
 import { ComponentExampleFn } from '-/utils/demo';
 
-import { EmptyStateProps } from '.';
 
 export const EmptyStateExample: ComponentExampleFn<EmptyStateProps> = ({ action }) => ({
     containerStyle: { width: '100%' },

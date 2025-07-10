@@ -3,8 +3,8 @@ import { SvgErrorFill } from '@bspk/icons/ErrorFill';
 import { SvgInfoFill } from '@bspk/icons/InfoFill';
 import { ReactNode } from 'react';
 
-import { AlertVariant } from '-';
 import { Txt } from '-/components/Txt';
+import { AlertVariant } from '-/types/common';
 import './inline-alert.scss';
 
 export type InlineAlertProps = {

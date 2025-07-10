@@ -11,10 +11,12 @@ import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 
-import { getCssVariables, prettyLint, reportMissingVariables } from './utils';
+import { getCssVariables, getStylesRoot, prettyLint, reportMissingVariables } from './utils';
 
 function main() {
     const variables = getCssVariables();
+
+    copyCCStylesToSrc();
 
     execSync(`npm un @bspk/styles && npm i @bspk/styles@latest`, { stdio: 'inherit' });
 
@@ -26,6 +28,16 @@ function main() {
 }
 
 main();
+
+function copyCCStylesToSrc() {
+    fs.readdirSync(getStylesRoot(), 'utf8').forEach((file) => {
+        if (file.endsWith('.css')) {
+            const filePath = path.resolve(getStylesRoot(), file);
+            const destinationPath = path.resolve(__dirname, '../src/styles', file);
+            fs.copyFileSync(filePath, destinationPath);
+        }
+    });
+}
 
 function fileContent(content: string) {
     return `/**
@@ -131,7 +143,7 @@ function generateColorVariants(variables: Record<string, string>) {
         ].join('\n'),
     );
 
-    const cssFilePath = path.resolve(__dirname, '../src/colors.scss');
+    const cssFilePath = path.resolve(__dirname, '../src/styles/colors.scss');
 
     fs.writeFileSync(
         cssFilePath,

@@ -1,9 +1,9 @@
 /* eslint-disable @cspell/spellchecker */ import { useState, useEffect } from 'react';
 
+import { SkeletonTextProps } from '.';
 import { useTimeout } from '-/hooks/useTimeout';
 import { ComponentExample } from '-/utils/demo';
 
-import { SkeletonTextProps } from '.';
 
 export const SkeletonTextExample: ComponentExample<SkeletonTextProps> = {
     render: ({ props, preset, Component }) => {

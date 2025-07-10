@@ -1,8 +1,8 @@
 import { ElementType } from 'react';
 
-import { ElementConstructorProps } from '-';
 import { Tooltip } from '-/components/Tooltip';
 import { useTruncatedText } from '-/hooks/useTruncatedText';
+import { ElementConstructorProps } from '-/types/common';
 
 export type TruncatedProps<As extends ElementType = 'span'> = ElementConstructorProps<'span', 'children'> & {
     /**

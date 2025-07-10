@@ -1,8 +1,8 @@
 import { ElementType } from 'react';
 
-import { ElementProps } from '-';
 import { ButtonProps } from '-/components/Button';
 import { Tooltip } from '-/components/Tooltip';
+import { ElementProps } from '-/types/common';
 import { isValidIcon } from '-/utils/children';
 import { useErrorLogger } from '-/utils/errors';
 import './fab.scss';

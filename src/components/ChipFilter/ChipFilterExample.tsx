@@ -1,6 +1,6 @@
+import { ChipFilterProps } from './ChipFilter';
 import { ComponentExampleFn } from '-/utils/demo';
 
-import { ChipFilterProps } from './ChipFilter';
 
 export const ChipFilterExample: ComponentExampleFn<ChipFilterProps> = ({ action }) => ({
     containerStyle: { width: '100%' },

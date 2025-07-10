@@ -2,7 +2,7 @@
     "plugins": ["prettier-plugin-jsdoc"],
     "semi": true,
     "singleQuote": true,
-    "trailingComma": "all",
+    "trailingComma": "es5",
     "tabWidth": 4,
     "printWidth": 120
 }
