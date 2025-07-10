@@ -1,9 +1,9 @@
 import { ReactNode, useMemo } from 'react';
 
-import { CommonProps, ElementProps, SetRef } from '-';
 import { Portal } from '-/components/Portal';
 import { Scrim } from '-/components/Scrim';
 import { useId } from '-/hooks/useId';
+import { CommonProps, ElementProps, SetRef } from '-/types/common';
 import { cssWithVars } from '-/utils/cwv';
 import './menu.scss';
 

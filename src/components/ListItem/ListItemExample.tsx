@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */ import { SvgContentCopy } from '@bspk/icons/ContentCopy';
 import { SvgDiamond } from '@bspk/icons/Diamond';
 
+import { ListItem, ListItemProps } from '.';
 import { Avatar } from '-/components/Avatar';
 import { Checkbox } from '-/components/Checkbox';
 import { Img } from '-/components/Img';
@@ -10,7 +11,6 @@ import { Tag } from '-/components/Tag';
 import { Txt } from '-/components/Txt';
 import { ComponentExampleFn, DemoAction, DemoSetState } from '-/utils/demo';
 
-import { ListItem, ListItemProps } from '.';
 
 export const ListItemExample: ComponentExampleFn<ListItemProps> = ({ action, setState }) => ({
     render: ({ props, Component, id }) => {

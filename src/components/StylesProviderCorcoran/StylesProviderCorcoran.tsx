@@ -1,5 +1,5 @@
 import '@bspk/styles/corcoran.css';
-import '../../base.scss';
+import '-/styles/base.scss';
 
 /**
  * Utility to provide the Corcoran styles to the application.

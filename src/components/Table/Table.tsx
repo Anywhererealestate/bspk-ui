@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-import { ElementProps } from '-';
+import { ElementProps } from '-/types/common';
 
 import './table.scss';
 

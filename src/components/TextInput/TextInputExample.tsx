@@ -1,6 +1,6 @@
+import { TextInputProps } from '.';
 import { ComponentExample } from '-/utils/demo';
 
-import { TextInputProps } from '.';
 
 export const TextInputExample: ComponentExample<TextInputProps> = {
     presets: [

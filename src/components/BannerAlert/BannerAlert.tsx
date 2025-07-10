@@ -4,7 +4,7 @@ import { SvgErrorFill } from '@bspk/icons/ErrorFill';
 import { SvgInfoFill } from '@bspk/icons/InfoFill';
 import { SvgWarningFill } from '@bspk/icons/WarningFill';
 
-import { ElementProps, AlertVariant, CallToActionButton } from '-';
+import { ElementProps, AlertVariant, CallToActionButton } from '-/types/common';
 import './banner-alert.scss';
 
 export type BannerAlertProps = {

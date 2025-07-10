@@ -1,6 +1,6 @@
+import { CheckboxGroupProps } from '.';
 import { ComponentExample } from '-/utils/demo';
 
-import { CheckboxGroupProps } from '.';
 
 export const CheckboxGroupExample: ComponentExample<CheckboxGroupProps> = {
     presets: [

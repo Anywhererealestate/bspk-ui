@@ -1,6 +1,6 @@
+import { ChipInputProps } from '.';
 import { ComponentExampleFn } from '-/utils/demo';
 
-import { ChipInputProps } from '.';
 
 export const ChipInputExample: ComponentExampleFn<ChipInputProps> = ({ action }) => ({
     containerStyle: { width: '100%' },

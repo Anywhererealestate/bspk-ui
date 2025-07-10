@@ -1,9 +1,9 @@
+import { SelectProps } from '.';
 import { Avatar } from '-/components/Avatar';
 import { Tag } from '-/components/Tag';
 import { Txt } from '-/components/Txt';
 import { ComponentExample } from '-/utils/demo';
 
-import { SelectProps } from '.';
 
 const trailingPrice = (price: number) => (
     <Txt>{`${new Intl.NumberFormat('en-US', {

@@ -1,5 +1,5 @@
 import '@bspk/styles/anywhere.css';
-import '../../base.scss';
+import '-/styles/base.scss';
 
 /**
  * Utility to provide the Anywhere styles to the application.
@@ -16,4 +16,3 @@ StylesProviderAnywhere.bspkName = 'StylesProviderAnywhere';
 export { StylesProviderAnywhere };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
-

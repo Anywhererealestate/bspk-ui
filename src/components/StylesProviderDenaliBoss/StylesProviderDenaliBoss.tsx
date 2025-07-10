@@ -1,5 +1,5 @@
 import '@bspk/styles/denali-boss.css';
-import '../../base.scss';
+import '-/styles/base.scss';
 
 /**
  * Utility to provide the Denali Boss styles to the application.

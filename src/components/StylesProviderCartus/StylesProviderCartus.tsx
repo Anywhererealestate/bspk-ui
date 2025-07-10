@@ -1,5 +1,5 @@
 import '@bspk/styles/cartus.css';
-import '../../base.scss';
+import '-/styles/base.scss';
 
 /**
  * Utility to provide the Cartus styles to the application.

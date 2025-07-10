@@ -1,6 +1,6 @@
+import { ChipAssistProps } from '.';
 import { ComponentExampleFn } from '-/utils/demo';
 
-import { ChipAssistProps } from '.';
 
 export const ChipAssistExample: ComponentExampleFn<ChipAssistProps> = ({ action }) => ({
     containerStyle: { width: '100%' },

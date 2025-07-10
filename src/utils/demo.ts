@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { AlertVariant } from '-';
+import { AlertVariant } from '-/types/common';
 
 export type TypeProperty = {
     name: string;

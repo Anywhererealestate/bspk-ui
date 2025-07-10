@@ -27,7 +27,7 @@ function generateStylesProviders() {
         fs.writeFileSync(
             `./src/components/${componentName}/${componentName}.tsx`,
             `import '@bspk/styles/${slug}.css';
-import '../../base.scss';
+import '-/styles/base.scss';
 
 /**
  * Utility to provide the ${title} styles to the application.
