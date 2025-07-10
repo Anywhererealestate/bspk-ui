@@ -1,8 +1,14 @@
-import { ReactNode } from 'react';
-
-import { ElementProps } from '-';
-
 import './table.scss';
+import { SvgIcon } from '@bspk/icons/SvgIcon';
+import {
+    useReactTable,
+    getCoreRowModel,
+    flexRender,
+    ColumnDef,
+    SortingState,
+    getSortedRowModel,
+} from '@tanstack/react-table';
+import { ReactNode, useState } from 'react';
 
 export type TableRow = Record<string, ReactNode>;
 
@@ -36,40 +42,90 @@ export type TableProps<R extends TableRow> = {
     rows: R[];
     /** The columns of the table. */
     columns: TableColumn<R>[];
+    /** The title of the table. */
+    title?: string;
 };
 
 /**
  * Component description coming soon.
  *
  * @name Table
- * @phase Backlog
+ * @phase WorkInProgress
  */
-function Table<R extends TableRow>({ rows, columns, ...props }: ElementProps<TableProps<R>, 'div'>) {
+
+function Table<R extends TableRow>({
+    rows,
+    columns,
+    title,
+    ...props
+}: React.HTMLAttributes<HTMLDivElement> & TableProps<R>) {
+    const [sorting, setSorting] = useState<SortingState>([]);
+
+    const columnDefs: ColumnDef<R>[] = columns.map((col) => ({
+        accessorKey: col.key as string,
+        header: col.label,
+        cell: (info) => info.getValue(),
+    }));
+
+    const table = useReactTable({
+        data: rows,
+        columns: columnDefs,
+        getCoreRowModel: getCoreRowModel(),
+        getSortedRowModel: getSortedRowModel(),
+        state: {
+            sorting,
+        },
+        onSortingChange: setSorting,
+    });
+
     return (
-        <div
-            {...props}
-            data-bspk="table"
-            style={{
-                ...props.style,
-                gridTemplateColumns: columns.map((c) => `minmax(0, ${c.width || '1fr'})`).join(' '),
-            }}
-        >
-            {columns.map((column, index, arr) => (
-                <div
-                    data-head={[index === 0 && 'first', index === arr.length - 1 && 'last'].filter(Boolean).join(' ')}
-                    key={column.key as string}
-                >
-                    {column.label}
-                </div>
-            ))}
-            {rows.map((row, index, arr) => {
-                const lastRow = index === arr.length - 1 || undefined;
-                return columns.map((column) => (
-                    <div data-cell={column.key} data-row-last={lastRow} key={index + (column.key as string)}>
-                        {row[column.key]}
-                    </div>
-                ));
-            })}
+        <div {...props} aria-label={title || 'table'} data-bspk="table" style={props.style}>
+            {title && <div data-bspk="table-title">{title}</div>}
+
+            <div
+                {...props}
+                role="presentation"
+                style={{
+                    display: 'grid',
+                    gridTemplateColumns: columns.map((c) => `minmax(0, ${c.width || '1fr'})`).join(' '),
+                }}
+            >
+                {table.getHeaderGroups().map((headerGroup) =>
+                    headerGroup.headers.map((header, index, arr) => {
+                        const isSorted = header.column.getIsSorted();
+
+                        const isFirst = index === 0;
+                        const isLast = index === arr.length - 1;
+
+                        const dataHeadValue = isFirst ? 'first' : isLast ? 'last' : '';
+
+                        return (
+                            // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
+                            <div
+                                data-head={dataHeadValue}
+                                key={header.id}
+                                onClick={header.column.getToggleSortingHandler()}
+                            >
+                                {flexRender(header.column.columnDef.header, header.getContext())}{' '}
+                                {isSorted && (
+                                    <SvgIcon name={isSorted === 'asc' ? 'AZAscend' : 'AZDescend'} width={20} />
+                                )}
+                            </div>
+                        );
+                    }),
+                )}
+                {table.getRowModel().rows.map((row, rowIndex, rowArr) =>
+                    row.getVisibleCells().map((cell) => (
+                        <div
+                            data-cell={cell.column.id}
+                            data-row-last={rowIndex === rowArr.length - 1 || undefined}
+                            key={cell.id}
+                        >
+                            {flexRender(cell.column.columnDef.cell, cell.getContext())}{' '}
+                        </div>
+                    )),
+                )}{' '}
+            </div>
         </div>
     );
 }
@@ -77,5 +133,3 @@ function Table<R extends TableRow>({ rows, columns, ...props }: ElementProps<Tab
 Table.bspkName = 'Table';
 
 export { Table };
-
-/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
