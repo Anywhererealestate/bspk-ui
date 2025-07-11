@@ -1,8 +1,7 @@
 import { FC } from 'react';
 
-import { Button } from '-/components/Button';
-
 import { PaginationProps } from './Pagination';
+import { Button } from '-/components/Button';
 
 export const PageList: FC<Pick<PaginationProps, 'numPages' | 'onChange' | 'value'>> = ({
     numPages,

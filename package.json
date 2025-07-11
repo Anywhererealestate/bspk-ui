@@ -105,6 +105,8 @@
         "./NumberInput": "./dist/components/NumberInput/index.js",
         "./PageControl/*": "./dist/components/PageControl/*.js",
         "./PageControl": "./dist/components/PageControl/index.js",
+        "./Pagination/*": "./dist/components/Pagination/*.js",
+        "./Pagination": "./dist/components/Pagination/index.js",
         "./PhoneNumberField/*": "./dist/components/PhoneNumberField/*.js",
         "./PhoneNumberField": "./dist/components/PhoneNumberField/index.js",
         "./PhoneNumberInput/*": "./dist/components/PhoneNumberInput/*.js",
