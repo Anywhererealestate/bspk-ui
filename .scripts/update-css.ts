@@ -10,6 +10,7 @@
 import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
+import { Brand } from '../src/types/common';
 
 import { getCssVariables, getStylesRoot, prettyLint, reportMissingVariables } from './utils';
 
@@ -30,13 +31,21 @@ function main() {
 main();
 
 function copyStylesLibraryCss() {
+    const BrandsCss: Partial<Record<Brand, string>> = {};
+
     fs.readdirSync(getStylesRoot(), 'utf8').forEach((file) => {
-        if (file.endsWith('.css')) {
-            const filePath = path.resolve(getStylesRoot(), file);
-            const destinationPath = path.resolve(__dirname, '../src/styles', file);
-            fs.copyFileSync(filePath, destinationPath);
-        }
+        if (!file.endsWith('.css')) return;
+        BrandsCss[file.replace('.css', '') as Brand] = fs.readFileSync(path.resolve(getStylesRoot(), file), 'utf-8');
     });
+
+    fs.writeFileSync(
+        path.resolve(__dirname, '../src/components/StylesProviderDemo/brandsCss.ts'),
+        `import { Brand } from '-/types/common';
+
+        export const BRANDS_CSS: Record<Brand, string> = ${JSON.stringify(BrandsCss, null, 4)};
+
+`,
+    );
 }
 
 function fileContent(content: string) {
@@ -77,7 +86,7 @@ function generateTxtVariants(variables: Record<string, string>) {
         [
             `export const TXT_VARIANTS = ${JSON.stringify([...variants])} as const;`,
             `export type TxtVariant = typeof TXT_VARIANTS[number];`,
-        ].join('\n')
+        ].join('\n'),
     );
 }
 
@@ -109,7 +118,7 @@ function generateColorVariants(variables: Record<string, string>) {
             [
                 !variables[foreground] ? `Missing foreground variable for ${variant}` : [],
                 !variables[surface] ? `Missing surface variable for ${variant}` : [],
-            ].flat()
+            ].flat(),
         )
         .filter(Boolean);
 
@@ -130,7 +139,7 @@ function generateColorVariants(variables: Record<string, string>) {
                     surface: surfaceVariable as `--${string}` | undefined,
                 },
             ];
-        })
+        }),
     );
 
     const variants = { ...manualVariants, ...foundVariants };
@@ -140,7 +149,7 @@ function generateColorVariants(variables: Record<string, string>) {
         [
             `export const COLOR_VARIANTS = ${JSON.stringify(Object.keys(variants))} as const;`,
             `export type ColorVariant = typeof COLOR_VARIANTS[number];`,
-        ].join('\n')
+        ].join('\n'),
     );
 
     const cssFilePath = path.resolve(__dirname, '../src/styles/colors.scss');
@@ -155,16 +164,16 @@ function generateColorVariants(variables: Record<string, string>) {
             --foreground: var(${foreground});
             --background: var(${surface});
         }
-    `
+    `,
                 )
-                .join('\n')
-        )
+                .join('\n'),
+        ),
     );
 
     execSync(
         //
         `npx prettier --write '${cssFilePath}' && npx stylelint '${cssFilePath}' --fix`,
-        { stdio: 'inherit' }
+        { stdio: 'inherit' },
     );
 }
 
