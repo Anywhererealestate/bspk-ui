@@ -2,6 +2,7 @@ import './page-control.scss';
 import { PageControlDot } from './PageControlDot';
 
 const MAX_DOT_COUNT = 5;
+const CENTER_DOT_POSITION = 3;
 
 export type PageControlProps = {
     /**
@@ -46,7 +47,7 @@ export type PageControlProps = {
 function PageControl({ value, numPages, variant = 'flat' }: PageControlProps) {
     const dots = [];
 
-    // only do fancy dots if numPages is greater than 5
+    // only do fancy dots if numPages is greater than the max dot count
     if (numPages <= MAX_DOT_COUNT) {
         for (let i = 1; i <= numPages; i++) {
             dots.push(<PageControlDot active={i === value} key={i} size="large" />);
@@ -55,39 +56,40 @@ function PageControl({ value, numPages, variant = 'flat' }: PageControlProps) {
         const valueDiffToStart = value - 1;
         const valueDiffToEnd = numPages - value;
 
-        const isValueWithinTwoOfStart = valueDiffToStart <= 2;
-        const isValueWithinTwoOfEnd = valueDiffToEnd <= 2;
-        const isValueWithinTwoOfEdge = isValueWithinTwoOfStart || isValueWithinTwoOfEnd;
+        const isValueApproachingStart = valueDiffToStart <= CENTER_DOT_POSITION - 1;
+        const isValueApproachingEnd = valueDiffToEnd <= CENTER_DOT_POSITION - 1;
 
-        // unless the value is within two of either edge, the active dot is always the center one
-        const activeDotIndex = isValueWithinTwoOfEdge
-            ? isValueWithinTwoOfStart
+        const isValueApproachingEdge = isValueApproachingStart || isValueApproachingEnd;
+
+        // unless the value is approaching either edge, the active dot is always the center one
+        const activeDotIndex = isValueApproachingEdge
+            ? isValueApproachingStart
                 ? valueDiffToStart + 1
-                : 5 - valueDiffToEnd
-            : 3;
+                : MAX_DOT_COUNT - valueDiffToEnd
+            : CENTER_DOT_POSITION;
 
-        for (let i = 1; i <= 5; i++) {
+        for (let i = 1; i <= MAX_DOT_COUNT; i++) {
             const isActive = i === activeDotIndex;
             let size: 'large' | 'medium' | 'small' = 'small';
 
-            // If the value is close to the edge the center and two dots on that edge are large, the dot one inward from center is medium, and the innermost dot is small.
-            if (isValueWithinTwoOfEdge) {
-                if (isValueWithinTwoOfStart) {
-                    if (i <= 3) {
+            // If the value is close to the edge the center and dots on that edge are large, the dot one inward from center is medium, and the innermost dot are small.
+            if (isValueApproachingEdge) {
+                if (isValueApproachingStart) {
+                    if (i <= CENTER_DOT_POSITION) {
                         size = 'large';
-                    } else if (i === 4) {
+                    } else if (i === CENTER_DOT_POSITION + 1) {
                         size = 'medium';
                     }
-                } else if (isValueWithinTwoOfEnd) {
-                    if (i >= 3) {
+                } else if (isValueApproachingEnd) {
+                    if (i >= CENTER_DOT_POSITION) {
                         size = 'large';
-                    } else if (i === 2) {
+                    } else if (i === CENTER_DOT_POSITION - 1) {
                         size = 'medium';
                     }
                 }
             } else {
                 // If the center dot is active only it is large, adjacent dots are medium, and all others are small.
-                if (i === 3) {
+                if (i === CENTER_DOT_POSITION) {
                     size = 'large';
                 }
 
