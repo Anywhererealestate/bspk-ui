@@ -2,10 +2,10 @@ import './upload-item.scss';
 import { SvgDelete } from '@bspk/icons/Delete';
 import { SvgDraft } from '@bspk/icons/Draft';
 
-import { Button } from '-/components//Button';
-import { InlineAlert } from '-/components//InlineAlert';
-import { ProgressBar } from '-/components//ProgressBar';
-import { Txt } from '-/components//Txt';
+import { Button } from '-/components/Button';
+import { InlineAlert } from '-/components/InlineAlert';
+import { ProgressBar } from '-/components/ProgressBar';
+import { Txt } from '-/components/Txt';
 
 export type UploadItemProps = {
     /** The content of the upload-item. */
