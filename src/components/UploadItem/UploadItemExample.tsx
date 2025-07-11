@@ -9,35 +9,29 @@ export const UploadItemExample: ComponentExampleFn<UploadItemProps> = ({ action 
         {
             label: 'basic',
             propState: {
-                label: 'basic',
-            },
-        },
-        {
-            label: 'state: idle',
-            propState: {
-                label: 'chip option',
-                uploadStatus: 'idle',
+                fileName: 'basic-file.png',
+                fileSize: '1.2 MB',
             },
         },
         {
             label: 'state: uploading',
             propState: {
-                label: 'chip option',
-                uploadStatus: 'uploading',
+                fileName: 'I-think-this-is-a-long-file-name.txt',
+                uploadStatus: 'Uploading',
             },
         },
         {
             label: 'state: success',
             propState: {
-                label: 'chip option',
-                uploadStatus: 'success',
+                fileName: 'success-story.pdf',
+                uploadStatus: 'Complete',
             },
         },
         {
-            label: 'state: error',
+            label: 'state: failed',
             propState: {
-                label: 'chip option',
-                uploadStatus: 'error',
+                fileName: 'file-name.txt',
+                uploadStatus: 'Failed',
             },
         },
     ],

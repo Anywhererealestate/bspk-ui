@@ -41,6 +41,7 @@
         color: var(--first-tone);
         width: var(--spacing-sizing-05);
         height: var(--spacing-sizing-05);
+        flex: 0 0 auto;
 
         [data-second-tone] {
             fill: var(--second-tone);
