@@ -1,6 +1,6 @@
 import { SvgAdd } from '@bspk/icons/Add';
 import { SvgRemove } from '@bspk/icons/Remove';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useId } from '-/hooks/useId';
 import { useLongPress } from '-/hooks/useLongPress';
@@ -113,6 +113,10 @@ function NumberInput({
         inputElement!.value = String(nextValue);
         onChange(nextValue);
     };
+
+    useEffect(() => {
+        if (inputElement) inputElement.value = String(valueNumber);
+    }, [inputElement, valueNumber]);
 
     return (
         <div
