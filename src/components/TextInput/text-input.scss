@@ -128,7 +128,8 @@
     &:not(:focus-within),
     &[data-empty],
     &[data-readonly],
-    &[data-disabled] {
+    &[data-disabled],
+    &[data-clear-hidden] {
         padding-right: var(--field-padding);
 
         button[data-clear] {
