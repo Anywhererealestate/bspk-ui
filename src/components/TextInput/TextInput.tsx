@@ -1,8 +1,8 @@
 import { SvgCancel } from '@bspk/icons/Cancel';
 import { ChangeEvent, HTMLInputAutoCompleteAttribute, HTMLInputTypeAttribute, ReactNode } from 'react';
 
-import { ElementProps, CommonProps, InvalidPropsLibrary, SetRef } from '-';
 import { useId } from '-/hooks/useId';
+import { ElementProps, CommonProps, InvalidPropsLibrary, SetRef } from '-/types/common';
 
 import './text-input.scss';
 

@@ -1,11 +1,11 @@
 import { FocusTrap } from 'focus-trap-react';
 import { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
 
-import { CommonProps, ElementProps, SetRef } from '-';
 import { Portal } from '-/components/Portal';
 import { Scrim } from '-/components/Scrim';
 import { useId } from '-/hooks/useId';
 import { useOutsideClick } from '-/hooks/useOutsideClick';
+import { CommonProps, ElementProps, SetRef } from '-/types/common';
 import './dialog.scss';
 
 export type DialogProps = CommonProps<'data-bspk-owner' | 'id'> & {

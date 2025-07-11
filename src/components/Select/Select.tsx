@@ -1,10 +1,10 @@
 import { SvgChevronRight } from '@bspk/icons/ChevronRight';
 import { useMemo } from 'react';
 
-import { CommonProps, ElementProps } from '-';
 import { Combobox, ComboboxProps } from '-/components/Combobox';
 import { ListItem } from '-/components/ListItem';
 import { useId } from '-/hooks/useId';
+import { CommonProps, ElementProps } from '-/types/common';
 
 import './select.scss';
 

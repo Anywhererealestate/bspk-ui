@@ -1,6 +1,6 @@
 import { AnchorHTMLAttributes, ComponentType, lazy, LazyExoticComponent, Suspense } from 'react';
 
-import { CommonPropsLibrary, ElementProps } from '-';
+import { CommonPropsLibrary, ElementProps } from '-/types/common';
 
 import './link.scss';
 

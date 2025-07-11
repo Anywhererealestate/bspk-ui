@@ -36,10 +36,25 @@ export default [
         plugins: { 'react-hooks': reactHooks },
     },
     {
-        ignores: ['*.js', '**/*.js', '*.d.ts', '**/*.d.ts', 'node_modules/**/*', '.github', 'dist/**/*'],
+        ignores: [
+            '*.js',
+            '**/*.js',
+            '*.d.ts',
+            '**/*.d.ts',
+            'node_modules/**/*',
+            '.github',
+            'dist/**/*',
+            '.scripts/**/*',
+        ],
     },
     {
         rules: {
+            'no-restricted-imports': [
+                'error',
+                {
+                    patterns: ['../*'], // This pattern disallows all relative imports
+                },
+            ],
             '@typescript-eslint/member-ordering': 'error',
             'react/self-closing-comp': 'error',
             'react-hooks/rules-of-hooks': 'error',
@@ -54,7 +69,6 @@ export default [
             '@typescript-eslint/consistent-type-imports': [
                 'error',
                 {
-                    //prefer: 'type-imports',
                     disallowTypeAnnotations: true,
                     fixStyle: 'inline-type-imports',
                     prefer: 'no-type-imports',
@@ -81,25 +95,6 @@ export default [
                 'warn',
                 {
                     alphabetize: { order: 'asc' },
-                    'newlines-between': 'always',
-                    pathGroups: [
-                        {
-                            pattern: '~/**',
-                            group: 'external',
-                            position: 'after',
-                        },
-                    ],
-                    groups: [
-                        'builtin',
-                        'external',
-                        'internal',
-                        'unknown',
-                        'parent',
-                        'sibling',
-                        'index',
-                        'object',
-                        'type',
-                    ],
                 },
             ],
             'no-alert': 'error',

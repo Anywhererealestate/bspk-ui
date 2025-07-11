@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 
-import { ElementProps } from '-';
 import { Txt } from '-/components/Txt';
+import { ElementProps } from '-/types/common';
 
 const dimension = (value: number | string) => (typeof value === 'number' ? `${value}px` : `${value}`);
 

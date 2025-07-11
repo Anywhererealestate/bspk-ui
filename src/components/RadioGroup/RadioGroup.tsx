@@ -1,8 +1,8 @@
 import { useId } from 'react';
 
-import { ElementProps, CommonProps } from '-';
 import { Radio } from '-/components/Radio';
 import { ToggleOptionProps, ToggleOption } from '-/components/ToggleOption';
+import { ElementProps, CommonProps } from '-/types/common';
 import './radio-group.scss';
 
 export type RadioGroupOption = Pick<ToggleOptionProps, 'description' | 'label'> & Required<CommonProps<'value'>>;

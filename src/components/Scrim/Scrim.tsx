@@ -1,4 +1,4 @@
-import { CommonProps } from '-';
+import { CommonProps } from '-/types/common';
 import './scrim.scss';
 
 export type ScrimProps = CommonProps<'data-bspk-owner'> & {

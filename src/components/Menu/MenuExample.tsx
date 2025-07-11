@@ -7,15 +7,13 @@ import { SvgLogout } from '@bspk/icons/Logout';
 import { SvgMenuBook } from '@bspk/icons/MenuBook';
 import { SvgSettings } from '@bspk/icons/Settings';
 
+import { MenuProps } from '.';
 import { Avatar } from '-/components/Avatar';
 import { Divider } from '-/components/Divider';
 import { ListItem } from '-/components/ListItem';
 import { Switch } from '-/components/Switch';
+import { ElementProps } from '-/types/common';
 import { ComponentExampleFn } from '-/utils/demo';
-
-import { ElementProps } from '../..';
-
-import { MenuProps } from '.';
 
 export const MenuExample: ComponentExampleFn<ElementProps<MenuProps, 'div'> & { 'data-dark-mode': boolean }> = ({
     action,

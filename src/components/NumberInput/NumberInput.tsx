@@ -2,9 +2,9 @@ import { SvgAdd } from '@bspk/icons/Add';
 import { SvgRemove } from '@bspk/icons/Remove';
 import { useState } from 'react';
 
-import { CommonProps, InvalidPropsLibrary } from '-';
 import { useId } from '-/hooks/useId';
 import { useLongPress } from '-/hooks/useLongPress';
+import { CommonProps, InvalidPropsLibrary } from '-/types/common';
 import './number-input.scss';
 
 const MAX = 99;

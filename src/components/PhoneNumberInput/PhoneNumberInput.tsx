@@ -2,7 +2,6 @@ import { SvgIcon } from '@bspk/icons/SvgIcon';
 import { AsYouType, getCountryCallingCode } from 'libphonenumber-js';
 import { useMemo, useState } from 'react';
 
-import { InvalidPropsLibrary } from '-';
 import { Divider } from '-/components/Divider';
 import { ListItem, ListItemProps } from '-/components/ListItem';
 import { Listbox } from '-/components/Listbox';
@@ -10,6 +9,7 @@ import { Modal } from '-/components/Modal';
 import { TextInput, TextInputProps } from '-/components/TextInput';
 import { useCombobox } from '-/hooks/useCombobox';
 import { useUIContext } from '-/hooks/useUIContext';
+import { InvalidPropsLibrary } from '-/types/common';
 import { countryCodeData, countryCodes, SupportedCountryCode } from '-/utils/countryCodes';
 import { guessUserCountryCode } from '-/utils/guessUserCountryCode';
 
@@ -80,7 +80,7 @@ export type PhoneNumberInputProps = InvalidPropsLibrary &
  *     <PhoneNumberInput aria-label="Phone Number" initialCountryCode="US" value={value} onChange={onChange} />;
  *
  * @name PhoneNumberInput
- * @phase WorkInProgress
+ * @phase DesignReview
  */
 function PhoneNumberInput({
     errorMessage,

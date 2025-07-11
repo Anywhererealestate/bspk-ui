@@ -1,7 +1,6 @@
 /* eslint-disable react/no-multi-comp */ import { SvgChevronRight } from '@bspk/icons/ChevronRight';
 import { SvgMoreHoriz } from '@bspk/icons/MoreHoriz';
 
-import { CommonProps } from '-';
 import { Button } from '-/components/Button';
 import { Link } from '-/components/Link';
 import { ListItem } from '-/components/ListItem';
@@ -9,6 +8,7 @@ import { Menu } from '-/components/Menu';
 import { Txt } from '-/components/Txt';
 import { useCombobox } from '-/hooks/useCombobox';
 import { useId } from '-/hooks/useId';
+import { CommonProps } from '-/types/common';
 import './breadcrumb.scss';
 
 export type BreadcrumbItem = {

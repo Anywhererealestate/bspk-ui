@@ -1,8 +1,8 @@
 import { ChangeEvent } from 'react';
 
-import { InvalidPropsLibrary } from '-';
 import { RadioProps, Radio } from '-/components/Radio';
 import { ToggleOptionProps, ToggleOption } from '-/components/ToggleOption';
+import { InvalidPropsLibrary } from '-/types/common';
 
 export type RadioOptionProps = InvalidPropsLibrary &
     Pick<RadioProps, 'checked' | 'disabled' | 'name' | 'value'> &

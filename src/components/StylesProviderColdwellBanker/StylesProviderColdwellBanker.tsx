@@ -1,5 +1,5 @@
 import '@bspk/styles/coldwell-banker.css';
-import '../../base.scss';
+import '-/styles/base.scss';
 
 /**
  * Utility to provide the Coldwell Banker styles to the application.
@@ -16,4 +16,3 @@ StylesProviderColdwellBanker.bspkName = 'StylesProviderColdwellBanker';
 export { StylesProviderColdwellBanker };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
-

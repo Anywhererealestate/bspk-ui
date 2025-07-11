@@ -1,6 +1,6 @@
 import { ElementType, ReactNode } from 'react';
 
-import { ElementProps } from '-';
+import { ElementProps } from '-/types/common';
 import { ColorVariant } from '-/utils/colorVariants';
 import './tag.scss';
 

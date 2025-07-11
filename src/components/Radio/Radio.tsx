@@ -1,6 +1,6 @@
 import { ChangeEvent } from 'react';
 
-import { ElementProps, InvalidPropsLibrary, CommonProps } from '-';
+import { ElementProps, InvalidPropsLibrary, CommonProps } from '-/types/common';
 
 import './radio.scss';
 

@@ -1,6 +1,6 @@
-import { InvalidPropsLibrary } from '-';
 import { CheckboxProps, Checkbox } from '-/components/Checkbox';
 import { ToggleOptionProps, ToggleOption } from '-/components/ToggleOption';
+import { InvalidPropsLibrary } from '-/types/common';
 
 export type CheckboxOptionProps = InvalidPropsLibrary &
     Pick<CheckboxProps, 'checked' | 'disabled' | 'indeterminate' | 'name' | 'value'> &

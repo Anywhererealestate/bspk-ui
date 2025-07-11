@@ -10,11 +10,14 @@
 import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
+import { Brand } from '../src/types/common';
 
-import { getCssVariables, prettyLint, reportMissingVariables } from './utils';
+import { getCssVariables, getStylesRoot, prettyLint, reportMissingVariables } from './utils';
 
 function main() {
     const variables = getCssVariables();
+
+    copyStylesLibraryCss();
 
     execSync(`npm un @bspk/styles && npm i @bspk/styles@latest`, { stdio: 'inherit' });
 
@@ -26,6 +29,24 @@ function main() {
 }
 
 main();
+
+function copyStylesLibraryCss() {
+    const BrandsCss: Partial<Record<Brand, string>> = {};
+
+    fs.readdirSync(getStylesRoot(), 'utf8').forEach((file) => {
+        if (!file.endsWith('.css')) return;
+        BrandsCss[file.replace('.css', '') as Brand] = fs.readFileSync(path.resolve(getStylesRoot(), file), 'utf-8');
+    });
+
+    fs.writeFileSync(
+        path.resolve(__dirname, '../src/components/StylesProviderDemo/brandsCss.ts'),
+        `import { Brand } from '-/types/common';
+
+        export const BRANDS_CSS: Record<Brand, string> = ${JSON.stringify(BrandsCss, null, 4)};
+
+`,
+    );
+}
 
 function fileContent(content: string) {
     return `/**
@@ -131,7 +152,7 @@ function generateColorVariants(variables: Record<string, string>) {
         ].join('\n'),
     );
 
-    const cssFilePath = path.resolve(__dirname, '../src/colors.scss');
+    const cssFilePath = path.resolve(__dirname, '../src/styles/colors.scss');
 
     fs.writeFileSync(
         cssFilePath,

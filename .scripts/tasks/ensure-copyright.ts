@@ -37,7 +37,7 @@ files.forEach((file) => {
         execSync(
             //
             `npx prettier --write '${file}' && npx stylelint '${file}' --fix`,
-            { stdio: 'inherit' },
+            { stdio: 'inherit' }
         );
 
     // eslint-disable-next-line no-console

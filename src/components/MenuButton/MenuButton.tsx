@@ -1,7 +1,7 @@
 import { SvgMenu } from '@bspk/icons/Menu';
 
-import { ElementProps } from '-';
 import { ButtonProps } from '-/components/Button';
+import { ElementProps } from '-/types/common';
 import './menu-button.scss';
 
 export type MenuButtonProps = Pick<ButtonProps, 'as' | 'onClick'>;
