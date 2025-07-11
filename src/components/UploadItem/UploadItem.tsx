@@ -11,7 +11,8 @@ export type UploadItemProps = {
     /** The content of the upload-item. */
     fileName?: string;
     /** The status of the uploading file. */
-    uploadStatus?: 'Complete' | 'Failed' | 'Uploading';
+    // uploadStatus?: 'Complete' | 'Failed' | 'Uploading';
+    uploadStatus?: 'error' | 'idle' | 'success' | 'uploading';
     /** The size of the file being uploaded. */
     fileSize?: string;
     /** The function to call when the delete button is clicked. */
@@ -20,6 +21,8 @@ export type UploadItemProps = {
     progress?: number;
     /** The message to display when the upload fails. */
     failedMessage?: string;
+
+    // fileType?: string;
 };
 
 /**
@@ -44,6 +47,7 @@ export type UploadItemProps = {
  */
 function UploadItem({
     fileName = '',
+    // fileType = '',
     uploadStatus,
     fileSize,
     onDelete,
@@ -52,7 +56,7 @@ function UploadItem({
 }: UploadItemProps) {
     const fileSizeText = fileSize ? `${fileSize}` : '';
     const uploadStatusText =
-        uploadStatus === 'Uploading' || uploadStatus === 'Complete' || uploadStatus === 'Failed'
+        uploadStatus === 'uploading' || uploadStatus === 'success' || uploadStatus === 'error'
             ? ` ${uploadStatus}`
             : '';
     const subText = uploadStatusText && fileSizeText ? `${fileSizeText} • ${uploadStatus}` : `${fileSizeText}`;
@@ -83,10 +87,10 @@ function UploadItem({
                 />
             </div>
             <div data-status>
-                {uploadStatus === 'Uploading' && (
+                {uploadStatus === 'uploading' && (
                     <ProgressBar align="left" completion={progressNum} label={progressText} />
                 )}
-                {uploadStatus === 'Failed' && failedMessage && (
+                {uploadStatus === 'error' && failedMessage && (
                     <InlineAlert variant="error">{failedMessage}</InlineAlert>
                 )}
             </div>

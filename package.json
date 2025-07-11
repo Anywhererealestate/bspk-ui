@@ -79,6 +79,8 @@
         "./ExamplePlaceholder": "./dist/components/ExamplePlaceholder/index.js",
         "./Fab/*": "./dist/components/Fab/*.js",
         "./Fab": "./dist/components/Fab/index.js",
+        "./FileUpload/*": "./dist/components/FileUpload/*.js",
+        "./FileUpload": "./dist/components/FileUpload/index.js",
         "./FormField/*": "./dist/components/FormField/*.js",
         "./FormField": "./dist/components/FormField/index.js",
         "./Img/*": "./dist/components/Img/*.js",

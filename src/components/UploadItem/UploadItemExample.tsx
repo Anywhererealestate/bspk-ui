@@ -17,21 +17,21 @@ export const UploadItemExample: ComponentExampleFn<UploadItemProps> = ({ action 
             label: 'state: uploading',
             propState: {
                 fileName: 'I-think-this-is-a-long-file-name.txt',
-                uploadStatus: 'Uploading',
+                uploadStatus: 'uploading',
             },
         },
         {
             label: 'state: success',
             propState: {
                 fileName: 'success-story.pdf',
-                uploadStatus: 'Complete',
+                uploadStatus: 'success',
             },
         },
         {
             label: 'state: failed',
             propState: {
                 fileName: 'file-name.txt',
-                uploadStatus: 'Failed',
+                uploadStatus: 'error',
             },
         },
     ],

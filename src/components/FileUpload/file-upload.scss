@@ -1,0 +1,14 @@
+[data-bspk='file-upload'] {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: var(--spacing-sizing-04);
+    width: fit-content;
+    padding: var(--spacing-sizing-04);
+    border: 1px dashed var(--stroke-neutral-base);
+    border-radius: var(--spacing-sizing-02);
+    background-color: var(--surface-neutral-t2-lowest);
+}
+
+/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
