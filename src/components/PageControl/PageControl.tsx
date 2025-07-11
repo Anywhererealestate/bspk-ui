@@ -2,7 +2,6 @@ import { useMemo } from 'react';
 import './page-control.scss';
 
 const MAX_DOT_COUNT = 5 as const;
-const CENTER_DOT_POSITION = 3 as const;
 
 export type PageControlProps = {
     /**
