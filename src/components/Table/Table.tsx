@@ -1,5 +1,6 @@
 import './table.scss';
-import { SvgIcon } from '@bspk/icons/SvgIcon';
+import { SvgAZAscend } from '@bspk/icons/AZAscend';
+import { SvgAZDescend } from '@bspk/icons/AZDescend';
 import {
     useReactTable,
     getCoreRowModel,
@@ -8,7 +9,10 @@ import {
     SortingState,
     getSortedRowModel,
 } from '@tanstack/react-table';
-import { ReactNode, useState } from 'react';
+import { ReactNode, useId, useMemo, useState } from 'react';
+import { ElementProps } from '-/types/common';
+import { cssWithVars } from '-/utils/cwv';
+import { handleKeydown } from '-/utils/handleKeydown';
 
 export type TableRow = Record<string, ReactNode>;
 
@@ -53,63 +57,70 @@ export type TableProps<R extends TableRow> = {
  * @phase WorkInProgress
  */
 
-function Table<R extends TableRow>({
-    rows,
-    columns,
-    title,
-    ...props
-}: React.HTMLAttributes<HTMLDivElement> & TableProps<R>) {
+function Table<R extends TableRow>({ rows, columns, title, ...props }: ElementProps<TableProps<R>, 'div'>) {
     const [sorting, setSorting] = useState<SortingState>([]);
+    const tableId = useId();
 
-    const columnDefs: ColumnDef<R>[] = columns.map((col) => ({
-        accessorKey: col.key as string,
-        header: col.label,
-        cell: (info) => info.getValue(),
-    }));
+    const columnDefs: ColumnDef<R>[] = useMemo(
+        () =>
+            columns.map((col) => ({
+                accessorKey: col.key as string,
+                header: col.label,
+                cell: (info) => info.getValue(),
+            })),
+        [columns],
+    );
 
     const table = useReactTable({
         data: rows,
         columns: columnDefs,
         getCoreRowModel: getCoreRowModel(),
         getSortedRowModel: getSortedRowModel(),
-        state: {
-            sorting,
-        },
+        state: { sorting },
         onSortingChange: setSorting,
     });
 
     return (
-        <div {...props} aria-label={title || 'table'} data-bspk="table" style={props.style}>
-            {title && <div data-bspk="table-title">{title}</div>}
-
+        <div
+            {...props}
+            aria-label={title || 'table'}
+            data-bspk="table"
+            id={tableId}
+            role="presentation"
+            style={props.style}
+        >
+            {title && (
+                <div data-title id={`${tableId}-title`}>
+                    {title}
+                </div>
+            )}
             <div
                 {...props}
-                role="presentation"
-                style={{
-                    display: 'grid',
-                    gridTemplateColumns: columns.map((c) => `minmax(0, ${c.width || '1fr'})`).join(' '),
-                }}
+                aria-labelledby={title ? `${tableId}-title` : undefined}
+                data-table
+                role="table"
+                style={cssWithVars({
+                    '--template-columns': columns.map((c) => `minmax(0, ${c.width || '1fr'})`).join(' '),
+                })}
             >
                 {table.getHeaderGroups().map((headerGroup) =>
                     headerGroup.headers.map((header, index, arr) => {
                         const isSorted = header.column.getIsSorted();
-
                         const isFirst = index === 0;
                         const isLast = index === arr.length - 1;
-
                         const dataHeadValue = isFirst ? 'first' : isLast ? 'last' : '';
 
                         return (
-                            // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
                             <div
                                 data-head={dataHeadValue}
                                 key={header.id}
                                 onClick={header.column.getToggleSortingHandler()}
+                                onKeyDown={handleKeydown(['Space', 'Enter'], header.column.getToggleSortingHandler())}
+                                role="columnheader"
+                                tabIndex={0}
                             >
-                                {flexRender(header.column.columnDef.header, header.getContext())}{' '}
-                                {isSorted && (
-                                    <SvgIcon name={isSorted === 'asc' ? 'AZAscend' : 'AZDescend'} width={20} />
-                                )}
+                                {flexRender(header.column.columnDef.header, header.getContext())}
+                                {isSorted && <>{isSorted === 'asc' ? <SvgAZAscend /> : <SvgAZDescend />}</>}
                             </div>
                         );
                     }),
@@ -120,11 +131,12 @@ function Table<R extends TableRow>({
                             data-cell={cell.column.id}
                             data-row-last={rowIndex === rowArr.length - 1 || undefined}
                             key={cell.id}
+                            role="cell"
                         >
-                            {flexRender(cell.column.columnDef.cell, cell.getContext())}{' '}
+                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
                         </div>
                     )),
-                )}{' '}
+                )}
             </div>
         </div>
     );
