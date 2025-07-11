@@ -22,7 +22,7 @@ export type FileUploadProps = {
 
     uploadSubtitle?: string;
 
-    // acceptedFileTypes?: [];
+    acceptedFileTypes?: string[];
 
     maxFileSize?: string;
 
@@ -44,7 +44,7 @@ export type FileUploadProps = {
  * @name FileUpload
  * @phase WorkInProgress
  */
-// type uploadStatus = 'error' | 'idle' | 'success' | 'uploading';
+type uploadStatus = 'error' | 'idle' | 'success' | 'uploading';
 
 function FileUpload({
     dragAndDrop = false,
@@ -52,48 +52,37 @@ function FileUpload({
     maxFileSize = '4MB',
     errorMessage = 'Unsupported file',
     variant = DEFAULT.variant,
-    // acceptedFileTypes = ['jpeg', 'png', 'gif', 'svg'],
+    acceptedFileTypes = ['image/png', 'image/gif', 'image/svg'],
     uploadStatus,
 }: FileUploadProps) {
     const subtitle = `${uploadSubtitle} (max. ${maxFileSize})`;
     const [file, setfile] = useState<File | null>(null);
-    // const [status, setStatus] = useState<uploadStatus>('idle');
+    const [status, setStatus] = useState<uploadStatus>('idle');
     // const [uploadProgress, setUploadProgress] = useState<number>(0);
+    const fileInputRef = useRef<HTMLInputElement>(null);
+
+    // Automatically start upload when a file is selected
     const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files) {
-            setfile(e.target.files[0]);
+        const maxFileSize_MB = 4 * 1024 * 1024; // 4MB in bytes
+        if (e.target.files && e.target.files[0].size <= maxFileSize_MB) {
+            const selectedFile = e.target.files[0];
+            setfile(selectedFile);
+            setStatus('uploading');
+            // Simulate upload completion after a delay
+            setTimeout(() => {
+                // Here you would handle actual upload logic
+                setStatus('success');
+            }, 5000);
         }
     };
 
-    // const handleFileUpload = async () => {
-    //     if (!file) return;
-    //     setStatus('uploading');
-    //     const formData = new FormData();
-    //     formData.append('file', file);
+    const acceptedFileTypesText = acceptedFileTypes.join(', ');
 
-    //     if (file.type === 'image/jpeg') {
-    //         // valid file type, proceed with upload
-    //         setStatus('success');
-    //     } else {
-    //         setStatus('error');
-    //         // Optionally show an error message
-    //         return;
-    //     }
-    // };
-    const fileInputRef = useRef<HTMLInputElement>(null);
+    // console.log('acceptedFileTypesText', acceptedFileTypesText);
 
     const handleBrowseClick = () => {
         fileInputRef.current?.click();
     };
-
-    // const handleUploadClick = () => {
-    //     if (file) {
-    //         handleFileUpload();
-    //     } else {
-    //         setStatus('error');
-    //     }
-
-    // };
 
     return (
         <>
@@ -102,6 +91,7 @@ function FileUpload({
                 <Txt variant="body-large">{dragAndDrop ? 'Drag and Drop' : 'Upload File'}</Txt>
                 <Txt variant="body-small">{subtitle}</Txt>
                 <input
+                    accept={acceptedFileTypesText}
                     hidden={true}
                     id="temp-id"
                     onChange={handleFileChange}
@@ -110,28 +100,39 @@ function FileUpload({
                     // You can add accept, multiple, onChange, etc. here as needed
                 />
                 <Button label="Browse" onClick={handleBrowseClick} />
-
-                {status !== 'uploading' && <Button label="upload" onClick={handleBrowseClick} />}
-                {status === 'success' && <p>File uploaded</p>}
+                {/* {status !== 'uploading' && <Button label="upload" onClick={handleBrowseClick} />} */}
+                {status === 'success' && <p>{file?.name} uploaded</p>}
 
                 {status === 'error' && <InlineAlert variant="error">{errorMessage}</InlineAlert>}
             </div>
             {file && (
-                <div>
-                    <p>File Name: {file.name}</p>
-                    <p>File Size: {(file.size / 1024).toFixed(2)} KB</p>
-                    <p>File Type: {file.type}</p>
-                </div>
+                <>
+                    <UploadItem
+                        fileName={file?.name || ''}
+                        fileSize={((file?.size || 0) / 1024).toFixed(2)}
+                        onDelete={() => setfile(null)}
+                        progress={10}
+                        uploadStatus={uploadStatus}
+                        // fileSize={`${(file?.size || 0) / 1024} KB`}
+                    />
+
+                    <div>
+                        <p>File Name: {file.name}</p>
+                        <p>File Size: {(file.size / 1024).toFixed(2)} KB</p>
+                        <p>File Type: {file.type}</p>
+                    </div>
+                </>
             )}
+
             {uploadStatus === 'uploading' && (
                 <UploadItem
-                    progress={10}
                     fileName={file?.name || ''}
-                    // fileType={file?.type || ''}
-                    onDelete={() => setfile(null)}
-                    uploadStatus={uploadStatus}
                     // fileSize={`${(file?.size || 0) / 1024} KB`}
                     fileSize={((file?.size || 0) / 1024).toFixed(2)}
+                    // fileType={file?.type || ''}
+                    onDelete={() => setfile(null)}
+                    progress={10}
+                    uploadStatus={uploadStatus}
                 />
             )}
             {uploadStatus === 'error' && (

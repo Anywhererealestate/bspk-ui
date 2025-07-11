@@ -21,8 +21,6 @@ export type UploadItemProps = {
     progress?: number;
     /** The message to display when the upload fails. */
     failedMessage?: string;
-
-    // fileType?: string;
 };
 
 /**
@@ -47,7 +45,6 @@ export type UploadItemProps = {
  */
 function UploadItem({
     fileName = '',
-    // fileType = '',
     uploadStatus,
     fileSize,
     onDelete,
