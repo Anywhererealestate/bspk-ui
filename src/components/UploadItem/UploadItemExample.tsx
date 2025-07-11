@@ -3,7 +3,7 @@ import { ComponentExampleFn } from '-/utils/demo';
 
 export const UploadItemExample: ComponentExampleFn<UploadItemProps> = ({ action }) => ({
     render: ({ props, Component }) => {
-        return <Component {...props} onDelete={() => action('Delete item clicked!')} />;
+        return <Component {...props} onDelete={() => action('Delete action clicked!')} />;
     },
     presets: [
         {

@@ -29,7 +29,14 @@ export type UploadItemProps = {
  *     import { UploadItem } from '@bspk/ui/UploadItem';
  *
  *     function Example() {
- *         return <UploadItem fileName="hello" />;
+ *         return (
+ *             <UploadItem
+ *                 fileName="schrute-farms.jpg"
+ *                 fileSize="1.43 mb"
+ *                 uploadStatus="Uploading"
+ *                 onDelete={() => console.log('Delete item clicked!')}
+ *             />
+ *         );
  *     }
  *
  * @name UploadItem
