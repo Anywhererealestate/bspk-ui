@@ -47,9 +47,8 @@ function PageControl({ value, numPages, variant = 'flat' }: PageControlProps) {
     const dots = [];
 
     // only do fancy dots if numPages is greater than 5
-    if (numPages <= 5) {
-        const numDots = Math.min(numPages, MAX_DOT_COUNT);
-        for (let i = 1; i <= numDots; i++) {
+    if (numPages <= MAX_DOT_COUNT) {
+        for (let i = 1; i <= numPages; i++) {
             dots.push(<PageControlDot active={i === value} key={i} size="large" />);
         }
     } else {
