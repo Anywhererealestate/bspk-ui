@@ -62,7 +62,7 @@ function PageControl({ value, numPages, variant = 'flat' }: PageControlProps) {
             {dots.map(({ page, size }, index) => (
                 <span
                     aria-hidden="true"
-                    data-active={page === value || undefined}
+                    data-active={page === Number(value) || undefined}
                     data-dot={page}
                     data-size={size}
                     key={index + 1}

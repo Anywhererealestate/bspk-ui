@@ -14,7 +14,7 @@
         width: var(--spacing-sizing-02);
         height: var(--spacing-sizing-02);
 
-        &[data-active='true'] {
+        &[data-active] {
             background-color: var(--foreground-brand-primary);
         }
 
