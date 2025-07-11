@@ -19,7 +19,7 @@
         }
 
         [data-bspk='text-input'] {
-            width: 48px;
+            width: var(--spacing-sizing-12);
 
             input {
                 text-align: center;
