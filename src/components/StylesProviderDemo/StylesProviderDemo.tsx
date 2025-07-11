@@ -25,7 +25,7 @@ export type StylesProviderDemoProps = {
  * @name StylesProviderDemo
  * @phase Utility
  */
-function StylesProviderDemo({ brand }: StylesProviderDemoProps): JSX.Element | null {
+function StylesProviderDemo({ brand = 'anywhere' }: StylesProviderDemoProps): JSX.Element | null {
     const styleElement = useRef<HTMLStyleElement | null>(null);
 
     useEffect(() => {
@@ -34,14 +34,12 @@ function StylesProviderDemo({ brand }: StylesProviderDemoProps): JSX.Element | n
             document.head.appendChild(styleElement.current);
         }
 
-        if (styleElement.current) {
-            styleElement.current.textContent = (brand && BRANDS_CSS[brand]) || BRANDS_CSS.anywhere;
-        }
+        styleElement.current.textContent = (brand && BRANDS_CSS[brand]) || BRANDS_CSS.anywhere;
+
         return () => {
-            if (styleElement.current) {
-                document.head.removeChild(styleElement.current);
-                styleElement.current = null;
-            }
+            if (!styleElement.current) return;
+            document.head.removeChild(styleElement.current);
+            styleElement.current = null;
         };
     }, [brand]);
 
