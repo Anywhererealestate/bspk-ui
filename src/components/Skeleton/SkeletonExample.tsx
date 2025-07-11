@@ -1,11 +1,10 @@
 /* eslint-disable @cspell/spellchecker */ import { useState, useEffect } from 'react';
 
+import { SkeletonProps } from '.';
 import { Avatar } from '-/components/Avatar';
 import { ExamplePlaceholder } from '-/components/ExamplePlaceholder';
 import { useTimeout } from '-/hooks/useTimeout';
 import { ComponentExample } from '-/utils/demo';
-
-import { SkeletonProps } from '.';
 
 export const SkeletonExample: ComponentExample<SkeletonProps> = {
     render: ({ props, preset, Component }) => {

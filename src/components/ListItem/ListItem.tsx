@@ -1,8 +1,8 @@
 import { AnchorHTMLAttributes, ElementType, ReactNode, AriaRole } from 'react';
 
-import { CommonProps, ElementProps, SetRef } from '-';
 import { ButtonProps, Button } from '-/components/Button';
 import { Truncated } from '-/components/Truncated';
+import { CommonProps, ElementProps, SetRef } from '-/types/common';
 import { ChildElement, getChildrenElements } from '-/utils/children';
 import { useErrorLogger } from '-/utils/errors';
 import './list-item.scss';

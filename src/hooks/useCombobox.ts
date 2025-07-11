@@ -1,11 +1,9 @@
 import { AriaAttributes, useId, useState } from 'react';
 
+import { useFloating, UseFloatingElements, UseFloatingProps } from './useFloating';
+import { CommonProps, InvalidPropsLibrary } from '-/types/common';
 import { EVENT_KEY } from '-/utils/keyboard';
 import { scrollElementIntoView } from '-/utils/scrollElementIntoView';
-
-import { CommonProps, InvalidPropsLibrary } from '..';
-
-import { useFloating, UseFloatingElements, UseFloatingProps } from './useFloating';
 
 export type UseComboboxProps = CommonProps<'disabled' | 'readOnly'> &
     InvalidPropsLibrary &

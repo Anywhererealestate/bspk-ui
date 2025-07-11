@@ -1,8 +1,8 @@
 import { ReactNode } from 'react';
 
-import { ElementProps } from '-';
 import { Badge, BadgeProps } from '-/components/Badge';
 import { useOptionIconsInvalid } from '-/hooks/useOptionIconsInvalid';
+import { ElementProps } from '-/types/common';
 
 import './tab-group.scss';
 

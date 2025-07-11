@@ -1,7 +1,7 @@
 import { ElementType } from 'react';
 
-import { ElementProps } from '-';
 import { SkeletonText } from '-/components/SkeletonText';
+import { ElementProps } from '-/types/common';
 import { TxtVariant } from '-/utils/txtVariants';
 
 export type TxtProps<As extends ElementType = 'span'> = {

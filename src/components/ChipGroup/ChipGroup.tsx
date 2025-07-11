@@ -2,7 +2,7 @@ import './chip-group.scss';
 
 import { ReactNode } from 'react';
 
-import { ChipUtilityProps } from '../ChipUtility';
+import { ChipUtilityProps } from '-/components/ChipUtility';
 
 export type ChipGroupItem = Pick<
     ChipUtilityProps,
@@ -36,7 +36,7 @@ export type ChipGroupProps = {
  *     }
  *
  * @name ChipGroup
- * @phase WorkInProgress
+ * @phase Design Review
  */
 function ChipGroup({ children, wrap = true }: ChipGroupProps) {
     return (

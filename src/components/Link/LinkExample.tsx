@@ -1,9 +1,8 @@
 import { Fragment, useId } from 'react';
 
+import { LinkProps, Link } from '.';
 import { Txt } from '-/components/Txt';
 import { ComponentExample } from '-/utils/demo';
-
-import { LinkProps, Link } from '.';
 
 export const LinkExample: ComponentExample<LinkProps> = {
     containerStyle: {

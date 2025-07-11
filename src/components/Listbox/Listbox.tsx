@@ -1,10 +1,10 @@
 import { ReactNode, useMemo } from 'react';
 
-import { CommonProps, ElementProps, SetRef } from '-';
 import { Checkbox } from '-/components/Checkbox';
 import { ListItem, ListItemProps } from '-/components/ListItem';
 import { Menu, MenuProps } from '-/components/Menu';
 import { useId } from '-/hooks/useId';
+import { CommonProps, ElementProps, SetRef } from '-/types/common';
 
 const DEFAULT = {
     selectAll: 'Select All',

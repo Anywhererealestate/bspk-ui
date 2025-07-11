@@ -1,6 +1,5 @@
 /* eslint-disable react/no-multi-comp */ import { ReactNode, useMemo } from 'react';
 
-import { CommonProps, ElementProps } from '-';
 import { Checkbox } from '-/components/Checkbox';
 import { ListItem, ListItemProps } from '-/components/ListItem';
 import { Menu, MenuProps } from '-/components/Menu';
@@ -8,6 +7,7 @@ import { Modal, ModalProps } from '-/components/Modal';
 import { ToggleProps, useCombobox, UseComboboxProps } from '-/hooks/useCombobox';
 import { useId } from '-/hooks/useId';
 import { useUIContext } from '-/hooks/useUIContext';
+import { CommonProps, ElementProps } from '-/types/common';
 import { cssWithVars } from '-/utils/cwv';
 
 const DEFAULT = {

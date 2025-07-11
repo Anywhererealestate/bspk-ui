@@ -1,7 +1,6 @@
+import { DialogProps } from '.';
 import { Button } from '-/components/Button';
 import { ComponentExample } from '-/utils/demo';
-
-import { DialogProps } from '.';
 
 export const DialogExample: ComponentExample<DialogProps> = {
     render: ({ props, setState, Component }) => {

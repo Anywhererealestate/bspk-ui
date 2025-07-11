@@ -1,5 +1,5 @@
 import '@bspk/styles/cartus.css';
-import '../../base.scss';
+import '-/styles/base.scss';
 
 /**
  * Utility to provide the Cartus styles to the application.
@@ -16,4 +16,3 @@ StylesProviderCartus.bspkName = 'StylesProviderCartus';
 export { StylesProviderCartus };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
-

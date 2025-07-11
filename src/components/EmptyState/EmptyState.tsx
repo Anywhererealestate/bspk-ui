@@ -1,9 +1,9 @@
 import { ReactNode } from 'react';
 
-import { CallToActionButton } from '-';
 import { Button } from '-/components/Button';
 import { Layout } from '-/components/Layout';
 import { Txt } from '-/components/Txt';
+import { CallToActionButton } from '-/types/common';
 
 export type EmptyStateProps = {
     /** The image or icon to display in the empty state. */

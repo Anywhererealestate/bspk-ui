@@ -1,12 +1,12 @@
 import { SvgClose } from '@bspk/icons/Close';
 import { ReactElement, cloneElement, useId, useMemo, useRef, useState } from 'react';
 
-import { CallToActionButton, CommonProps } from '-';
 import { Button } from '-/components/Button';
 import { Portal } from '-/components/Portal';
 import { Txt } from '-/components/Txt';
 import { Placement, useFloating } from '-/hooks/useFloating';
 import { useOutsideClick } from '-/hooks/useOutsideClick';
+import { CallToActionButton, CommonProps } from '-/types/common';
 import './popover.scss';
 
 export type PopoverProps = CommonProps<'disabled'> & {

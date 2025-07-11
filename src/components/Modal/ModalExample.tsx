@@ -1,9 +1,8 @@
+import { ModalProps, Modal } from '.';
 import { Button } from '-/components/Button';
 import { Checkbox } from '-/components/Checkbox';
 import { ListItem } from '-/components/ListItem';
 import { ComponentExampleFn } from '-/utils/demo';
-
-import { ModalProps, Modal } from '.';
 
 export const ModalExample: ComponentExampleFn<ModalProps> = ({ action }) => ({
     hideVariants: true,

@@ -23,19 +23,16 @@
         "test": "jest",
         "prepare": "husky",
         "pre:commit": "tsx .scripts/pre-commit.ts",
-        "tsc": "npx tsc && npx tsc-alias",
         "meta": "tsx meta.ts",
         "pretty": "npx prettier --write src/",
         "newc": "tsx .scripts/tasks/new-component.ts",
         "pr-check": "npx tsx .scripts/tasks/lint-components.ts && npm run lint && npm run lint:css && npx tsx .scripts/check-css-vars.ts &&  npm run build"
     },
     "static-exports": {
-        "./*": "./dist/*.js",
-        ".": "./dist/index.js"
+        "./*": "./dist/*.js"
     },
     "exports": {
         "./*": "./dist/*.js",
-        ".": "./dist/index.js",
         "./Avatar/*": "./dist/components/Avatar/*.js",
         "./Avatar": "./dist/components/Avatar/index.js",
         "./AvatarGroup/*": "./dist/components/AvatarGroup/*.js",
@@ -154,6 +151,8 @@
         "./StylesProviderColdwellBanker": "./dist/components/StylesProviderColdwellBanker/index.js",
         "./StylesProviderCorcoran/*": "./dist/components/StylesProviderCorcoran/*.js",
         "./StylesProviderCorcoran": "./dist/components/StylesProviderCorcoran/index.js",
+        "./StylesProviderDemo/*": "./dist/components/StylesProviderDemo/*.js",
+        "./StylesProviderDemo": "./dist/components/StylesProviderDemo/index.js",
         "./StylesProviderDenaliBoss/*": "./dist/components/StylesProviderDenaliBoss/*.js",
         "./StylesProviderDenaliBoss": "./dist/components/StylesProviderDenaliBoss/index.js",
         "./StylesProviderEra/*": "./dist/components/StylesProviderEra/*.js",
@@ -241,7 +240,6 @@
         "stylelint-config-standard": "^38.0.0",
         "stylelint-config-standard-scss": "^14.0.0",
         "ts-jest": "^29.2.5",
-        "tsc-alias": "^1.8.16",
         "tslib": "^2.8.1",
         "tsx": "^4.19.4",
         "typescript": "5.6.3",

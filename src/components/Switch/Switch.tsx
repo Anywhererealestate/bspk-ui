@@ -1,6 +1,6 @@
 import { ChangeEvent } from 'react';
 
-import { CommonProps } from '-';
+import { CommonProps } from '-/types/common';
 
 import './switch.scss';
 
