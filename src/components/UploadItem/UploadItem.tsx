@@ -31,7 +31,7 @@ export type UploadItemProps = {
  *     function Example() {
  *         return (
  *             <UploadItem
- *                 fileName="schrute-farms.jpg"
+ *                 fileName="dunder-mifflin-paper-co.jpg"
  *                 fileSize="1.43 mb"
  *                 uploadStatus="Uploading"
  *                 onDelete={() => console.log('Delete item clicked!')}
