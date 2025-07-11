@@ -81,7 +81,7 @@ function Table<R extends TableRow>({ rows, columns, title, ...props }: ElementPr
     });
 
     return (
-        <div {...props} data-bspk="table" id={tableId} role="presentation" style={props.style}>
+        <div {...props} data-bspk="table" id={tableId} style={props.style}>
             {title && (
                 <div data-title id={`${tableId}-title`}>
                     {title}
