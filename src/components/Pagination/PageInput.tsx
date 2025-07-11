@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from 'react';
 
 import { TextInput } from '-/components/TextInput';
-import { Txt } from '../Txt';
+import { Txt } from '-/components/Txt';
 
 import { PaginationProps } from './Pagination';
 
