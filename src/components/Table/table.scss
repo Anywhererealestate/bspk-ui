@@ -1,13 +1,52 @@
 [data-bspk='table'] {
+    /*! --template-columns: is set via inline style */
     width: 100%;
     border-collapse: separate;
     text-align: left;
     border-spacing: 2rem 0.125rem;
-    display: grid;
     color: var(--foreground-neutral-on-surface);
     font: var(--labels-base);
     border-radius: var(--radius-md);
     border: 1px solid var(--stroke-neutral-low);
+    border-top-left-radius: var(--radius-md);
+    border-top-right-radius: var(--radius-md);
+
+    [data-table] {
+        display: grid;
+        width: 100%;
+        grid-template-columns: var(--template-columns, repeat(auto-fill, minmax(0, 1fr)));
+    }
+
+    [data-title] {
+        padding: var(--spacing-sizing-03);
+        width: 100%;
+        border-bottom: 1px solid var(--stroke-neutral-low);
+    }
+
+    [data-title],
+    [data-head] {
+        background: var(--surface-neutral-t2-lowest);
+        font: var(--labels-base);
+    }
+
+    [data-head] {
+        padding: 0 var(--spacing-sizing-03);
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        height: var(--spacing-sizing-10);
+        font: var(--labels-base);
+        justify-content: space-between;
+        cursor: pointer;
+        border: none none 1px solid var(--stroke-neutral-low);
+        position: relative;
+        z-index: 1;
+
+        &:focus {
+            outline: solid 2px var(--stroke-neutral-focus);
+            z-index: 2;
+        }
+    }
 
     [data-cell] {
         display: flex;
@@ -22,25 +61,6 @@
             margin: 0;
             padding: 0;
             font: var(--body-small);
-        }
-    }
-
-    [data-head] {
-        display: flex;
-        align-items: center;
-        flex-direction: row;
-        border-bottom: 1px solid var(--stroke-neutral-base);
-        background: var(--surface-neutral-t2-lowest);
-        height: var(--spacing-sizing-10);
-        padding: 0 var(--spacing-sizing-03);
-        font: var(--labels-base);
-
-        &[data-head='first'] {
-            border-top-left-radius: var(--radius-md);
-        }
-
-        &[data-head='last'] {
-            border-top-right-radius: var(--radius-md);
         }
     }
 }

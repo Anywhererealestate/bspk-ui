@@ -1,8 +1,18 @@
-import { ReactNode } from 'react';
-
-import { ElementProps } from '-/types/common';
-
 import './table.scss';
+import { SvgAZAscend } from '@bspk/icons/AZAscend';
+import { SvgAZDescend } from '@bspk/icons/AZDescend';
+import {
+    useReactTable,
+    getCoreRowModel,
+    flexRender,
+    ColumnDef,
+    SortingState,
+    getSortedRowModel,
+} from '@tanstack/react-table';
+import { ReactNode, useId, useMemo, useState } from 'react';
+import { ElementProps } from '-/types/common';
+import { cssWithVars } from '-/utils/cwv';
+import { handleKeydown } from '-/utils/handleKeydown';
 
 export type TableRow = Record<string, ReactNode>;
 
@@ -36,40 +46,91 @@ export type TableProps<R extends TableRow> = {
     rows: R[];
     /** The columns of the table. */
     columns: TableColumn<R>[];
+    /** The title of the table. */
+    title?: string;
 };
 
 /**
  * Component description coming soon.
  *
  * @name Table
- * @phase Backlog
+ * @phase WorkInProgress
  */
-function Table<R extends TableRow>({ rows, columns, ...props }: ElementProps<TableProps<R>, 'div'>) {
+
+function Table<R extends TableRow>({ rows, columns, title, ...props }: ElementProps<TableProps<R>, 'div'>) {
+    const [sorting, setSorting] = useState<SortingState>([]);
+    const tableId = useId();
+
+    const columnDefs: ColumnDef<R>[] = useMemo(
+        () =>
+            columns.map((col) => ({
+                accessorKey: col.key as string,
+                header: col.label,
+                cell: (info) => info.getValue(),
+            })),
+        [columns],
+    );
+
+    const table = useReactTable({
+        data: rows,
+        columns: columnDefs,
+        getCoreRowModel: getCoreRowModel(),
+        getSortedRowModel: getSortedRowModel(),
+        state: { sorting },
+        onSortingChange: setSorting,
+    });
+
     return (
-        <div
-            {...props}
-            data-bspk="table"
-            style={{
-                ...props.style,
-                gridTemplateColumns: columns.map((c) => `minmax(0, ${c.width || '1fr'})`).join(' '),
-            }}
-        >
-            {columns.map((column, index, arr) => (
-                <div
-                    data-head={[index === 0 && 'first', index === arr.length - 1 && 'last'].filter(Boolean).join(' ')}
-                    key={column.key as string}
-                >
-                    {column.label}
+        <div {...props} data-bspk="table" id={tableId} style={props.style}>
+            {title && (
+                <div data-title id={`${tableId}-title`}>
+                    {title}
                 </div>
-            ))}
-            {rows.map((row, index, arr) => {
-                const lastRow = index === arr.length - 1 || undefined;
-                return columns.map((column) => (
-                    <div data-cell={column.key} data-row-last={lastRow} key={index + (column.key as string)}>
-                        {row[column.key]}
-                    </div>
-                ));
-            })}
+            )}
+            <div
+                {...props}
+                aria-labelledby={title ? `${tableId}-title` : undefined}
+                data-table
+                role="table"
+                style={cssWithVars({
+                    '--template-columns': columns.map((c) => `minmax(0, ${c.width || '1fr'})`).join(' '),
+                })}
+            >
+                {table.getHeaderGroups().map((headerGroup) =>
+                    headerGroup.headers.map((header, index, arr) => {
+                        const isSorted = header.column.getIsSorted();
+                        const isFirst = index === 0;
+                        const isLast = index === arr.length - 1;
+                        const dataHeadValue = isFirst ? 'first' : isLast ? 'last' : '';
+
+                        return (
+                            <div
+                                data-head={dataHeadValue}
+                                key={header.id}
+                                onClick={header.column.getToggleSortingHandler()}
+                                onKeyDown={handleKeydown(['Space', 'Enter'], header.column.getToggleSortingHandler())}
+                                role="columnheader"
+                                tabIndex={0}
+                            >
+                                {flexRender(header.column.columnDef.header, header.getContext())}
+                                {isSorted && <>{isSorted === 'asc' ? <SvgAZAscend /> : <SvgAZDescend />}</>}
+                            </div>
+                        );
+                    }),
+                )}
+                {table.getRowModel().rows.map((row, rowIndex, rowArr) =>
+                    row.getVisibleCells().map((cell) => (
+                        <div
+                            data-cell={cell.column.id}
+                            data-row-last={rowIndex === rowArr.length - 1 || undefined}
+                            key={cell.id}
+                            role="cell"
+                        >
+                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                        </div>
+                    )),
+                )}
+            </div>
         </div>
     );
 }
@@ -77,5 +138,3 @@ function Table<R extends TableRow>({ rows, columns, ...props }: ElementProps<Tab
 Table.bspkName = 'Table';
 
 export { Table };
-
-/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
