@@ -57,10 +57,16 @@ function PageControl({ value, numPages, variant = 'flat' }: PageControlProps) {
             aria-label={`Page ${value} of ${numPages}`}
             data-bspk="page-control"
             data-variant={variant || undefined}
-            role="img"
+            role="presentation"
         >
             {dots.map(({ page, size }, index) => (
-                <span data-active={page === value || undefined} data-dot={page} data-size={size} key={index + 1} />
+                <span
+                    aria-hidden="true"
+                    data-active={page === value || undefined}
+                    data-dot={page}
+                    data-size={size}
+                    key={index + 1}
+                />
             ))}
         </span>
     );
