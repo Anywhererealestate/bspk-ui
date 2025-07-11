@@ -8,18 +8,20 @@ export type PageControlProps = {
     /**
      * The current page number.
      *
-     * @default 1
+     * @example
+     *     1;
+     *
      * @required
-     * @minimum 1
      */
     value: number;
 
     /**
      * The total number of pages.
      *
-     * @default 5
+     * @example
+     *     5;
+     *
      * @required
-     * @minimum 2
      */
     numPages: number;
     /**
