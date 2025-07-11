@@ -8,29 +8,24 @@
     padding: var(--spacing-sizing-02);
     gap: var(--spacing-sizing-02);
 
-    [data-bspk='page-control-dot'] {
+    [data-dot] {
         background-color: var(--surface-neutral-t3-low);
-        border-radius: 50%;
+        border-radius: var(--radius-full);
+        width: var(--spacing-sizing-02);
+        height: var(--spacing-sizing-02);
 
         &[data-active='true'] {
             background-color: var(--foreground-brand-primary);
         }
 
-        &[data-size='small'] {
+        &[data-size='x-small'] {
             width: 4px;
             height: 4px;
-            margin: 2px;
         }
 
-        &[data-size='medium'] {
+        &[data-size='small'] {
             width: 6px;
             height: 6px;
-            margin: 1px;
-        }
-
-        &[data-size='large'] {
-            width: 8px;
-            height: 8px;
         }
     }
 

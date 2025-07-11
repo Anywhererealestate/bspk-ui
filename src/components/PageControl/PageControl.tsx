@@ -1,8 +1,8 @@
+import { useMemo } from 'react';
 import './page-control.scss';
-import { PageControlDot } from './PageControlDot';
 
-const MAX_DOT_COUNT = 5;
-const CENTER_DOT_POSITION = 3;
+const MAX_DOT_COUNT = 5 as const;
+const CENTER_DOT_POSITION = 3 as const;
 
 export type PageControlProps = {
     /**
@@ -25,10 +25,12 @@ export type PageControlProps = {
     /**
      * The variant of the page-control.
      *
-     * @default 'flat'
+     * @default flat
      */
     variant?: 'flat' | 'floating';
 };
+
+type DotSize = 'medium' | 'small' | 'x-small';
 
 /**
  * A visual indicator that displays a series of dots representing the number of pages or elements within a moving
@@ -45,62 +47,9 @@ export type PageControlProps = {
  * @phase WorkInProgress
  */
 function PageControl({ value, numPages, variant = 'flat' }: PageControlProps) {
-    const dots = [];
+    const dots = useMemo(() => getDots(value, numPages), [value, numPages]);
 
-    // only do fancy dots if numPages is greater than the max dot count
-    if (numPages <= MAX_DOT_COUNT) {
-        for (let i = 1; i <= numPages; i++) {
-            dots.push(<PageControlDot active={i === value} key={i} size="large" />);
-        }
-    } else {
-        const valueDiffToStart = value - 1;
-        const valueDiffToEnd = numPages - value;
-
-        const isValueApproachingStart = valueDiffToStart <= CENTER_DOT_POSITION - 1;
-        const isValueApproachingEnd = valueDiffToEnd <= CENTER_DOT_POSITION - 1;
-
-        const isValueApproachingEdge = isValueApproachingStart || isValueApproachingEnd;
-
-        // unless the value is approaching either edge, the active dot is always the center one
-        const activeDotIndex = isValueApproachingEdge
-            ? isValueApproachingStart
-                ? valueDiffToStart + 1
-                : MAX_DOT_COUNT - valueDiffToEnd
-            : CENTER_DOT_POSITION;
-
-        for (let i = 1; i <= MAX_DOT_COUNT; i++) {
-            const isActive = i === activeDotIndex;
-            let size: 'large' | 'medium' | 'small' = 'small';
-
-            // If the value is close to the edge the center and dots on that edge are large, the dot one inward from center is medium, and the innermost dot are small.
-            if (isValueApproachingEdge) {
-                if (isValueApproachingStart) {
-                    if (i <= CENTER_DOT_POSITION) {
-                        size = 'large';
-                    } else if (i === CENTER_DOT_POSITION + 1) {
-                        size = 'medium';
-                    }
-                } else if (isValueApproachingEnd) {
-                    if (i >= CENTER_DOT_POSITION) {
-                        size = 'large';
-                    } else if (i === CENTER_DOT_POSITION - 1) {
-                        size = 'medium';
-                    }
-                }
-            } else {
-                // If the center dot is active only it is large, adjacent dots are medium, and all others are small.
-                if (i === CENTER_DOT_POSITION) {
-                    size = 'large';
-                }
-
-                if (i === activeDotIndex - 1 || i === activeDotIndex + 1) {
-                    size = 'medium';
-                }
-            }
-
-            dots.push(<PageControlDot active={isActive} key={i} size={size} />);
-        }
-    }
+    if (dots.length < 2) return null;
 
     return (
         <span
@@ -109,7 +58,9 @@ function PageControl({ value, numPages, variant = 'flat' }: PageControlProps) {
             data-variant={variant || undefined}
             role="img"
         >
-            {dots}
+            {dots.map(({ page, size }, index) => (
+                <span data-active={page === value || undefined} data-dot={page} data-size={size} key={index + 1} />
+            ))}
         </span>
     );
 }
@@ -117,5 +68,30 @@ function PageControl({ value, numPages, variant = 'flat' }: PageControlProps) {
 PageControl.bspkName = 'PageControl';
 
 export { PageControl };
+
+function getDots(currentPage: number, totalPages: number) {
+    if (totalPages <= MAX_DOT_COUNT) {
+        return Array.from({ length: totalPages }, (_, i) => ({
+            size: 'medium' as DotSize,
+            page: i + 1,
+        }));
+    }
+
+    const start = Math.max(1, Math.min(currentPage - 2, totalPages - 4));
+
+    const dots = Array.from({ length: MAX_DOT_COUNT }, (_, i) => {
+        const page = start + i;
+        let size: DotSize = 'medium';
+
+        if (i === 0 && page > 1) size = page > 2 ? 'x-small' : 'small';
+        if (i === 1 && page > 3) size = 'small';
+        if (i === 3 && page < totalPages - 2) size = 'small';
+        if (i === 4 && page < totalPages) size = page < totalPages - 1 ? 'x-small' : 'small';
+
+        return { page, size };
+    });
+
+    return dots;
+}
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
