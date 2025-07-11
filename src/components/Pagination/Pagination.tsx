@@ -1,6 +1,6 @@
 import { SvgIcon } from '@bspk/icons/SvgIcon';
 
-import { Button } from '../Button';
+import { Button } from '-/components/Button';
 
 import './pagination.scss';
 import { PageInput } from './PageInput';
