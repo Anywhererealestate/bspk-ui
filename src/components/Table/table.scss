@@ -10,6 +10,7 @@
     border: 1px solid var(--stroke-neutral-low);
     border-top-left-radius: var(--radius-md);
     border-top-right-radius: var(--radius-md);
+    overflow: hidden;
 
     [data-table] {
         display: grid;
@@ -54,8 +55,11 @@
         gap: var(--spacing-sizing-02);
         padding: var(--spacing-sizing-04);
         background-color: var(--surface-neutral-t1-base);
-        border-bottom: var(--stroke-neutral-low) solid 1px;
         font: var(--labels-small);
+
+        &[data-cell-row='even'] {
+            background-color: var(--surface-neutral-t2-lowest);
+        }
 
         p {
             margin: 0;
