@@ -8,18 +8,20 @@ export type PageControlProps = {
     /**
      * The current page number.
      *
-     * @default 1
+     * @example
+     *     1;
+     *
      * @required
-     * @minimum 1
      */
     value: number;
 
     /**
      * The total number of pages.
      *
-     * @default 5
+     * @example
+     *     5;
+     *
      * @required
-     * @minimum 2
      */
     numPages: number;
     /**
@@ -72,7 +74,7 @@ function PageControl({ value, numPages, variant = 'flat' }: PageControlProps) {
             const isActive = i === activeDotIndex;
             let size: 'large' | 'medium' | 'small' = 'small';
 
-            // If the value is close to the edge the center and dots on that edge are large, the dot one inward from center is medium, and the innermost dot are small.
+            // If the value is close to the edge the center and dots on that edge are large, the dot one inward from center is medium, and the innermost dots are small.
             if (isValueApproachingEdge) {
                 if (isValueApproachingStart) {
                     if (i <= CENTER_DOT_POSITION) {

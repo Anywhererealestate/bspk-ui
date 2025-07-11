@@ -7,8 +7,9 @@
     border: 1px solid var(--stroke-neutral-low);
     padding: var(--spacing-sizing-02);
     gap: var(--spacing-sizing-02);
+    width: fit-content;
 
-    [data-bspk='page-control-dot'] {
+    [data-dot] {
         background-color: var(--surface-neutral-t3-low);
         border-radius: 50%;
 

@@ -6,5 +6,5 @@ type PageControlDotProps = {
 };
 
 export const PageControlDot: FC<PageControlDotProps> = ({ size = 'large', active = false }) => (
-    <span data-active={active} data-bspk="page-control-dot" data-size={size} />
+    <span data-active={active} data-dot data-size={size} />
 );
