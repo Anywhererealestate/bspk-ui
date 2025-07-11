@@ -1,12 +1,12 @@
 import { SvgIcon } from '@bspk/icons/SvgIcon';
 
-import { Button } from '-/components/Button';
-
 import './pagination.scss';
 import { PageInput } from './PageInput';
 import { PageList } from './PageList';
+import { Button } from '-/components/Button';
 
-const EXTENSIVE_INPUT_THRESHOLD = 7;
+// After this point the manual input renders. With equal or fewer pages the individual page buttons render instead.
+const INPUT_TYPE_THRESHOLD = 7;
 
 export type PaginationProps = {
     /**
@@ -79,7 +79,7 @@ function Pagination({ numPages, value, onChange }: PaginationProps) {
                 variant="tertiary"
             />
 
-            {numPages > EXTENSIVE_INPUT_THRESHOLD ? (
+            {numPages > INPUT_TYPE_THRESHOLD ? (
                 <PageInput numPages={numPages} onChange={onChange} value={value} />
             ) : (
                 <PageList numPages={numPages} onChange={onChange} value={value} />
