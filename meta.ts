@@ -516,7 +516,7 @@ async function createMeta() {
 
     let mode = 'production';
 
-    if (uiHash === 'local' || process.env.DEV_GIT_TOKEN) {
+    if (uiHash === 'local') {
         mode = 'development';
         console.info(`${ORANGE}Development meta build.${RESET}`);
     } else {

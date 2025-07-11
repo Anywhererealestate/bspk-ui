@@ -4,7 +4,7 @@ import { Tooltip } from '-/components/Tooltip';
 import { useTruncatedText } from '-/hooks/useTruncatedText';
 import { ElementConstructorProps } from '-/types/common';
 
-export type TruncatedProps<As extends ElementType = 'span'> = ElementConstructorProps<'span', 'children'> & {
+export type TruncatedProps<As extends ElementType = 'span'> = {
     /**
      * The element type to render as.
      *
@@ -30,9 +30,13 @@ export type TruncatedProps<As extends ElementType = 'span'> = ElementConstructor
  * A utility component that displays a tooltip with the full text when hovered when text is truncated.
  *
  * @name Truncated
- * @phase WorkInProgress
+ * @phase Utility
  */
-function Truncated({ children, label, ...props }: TruncatedProps) {
+function Truncated<As extends ElementType = 'span'>({
+    children,
+    label,
+    ...props
+}: ElementConstructorProps<As, 'children'> & TruncatedProps<As>) {
     const { setElement, isTruncated } = useTruncatedText();
 
     const span = (

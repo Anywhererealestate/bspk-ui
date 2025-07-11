@@ -151,6 +151,8 @@
         "./StylesProviderColdwellBanker": "./dist/components/StylesProviderColdwellBanker/index.js",
         "./StylesProviderCorcoran/*": "./dist/components/StylesProviderCorcoran/*.js",
         "./StylesProviderCorcoran": "./dist/components/StylesProviderCorcoran/index.js",
+        "./StylesProviderDemo/*": "./dist/components/StylesProviderDemo/*.js",
+        "./StylesProviderDemo": "./dist/components/StylesProviderDemo/index.js",
         "./StylesProviderDenaliBoss/*": "./dist/components/StylesProviderDenaliBoss/*.js",
         "./StylesProviderDenaliBoss": "./dist/components/StylesProviderDenaliBoss/index.js",
         "./StylesProviderEra/*": "./dist/components/StylesProviderEra/*.js",
