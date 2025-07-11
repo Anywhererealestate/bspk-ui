@@ -122,6 +122,7 @@ function Table<R extends TableRow>({ rows, columns, title, ...props }: ElementPr
                     row.getVisibleCells().map((cell) => (
                         <div
                             data-cell={cell.column.id}
+                            data-cell-row={rowIndex % 2 === 0 ? 'odd' : 'even'}
                             data-row-last={rowIndex === rowArr.length - 1 || undefined}
                             key={cell.id}
                             role="cell"
