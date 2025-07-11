@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react';
 
-import { TextInput } from '../TextInput';
+import { TextInput } from '-/components/TextInput';
 import { Txt } from '../Txt';
 
 import { PaginationProps } from './Pagination';
