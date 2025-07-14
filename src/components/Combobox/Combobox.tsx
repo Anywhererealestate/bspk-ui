@@ -1,7 +1,6 @@
-/* eslint-disable react/no-multi-comp */ import { ReactNode, useMemo } from 'react';
-
-import { Checkbox } from '-/components/Checkbox';
-import { ListItem, ListItemProps } from '-/components/ListItem';
+import { ReactNode, useMemo } from 'react';
+import { ListItems } from './ListItems';
+import { ListItemProps } from '-/components/ListItem';
 import { Menu, MenuProps } from '-/components/Menu';
 import { Modal, ModalProps } from '-/components/Modal';
 import { ToggleProps, useCombobox, UseComboboxProps } from '-/hooks/useCombobox';
@@ -221,94 +220,5 @@ export { Combobox };
 
 // ListItems component to render the items in the listbox or modal.
 // This is a separate component to keep the Combobox component clean and focused on its main functionality
-function ListItems({
-    isMulti = false,
-    items = [],
-    activeIndex,
-    selectedValues = [],
-    onChange,
-    selectAll = false,
-    menuId = '',
-    allSelected = false,
-}: {
-    isMulti?: boolean;
-    items?: ComboboxItemProps[];
-    activeIndex?: number;
-    selectedValues?: string[];
-    onChange?: (nextSelectedValues: string[], event?: React.MouseEvent<HTMLElement, MouseEvent>) => void;
-    selectAll?: string | false;
-    menuId?: string;
-    allSelected?: boolean;
-}) {
-    const multiSelectValue = (selected: boolean, itemValue: string) => {
-        return selected ? selectedValues.filter((value) => value !== itemValue) : [...selectedValues, itemValue];
-    };
-
-    return (
-        <>
-            {isMulti && selectAll && (
-                <ListItem
-                    data-selected={allSelected || undefined}
-                    key="select-all"
-                    label={selectAll}
-                    onClick={(event: React.MouseEvent<HTMLElement, MouseEvent>) => {
-                        onChange?.(allSelected ? [] : items.map((item) => item.value), event);
-                    }}
-                    role="option"
-                    tabIndex={-1}
-                    trailing={
-                        <Checkbox
-                            aria-label={selectAll}
-                            checked={!!allSelected}
-                            indeterminate={!allSelected && selectedValues.length > 0}
-                            name=""
-                            onChange={(checked) => {
-                                onChange?.(checked ? items.map((item) => item.value) : []);
-                            }}
-                            value=""
-                        />
-                    }
-                />
-            )}
-            {items.map((item, index) => {
-                const selected = Boolean(Array.isArray(selectedValues) && selectedValues.includes(item.value));
-                return (
-                    <ListItem
-                        {...item}
-                        active={activeIndex === index || undefined}
-                        aria-disabled={item.disabled || undefined}
-                        aria-posinset={index + 1}
-                        as="button"
-                        disabled={item.disabled || undefined}
-                        id={`${menuId}-item-${index}`}
-                        key={`${menuId}-item-${index}`}
-                        label={item.label}
-                        onClick={(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-                            onChange?.(isMulti ? multiSelectValue(selected, item.value) : [item.value], event);
-                        }}
-                        role="option"
-                        selected={selected || undefined}
-                        tabIndex={-1}
-                        trailing={
-                            isMulti ? (
-                                <Checkbox
-                                    aria-label={item.label}
-                                    checked={selected}
-                                    name={item.value}
-                                    onChange={(checked) => {
-                                        onChange?.(multiSelectValue(checked, item.value));
-                                    }}
-                                    value={item.value}
-                                />
-                            ) : (
-                                item.trailing || undefined
-                            )
-                        }
-                    />
-                );
-            })}
-        </>
-    );
-}
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
