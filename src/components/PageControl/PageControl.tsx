@@ -90,10 +90,10 @@ function getDots(currentPage: number, totalPages: number) {
         const page = start + i;
         let size: DotSize = 'medium';
 
-        if (i === 0 && page > 1) size = page > 2 ? 'x-small' : 'small';
-        if (i === 1 && page > 3) size = 'small';
-        if (i === 3 && page < totalPages - 2) size = 'small';
-        if (i === 4 && page < totalPages) size = page < totalPages - 1 ? 'x-small' : 'small';
+        if (i === 0 && page > 1) size = page > 1 ? 'x-small' : 'small';
+        if (i === 1 && page > 2) size = 'small';
+        if (i === 3 && page < totalPages - 1) size = 'small';
+        if (i === 4 && page < totalPages) size = page < totalPages ? 'x-small' : 'small';
 
         return { page, size };
     });
