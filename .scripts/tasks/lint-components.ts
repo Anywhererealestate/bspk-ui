@@ -14,6 +14,8 @@ const errors: string[] = [];
 
 const { componentsMeta, typesMeta } = await getLocalMeta();
 
+const packageJsonData = JSON.parse(fs.readFileSync(path.resolve('./package.json'), 'utf-8'));
+
 fs.readdirSync(path.resolve('./src/components'), { withFileTypes: true }).forEach((dirent) => {
     if (!dirent.isDirectory() && dirent.name !== '.DS_Store') {
         errors.push(`❌ ${dirent.name} is in the components directory but is not a directory. Please remove it.`);
@@ -25,6 +27,27 @@ fs.readdirSync(path.resolve('./src/components'), { withFileTypes: true }).forEac
 
 if (!errors.length)
     componentsMeta.forEach(({ name, slug }) => {
+        // exports should be in package.json
+        const exports = [
+            {
+                key: `./${name}/*`,
+                value: `./dist/components/${name}/*.js`,
+            },
+            {
+                key: `./${name}`,
+                value: `./dist/components/${name}/index.js`,
+            },
+        ];
+
+        if (
+            !('exports' in packageJsonData) ||
+            !packageJsonData.exports ||
+            !exports.every(({ key, value }) => key in packageJsonData.exports && packageJsonData.exports[key] === value)
+        ) {
+            errors.push(`❌ ${name} is not exported properly in package.json. Please add it to the exports.`);
+            return;
+        }
+
         const indexPath = path.resolve(`./src/components/${name}/index.tsx`);
 
         const content = fs.readFileSync(path.resolve(`./src/components/${name}/${name}.tsx`), 'utf-8');
