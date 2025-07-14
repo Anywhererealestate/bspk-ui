@@ -48,7 +48,7 @@ type DotSize = 'medium' | 'small' | 'x-small';
  * @phase WorkInProgress
  */
 function PageControl({ value, numPages, variant = 'flat' }: PageControlProps) {
-    const dots = useMemo(() => getDots(value, numPages), [value, numPages]);
+    const dots = getDots(value, numPages);
 
     if (dots.length < 2) return null;
 
