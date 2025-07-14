@@ -181,6 +181,8 @@
         "./TextField/*": "./dist/components/TextField/*.js",
         "./TextInput": "./dist/components/TextInput/index.js",
         "./TextInput/*": "./dist/components/TextInput/*.js",
+        "./TimeInput": "./dist/components/TimeInput/index.js",
+        "./TimeInput/*": "./dist/components/TimeInput/*.js",
         "./ToggleOption": "./dist/components/ToggleOption/index.js",
         "./ToggleOption/*": "./dist/components/ToggleOption/*.js",
         "./Tooltip": "./dist/components/Tooltip/index.js",
