@@ -1,4 +1,3 @@
-import { useMemo } from 'react';
 import './page-control.scss';
 
 const MAX_DOT_COUNT = 5 as const;
@@ -48,9 +47,7 @@ type DotSize = 'medium' | 'small' | 'x-small';
  * @phase WorkInProgress
  */
 function PageControl({ value, numPages, variant = 'flat' }: PageControlProps) {
-    const dots = getDots(value, numPages);
-
-    if (dots.length < 2) return null;
+    if (numPages < 2) return null;
 
     return (
         <span
@@ -59,7 +56,7 @@ function PageControl({ value, numPages, variant = 'flat' }: PageControlProps) {
             data-variant={variant || undefined}
             role="presentation"
         >
-            {dots.map(({ page, size }, index) => (
+            {getDots(value, numPages).map(({ page, size }, index) => (
                 <span
                     aria-hidden="true"
                     data-active={page === Number(value) || undefined}
