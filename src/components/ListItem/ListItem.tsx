@@ -1,6 +1,5 @@
 import { AnchorHTMLAttributes, ElementType, ReactNode, AriaRole } from 'react';
-
-import { ButtonProps, Button } from '-/components/Button';
+import { ListItemButton } from './ListItemButton';
 import { Truncated } from '-/components/Truncated';
 import { CommonProps, ElementProps, SetRef } from '-/types/common';
 import { ChildElement, getChildrenElements } from '-/utils/children';
@@ -102,8 +101,6 @@ export type ListItemProps<As extends ElementType = 'div', T = HTMLElement> = Com
  *         );
  *     }
  *
- * @subComponents ListItemButton
- *
  * @name ListItem
  * @phase DesignReview
  */
@@ -181,12 +178,6 @@ function ListItem<As extends ElementType = 'div', T = HTMLElement>({
 }
 ListItem.bspkName = 'ListItem';
 
-/** A button that can be used as a trailing element in a ListItem. */
-// eslint-disable-next-line react/no-multi-comp
-function ListItemButton({ label, icon, ...buttonProps }: Pick<ButtonProps, 'icon' | 'label' | 'onClick'>) {
-    return <Button icon={icon} label={label} showLabel={false} {...buttonProps} size="large" variant="tertiary" />;
-}
-ListItemButton.bspkName = 'ListItemButton';
 ListItem.Button = ListItemButton;
 
 export { ListItem };

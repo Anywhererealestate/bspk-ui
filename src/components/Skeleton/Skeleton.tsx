@@ -1,5 +1,4 @@
-/* eslint-disable react/no-multi-comp */ import { ReactNode } from 'react';
-
+import { ReactNode } from 'react';
 import { cssWithVars } from '-/utils/cwv';
 
 export type SkeletonProps = {
@@ -88,26 +87,6 @@ function Skeleton({ width = 100, height = 100, variant = 'rectangular', children
 
 Skeleton.bspkName = 'Skeleton';
 
-function SkeletonCircular(props: Pick<SkeletonProps, 'height' | 'width'>) {
-    return <Skeleton {...props} variant="circular" />;
-}
-
-function SkeletonPhoto(props: Pick<SkeletonProps, 'height' | 'width'>) {
-    return <Skeleton {...props} variant="photo" />;
-}
-
-function SkeletonProfile(props: Pick<SkeletonProps, 'height' | 'width'>) {
-    return <Skeleton {...props} variant="profile" />;
-}
-
-function SkeletonRectangular(props: Pick<SkeletonProps, 'height' | 'width'>) {
-    return <Skeleton {...props} variant="rectangular" />;
-}
-
-function SkeletonThumbnail(props: Pick<SkeletonProps, 'height' | 'width'>) {
-    return <Skeleton {...props} variant="thumbnail" />;
-}
-
-export { Skeleton, SkeletonCircular, SkeletonPhoto, SkeletonProfile, SkeletonRectangular, SkeletonThumbnail };
+export { Skeleton };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
