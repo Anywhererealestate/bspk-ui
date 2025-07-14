@@ -1,6 +1,5 @@
-import { ComponentExample } from '-/utils/demo';
-
 import { TableProps } from './Table';
+import { ComponentExample } from '-/utils/demo';
 
 type ExampleRow = {
     id: number;

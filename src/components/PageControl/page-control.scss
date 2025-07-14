@@ -2,8 +2,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    height: 24px;
-    border-radius: 12px;
+    border-radius: var(--radius-full);
     border: 1px solid var(--stroke-neutral-low);
     padding: var(--spacing-sizing-02);
     gap: var(--spacing-sizing-02);
@@ -11,27 +10,22 @@
 
     [data-dot] {
         background-color: var(--surface-neutral-t3-low);
-        border-radius: 50%;
+        border-radius: var(--radius-full);
+        width: var(--spacing-sizing-02);
+        height: var(--spacing-sizing-02);
 
-        &[data-active='true'] {
+        &[data-active] {
             background-color: var(--foreground-brand-primary);
         }
 
-        &[data-size='small'] {
-            width: 4px;
-            height: 4px;
-            margin: 2px;
+        &[data-size='x-small'] {
+            width: var(--spacing-sizing-01);
+            height: var(--spacing-sizing-01);
         }
 
-        &[data-size='medium'] {
+        &[data-size='small'] {
             width: 6px;
             height: 6px;
-            margin: 1px;
-        }
-
-        &[data-size='large'] {
-            width: 8px;
-            height: 8px;
         }
     }
 
