@@ -12,7 +12,7 @@ export type UploadItemProps = {
     fileName?: string;
     /** The status of the uploading file. */
     // uploadStatus?: 'Complete' | 'Failed' | 'Uploading';
-    uploadStatus?: 'error' | 'idle' | 'success' | 'uploading';
+    uploadStatus?: 'complete' | 'error' | 'idle' | 'uploading';
     /** The size of the file being uploaded. */
     fileSize?: string;
     /** The function to call when the delete button is clicked. */
@@ -53,7 +53,7 @@ function UploadItem({
 }: UploadItemProps) {
     const fileSizeText = fileSize ? `${fileSize}` : '';
     const uploadStatusText =
-        uploadStatus === 'uploading' || uploadStatus === 'success' || uploadStatus === 'error'
+        uploadStatus === 'uploading' || uploadStatus === 'complete' || uploadStatus === 'error'
             ? ` ${uploadStatus}`
             : '';
     const subText = uploadStatusText && fileSizeText ? `${fileSizeText} • ${uploadStatus}` : `${fileSizeText}`;
@@ -84,9 +84,7 @@ function UploadItem({
                 />
             </div>
             <div data-status>
-                {uploadStatus === 'uploading' && (
-                    <ProgressBar align="left" completion={progressNum} label={progressText} />
-                )}
+                <ProgressBar align="left" completion={progressNum} label={progressText} />
                 {uploadStatus === 'error' && failedMessage && (
                     <InlineAlert variant="error">{failedMessage}</InlineAlert>
                 )}

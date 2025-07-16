@@ -24,7 +24,7 @@ export const UploadItemExample: ComponentExampleFn<UploadItemProps> = ({ action 
             label: 'state: success',
             propState: {
                 fileName: 'success-story.pdf',
-                uploadStatus: 'success',
+                uploadStatus: 'complete',
             },
         },
         {
