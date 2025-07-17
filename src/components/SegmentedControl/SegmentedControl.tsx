@@ -3,6 +3,7 @@ import { Fragment } from 'react';
 import { Tooltip } from '-/components/Tooltip';
 import { useOptionIconsInvalid } from '-/hooks/useOptionIconsInvalid';
 import { ElementProps } from '-/types/common';
+
 import './segmented-control.scss';
 
 export type SegmentedControlOption = {

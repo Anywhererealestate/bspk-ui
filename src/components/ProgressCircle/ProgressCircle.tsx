@@ -1,7 +1,8 @@
-import { useId } from 'react';
 import { ProgressCircleSVG } from './ProgressCircleSVG';
 import { Txt } from '-/components/Txt';
+import { useId } from '-/hooks/useId';
 import { TxtVariant } from '-/utils/txtVariants';
+
 import './progress-circle.scss';
 
 export type ProgressCircleProps = {

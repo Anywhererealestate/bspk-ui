@@ -2,6 +2,7 @@ import { useCallback, useState } from 'react';
 import { IncrementButton } from './IncrementButton';
 import { useId } from '-/hooks/useId';
 import { CommonProps, InvalidPropsLibrary } from '-/types/common';
+
 import './number-input.scss';
 
 const MAX = 99;
