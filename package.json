@@ -33,6 +33,10 @@
     },
     "exports": {
         "./*": "./dist/*.js",
+        "./Accordion": "./dist/components/Accordion/index.js",
+        "./Accordion/*": "./dist/components/Accordion/*.js",
+        "./AccordionGroup": "./dist/components/AccordionGroup/index.js",
+        "./AccordionGroup/*": "./dist/components/AccordionGroup/*.js",
         "./Avatar": "./dist/components/Avatar/index.js",
         "./Avatar/*": "./dist/components/Avatar/*.js",
         "./AvatarGroup": "./dist/components/AvatarGroup/index.js",
