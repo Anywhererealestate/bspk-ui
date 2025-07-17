@@ -11,6 +11,7 @@ export const FileUploadExample: ComponentExampleFn<FileUploadProps> = ({ action 
             label: 'Drag and Drop',
             propState: {
                 dragAndDrop: true,
+                maxFileSize: 1,
             },
         },
         {
@@ -65,8 +66,7 @@ function FileUploadExampleMockUpload({
         <Component
             {...props}
             acceptedFileTypes={['image/png', 'image/gif', 'image/svg']}
-            file={file}
-            maxFileSize={4}
+            files={file ? [file] : null}
             onChange={handleChange}
             onError={(error, selectedFile) => action(`Upload error: ${error}, ${selectedFile?.name}`)}
             onUploadStart={(selectedFile) => action(`Upload started for: ${selectedFile.name}`)}

@@ -1,6 +1,6 @@
 import './file-upload.scss';
 import { SvgCloudUpload } from '@bspk/icons/CloudUpload';
-import { useRef, ChangeEvent } from 'react';
+import { useRef, ChangeEvent, useState } from 'react';
 import { Button } from '-/components/Button';
 import { InlineAlert } from '-/components/InlineAlert';
 import { Txt } from '-/components/Txt';
@@ -17,7 +17,7 @@ export type FileUploadProps = {
     maxFileSize?: number;
     /** The error message to display when the upload fails */
     errorMessage?: string;
-    file?: File | null;
+    files?: File[] | null;
     uploadStatus?: UploadStatus;
     uploadProgress?: number;
     onChange?: (file: File | null) => void;
@@ -48,7 +48,7 @@ function FileUpload({
     maxFileSize = 2,
     errorMessage = 'error message',
     acceptedFileTypes = ['image/png', 'image/gif', 'image/svg'],
-    file,
+    files = [],
     uploadStatus = 'idle',
     uploadProgress = 0,
     onChange,
@@ -60,6 +60,8 @@ function FileUpload({
     const subtitle = `${uploadSubtitle} (max. ${maxFileSize}MB)`;
     const fileInputRef = useRef<HTMLInputElement>(null);
     const acceptedFileTypesText = acceptedFileTypes.join(', ');
+    const [exceedMaxFileSize, setExceedMaxFileSize] = useState<File[]>([]);
+    const [acceptedSize, setacceptedSize] = useState<File[]>([]);
 
     const handleBrowseClick = () => {
         fileInputRef.current?.click();
@@ -72,13 +74,88 @@ function FileUpload({
         const selectedFile = e.target.files?.[0] || null;
         if (!selectedFile) return;
 
-        if (selectedFile.size >= maxFileSize_MB) {
+        const filesArr = Array.from(e.target.files ?? []);
+        if (filesArr.length === 0) return;
+        // console.log('files:', files);
+        // console.log('filesArr:', filesArr);
+        const exceeded = filesArr.filter((file) => file.size >= maxFileSize_MB);
+        setExceedMaxFileSize(exceeded);
+
+        const acceptedFileSize = filesArr.filter((file) => file.size < maxFileSize_MB);
+        setacceptedSize(acceptedFileSize);
+        // console.log('acceptedSize:', acceptedFileSize);
+
+        if (acceptedFileSize.length === 0) {
             onError?.(errorMessage, selectedFile);
-            onChange?.(selectedFile);
+            onChange?.(null);
             return;
         }
+
+        if (exceedMaxFileSize.length > 0) {
+            exceedMaxFileSize.forEach((file) => {
+                onError?.(errorMessage, file);
+            });
+            // onChange?.(exceedMaxFileSize);
+            return;
+        }
+
+        // console.log('exceedArr:', exceeded);
+        // `${files[0]?.name} too large. Please upload a smaller file.`
+
+        // if (selectedFile.size >= maxFileSize_MB) {
+        //     onError?.(errorMessage, selectedFile);
+        //     onChange?.(selectedFile);
+        //     return;
+        // }
         onChange?.(selectedFile);
         onUploadStart?.(selectedFile);
+    };
+
+    // Add state for drag-over visual feedback
+    const [isDragOver, setIsDragOver] = useState(false);
+
+    const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        setIsDragOver(false);
+        const filesArr = Array.from(e.dataTransfer.files ?? []);
+        if (filesArr.length === 0) return;
+
+        const maxFileSize_MB = maxFileSize * 1024 * 1024;
+        const exceeded = filesArr.filter((file) => file.size >= maxFileSize_MB);
+        setExceedMaxFileSize(exceeded);
+
+        const acceptedFileSize = filesArr.filter((file) => file.size < maxFileSize_MB);
+        setacceptedSize(acceptedFileSize);
+
+        if (acceptedFileSize.length === 0) {
+            onError?.(errorMessage, filesArr[0]);
+            onChange?.(null);
+            return;
+        }
+
+        if (exceeded.length > 0) {
+            exceeded.forEach((file) => {
+                onError?.(errorMessage, file);
+            });
+            return;
+        }
+
+        filesArr.forEach((file) => {
+            onChange?.(file);
+        });
+        filesArr.forEach((file) => {
+            onUploadStart?.(file);
+        });
+    };
+
+    const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        setIsDragOver(true);
+    };
+
+    const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        setIsDragOver(false);
     };
 
     const fileSizeFormat = (fileSize: number) => {
@@ -96,7 +173,13 @@ function FileUpload({
 
     return (
         <>
-            <div data-bspk="file-upload">
+            <div
+                className={isDragOver ? 'drag-over' : ''}
+                data-bspk="file-upload"
+                onDragLeave={dragAndDrop ? handleDragLeave : undefined}
+                onDragOver={dragAndDrop ? handleDragOver : undefined}
+                onDrop={dragAndDrop ? handleDrop : undefined}
+            >
                 <SvgCloudUpload />
                 <Txt variant="body-large">{dragAndDrop ? 'Drag and Drop' : 'Upload File'}</Txt>
                 <Txt variant="body-small">{subtitle}</Txt>
@@ -108,42 +191,47 @@ function FileUpload({
                     onChange={handleFileChange}
                     ref={fileInputRef}
                     type="file"
-                    // You can add multiple, etc. here as needed
                 />
                 <Button label="Browse" onClick={handleBrowseClick} />
-                {file && uploadStatus === 'error' && (
-                    <InlineAlert variant="error">{`${file?.name} too large. Please upload a smaller file.`}</InlineAlert>
+                {files && uploadStatus === 'error' && (
+                    <InlineAlert variant="error">{`${files[0]?.name} too large. Please upload a smaller file.`}</InlineAlert>
                 )}
             </div>
-            {file && (uploadStatus === 'uploading' || uploadStatus === 'complete' || uploadStatus === 'idle') && (
-                <>
+            {files &&
+                (uploadStatus === 'uploading' || uploadStatus === 'complete' || uploadStatus === 'idle') &&
+                acceptedSize.map((file) => (
                     <UploadItem
-                        fileName={file?.name || ''}
-                        fileSize={fileSizeFormat(file.size)}
+                        fileName={file.name || ''}
+                        fileSize={fileSizeFormat(files[0].size)}
+                        key={file.name + file.size}
                         // onDelete={() => setfile(null)}
                         onDelete={() => onChange?.(null)}
                         // progress={getUploadProgress()}
                         progress={uploadProgress}
                         uploadStatus={uploadStatus}
                     />
+                ))}
+            {files &&
+                exceedMaxFileSize.map((file) => (
+                    <UploadItem
+                        failedMessage={`${file.name} too large. Please upload a smaller file.`}
+                        fileName={file.name}
+                        fileSize={fileSizeFormat(file.size)}
+                        key={file.name + file.size}
+                        // onDelete={() => {
+                        //     const newFiles = filesArr.filter((_, i) => i !== idx);
+                        //     onChange?.(newFiles.length ? newFiles : null);
+                        // }}
+                        progress={0}
+                        uploadStatus="error"
+                    />
+                ))}
 
-                    {/* <div>
-                        <p>File Name: {file.name}</p>
-                        <p>File Size: {(file.size / 1024).toFixed(2)} KB</p>
-                        <p>File Size (bytes): {file.size}</p>
-                        <p>File Size Format: {fileSizeFormat(file.size)}</p>
-                        <p>File Type: {file.type}</p>
-                        <p>upLoadStatus: {uploadStatus}</p>
-                        <p>error message: {errorMessage}</p>
-                    </div> */}
-                </>
-            )}
-
-            {file && uploadStatus === 'error' && (
+            {files && uploadStatus === 'error' && (
                 <>
                     <UploadItem
-                        fileName={file?.name || ''}
-                        fileSize={((file?.size || 0) / 1024).toFixed(2)}
+                        fileName={files[0]?.name || ''}
+                        fileSize={((files[0]?.size || 0) / 1024).toFixed(2)}
                         // onDelete={() => setfile(null)}
                         onDelete={() => onChange?.(null)}
                         // progress={10}
@@ -154,6 +242,15 @@ function FileUpload({
                 </>
             )}
             {uploadStatus === 'complete' && <InlineAlert variant="success">File uploaded successfully!</InlineAlert>}
+            {/* <div>
+                        <p>File Name: {file.name}</p>
+                        <p>File Size: {(file.size / 1024).toFixed(2)} KB</p>
+                        <p>File Size (bytes): {file.size}</p>
+                        <p>File Size Format: {fileSizeFormat(file.size)}</p>
+                        <p>File Type: {file.type}</p>
+                        <p>upLoadStatus: {uploadStatus}</p>
+                        <p>error message: {errorMessage}</p>
+                    </div> */}
         </>
     );
 }
