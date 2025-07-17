@@ -8,6 +8,7 @@ import { useEventListener } from '-/hooks/useAddEventListener';
 import { useDebounceCallback } from '-/hooks/useDebounceCallback';
 import { useUIContext } from '-/hooks/useUIContext';
 import { CallToActionButton } from '-/types/common';
+
 import './modal.scss';
 
 // This hook is used to set the height of the modal based on the dialog box height.

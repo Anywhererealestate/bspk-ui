@@ -4,6 +4,7 @@ import { Truncated } from '-/components/Truncated';
 import { CommonProps, ElementProps, SetRef } from '-/types/common';
 import { ChildElement, getChildrenElements } from '-/utils/children';
 import { useErrorLogger } from '-/utils/errors';
+
 import './list-item.scss';
 
 export const LEADING_COMPONENTS = Object.freeze(['Icon', 'Img', 'Avatar']);

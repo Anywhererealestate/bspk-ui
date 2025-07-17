@@ -4,6 +4,7 @@ import { Tooltip } from '-/components/Tooltip';
 import { ButtonSize, CommonProps, ElementProps, SetRef } from '-/types/common';
 import { isValidIcon } from '-/utils/children';
 import { useErrorLogger } from '-/utils/errors';
+
 import './button.scss';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'tertiary';
