@@ -1,137 +1,66 @@
-import { SvgKeyboardArrowDown } from '@bspk/icons/KeyboardArrowDown';
-import { SvgKeyboardArrowUp } from '@bspk/icons/KeyboardArrowUp';
-import { ReactNode, useMemo, useState } from 'react';
+import { useState } from 'react';
+import { AccordionSectionProps, AccordionSection } from './AccordionSection';
 import './accordion.scss';
-import { Divider } from '-/components/Divider';
-import { Txt } from '-/components/Txt';
 
-export type AccordionProps = {
+type AccordionItem = Pick<AccordionSectionProps, 'children' | 'leading' | 'subTitle' | 'title' | 'trailing'> & {
     /**
-     * The content of the accordion.
+     * The unique identifier for the accordion item.
      *
      * @required
      */
-    children: ReactNode;
+    id: number | string;
+};
+
+export type AccordionProps = Pick<AccordionSectionProps, 'disabled' | 'divider'> & {
     /**
-     * The title of the accordion.
+     * Array of accordion sections
      *
      * @required
      */
-    title: string;
-    /** The title of the accordion. */
-    subTitle?: string;
+    items: AccordionItem[];
     /**
-     * The leading element to display in the Accordion title.
-     *
-     * Leading elements may only be one of the following [Icon](/icons), Img, Avatar.
-     *
-     * @exampleType select
-     * @options Icon, Img, Avatar
-     */
-    leading?: ReactNode;
-    /**
-     * The trailing element to display in the accordion header.
-     *
-     * @exampleType select
-     * @options Tag
-     */
-    trailing?: ReactNode;
-    /**
-     * If the accordion is open, only used when the accordion is controlled.
-     *
-     * @default false
-     */
-    value?: boolean;
-    /**
-     * Fires when the accordion state changes, only used when the accordion is controlled.
-     *
-     * @default none
-     */
-    onChange?: (newOpenState: boolean) => void;
-    /**
-     * If true, a divider will be shown below the accordion header.
+     * If true only one accordion section can be opened at a time
      *
      * @default true
      */
-    divider?: boolean;
-    /**
-     * Indicates whether the accordion is disabled.
-     *
-     * @default false
-     */
-    disabled?: boolean;
+    singleOpen?: boolean;
 };
 
 /**
- * Component description.
+ * A vertical stack of collapsible panels or that allows customers to expand or collapse each panel individually to
+ * reveal or hide their content.
  *
  * @example
  *     import { Accordion } from '@bspk/ui/Accordion';
  *
  *     function Example() {
- *         return (
- *             <Accordion title="Accordion Title" subTitle="Accordion Subtitle">
- *                 Accordion Content
- *             </Accordion>
- *         );
+ *         return <Accordion items={[{ id: 1, title: 'Section', children: 'Example content' }]} />;
  *     }
  *
  * @name Accordion
  * @phase WorkInProgress
  */
-function Accordion({
-    children,
-    title,
-    subTitle,
-    leading,
-    value,
-    onChange,
-    divider = true,
-    trailing,
-    disabled,
-}: AccordionProps) {
-    const [isOpenInternal, setIsOpenInternal] = useState(value || false);
-
-    const toggleOpen = () => {
-        if (onChange) {
-            const newOpenState = !value;
-            onChange(newOpenState);
-        } else {
-            const newOpenState = !isOpenInternal;
-            setIsOpenInternal(newOpenState);
-        }
-    };
-
-    const isOpen = useMemo(() => {
-        return value !== undefined ? value : isOpenInternal;
-    }, [value, isOpenInternal]);
+function Accordion({ items, disabled, divider, singleOpen = true }: AccordionProps) {
+    const [activeItemId, setActiveItemId] = useState<number | string | null>(null);
 
     return (
-        <div data-bspk="accordion" data-disabled={disabled || undefined}>
-            <button data-accordion-header disabled={disabled} onClick={!disabled ? toggleOpen : undefined}>
-                <div data-accordion-header-body>
-                    {leading ?? null}
-
-                    <div data-accordion-title-wrapper>
-                        <Txt variant="labels-base">{title}</Txt>
-
-                        {!!subTitle && <Txt variant="body-x-small">{subTitle}</Txt>}
-                    </div>
-
-                    {trailing ?? null}
-                </div>
-
-                {isOpen ? <SvgKeyboardArrowUp /> : <SvgKeyboardArrowDown />}
-            </button>
-
-            {divider && (
-                <div data-divider-wrapper>
-                    <Divider />
-                </div>
-            )}
-
-            {isOpen && <div data-accordion-content>{children}</div>}
-        </div>
+        <span data-bspk="accordion">
+            {items.map((item) => {
+                const controlProps = singleOpen
+                    ? {
+                          onChange: () => {
+                              setActiveItemId(activeItemId === item.id ? null : item.id);
+                          },
+                          value: activeItemId === item.id,
+                      }
+                    : {};
+                return (
+                    <AccordionSection disabled={disabled} divider={divider} key={item.id} {...controlProps} {...item}>
+                        {item.children}
+                    </AccordionSection>
+                );
+            })}
+        </span>
     );
 }
 
