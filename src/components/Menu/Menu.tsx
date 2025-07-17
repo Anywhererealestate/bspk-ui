@@ -5,6 +5,7 @@ import { Scrim } from '-/components/Scrim';
 import { useId } from '-/hooks/useId';
 import { CommonProps, ElementProps, SetRef } from '-/types/common';
 import { cssWithVars } from '-/utils/cwv';
+
 import './menu.scss';
 
 export function menuItemId(menuId: string, index: number) {

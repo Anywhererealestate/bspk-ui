@@ -6,6 +6,7 @@ import { TextInputProps, TextInput } from '-/components/TextInput';
 import { Txt } from '-/components/Txt';
 import { useCombobox } from '-/hooks/useCombobox';
 import { useId } from '-/hooks/useId';
+
 import './search-bar.scss';
 
 export type SearchBarProps<T extends ListboxItemProps = ListboxItemProps> = Pick<ListboxProps<T>, 'itemDisplayCount'> &

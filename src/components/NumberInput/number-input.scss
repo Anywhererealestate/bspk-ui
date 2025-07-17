@@ -16,7 +16,9 @@
     max-width: 280px;
 
     &:focus-within {
-        border-color: var(--stroke-brand-primary);
+        input {
+            outline: solid 2px var(--stroke-neutral-focus);
+        }
     }
 
     [data-divider] {
@@ -30,7 +32,7 @@
 
     button {
         width: var(--height);
-        height: var(--height);
+        height: calc(var(--height) - 2px);
         background: none;
         border: none;
         cursor: pointer;
@@ -39,6 +41,10 @@
 
         svg {
             width: var(--svg-width);
+        }
+
+        &:focus {
+            outline: solid 2px var(--stroke-neutral-focus);
         }
 
         display: flex;
@@ -64,7 +70,7 @@
         flex-grow: 1;
 
         &:focus {
-            outline: none;
+            outline: solid 2px var(--stroke-neutral-focus);
         }
 
         &::-webkit-outer-spin-button,

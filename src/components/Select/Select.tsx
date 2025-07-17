@@ -122,15 +122,15 @@ function Select({
 }: ElementProps<SelectProps, 'button'>) {
     const id = useId(propId);
 
-    const selectedItem: SelectOption = useMemo(() => {
+    const selectedItem: SelectOption | undefined = useMemo(() => {
         if (isMulti)
             return {
                 label: `${selected?.length || 0} option${selected?.length !== 1 ? 's' : ''} selected`,
                 value: selected?.join(', ') || '',
             };
 
-        return options.find((o) => o.value === selected?.[0]) || { label: placeholder, value: '' };
-    }, [isMulti, options, placeholder, selected]);
+        return options.find((o) => o.value === selected?.[0]);
+    }, [isMulti, options, selected]);
 
     return (
         <Combobox
@@ -155,7 +155,6 @@ function Select({
                     <button
                         aria-label={label || selectedItem?.label || placeholder}
                         data-bspk="select"
-                        data-empty={selectedItem?.label ? undefined : ''}
                         data-invalid={invalid || undefined}
                         data-size={size}
                         disabled={disabled || readOnly}
@@ -166,7 +165,13 @@ function Select({
                         {...props}
                         {...toggleProps}
                     >
-                        <ListItem as="span" data-placeholder {...selectedItem} readOnly />
+                        <ListItem
+                            as="span"
+                            data-bspk-owner="select"
+                            data-placeholder={!selectedItem || undefined}
+                            label={selectedItem?.label || placeholder}
+                            readOnly
+                        />
                         <span data-icon>
                             <SvgChevronRight />
                         </span>

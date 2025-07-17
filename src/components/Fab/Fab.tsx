@@ -5,6 +5,7 @@ import { Tooltip } from '-/components/Tooltip';
 import { ElementProps } from '-/types/common';
 import { isValidIcon } from '-/utils/children';
 import { useErrorLogger } from '-/utils/errors';
+
 import './fab.scss';
 
 export type FabVariant = 'neutral' | 'primary' | 'secondary';

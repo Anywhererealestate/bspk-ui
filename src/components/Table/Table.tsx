@@ -9,7 +9,8 @@ import {
     SortingState,
     getSortedRowModel,
 } from '@tanstack/react-table';
-import { ReactNode, useId, useMemo, useState } from 'react';
+import { ReactNode, useMemo, useState } from 'react';
+import { useId } from '-/hooks/useId';
 import { ElementProps } from '-/types/common';
 import { cssWithVars } from '-/utils/cwv';
 import { handleKeyDown } from '-/utils/handleKeyDown';

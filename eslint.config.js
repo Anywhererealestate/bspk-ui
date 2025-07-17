@@ -52,7 +52,19 @@ export default [
             'no-restricted-imports': [
                 'error',
                 {
-                    patterns: ['../*'], // This pattern disallows all relative imports
+                    patterns: [
+                        {
+                            group: ['../*'],
+                            message: 'Relative imports are not allowed. Use alias imports instead.',
+                        },
+                    ],
+                    paths: [
+                        {
+                            name: 'react',
+                            importNames: ['useId'],
+                            message: 'Avoid using useId from React.',
+                        },
+                    ],
                 },
             ],
             '@typescript-eslint/member-ordering': 'error',
