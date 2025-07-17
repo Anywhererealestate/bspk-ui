@@ -41,26 +41,37 @@ export type AccordionProps = Pick<AccordionSectionProps, 'disabled' | 'divider'>
  * @phase WorkInProgress
  */
 function Accordion({ items, disabled, divider, singleOpen = true }: AccordionProps) {
-    const [activeItemId, setActiveItemId] = useState<number | string | null>(null);
+    const [activeItems, setActiveItems] = useState<(number | string)[]>([]);
+
+    const toggleOpen = (itemId: number | string) => {
+        if (singleOpen && activeItems.includes(itemId)) {
+            setActiveItems([]);
+        } else if (singleOpen) {
+            setActiveItems([itemId]);
+        } else if (activeItems.includes(itemId)) {
+            setActiveItems(activeItems.filter((activeItemId) => activeItemId !== itemId));
+        } else {
+            setActiveItems(activeItems.concat(itemId));
+        }
+    };
 
     return (
-        <span data-bspk="accordion">
+        <div data-bspk="accordion">
             {items.map((item) => {
-                const controlProps = singleOpen
-                    ? {
-                          onChange: () => {
-                              setActiveItemId(activeItemId === item.id ? null : item.id);
-                          },
-                          value: activeItemId === item.id,
-                      }
-                    : {};
                 return (
-                    <AccordionSection disabled={disabled} divider={divider} key={item.id} {...controlProps} {...item}>
+                    <AccordionSection
+                        disabled={disabled}
+                        divider={divider}
+                        isOpen={activeItems.includes(item.id)}
+                        key={item.id}
+                        toggleOpen={() => toggleOpen(item.id)}
+                        {...item}
+                    >
                         {item.children}
                     </AccordionSection>
                 );
             })}
-        </span>
+        </div>
     );
 }
 

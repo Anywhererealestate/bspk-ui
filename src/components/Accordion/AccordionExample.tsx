@@ -4,6 +4,21 @@ import { ComponentExampleFn } from '-/utils/demo';
 
 export const AccordionExample: ComponentExampleFn<AccordionProps> = ({ action, setState }) => ({
     render: ({ props, Component, id }) => {
+        const trailingElement = createExampleChildElement({
+            exampleState: props,
+            name: 'trailing',
+            setState,
+            action,
+            id,
+        });
+        const leadingElement = createExampleChildElement({
+            exampleState: props,
+            name: 'leading',
+            setState,
+            action,
+            id,
+        });
+
         return (
             <>
                 <Component
@@ -12,8 +27,8 @@ export const AccordionExample: ComponentExampleFn<AccordionProps> = ({ action, s
                         {
                             id: 1,
                             title: 'First Section',
-                            leading: createExampleChildElement(props, 'leading', setState, action, id),
-                            trailing: createExampleChildElement(props, 'trailing', setState, action, id),
+                            leading: leadingElement,
+                            trailing: trailingElement,
                             children: (
                                 <div style={{ padding: 50, textAlign: 'center', backgroundColor: '#DBDBDB' }}>
                                     Example Content
@@ -23,8 +38,8 @@ export const AccordionExample: ComponentExampleFn<AccordionProps> = ({ action, s
                         {
                             id: 2,
                             title: 'Second Section',
-                            leading: createExampleChildElement(props, 'leading', setState, action, id),
-                            trailing: createExampleChildElement(props, 'trailing', setState, action, id),
+                            leading: leadingElement,
+                            trailing: trailingElement,
                             children: (
                                 <div style={{ padding: 50, textAlign: 'center', backgroundColor: '#DBDBDB' }}>
                                     Example Content
@@ -34,8 +49,8 @@ export const AccordionExample: ComponentExampleFn<AccordionProps> = ({ action, s
                         {
                             id: 3,
                             title: 'Third Section',
-                            leading: createExampleChildElement(props, 'leading', setState, action, id),
-                            trailing: createExampleChildElement(props, 'trailing', setState, action, id),
+                            leading: leadingElement,
+                            trailing: trailingElement,
                             children: (
                                 <div style={{ padding: 50, textAlign: 'center', backgroundColor: '#DBDBDB' }}>
                                     Example Content
@@ -45,8 +60,8 @@ export const AccordionExample: ComponentExampleFn<AccordionProps> = ({ action, s
                         {
                             id: 4,
                             title: 'Fourth Section',
-                            leading: createExampleChildElement(props, 'leading', setState, action, id),
-                            trailing: createExampleChildElement(props, 'trailing', setState, action, id),
+                            leading: leadingElement,
+                            trailing: trailingElement,
                             children: (
                                 <div style={{ padding: 50, textAlign: 'center', backgroundColor: '#DBDBDB' }}>
                                     Example Content

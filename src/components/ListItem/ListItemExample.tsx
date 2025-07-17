@@ -7,8 +7,8 @@ export const ListItemExample: ComponentExampleFn<ListItemProps> = ({ action, set
         return (
             <Component
                 {...props}
-                leading={createExampleChildElement(props, 'leading', setState, action, id)}
-                trailing={createExampleChildElement(props, 'trailing', setState, action, id)}
+                leading={createExampleChildElement({ exampleState: props, name: 'leading', setState, action, id })}
+                trailing={createExampleChildElement({ exampleState: props, name: 'trailing', setState, action, id })}
             />
         );
     },

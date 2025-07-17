@@ -1,6 +1,6 @@
 import { SvgKeyboardArrowDown } from '@bspk/icons/KeyboardArrowDown';
 import { SvgKeyboardArrowUp } from '@bspk/icons/KeyboardArrowUp';
-import { ReactNode, useMemo, useState } from 'react';
+import { ReactNode } from 'react';
 import './accordion.scss';
 import { Divider } from '-/components/Divider';
 import { Txt } from '-/components/Txt';
@@ -37,17 +37,18 @@ export type AccordionSectionProps = {
      */
     trailing?: ReactNode;
     /**
-     * If the accordion is open, only used when the accordion is controlled.
+     * If the accordion is open.
      *
      * @default false
+     * @required
      */
-    value?: boolean;
+    isOpen: boolean;
     /**
-     * Fires when the accordion state changes, only used when the accordion is controlled.
+     * Fires when the accordion state changes.
      *
-     * @default none
+     * @required
      */
-    onChange?: (newOpenState: boolean) => void;
+    toggleOpen: () => void;
     /**
      * If true, a divider will be shown below the accordion header.
      *
@@ -85,30 +86,14 @@ export function AccordionSection({
     title,
     subTitle,
     leading,
-    value,
-    onChange,
+    isOpen,
+    toggleOpen,
     divider = true,
     trailing,
     disabled,
 }: AccordionSectionProps) {
-    const [isOpenInternal, setIsOpenInternal] = useState(value || false);
-
-    const toggleOpen = () => {
-        if (onChange) {
-            const newOpenState = !value;
-            onChange(newOpenState);
-        } else {
-            const newOpenState = !isOpenInternal;
-            setIsOpenInternal(newOpenState);
-        }
-    };
-
-    const isOpen = useMemo(() => {
-        return value !== undefined ? value : isOpenInternal;
-    }, [value, isOpenInternal]);
-
     return (
-        <div data-accordion-section data-disabled={disabled || undefined}>
+        <section data-accordion-section data-disabled={disabled || undefined}>
             <button data-accordion-header disabled={disabled} onClick={!disabled ? toggleOpen : undefined}>
                 <div data-accordion-header-body>
                     {leading ?? null}
@@ -132,6 +117,6 @@ export function AccordionSection({
             )}
 
             {isOpen && <div data-accordion-content>{children}</div>}
-        </div>
+        </section>
     );
 }

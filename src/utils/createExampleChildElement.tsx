@@ -11,13 +11,19 @@ import { Switch } from '-/components/Switch';
 import { Tag } from '-/components/Tag';
 import { Txt } from '-/components/Txt';
 
-export const createExampleChildElement = (
-    exampleState: Record<string, any>,
-    name: string,
-    setState: DemoSetState,
-    action: DemoAction,
-    id?: string,
-) => {
+type ExampleChildElementProps = {
+    exampleState: Record<string, any>;
+    name: string;
+    setState: DemoSetState;
+    action: DemoAction;
+    id?: string;
+};
+
+/**
+ * Returns example leading and trailing components for use in component examples. Allows which type of element is
+ * rendered to be determined by the example state.
+ */
+export function createExampleChildElement({ exampleState, name, setState, action, id }: ExampleChildElementProps) {
     const componentName = exampleState[name];
 
     if (componentName === 'Checkbox' || componentName === 'Radio' || componentName === 'Switch') {
@@ -65,4 +71,4 @@ export const createExampleChildElement = (
     if (componentName === 'Icon') return <SvgDiamond />;
 
     return null;
-};
+}
