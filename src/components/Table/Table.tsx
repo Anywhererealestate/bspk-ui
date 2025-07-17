@@ -12,7 +12,7 @@ import {
 import { ReactNode, useId, useMemo, useState } from 'react';
 import { ElementProps } from '-/types/common';
 import { cssWithVars } from '-/utils/cwv';
-import { handleKeydown } from '-/utils/handleKeydown';
+import { handleKeyDown } from '-/utils/handleKeyDown';
 
 export type TableRow = Record<string, ReactNode>;
 
@@ -108,7 +108,10 @@ function Table<R extends TableRow>({ rows, columns, title, ...props }: ElementPr
                                 data-head={dataHeadValue}
                                 key={header.id}
                                 onClick={header.column.getToggleSortingHandler()}
-                                onKeyDown={handleKeydown(['Space', 'Enter'], header.column.getToggleSortingHandler())}
+                                onKeyDown={handleKeyDown({
+                                    Space: () => header.column.getToggleSortingHandler(),
+                                    Enter: () => header.column.getToggleSortingHandler(),
+                                })}
                                 role="columnheader"
                                 tabIndex={0}
                             >

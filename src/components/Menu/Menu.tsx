@@ -51,6 +51,8 @@ export type MenuProps = CommonProps<'data-bspk-owner' | 'id'> & {
      * - If set to a number, the menu will display that many items before scrolling.
      * - If not set or set to `undefined`, the menu will default to showing a minimum of 3 items and a maximum of 10
      *   items.
+     *
+     * @default false
      */
     itemDisplayCount?: number | false;
     /**
@@ -96,7 +98,7 @@ function Menu({
     id: idProp,
     children,
     portal = true,
-    itemDisplayCount: itemDisplayCountProp,
+    itemDisplayCount: itemDisplayCountProp = false,
     itemCount,
     floating = true,
     onOutsideClick,

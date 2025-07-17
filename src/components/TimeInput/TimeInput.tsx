@@ -1,13 +1,21 @@
+/* eslint-disable no-console */
 import { SvgSchedule } from '@bspk/icons/Schedule';
-import { useState } from 'react';
-import { useCombobox } from '-/hooks/useCombobox';
+import { useEffect, useState } from 'react';
 import './time-input.scss';
-import { TextInput, TextInputProps } from '-/components/TextInput';
-import { Menu } from '../Menu';
+import { TimeInputListbox } from './Listbox';
+import { TimeInputSegment } from './Segment';
+import { Button } from '-/components/Button';
+import { Menu } from '-/components/Menu';
+import { TextInputProps } from '-/components/TextInput';
+import { useFloating } from '-/hooks/useFloating';
+import { useId } from '-/hooks/useId';
+import { handleKeyDown } from '-/utils/handleKeyDown';
 
-const DEFAULT = {
-    variant: 'none',
-} as const;
+export const MINUTE_OPTIONS = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55];
+export const HOUR_OPTIONS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+
+type Meridiem = 'AM' | 'PM';
+export const MERIDIEM_OPTIONS: Meridiem[] = ['AM', 'PM'];
 
 export type TimeInputProps = Pick<
     TextInputProps,
@@ -34,79 +42,129 @@ function TimeInput({
     'aria-label': ariaLabel,
     disabled,
     errorMessage,
-    id,
+    id: idProp,
     invalid,
     readOnly,
     name,
     size,
 }: TimeInputProps) {
-    const [internalValue, setInternalValue] = useState(value);
+    const id = useId(idProp);
 
-    const {
-        isOpen,
-        toggleProps: { onClick, onKeyDownCapture, ...triggerProps },
-        menuProps,
-        closeMenu,
-        elements,
-    } = useCombobox({
-        placement: 'bottom-start',
+    const [inputValue, setInputValue] = useState(value);
+
+    const [hours, setHours] = useState<number>();
+    const [minutes, setMinutes] = useState<number>();
+    const [meridiem, setMeridiem] = useState<Meridiem>('AM');
+
+    useEffect(() => {
+        setInputValue(
+            `${hours?.toString().padStart(2, '0')}:${minutes?.toString().padStart(2, '0')} ${meridiem || ''}`.trim(),
+        );
+    }, [hours, minutes, meridiem]);
+
+    const [open, setOpen] = useState(false);
+
+    const { floatingStyles, elements } = useFloating({
+        strategy: 'fixed',
+        refWidth: true,
+        hide: false, //!activeScroll,
     });
 
     return (
         <>
-            <TextInput
-                aria-label={ariaLabel}
-                autoComplete="off"
-                containerRef={(node) => {
-                    if (!node) return;
-                    elements.setReference(node);
-                }}
-                data-bspk-owner="time-input"
-                disabled={disabled}
-                errorMessage={errorMessage}
+            {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
+            <div
+                data-aria-label={ariaLabel || undefined}
+                data-bspk="time-input"
+                data-disabled={disabled || undefined}
+                data-error={errorMessage || undefined}
+                data-invalid={invalid || undefined}
+                data-name={name || undefined}
+                data-open={open || undefined}
+                data-readonly={readOnly || undefined}
+                data-size={size || undefined}
+                data-value={inputValue || undefined}
                 id={id}
-                invalid={invalid}
-                name={name}
-                onChange={(next) => {
-                    if (next === internalValue) return;
-                    if (validTime(next)) setInternalValue(next);
-                }}
-                placeholder="--:-- PM"
-                readOnly={readOnly}
-                showClearButton={false}
-                size={size}
-                value={internalValue}
-                {...triggerProps}
-                trailing={<SvgSchedule />}
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore
-                type="text"
-            />
-            <Menu {...menuProps} data-bspk-owner="time-input">
-                {/**
-                 * Three scrollable columns for the time input
-                 *
-                 * 1. Hour
-                 * 2. Minute
-                 * 3. AM/PM
-                 */}
-                <div data-hour>
-                    <span>1</span>
-                </div>
-                <div data-minute>
-                    <span>00</span>
-                </div>
-                <div data-meridiem>
-                    <span>PM</span>
-                </div>
-            </Menu>
+                onKeyDown={handleKeyDown({ Escape: () => setOpen(false) })}
+                ref={elements.setReference}
+                role="group"
+            >
+                <TimeInputSegment
+                    ariaLabel={ariaLabel}
+                    defaultValue={hours}
+                    disabled={disabled}
+                    name={`${name}-hours`}
+                    onChange={(next) => setHours(next || undefined)}
+                    readOnly={readOnly}
+                    type="hours"
+                />
+                <span aria-hidden="true">:</span>
+                <TimeInputSegment
+                    ariaLabel={ariaLabel}
+                    defaultValue={minutes}
+                    disabled={disabled}
+                    name={`${name}-minutes`}
+                    onChange={(next) => setMinutes(next || undefined)}
+                    readOnly={readOnly}
+                    type="minutes"
+                />
+                <TimeInputSegment
+                    ariaLabel={ariaLabel}
+                    defaultValue={meridiem}
+                    disabled={disabled}
+                    name={`${name}-meridiem`}
+                    onChange={(next) => setMeridiem(next || 'AM')}
+                    readOnly={readOnly}
+                    type="meridiem"
+                />
+                <Button
+                    icon={<SvgSchedule />}
+                    label={`${open ? 'Close' : 'Open'} Time Picker`}
+                    onClick={() => setOpen(!open)}
+                    showLabel={false}
+                    variant="tertiary"
+                />
+            </div>
+            {!!open && (
+                <Menu
+                    data-bspk-owner="time-input"
+                    floating
+                    innerRef={(node) => {
+                        if (!node) return;
+                        elements.setFloating(node as HTMLElement);
+                        node.querySelector<HTMLElement>('[data-scroll-column="hours"]')?.focus();
+                    }}
+                    itemDisplayCount={false}
+                    onOutsideClick={() => {
+                        setOpen(false);
+                        console.log('outside click');
+                    }}
+                    style={{ ...floatingStyles }}
+                >
+                    <div data-scroll-values>
+                        <TimeInputListbox
+                            onSelect={setHours}
+                            options={HOUR_OPTIONS.map((h) => h)}
+                            selectedValue={hours}
+                            type="hours"
+                        />
+                        <TimeInputListbox
+                            onSelect={setMinutes}
+                            options={MINUTE_OPTIONS}
+                            selectedValue={minutes}
+                            type="minutes"
+                        />
+                        <TimeInputListbox
+                            onSelect={setMeridiem}
+                            options={MERIDIEM_OPTIONS}
+                            selectedValue={meridiem}
+                            type="meridiem"
+                        />
+                    </div>
+                </Menu>
+            )}
         </>
     );
-}
-
-function validTime(value: string): boolean {
-    const timePattern = /^(0[1-9]|1[0-2]):[0-5][0-9] (AM|PM)$/;
-    return timePattern.test(value);
 }
 
 TimeInput.bspkName = 'TimeInput';

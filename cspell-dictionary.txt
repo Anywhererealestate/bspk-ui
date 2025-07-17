@@ -13,6 +13,7 @@ tanzanite
 voilet
 Lato
 inversed
+MERIDIEMS
 
 # PROPER NAMES
 Yoshi
