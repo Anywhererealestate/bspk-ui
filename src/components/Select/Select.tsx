@@ -7,7 +7,6 @@ import { useId } from '-/hooks/useId';
 import { CommonProps, ElementProps } from '-/types/common';
 
 import './select.scss';
-import { handleKeyDown } from '-/utils/handleKeyDown';
 
 export type SelectOption = Record<string, unknown> & {
     /** The value of the option. */
@@ -165,9 +164,6 @@ function Select({
                         }}
                         {...props}
                         {...toggleProps}
-                        onKeyDown={handleKeyDown({
-                            Backspace: () => onChange([]),
-                        })}
                     >
                         <ListItem
                             as="span"

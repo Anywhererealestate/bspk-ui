@@ -154,7 +154,7 @@ function ListItem<As extends ElementType = 'div', T = HTMLElement>({
             data-component={leading?.name || undefined}
             data-readonly={readOnly || undefined}
             ref={innerRef}
-            role={(actionable && 'option') || undefined}
+            role={actionable ? 'option' : undefined}
             tabIndex={actionable ? 0 : undefined}
         >
             <AsInner data-inner>

@@ -12,7 +12,7 @@ import {
 import { ReactNode, useId, useMemo, useState } from 'react';
 import { ElementProps } from '-/types/common';
 import { cssWithVars } from '-/utils/cwv';
-import { handleKeydown } from '-/utils/handleKeydown';
+import { handleKeydown } from '-/utils/handleKeyDown';
 
 export type TableRow = Record<string, ReactNode>;
 
