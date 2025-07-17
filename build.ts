@@ -56,7 +56,7 @@ async function main() {
         BRANDS.map(async ({ slug }) => {
             const brandStylesPath = path.resolve(STYLES_SOURCE_DIR, `${slug}.css`);
             await exec(`cp ${brandStylesPath} ${path.resolve(distStylesPath, `${slug}.css`)}`);
-        })
+        }),
     );
 
     await Promise.all([fileProcessing(), componentExports()]);
@@ -99,7 +99,7 @@ async function fileProcessing() {
 
                 return writeFile(filePath, newFileContent, 'utf-8');
             }
-        })
+        }),
     );
 }
 
@@ -112,7 +112,7 @@ const tsConfigPathsToRelative = Object.fromEntries(
             aliasPath.replace(/\/\*$/, '/'),
             path.resolve(compilerOptions.baseUrl, relativePath.replace('/src/', '/dist/')),
         ];
-    })
+    }),
 );
 
 /**
@@ -121,7 +121,7 @@ const tsConfigPathsToRelative = Object.fromEntries(
  */
 function aliasToRelative(fileContent: string, filePath: string) {
     const aliasImportMatches = fileContent.matchAll(
-        new RegExp(`import (.*)'(${Object.keys(tsConfigPathsToRelative).join('|')})([^']+)';`, 'g')
+        new RegExp(`import (.*)'(${Object.keys(tsConfigPathsToRelative).join('|')})([^']+)';`, 'g'),
     );
 
     for (const match of aliasImportMatches) {
@@ -148,11 +148,14 @@ function cssImportsInjected(fileContent: string) {
 async function componentExports() {
     const nextExports = { ...packageData['static-exports'] };
 
-    (await readDir(path.resolve('./dist/components'), { withFileTypes: true })).forEach((dirent) => {
-        if (!dirent.isDirectory() || dirent.name.startsWith('.')) return;
-        nextExports[`./${dirent.name}/*`] = `./dist/components/${dirent.name}/*.js`;
-        nextExports[`./${dirent.name}`] = `./dist/components/${dirent.name}/index.js`;
-    });
+    (await readDir(path.resolve('./dist/components'), { withFileTypes: true }))
+        .filter((dirent) => dirent.isDirectory() && !dirent.name.startsWith('.'))
+        .sort((a, b) => a.name.localeCompare(b.name))
+        .forEach((dirent) => {
+            if (!dirent.isDirectory() || dirent.name.startsWith('.')) return;
+            nextExports[`./${dirent.name}`] = `./dist/components/${dirent.name}/index.js`;
+            nextExports[`./${dirent.name}/*`] = `./dist/components/${dirent.name}/*.js`;
+        });
 
     (packageData.exports as Record<string, string>) = nextExports as Record<string, string>;
     return writeFile(path.resolve('./package.json'), `${JSON.stringify(packageData, null, 4)}\n`, 'utf-8');
@@ -166,6 +169,6 @@ async function createImportableCss(cssContent: string, destPath: string, id?: st
 const style = document.createElement('style');
 style.appendChild(document.createTextNode(\`${cssContent}\`));
 document.head.appendChild(style);
-${id ? `\ndocument.querySelector('#${id}')?.remove(); style.id = '${id}';` : ''}`
+${id ? `\ndocument.querySelector('#${id}')?.remove(); style.id = '${id}';` : ''}`,
     );
 }
