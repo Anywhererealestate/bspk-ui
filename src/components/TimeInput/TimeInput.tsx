@@ -60,6 +60,7 @@ function TimeInput({
         setInputValue(
             `${hours?.toString().padStart(2, '0')}:${minutes?.toString().padStart(2, '0')} ${meridiem || ''}`.trim(),
         );
+        if (hours !== undefined && minutes === undefined) setMinutes(0);
     }, [hours, minutes, meridiem]);
 
     const [open, setOpen] = useState(false);
@@ -67,7 +68,8 @@ function TimeInput({
     const { floatingStyles, elements } = useFloating({
         strategy: 'fixed',
         refWidth: true,
-        hide: false, //!activeScroll,
+        offsetOptions: 4,
+        hide: !open,
     });
 
     return (
@@ -85,6 +87,9 @@ function TimeInput({
                 data-size={size || undefined}
                 data-value={inputValue || undefined}
                 id={id}
+                onClick={() => {
+                    elements.reference?.querySelector<HTMLElement>('[tabIndex]')?.focus();
+                }}
                 onKeyDown={handleKeyDown({ Escape: () => setOpen(false) })}
                 ref={elements.setReference}
                 role="group"
@@ -120,7 +125,10 @@ function TimeInput({
                 <Button
                     icon={<SvgSchedule />}
                     label={`${open ? 'Close' : 'Open'} Time Picker`}
-                    onClick={() => setOpen(!open)}
+                    onClick={() => {
+                        setOpen(!open);
+                        elements.reference?.focus();
+                    }}
                     showLabel={false}
                     variant="tertiary"
                 />
@@ -156,6 +164,12 @@ function TimeInput({
                         />
                         <TimeInputListbox
                             onSelect={setMeridiem}
+                            onTab={(e) => {
+                                e.preventDefault();
+                                setOpen(false);
+                                setTimeout(() => elements.reference?.focus(), 10);
+                                // Focus back on the input after closing
+                            }}
                             options={MERIDIEM_OPTIONS}
                             selectedValue={meridiem}
                             type="meridiem"

@@ -1,4 +1,5 @@
-import { useCallback, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
+import { bound } from '-/utils/bound';
 import { handleKeyDown } from '-/utils/handleKeyDown';
 
 export const MINUTE_BOUNDS = { min: 0, max: 59 } as const;
@@ -44,40 +45,26 @@ export function TimeInputSegment<T extends number | string>({
         [kind],
     );
 
-    const initialContent = () => {
-        if (kind === 'meridiem') return defaultValue?.toString() || 'AM';
-        if (!defaultValue) return NUMBER_PLACEHOLDER;
-        const boundedValue = bound({
-            num: defaultValue,
-            rollover: true,
-            ...(kind === 'hours' ? HOUR_BOUNDS : MINUTE_BOUNDS),
-        });
-        return boundedValue.toString().padStart(2, '0');
-    };
+    const valueToContent = useCallback(
+        (value: number | string | undefined) => {
+            if (kind === 'meridiem') return value?.toString() || 'AM';
+            if (typeof value === 'undefined') return NUMBER_PLACEHOLDER;
+            const boundedValue = bound({
+                num: value,
+                rollover: true,
+                ...(kind === 'hours' ? HOUR_BOUNDS : MINUTE_BOUNDS),
+            });
+            return boundedValue.toString().padStart(2, '0');
+        },
+        [kind],
+    );
+
+    useEffect(() => {
+        if (ref.current) ref.current.textContent = valueToContent(defaultValue);
+    }, [defaultValue, valueToContent]);
 
     const handleBlur = () => {
-        // remove window selection
         window.getSelection()?.removeAllRanges();
-
-        if (kind === 'meridiem') {
-            return;
-        } else if (kind === 'hours' || kind === 'minutes') {
-            // const options = type === 'hours' ? VALID_HOURS : VALID_MINUTES;
-            // const existingValue = ref.current?.textContent?.replace(/-/g, '').replace(/^0/g, '') || '';
-            // log('existingValue', { existingValue, inputValue });
-            // let matchedSingleOption = options.find((o) => o === existingValue + inputValue);
-            // if (!matchedSingleOption) {
-            //     const matchedOptions = options.filter((o) => o.includes(inputValue));
-            //     matchedSingleOption = matchedOptions.length === 1 ? matchedOptions[0] : undefined;
-            // }
-            // if (matchedSingleOption) {
-            //     setContent(matchedSingleOption);
-            //
-            //     nextElement?.focus();
-            //     selectAllText(nextElement);
-            //     return;
-            // }
-        }
     };
 
     const handleIncrement = useCallback(
@@ -159,9 +146,11 @@ export function TimeInputSegment<T extends number | string>({
 
             log({ currentValue, nextNumber });
 
-            if (currentValue === '01' && nextNumber < 3) {
-                nextNumber = Number(`${currentValue}${nextNumber}`);
-            }
+            const addToExisting =
+                (kind === 'hours' && currentValue === '01' && nextNumber < 3) ||
+                (kind === 'minutes' && Number(currentValue) < 6);
+
+            if (addToExisting) nextNumber = Number(`${currentValue}${nextNumber}`);
 
             nextNumber = bound({
                 num: nextNumber,
@@ -172,7 +161,9 @@ export function TimeInputSegment<T extends number | string>({
             onChange(nextNumber as T);
             if (ref.current) ref.current.textContent = nextNumber.toString().padStart(2, '0');
 
-            if (nextNumber > 2) {
+            const moveToNext = (kind === 'hours' && nextNumber > 2) || (kind === 'minutes' && nextNumber > 5);
+
+            if (moveToNext) {
                 nextSibling()?.focus();
                 selectAll(nextSibling());
             } else {
@@ -207,7 +198,7 @@ export function TimeInputSegment<T extends number | string>({
             ref={(element) => {
                 if (!element) return;
                 ref.current = element;
-                element.textContent = initialContent();
+                element.textContent = valueToContent(defaultValue);
             }}
             role="spinbutton"
             tabIndex={0}
@@ -237,22 +228,4 @@ function getPreviousSibling(elem: HTMLElement | null, selector: string): HTMLEle
         sibling = sibling.previousElementSibling;
     }
     return null;
-}
-
-function bound({
-    num,
-    max,
-    min,
-    rollover = false,
-}: {
-    num: number | string | undefined;
-    max: number;
-    min: number;
-    rollover: boolean;
-}): number {
-    const parsedNum = typeof num === 'number' ? num : parseInt(num as string, 10);
-    if (isNaN(parsedNum)) return min;
-    if (parsedNum > max) return rollover ? min : max;
-    if (parsedNum < min) return rollover ? max : min;
-    return parsedNum;
 }
