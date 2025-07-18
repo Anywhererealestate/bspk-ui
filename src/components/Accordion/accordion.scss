@@ -44,7 +44,7 @@
                         linear-gradient(var(--surface-neutral-t1-base), var(--surface-neutral-t1-base));
                 }
 
-                &:focus {
+                &:focus-visible {
                     outline: 1px solid var(--stroke-neutral-focus);
                     border-color: var(--stroke-neutral-focus);
                     margin-bottom: 1px;
