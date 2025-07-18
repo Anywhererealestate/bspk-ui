@@ -11,14 +11,12 @@ export const FileUploadExample: ComponentExampleFn<FileUploadProps> = ({ action 
             label: 'multiple files',
             propState: {
                 multipleFiles: true,
-                maxFileSize: 1,
             },
         },
         {
             label: 'Drag and Drop Single File',
             propState: {
                 dragAndDrop: true,
-                maxFileSize: 1,
             },
         },
         {
@@ -26,7 +24,6 @@ export const FileUploadExample: ComponentExampleFn<FileUploadProps> = ({ action 
             propState: {
                 dragAndDrop: true,
                 multipleFiles: true,
-                maxFileSize: 1,
             },
         },
     ],

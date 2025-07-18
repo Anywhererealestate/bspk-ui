@@ -4,7 +4,7 @@
     justify-content: center;
     align-items: center;
     gap: var(--spacing-sizing-04);
-    width: fit-content;
+    min-width: 500px;
     padding: var(--spacing-sizing-04);
     border: 1px dashed var(--stroke-neutral-base);
     border-radius: var(--spacing-sizing-02);

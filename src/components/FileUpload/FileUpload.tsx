@@ -7,9 +7,14 @@ import { Txt } from '-/components/Txt';
 import { UploadItem } from '-/components/UploadItem';
 
 export type FileUploadProps = {
+    /** Whether to enable drag and drop functionality */
     /** @default false */
     dragAndDrop?: boolean;
-    /** The subtitle for the upload area */
+    /**
+     * The subtitle for the upload area
+     *
+     * It is recommended to include the accepted file types and maximum file size in the subtitle.
+     */
     uploadSubtitle?: string;
     /** Whether to allow multiple file uploads */
     /** @default false */
@@ -20,15 +25,23 @@ export type FileUploadProps = {
     maxFileSize?: number;
     /** The error message to display when the upload fails */
     errorMessage?: string;
+    /** The files currently being uploaded */
     files?: File[] | null;
+    /** The current upload status */
     uploadStatus?: UploadStatus;
+    /** The progress of the upload, if applicable */
     uploadProgress?: number;
+    /** The function to call when the file input changes */
     onChange?: (file: File | File[] | null) => void;
+    /** The function to call when the upload starts */
     onUploadStart?: (file: File) => void;
     // onUploadProgress?: (progress: number) => void;
     // onUploadComplete?: (file: File) => void;
+    /** The function to call when an error occurs during upload */
     onError?: (error: string, file?: File) => void;
+    /** The function to call when the close button is clicked */
     onClose: () => void;
+    /** The tooltip text for the close button */
     onCloseToolTip?: string;
 };
 
@@ -39,7 +52,24 @@ export type FileUploadProps = {
  *     import { FileUpload } from '@bspk/ui/FileUpload';
  *
  *     function Example() {
- *         return <FileUpload>Example FileUpload</FileUpload>;
+ *         return (
+ *             <FileUpload
+ *                 dragAndDrop={False}
+ *                 multipleFiles={true}
+ *                 acceptedFileTypes={['image/png', 'image/gif', 'image/svg']}
+ *                 errorMessage="File upload failed. File either exceeds max file size or is not an accepted file type. Please try again."
+ *                 files={file ? [file] : null}
+ *                 maxFileSize={1}
+ *                 onChange={handleChange}
+ *                 onClose={() => action('onClose called')}
+ *                 onCloseToolTip="Close"
+ *                 onError={(error, selectedFile) => action(`Upload error: ${error}, ${selectedFile?.name}`)}
+ *                 onUploadStart={(selectedFile) => action(`Upload started for: ${selectedFile.name}`)}
+ *                 uploadProgress={uploadProgress}
+ *                 uploadStatus={uploadStatus}
+ *                 uploadSubtitle="SVG, PNG, JPG or GIF (max. 1MB)"
+ *             />
+ *         );
  *     }
  *
  * @name FileUpload
@@ -210,11 +240,7 @@ function FileUpload({
                     fileName={file.name || ''}
                     fileSize={fileSizeFormat(file.size)}
                     key={file.name + file.size}
-                    // onDelete={() => setfile(null)}
-                    // onDelete={() => onChange?.(null)}
                     onDelete={onClose}
-                    // progress={getUploadProgress()}
-                    // progress={uploadProgress}
                     onDeleteToolTip={onCloseToolTip}
                     progress={Array.isArray(uploadProgress) ? uploadProgress[idx] : uploadProgress}
                     uploadStatus={uploadStatus}
@@ -222,34 +248,16 @@ function FileUpload({
             ))}
             {exceedMaxFileSize.map((file) => (
                 <UploadItem
-                    // failedMessage={`${file.name} too large. Please upload a smaller file.`}
                     failedMessage={errorMessage}
                     fileName={file.name}
                     fileSize={fileSizeFormat(file.size)}
                     key={file.name + file.size}
-                    // onDelete={() => {
-                    //     const newFiles = filesArr.filter((_, i) => i !== idx);
-                    //     onChange?.(newFiles.length ? newFiles : null);
-                    // }}
                     onDelete={onClose}
                     onDeleteToolTip={onCloseToolTip}
                     progress={0}
                     uploadStatus="error"
                 />
             ))}
-
-            {/* {files && uploadStatus === 'error' && (
-                <>
-                    <UploadItem
-                        fileName={files[0]?.name || ''}
-                        fileSize={((files[0]?.size || 0) / 1024).toFixed(2)}
-                        onDelete={() => onChange?.(null)}
-                        progress={uploadProgress}
-                        uploadStatus={uploadStatus}
-                    />
-                </>
-            )} */}
-            {/* {uploadStatus === 'complete' && <InlineAlert variant="success">File uploaded successfully!</InlineAlert>} */}
         </>
     );
 }
