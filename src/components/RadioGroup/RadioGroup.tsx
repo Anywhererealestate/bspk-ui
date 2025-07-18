@@ -1,8 +1,8 @@
-import { useId } from 'react';
-
 import { Radio } from '-/components/Radio';
 import { ToggleOptionProps, ToggleOption } from '-/components/ToggleOption';
+import { useId } from '-/hooks/useId';
 import { ElementProps, CommonProps } from '-/types/common';
+
 import './radio-group.scss';
 
 export type RadioGroupOption = Pick<ToggleOptionProps, 'description' | 'label'> & Required<CommonProps<'value'>>;
@@ -107,7 +107,6 @@ function RadioGroup({
     return (
         <div
             {...props}
-            aria-label={!showLabel ? groupLabel : undefined}
             aria-labelledby={showLabel ? `${id}-label` : undefined}
             data-bspk="radio-group"
             data-disabled={disabled || undefined}

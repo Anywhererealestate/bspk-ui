@@ -1,4 +1,5 @@
 import { ReactElement } from 'react';
+
 import './toggle-option.scss';
 
 export type ToggleOptionProps = {
@@ -29,10 +30,8 @@ function ToggleOption({ label, description, children }: ToggleOptionProps) {
     return (
         <label data-bspk="toggle-option">
             <span data-control>{children}</span>
-            <span data-content>
-                <span data-label>{label}</span>
-                {description && <span data-description>{description}</span>}
-            </span>
+            <span data-label>{label}</span>
+            {description && <span data-description>{description}</span>}
         </label>
     );
 }

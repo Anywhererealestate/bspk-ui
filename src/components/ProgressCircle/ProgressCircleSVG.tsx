@@ -1,4 +1,4 @@
-import { useId } from 'react';
+import { useId } from '-/hooks/useId';
 
 export const ProgressCircleSVG = (props: { strokeWidth?: number }) => {
     const strokeWidth = props.strokeWidth || 10;

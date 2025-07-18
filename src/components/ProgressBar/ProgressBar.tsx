@@ -1,5 +1,4 @@
-import { useId } from 'react';
-
+import { useId } from '-/hooks/useId';
 import { cssWithVars } from '-/utils/cwv';
 
 import './progress-bar.scss';
