@@ -1,4 +1,3 @@
-import './upload-item.scss';
 import { SvgDelete } from '@bspk/icons/Delete';
 import { SvgDraft } from '@bspk/icons/Draft';
 
@@ -7,7 +6,9 @@ import { InlineAlert } from '-/components/InlineAlert';
 import { ProgressBar } from '-/components/ProgressBar';
 import { Txt } from '-/components/Txt';
 
-export type UploadItemProps = {
+import './file-upload-item.scss';
+
+export type FileUploadItemProps = {
     /** The content of the upload-item. */
     fileName?: string;
     /** The status of the uploading file. */
@@ -28,11 +29,11 @@ export type UploadItemProps = {
  * Component description.
  *
  * @example
- *     import { UploadItem } from '@bspk/ui/UploadItem';
+ *     import { FileUploadItem } from '@bspk/ui/FileUploadItem';
  *
  *     function Example() {
  *         return (
- *             <UploadItem
+ *             <FileUploadItem
  *                 fileName="dunder-mifflin-paper-co.jpg"
  *                 fileSize="1.43 mb"
  *                 uploadStatus="Uploading"
@@ -41,10 +42,10 @@ export type UploadItemProps = {
  *         );
  *     }
  *
- * @name UploadItem
+ * @name FileUploadItem
  * @phase WorkInProgress
  */
-function UploadItem({
+function FileUploadItem({
     fileName = '',
     uploadStatus,
     fileSize,
@@ -52,7 +53,7 @@ function UploadItem({
     onDeleteToolTip = 'Delete',
     progress,
     failedMessage = 'File too large. Please upload a smaller file.',
-}: UploadItemProps) {
+}: FileUploadItemProps) {
     const fileSizeText = fileSize ? `${fileSize}` : '';
     const uploadStatusText =
         uploadStatus === 'uploading' || uploadStatus === 'complete' || uploadStatus === 'error'
@@ -95,8 +96,8 @@ function UploadItem({
     );
 }
 
-UploadItem.bspkName = 'UploadItem';
+FileUploadItem.bspkName = 'FileUploadItem';
 
-export { UploadItem };
+export { FileUploadItem };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

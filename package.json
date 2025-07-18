@@ -83,6 +83,8 @@
         "./Fab/*": "./dist/components/Fab/*.js",
         "./FileUpload": "./dist/components/FileUpload/index.js",
         "./FileUpload/*": "./dist/components/FileUpload/*.js",
+        "./FileUploadItem": "./dist/components/FileUploadItem/index.js",
+        "./FileUploadItem/*": "./dist/components/FileUploadItem/*.js",
         "./FormField": "./dist/components/FormField/index.js",
         "./FormField/*": "./dist/components/FormField/*.js",
         "./Img": "./dist/components/Img/index.js",
@@ -196,9 +198,7 @@
         "./Txt": "./dist/components/Txt/index.js",
         "./Txt/*": "./dist/components/Txt/*.js",
         "./UIProvider": "./dist/components/UIProvider/index.js",
-        "./UIProvider/*": "./dist/components/UIProvider/*.js",
-        "./UploadItem": "./dist/components/UploadItem/index.js",
-        "./UploadItem/*": "./dist/components/UploadItem/*.js"
+        "./UIProvider/*": "./dist/components/UIProvider/*.js"
     },
     "publishConfig": {
         "access": "public"

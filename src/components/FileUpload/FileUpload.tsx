@@ -1,10 +1,11 @@
-import './file-upload.scss';
 import { SvgCloudUpload } from '@bspk/icons/CloudUpload';
 import { useRef, ChangeEvent, useState } from 'react';
 import { Button } from '-/components/Button';
+import { FileUploadItem } from '-/components/FileUploadItem';
 import { InlineAlert } from '-/components/InlineAlert';
 import { Txt } from '-/components/Txt';
-import { UploadItem } from '-/components/UploadItem';
+
+import './file-upload.scss';
 
 export type FileUploadProps = {
     /** Whether to enable drag and drop functionality */
@@ -236,7 +237,7 @@ function FileUpload({
                 )}
             </div>
             {acceptedSize.map((file, idx) => (
-                <UploadItem
+                <FileUploadItem
                     fileName={file.name || ''}
                     fileSize={fileSizeFormat(file.size)}
                     key={file.name + file.size}
@@ -247,7 +248,7 @@ function FileUpload({
                 />
             ))}
             {exceedMaxFileSize.map((file) => (
-                <UploadItem
+                <FileUploadItem
                     failedMessage={errorMessage}
                     fileName={file.name}
                     fileSize={fileSizeFormat(file.size)}

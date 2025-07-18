@@ -1,7 +1,7 @@
-import { UploadItemProps } from '.';
+import { FileUploadItemProps } from '.';
 import { ComponentExampleFn } from '-/utils/demo';
 
-export const UploadItemExample: ComponentExampleFn<UploadItemProps> = ({ action }) => ({
+export const FileUploadItemExample: ComponentExampleFn<FileUploadItemProps> = ({ action }) => ({
     render: ({ props, Component }) => {
         return <Component {...props} onDelete={() => action('Delete action clicked!')} />;
     },
