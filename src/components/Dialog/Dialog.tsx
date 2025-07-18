@@ -6,6 +6,7 @@ import { Scrim } from '-/components/Scrim';
 import { useId } from '-/hooks/useId';
 import { useOutsideClick } from '-/hooks/useOutsideClick';
 import { CommonProps, ElementProps, SetRef } from '-/types/common';
+
 import './dialog.scss';
 
 export type DialogProps = CommonProps<'data-bspk-owner' | 'id'> & {

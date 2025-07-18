@@ -1,0 +1,102 @@
+[data-bspk='accordion'] {
+    width: 100%;
+
+    [data-accordion-section] {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        &[data-disabled],
+        &[data-readonly] {
+            --color: var(--foreground-neutral-disabled-on-surface);
+
+            border-color: var(--stroke-neutral-disabled-light);
+            background:
+                linear-gradient(var(--interactions-disabled-opacity), var(--interactions-disabled-opacity)),
+                linear-gradient(var(--surface-neutral-t1-base), var(--surface-neutral-t1-base));
+
+            [data-divider] {
+                border-color: var(--stroke-neutral-disabled-light);
+            }
+
+            [data-accordion-header] {
+                cursor: default;
+            }
+        }
+
+        &:not([data-disabled]) {
+            [data-accordion-header] {
+                &:hover {
+                    background-image:
+                        linear-gradient(
+                            var(--interactions-neutral-hover-opacity),
+                            var(--interactions-neutral-hover-opacity)
+                        ),
+                        linear-gradient(var(--surface-neutral-t1-base), var(--surface-neutral-t1-base));
+                }
+
+                &:active {
+                    background-image:
+                        linear-gradient(
+                            var(--interactions-neutral-press-opacity),
+                            var(--interactions-neutral-press-opacity)
+                        ),
+                        linear-gradient(var(--surface-neutral-t1-base), var(--surface-neutral-t1-base));
+                }
+
+                &:focus-visible {
+                    outline: 1px solid var(--stroke-neutral-focus);
+                    border-color: var(--stroke-neutral-focus);
+                    margin-bottom: 1px;
+                }
+            }
+        }
+
+        [data-accordion-header] {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            background: none;
+            color: inherit;
+            border: none;
+            padding: var(--spacing-sizing-02);
+            gap: var(--spacing-sizing-04);
+            font: inherit;
+            outline: inherit;
+            cursor: pointer;
+
+            [data-accordion-header-body] {
+                display: flex;
+                align-items: center;
+                flex-direction: row;
+                flex: 1;
+                gap: var(--spacing-sizing-03);
+            }
+
+            [data-accordion-title-wrapper] {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                flex: 1;
+
+                [data-bspk='txt'] {
+                    text-align: left;
+                }
+            }
+        }
+
+        [data-divider-wrapper] {
+            padding: 0 var(--spacing-sizing-02);
+
+            [data-bspk='divider'] {
+                margin: 0;
+            }
+        }
+
+        [data-accordion-content] {
+            padding: var(--spacing-sizing-01) var(--spacing-sizing-02) var(--spacing-sizing-04);
+        }
+    }
+}
+
+/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

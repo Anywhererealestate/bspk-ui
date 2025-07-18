@@ -1,10 +1,8 @@
-import { SvgAdd } from '@bspk/icons/Add';
-import { SvgRemove } from '@bspk/icons/Remove';
-import { useState } from 'react';
-
+import { useCallback, useState } from 'react';
+import { IncrementButton } from './IncrementButton';
 import { useId } from '-/hooks/useId';
-import { useLongPress } from '-/hooks/useLongPress';
 import { CommonProps, InvalidPropsLibrary } from '-/types/common';
+
 import './number-input.scss';
 
 const MAX = 99;
@@ -106,13 +104,22 @@ function NumberInput({
 
     const [inputElement, setInputElement] = useState<HTMLInputElement | null>(null);
 
-    const onIncrement = (increment: -1 | 1) => {
-        let nextValue = (isNumber(inputElement!.value) || 0) + increment;
-        if (nextValue > max) nextValue = max;
-        if (nextValue < min) nextValue = min;
-        inputElement!.value = String(nextValue);
-        onChange(nextValue);
+    const handleIncrement = (increment: -1 | 1) => {
+        if (!inputElement) return;
+        const nextValue = (isNumber(inputElement.value) || 0) + increment;
+        handleUpdate(nextValue);
     };
+
+    const handleUpdate = useCallback(
+        (nextValue: number | undefined) => {
+            if (!inputElement) return;
+            let nextVal = isNumber(nextValue);
+            if (nextVal !== undefined) nextVal = Math.min(Math.max(nextVal, min), max);
+            onChange(nextVal);
+            inputElement.value = nextVal?.toString() || '';
+        },
+        [inputElement, min, max, onChange],
+    );
 
     return (
         <div
@@ -125,10 +132,11 @@ function NumberInput({
             data-stepper-input
         >
             {!!centered && (
-                <IncrementButton disabled={valueNumber + -1 < min} increment={-1} onIncrement={onIncrement} />
+                <IncrementButton disabled={valueNumber + -1 < min} increment={-1} onIncrement={handleIncrement} />
             )}
             <input
                 aria-label={ariaLabel}
+                autoComplete="off"
                 defaultValue={String(valueNumber)}
                 disabled={disabled}
                 id={inputId}
@@ -136,20 +144,7 @@ function NumberInput({
                 min={min}
                 name={name}
                 onBlur={() => {
-                    if (!inputElement) return;
-
-                    let nextValue = isNumber(inputElement.value);
-
-                    if (typeof nextValue === 'undefined') {
-                        onChange(undefined);
-                        inputElement.value = '';
-                        return;
-                    }
-
-                    nextValue = Math.max(min, nextValue);
-                    nextValue = Math.min(max || 99, nextValue);
-                    onChange(nextValue);
-                    inputElement.value = nextValue.toString();
+                    handleUpdate(isNumber(inputElement?.value));
                 }}
                 readOnly={readOnly}
                 ref={(node) => node && setInputElement(node)}
@@ -158,37 +153,11 @@ function NumberInput({
             {!centered && (
                 <>
                     <div aria-hidden data-divider />
-                    <IncrementButton disabled={valueNumber + -1 < min} increment={-1} onIncrement={onIncrement} />
+                    <IncrementButton disabled={valueNumber + -1 < min} increment={-1} onIncrement={handleIncrement} />
                 </>
             )}
-            <IncrementButton disabled={valueNumber + 1 > max} increment={1} onIncrement={onIncrement} />
+            <IncrementButton disabled={valueNumber + 1 > max} increment={1} onIncrement={handleIncrement} />
         </div>
-    );
-}
-
-type IncrementButtonProps = {
-    disabled: boolean;
-    increment: -1 | 1;
-    onIncrement: (increment: -1 | 1) => void;
-};
-
-// eslint-disable-next-line react/no-multi-comp
-function IncrementButton({ increment, disabled, onIncrement }: IncrementButtonProps) {
-    const add = increment === 1;
-
-    const { setTriggerElement, ...handlers } = useLongPress(() => onIncrement(increment), disabled);
-
-    return (
-        <button
-            aria-label={`${add ? 'Increase' : 'Decrease'} value`}
-            data-increment={increment}
-            disabled={disabled}
-            ref={setTriggerElement}
-            type="button"
-            {...handlers}
-        >
-            {add ? <SvgAdd /> : <SvgRemove />}
-        </button>
     );
 }
 

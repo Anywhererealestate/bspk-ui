@@ -1,5 +1,6 @@
 import { ElementProps } from '-/types/common';
 import { cssWithVars } from '-/utils/cwv';
+
 import './divider.scss';
 
 export type DividerProps = {

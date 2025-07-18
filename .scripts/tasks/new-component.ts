@@ -110,6 +110,19 @@ fs.writeFileSync(
 
 fs.writeFileSync(path.join(componentDirectoryPath, 'index.tsx'), `export * from './${componentName}';\n`);
 
+const packageJsonData = JSON.parse(fs.readFileSync(path.resolve('./package.json'), 'utf-8'));
+
+// add the component export to package.json
+packageJsonData.exports[`./${componentName}`] = `./dist/components/${componentName}/index.js`;
+packageJsonData.exports[`./${componentName}/*`] = `./dist/components/${componentName}/*.js`;
+
+// sort the object by keys alphabetically
+packageJsonData.exports = Object.fromEntries(
+    Object.entries(packageJsonData.exports).sort(([keyA], [keyB]) => keyA.localeCompare(keyB)),
+);
+
+fs.writeFileSync(path.resolve('./package.json'), JSON.stringify(packageJsonData, null, 4) + '\n');
+
 console.info(`\n${componentName} component generated at ${componentFilePath}`);
 
 function capitalizeFirstLetter(val) {
