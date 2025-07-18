@@ -63,6 +63,7 @@
         &:hover {
             transform: scale(1.2);
         }
+
         &:focus-visible {
             outline: 1px solid var(--stroke-neutral-focus);
             border-color: var(--stroke-neutral-focus);
