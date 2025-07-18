@@ -1,0 +1,75 @@
+[data-bspk='rating'] {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: fit-content;
+
+    [data-rating-star] {
+        outline: none;
+        cursor: default;
+        background: none;
+        border: none;
+        height: fit-content;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+    }
+
+    [data-partial-star-wrapper] {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        overflow: hidden;
+        right: 50%;
+    }
+
+    [data-bspk-name='StarFill'] {
+        color: var(--surface-neutral-t3-low);
+    }
+    [data-filled] {
+        [data-bspk-name='StarFill'] {
+            color: var(--status-warning);
+        }
+    }
+}
+[data-bspk='rating'][data-size='small'] {
+    [data-rating-star] {
+        width: var(--spacing-sizing-06);
+        height: var(--spacing-sizing-06);
+    }
+}
+
+[data-bspk='rating'][data-size='medium'] {
+    [data-rating-star] {
+        width: var(--spacing-sizing-08);
+        height: var(--spacing-sizing-08);
+    }
+}
+
+[data-bspk='rating'][data-size='large'] {
+    gap: var(--spacing-sizing-01);
+
+    [data-rating-star] {
+        width: var(--spacing-sizing-10);
+        height: var(--spacing-sizing-10);
+    }
+}
+
+[data-bspk='rating'][data-clickable] {
+    [data-rating-star] {
+        cursor: pointer;
+
+        &:hover {
+            transform: scale(1.2);
+        }
+        &:focus-visible {
+            outline: 1px solid var(--stroke-neutral-focus);
+            border-color: var(--stroke-neutral-focus);
+            margin-bottom: 1px;
+        }
+    }
+}
+
+/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
