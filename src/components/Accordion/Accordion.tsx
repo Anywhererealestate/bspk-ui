@@ -1,0 +1,82 @@
+import { useState } from 'react';
+import { AccordionSectionProps, AccordionSection } from './AccordionSection';
+import './accordion.scss';
+
+type AccordionItem = Pick<AccordionSectionProps, 'children' | 'leading' | 'subTitle' | 'title' | 'trailing'> & {
+    /**
+     * The unique identifier for the accordion item.
+     *
+     * @required
+     */
+    id: number | string;
+};
+
+export type AccordionProps = Pick<AccordionSectionProps, 'disabled' | 'divider'> & {
+    /**
+     * Array of accordion sections
+     *
+     * @required
+     */
+    items: AccordionItem[];
+    /**
+     * If true only one accordion section can be opened at a time
+     *
+     * @default true
+     */
+    singleOpen?: boolean;
+};
+
+/**
+ * A vertical stack of collapsible panels or that allows customers to expand or collapse each panel individually to
+ * reveal or hide their content.
+ *
+ * @example
+ *     import { Accordion } from '@bspk/ui/Accordion';
+ *
+ *     function Example() {
+ *         return <Accordion items={[{ id: 1, title: 'Section', children: 'Example content' }]} />;
+ *     }
+ *
+ * @name Accordion
+ * @phase WorkInProgress
+ */
+function Accordion({ items, disabled, divider, singleOpen = true }: AccordionProps) {
+    const [activeItems, setActiveItems] = useState<(number | string)[]>([]);
+
+    const toggleOpen = (itemId: number | string) => {
+        if (singleOpen && activeItems.includes(itemId)) {
+            setActiveItems([]);
+        } else if (singleOpen) {
+            setActiveItems([itemId]);
+        } else if (activeItems.includes(itemId)) {
+            setActiveItems(activeItems.filter((activeItemId) => activeItemId !== itemId));
+        } else {
+            setActiveItems(activeItems.concat(itemId));
+        }
+    };
+
+    return (
+        <div data-bspk="accordion">
+            {items.map((item) => {
+                return (
+                    <AccordionSection
+                        disabled={disabled}
+                        divider={divider}
+                        isOpen={activeItems.includes(item.id)}
+                        key={item.id}
+                        toggleOpen={() => toggleOpen(item.id)}
+                        {...item}
+                    >
+                        {item.children}
+                    </AccordionSection>
+                );
+            })}
+        </div>
+    );
+}
+
+Accordion.bspkName = 'Accordion';
+
+export { Accordion };
+
+/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
