@@ -18,22 +18,21 @@
 
     [data-partial-star-wrapper] {
         position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
+        inset: 0 50% 0 0;
         overflow: hidden;
-        right: 50%;
     }
 
     [data-bspk-name='StarFill'] {
         color: var(--surface-neutral-t3-low);
     }
+
     [data-filled] {
         [data-bspk-name='StarFill'] {
             color: var(--status-warning);
         }
     }
 }
+
 [data-bspk='rating'][data-size='small'] {
     [data-rating-star] {
         width: var(--spacing-sizing-06);
