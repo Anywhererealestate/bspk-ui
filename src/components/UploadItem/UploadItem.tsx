@@ -21,6 +21,7 @@ export type UploadItemProps = {
     progress?: number;
     /** The message to display when the upload fails. */
     failedMessage?: string;
+    onDeleteToolTip?: string;
 };
 
 /**
@@ -48,6 +49,7 @@ function UploadItem({
     uploadStatus,
     fileSize,
     onDelete,
+    onDeleteToolTip = 'Delete',
     progress,
     failedMessage = 'File too large. Please upload a smaller file.',
 }: UploadItemProps) {
@@ -76,7 +78,7 @@ function UploadItem({
                 </div>
                 <Button
                     icon={<SvgDelete />}
-                    label="Delete"
+                    label={onDeleteToolTip}
                     onClick={onDelete}
                     showLabel={false}
                     size="large"
@@ -84,7 +86,7 @@ function UploadItem({
                 />
             </div>
             <div data-status>
-                <ProgressBar align="left" completion={progressNum} label={progressText} />
+                {uploadStatus !== 'error' && <ProgressBar align="left" completion={progressNum} label={progressText} />}
                 {uploadStatus === 'error' && failedMessage && (
                     <InlineAlert variant="error">{failedMessage}</InlineAlert>
                 )}

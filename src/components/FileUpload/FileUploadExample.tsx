@@ -8,22 +8,25 @@ export const FileUploadExample: ComponentExampleFn<FileUploadProps> = ({ action 
     },
     presets: [
         {
-            label: 'Drag and Drop',
+            label: 'multiple files',
+            propState: {
+                multipleFiles: true,
+                maxFileSize: 1,
+            },
+        },
+        {
+            label: 'Drag and Drop Single File',
             propState: {
                 dragAndDrop: true,
                 maxFileSize: 1,
             },
         },
         {
-            label: 'With Error Message',
+            label: 'Drag and Drop Multiple Files',
             propState: {
-                errorMessage: 'File size exceeds the limit.',
-            },
-        },
-        {
-            label: 'With Accepted File Types',
-            propState: {
-                acceptedFileTypes: ['image/png', 'image/jpeg'],
+                dragAndDrop: true,
+                multipleFiles: true,
+                maxFileSize: 1,
             },
         },
     ],
@@ -66,13 +69,17 @@ function FileUploadExampleMockUpload({
         <Component
             {...props}
             acceptedFileTypes={['image/png', 'image/gif', 'image/svg']}
+            errorMessage="File upload failed. File either exceeds max file size or is not an accepted file type. Please try again."
             files={file ? [file] : null}
+            maxFileSize={1}
             onChange={handleChange}
+            onClose={() => action('onClose called')}
+            onCloseToolTip="Close"
             onError={(error, selectedFile) => action(`Upload error: ${error}, ${selectedFile?.name}`)}
             onUploadStart={(selectedFile) => action(`Upload started for: ${selectedFile.name}`)}
             uploadProgress={uploadProgress}
             uploadStatus={uploadStatus}
-            uploadSubtitle="Upload your image"
+            uploadSubtitle="SVG, PNG, JPG or GIF (max. 1MB)"
         />
     );
 }

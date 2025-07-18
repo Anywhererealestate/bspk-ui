@@ -11,6 +11,7 @@ export const UploadItemExample: ComponentExampleFn<UploadItemProps> = ({ action 
             propState: {
                 fileName: 'basic-file.png',
                 fileSize: '1.2 MB',
+                onDeleteToolTip: 'Delete',
             },
         },
         {
@@ -18,6 +19,7 @@ export const UploadItemExample: ComponentExampleFn<UploadItemProps> = ({ action 
             propState: {
                 fileName: 'I-think-this-is-a-long-file-name.txt',
                 uploadStatus: 'uploading',
+                onDeleteToolTip: 'Close',
             },
         },
         {
@@ -25,6 +27,7 @@ export const UploadItemExample: ComponentExampleFn<UploadItemProps> = ({ action 
             propState: {
                 fileName: 'success-story.pdf',
                 uploadStatus: 'complete',
+                onDeleteToolTip: 'Bye',
             },
         },
         {
@@ -32,6 +35,7 @@ export const UploadItemExample: ComponentExampleFn<UploadItemProps> = ({ action 
             propState: {
                 fileName: 'file-name.txt',
                 uploadStatus: 'error',
+                onDeleteToolTip: 'Escape',
             },
         },
     ],
