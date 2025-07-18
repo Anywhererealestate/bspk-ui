@@ -1,6 +1,5 @@
-/* eslint-disable react/no-multi-comp */
 import { SvgStarFill } from '@bspk/icons/StarFill';
-import { FC, ReactNode, useMemo } from 'react';
+import { FC } from 'react';
 import { RatingSize } from './Rating';
 
 type RatingStarProps = {
@@ -16,15 +15,9 @@ const svgSizes = {
     large: 32,
 };
 
-const ClickableStar: FC<{ children: ReactNode; onClick: () => void }> = ({ children, ...restProps }) => (
-    <button {...restProps} aria-label="" data-rating-star="">
-        {children}
-    </button>
-);
-
 export const RatingStar: FC<RatingStarProps> = ({ size, value = 0, fillPercent = 0, onClick }) => {
     const svgSize = svgSizes[size];
-    const svg = useMemo(() => <SvgStarFill width={svgSize} />, [svgSize]);
+
     const partialFilledStar =
         fillPercent % 1 !== 0 ? (
             <div data-partial-star-wrapper="">
@@ -36,14 +29,20 @@ export const RatingStar: FC<RatingStarProps> = ({ size, value = 0, fillPercent =
 
     if (onClick) {
         return (
-            <ClickableStar data-filled={fillPercent === 1 ? '' : undefined} onClick={() => onClick(value)}>
-                {svg}
-            </ClickableStar>
+            <button
+                aria-label={`Rate ${value}`}
+                data-filled={fillPercent === 1 ? '' : undefined}
+                data-rating-star=""
+                onClick={() => onClick(value)}
+            >
+                <SvgStarFill width={svgSize} />
+            </button>
         );
     } else {
         return (
             <div data-filled={fillPercent === 1 ? '' : undefined} data-rating-star="">
-                {svg}
+                <SvgStarFill width={svgSize} />
+
                 {partialFilledStar}
             </div>
         );

@@ -50,7 +50,10 @@ export type RatingProps = {
  * @phase WorkInProgress
  */
 function Rating({ size = 'medium', value, onChange, interactive }: RatingProps) {
-    const clickableProps = interactive ? { 'data-clickable': '' } : {};
+    const clickableProps = interactive
+        ? { 'data-clickable': '', role: 'presentation' }
+        : { role: 'img', 'aria-label': `${value} out of ${MAX_STARS} stars` };
+
     const stars = useMemo(() => {
         const starList = [];
 
