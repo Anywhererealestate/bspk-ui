@@ -4,51 +4,69 @@ import { SvgDraft } from '@bspk/icons/Draft';
 import { Button } from '-/components/Button';
 import { InlineAlert } from '-/components/InlineAlert';
 import { ProgressBar } from '-/components/ProgressBar';
-import { Txt } from '-/components/Txt';
+import { Truncated } from '-/components/Truncated';
 
 import './file-upload-item.scss';
 
-export type FileUploadItemProps = {
-    /**
-     * The content of the upload-item.
-     *
-     * @required
-     */
+export const DEFAULT_ERROR_MESSAGE = 'There was an error uploading the file. Please try again.';
+
+export type FileUploadStatus = 'cancelled' | 'complete' | 'error' | 'failed' | 'idle' | 'initiated' | 'uploading';
+
+export const FILE_UPLOAD_STATUS: Record<string, FileUploadStatus> = {
+    CANCELLED: 'cancelled',
+    COMPLETE: 'complete',
+    ERROR: 'error',
+    FAILED: 'failed',
+    IDLE: 'idle',
+    INITIATED: 'initiated',
+    UPLOADING: 'uploading',
+} as const;
+
+export type FileEntry = {
+    /** The name of the file. */
     fileName: string;
     /**
      * The status of the uploading file.
      *
      * @default idle
      */
-    uploadStatus?: 'complete' | 'error' | 'idle' | 'uploading';
+    uploadStatus?: FileUploadStatus;
     /**
-     * The size of the file being uploaded.
-     *
-     * Usually in MB or KB, e.g. '1.2 MB' or '500 KB'
-     */
-    fileSize?: string;
-    /**
-     * The function to call when the delete button is clicked.
+     * The size of the file being uploaded in MB.
      *
      * @required
      */
-    onDelete: () => void;
+    fileSize: number;
     /**
-     * The progress of the upload, if applicable.
-     *
-     * Usually a number between 0 and 100 representing the percentage of the upload completed.
+     * A number between 0 and 100 representing the percentage of the upload completed.
      *
      * @default 0
+     * @minimum 0
+     * @maximum 100
      */
     progress?: number;
-    /** The message to display when the upload fails. */
-    failedMessage?: string;
     /**
-     * The tooltip text for the delete button.
+     * The error message to display when the upload fails.
      *
-     * @default Delete
+     * If uploadStatus is 'error', this message will be displayed by default: "There was an error uploading the file.
+     * Please try again."
      */
-    onDeleteToolTip?: string;
+    errorMessage?: string;
+};
+
+export type FileUploadItemProps = FileEntry & {
+    /**
+     * The function to call when the Cancel button is clicked.
+     *
+     * @required
+     */
+    onCancel: (file: Pick<FileEntry, 'fileName'>) => void;
+    /**
+     * The label used for tooltip text for the Cancel button.
+     *
+     * @default Cancel
+     */
+    cancelButtonLabel?: string;
 };
 
 /**
@@ -65,7 +83,7 @@ export type FileUploadItemProps = {
  *                 fileName="dunder-mifflin-paper-co.jpg"
  *                 fileSize="1.43 mb"
  *                 uploadStatus="Uploading"
- *                 onDelete={() => console.log('Delete item clicked!')}
+ *                 onCancel={() => console.log('Cancel item clicked!')}
  *             />
  *         );
  *     }
@@ -77,47 +95,43 @@ function FileUploadItem({
     fileName = '',
     uploadStatus,
     fileSize,
-    onDelete,
-    onDeleteToolTip = 'Delete',
-    progress,
-    failedMessage = 'File too large. Please upload a smaller file.',
+    onCancel,
+    cancelButtonLabel: onCancelToolTip = 'Cancel',
+    progress = 0,
+    errorMessage = DEFAULT_ERROR_MESSAGE,
 }: FileUploadItemProps) {
-    const fileSizeText = fileSize ? `${fileSize}` : '';
-    const uploadStatusText =
-        uploadStatus === 'uploading' || uploadStatus === 'complete' || uploadStatus === 'error'
-            ? ` ${uploadStatus}`
-            : '';
-    const subText = uploadStatusText && fileSizeText ? `${fileSizeText} • ${uploadStatus}` : `${fileSizeText}`;
-    const progressNum = typeof progress === 'number' ? progress : 0;
-    const progressText = `${progressNum}%`;
+    const subText = [fileSizeFormat(fileSize), uploadStatus].filter(Boolean).join(' • ');
+
     return (
         <div data-bspk="upload-item">
             <div data-row>
                 <div data-icon>
                     <SvgDraft />
                 </div>
-
                 <div data-info>
-                    <Txt data-file-name variant="body-small">
-                        {fileName}
-                    </Txt>
-                    <Txt data-file-details variant="body-x-small">
-                        {subText}
-                    </Txt>
+                    <Truncated data-file-name>{fileName}</Truncated>
+                    <span data-file-details>{subText}</span>
                 </div>
                 <Button
                     icon={<SvgDelete />}
-                    label={onDeleteToolTip}
-                    onClick={onDelete}
+                    label={onCancelToolTip || 'Cancel'}
+                    onClick={() => onCancel({ fileName })}
                     showLabel={false}
                     size="large"
                     variant="tertiary"
                 />
             </div>
             <div data-status>
-                {uploadStatus !== 'error' && <ProgressBar align="left" completion={progressNum} label={progressText} />}
-                {uploadStatus === 'error' && failedMessage && (
-                    <InlineAlert variant="error">{failedMessage}</InlineAlert>
+                {uploadStatus === 'error' ? (
+                    <InlineAlert variant="error">{errorMessage}</InlineAlert>
+                ) : (
+                    <ProgressBar
+                        align="left"
+                        completion={progress}
+                        label={`${
+                            Math.max(0, Math.min(100, Math.round(progress))) // Ensure completion is between 0 and 100
+                        }%`}
+                    />
                 )}
             </div>
         </div>
@@ -127,5 +141,28 @@ function FileUploadItem({
 FileUploadItem.bspkName = 'FileUploadItem';
 
 export { FileUploadItem };
+
+const KB = 1024;
+const MB = 1024 * KB;
+const GB = 1024 * MB;
+
+/**
+ * This is a simple utility to format file sizes in a human-readable way
+ *
+ * Lets not support terrabytes or petabytes for now
+ *
+ * - @param fileSize {number | null | undefined} - The size of the file in bytes.
+ * - @returns {string | null | undefined} A string representing the file size in a human-readable format or the original
+ *   value if it cannot be formatted.
+ */
+function fileSizeFormat(fileSize?: number): string | undefined {
+    if (!fileSize) return 'Unknown size';
+
+    const fileSizeMb = fileSize * MB; // Convert bytes to MB
+
+    if (fileSizeMb < MB) return `${(fileSizeMb / KB).toFixed(2)} KB`;
+    if (fileSizeMb < GB) return `${(fileSizeMb / MB).toFixed(2)} MB`;
+    return `${(fileSizeMb / GB).toFixed(2)} GB`;
+}
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

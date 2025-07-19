@@ -27,17 +27,12 @@
     }
 
     [data-file-name] {
-        width: 100%;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+        font: var(--body-small);
     }
 
     [data-file-details] {
         color: var(--foreground-neutral-on-surface-variant-01);
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+        font: var(--body-x-small);
     }
 
     @media (width >= 640px) {

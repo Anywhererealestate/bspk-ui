@@ -47,8 +47,9 @@ export type ProgressBarProps = {
  * @name ProgressBar
  * @phase DesignReview
  */
-function ProgressBar({ size = 'large', completion = 0, align = 'center', label }: ProgressBarProps) {
+function ProgressBar({ size = 'large', completion: completionProp = 0, align = 'center', label }: ProgressBarProps) {
     const id = useId();
+    const completion = Math.max(0, Math.min(100, Math.round(completionProp))); // Ensure completion is between 0 and 100
 
     return (
         <div data-align={align} data-bspk="progress-bar" data-size={size}>
@@ -62,7 +63,7 @@ function ProgressBar({ size = 'large', completion = 0, align = 'center', label }
                 max="100"
                 value={completion}
             >
-                {completion}%
+                {Math.round(completion)}%
             </progress>
             <div aria-hidden data-bar style={cssWithVars({ '--width': `${completion}%` })} />
             <label htmlFor={id}>{label}</label>

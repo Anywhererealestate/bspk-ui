@@ -32,7 +32,7 @@ function Portal({ children, container }: PortalProps) {
     }, [portalContainer]);
 
     // data-bspk="portal" can't be used here
-    return portalContainer && createPortal(children, portalContainer);
+    return <>{portalContainer && createPortal(children, portalContainer)}</>;
 }
 
 Portal.bspkName = 'Portal';
