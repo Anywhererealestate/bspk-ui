@@ -8,8 +8,11 @@ import { Txt } from '-/components/Txt';
 import './file-upload.scss';
 
 export type FileUploadProps = {
-    /** Whether to enable drag and drop functionality */
-    /** @default false */
+    /**
+     * Whether to enable drag and drop functionality
+     *
+     * @default false
+     */
     dragAndDrop?: boolean;
     /**
      * The subtitle for the upload area
@@ -17,37 +20,78 @@ export type FileUploadProps = {
      * It is recommended to include the accepted file types and maximum file size in the subtitle.
      */
     uploadSubtitle?: string;
-    /** Whether to allow multiple file uploads */
-    /** @default false */
+    /**
+     * Whether to allow multiple file uploads
+     *
+     * @default false
+     */
     multipleFiles?: boolean;
-    /** The accepted file types for upload, e.g. ['image/png', 'image/gif', 'image/svg'] */
+    /**
+     * The accepted file types for upload, e.g. ['image/png', 'image/gif', 'image/svg']
+     *
+     * If not provided, all file types are accepted.
+     */
     acceptedFileTypes?: string[];
-    /** The maximum file size allowed for upload, in MB */
+    /**
+     * The maximum file size allowed for upload in MB. If not provided, defaults to 2 MB.
+     *
+     * @default 2
+     */
     maxFileSize?: number;
     /** The error message to display when the upload fails */
     errorMessage?: string;
-    /** The files currently being uploaded */
+    /**
+     * The files currently being uploaded
+     *
+     * @default null
+     */
     files?: File[] | null;
-    /** The current upload status */
+    /**
+     * The current upload status
+     *
+     * Possible values: 'complete', 'error', 'idle', 'uploading'
+     */
     uploadStatus?: UploadStatus;
-    /** The progress of the upload, if applicable */
+    /**
+     * The progress of the upload, if applicable
+     *
+     * Not recommended when multiple files are being uploaded.
+     */
     uploadProgress?: number;
-    /** The function to call when the file input changes */
-    onChange?: (file: File | File[] | null) => void;
-    /** The function to call when the upload starts */
-    onUploadStart?: (file: File) => void;
-    // onUploadProgress?: (progress: number) => void;
-    // onUploadComplete?: (file: File) => void;
-    /** The function to call when an error occurs during upload */
+    /**
+     * The function to call when the file input changes
+     *
+     * @required
+     */
+    onChange: (file: File | File[] | null) => void;
+    /**
+     * The function to call when the upload starts
+     *
+     * @required
+     */
+    onUploadStart: (file: File) => void;
+    /**
+     * The function to call when an error occurs during upload
+     *
+     * Optionally, you can handle specific errors like 'file-too-large' or 'file-type-not-accepted'.
+     */
     onError?: (error: string, file?: File) => void;
-    /** The function to call when the close button is clicked */
+    /**
+     * The function to call when the close button is clicked
+     *
+     * @required
+     */
     onClose: () => void;
-    /** The tooltip text for the close button */
+    /**
+     * The tooltip text for the close button
+     *
+     * @default Close
+     */
     onCloseToolTip?: string;
 };
 
 /**
- * Component description.
+ * A widget that allows customers to upload and attach one or more files.
  *
  * @example
  *     import { FileUpload } from '@bspk/ui/FileUpload';
@@ -96,7 +140,6 @@ function FileUpload({
     onClose,
     onCloseToolTip = 'Close',
 }: FileUploadProps) {
-    // const subtitle = `${uploadSubtitle} (max. ${maxFileSize}MB)`;
     const fileInputRef = useRef<HTMLInputElement>(null);
     const acceptedFileTypesText = acceptedFileTypes?.join(', ');
     const [exceedMaxFileSize, setExceedMaxFileSize] = useState<File[]>([]);
@@ -187,27 +230,9 @@ function FileUpload({
         }
     };
 
-    const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    const handleDrag = (action: 'leave' | 'over') => (e: React.DragEvent<HTMLDivElement>) => {
         e.preventDefault();
-        setIsDragOver(true);
-    };
-
-    const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
-        e.preventDefault();
-        setIsDragOver(false);
-    };
-
-    const fileSizeFormat = (fileSize: number) => {
-        if (fileSize < 1024) {
-            return `${fileSize} bytes`;
-        }
-        if (fileSize < 1024 * 1024) {
-            return `${(fileSize / 1024).toFixed(2)} KB`;
-        }
-        if (fileSize < 1024 * 1024 * 1024) {
-            return `${(fileSize / (1024 * 1024)).toFixed(2)} MB`;
-        }
-        return `${(fileSize / (1024 * 1024 * 1024)).toFixed(2)} GB`;
+        setIsDragOver(action === 'over');
     };
 
     return (
@@ -215,8 +240,8 @@ function FileUpload({
             <div
                 className={isDragOver ? 'drag-over' : ''}
                 data-bspk="file-upload"
-                onDragLeave={dragAndDrop ? handleDragLeave : undefined}
-                onDragOver={dragAndDrop ? handleDragOver : undefined}
+                onDragLeave={dragAndDrop ? handleDrag('leave') : undefined}
+                onDragOver={dragAndDrop ? handleDrag('over') : undefined}
                 onDrop={dragAndDrop ? handleDrop : undefined}
             >
                 <SvgCloudUpload />
@@ -266,5 +291,18 @@ function FileUpload({
 FileUpload.bspkName = 'FileUpload';
 
 export { FileUpload };
+
+function fileSizeFormat(fileSize: number) {
+    if (fileSize < 1024) {
+        return `${fileSize} bytes`;
+    }
+    if (fileSize < 1024 * 1024) {
+        return `${(fileSize / 1024).toFixed(2)} KB`;
+    }
+    if (fileSize < 1024 * 1024 * 1024) {
+        return `${(fileSize / (1024 * 1024)).toFixed(2)} MB`;
+    }
+    return `${(fileSize / (1024 * 1024 * 1024)).toFixed(2)} GB`;
+}
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
