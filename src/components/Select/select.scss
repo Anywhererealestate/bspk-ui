@@ -28,7 +28,11 @@
     background: var(--select-background);
     padding: 0 var(--select-padding);
 
-    [data-placeholder] {
+    * {
+        pointer-events: none;
+    }
+
+    [data-bspk='list-item'][data-bspk-owner='select'] {
         display: block;
         max-width: 100%;
         text-overflow: ellipsis;
@@ -42,6 +46,12 @@
 
         [data-item-label] [data-text] {
             color: var(--select-text-color);
+        }
+
+        &[data-placeholder] {
+            [data-item-label] [data-text] {
+                color: var(--foreground-neutral-on-surface-variant-03);
+            }
         }
     }
 
@@ -110,10 +120,6 @@
 
     &[data-invalid] {
         --select-border-color: var(--status-error);
-    }
-
-    &[data-empty] {
-        --select-text-color: var(--foreground-neutral-on-surface-variant-03);
     }
 }
 

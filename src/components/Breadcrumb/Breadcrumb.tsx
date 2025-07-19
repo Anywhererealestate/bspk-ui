@@ -1,4 +1,4 @@
-/* eslint-disable react/no-multi-comp */ import { SvgChevronRight } from '@bspk/icons/ChevronRight';
+import { SvgChevronRight } from '@bspk/icons/ChevronRight';
 import { SvgMoreHoriz } from '@bspk/icons/MoreHoriz';
 
 import { Button } from '-/components/Button';
@@ -9,6 +9,7 @@ import { Txt } from '-/components/Txt';
 import { useCombobox } from '-/hooks/useCombobox';
 import { useId } from '-/hooks/useId';
 import { CommonProps } from '-/types/common';
+
 import './breadcrumb.scss';
 
 export type BreadcrumbItem = {
@@ -59,8 +60,6 @@ export type BreadcrumbProps = CommonProps<'id'> & {
     items: BreadcrumbItem[];
 };
 
-const BreadcrumbDivider = () => <SvgChevronRight aria-hidden={true} />;
-
 /**
  * Used to indicate the current page's location within a navigational hierarchy.
  *
@@ -106,7 +105,7 @@ function Breadcrumb({ id: propId, items: itemsProp }: BreadcrumbProps) {
             <ol>
                 <li>
                     <Link href={items[0].href} label={items[0].label} />
-                    <BreadcrumbDivider />
+                    <SvgChevronRight aria-hidden={true} />
                 </li>
                 {items.length > 5 ? (
                     <li>
@@ -140,13 +139,13 @@ function Breadcrumb({ id: propId, items: itemsProp }: BreadcrumbProps) {
                                 ))}
                             </Menu>
                         )}
-                        <BreadcrumbDivider />
+                        <SvgChevronRight aria-hidden={true} />
                     </li>
                 ) : (
                     middleItems.map((item, idx) => (
                         <li key={`Breadcrumb-${idx}`}>
                             <Link {...item} />
-                            <BreadcrumbDivider />
+                            <SvgChevronRight aria-hidden={true} />
                         </li>
                     ))
                 )}

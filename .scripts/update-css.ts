@@ -17,9 +17,9 @@ import { getCssVariables, getStylesRoot, prettyLint, reportMissingVariables } fr
 function main() {
     const variables = getCssVariables();
 
-    copyStylesLibraryCss();
-
     execSync(`npm un @bspk/styles && npm i @bspk/styles@latest`, { stdio: 'inherit' });
+
+    copyStylesLibraryCss();
 
     generateTxtVariants(variables);
 

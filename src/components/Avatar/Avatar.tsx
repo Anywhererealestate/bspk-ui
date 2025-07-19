@@ -3,6 +3,7 @@ import { useMemo } from 'react';
 
 import { Tooltip } from '-/components/Tooltip';
 import { ColorVariant } from '-/utils/colorVariants';
+
 import './avatar.scss';
 
 const DEFAULT = {
