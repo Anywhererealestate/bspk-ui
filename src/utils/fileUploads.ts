@@ -1,6 +1,6 @@
 export const DEFAULT_ERROR_MESSAGE = 'There was an error uploading the file. Please try again.';
 
-export type FileUploadStatus = 'cancelled' | 'complete' | 'error' | 'failed' | 'idle' | 'initiated' | 'uploading';
+export type FileUploadStatus = 'complete' | 'error' | 'failed' | 'idle' | 'uploading';
 
 export type FileEntry = {
     /** The name of the file. */

@@ -154,7 +154,7 @@ function FileUpload({
 
     const updateFiles = (nextFiles: File[]) => {
         const nextFileEntries = nextFiles.map((file): FileEntryUpload => {
-            let status: FileUploadStatus = 'initiated';
+            let status: FileUploadStatus = 'idle';
             let errorMessage = '';
 
             if (
@@ -192,7 +192,7 @@ function FileUpload({
         const fileEntriesWithError = nextFileEntries.filter((entry) => entry.status === 'error');
         if (fileEntriesWithError.length > 0) onError(fileEntriesWithError);
 
-        const fileEntriesToUpload = nextFileEntries.filter((entry) => entry.status === 'initiated');
+        const fileEntriesToUpload = nextFileEntries.filter((entry) => entry.status === 'idle');
         if (fileEntriesToUpload.length > 0) onUpload(fileEntriesToUpload);
     };
 
