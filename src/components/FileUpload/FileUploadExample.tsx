@@ -9,45 +9,24 @@ export const FileUploadExample: ComponentExampleFn<FileUploadProps> = ({ action 
     },
     presets: [
         {
-            label: 'Drag and Drop',
+            label: 'multiple files',
             propState: {
-                multipleFiles: true,
-                dragAndDrop: true,
-                files: [],
-            },
-        },
-        {
-            label: 'Input',
-            propState: {
-                multipleFiles: true,
                 dragAndDrop: false,
-                files: [],
+                multipleFiles: true,
             },
         },
         {
-            label: 'Multiple Existing Files',
+            label: 'Drag and Drop Single File',
             propState: {
+                dragAndDrop: true,
+                multipleFiles: false,
+            },
+        },
+        {
+            label: 'Drag and Drop Multiple Files',
+            propState: {
+                dragAndDrop: true,
                 multipleFiles: true,
-                files: [
-                    {
-                        fileName: 'file1.png',
-                        fileSize: 1.2,
-                        status: 'complete',
-                        progress: 100,
-                    },
-                    {
-                        fileName: 'file2.gif',
-                        fileSize: 0.8,
-                        status: 'uploading',
-                        progress: 51,
-                    },
-                    {
-                        fileName: 'file2.gif',
-                        fileSize: 0.4,
-                        status: 'uploading',
-                        progress: 0,
-                    },
-                ],
             },
         },
     ],
