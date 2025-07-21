@@ -160,7 +160,7 @@ function FileUpload({
             if (
                 Array.isArray(acceptedFileTypes) &&
                 acceptedFileTypes.length > 0 &&
-                !acceptedFileTypes.includes(file.type as unknown as MimeType)
+                !acceptedFileTypes.includes(file.type as MimeType)
             ) {
                 status = 'error';
                 errorMessage = `File type not accepted: ${file.name}`;
