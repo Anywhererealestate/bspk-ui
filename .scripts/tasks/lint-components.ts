@@ -12,7 +12,7 @@ import { getLocalMeta } from '../utils';
 
 const errors: string[] = [];
 
-const { componentsMeta, typesMeta } = await getLocalMeta();
+const { componentsMeta, typesMeta } = await getLocalMeta(true);
 
 const packageJsonData = JSON.parse(fs.readFileSync(path.resolve('./package.json'), 'utf-8'));
 
@@ -25,78 +25,93 @@ fs.readdirSync(path.resolve('./src/components'), { withFileTypes: true }).forEac
     if (errors.length) return;
 });
 
-if (!errors.length)
-    componentsMeta.forEach(({ name, slug }) => {
-        // exports should be in package.json
+const hasExports = !!packageJsonData.exports;
+
+if (!hasExports) {
+    errors.push('❌ package.json does not have an "exports" field. Please add it.');
+}
+
+componentsMeta.forEach(({ name, slug }) => {
+    if (hasExports) {
         const exports = [
-            {
-                key: `./${name}/*`,
-                value: `./dist/components/${name}/*.js`,
-            },
-            {
-                key: `./${name}`,
-                value: `./dist/components/${name}/index.js`,
-            },
+            { key: `./${name}/*`, value: `./dist/components/${name}/*.js` },
+            { key: `./${name}`, value: `./dist/components/${name}/index.js` },
         ];
 
         if (
-            !('exports' in packageJsonData) ||
-            !packageJsonData.exports ||
             !exports.every(({ key, value }) => key in packageJsonData.exports && packageJsonData.exports[key] === value)
         ) {
             errors.push(`❌ ${name} is not exported properly in package.json. Please add it to the exports.`);
             return;
         }
+    }
 
-        const indexPath = path.resolve(`./src/components/${name}/index.tsx`);
+    const indexPath = path.resolve(`./src/components/${name}/index.tsx`);
 
-        const content = fs.readFileSync(path.resolve(`./src/components/${name}/${name}.tsx`), 'utf-8');
+    const content = fs.readFileSync(path.resolve(`./src/components/${name}/${name}.tsx`), 'utf-8');
 
-        if (!fs.existsSync(indexPath)) {
-            errors.push(`❌ ${name} does not have an index.tsx file. Please create one.`);
-            return;
-        }
+    if (!fs.existsSync(indexPath)) {
+        errors.push(`❌ ${name} does not have an index.tsx file. Please create one.`);
+        return;
+    }
 
-        const propNameMatch = content.match(/\.bspkName = '([^']+)'/);
-        const dataNameMatch = content.match(/data-bspk="([^"]+)"/);
-        const sassNameMatch = content.match(/import '\.\/(.*)\.scss'/);
+    const hasDefaultDescription = content.includes(`Component description.`);
+    const propNameMatch = content.match(/\.bspkName = '([^']+)'/);
+    const dataNameMatch = content.match(/data-bspk="([^"]+)"/);
+    const sassNameMatch = content.match(/import '\.\/(.*)\.scss'/);
 
-        const propName = propNameMatch?.[1];
-        const dataName = dataNameMatch?.[1];
-        const sassName = sassNameMatch?.[1];
+    const propName = propNameMatch?.[1];
+    const dataName = dataNameMatch?.[1];
+    const sassName = sassNameMatch?.[1];
 
-        if (sassName && sassName !== slug && sassName !== 'base') {
-            errors.push(`❌ ${name} sass name does not match component slug "${sassName}"`);
-        }
+    if (sassName && sassName !== slug && sassName !== 'base') {
+        errors.push(`❌ ${name} sass name does not match component slug "${sassName}"`);
+    }
 
-        if (!propName) {
-            errors.push(`❌ ${name} does not have a bspkName property`);
-        }
+    if (!propName) {
+        errors.push(`❌ ${name} does not have a bspkName property`);
+    }
 
-        if (dataName && dataName !== slug) {
-            errors.push(`❌ ${name} data-bspk attribute does not match component slug "${sassName}"`);
-        }
+    if (dataName && dataName !== slug) {
+        errors.push(`❌ ${name} data-bspk attribute does not match component slug "${sassName}"`);
+    }
 
-        // lint component Properties
+    if (hasDefaultDescription) {
+        errors.push(`❌ ${name} does not have a proper description`);
+    }
 
-        const props = typesMeta?.find((t: { name: string }) => t.name === `${propName}Props`);
+    // lint component Properties
 
-        if (props?.properties) {
-            // does not have duplicate property names
-            const duplicatePropertyNames = props.properties.filter(
-                (prop: { name: string }, index: number, self: { name: string }[]) =>
-                    self.findIndex((prop2) => prop2.name === prop.name) !== index,
+    const props = typesMeta?.find((t: { name: string }) => t.name === `${propName}Props`);
+
+    if (props?.properties) {
+        // does not have duplicate property names
+        const duplicatePropertyNames = props.properties.filter(
+            (prop: { name: string }, index: number, self: { name: string }[]) =>
+                self.findIndex((prop2) => prop2.name === prop.name) !== index,
+        );
+
+        if (duplicatePropertyNames.length > 0) {
+            errors.push(
+                `❌ ${name} has duplicate property names: ${duplicatePropertyNames.map((p) => p.name).join(', ')}`,
             );
-
-            if (duplicatePropertyNames.length > 0) {
-                errors.push(
-                    `❌ ${name} has duplicate property names: ${duplicatePropertyNames.map((p) => p.name).join(', ')}`,
-                );
-            }
         }
 
-        console.info(`✅ ${name} passes linting`);
-    });
+        // find duplicate property descriptions
+        const duplicatePropertyDescriptions = props.properties.filter(
+            (prop: { description: string }, index: number, self: { description: string }[]) =>
+                self.findIndex((prop2) => prop2.description === prop.description) !== index,
+        );
+
+        if (duplicatePropertyDescriptions.length > 0) {
+            errors.push(
+                `❌ ${name} has duplicate property descriptions: ${duplicatePropertyDescriptions.map((p) => p.description).join(', ')}`,
+            );
+        }
+    }
+
+    console.info(`✅ ${name} passes linting`);
+});
 
 if (errors.length > 0) {
     errors.forEach((error) => console.error(error));

@@ -27,7 +27,8 @@ export type PaginationProps = {
 };
 
 /**
- * Component description.
+ * A navigation component that allows customers to move between a range of listed content within a page into smaller
+ * multiple micro pages.
  *
  * @example
  *     import { Pagination } from '@bspk/ui/Pagination';

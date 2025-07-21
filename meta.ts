@@ -20,7 +20,6 @@ const RESET = '\x1b[0m';
 const BLUE = '\x1b[34m';
 const GREEN = '\x1b[32m';
 const ORANGE = '\x1b[38;5;208m';
-const YELLOW = '\x1b[33m';
 
 function getArgValue(name: string, defaultValue: string = ''): string {
     const arg = process.argv.find((arg2) => arg2.startsWith(`${name}=`));
@@ -31,6 +30,7 @@ const outDirectory = getArgValue('out');
 const uiHash = getArgValue('hash');
 const build = getArgValue('build', '0');
 const target = getArgValue('target');
+const mode = getArgValue('mode', 'production');
 
 if (!outDirectory) {
     console.error('Please provide a path to the meta file.');
@@ -514,14 +514,7 @@ async function createMeta() {
 
     const uiVersion = `${execSync('npm view @bspk/ui version', { encoding: 'utf-8' }).trim()}`;
 
-    let mode = 'production';
-
-    if (uiHash === 'local') {
-        mode = 'development';
-        console.info(`${ORANGE}Development meta build.${RESET}`);
-    } else {
-        console.info(`${YELLOW}Production meta build.${RESET}`);
-    }
+    console.info(`${ORANGE}${mode} meta build.${RESET}`);
 
     const metaJsonPath = path.join(outDirectory, 'data.json');
 
@@ -553,7 +546,7 @@ async function createMeta() {
             `export const componentsMeta = meta.componentsMeta as ComponentMeta[];
 export const utilitiesMeta = meta.utilitiesMeta as UtilityMeta[];
 export const typesMeta = meta.typesMeta as TypeMeta[];
-export const MODE = meta.MODE as 'development' | 'production';
+export const MODE = meta.MODE as 'development' | 'production' | 'test';
 export const UI_HASH = meta.UI_HASH as string;
 export const VERSION = meta.VERSION as string;
 export const BUILD = meta.BUILD as string;`,
