@@ -4,7 +4,9 @@
  * @param element -- The element to scroll into view.
  * @param container -- The container to scroll.
  */
-export function scrollElementIntoView(element: HTMLElement, container: HTMLElement): void {
+export function scrollElementIntoView(element?: Element | null, container?: Element | null): void {
+    if (!element || !container) return;
+
     const elementRect = element.getBoundingClientRect();
 
     const containerRect = container.getBoundingClientRect();
