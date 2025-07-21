@@ -1,38 +1,38 @@
-import { RatingStar, RatingSize } from './RatingStar';
+import { SvgStarFill } from '@bspk/icons/StarFill';
+import { ElementType } from 'react';
 
 import './rating.scss';
 
 const MAX_STARS = 5;
 
+export type RatingSize = 'large' | 'medium' | 'small';
+
+const iconWidths: Record<RatingSize, number> = {
+    large: 32,
+    medium: 24,
+    small: 16,
+};
+
 export type RatingProps = {
     /**
-     * The value of the rating.
+     * The value of the rating between 0 and 5.
      *
      * @minimum 0
      * @maximum 5
      */
-    value: number;
+    value?: number;
     /**
-     * Called when the rating value changes.
+     * If included the component is in interactive mode and this callback is fired when a star is selected.
      *
-     * @minimum 0
-     * @maximum 5
+     * @param newVal - The new value of the rating.
      */
     onChange?: (newVal: number) => void;
     /**
-     * The size of the rating component.
+     * The size of the rating.
      *
      * @default medium
      */
     size?: RatingSize;
-    /**
-     * Whether the rating is interactive or not.
-     *
-     * If true, the user can click on the stars to change the rating.
-     *
-     * @default false
-     */
-    interactive?: boolean;
 };
 
 /**
@@ -49,27 +49,35 @@ export type RatingProps = {
  * @name Rating
  * @phase WorkInProgress
  */
-function Rating({ size = 'medium', value, onChange, interactive }: RatingProps) {
+function Rating({ size = 'medium', value, onChange }: RatingProps) {
+    const As: ElementType = onChange ? 'button' : 'div';
+
     return (
         <div
-            aria-label={`${value} out of ${MAX_STARS} stars`}
+            aria-label={onChange ? 'Select a star rating' : `${value} out of ${MAX_STARS} stars`}
             data-bspk="rating"
             data-size={size}
-            role={interactive ? 'presentation' : 'img'}
+            role={onChange ? 'presentation' : 'img'}
         >
-            {Array.from({ length: MAX_STARS }, (_, i) => {
-                const starValue = i + 1;
-                const diff = starValue - (interactive ? 0 : 0.5);
-                const fill = diff >= 1 ? true : diff < 0 ? false : 'half';
-
+            {Array.from({ length: MAX_STARS }, (_, index) => {
+                const fill = getFill(index + 1, value);
                 return (
-                    <RatingStar
-                        fill={fill}
-                        key={i}
-                        onClick={interactive ? onChange : undefined}
-                        size={size}
-                        value={starValue}
-                    />
+                    <As
+                        aria-label={onChange ? `Rate ${value}` : undefined}
+                        data-fill={fill}
+                        data-star
+                        key={index}
+                        onClick={() => onChange?.(index + 1)}
+                    >
+                        <SvgStarFill width={iconWidths[size]} />
+                        {fill === 'half' && (
+                            <div data-fill-half>
+                                <div data-star>
+                                    <SvgStarFill width={iconWidths[size]} />
+                                </div>
+                            </div>
+                        )}
+                    </As>
                 );
             })}
         </div>
@@ -79,5 +87,12 @@ function Rating({ size = 'medium', value, onChange, interactive }: RatingProps) 
 Rating.bspkName = 'Rating';
 
 export { Rating };
+
+function getFill(num: number, value?: number): 'full' | 'half' | undefined {
+    if (value === undefined) return undefined;
+    if (value >= num) return 'full';
+    if (value == num - 0.5) return 'half';
+    return undefined;
+}
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
