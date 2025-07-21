@@ -25,7 +25,8 @@ export type TimeInputProps = Pick<
 };
 
 /**
- * Component description.
+ * An input field that allows a customer to manually type in a specific time or triggers a time picker combobox to
+ * select a date.
  *
  * @example
  *     import { TimeInput } from '@bspk/ui/TimeInput';
