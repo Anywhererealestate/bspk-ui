@@ -26,7 +26,7 @@
         "meta": "tsx meta.ts",
         "pretty": "npx prettier --write src/",
         "newc": "tsx .scripts/tasks/new-component.ts",
-        "pr-check": "npx tsx .scripts/tasks/lint-components.ts && npm run lint && npm run lint:css && npx tsx .scripts/check-css-vars.ts &&  npm run build"
+        "pr-check": "npx tsx .scripts/tasks/lint-components.ts && npm run lint && npm run lint:css && npx tsx .scripts/check-css-vars.ts && npm run build"
     },
     "static-exports": {
         "./*": "./dist/*.js"
@@ -185,6 +185,8 @@
         "./TextField/*": "./dist/components/TextField/*.js",
         "./TextInput": "./dist/components/TextInput/index.js",
         "./TextInput/*": "./dist/components/TextInput/*.js",
+        "./TimeInput": "./dist/components/TimeInput/index.js",
+        "./TimeInput/*": "./dist/components/TimeInput/*.js",
         "./ToggleOption": "./dist/components/ToggleOption/index.js",
         "./ToggleOption/*": "./dist/components/ToggleOption/*.js",
         "./Tooltip": "./dist/components/Tooltip/index.js",
