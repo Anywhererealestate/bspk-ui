@@ -67,7 +67,7 @@ function Rating({ size = 'medium', value, onChange }: RatingProps) {
                         data-fill={fill}
                         data-star
                         key={index}
-                        onClick={() => onChange?.(index + 1)}
+                        onClick={onChange ? () => onChange?.(index + 1) : undefined}
                     >
                         <SvgStarFill width={iconWidths[size]} />
                         {fill === 'half' && (
