@@ -18,6 +18,7 @@ export type AccordionProps = {
     /**
      * Array of accordion sections
      *
+     * @type Array<AccordionItem>
      * @required
      */
     items: AccordionItem[];
@@ -47,15 +48,15 @@ function Accordion({ items, singleOpen = true }: AccordionProps) {
     const [activeItems, setActiveItems] = useState<(number | string)[]>([]);
 
     const toggleOpen = (itemId: number | string) => {
-        if (singleOpen && activeItems.includes(itemId)) {
-            setActiveItems([]);
-        } else if (singleOpen) {
-            setActiveItems([itemId]);
-        } else if (activeItems.includes(itemId)) {
-            setActiveItems(activeItems.filter((activeItemId) => activeItemId !== itemId));
-        } else {
-            setActiveItems(activeItems.concat(itemId));
-        }
+        setActiveItems((prevItems) => {
+            const isItemActive = prevItems.includes(itemId);
+
+            // If singleOpen is true, reset activeItems to only include the clicked item or empty if it was already active
+            if (singleOpen) return isItemActive ? [] : [itemId];
+
+            // If singleOpen is false, toggle the clicked item and keep others active
+            return isItemActive ? prevItems.filter((activeItemId) => activeItemId !== itemId) : [...prevItems, itemId];
+        });
     };
 
     return (

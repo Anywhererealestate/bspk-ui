@@ -69,30 +69,6 @@
                 background:
                     linear-gradient(var(--interactions-disabled-opacity), var(--interactions-disabled-opacity)),
                     linear-gradient(var(--surface-neutral-t1-base), var(--surface-neutral-t1-base));
-
-                [data-divider] {
-                    border-color: var(--stroke-neutral-disabled-light);
-                }
-            }
-        }
-
-        &[data-readonly] {
-            color: var(--foreground-neutral-disabled-on-surface);
-            border-color: var(--stroke-neutral-disabled-light);
-            background:
-                linear-gradient(var(--interactions-disabled-opacity), var(--interactions-disabled-opacity)),
-                linear-gradient(var(--surface-neutral-t1-base), var(--surface-neutral-t1-base));
-
-            [data-divider] {
-                border-color: var(--stroke-neutral-disabled-light);
-            }
-        }
-
-        [data-divider-wrapper] {
-            padding: 0 var(--spacing-sizing-02) var(--spacing-sizing-08);
-
-            [data-bspk='divider'] {
-                margin: 0;
             }
         }
 

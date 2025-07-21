@@ -93,7 +93,7 @@ export function AccordionSection({
     disabled,
 }: AccordionSectionProps) {
     return (
-        <section data-accordion-section data-divider-spacing={!isOpen ? true : undefined}>
+        <section data-accordion-section>
             <button
                 aria-expanded={isOpen ? true : false}
                 data-accordion-header
@@ -117,11 +117,7 @@ export function AccordionSection({
 
             {isOpen && <div data-accordion-content>{children}</div>}
 
-            {divider && (
-                <div data-divider-wrapper>
-                    <Divider />
-                </div>
-            )}
+            {divider && <Divider padding={false} />}
         </section>
     );
 }
