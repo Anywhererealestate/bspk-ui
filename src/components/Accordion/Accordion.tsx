@@ -2,7 +2,10 @@ import { useState } from 'react';
 import { AccordionSectionProps, AccordionSection } from './AccordionSection';
 import './accordion.scss';
 
-type AccordionItem = Pick<AccordionSectionProps, 'children' | 'leading' | 'subTitle' | 'title' | 'trailing'> & {
+export type AccordionItem = Pick<
+    AccordionSectionProps,
+    'children' | 'disabled' | 'divider' | 'leading' | 'subTitle' | 'title' | 'trailing'
+> & {
     /**
      * The unique identifier for the accordion item.
      *
@@ -11,7 +14,7 @@ type AccordionItem = Pick<AccordionSectionProps, 'children' | 'leading' | 'subTi
     id: number | string;
 };
 
-export type AccordionProps = Pick<AccordionSectionProps, 'disabled' | 'divider'> & {
+export type AccordionProps = {
     /**
      * Array of accordion sections
      *
@@ -40,7 +43,7 @@ export type AccordionProps = Pick<AccordionSectionProps, 'disabled' | 'divider'>
  * @name Accordion
  * @phase WorkInProgress
  */
-function Accordion({ items, disabled, divider, singleOpen = true }: AccordionProps) {
+function Accordion({ items, singleOpen = true }: AccordionProps) {
     const [activeItems, setActiveItems] = useState<(number | string)[]>([]);
 
     const toggleOpen = (itemId: number | string) => {
@@ -60,8 +63,6 @@ function Accordion({ items, disabled, divider, singleOpen = true }: AccordionPro
             {items.map((item) => {
                 return (
                     <AccordionSection
-                        disabled={disabled}
-                        divider={divider}
                         isOpen={activeItems.includes(item.id)}
                         key={item.id}
                         toggleOpen={() => toggleOpen(item.id)}
