@@ -20,7 +20,7 @@ export type ChipGroupProps = {
     children?: ReactNode;
 };
 /**
- * Component description.
+ * A group of chips that can be used to display a set of related items or actions.
  *
  * @example
  *     import { ChipGroup } from '@bspk/ui/ChipGroup';

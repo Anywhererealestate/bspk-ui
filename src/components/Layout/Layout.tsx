@@ -25,13 +25,13 @@ export type LayoutProps<As extends ElementType = 'div'> = {
      */
     as?: As;
     /**
-     * Additional styles to apply to the Layout.
+     * The alignment style to apply to the Layout.
      *
      * @default flex-start
      */
     align?: 'center' | 'flex-end' | 'flex-start' | 'stretch';
     /**
-     * Additional styles to apply to the Layout.
+     * The justification style to apply to the Layout.
      *
      * @default flex-start
      */
