@@ -8,27 +8,22 @@ export type RatingSize = 'large' | 'medium' | 'small';
 
 export type RatingProps = {
     /**
-     * The variant of the rating.
+     * The value of the rating between 0 and 5.
      *
      * @minimum 0
      * @maximum 5
      */
     value: number;
-    /**
-     * The variant of the rating.
-     *
-     * @minimum 0
-     * @maximum 5
-     */
+    /** Fires when the component is in interactive mode and a star is selected. */
     onChange?: (newVal: number) => void;
     /**
-     * The variant of the rating.
+     * The size of the rating.
      *
      * @default medium
      */
     size?: RatingSize;
     /**
-     * If the component should be interactive
+     * If the component should be interactive.
      *
      * @default false
      */
