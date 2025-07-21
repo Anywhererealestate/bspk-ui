@@ -1,50 +1,59 @@
 import { SvgStarFill } from '@bspk/icons/StarFill';
-import { FC } from 'react';
-import { RatingSize } from './Rating';
+import { ElementType, FC } from 'react';
+
+export type RatingSize = 'large' | 'medium' | 'small';
 
 type RatingStarProps = {
+    /**
+     * The size of the star.
+     *
+     * @default medium
+     */
     size: RatingSize;
-    fillPercent?: number;
+    /**
+     * The percentage of the star that is filled.
+     *
+     * @default false
+     */
+    fill?: 'half' | false | true;
+    /**
+     * Called when the star is clicked.
+     *
+     * @param newValue The new value of the rating.
+     */
     onClick?: (newValue: number) => void;
+    /**
+     * The value of the star.
+     *
+     * @default 0
+     */
     value?: number;
 };
 
-const svgSizes = {
+const svgSizes: Record<RatingSize, number> = {
     small: 16,
     medium: 24,
     large: 32,
-};
+} as const;
 
-export const RatingStar: FC<RatingStarProps> = ({ size, value = 0, fillPercent = 0, onClick }) => {
-    const svgSize = svgSizes[size];
+export const RatingStar: FC<RatingStarProps> = ({ size, value = 0, fill = false, onClick }) => {
+    const As: ElementType = onClick ? 'button' : 'div';
 
-    const partialFilledStar =
-        fillPercent % 1 !== 0 ? (
-            <div data-partial-star-wrapper="">
-                <div data-filled="" data-rating-star="">
-                    <SvgStarFill width={svgSize} />
+    return (
+        <As
+            aria-label={As === 'button' ? `Rate ${value}` : undefined}
+            data-filled={fill === true || undefined}
+            data-rating-star
+            onClick={onClick ? () => onClick(value) : undefined}
+        >
+            <SvgStarFill width={svgSizes[size]} />
+            {fill === 'half' && (
+                <div data-partial-star-wrapper>
+                    <div data-filled data-rating-star>
+                        <SvgStarFill width={svgSizes[size]} />
+                    </div>
                 </div>
-            </div>
-        ) : null;
-
-    if (onClick) {
-        return (
-            <button
-                aria-label={`Rate ${value}`}
-                data-filled={fillPercent === 1 ? '' : undefined}
-                data-rating-star=""
-                onClick={() => onClick(value)}
-            >
-                <SvgStarFill width={svgSize} />
-            </button>
-        );
-    } else {
-        return (
-            <div data-filled={fillPercent === 1 ? '' : undefined} data-rating-star="">
-                <SvgStarFill width={svgSize} />
-
-                {partialFilledStar}
-            </div>
-        );
-    }
+            )}
+        </As>
+    );
 };
