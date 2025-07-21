@@ -37,7 +37,7 @@ export type FileUploadItemProps = FileEntry & {
  *             <FileUploadItem
  *                 fileName="dunder-mifflin-paper-co.jpg"
  *                 fileSize="1.43 mb"
- *                 uploadStatus="Uploading"
+ *                 status="Uploading"
  *                 onCancel={() => console.log('Cancel item clicked!')}
  *             />
  *         );
@@ -48,14 +48,14 @@ export type FileUploadItemProps = FileEntry & {
  */
 function FileUploadItem({
     fileName = '',
-    status: uploadStatus,
+    status,
     fileSize,
     onCancel,
     cancelButtonLabel: onCancelToolTip = 'Cancel',
     progress = 0,
     errorMessage = DEFAULT_ERROR_MESSAGE,
 }: FileUploadItemProps) {
-    const subText = [fileSizeFormat(fileSize), uploadStatus].filter(Boolean).join(' • ');
+    const subText = [fileSizeFormat(fileSize), status].filter(Boolean).join(' • ');
 
     return (
         <div data-bspk="upload-item">
@@ -77,7 +77,7 @@ function FileUploadItem({
                 />
             </div>
             <div data-status>
-                {uploadStatus === 'error' ? (
+                {status === 'error' ? (
                     <InlineAlert variant="error">{errorMessage}</InlineAlert>
                 ) : (
                     <ProgressBar

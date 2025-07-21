@@ -2,16 +2,6 @@ export const DEFAULT_ERROR_MESSAGE = 'There was an error uploading the file. Ple
 
 export type FileUploadStatus = 'cancelled' | 'complete' | 'error' | 'failed' | 'idle' | 'initiated' | 'uploading';
 
-export const FILE_UPLOAD_STATUS: Record<string, FileUploadStatus> = {
-    CANCELLED: 'cancelled',
-    COMPLETE: 'complete',
-    ERROR: 'error',
-    FAILED: 'failed',
-    IDLE: 'idle',
-    INITIATED: 'initiated',
-    UPLOADING: 'uploading',
-} as const;
-
 export type FileEntry = {
     /** The name of the file. */
     fileName: string;
@@ -38,8 +28,36 @@ export type FileEntry = {
     /**
      * The error message to display when the upload fails.
      *
-     * If uploadStatus is 'error', this message will be displayed by default: "There was an error uploading the file.
-     * Please try again."
+     * If status is 'error', this message will be displayed by default: "There was an error uploading the file. Please
+     * try again."
      */
     errorMessage?: string;
 };
+
+/**
+ * Common MIME types
+ *
+ * This list includes commonly used MIME types for various file formats.
+ *
+ * This is not an exhaustive list, but it covers many of the most frequently used types and can be extended as needed.
+ */
+export type MimeType =
+    | 'application/json'
+    | 'application/octet-stream'
+    | 'application/pdf'
+    | 'application/x-www-form-urlencoded'
+    | 'application/xml'
+    | 'application/zip'
+    | 'audio/mpeg'
+    | 'audio/wav'
+    | 'image/gif'
+    | 'image/jpeg'
+    | 'image/png'
+    | 'image/svg+xml'
+    | 'image/webp'
+    | 'text/css'
+    | 'text/html'
+    | 'text/javascript'
+    | 'text/plain'
+    | 'video/mp4'
+    | 'video/webm';

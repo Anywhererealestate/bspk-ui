@@ -4,7 +4,7 @@ import { Button } from '-/components/Button';
 import { FileUploadItem, FileUploadItemProps } from '-/components/FileUploadItem';
 import { InlineAlert } from '-/components/InlineAlert';
 import { Txt } from '-/components/Txt';
-import { DEFAULT_ERROR_MESSAGE, FILE_UPLOAD_STATUS, FileEntry } from '-/utils/fileUploads';
+import { DEFAULT_ERROR_MESSAGE, FileEntry, FileUploadStatus, MimeType } from '-/utils/fileUploads';
 
 import './file-upload.scss';
 
@@ -32,11 +32,13 @@ export type FileUploadProps = Pick<FileUploadItemProps, 'cancelButtonLabel' | 'o
      */
     multipleFiles?: boolean;
     /**
-     * The accepted file types for upload, e.g. ['image/png', 'image/gif', 'image/svg']
+     * The accepted file types for upload, e.g. ['image/png', 'image/gif', 'image/svg+xml']
      *
      * If not provided, all file types are accepted.
+     *
+     * @type MimeType[]
      */
-    acceptedFileTypes?: string[];
+    acceptedFileTypes?: MimeType[];
     /**
      * The maximum file size allowed for upload in MB. If not provided, defaults to 2 MB.
      *
@@ -48,7 +50,7 @@ export type FileUploadProps = Pick<FileUploadItemProps, 'cancelButtonLabel' | 'o
      *
      * If not provided, the component will not display any files upload items.
      *
-     * @default null
+     * @type FileEntry[]
      */
     files?: FileEntry[];
     /**
@@ -72,22 +74,17 @@ export type FileUploadProps = Pick<FileUploadItemProps, 'cancelButtonLabel' | 'o
  *     import { FileUpload } from '@bspk/ui/FileUpload';
  *
  *     function Example() {
+ *         const [files, setFiles] = useState([]);
  *         return (
  *             <FileUpload
- *                 dragAndDrop={False}
+ *                 dragAndDrop={true}
  *                 multipleFiles={true}
- *                 acceptedFileTypes={['image/png', 'image/gif', 'image/svg']}
- *                 errorMessage="File upload failed. File either exceeds max file size or is not an accepted file type. Please try again."
- *                 files={file ? [file] : null}
- *                 maxFileSize={1}
- *                 onChange={handleChange}
- *                 onClose={() => action('onClose called')}
- *                 onCloseToolTip="Close"
- *                 onError={(error, selectedFile) => action(`Upload error: ${error}, ${selectedFile?.name}`)}
- *                 onUploadStart={(selectedFile) => action(`Upload started for: ${selectedFile.name}`)}
- *                 uploadProgress={uploadProgress}
- *                 uploadStatus={uploadStatus}
- *                 uploadSubtitle="SVG, PNG, JPG or GIF (max. 1MB)"
+ *                 acceptedFileTypes={['image/png', 'image/gif', 'image/svg+xml']}
+ *                 files={files}
+ *                 maxFileSize={5}
+ *                 onError={(errorFiles) => console.log('Upload error:', errorFiles)}
+ *                 onUpload={(uploadFiles) => setFiles(uploadFiles)}
+ *                 uploadSubtitle="SVG, PNG, JPG or GIF (max. 5MB)"
  *             />
  *         );
  *     }
@@ -112,14 +109,43 @@ function FileUpload({
     const [fileEntries, setFileEntries] = useState<FileEntry[]>(files || []);
 
     useEffect(() => {
-        // only update file entries when uploadStatus or progress changes
-        const hasChanges =
-            fileEntries.length < files.length ||
-            fileEntries.some((existingEntry, index) => {
-                const newEntry = files[index];
-                return existingEntry.status !== newEntry.status || existingEntry.progress !== newEntry.progress;
-            });
-        if (hasChanges) setFileEntries(files);
+        // merge new files with existing ones
+
+        const newFileEntries: FileEntry[] = [];
+        const updatedFileEntries: FileEntry[] = [];
+        const nonUpdatedFileEntries: FileEntry[] = [];
+
+        // first check if there are any changes to existing file entries
+        files.forEach((file) => {
+            const existingEntry = fileEntries.find((entry) => entry.fileName === file.fileName);
+            if (!existingEntry) {
+                newFileEntries.push(file);
+                return;
+            }
+            if (
+                existingEntry.fileSize !== file.fileSize ||
+                existingEntry.status !== file.status ||
+                existingEntry.progress !== file.progress ||
+                existingEntry.errorMessage !== file.errorMessage
+            ) {
+                updatedFileEntries.push({
+                    ...existingEntry,
+                    fileSize: file.fileSize,
+                    status: file.status,
+                    progress: file.progress || 0,
+                    errorMessage: file.errorMessage,
+                });
+            } else {
+                nonUpdatedFileEntries.push(existingEntry);
+            }
+        });
+
+        const hasChanges = newFileEntries.length + updatedFileEntries.length > 0;
+
+        if (hasChanges) {
+            const nextEntries = [...nonUpdatedFileEntries, ...updatedFileEntries, ...newFileEntries];
+            setFileEntries(nextEntries);
+        }
     }, [fileEntries, files]);
 
     const handleBrowseClick = () => {
@@ -127,40 +153,41 @@ function FileUpload({
     };
 
     const updateFiles = (nextFiles: File[]) => {
-        const nextFileEntries: FileEntryUpload[] = nextFiles.map((file) => {
-            let uploadStatus = FILE_UPLOAD_STATUS.initiated;
+        const nextFileEntries = nextFiles.map((file): FileEntryUpload => {
+            let status: FileUploadStatus = 'initiated';
             let errorMessage = '';
 
             if (
                 Array.isArray(acceptedFileTypes) &&
                 acceptedFileTypes.length > 0 &&
-                !acceptedFileTypes.includes(file.type)
+                !acceptedFileTypes.includes(file.type as unknown as MimeType)
             ) {
-                uploadStatus = 'error';
+                status = 'error';
                 errorMessage = `File type not accepted: ${file.name}`;
             }
 
             if (file.size >= maxFileSize_MB) {
-                uploadStatus = 'error';
+                status = 'error';
                 errorMessage = `File too large. Please upload a smaller file: ${file.name}`;
             }
 
             return {
                 fileName: file.name,
-                uploadStatus,
-                fileSize: file.size,
+                status,
+                fileSize: file.size / MB,
                 progress: 0,
                 errorMessage,
                 file,
             };
         });
 
-        setFileEntries(
-            nextFileEntries.map((entry) => ({
+        setFileEntries((prev) => [
+            ...prev,
+            ...nextFileEntries.map((entry) => ({
                 ...entry,
                 file: undefined, // Remove the file object to avoid saving large files in state
             })),
-        );
+        ]);
 
         const fileEntriesWithError = nextFileEntries.filter((entry) => entry.status === 'error');
         if (fileEntriesWithError.length > 0) onError(fileEntriesWithError);
@@ -181,7 +208,9 @@ function FileUpload({
     const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
         e.preventDefault();
         setIsDragOver(false);
-        updateFiles(Array.from(e.dataTransfer.files ?? []));
+
+        const droppedFiles = Array.from(e.dataTransfer.files ?? []);
+        updateFiles(droppedFiles);
     };
 
     const handleDrag = (action: 'leave' | 'over') => (e: React.DragEvent<HTMLDivElement>) => {
@@ -228,7 +257,7 @@ function FileUpload({
                             a.fileName.localeCompare(b.fileName) ||
                             0,
                     )
-                    .map(({ errorMessage, status: uploadStatus, fileName, fileSize, progress }) => (
+                    .map(({ errorMessage, status, fileName, fileSize, progress }) => (
                         <FileUploadItem
                             cancelButtonLabel={cancelButtonLabel}
                             errorMessage={errorMessage}
@@ -237,7 +266,7 @@ function FileUpload({
                             key={fileName + fileSize}
                             onCancel={() => onCancel({ fileName })}
                             progress={progress}
-                            status={uploadStatus}
+                            status={status}
                         />
                     ))}
             </div>
