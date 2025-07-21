@@ -63,7 +63,7 @@ function ProgressBar({ size = 'large', completion: completionProp = 0, align = '
                 max="100"
                 value={completion}
             >
-                {Math.round(completion)}%
+                {completion}%
             </progress>
             <div aria-hidden data-bar style={cssWithVars({ '--width': `${completion}%` })} />
             <label htmlFor={id}>{label}</label>

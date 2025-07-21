@@ -1,15 +1,10 @@
 import { SvgCloudUpload } from '@bspk/icons/CloudUpload';
 import { useRef, ChangeEvent, useState, useEffect } from 'react';
 import { Button } from '-/components/Button';
-import {
-    DEFAULT_ERROR_MESSAGE,
-    FILE_UPLOAD_STATUS,
-    FileEntry,
-    FileUploadItem,
-    FileUploadItemProps,
-} from '-/components/FileUploadItem';
+import { FileUploadItem, FileUploadItemProps } from '-/components/FileUploadItem';
 import { InlineAlert } from '-/components/InlineAlert';
 import { Txt } from '-/components/Txt';
+import { DEFAULT_ERROR_MESSAGE, FILE_UPLOAD_STATUS, FileEntry } from '-/utils/fileUploads';
 
 import './file-upload.scss';
 
@@ -122,9 +117,7 @@ function FileUpload({
             fileEntries.length < files.length ||
             fileEntries.some((existingEntry, index) => {
                 const newEntry = files[index];
-                return (
-                    existingEntry.uploadStatus !== newEntry.uploadStatus || existingEntry.progress !== newEntry.progress
-                );
+                return existingEntry.status !== newEntry.status || existingEntry.progress !== newEntry.progress;
             });
         if (hasChanges) setFileEntries(files);
     }, [fileEntries, files]);
@@ -169,10 +162,10 @@ function FileUpload({
             })),
         );
 
-        const fileEntriesWithError = nextFileEntries.filter((entry) => entry.uploadStatus === 'error');
+        const fileEntriesWithError = nextFileEntries.filter((entry) => entry.status === 'error');
         if (fileEntriesWithError.length > 0) onError(fileEntriesWithError);
 
-        const fileEntriesToUpload = nextFileEntries.filter((entry) => entry.uploadStatus === 'initiated');
+        const fileEntriesToUpload = nextFileEntries.filter((entry) => entry.status === 'initiated');
         if (fileEntriesToUpload.length > 0) onUpload(fileEntriesToUpload);
     };
 
@@ -221,7 +214,7 @@ function FileUpload({
                     type="file"
                 />
                 <Button label="Browse" onClick={handleBrowseClick} />
-                {files.length === 1 && files[0].uploadStatus === 'error' && (
+                {files.length === 1 && files[0].status === 'error' && (
                     <InlineAlert variant="error">{files[0].errorMessage || DEFAULT_ERROR_MESSAGE}</InlineAlert>
                 )}
             </div>
@@ -230,12 +223,12 @@ function FileUpload({
                     .sort(
                         // files with errors last
                         (a, b) =>
-                            (a.uploadStatus === 'error' ? 1 : -1) + (b.uploadStatus === 'error' ? -1 : 1) ||
+                            (a.status === 'error' ? 1 : -1) + (b.status === 'error' ? -1 : 1) ||
                             // sort by file name
                             a.fileName.localeCompare(b.fileName) ||
                             0,
                     )
-                    .map(({ errorMessage, uploadStatus, fileName, fileSize, progress }) => (
+                    .map(({ errorMessage, status: uploadStatus, fileName, fileSize, progress }) => (
                         <FileUploadItem
                             cancelButtonLabel={cancelButtonLabel}
                             errorMessage={errorMessage}
@@ -244,7 +237,7 @@ function FileUpload({
                             key={fileName + fileSize}
                             onCancel={() => onCancel({ fileName })}
                             progress={progress}
-                            uploadStatus={uploadStatus}
+                            status={uploadStatus}
                         />
                     ))}
             </div>

@@ -5,54 +5,9 @@ import { Button } from '-/components/Button';
 import { InlineAlert } from '-/components/InlineAlert';
 import { ProgressBar } from '-/components/ProgressBar';
 import { Truncated } from '-/components/Truncated';
+import { DEFAULT_ERROR_MESSAGE, FileEntry } from '-/utils/fileUploads';
 
 import './file-upload-item.scss';
-
-export const DEFAULT_ERROR_MESSAGE = 'There was an error uploading the file. Please try again.';
-
-export type FileUploadStatus = 'cancelled' | 'complete' | 'error' | 'failed' | 'idle' | 'initiated' | 'uploading';
-
-export const FILE_UPLOAD_STATUS: Record<string, FileUploadStatus> = {
-    CANCELLED: 'cancelled',
-    COMPLETE: 'complete',
-    ERROR: 'error',
-    FAILED: 'failed',
-    IDLE: 'idle',
-    INITIATED: 'initiated',
-    UPLOADING: 'uploading',
-} as const;
-
-export type FileEntry = {
-    /** The name of the file. */
-    fileName: string;
-    /**
-     * The status of the uploading file.
-     *
-     * @default idle
-     */
-    uploadStatus?: FileUploadStatus;
-    /**
-     * The size of the file being uploaded in MB.
-     *
-     * @required
-     */
-    fileSize: number;
-    /**
-     * A number between 0 and 100 representing the percentage of the upload completed.
-     *
-     * @default 0
-     * @minimum 0
-     * @maximum 100
-     */
-    progress?: number;
-    /**
-     * The error message to display when the upload fails.
-     *
-     * If uploadStatus is 'error', this message will be displayed by default: "There was an error uploading the file.
-     * Please try again."
-     */
-    errorMessage?: string;
-};
 
 export type FileUploadItemProps = FileEntry & {
     /**
@@ -93,7 +48,7 @@ export type FileUploadItemProps = FileEntry & {
  */
 function FileUploadItem({
     fileName = '',
-    uploadStatus,
+    status: uploadStatus,
     fileSize,
     onCancel,
     cancelButtonLabel: onCancelToolTip = 'Cancel',
@@ -149,7 +104,7 @@ const GB = 1024 * MB;
 /**
  * This is a simple utility to format file sizes in a human-readable way
  *
- * Lets not support terrabytes or petabytes for now
+ * Lets not support terrabytes or petabytes for now.
  *
  * - @param fileSize {number | null | undefined} - The size of the file in bytes.
  * - @returns {string | null | undefined} A string representing the file size in a human-readable format or the original

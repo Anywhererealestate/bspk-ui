@@ -25,7 +25,7 @@ export const FileUploadItemExample: ComponentExampleFn<FileUploadItemProps> = ({
             label: 'long file name',
             propState: {
                 fileName: 'I-think-this-is-a-long-file-name.txt',
-                uploadStatus: 'uploading',
+                status: 'uploading',
                 cancelButtonLabel: 'Close',
                 fileSize: 10,
             },
@@ -34,7 +34,7 @@ export const FileUploadItemExample: ComponentExampleFn<FileUploadItemProps> = ({
             label: 'state: uploading',
             propState: {
                 fileName: 'basic-file.png',
-                uploadStatus: 'uploading',
+                status: 'uploading',
                 fileSize: 1.2,
                 cancelButtonLabel: 'Cancel',
             },
@@ -43,7 +43,7 @@ export const FileUploadItemExample: ComponentExampleFn<FileUploadItemProps> = ({
             label: 'state: success',
             propState: {
                 fileName: 'success-story.pdf',
-                uploadStatus: 'complete',
+                status: 'complete',
                 cancelButtonLabel: 'Bye',
                 fileSize: 42,
             },
@@ -52,7 +52,7 @@ export const FileUploadItemExample: ComponentExampleFn<FileUploadItemProps> = ({
             label: 'state: failed',
             propState: {
                 fileName: 'file-name.txt',
-                uploadStatus: 'error',
+                status: 'error',
                 errorMessage: 'File too large. Please upload a smaller file.',
                 cancelButtonLabel: 'Escape',
                 fileSize: 10000000,
@@ -72,7 +72,7 @@ function FileUploadItemExampleRender({ progress, ...props }: FileUploadItemProps
         if (next < 100) timeout.set(updateProgress(next), 1000);
     };
 
-    if (props.uploadStatus === 'uploading') timeout.set(updateProgress(progressNum), 1000);
+    if (props.status === 'uploading') timeout.set(updateProgress(progressNum), 1000);
 
     return <FileUploadItem {...props} progress={progressNum} />;
 }

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { FileUploadProps, FileUpload } from '.';
-import { FILE_UPLOAD_STATUS, FileEntry } from '-/components/FileUploadItem';
 import { ComponentExampleFn } from '-/utils/demo';
+import { FILE_UPLOAD_STATUS, FileEntry } from '-/utils/fileUploads';
 import { randomNumber } from '-/utils/random';
 
 export const FileUploadExample: ComponentExampleFn<FileUploadProps> = ({ action }) => ({
@@ -17,12 +17,12 @@ export const FileUploadExample: ComponentExampleFn<FileUploadProps> = ({ action 
                     {
                         fileName: 'file1.png',
                         fileSize: 1.2,
-                        uploadStatus: FILE_UPLOAD_STATUS.complete,
+                        status: FILE_UPLOAD_STATUS.complete,
                     },
                     {
                         fileName: 'file2.gif',
                         fileSize: 0.8,
-                        uploadStatus: FILE_UPLOAD_STATUS.uploading,
+                        status: FILE_UPLOAD_STATUS.uploading,
                         progress: 50,
                     },
                 ],
@@ -37,7 +37,7 @@ export const FileUploadExample: ComponentExampleFn<FileUploadProps> = ({ action 
                     {
                         fileName: 'drag-drop-file.svg',
                         fileSize: 0.5,
-                        uploadStatus: FILE_UPLOAD_STATUS.initiated,
+                        status: FILE_UPLOAD_STATUS.initiated,
                     },
                 ],
             },
@@ -51,12 +51,12 @@ export const FileUploadExample: ComponentExampleFn<FileUploadProps> = ({ action 
                     {
                         fileName: 'drag-drop-file-1.svg',
                         fileSize: 0.5,
-                        uploadStatus: FILE_UPLOAD_STATUS.initiated,
+                        status: FILE_UPLOAD_STATUS.initiated,
                     },
                     {
                         fileName: 'drag-drop-file-2.svg',
                         fileSize: 0.8,
-                        uploadStatus: FILE_UPLOAD_STATUS.uploading,
+                        status: FILE_UPLOAD_STATUS.uploading,
                         progress: 50,
                     },
                 ],
