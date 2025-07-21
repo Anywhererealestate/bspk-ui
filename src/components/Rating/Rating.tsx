@@ -24,9 +24,9 @@ export type RatingProps = {
     /**
      * If included the component is in interactive mode and this callback is fired when a star is selected.
      *
-     * @param newVal - The new value of the rating.
+     * @param value - The new value of the rating.
      */
-    onChange?: (newVal: number) => void;
+    onChange?: (value: number) => void;
     /**
      * The size of the rating.
      *
