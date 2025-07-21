@@ -58,7 +58,7 @@ function FileUploadItem({
     const subText = [fileSizeFormat(fileSize), status].filter(Boolean).join(' • ');
 
     return (
-        <div data-bspk="upload-item">
+        <div data-bspk="file-upload-item">
             <div data-row>
                 <div data-icon>
                     <SvgDraft />
