@@ -3,6 +3,16 @@ export const DEFAULT_ERROR_MESSAGE = 'There was an error uploading the file. Ple
 export type FileUploadStatus = 'complete' | 'error' | 'failed' | 'idle' | 'uploading';
 
 export type FileEntry = {
+    /**
+     * The unique identifier for the file entry.
+     *
+     * This is generated client-side and should be unique for each file.
+     *
+     * This is useful for tracking the file during upload and handling cancellation.
+     *
+     * @required
+     */
+    id: string;
     /** The name of the file. */
     fileName: string;
     /**

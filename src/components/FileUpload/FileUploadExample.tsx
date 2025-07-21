@@ -1,11 +1,12 @@
-import { useState } from 'react';
-import { FileUploadProps } from '.';
+import { useEffect, useState } from 'react';
+import { FileUpload, FileUploadProps } from '.';
 import { ComponentExampleFn } from '-/utils/demo';
-import { FileUploadStatus } from '-/utils/fileUploads';
+import { FileEntry } from '-/utils/fileUploads';
+import { randomNumber } from '-/utils/random';
 
 export const FileUploadExample: ComponentExampleFn<FileUploadProps> = ({ action }) => ({
-    render: ({ props, preset, Component }) => {
-        return <FileUploadExampleMockUpload key={preset?.label} {...props} Component={Component} action={action} />;
+    render: ({ props, preset }) => {
+        return <FileUploadExampleMockUpload key={preset?.label} {...props} action={action} />;
     },
     presets: [
         {
@@ -33,7 +34,7 @@ export const FileUploadExample: ComponentExampleFn<FileUploadProps> = ({ action 
     hideVariants: true,
 });
 
-function FileUploadExampleRender({
+function FileUploadExampleMockUpload({
     action,
     files: presetFiles,
     ...props
@@ -43,11 +44,39 @@ function FileUploadExampleRender({
     // Here we
     const handleUpload = (nextFiles: FileEntry[]) => {
         setFiles(nextFiles);
+        // mock the upload action by incrementally updating the progress and eventually setting the status to 'complete'
+
+        nextFiles.forEach((file, index) => {
+            setTimeout(() => {
+                const updatedFile: FileEntry = {
+                    ...file,
+                    status: 'uploading',
+                    progress: 0,
+                };
+                setFiles((prev) => prev.map((f) => (f.id === file.id ? updatedFile : f)));
+
+                // Simulate progress
+                const interval = setInterval(() => {
+                    updatedFile.progress = Math.min((updatedFile.progress || 0) + randomNumber(10, 15), 100);
+                    setFiles((prev) => prev.map((f) => (f.id === file.id ? { ...updatedFile } : f)));
+
+                    if (updatedFile.progress === 100) {
+                        clearInterval(interval);
+                        updatedFile.status = 'complete';
+                        setFiles((prev) => prev.map((f) => (f.id === file.id ? { ...updatedFile } : f)));
+                        action(`File upload complete: ${file.fileName}`);
+                    }
+                }, 350);
+            }, index * 400); // stagger uploads
+        });
+
         action(`Files uploading: ${nextFiles.map((f) => f.fileName).join(', ')}`);
     };
 
     useEffect(() => {
-        if (Array.isArray(presetFiles) && presetFiles.length > 0) handleUpload(presetFiles);
+        if (Array.isArray(presetFiles) && presetFiles.length > 0) {
+            handleUpload(presetFiles);
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [presetFiles]);
 
@@ -63,58 +92,6 @@ function FileUploadExampleRender({
                 action(`Error occurred during file upload: ${filesWithErrors.map((f) => f.fileName).join(', ')}`);
             }}
             onUpload={handleUpload}
-            uploadSubtitle="SVG, PNG, JPG or GIF (max. 1MB)"
-        />
-    );
-}
-
-function FileUploadExampleMockUpload({
-    action,
-    Component,
-    ...props
-}: FileUploadProps & {
-    Component: React.ComponentType<FileUploadProps>;
-    action: (msg: string) => void;
-}) {
-    const [file, setFile] = useState<File | null>(null);
-    const [uploadStatus, setUploadStatus] = useState<FileUploadStatus>('idle');
-    const [uploadProgress, setUploadProgress] = useState<number>(0);
-
-    const handleChange = (selectedFile: File | null) => {
-        setFile(selectedFile);
-        if (selectedFile) {
-            setUploadStatus('uploading');
-            setUploadProgress(0);
-
-            let progress = 0;
-            const interval = setInterval(() => {
-                progress += 20;
-                setUploadProgress(progress);
-                if (progress >= 100) {
-                    clearInterval(interval);
-                    setUploadStatus('complete');
-                }
-            }, 400);
-        } else {
-            setUploadStatus('idle');
-            setUploadProgress(0);
-        }
-    };
-
-    return (
-        <Component
-            {...props}
-            acceptedFileTypes={['image/png', 'image/gif', 'image/svg+xml']}
-            errorMessage="File upload failed. File either exceeds max file size or is not an accepted file type. Please try again."
-            files={file ? [file] : null}
-            maxFileSize={1}
-            onChange={handleChange}
-            onClose={() => action('onClose called')}
-            onCloseToolTip="Close"
-            onError={(error, selectedFile) => action(`Upload error: ${error}, ${selectedFile?.name}`)}
-            onUploadStart={(selectedFile) => action(`Upload started for: ${selectedFile.name}`)}
-            uploadProgress={uploadProgress}
-            uploadStatus={uploadStatus}
             uploadSubtitle="SVG, PNG, JPG or GIF (max. 1MB)"
         />
     );

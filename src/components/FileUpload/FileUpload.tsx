@@ -5,6 +5,7 @@ import { FileUploadItem, FileUploadItemProps } from '-/components/FileUploadItem
 import { InlineAlert } from '-/components/InlineAlert';
 import { Txt } from '-/components/Txt';
 import { DEFAULT_ERROR_MESSAGE, FileEntry, FileUploadStatus, MimeType } from '-/utils/fileUploads';
+import { randomString } from '-/utils/random';
 
 import './file-upload.scss';
 
@@ -108,49 +109,9 @@ function FileUpload({
     const maxFileSize_MB = maxFileSize * MB;
     const [fileEntries, setFileEntries] = useState<FileEntry[]>(files || []);
 
-    useEffect(() => {
-        // merge new files with existing ones
+    useMergedFileEntries({ fileEntries, files, setFileEntries });
 
-        const newFileEntries: FileEntry[] = [];
-        const updatedFileEntries: FileEntry[] = [];
-        const nonUpdatedFileEntries: FileEntry[] = [];
-
-        // first check if there are any changes to existing file entries
-        files.forEach((file) => {
-            const existingEntry = fileEntries.find((entry) => entry.fileName === file.fileName);
-            if (!existingEntry) {
-                newFileEntries.push(file);
-                return;
-            }
-            if (
-                existingEntry.fileSize !== file.fileSize ||
-                existingEntry.status !== file.status ||
-                existingEntry.progress !== file.progress ||
-                existingEntry.errorMessage !== file.errorMessage
-            ) {
-                updatedFileEntries.push({
-                    ...existingEntry,
-                    fileSize: file.fileSize,
-                    status: file.status,
-                    progress: file.progress || 0,
-                    errorMessage: file.errorMessage,
-                });
-            } else {
-                nonUpdatedFileEntries.push(existingEntry);
-            }
-        });
-
-        const hasChanges = newFileEntries.length + updatedFileEntries.length > 0;
-
-        if (hasChanges) {
-            const nextEntries = [...nonUpdatedFileEntries, ...updatedFileEntries, ...newFileEntries];
-            setFileEntries(nextEntries);
-        }
-    }, [fileEntries, files]);
-
-    const handleBrowseClick = () => {
-        fileInputRef.current?.click();
-    };
+    const handleBrowseClick = () => fileInputRef.current?.click();
 
     const updateFiles = (nextFiles: File[]) => {
         const nextFileEntries = nextFiles.map((file): FileEntryUpload => {
@@ -172,6 +133,7 @@ function FileUpload({
             }
 
             return {
+                id: randomString(8),
                 fileName: file.name,
                 status,
                 fileSize: file.size / MB,
@@ -257,13 +219,14 @@ function FileUpload({
                             a.fileName.localeCompare(b.fileName) ||
                             0,
                     )
-                    .map(({ errorMessage, status, fileName, fileSize, progress }) => (
+                    .map(({ errorMessage, status, fileName, fileSize, progress, id }) => (
                         <FileUploadItem
                             cancelButtonLabel={cancelButtonLabel}
                             errorMessage={errorMessage}
                             fileName={fileName}
                             fileSize={fileSize}
-                            key={fileName + fileSize}
+                            id={id}
+                            key={id}
                             onCancel={() => onCancel({ fileName })}
                             progress={progress}
                             status={status}
@@ -277,5 +240,50 @@ function FileUpload({
 FileUpload.bspkName = 'FileUpload';
 
 export { FileUpload };
+
+function useMergedFileEntries({
+    files,
+    setFileEntries,
+    fileEntries,
+}: {
+    files: FileEntry[];
+    setFileEntries: (entries: FileEntry[]) => void;
+    fileEntries: FileEntry[];
+}) {
+    useEffect(() => {
+        // merge new files with existing ones
+        const nextFileEntries: (FileEntry & { updated?: boolean })[] = [...fileEntries];
+
+        // first check if there are any changes to existing file entries
+        files.forEach((file) => {
+            const existingEntryIndex = fileEntries.findIndex((entry) => entry.id === file.id);
+
+            if (existingEntryIndex !== -1) {
+                const updated =
+                    fileEntries[existingEntryIndex].status !== file.status ||
+                    fileEntries[existingEntryIndex].progress !== file.progress ||
+                    fileEntries[existingEntryIndex].errorMessage !== file.errorMessage;
+
+                if (updated)
+                    nextFileEntries[existingEntryIndex] = {
+                        ...fileEntries[existingEntryIndex],
+                        status: file.status,
+                        progress: file.progress || 0,
+                        errorMessage: file.errorMessage,
+                        updated,
+                    };
+
+                return;
+            }
+
+            nextFileEntries.push({
+                ...file,
+                updated: true,
+            });
+        });
+
+        if (nextFileEntries.some((entry) => entry.updated)) setFileEntries(nextFileEntries);
+    }, [fileEntries, files, setFileEntries]);
+}
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
