@@ -42,7 +42,7 @@ export type AccordionProps = {
  *     }
  *
  * @name Accordion
- * @phase WorkInProgress
+ * @phase DesignReview
  */
 function Accordion({ items, singleOpen = true }: AccordionProps) {
     const [activeItems, setActiveItems] = useState<(number | string)[]>([]);

@@ -55,7 +55,7 @@ export type TableProps<R extends TableRow> = {
  * Component description coming soon.
  *
  * @name Table
- * @phase DesignReview
+ * @phase EngineeringReview
  */
 
 function Table<R extends TableRow>({ rows, columns, title, ...props }: ElementProps<TableProps<R>, 'div'>) {

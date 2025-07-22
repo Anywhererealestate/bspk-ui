@@ -44,7 +44,7 @@ export type FileUploadItemProps = FileEntry & {
  *     }
  *
  * @name FileUploadItem
- * @phase DesignReview
+ * @phase EngineeringReview
  */
 function FileUploadItem({
     fileName = '',
