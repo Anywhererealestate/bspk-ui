@@ -115,9 +115,11 @@ function fileSizeFormat(fileSize?: number): string | undefined {
 
     const fileSizeMb = fileSize * MB; // Convert bytes to MB
 
-    if (fileSizeMb < MB) return `${(fileSizeMb / KB).toFixed(2)} KB`;
-    if (fileSizeMb < GB) return `${(fileSizeMb / MB).toFixed(2)} MB`;
-    return `${(fileSizeMb / GB).toFixed(2)} GB`;
+    const roundUp2 = (num: number) => Math.ceil(num * 100) / 100;
+
+    if (fileSizeMb < MB) return `${roundUp2(fileSizeMb / KB)} KB`;
+    if (fileSizeMb < GB) return `${roundUp2(fileSizeMb / MB)} MB`;
+    return `${roundUp2(fileSizeMb / GB)} GB`;
 }
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

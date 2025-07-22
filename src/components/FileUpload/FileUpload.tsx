@@ -106,7 +106,7 @@ function FileUpload({
     cancelButtonLabel = 'Cancel',
 }: FileUploadProps) {
     const fileInputRef = useRef<HTMLInputElement>(null);
-    const maxFileSize_MB = maxFileSize * MB;
+    const maxFileSizeMB = maxFileSize * MB;
     const [fileEntries, setFileEntries] = useState<FileEntry[]>(files || []);
 
     useMergedFileEntries({ fileEntries, files, setFileEntries });
@@ -127,7 +127,7 @@ function FileUpload({
                 errorMessage = `File type not accepted: ${file.name}`;
             }
 
-            if (file.size > maxFileSize_MB) {
+            if (file.size > maxFileSizeMB) {
                 status = 'error';
                 errorMessage = `File too large. Please upload a smaller file: ${file.name}`;
             }
