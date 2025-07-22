@@ -17,13 +17,6 @@ export const FileUploadExample: ComponentExampleFn<FileUploadProps> = ({ action 
             },
         },
         {
-            label: 'Drag and Drop Single File',
-            propState: {
-                dragAndDrop: true,
-                multipleFiles: false,
-            },
-        },
-        {
             label: 'Drag and Drop Multiple Files',
             propState: {
                 dragAndDrop: true,
