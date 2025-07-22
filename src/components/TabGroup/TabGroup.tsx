@@ -127,7 +127,7 @@ export type TabGroupProps = {
  *     }
  *
  * @name TabGroup
- * @phase DesignReview
+ * @phase EngineeringReview
  */
 function TabGroup({
     //

@@ -27,6 +27,7 @@ export type ComponentPhase =
     | 'AccessibilityReview'
     | 'Backlog'
     | 'DesignReview'
+    | 'EngineeringReview'
     | 'ProductionReady'
     | 'Utility'
     | 'WorkInProgress';

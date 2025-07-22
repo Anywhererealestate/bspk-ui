@@ -111,7 +111,7 @@ export type SegmentedControlProps = {
  *     }
  *
  * @name SegmentedControl
- * @phase DesignReview
+ * @phase EngineeringReview
  */
 function SegmentedControl({
     onChange,

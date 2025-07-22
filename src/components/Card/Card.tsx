@@ -43,7 +43,7 @@ export type CardProps = {
  *     }
  *
  * @name Card
- * @phase DesignReview
+ * @phase EngineeringReview
  */
 function Card({ children, showPadding, variant = 'elevated' }: CardProps) {
     return (

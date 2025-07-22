@@ -103,7 +103,7 @@ export type ListItemProps<As extends ElementType = 'div', T = HTMLElement> = Com
  *     }
  *
  * @name ListItem
- * @phase DesignReview
+ * @phase EngineeringReview
  */
 function ListItem<As extends ElementType = 'div', T = HTMLElement>({
     as,

@@ -36,7 +36,7 @@ export type ProgressionStepperBarProps = {
  * Component description coming soon.
  *
  * @name ProgressionStepperBar
- * @phase DesignReview
+ * @phase EngineeringReview
  */
 function ProgressionStepperBar({
     stepCount,

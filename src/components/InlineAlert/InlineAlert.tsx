@@ -38,7 +38,7 @@ export type InlineAlertProps = {
  *     }
  *
  * @name InlineAlert
- * @phase DesignReview
+ * @phase EngineeringReview
  */
 function InlineAlert({ children, variant = 'informational', id }: InlineAlertProps) {
     return (

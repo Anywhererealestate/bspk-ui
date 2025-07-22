@@ -99,7 +99,7 @@ export type SelectProps<T extends SelectOption = SelectOption> = CommonProps<'na
  *     }
  *
  * @name Select
- * @phase DesignReview
+ * @phase EngineeringReview
  */
 function Select({
     options = [],

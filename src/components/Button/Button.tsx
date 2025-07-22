@@ -93,7 +93,7 @@ export type ButtonProps<As extends ElementType = 'button'> = CommonProps<'disabl
  *     }
  *
  * @name Button
- * @phase DesignReview
+ * @phase EngineeringReview
  */
 function Button<As extends ElementType = 'button'>(props: ElementProps<ButtonProps<As>, As>): JSX.Element {
     const {

@@ -86,7 +86,7 @@ export type BreadcrumbProps = CommonProps<'id'> & {
  *     }
  *
  * @name Breadcrumb
- * @phase DesignReview
+ * @phase EngineeringReview
  */
 function Breadcrumb({ id: propId, items: itemsProp }: BreadcrumbProps) {
     const id = useId(propId);

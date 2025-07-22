@@ -44,7 +44,7 @@ export type NumberFieldProps = Pick<
  *     }
  *
  * @name NumberField
- * @phase DesignReview
+ * @phase EngineeringReview
  */
 function NumberField({
     label,

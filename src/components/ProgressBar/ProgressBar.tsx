@@ -45,7 +45,7 @@ export type ProgressBarProps = {
  *     }
  *
  * @name ProgressBar
- * @phase DesignReview
+ * @phase EngineeringReview
  */
 function ProgressBar({ size = 'large', completion: completionProp = 0, align = 'center', label }: ProgressBarProps) {
     const id = useId();

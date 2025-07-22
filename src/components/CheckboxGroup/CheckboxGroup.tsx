@@ -77,7 +77,7 @@ export type CheckboxGroupProps = CommonProps<'aria-label' | 'disabled' | 'readOn
  *     }
  *
  * @name CheckboxGroup
- * @phase DesignReview
+ * @phase EngineeringReview
  */
 function CheckboxGroup({
     onChange,
