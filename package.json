@@ -80,9 +80,11 @@
         "./ExamplePlaceholder": "./dist/components/ExamplePlaceholder/index.js",
         "./ExamplePlaceholder/*": "./dist/components/ExamplePlaceholder/*.js",
         "./Fab": "./dist/components/Fab/index.js",
-        "./FileUpload/*": "./dist/components/FileUpload/*.js",
-        "./FileUpload": "./dist/components/FileUpload/index.js",
         "./Fab/*": "./dist/components/Fab/*.js",
+        "./FileUpload": "./dist/components/FileUpload/index.js",
+        "./FileUpload/*": "./dist/components/FileUpload/*.js",
+        "./FileUploadItem": "./dist/components/FileUploadItem/index.js",
+        "./FileUploadItem/*": "./dist/components/FileUploadItem/*.js",
         "./FormField": "./dist/components/FormField/index.js",
         "./FormField/*": "./dist/components/FormField/*.js",
         "./Img": "./dist/components/Img/index.js",
@@ -106,8 +108,6 @@
         "./NumberField": "./dist/components/NumberField/index.js",
         "./NumberField/*": "./dist/components/NumberField/*.js",
         "./NumberInput": "./dist/components/NumberInput/index.js",
-        "./Pagination/*": "./dist/components/Pagination/*.js",
-        "./Pagination": "./dist/components/Pagination/index.js",
         "./NumberInput/*": "./dist/components/NumberInput/*.js",
         "./PageControl": "./dist/components/PageControl/index.js",
         "./PageControl/*": "./dist/components/PageControl/*.js",
@@ -200,9 +200,7 @@
         "./Txt": "./dist/components/Txt/index.js",
         "./Txt/*": "./dist/components/Txt/*.js",
         "./UIProvider": "./dist/components/UIProvider/index.js",
-        "./UIProvider/*": "./dist/components/UIProvider/*.js",
-        "./UploadItem/*": "./dist/components/UploadItem/*.js",
-        "./UploadItem": "./dist/components/UploadItem/index.js"
+        "./UIProvider/*": "./dist/components/UIProvider/*.js"
     },
     "publishConfig": {
         "access": "public"

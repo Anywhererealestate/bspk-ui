@@ -1,15 +1,18 @@
-import { useState } from 'react';
-import { FileUploadProps } from '.';
+import { useEffect, useState } from 'react';
+import { FileUpload, FileUploadProps } from '.';
 import { ComponentExampleFn } from '-/utils/demo';
+import { FileEntry } from '-/utils/fileUploads';
+import { randomNumber } from '-/utils/random';
 
 export const FileUploadExample: ComponentExampleFn<FileUploadProps> = ({ action }) => ({
-    render: ({ props, Component }) => {
-        return <FileUploadExampleMockUpload {...props} Component={Component} action={action} />;
+    render: ({ props, preset }) => {
+        return <FileUploadExampleMockUpload key={preset?.label} {...props} action={action} />;
     },
     presets: [
         {
             label: 'multiple files',
             propState: {
+                dragAndDrop: false,
                 multipleFiles: true,
             },
         },
@@ -17,6 +20,7 @@ export const FileUploadExample: ComponentExampleFn<FileUploadProps> = ({ action 
             label: 'Drag and Drop Single File',
             propState: {
                 dragAndDrop: true,
+                multipleFiles: false,
             },
         },
         {
@@ -27,55 +31,67 @@ export const FileUploadExample: ComponentExampleFn<FileUploadProps> = ({ action 
             },
         },
     ],
+    hideVariants: true,
 });
 
 function FileUploadExampleMockUpload({
     action,
-    Component,
+    files: presetFiles,
     ...props
-}: FileUploadProps & {
-    Component: React.ComponentType<FileUploadProps>;
-    action: (msg: string) => void;
-}) {
-    const [file, setFile] = useState<File | null>(null);
-    const [uploadStatus, setUploadStatus] = useState<'complete' | 'error' | 'idle' | 'uploading'>('idle');
-    const [uploadProgress, setUploadProgress] = useState<number>(0);
+}: FileUploadProps & { action: (message: string) => void }) {
+    const [files, setFiles] = useState<FileEntry[]>([]);
 
-    const handleChange = (selectedFile: File | null) => {
-        setFile(selectedFile);
-        if (selectedFile) {
-            setUploadStatus('uploading');
-            setUploadProgress(0);
+    // Here we
+    const handleUpload = (nextFiles: FileEntry[]) => {
+        setFiles(nextFiles);
+        // mock the upload action by incrementally updating the progress and eventually setting the status to 'complete'
 
-            let progress = 0;
-            const interval = setInterval(() => {
-                progress += 20;
-                setUploadProgress(progress);
-                if (progress >= 100) {
-                    clearInterval(interval);
-                    setUploadStatus('complete');
-                }
-            }, 400);
-        } else {
-            setUploadStatus('idle');
-            setUploadProgress(0);
-        }
+        nextFiles.forEach((file, index) => {
+            setTimeout(() => {
+                const updatedFile: FileEntry = {
+                    ...file,
+                    status: 'uploading',
+                    progress: 0,
+                };
+                setFiles((prev) => prev.map((f) => (f.id === file.id ? updatedFile : f)));
+
+                // Simulate progress
+                const interval = setInterval(() => {
+                    updatedFile.progress = Math.min((updatedFile.progress || 0) + randomNumber(10, 15), 100);
+                    setFiles((prev) => prev.map((f) => (f.id === file.id ? { ...updatedFile } : f)));
+
+                    if (updatedFile.progress === 100) {
+                        clearInterval(interval);
+                        updatedFile.status = 'complete';
+                        setFiles((prev) => prev.map((f) => (f.id === file.id ? { ...updatedFile } : f)));
+                        action(`File upload complete: ${file.fileName}`);
+                    }
+                }, 350);
+            }, index * 400); // stagger uploads
+        });
+
+        action(`Files uploading: ${nextFiles.map((f) => f.fileName).join(', ')}`);
     };
 
+    useEffect(() => {
+        if (Array.isArray(presetFiles) && presetFiles.length > 0) {
+            handleUpload(presetFiles);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [presetFiles]);
+
     return (
-        <Component
+        <FileUpload
             {...props}
-            acceptedFileTypes={['image/png', 'image/gif', 'image/svg']}
-            errorMessage="File upload failed. File either exceeds max file size or is not an accepted file type. Please try again."
-            files={file ? [file] : null}
+            acceptedFileTypes={['image/png', 'image/gif', 'image/svg+xml', 'image/jpeg']}
+            cancelButtonLabel="Cancel"
+            files={files.length > 0 ? files : undefined}
             maxFileSize={1}
-            onChange={handleChange}
-            onClose={() => action('onClose called')}
-            onCloseToolTip="Close"
-            onError={(error, selectedFile) => action(`Upload error: ${error}, ${selectedFile?.name}`)}
-            onUploadStart={(selectedFile) => action(`Upload started for: ${selectedFile.name}`)}
-            uploadProgress={uploadProgress}
-            uploadStatus={uploadStatus}
+            onCancel={(file) => action(`onCancel called for: ${file.fileName}`)}
+            onError={(filesWithErrors) => {
+                action(`Error occurred during file upload: ${filesWithErrors.map((f) => f.fileName).join(', ')}`);
+            }}
+            onUpload={handleUpload}
             uploadSubtitle="SVG, PNG, JPG or GIF (max. 1MB)"
         />
     );
