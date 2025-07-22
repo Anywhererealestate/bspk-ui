@@ -1,18 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AccordionSectionProps, AccordionSection } from './AccordionSection';
 import './accordion.scss';
 
-export type AccordionItem = Pick<
-    AccordionSectionProps,
-    'children' | 'disabled' | 'divider' | 'leading' | 'subTitle' | 'title' | 'trailing'
-> & {
-    /**
-     * The unique identifier for the accordion item.
-     *
-     * @required
-     */
-    id: number | string;
-};
+export type AccordionItem = Omit<AccordionSectionProps, 'toggleOpen'>;
 
 export type AccordionProps = {
     /**
@@ -45,7 +35,14 @@ export type AccordionProps = {
  * @phase WorkInProgress
  */
 function Accordion({ items, singleOpen = true }: AccordionProps) {
-    const [activeItems, setActiveItems] = useState<(number | string)[]>([]);
+    const [activeItems, setActiveItems] = useState<(number | string)[]>(() => {
+        return items.filter((item) => item.isOpen).map((item) => item.id);
+    });
+
+    useEffect(() => {
+        // Update active items based on the items prop
+        setActiveItems(items.filter((item) => item.isOpen).map((item) => item.id));
+    }, [items]);
 
     const toggleOpen = (itemId: number | string) => {
         setActiveItems((prevItems) => {
@@ -61,13 +58,13 @@ function Accordion({ items, singleOpen = true }: AccordionProps) {
 
     return (
         <div data-bspk="accordion">
-            {items.map((item) => {
+            {items.map((item, index) => {
                 return (
                     <AccordionSection
-                        isOpen={activeItems.includes(item.id)}
-                        key={item.id}
-                        toggleOpen={() => toggleOpen(item.id)}
                         {...item}
+                        isOpen={activeItems.includes(item.id)}
+                        key={`${item.id}-${index}`}
+                        toggleOpen={() => toggleOpen(item.id)}
                     >
                         {item.children}
                     </AccordionSection>

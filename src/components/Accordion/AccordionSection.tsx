@@ -41,7 +41,7 @@ export type AccordionSectionProps = {
      * @default false
      * @required
      */
-    isOpen: boolean;
+    isOpen?: boolean;
     /**
      * Fires when the accordion state changes.
      *
@@ -60,6 +60,12 @@ export type AccordionSectionProps = {
      * @default false
      */
     disabled?: boolean;
+    /**
+     * The unique identifier for the accordion item.
+     *
+     * @required
+     */
+    id: string;
 };
 
 /**
@@ -90,32 +96,32 @@ export function AccordionSection({
     divider = true,
     trailing,
     disabled = false,
+    id,
 }: AccordionSectionProps) {
     return (
-        <section data-accordion-section data-disabled={disabled || undefined} data-divider={divider || undefined}>
+        <section
+            data-accordion-section
+            data-disabled={disabled || undefined}
+            data-divider={divider || undefined}
+            id={id}
+        >
             <button
                 aria-expanded={isOpen ? true : false}
                 data-accordion-header
                 disabled={disabled}
                 onClick={!disabled ? toggleOpen : undefined}
             >
-                <div data-accordion-header-body>
+                <span data-accordion-header-body>
                     {leading ?? null}
-
-                    <div data-accordion-title-wrapper>
+                    <span data-accordion-title-wrapper>
                         <Txt variant="labels-base">{title}</Txt>
-
                         {!!subTitle && <Txt variant="body-x-small">{subTitle}</Txt>}
-                    </div>
-
+                    </span>
                     {trailing ?? null}
-                </div>
-
+                </span>
                 {isOpen ? <SvgKeyboardArrowUp /> : <SvgKeyboardArrowDown />}
             </button>
-
             {isOpen && <div data-accordion-content>{children}</div>}
-
             <div data-not-a-divider-divider />
         </section>
     );
