@@ -49,7 +49,7 @@ export type AvatarProps = {
      * Customizable initials to display in the avatar limited to 2 characters.
      *
      * By default, initials are the first letters of the first two words in the name. For a single-word name, only one
-     * initial is shown.
+     * initial is shown. Names with three or more words, only the first two initials are used.
      *
      * @example
      *     AG;
