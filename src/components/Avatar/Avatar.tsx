@@ -46,9 +46,10 @@ export type AvatarProps = {
      */
     color?: Exclude<ColorVariant, 'white'>;
     /**
-     * The initials to display in the avatar limited to 2 characters.
+     * Customizable initials to display in the avatar limited to 2 characters.
      *
-     * If not provided, the first two letters of the name will be used as initials.
+     * By default, initials are the first letters of the first two words in the name. For a single-word name, only one
+     * initial is shown.
      *
      * @example
      *     AG;
