@@ -2,7 +2,6 @@ import { SvgKeyboardArrowDown } from '@bspk/icons/KeyboardArrowDown';
 import { SvgKeyboardArrowUp } from '@bspk/icons/KeyboardArrowUp';
 import { ReactNode } from 'react';
 import './accordion.scss';
-import { Divider } from '-/components/Divider';
 import { Txt } from '-/components/Txt';
 
 export type AccordionSectionProps = {
@@ -86,14 +85,14 @@ export function AccordionSection({
     title,
     subTitle,
     leading,
-    isOpen,
+    isOpen = false,
     toggleOpen,
     divider = true,
     trailing,
-    disabled,
+    disabled = false,
 }: AccordionSectionProps) {
     return (
-        <section data-accordion-section>
+        <section data-accordion-section data-disabled={disabled || undefined} data-divider={divider || undefined}>
             <button
                 aria-expanded={isOpen ? true : false}
                 data-accordion-header
@@ -117,7 +116,7 @@ export function AccordionSection({
 
             {isOpen && <div data-accordion-content>{children}</div>}
 
-            {divider && <Divider padding={false} />}
+            <div data-not-a-divider-divider />
         </section>
     );
 }
