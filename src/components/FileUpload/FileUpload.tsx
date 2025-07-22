@@ -127,7 +127,7 @@ function FileUpload({
                 errorMessage = `File type not accepted: ${file.name}`;
             }
 
-            if (file.size >= maxFileSize_MB) {
+            if (file.size > maxFileSize_MB) {
                 status = 'error';
                 errorMessage = `File too large. Please upload a smaller file: ${file.name}`;
             }
