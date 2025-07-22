@@ -134,7 +134,7 @@ export type ModalProps = Pick<DialogProps, 'data-bspk-owner' | 'id' | 'innerRef'
  * @ignoreRefs ButtonProps
  *
  * @name Modal
- * @phase EngineeringReview
+ * @phase WorkInProgress
  */
 function Modal({
     header,
