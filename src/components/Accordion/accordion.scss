@@ -57,7 +57,7 @@
             }
 
             &:focus-visible {
-                outline: 1px solid var(--stroke-neutral-focus);
+                outline: 2px solid var(--stroke-neutral-focus);
                 border-color: var(--stroke-neutral-focus);
                 margin-bottom: 1px;
             }
