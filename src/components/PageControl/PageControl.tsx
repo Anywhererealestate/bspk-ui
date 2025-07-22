@@ -44,7 +44,7 @@ type DotSize = 'medium' | 'small' | 'x-small';
  *     }
  *
  * @name PageControl
- * @phase EngineeringReview
+ * @phase DesignReview
  */
 function PageControl({ value, numPages, variant = 'flat' }: PageControlProps) {
     if (numPages < 2) return null;

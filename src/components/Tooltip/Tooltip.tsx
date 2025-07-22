@@ -54,7 +54,7 @@ export type TooltipProps = {
  *     }
  *
  * @name Tooltip
- * @phase EngineeringReview
+ * @phase DesignReview
  */
 function Tooltip({
     placement = DEFAULT.placement,

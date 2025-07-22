@@ -50,7 +50,7 @@ export type EmptyStateProps = {
  *     }
  *
  * @name EmptyState
- * @phase EngineeringReview
+ * @phase DesignReview
  */
 function EmptyState({ children, header, body, callToAction, bodyAlign = 'center' }: EmptyStateProps) {
     return (

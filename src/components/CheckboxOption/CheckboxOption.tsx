@@ -39,7 +39,7 @@ export type CheckboxOptionProps = InvalidPropsLibrary &
  *     }
  *
  * @name CheckboxOption
- * @phase EngineeringReview
+ * @phase DesignReview
  */
 function CheckboxOption({ label: labelProp, description, ...checkboxProps }: CheckboxOptionProps) {
     const label = labelProp || description;

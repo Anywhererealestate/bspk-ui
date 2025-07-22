@@ -100,7 +100,7 @@ export type SearchBarProps<T extends ListboxItemProps = ListboxItemProps> = Pick
  *     }
  *
  * @name SearchBar
- * @phase EngineeringReview
+ * @phase DesignReview
  */
 function SearchBar({
     itemDisplayCount: itemCount,

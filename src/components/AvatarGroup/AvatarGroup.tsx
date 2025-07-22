@@ -59,7 +59,7 @@ export type AvatarGroupProps = {
  *     }
  *
  * @name AvatarGroup
- * @phase EngineeringReview
+ * @phase DesignReview
  */
 function AvatarGroup({ items, size = 'small', max = 5, variant }: AvatarGroupProps) {
     if (!Array.isArray(items) || !items?.length) return null;

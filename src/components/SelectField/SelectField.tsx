@@ -44,7 +44,7 @@ export type SelectFieldProps = Pick<
  *     }
  *
  * @name SelectField
- * @phase EngineeringReview
+ * @phase DesignReview
  */
 function SelectField({
     label,

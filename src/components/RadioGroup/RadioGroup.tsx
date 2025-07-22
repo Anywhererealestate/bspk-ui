@@ -90,7 +90,7 @@ export type RadioGroupProps = CommonProps<'disabled' | 'name'> & {
  *     }
  *
  * @name RadioGroup
- * @phase EngineeringReview
+ * @phase DesignReview
  */
 function RadioGroup({
     onChange,

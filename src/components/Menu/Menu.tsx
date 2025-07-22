@@ -91,7 +91,7 @@ export type MenuProps = CommonProps<'data-bspk-owner' | 'id'> & {
  *     }
  *
  * @name Menu
- * @phase EngineeringReview
+ * @phase DesignReview
  */
 function Menu({
     //

@@ -45,7 +45,7 @@ export type TextFieldProps = Pick<
  *     }
  *
  * @name TextField
- * @phase EngineeringReview
+ * @phase DesignReview
  */
 function TextField({
     label,
