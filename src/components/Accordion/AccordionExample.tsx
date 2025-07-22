@@ -2,7 +2,15 @@ import { AccordionProps } from '.';
 import { createExampleChildElement } from '-/utils/createExampleChildElement';
 import { ComponentExampleFn } from '-/utils/demo';
 
+export const exampleAccordionItem = (id: number, disabled?: boolean) => ({
+    id,
+    title: `Section ${id}`,
+    disabled,
+    children: <div style={{ padding: 50, textAlign: 'center', backgroundColor: '#DBDBDB' }}>Example Content</div>,
+});
+
 export const AccordionExample: ComponentExampleFn<AccordionProps> = ({ action, setState }) => ({
+    containerStyle: { minHeight: 225 },
     render: ({ props, Component, id }) => {
         const trailingElement = createExampleChildElement({
             exampleState: props,
@@ -26,7 +34,7 @@ export const AccordionExample: ComponentExampleFn<AccordionProps> = ({ action, s
                     items={[
                         {
                             id: 1,
-                            title: 'First Section',
+                            title: `Section 1`,
                             leading: leadingElement,
                             trailing: trailingElement,
                             children: (
@@ -35,43 +43,25 @@ export const AccordionExample: ComponentExampleFn<AccordionProps> = ({ action, s
                                 </div>
                             ),
                         },
-                        {
-                            id: 2,
-                            title: 'Second Section',
-                            leading: leadingElement,
-                            trailing: trailingElement,
-                            children: (
-                                <div style={{ padding: 50, textAlign: 'center', backgroundColor: '#DBDBDB' }}>
-                                    Example Content
-                                </div>
-                            ),
-                        },
-                        {
-                            id: 3,
-                            title: 'Third Section',
-                            leading: leadingElement,
-                            trailing: trailingElement,
-                            children: (
-                                <div style={{ padding: 50, textAlign: 'center', backgroundColor: '#DBDBDB' }}>
-                                    Example Content
-                                </div>
-                            ),
-                        },
-                        {
-                            id: 4,
-                            title: 'Fourth Section',
-                            leading: leadingElement,
-                            trailing: trailingElement,
-                            children: (
-                                <div style={{ padding: 50, textAlign: 'center', backgroundColor: '#DBDBDB' }}>
-                                    Example Content
-                                </div>
-                            ),
-                        },
+                        ...(props.items ?? []),
                     ]}
                 />
             </>
         );
     },
+    presets: [
+        {
+            label: 'Multiple Sections',
+            propState: {
+                items: [exampleAccordionItem(2), exampleAccordionItem(3)],
+            },
+        },
+        {
+            label: 'Multiple Sections with 1 disabled',
+            propState: {
+                items: [exampleAccordionItem(2, true), exampleAccordionItem(3)],
+            },
+        },
+    ],
     hideVariants: true,
 });

@@ -2,7 +2,10 @@ import { useState } from 'react';
 import { AccordionSectionProps, AccordionSection } from './AccordionSection';
 import './accordion.scss';
 
-type AccordionItem = Pick<AccordionSectionProps, 'children' | 'leading' | 'subTitle' | 'title' | 'trailing'> & {
+export type AccordionItem = Pick<
+    AccordionSectionProps,
+    'children' | 'disabled' | 'divider' | 'leading' | 'subTitle' | 'title' | 'trailing'
+> & {
     /**
      * The unique identifier for the accordion item.
      *
@@ -11,10 +14,11 @@ type AccordionItem = Pick<AccordionSectionProps, 'children' | 'leading' | 'subTi
     id: number | string;
 };
 
-export type AccordionProps = Pick<AccordionSectionProps, 'disabled' | 'divider'> & {
+export type AccordionProps = {
     /**
      * Array of accordion sections
      *
+     * @type Array<AccordionItem>
      * @required
      */
     items: AccordionItem[];
@@ -40,19 +44,19 @@ export type AccordionProps = Pick<AccordionSectionProps, 'disabled' | 'divider'>
  * @name Accordion
  * @phase WorkInProgress
  */
-function Accordion({ items, disabled, divider, singleOpen = true }: AccordionProps) {
+function Accordion({ items, singleOpen = true }: AccordionProps) {
     const [activeItems, setActiveItems] = useState<(number | string)[]>([]);
 
     const toggleOpen = (itemId: number | string) => {
-        if (singleOpen && activeItems.includes(itemId)) {
-            setActiveItems([]);
-        } else if (singleOpen) {
-            setActiveItems([itemId]);
-        } else if (activeItems.includes(itemId)) {
-            setActiveItems(activeItems.filter((activeItemId) => activeItemId !== itemId));
-        } else {
-            setActiveItems(activeItems.concat(itemId));
-        }
+        setActiveItems((prevItems) => {
+            const isItemActive = prevItems.includes(itemId);
+
+            // If singleOpen is true, reset activeItems to only include the clicked item or empty if it was already active
+            if (singleOpen) return isItemActive ? [] : [itemId];
+
+            // If singleOpen is false, toggle the clicked item and keep others active
+            return isItemActive ? prevItems.filter((activeItemId) => activeItemId !== itemId) : [...prevItems, itemId];
+        });
     };
 
     return (
@@ -60,8 +64,6 @@ function Accordion({ items, disabled, divider, singleOpen = true }: AccordionPro
             {items.map((item) => {
                 return (
                     <AccordionSection
-                        disabled={disabled}
-                        divider={divider}
                         isOpen={activeItems.includes(item.id)}
                         key={item.id}
                         toggleOpen={() => toggleOpen(item.id)}

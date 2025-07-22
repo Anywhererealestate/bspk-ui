@@ -93,8 +93,13 @@ export function AccordionSection({
     disabled,
 }: AccordionSectionProps) {
     return (
-        <section data-accordion-section data-disabled={disabled || undefined}>
-            <button data-accordion-header disabled={disabled} onClick={!disabled ? toggleOpen : undefined}>
+        <section data-accordion-section>
+            <button
+                aria-expanded={isOpen ? true : false}
+                data-accordion-header
+                disabled={disabled}
+                onClick={!disabled ? toggleOpen : undefined}
+            >
                 <div data-accordion-header-body>
                     {leading ?? null}
 
@@ -110,13 +115,9 @@ export function AccordionSection({
                 {isOpen ? <SvgKeyboardArrowUp /> : <SvgKeyboardArrowDown />}
             </button>
 
-            {divider && (
-                <div data-divider-wrapper>
-                    <Divider />
-                </div>
-            )}
-
             {isOpen && <div data-accordion-content>{children}</div>}
+
+            {divider && <Divider padding={false} />}
         </section>
     );
 }
