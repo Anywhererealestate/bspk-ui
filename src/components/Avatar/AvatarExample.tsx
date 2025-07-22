@@ -15,8 +15,8 @@ export const AvatarExample: ComponentExample<AvatarProps> = {
         {
             label: 'With Initials',
             propState: {
-                name: 'Andre Giant',
-                initials: 'GA',
+                name: 'Andre Rene',
+                initials: 'AR',
                 image: undefined, // Ensure no image is set
                 showIcon: false,
             },
