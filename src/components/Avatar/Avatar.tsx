@@ -139,7 +139,7 @@ function Avatar({
     if (!children) return null;
 
     const avatar = (
-        <div data-bspk="avatar" data-color={color} data-size={size}>
+        <div aria-describedby={ariaLabel} data-bspk="avatar" data-color={color} data-size={size}>
             {children}
         </div>
     );
