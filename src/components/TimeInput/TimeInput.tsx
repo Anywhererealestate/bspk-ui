@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { SvgSchedule } from '@bspk/icons/Schedule';
 import { useEffect, useState } from 'react';
 import './time-input.scss';
@@ -146,7 +145,6 @@ function TimeInput({
                     itemDisplayCount={false}
                     onOutsideClick={() => {
                         setOpen(false);
-                        console.log('outside click');
                     }}
                     style={{ ...floatingStyles }}
                 >
