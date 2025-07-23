@@ -55,9 +55,9 @@ componentsMeta.forEach(({ name, slug }) => {
         return;
     }
 
-    // ensure the component file doesn't have any console logs/info
-    if (content.includes('console.log') || content.includes('console.info')) {
-        errors.push(`❌ ${name} has console logs/info. Please remove them.`);
+    // ensure the component file doesn't have any console logs/info that have been ignored
+    if (content.includes('console.') && content.includes('no-console')) {
+        errors.push(`❌ ${name} has console logging. Please remove them.`);
         return;
     }
 
