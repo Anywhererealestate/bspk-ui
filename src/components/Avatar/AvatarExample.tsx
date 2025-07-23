@@ -22,15 +22,6 @@ export const AvatarExample: ComponentExample<AvatarProps> = {
             },
         },
         {
-            label: 'Three Word Name',
-            propState: {
-                name: 'Andre The Giant',
-                image: undefined, // Ensure no image is set
-                initials: undefined, // Ensure no initials are set
-                showIcon: false,
-            },
-        },
-        {
             label: 'With Initials',
             propState: {
                 name: 'Andre The Giant',
