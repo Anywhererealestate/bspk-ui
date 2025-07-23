@@ -61,6 +61,10 @@ export type BannerAlertProps = {
  *             header="Error"
  *             body="There was an error processing your request."
  *             onClose={() => console.log('Alert closed')}
+ *             callToAction={{
+ *                 label = 'Click me',
+ *                 onClick = () => action('Call to action clicked!'),
+ *             }}
  *         />;
  *     }
  *
