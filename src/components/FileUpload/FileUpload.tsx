@@ -91,7 +91,7 @@ export type FileUploadProps = Pick<FileUploadItemProps, 'cancelButtonLabel' | 'o
  *     }
  *
  * @name FileUpload
- * @phase WorkInProgress
+ * @phase EngineeringReview
  */
 function FileUpload({
     dragAndDrop = false,

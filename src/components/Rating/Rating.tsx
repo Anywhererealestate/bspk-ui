@@ -47,7 +47,7 @@ export type RatingProps = {
  *     }
  *
  * @name Rating
- * @phase WorkInProgress
+ * @phase EngineeringReview
  */
 function Rating({ size = 'medium', value, onChange }: RatingProps) {
     const As: ElementType = onChange ? 'button' : 'div';

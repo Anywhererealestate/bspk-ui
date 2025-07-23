@@ -217,6 +217,7 @@ const COMPONENT_PHASES: ComponentPhase[] = [
     'AccessibilityReview',
     'Backlog',
     'DesignReview',
+    'EngineeringReview',
     'ProductionReady',
     'Utility',
     'WorkInProgress',

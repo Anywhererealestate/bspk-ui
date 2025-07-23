@@ -36,7 +36,7 @@ export type TimeInputProps = Pick<
  *     }
  *
  * @name TimeInput
- * @phase WorkInProgress
+ * @phase EngineeringReview
  */
 function TimeInput({
     value,
