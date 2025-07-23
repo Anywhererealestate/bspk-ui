@@ -46,9 +46,10 @@ export type AvatarProps = {
      */
     color?: Exclude<ColorVariant, 'white'>;
     /**
-     * The initials to display in the avatar limited to 2 characters.
+     * Customizable initials to display in the avatar limited to 2 characters.
      *
-     * If not provided, the first two letters of the name will be used as initials.
+     * By default, initials are the first letters of the first two words in the name. For a single-word name, only one
+     * initial is shown. Names with three or more words, only the first two initials are used.
      *
      * @example
      *     AG;
@@ -138,7 +139,7 @@ function Avatar({
     if (!children) return null;
 
     const avatar = (
-        <div aria-label={ariaLabel} data-bspk="avatar" data-color={color} data-size={size}>
+        <div aria-describedby={ariaLabel} data-bspk="avatar" data-color={color} data-size={size}>
             {children}
         </div>
     );
