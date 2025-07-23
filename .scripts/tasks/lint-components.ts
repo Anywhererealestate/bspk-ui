@@ -55,6 +55,12 @@ componentsMeta.forEach(({ name, slug }) => {
         return;
     }
 
+    // ensure the component file doesn't have any console logs/info that have been ignored
+    if (content.includes('console.') && content.includes('no-console')) {
+        errors.push(`❌ ${name} has console logging. Please remove them.`);
+        return;
+    }
+
     const hasDefaultDescription = content.includes(`Component description.`);
     const propNameMatch = content.match(/\.bspkName = '([^']+)'/);
     const dataNameMatch = content.match(/data-bspk="([^"]+)"/);
