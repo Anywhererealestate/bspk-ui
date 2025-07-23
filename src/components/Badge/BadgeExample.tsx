@@ -1,5 +1,6 @@
 import { BadgeProps } from '.';
 import { Avatar } from '-/components/Avatar';
+import { Txt } from '-/components/Txt';
 import { ComponentExample } from '-/utils/demo';
 
 export const BadgeExample: ComponentExample<BadgeProps> = {
@@ -43,30 +44,37 @@ function ExampleBadgeVariants({
 
     let border = false;
     return (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }}>
-            {cells.flat().map((content, idx) => {
-                if (typeof content === 'string' && content === 'Border') border = true;
-                return (
-                    <div
-                        key={idx}
-                        style={{
-                            display: 'flex',
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            gap: '8px',
-                            padding: '8px',
-                            background:
-                                typeof content !== 'string' && border ? 'var(--surface-neutral-t3-low)' : 'transparent',
-                        }}
-                    >
-                        {typeof content === 'string'
-                            ? content
-                            : [9, 99, 999].map((count, idx2) => (
-                                  <Component count={count} key={idx2} {...props} {...(content as BadgeProps)} />
-                              ))}
-                    </div>
-                );
-            })}
-        </div>
+        <>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }}>
+                {cells.flat().map((content, idx) => {
+                    if (typeof content === 'string' && content === 'Border') border = true;
+                    return (
+                        <div
+                            key={idx}
+                            style={{
+                                display: 'flex',
+                                flexDirection: 'row',
+                                alignItems: 'center',
+                                gap: '8px',
+                                padding: '8px',
+                                background:
+                                    typeof content !== 'string' && border
+                                        ? 'var(--surface-neutral-t3-low)'
+                                        : 'transparent',
+                            }}
+                        >
+                            {typeof content === 'string'
+                                ? content
+                                : [9, 99, 999].map((count, idx2) => (
+                                      <Component count={count} key={idx2} {...props} {...(content as BadgeProps)} />
+                                  ))}
+                        </div>
+                    );
+                })}
+            </div>
+            <Txt style={{ paddingTop: '20px' }} variant="labels-small">
+                * The props table below does not impact this example.
+            </Txt>
+        </>
     );
 }
