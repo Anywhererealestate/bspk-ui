@@ -145,6 +145,8 @@
         "./Skeleton/*": "./dist/components/Skeleton/*.js",
         "./SkeletonText": "./dist/components/SkeletonText/index.js",
         "./SkeletonText/*": "./dist/components/SkeletonText/*.js",
+        "./Slider": "./dist/components/Slider/index.js",
+        "./Slider/*": "./dist/components/Slider/*.js",
         "./StylesProviderAnywhere": "./dist/components/StylesProviderAnywhere/index.js",
         "./StylesProviderAnywhere/*": "./dist/components/StylesProviderAnywhere/*.js",
         "./StylesProviderBetterHomesGardens": "./dist/components/StylesProviderBetterHomesGardens/index.js",
