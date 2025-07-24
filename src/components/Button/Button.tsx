@@ -138,7 +138,11 @@ function Button<As extends ElementType = 'button'>(props: ElementProps<ButtonPro
                 children
             ) : (
                 <>
-                    {!!icon && isValidElement(icon) && <span data-button-icon>{icon}</span>}
+                    {!!icon && isValidElement(icon) && (
+                        <span aria-hidden={showLabel || undefined} data-button-icon>
+                            {icon}
+                        </span>
+                    )}
                     {!hideLabel && <span data-button-label>{label}</span>}
                 </>
             )}

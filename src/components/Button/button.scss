@@ -109,7 +109,7 @@
     &[data-variant='primary'] {
         --primary-background: var(--surface-brand-primary);
 
-        background: linear-gradient(var(--primary-background), var(--primary-background));
+        background-color: var(--primary-background);
         color: var(--foreground-brand-on-primary);
         border-radius: var(--radius-sm);
 
