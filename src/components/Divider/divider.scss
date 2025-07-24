@@ -26,17 +26,13 @@
 
     &, // default
   &[data-orientation='horizontal'] {
-        width: unset;
-        min-height: unset;
-        height: var(--line-thickness);
+        min-height: var(--line-thickness);
         min-width: var(--length);
         margin: var(--padding) var(--inset);
     }
 
     &[data-orientation='vertical'] {
-        height: unset;
-        min-width: unset;
-        width: var(--line-thickness);
+        min-width: var(--line-thickness);
         min-height: var(--length);
         margin: var(--inset) var(--padding);
     }
