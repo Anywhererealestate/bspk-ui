@@ -9,9 +9,7 @@ export const LinkExample: ComponentExample<LinkProps> = {
     containerStyle: {
         width: '100%',
     },
-    render: ({ props, preset, Component }) => {
-        if (preset?.label === 'Pseudo States') return <LinkDemo props={props} />;
-
+    render: ({ props, Component }) => {
         return (
             <div
                 style={{
@@ -26,9 +24,10 @@ export const LinkExample: ComponentExample<LinkProps> = {
             </div>
         );
     },
-    presets: [
+    sections: [
         {
-            label: 'Pseudo States',
+            title: 'Variants with Pseudo States',
+            content: ({ props }) => <LinkDemo props={props} />,
         },
     ],
 };
