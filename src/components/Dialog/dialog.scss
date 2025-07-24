@@ -2,8 +2,10 @@
     position: fixed;
     inset: 0;
     z-index: var(--z-index-dialog);
+    pointer-events: none; // makes scrim clckable
 
     [data-dialog-box] {
+        pointer-events: all; // allow pointer events on the dialog box
         text-align: start;
         position: relative;
         border-radius: var(--radius-lg);
