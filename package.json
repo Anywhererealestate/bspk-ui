@@ -55,8 +55,6 @@
         "./CheckboxGroup/*": "./dist/components/CheckboxGroup/*.js",
         "./CheckboxOption": "./dist/components/CheckboxOption/index.js",
         "./CheckboxOption/*": "./dist/components/CheckboxOption/*.js",
-        "./Chip": "./dist/components/Chip/index.js",
-        "./Chip/*": "./dist/components/Chip/*.js",
         "./ChipAssist": "./dist/components/ChipAssist/index.js",
         "./ChipAssist/*": "./dist/components/ChipAssist/*.js",
         "./ChipFilter": "./dist/components/ChipFilter/index.js",
