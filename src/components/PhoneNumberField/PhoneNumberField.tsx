@@ -28,7 +28,7 @@ export type PhoneNumberFieldProps = Pick<
  *     <PhoneNumberField label="Phone Number" initialCountryCode="US" value={value} onChange={onChange} />;
  *
  * @name PhoneNumberField
- * @phase DesignReview
+ * @phase EngineeringReview
  */
 function PhoneNumberField({
     label,

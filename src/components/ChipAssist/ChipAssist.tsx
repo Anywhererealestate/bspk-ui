@@ -20,7 +20,7 @@ export type ChipAssistProps = Pick<ChipUtilityProps, 'disabled' | 'label' | 'lea
  *     }
  *
  * @name ChipAssist
- * @phase DesignReview
+ * @phase EngineeringReview
  */
 function ChipAssist({ disabled, label, leadingIcon, onClick }: ChipAssistProps) {
     return <ChipUtility disabled={disabled} label={label} leadingIcon={leadingIcon} onClick={onClick} />;
