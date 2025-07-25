@@ -1,6 +1,4 @@
-#curl -X POST -d {} https://api.netlify.com/build_hooks/684ad3a3a1044956c6fa39c6
-
-name: Trigger Netlify Build on Dev Push
+name: Trigger AWS Amplify Build on Dev Push
 
 on:
     push:
@@ -8,8 +6,8 @@ on:
             - dev
 
 jobs:
-    trigger-netlify-build:
+    trigger-aws-amplify-build:
         runs-on: ubuntu-latest
         steps:
-            - name: Trigger Netlify Build Hook
-              run: curl -X POST -d '{}' https://api.netlify.com/build_hooks/684ad3a3a1044956c6fa39c6
+            - name: Trigger AWS Amplify Build Hook
+              run: curl -X POST -d {} "https://webhooks.amplify.us-east-2.amazonaws.com/prod/webhooks?id=35a54e58-7064-4267-b943-8a68ad0228a9&token=dg2hSmay5mryKpVlUBfMMXbblAGdWMOta3FGqlUGbo&operation=startbuild" -H "Content-Type:application/json"
