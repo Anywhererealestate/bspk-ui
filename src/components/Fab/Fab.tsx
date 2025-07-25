@@ -1,4 +1,4 @@
-import { ElementType } from 'react';
+import { ElementType, isValidElement } from 'react';
 
 import { ButtonProps } from '-/components/Button';
 import { Tooltip } from '-/components/Tooltip';
@@ -87,7 +87,11 @@ function Fab<As extends ElementType = 'button'>({
             data-size={size}
             data-variant={variant}
         >
-            {!!icon && <span data-fab-icon>{icon}</span>}
+            {!!icon && isValidElement(icon) && (
+                <span aria-hidden={showLabelProp || undefined} data-button-icon>
+                    {icon}
+                </span>
+            )}
             {!hideLabel && <span data-fab-label>{label}</span>}
         </As>
     );
