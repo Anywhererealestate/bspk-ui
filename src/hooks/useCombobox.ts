@@ -120,6 +120,7 @@ export function useCombobox({
     closeMenu: () => void;
     isOpen: boolean;
     elements: UseFloatingElements;
+    openMenu: () => void;
 } {
     const menuId = useId();
 
@@ -167,6 +168,7 @@ export function useCombobox({
             onKeyDownCapture,
         },
         closeMenu: () => setShow(false),
+        openMenu: () => setShow(true),
         isOpen: show,
         elements,
     };

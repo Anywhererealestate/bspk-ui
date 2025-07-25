@@ -1,8 +1,9 @@
-import { ReactNode, useMemo } from 'react';
+import { ReactNode, useMemo, useRef } from 'react';
 
 import { Portal } from '-/components/Portal';
 import { Scrim } from '-/components/Scrim';
 import { useId } from '-/hooks/useId';
+import { useOutsideClick } from '-/hooks/useOutsideClick';
 import { CommonProps, ElementProps, SetRef } from '-/types/common';
 import { cssWithVars } from '-/utils/cwv';
 
@@ -72,6 +73,14 @@ export type MenuProps = CommonProps<'data-bspk-owner' | 'id'> & {
     floating?: boolean;
     /** A function that is called when the user clicks outside of the menu. */
     onOutsideClick?: () => void;
+    /**
+     * Whether to show a scrim behind the menu.
+     *
+     * If true, a scrim will be rendered behind the menu to obscure the content behind it.
+     *
+     * @default true
+     */
+    scrim?: boolean;
 };
 
 /**
@@ -102,25 +111,39 @@ function Menu({
     itemDisplayCount: itemDisplayCountProp = false,
     itemCount,
     floating = true,
+    scrim = true,
     onOutsideClick,
     ...props
 }: ElementProps<MenuProps, 'div'>) {
+    const showScrim = scrim !== false;
+
     const menuId = useId(idProp);
 
     const itemDisplayCount = useMemo(() => {
         return itemDisplayCountProp && boundCount(itemCount, itemDisplayCountProp);
     }, [itemCount, itemDisplayCountProp]);
 
+    const menuElement = useRef(null as HTMLDivElement | null);
+
+    useOutsideClick({
+        elements: [menuElement.current],
+        callback: () => onOutsideClick?.(),
+        disabled: showScrim && !onOutsideClick,
+    });
+
     const menu = (
         <>
-            {floating && <Scrim data-bspk-owner="menu" onClick={() => onOutsideClick?.()} variant="dropdown" />}
+            {showScrim && <Scrim data-bspk-owner="menu" onClick={() => onOutsideClick?.()} variant="dropdown" />}
             <div
                 role="listbox"
                 {...props}
                 data-bspk="menu"
                 data-floating={floating || undefined}
                 id={menuId}
-                ref={innerRef}
+                ref={(node) => {
+                    innerRef?.(node);
+                    menuElement.current = node;
+                }}
                 style={cssWithVars({
                     ...props.style,
                     '--overflow-y':
