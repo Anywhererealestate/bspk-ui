@@ -59,7 +59,7 @@ export type ProgressBarProps = {
  *     }
  *
  * @name ProgressBar
- * @phase DesignReview
+ * @phase UXReview
  */
 function ProgressBar({
     size = 'large',

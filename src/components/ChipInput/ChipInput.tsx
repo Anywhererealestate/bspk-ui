@@ -29,7 +29,7 @@ export type ChipInputProps = Pick<ChipUtilityProps, 'disabled' | 'label' | 'lead
  *     }
  *
  * @name ChipInput
- * @phase EngineeringReview
+ * @phase QA
  */
 function ChipInput({ disabled, label, leadingIcon, onClick, removable = true }: ChipInputProps) {
     return (
