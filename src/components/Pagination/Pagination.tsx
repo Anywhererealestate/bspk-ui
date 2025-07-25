@@ -47,7 +47,7 @@ export type PaginationProps = {
  *     }
  *
  * @name Pagination
- * @phase EngineeringReview
+ * @phase QA
  */
 function Pagination({ numPages, value, onChange }: PaginationProps) {
     const nextPage = () => {

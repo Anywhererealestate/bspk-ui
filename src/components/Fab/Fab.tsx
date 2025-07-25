@@ -54,7 +54,7 @@ export type FabProps<As extends ElementType = 'button'> = Pick<
  *     }
  *
  * @name Fab
- * @phase DesignReview
+ * @phase UXReview
  */
 function Fab<As extends ElementType = 'button'>({
     size = 'small',

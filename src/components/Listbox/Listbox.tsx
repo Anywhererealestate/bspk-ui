@@ -117,7 +117,7 @@ export type ListboxProps<Item extends ListboxItemProps = ListboxItemProps> = Com
  *     }
  *
  * @name Listbox
- * @phase Backlog
+ * @phase Utility
  */
 function Listbox<Item extends ListboxItemProps>({
     itemDisplayCount,
