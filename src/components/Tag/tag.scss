@@ -1,21 +1,13 @@
 [data-bspk='tag'] {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: fit-content;
+    display: inline-flex;
+    align-items: center;
     position: relative;
     padding: 0 var(--spacing-sizing-03);
     border-radius: var(--radius-sm);
     color: var(--foreground) !important;
     background: var(--background);
     font: unset;
-    text-decoration: unset;
-    white-space: nowrap;
-    pointer-events: none;
-
-    &[data-wrap] {
-        height: auto;
-    }
+    max-width: 200px;
 
     &[data-variant='pill'] {
         border-radius: var(--radius-full);
