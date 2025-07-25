@@ -32,7 +32,7 @@ export type ProgressBarProps = {
     /** The label of the progressbar. */
     label: string;
     /**
-     * Whether to show the success color when the progress bar is complete.
+     * If true and completion = 100, displays the progress bar in the success color.
      *
      * @deprecated This has a very narrow use-case. See guidelines for more information.
      * @default false
