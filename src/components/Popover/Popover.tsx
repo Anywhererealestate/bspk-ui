@@ -86,7 +86,10 @@ function Popover({ placement = 'top', header, content, callToAction, children, d
         hide: !show,
     });
 
-    useOutsideClick([elements.floating], () => setShow(false));
+    useOutsideClick({
+        elements: [elements.floating],
+        callback: () => setShow(false),
+    });
 
     const child = useMemo(
         () =>

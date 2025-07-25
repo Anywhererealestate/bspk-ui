@@ -124,6 +124,7 @@ function SearchBar({
         toggleProps: { onClick, onKeyDownCapture, ...triggerProps },
         menuProps,
         closeMenu,
+        openMenu,
         elements,
     } = useCombobox({
         placement: 'bottom-start',
@@ -143,6 +144,7 @@ function SearchBar({
                         containerRefLocal.current = node;
                         elements.setReference(node);
                     }}
+                    data-bspk-owner="search-bar"
                     disabled={disabled}
                     id={id}
                     inputRef={(node) => {
@@ -151,10 +153,11 @@ function SearchBar({
                     }}
                     leading={<SvgSearch />}
                     name={name}
-                    onChange={(str) => onChange(str)}
-                    onClick={() => {
-                        if (items?.length) onClick();
+                    onChange={(str) => {
+                        onChange(str);
+                        if (str.length) openMenu();
                     }}
+                    onClick={onClick}
                     {...triggerProps}
                     onKeyDownCapture={(event) => {
                         const handled = onKeyDownCapture(event);
@@ -183,6 +186,7 @@ function SearchBar({
                         closeMenu();
                     }}
                     {...menuProps}
+                    scrim={false}
                 >
                     {!!value?.length && !items?.length && (
                         <div data-bspk="no-items-found">
