@@ -4,21 +4,7 @@ import { ComponentExampleFn } from '-/utils/demo';
 
 export const EmptyStateExample: ComponentExampleFn<EmptyStateProps> = ({ action }) => ({
     containerStyle: { width: '100%' },
-    render: ({ props: { children, ...props }, context, Component }) => (
-        <Component {...props}>
-            {context?.preset?.label === 'With Image' ? (
-                <ExamplePlaceholder
-                    style={{
-                        height: '200px',
-                        width: '60%',
-                        minWidth: '250px',
-                    }}
-                />
-            ) : (
-                children
-            )}
-        </Component>
-    ),
+    render: ({ props: { children, ...props }, Component }) => <Component {...props}>{children}</Component>,
     presets: [
         {
             label: 'With CallToAction',
@@ -27,10 +13,23 @@ export const EmptyStateExample: ComponentExampleFn<EmptyStateProps> = ({ action 
                     label: 'Add payment method',
                     onClick: () => action('Add payment method clicked!'),
                 },
+                children: undefined,
             },
         },
         {
-            label: 'With Image',
+            label: 'With Custom Content',
+            propState: {
+                callToAction: undefined,
+                children: (
+                    <ExamplePlaceholder
+                        style={{
+                            height: '200px',
+                            width: '60%',
+                            minWidth: '250px',
+                        }}
+                    />
+                ),
+            },
         },
     ],
 });

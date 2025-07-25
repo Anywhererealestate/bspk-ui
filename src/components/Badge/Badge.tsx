@@ -6,8 +6,10 @@ import './badge.scss';
 
 export type BadgeProps = {
     /**
-     * The content of the badge. If larger than 99, the badge will display '99+'. If null or undefined, the badge will
-     * be hidden.
+     * The content of the badge. If larger than 99, the badge will display '99+'. If not a number the badge will be
+     * hidden.
+     *
+     * Ignored if the variant is 'notification'.
      *
      * @example
      *     5;
@@ -15,11 +17,18 @@ export type BadgeProps = {
      * @default 1
      *
      * @type number
-     * @minimum 1
      */
     count?: number;
     /**
+     * Whether the badge is used for notifications and presented as a dot.
+     *
+     * @default default
+     */
+    variant?: 'default' | 'notification';
+    /**
      * The size of the badge.
+     *
+     * Ignored if the variant is 'notification'.
      *
      * @default small
      */
@@ -29,9 +38,11 @@ export type BadgeProps = {
      *
      * @default primary
      */
-    variant?: 'primary' | 'secondary';
+    color?: 'primary' | 'secondary';
     /**
      * Whether the badge should have a border that matches the surface color.
+     *
+     * Ignored if the variant is 'notification'.
      *
      * @default false
      */
@@ -61,16 +72,26 @@ export type BadgeProps = {
  * @name Badge
  * @phase DesignReview
  */
-function Badge({ count: countProp, size = 'small', variant = 'primary', surfaceBorder, children }: BadgeProps) {
+function Badge({
+    count: countProp,
+    size = 'small',
+    variant = 'default',
+    surfaceBorder,
+    children,
+    color = 'primary',
+}: BadgeProps) {
     const count: number | null = tryIntParse(countProp);
 
-    if (count === null) return;
+    if (typeof count === 'undefined' && variant !== 'notification') return children || null;
 
-    const badge = (
-        <sup data-bspk="badge" data-size={size} data-surface-border={surfaceBorder || undefined} data-variant={variant}>
-            {count > 99 ? '99+' : count}
-        </sup>
-    );
+    const badge =
+        variant === 'notification' ? (
+            <span data-bspk="badge" data-color={color} data-variant="notification" />
+        ) : (
+            <sup data-bspk="badge" data-color={color} data-size={size} data-surface-border={surfaceBorder || undefined}>
+                {typeof count === 'number' && count > 99 ? '99+' : count}
+            </sup>
+        );
 
     if (children) {
         return (
