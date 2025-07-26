@@ -72,7 +72,7 @@ export type FormFieldProps = CommonProps<'required'> &
  *     }
  *
  * @name FormField
- * @phase Backlog
+ * @phase Utility
  */
 function FormField({
     label,

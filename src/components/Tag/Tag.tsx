@@ -45,7 +45,7 @@ export type TagProps = {
  *     }
  *
  * @name Tag
- * @phase AccessibilityReview
+ * @phase UXReview
  */
 function Tag({ children, label, color = 'white', size = 'small', variant = 'flat' }: TagProps) {
     return (

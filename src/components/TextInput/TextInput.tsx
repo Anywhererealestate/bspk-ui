@@ -78,7 +78,7 @@ export type TextInputProps = CommonProps<
  * @element
  *
  * @name TextInput
- * @phase DesignReview
+ * @phase UXReview
  */
 function TextInput({
     invalid: invalidProp,

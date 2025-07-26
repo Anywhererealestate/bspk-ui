@@ -23,15 +23,6 @@ export type DemoSetState<Props = Record<string, unknown>> = (
     next: Partial<Props> | ((prev: Props) => Partial<Props>),
 ) => void;
 
-export type ComponentPhase =
-    | 'AccessibilityReview'
-    | 'Backlog'
-    | 'DesignReview'
-    | 'EngineeringReview'
-    | 'ProductionReady'
-    | 'Utility'
-    | 'WorkInProgress';
-
 export type TypePropertyDemo = Omit<TypeProperty, 'example'> & {
     libraryDefault?: TypeProperty['default'];
     label?: string;

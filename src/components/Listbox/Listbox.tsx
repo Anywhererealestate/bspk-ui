@@ -20,7 +20,7 @@ export type ListboxItemProps = CommonProps<'disabled'> &
     };
 
 export type ListboxProps<Item extends ListboxItemProps = ListboxItemProps> = CommonProps<'disabled' | 'id'> &
-    Pick<MenuProps, 'itemDisplayCount'> & {
+    Pick<MenuProps, 'itemDisplayCount' | 'scrim'> & {
         /**
          * Content to display in the listbox.
          *
@@ -117,7 +117,7 @@ export type ListboxProps<Item extends ListboxItemProps = ListboxItemProps> = Com
  *     }
  *
  * @name Listbox
- * @phase Backlog
+ * @phase Utility
  */
 function Listbox<Item extends ListboxItemProps>({
     itemDisplayCount,
@@ -132,6 +132,7 @@ function Listbox<Item extends ListboxItemProps>({
     isMulti,
     selectAll: selectAllProp,
     children,
+    scrim,
     ...props
 }: ElementProps<ListboxProps<Item>, 'div'>) {
     const menuId = useId(idProp);
@@ -159,6 +160,7 @@ function Listbox<Item extends ListboxItemProps>({
             itemCount={items.length}
             itemDisplayCount={itemDisplayCount}
             role="listbox"
+            scrim={scrim}
         >
             {isMulti && selectAll && (
                 <ListItem
