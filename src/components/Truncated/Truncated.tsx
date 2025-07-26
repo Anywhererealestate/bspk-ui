@@ -1,16 +1,8 @@
-import { ElementType } from 'react';
-
 import { Tooltip } from '-/components/Tooltip';
 import { useTruncatedText } from '-/hooks/useTruncatedText';
-import { ElementConstructorProps } from '-/types/common';
+import { ElementProps, SetRef } from '-/types/common';
 
-export type TruncatedProps<As extends ElementType = 'span'> = {
-    /**
-     * The element type to render as.
-     *
-     * @default span
-     */
-    as?: As;
+export type TruncatedProps = {
     /**
      * The content to render.
      *
@@ -24,6 +16,14 @@ export type TruncatedProps<As extends ElementType = 'span'> = {
      * If not provided, the children will be used as the label.
      */
     label?: string;
+    /**
+     * Bspk data attribute override.
+     *
+     * @default truncated
+     */
+    'data-bspk'?: string;
+    /** A ref to the truncated element. */
+    innerRef?: SetRef<HTMLSpanElement>;
 };
 
 /**
@@ -32,19 +32,24 @@ export type TruncatedProps<As extends ElementType = 'span'> = {
  * @name Truncated
  * @phase Utility
  */
-function Truncated<As extends ElementType = 'span'>({
+function Truncated({
     children,
     label,
+    'data-bspk': dataBspk = 'truncated',
+    innerRef,
     ...props
-}: ElementConstructorProps<As, 'children'> & TruncatedProps<As>) {
+}: ElementProps<TruncatedProps, 'span'>) {
     const { setElement, isTruncated } = useTruncatedText();
 
     const span = (
         <span
             {...props}
-            data-bspk="truncated"
-            ref={(node) => setElement(node)}
-            style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+            data-bspk={dataBspk}
+            ref={(node: HTMLElement | null) => {
+                setElement(node);
+                innerRef?.(node);
+            }}
+            style={{ ...props.style, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
         >
             {children}
         </span>
