@@ -121,7 +121,6 @@ export default [
             'react/no-unknown-property': ['warn', { ignore: ['css'] }],
             'react/prop-types': 'off',
             'react/react-in-jsx-scope': 'off',
-            '@typescript-eslint/no-unused-vars': 'warn',
         },
     },
 ];

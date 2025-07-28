@@ -5,14 +5,15 @@ import { Txt } from '-/components/Txt';
 
 type SliderTemplateProps = Pick<SliderProps, 'disabled' | 'label' | 'maximum' | 'minimum' | 'readOnly' | 'value'> & {
     children: ReactNode;
-    handleKeyDown: (e: React.KeyboardEvent<HTMLDivElement>) => void;
+    onKeyDown: (e: React.KeyboardEvent<HTMLDivElement>) => void;
     handleMouseDown: (e: React.MouseEvent) => void;
     sliderRef: React.RefObject<HTMLDivElement>;
+    displayValue?: string;
 };
 
 export function SliderTemplate({
     children,
-    handleKeyDown,
+    onKeyDown,
     disabled,
     label,
     readOnly,
@@ -21,6 +22,7 @@ export function SliderTemplate({
     maximum,
     handleMouseDown,
     sliderRef,
+    displayValue,
 }: SliderTemplateProps) {
     if (value < minimum || value > maximum) {
         // eslint-disable-next-line no-console
@@ -36,7 +38,7 @@ export function SliderTemplate({
             <div data-top-labels="">
                 <Txt variant="labels-small">{label}</Txt>
 
-                <Txt data-value-label="">{value}</Txt>
+                <Txt data-value-label="">{displayValue ?? value}</Txt>
             </div>
 
             <div
@@ -45,13 +47,13 @@ export function SliderTemplate({
                 aria-valuemax={maximum}
                 aria-valuemin={minimum}
                 aria-valuenow={value}
-                aria-valuetext={`${value}`}
+                aria-valuetext={`${displayValue || value}`}
                 data-slider-body=""
-                onKeyDown={disabled ? undefined : handleKeyDown}
+                onKeyDown={disabled ? undefined : onKeyDown}
                 onMouseDown={handleMouseDown}
                 ref={sliderRef}
                 role="slider"
-                tabIndex={disabled ? -1 : 0}
+                tabIndex={-1}
             >
                 <div data-slider-background="" />
 

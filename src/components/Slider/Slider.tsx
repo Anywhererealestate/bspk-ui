@@ -4,8 +4,10 @@ import './slider.scss';
 import { SliderIntervalDots } from './SliderIntervalDots';
 import { SliderKnob } from './SliderKnob';
 import { SliderTemplate } from './SliderTemplate';
+import { useNormalizeSliderValue } from './useNormalizeSliderValue';
+import { CommonPropsLibrary } from '-/types/common';
 
-export type SliderProps = {
+export type SliderProps = Pick<CommonPropsLibrary, 'disabled' | 'readOnly'> & {
     /**
      * The label of the slider.
      *
@@ -37,18 +39,6 @@ export type SliderProps = {
      */
     maximum: number;
     /**
-     * Determines if the element is [disabled](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled).
-     *
-     * @default false
-     */
-    disabled?: boolean;
-    /**
-     * Determines if the element is [readonly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly).
-     *
-     * @default false
-     */
-    readOnly?: boolean;
-    /**
      * If the slider's value interval should be continuous or discrete
      *
      * @default 'continuous'
@@ -66,6 +56,8 @@ export type SliderProps = {
      * @default 0
      */
     precision?: number;
+    /** Optional function to format the display value of the slider. Useful for currency, percentages, etc. */
+    getDisplayValue?: (value: number) => string;
 };
 
 /**
@@ -93,11 +85,18 @@ function Slider({
     disabled = false,
     precision = 0,
     readOnly = false,
+    getDisplayValue,
 }: SliderProps) {
     const sliderRef = useRef<HTMLDivElement>(null);
     const isDraggingRef = useRef(false);
 
-    const clamp = (val: number) => Math.min(Math.max(val, minimum), maximum);
+    const { normalizeSliderValue } = useNormalizeSliderValue({
+        minimum,
+        maximum,
+        intervalType,
+        interval,
+        precision,
+    });
 
     const getValueFromPosition = (clientX: number) => {
         const slider = sliderRef.current;
@@ -108,16 +107,7 @@ function Slider({
 
         percent = Math.max(0, Math.min(1, percent));
 
-        let newValue = minimum + percent * (maximum - minimum);
-
-        if (intervalType === 'discrete') {
-            newValue = Math.round(newValue / interval) * interval;
-        } else {
-            const factor = Math.pow(10, precision ?? 2);
-            newValue = Math.round(newValue * factor) / factor;
-        }
-
-        return clamp(newValue);
+        return normalizeSliderValue(minimum + percent * (maximum - minimum));
     };
 
     const handleMouseMove = (e: MouseEvent) => {
@@ -154,16 +144,7 @@ function Slider({
             newValue = value + interval;
         }
 
-        newValue = clamp(newValue);
-
-        if (intervalType === 'discrete') {
-            newValue = Math.round(newValue / interval) * interval;
-        } else {
-            const factor = Math.pow(10, precision ?? 2);
-            newValue = Math.round(newValue * factor) / factor;
-        }
-
-        onChange(newValue);
+        onChange(normalizeSliderValue(newValue));
     };
 
     const valuePercent = Math.min(Math.max(((value - minimum) / (maximum - minimum)) * 100, 0), 100);
@@ -171,11 +152,12 @@ function Slider({
     return (
         <SliderTemplate
             disabled={disabled}
-            handleKeyDown={handleKeyDown}
+            displayValue={getDisplayValue ? getDisplayValue(value) : undefined}
             handleMouseDown={handleMouseDown}
             label={label}
             maximum={maximum}
             minimum={minimum}
+            onKeyDown={handleKeyDown}
             readOnly={readOnly}
             sliderRef={sliderRef}
             value={value}
@@ -186,7 +168,7 @@ function Slider({
                 <SliderIntervalDots interval={interval} maximum={maximum} minimum={minimum} value={value} />
             )}
 
-            <SliderKnob valuePercent={valuePercent} />
+            <SliderKnob tabIndex={0} valuePercent={valuePercent} />
         </SliderTemplate>
     );
 }
