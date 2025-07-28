@@ -29,10 +29,7 @@
         position: absolute;
         background: var(--surface-neutral-t3-low);
         border-radius: 2px;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        top: 0;
+        inset: 0 0 0 0;
         cursor: pointer;
     }
 
