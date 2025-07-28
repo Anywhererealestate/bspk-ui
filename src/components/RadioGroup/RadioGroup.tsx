@@ -111,7 +111,6 @@ function RadioGroup({
             {...props}
             aria-labelledby={showLabel ? `${id}-label` : undefined}
             data-bspk="radio-group"
-            // data-disabled={disabled || undefined}
             id={id}
             role="group"
         >
