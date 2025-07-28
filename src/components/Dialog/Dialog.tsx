@@ -165,7 +165,6 @@ function Dialog({
                     onClick={() => {
                         onClose();
                     }}
-                    variant="dialog"
                     visible={showScrim !== false}
                 />
             </Portal>

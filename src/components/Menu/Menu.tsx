@@ -1,7 +1,6 @@
 import { ReactNode, useMemo, useRef } from 'react';
 
 import { Portal } from '-/components/Portal';
-import { Scrim } from '-/components/Scrim';
 import { useId } from '-/hooks/useId';
 import { useOutsideClick } from '-/hooks/useOutsideClick';
 import { CommonProps, ElementProps, SetRef } from '-/types/common';
@@ -71,16 +70,12 @@ export type MenuProps = CommonProps<'data-bspk-owner' | 'id'> & {
      * @default true
      */
     floating?: boolean;
-    /** A function that is called when the user clicks outside of the menu. */
-    onOutsideClick?: () => void;
     /**
-     * Whether to show a scrim behind the menu.
+     * A function that is called when the user clicks outside of the menu.
      *
-     * If true, a scrim will be rendered behind the menu to obscure the content behind it.
-     *
-     * @default true
+     * @required
      */
-    scrim?: boolean;
+    onOutsideClick: () => void;
 };
 
 /**
@@ -111,12 +106,9 @@ function Menu({
     itemDisplayCount: itemDisplayCountProp = false,
     itemCount,
     floating = true,
-    scrim = true,
     onOutsideClick,
     ...props
 }: ElementProps<MenuProps, 'div'>) {
-    const showScrim = scrim !== false;
-
     const menuId = useId(idProp);
 
     const itemDisplayCount = useMemo(() => {
@@ -128,12 +120,11 @@ function Menu({
     useOutsideClick({
         elements: [menuElement.current],
         callback: () => onOutsideClick?.(),
-        disabled: showScrim && !onOutsideClick,
+        disabled: !onOutsideClick,
     });
 
     const menu = (
         <>
-            {showScrim && <Scrim data-bspk-owner="menu" onClick={() => onOutsideClick?.()} variant="dropdown" />}
             <div
                 role="listbox"
                 {...props}

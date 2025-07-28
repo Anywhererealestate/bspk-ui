@@ -186,7 +186,6 @@ function SearchBar({
                         closeMenu();
                     }}
                     {...menuProps}
-                    scrim={false}
                 >
                     {!!value?.length && !items?.length && (
                         <div data-bspk="no-items-found">
