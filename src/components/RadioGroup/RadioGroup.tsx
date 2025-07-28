@@ -1,13 +1,16 @@
-import { Radio } from '-/components/Radio';
-import { ToggleOptionProps, ToggleOption } from '-/components/ToggleOption';
+import { RadioOption, RadioOptionProps } from '-/components/RadioOption';
 import { useId } from '-/hooks/useId';
 import { ElementProps, CommonProps } from '-/types/common';
 
 import './radio-group.scss';
 
-export type RadioGroupOption = Pick<ToggleOptionProps, 'description' | 'label'> & Required<CommonProps<'value'>>;
+export type RadioGroupOption = Pick<
+    RadioOptionProps,
+    'checked' | 'description' | 'disabled' | 'label' | 'name' | 'onChange' | 'value'
+> &
+    Required<CommonProps<'value'>>;
 
-export type RadioGroupProps = CommonProps<'disabled' | 'name'> & {
+export type RadioGroupProps = CommonProps<'name'> & {
     /**
      * The value of the control.
      *
@@ -99,7 +102,6 @@ function RadioGroup({
     value: groupValue,
     label: groupLabel,
     showLabel = true,
-    disabled,
     ...props
 }: ElementProps<RadioGroupProps, 'div'>) {
     const id = `radio-group-${useId()}`;
@@ -109,24 +111,24 @@ function RadioGroup({
             {...props}
             aria-labelledby={showLabel ? `${id}-label` : undefined}
             data-bspk="radio-group"
-            data-disabled={disabled || undefined}
+            // data-disabled={disabled || undefined}
             id={id}
             role="group"
         >
             {showLabel && <label id={`${id}-label`}>{groupLabel}</label>}
             <div role="radiogroup">
-                {options.map(({ label, description, value }, index) => {
+                {options.map(({ label, description, disabled, value }, index) => {
                     return (
-                        <ToggleOption description={description} key={`toggle-option-${value || index}`} label={label}>
-                            <Radio
-                                aria-label={label}
-                                checked={groupValue === value}
-                                disabled={disabled}
-                                name={name}
-                                onChange={(checked) => checked && onChange(value)}
-                                value={value}
-                            />
-                        </ToggleOption>
+                        <RadioOption
+                            checked={groupValue === value}
+                            description={description}
+                            disabled={disabled}
+                            key={`radio-option-${value || index}`}
+                            label={label}
+                            name={name}
+                            onChange={(checked) => checked && onChange(value)}
+                            value={value}
+                        />
                     );
                 })}
             </div>
