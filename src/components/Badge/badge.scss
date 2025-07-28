@@ -9,9 +9,19 @@
     width: fit-content;
     min-width: var(--size);
     font: var(--labels-x-small);
-    color: var(--foreground-brand-on-primary);
-    background: var(--surface-brand-primary);
     padding: 0 var(--spacing-sizing-02);
+    background-color: var(--background);
+    color: var(--foreground);
+
+    &[data-color='primary'] {
+        --foreground: var(--foreground-brand-on-primary);
+        --background: var(--foreground-brand-primary);
+    }
+
+    &[data-color='secondary'] {
+        --foreground: var(--foreground-brand-on-secondary);
+        --background: var(--foreground-brand-secondary);
+    }
 
     &[data-size='x-small'] {
         --size: var(--spacing-sizing-05);
@@ -19,9 +29,11 @@
         padding: 2px var(--spacing-sizing-01);
     }
 
-    &[data-variant='secondary'] {
-        color: var(--foreground-brand-on-secondary);
-        background: var(--surface-brand-secondary);
+    &[data-variant='notification'] {
+        --size: 6px;
+
+        padding: 0;
+        display: block;
     }
 
     &[data-surface-border] {

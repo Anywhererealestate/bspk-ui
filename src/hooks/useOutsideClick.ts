@@ -29,11 +29,15 @@ import { useEffect } from 'react';
  * @param callback - The callback to call when a click occurs outside of the ref.
  * @param disabled - Whether the hook should be disabled. Defaults to false.
  */
-export function useOutsideClick(
-    elements: (HTMLElement | null)[] | null,
-    callback: (event?: MouseEvent) => void,
-    disabled?: boolean,
-) {
+export function useOutsideClick({
+    elements,
+    callback,
+    disabled,
+}: {
+    elements: (HTMLElement | null)[] | null;
+    callback: (event?: MouseEvent) => void;
+    disabled?: boolean;
+}) {
     useEffect(() => {
         if (!elements?.length || disabled) return;
 

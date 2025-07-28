@@ -5,7 +5,7 @@ import { CommonProps, InvalidPropsLibrary } from '-/types/common';
 
 import './number-input.scss';
 
-const MAX = 99;
+const MAX = 100;
 const MIN = 0;
 
 const DEFAULT = {
@@ -80,7 +80,7 @@ export type NumberInputProps = CommonProps<'aria-label' | 'disabled' | 'id' | 'n
  *     }
  *
  * @name NumberInput
- * @phase DesignReview
+ * @phase UXReview
  */
 function NumberInput({
     value,

@@ -23,14 +23,6 @@ export type DemoSetState<Props = Record<string, unknown>> = (
     next: Partial<Props> | ((prev: Props) => Partial<Props>),
 ) => void;
 
-export type ComponentPhase =
-    | 'AccessibilityReview'
-    | 'Backlog'
-    | 'DesignReview'
-    | 'ProductionReady'
-    | 'Utility'
-    | 'WorkInProgress';
-
 export type TypePropertyDemo = Omit<TypeProperty, 'example'> & {
     libraryDefault?: TypeProperty['default'];
     label?: string;
@@ -96,6 +88,12 @@ export type ComponentExample<Props = Record<string, unknown>, PropName = keyof P
     render?: ComponentExampleRender<Props>;
     /** We may not want certain props editable in the props table. */
     disableProps?: PropName[];
+    /** The sections of the example. */
+    sections?: {
+        title: string;
+        content: (params: { Component: React.ComponentType<Props>; props: Props }) => React.ReactNode;
+    }[];
+    variantsExample?: (params: { Component: React.ComponentType<Props>; props: Props }) => React.ReactNode;
 };
 
 export type ComponentExampleFn<Props = Record<string, unknown>> = (params: {

@@ -1,27 +1,16 @@
-import { ElementType, ReactNode } from 'react';
+import { Truncated } from '-/components/Truncated';
 
-import { ElementProps } from '-/types/common';
 import { ColorVariant } from '-/utils/colorVariants';
 
 import './tag.scss';
 
-export type TagProps<As extends ElementType = 'span'> = {
+export type TagProps = {
     /**
-     * The element type to render as.
-     *
-     * @default span
-     * @type ElementType
-     */
-    as?: As;
-    /**
-     * The content of the tag.
-     *
-     * @example
-     *     New;
+     * The label of the tag.
      *
      * @required
      */
-    children: ReactNode;
+    label: string;
     /**
      * The size of the tag.
      *
@@ -40,14 +29,6 @@ export type TagProps<As extends ElementType = 'span'> = {
      * @default flat
      */
     variant?: 'corner-wrap' | 'flat' | 'pill';
-    /**
-     * Whether the tag should wrap its content.
-     *
-     * (Not recommended)
-     *
-     * @default false
-     */
-    wrap?: boolean;
 };
 
 /**
@@ -57,39 +38,18 @@ export type TagProps<As extends ElementType = 'span'> = {
  *     import { Tag } from '@bspk/ui/Tag';
  *
  *     export function Example() {
- *         return (
- *             <Tag variant="flat" color="primary">
- *                 Example Tag
- *             </Tag>
- *         );
+ *         return <Tag label="Example Tag" variant="flat" color="primary" />;
  *     }
  *
  * @name Tag
- * @phase AccessibilityReview
+ * @phase UXReview
  */
-function Tag<As extends ElementType = 'span'>({
-    children,
-    as,
-    color = 'white',
-    size = 'small',
-    variant = 'flat',
-    wrap,
-    ...props
-}: ElementProps<TagProps<As>, As>) {
-    const As: ElementType = as || 'span';
-
+function Tag({ label, color = 'white', size = 'small', variant = 'flat' }: TagProps) {
     return (
-        <As
-            {...props}
-            data-bspk="tag"
-            data-color={color}
-            data-size={size}
-            data-variant={variant}
-            data-wrap={wrap || undefined}
-        >
-            {children}
+        <div data-bspk="tag" data-color={color} data-size={size} data-variant={variant}>
+            {label && <Truncated>{label}</Truncated>}
             {variant === 'corner-wrap' && <div data-triangle />}
-        </As>
+        </div>
     );
 }
 

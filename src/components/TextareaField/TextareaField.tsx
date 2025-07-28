@@ -37,7 +37,7 @@ export type TextareaFieldProps = Pick<FormFieldProps, 'controlId' | 'helperText'
  *     }
  *
  * @name TextareaField
- * @phase DesignReview
+ * @phase UXReview
  */
 function TextareaField({
     label,

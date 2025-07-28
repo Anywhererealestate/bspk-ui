@@ -43,9 +43,12 @@ function copyStylesLibraryCss() {
         `import { Brand } from '-/types/common';
 
         export const BRANDS_CSS: Record<Brand, string> = ${JSON.stringify(BrandsCss, null, 4)};
-
 `,
     );
+
+    execSync(`npx prettier --write '${path.resolve(__dirname, '../src/components/StylesProviderDemo/brandsCss.ts')}'`, {
+        stdio: 'inherit',
+    });
 }
 
 function fileContent(content: string) {

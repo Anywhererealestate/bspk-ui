@@ -20,7 +20,7 @@ export type ListboxItemProps = CommonProps<'disabled'> &
     };
 
 export type ListboxProps<Item extends ListboxItemProps = ListboxItemProps> = CommonProps<'disabled' | 'id'> &
-    Pick<MenuProps, 'itemDisplayCount'> & {
+    Pick<MenuProps, 'data-bspk-owner' | 'itemCount' | 'itemDisplayCount' | 'onOutsideClick'> & {
         /**
          * Content to display in the listbox.
          *
@@ -117,7 +117,7 @@ export type ListboxProps<Item extends ListboxItemProps = ListboxItemProps> = Com
  *     }
  *
  * @name Listbox
- * @phase Backlog
+ * @phase Utility
  */
 function Listbox<Item extends ListboxItemProps>({
     itemDisplayCount,

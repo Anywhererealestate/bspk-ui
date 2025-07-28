@@ -55,8 +55,6 @@
         "./CheckboxGroup/*": "./dist/components/CheckboxGroup/*.js",
         "./CheckboxOption": "./dist/components/CheckboxOption/index.js",
         "./CheckboxOption/*": "./dist/components/CheckboxOption/*.js",
-        "./Chip": "./dist/components/Chip/index.js",
-        "./Chip/*": "./dist/components/Chip/*.js",
         "./ChipAssist": "./dist/components/ChipAssist/index.js",
         "./ChipAssist/*": "./dist/components/ChipAssist/*.js",
         "./ChipFilter": "./dist/components/ChipFilter/index.js",
@@ -81,6 +79,10 @@
         "./ExamplePlaceholder/*": "./dist/components/ExamplePlaceholder/*.js",
         "./Fab": "./dist/components/Fab/index.js",
         "./Fab/*": "./dist/components/Fab/*.js",
+        "./FileUpload": "./dist/components/FileUpload/index.js",
+        "./FileUpload/*": "./dist/components/FileUpload/*.js",
+        "./FileUploadItem": "./dist/components/FileUploadItem/index.js",
+        "./FileUploadItem/*": "./dist/components/FileUploadItem/*.js",
         "./FormField": "./dist/components/FormField/index.js",
         "./FormField/*": "./dist/components/FormField/*.js",
         "./Img": "./dist/components/Img/index.js",
@@ -133,6 +135,8 @@
         "./RadioOption/*": "./dist/components/RadioOption/*.js",
         "./RangeSlider": "./dist/components/RangeSlider/index.js",
         "./RangeSlider/*": "./dist/components/RangeSlider/*.js",
+        "./Rating": "./dist/components/Rating/index.js",
+        "./Rating/*": "./dist/components/Rating/*.js",
         "./Scrim": "./dist/components/Scrim/index.js",
         "./Scrim/*": "./dist/components/Scrim/*.js",
         "./SearchBar": "./dist/components/SearchBar/index.js",
@@ -218,7 +222,7 @@
         "libphonenumber-js": "^1.12.9"
     },
     "peerDependencies": {
-        "@bspk/icons": "^1.0.3",
+        "@bspk/icons": "^1.0.4",
         "react": "^18.3.1",
         "react-dom": "^18.3.1"
     },

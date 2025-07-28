@@ -14,7 +14,14 @@ import { fileURLToPath } from 'url';
 
 import * as TJS from 'typescript-json-schema';
 
-import { ComponentMeta, TypeProperty, UtilityMeta, TypeMeta, ComponentPhase } from './meta-types';
+import {
+    ComponentMeta,
+    TypeProperty,
+    UtilityMeta,
+    TypeMeta,
+    ComponentPhase,
+    COMPONENT_PHASE_ORDER,
+} from './meta-types';
 
 const RESET = '\x1b[0m';
 const BLUE = '\x1b[34m';
@@ -207,20 +214,11 @@ function generateComponentMeta({
         usage,
         css,
         hasTouchTarget: css.includes('data-touch-target'),
-        phase: (COMPONENT_PHASES.includes(componentDoc.phase as ComponentPhase)
+        phase: (COMPONENT_PHASE_ORDER.includes(componentDoc.phase as ComponentPhase)
             ? componentDoc.phase
             : 'Backlog') as ComponentPhase,
     } as ComponentMeta;
 }
-
-const COMPONENT_PHASES: ComponentPhase[] = [
-    'AccessibilityReview',
-    'Backlog',
-    'DesignReview',
-    'ProductionReady',
-    'Utility',
-    'WorkInProgress',
-] as const;
 
 async function generateUtilityMeta(utilityFile: string): Promise<UtilityMeta | null> {
     const content = fs.readFileSync(utilityFile, 'utf-8');

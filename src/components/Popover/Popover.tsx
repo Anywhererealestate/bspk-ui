@@ -71,7 +71,7 @@ export type PopoverProps = CommonProps<'disabled'> & {
  *     }
  *
  * @name Popover
- * @phase DesignReview
+ * @phase UXReview
  */
 function Popover({ placement = 'top', header, content, callToAction, children, disabled = false }: PopoverProps) {
     const id = useId();
@@ -86,7 +86,10 @@ function Popover({ placement = 'top', header, content, callToAction, children, d
         hide: !show,
     });
 
-    useOutsideClick([elements.floating], () => setShow(false));
+    useOutsideClick({
+        elements: [elements.floating],
+        callback: () => setShow(false),
+    });
 
     const child = useMemo(
         () =>
