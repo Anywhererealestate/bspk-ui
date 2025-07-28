@@ -13,11 +13,12 @@ export type SwitchOptionProps = Omit<SwitchProps, 'aria-label'> & Pick<ToggleOpt
  */
 function SwitchOption({ label: labelProp, description, ...checkboxProps }: SwitchOptionProps) {
     const label = labelProp || description;
+    const ariaLabel = description ? `${labelProp} - ${description}` : labelProp;
 
     return (
         label && (
             <ToggleOption data-bspk="switch-option" description={description} label={label}>
-                <Switch {...checkboxProps} aria-label={label} />
+                <Switch {...checkboxProps} aria-label={ariaLabel} />
             </ToggleOption>
         )
     );
