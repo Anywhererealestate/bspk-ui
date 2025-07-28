@@ -59,20 +59,12 @@ export const SelectExample: ComponentExample<SelectProps> = {
                     {
                         value: 'a',
                         label: 'Package A',
-                        trailing: (
-                            <Tag color="blue" size="x-small">
-                                Recommended
-                            </Tag>
-                        ),
+                        trailing: <Tag color="blue" label="Recommended" size="x-small" />,
                     },
                     {
                         value: 'b',
                         label: 'Package B',
-                        trailing: (
-                            <Tag color="green" size="x-small">
-                                Best Value
-                            </Tag>
-                        ),
+                        trailing: <Tag color="green" label="Best Value" size="x-small" />,
                     },
                     { value: 'c', label: 'Package C' },
                     { value: 'd', label: 'Package D' },

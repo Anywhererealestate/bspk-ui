@@ -1,4 +1,3 @@
-import { ReactNode } from 'react';
 import { Truncated } from '-/components/Truncated';
 
 import { ColorVariant } from '-/utils/colorVariants';
@@ -6,10 +5,12 @@ import { ColorVariant } from '-/utils/colorVariants';
 import './tag.scss';
 
 export type TagProps = {
-    /** The label of the tag. */
-    label?: string;
-    /** The content of the tag. */
-    children?: ReactNode;
+    /**
+     * The label of the tag.
+     *
+     * @required
+     */
+    label: string;
     /**
      * The size of the tag.
      *
@@ -37,21 +38,16 @@ export type TagProps = {
  *     import { Tag } from '@bspk/ui/Tag';
  *
  *     export function Example() {
- *         return (
- *             <Tag variant="flat" color="primary">
- *                 Example Tag
- *             </Tag>
- *         );
+ *         return <Tag label="Example Tag" variant="flat" color="primary" />;
  *     }
  *
  * @name Tag
  * @phase UXReview
  */
-function Tag({ children, label, color = 'white', size = 'small', variant = 'flat' }: TagProps) {
+function Tag({ label, color = 'white', size = 'small', variant = 'flat' }: TagProps) {
     return (
         <div data-bspk="tag" data-color={color} data-size={size} data-variant={variant}>
             {label && <Truncated>{label}</Truncated>}
-            {children}
             {variant === 'corner-wrap' && <div data-triangle />}
         </div>
     );
