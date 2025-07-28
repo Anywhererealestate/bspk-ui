@@ -32,7 +32,7 @@ export type RangeSliderProps = Pick<
  *     }
  *
  * @name RangeSlider
- * @phase WorkInProgress
+ * @phase Dev
  */
 function RangeSlider({
     value = [0, 0],
