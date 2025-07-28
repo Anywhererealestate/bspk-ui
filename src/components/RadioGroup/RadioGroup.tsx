@@ -6,7 +6,7 @@ import './radio-group.scss';
 
 export type RadioGroupOption = Pick<
     RadioOptionProps,
-    'checked' | 'description' | 'disabled' | 'label' | 'name' | 'onChange' | 'value'
+    'checked' | 'description' | 'disabled' | 'label' | 'name' | 'onChange'
 > &
     Required<CommonProps<'value'>>;
 
