@@ -27,8 +27,10 @@
         --height: var(--spacing-sizing-12);
     }
 
-    button {
-        border: 0;
+    li {
+        list-style: none;
+        margin: 0;
+        padding: 0;
         cursor: pointer;
         color: var(--foreground-neutral-on-surface-variant-02);
         background: none;

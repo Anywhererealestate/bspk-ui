@@ -138,39 +138,51 @@ function TabGroup({
     width = 'hug',
     showTrail = false,
     ...containerProps
-}: ElementProps<TabGroupProps, 'div'>) {
+}: ElementProps<TabGroupProps, 'ul'>) {
     const options = Array.isArray(optionsProp) ? optionsProp : [];
     useOptionIconsInvalid(options);
 
     return (
-        <div
+        <ul
             {...containerProps}
             data-bspk="tab-group"
             data-hide-trail={(width === 'hug' && !showTrail) || undefined}
             data-size={size}
             data-width={width}
+            role="tablist"
         >
             {options.map((item, itemIndex) => {
                 const isSelected = item.value === value;
                 const icon = isSelected ? item.iconSelected : item.icon;
                 return (
-                    <button
+                    <li
+                        aria-disabled={item.disabled || undefined}
+                        aria-selected={isSelected || undefined}
                         data-selected={isSelected || undefined}
-                        disabled={item.disabled || undefined}
                         key={item.value}
                         onClick={() => {
-                            onTabChange(item.value || item.label, itemIndex);
+                            if (!item.disabled) {
+                                onTabChange(item.value || item.label, itemIndex);
+                            }
                         }}
+                        onKeyDown={(e) => {
+                            if (!item.disabled && (e.key === 'Enter' || e.key === ' ')) {
+                                e.preventDefault();
+                                onTabChange(item.value || item.label, itemIndex);
+                            }
+                        }}
+                        role="tab"
+                        tabIndex={item.disabled ? -1 : 0}
                     >
                         <span>
                             {icon && <span aria-hidden="true">{icon}</span>}
                             {item.label}
                             {item.badge && !item.disabled && <Badge count={item.badge} size={TAB_BADGE_SIZES[size]} />}
                         </span>
-                    </button>
+                    </li>
                 );
             })}
-        </div>
+        </ul>
     );
 }
 
