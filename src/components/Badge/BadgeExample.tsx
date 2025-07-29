@@ -3,29 +3,17 @@ import { Avatar } from '-/components/Avatar';
 import { ComponentExample } from '-/utils/demo';
 
 export const BadgeExample: ComponentExample<BadgeProps> = {
-    containerStyle: { width: '100%' },
-    render: ({ props, Component, preset }) => {
-        if (preset?.label === 'Borders') return <ExampleBadgeVariants Component={Component} props={props} />;
-
-        if (preset?.label === 'With Context') {
-            return (
-                <>
-                    <Component {...props}>
-                        <Avatar image="/profile.jpg" name="Andre Giant" />
-                    </Component>
-                </>
-            );
-        }
-        return <Component {...props} />;
+    render: ({ props, Component }) => {
+        return (
+            <Component {...props}>
+                <Avatar image="/profile.jpg" name="Andre Giant" />
+            </Component>
+        );
     },
-    presets: [
-        {
-            label: 'With Context',
-        },
-        {
-            label: 'Borders',
-        },
-    ],
+    containerStyle: { width: '100%' },
+    variantsExample: ({ Component }) => (
+        <ExampleBadgeVariants Component={Component} props={{ size: 'small', surfaceBorder: false }} />
+    ),
 };
 
 function ExampleBadgeVariants({

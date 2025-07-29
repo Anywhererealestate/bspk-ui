@@ -34,6 +34,12 @@
         }
     }
 
+    &[data-success='color'] {
+        [data-bar]::after {
+            background-color: var(--status-success);
+        }
+    }
+
     label {
         font-size: var(--labels-small);
         width: 100%;

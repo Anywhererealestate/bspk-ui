@@ -31,6 +31,20 @@ export type ProgressBarProps = {
     align?: 'center' | 'left';
     /** The label of the progressbar. */
     label: string;
+    /**
+     * If true and completion = 100, displays the progress bar in the success color.
+     *
+     * @deprecated This has a very narrow use-case. See guidelines for more information.
+     * @default false
+     */
+    successColor?: boolean;
+    /**
+     * Whether to hide the success color when the progress bar is complete.
+     *
+     * @deprecated This has a very narrow use-case. See guidelines for more information.
+     * @default false
+     */
+    successHidden?: boolean;
 };
 
 /**
@@ -45,13 +59,28 @@ export type ProgressBarProps = {
  *     }
  *
  * @name ProgressBar
- * @phase DesignReview
+ * @phase UXReview
  */
-function ProgressBar({ size = 'large', completion = 0, align = 'center', label }: ProgressBarProps) {
+function ProgressBar({
+    size = 'large',
+    completion: completionProp = 0,
+    align = 'center',
+    label,
+    successColor = false,
+    successHidden = false,
+}: ProgressBarProps) {
     const id = useId();
+    const completion = Math.max(0, Math.min(100, Math.round(completionProp))); // Ensure completion is between 0 and 100
+
+    if (successHidden && completion === 100) return null;
 
     return (
-        <div data-align={align} data-bspk="progress-bar" data-size={size}>
+        <div
+            data-align={align}
+            data-bspk="progress-bar"
+            data-size={size}
+            data-success={successColor && completion === 100 ? 'color' : undefined}
+        >
             <progress
                 aria-busy={completion < 100}
                 aria-label="A bounded progress bar from 0 to 100"

@@ -4,7 +4,6 @@ import { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
 import { Portal } from '-/components/Portal';
 import { Scrim } from '-/components/Scrim';
 import { useId } from '-/hooks/useId';
-import { useOutsideClick } from '-/hooks/useOutsideClick';
 import { CommonProps, ElementProps, SetRef } from '-/types/common';
 
 import './dialog.scss';
@@ -132,12 +131,9 @@ function Dialog({
         };
     }, [handleKeyDown, visibility]);
 
-    useOutsideClick([boxRef.current], onClose, !open);
-
     return (
         visibility !== 'hidden' && (
             <Portal>
-                <Scrim data-bspk-owner="dialog" onClick={onClose} variant="dialog" visible={showScrim !== false} />
                 <div
                     {...containerProps}
                     data-bspk="dialog"
@@ -164,6 +160,13 @@ function Dialog({
                         </div>
                     </FocusTrap>
                 </div>
+                <Scrim
+                    data-bspk-owner="dialog"
+                    onClick={() => {
+                        onClose();
+                    }}
+                    visible={showScrim !== false}
+                />
             </Portal>
         )
     );

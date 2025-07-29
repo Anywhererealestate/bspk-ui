@@ -10,14 +10,6 @@ export type ScrimProps = CommonProps<'data-bspk-owner'> & {
      */
     visible?: boolean;
     /**
-     * The variant of the Scrim.
-     *
-     * This determines how the Scrim is used in the application and effects its styling.
-     *
-     * @required
-     */
-    variant: 'dialog' | 'dropdown';
-    /**
      * A function that is called when the Scrim is clicked.
      *
      * This will typically be used to close a modal or dropdown when the user clicks outside of it.
@@ -35,16 +27,8 @@ export type ScrimProps = CommonProps<'data-bspk-owner'> & {
  *
  * @phase Utility
  */
-function Scrim({ visible = true, variant, ...props }: ScrimProps) {
-    return (
-        <div
-            {...props}
-            aria-hidden="true"
-            data-bspk="scrim"
-            data-hidden={!visible || undefined}
-            data-variant={variant}
-        />
-    );
+function Scrim({ visible = true, ...props }: ScrimProps) {
+    return <div {...props} aria-hidden="true" data-bspk="scrim" data-hidden={!visible || undefined} />;
 }
 
 Scrim.bspkName = 'Scrim';

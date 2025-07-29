@@ -53,7 +53,7 @@ export type LinkProps = Pick<CommonPropsLibrary, 'disabled'> & {
  *     }
  *
  * @name Link
- * @phase DesignReview
+ * @phase UXReview
  */
 function Link({ label, trailingIcon, size, variant, target = '_self', ...props }: ElementProps<LinkProps, 'a'>) {
     let LazyIcon: LazyExoticComponent<ComponentType<unknown>> | undefined = undefined;

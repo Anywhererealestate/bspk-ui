@@ -36,7 +36,7 @@ export type VerticalSliderProps = Pick<
  *     }
  *
  * @name VerticalSlider
- * @phase WorkInProgress
+ * @phase Dev
  */
 function VerticalSlider({
     value,

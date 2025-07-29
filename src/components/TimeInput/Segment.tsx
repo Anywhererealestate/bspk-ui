@@ -37,14 +37,6 @@ export function TimeInputSegment<T extends number | string>({
         }, 10);
     };
 
-    const log = useCallback(
-        (arg: object) => {
-            // eslint-disable-next-line no-console
-            console.log({ type: kind, ...arg });
-        },
-        [kind],
-    );
-
     const valueToContent = useCallback(
         (value: number | string | undefined) => {
             if (kind === 'meridiem') return value?.toString() || 'AM';
@@ -144,17 +136,15 @@ export function TimeInputSegment<T extends number | string>({
             let nextNumber = Number(event.key);
             const currentValue = ref.current?.textContent;
 
-            log({ currentValue, nextNumber });
-
             const addToExisting =
                 (kind === 'hours' && currentValue === '01' && nextNumber < 3) ||
                 (kind === 'minutes' && Number(currentValue) < 6);
 
             if (addToExisting) nextNumber = Number(`${currentValue}${nextNumber}`);
+            else if (nextNumber === 0) return; // ignore leading zero
 
             nextNumber = bound({
                 num: nextNumber,
-                rollover: true,
                 ...(kind === 'minutes' ? MINUTE_BOUNDS : HOUR_BOUNDS),
             });
 
@@ -172,7 +162,7 @@ export function TimeInputSegment<T extends number | string>({
 
             return;
         },
-        [log, kind, handleIncrement, onChange],
+        [kind, handleIncrement, onChange],
     );
 
     return (

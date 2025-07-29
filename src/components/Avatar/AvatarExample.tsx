@@ -13,10 +13,19 @@ export const AvatarExample: ComponentExample<AvatarProps> = {
             },
         },
         {
+            label: 'One Word Name',
+            propState: {
+                name: 'Andre',
+                image: undefined, // Ensure no image is set
+                initials: undefined, // Ensure no initials are set
+                showIcon: false,
+            },
+        },
+        {
             label: 'With Initials',
             propState: {
-                name: 'Andre Giant',
-                initials: 'GA',
+                name: 'Andre The Giant',
+                initials: 'AG',
                 image: undefined, // Ensure no image is set
                 showIcon: false,
             },

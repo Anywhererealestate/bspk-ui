@@ -19,7 +19,7 @@ export function bound({
     num: number | string | undefined;
     max: number;
     min: number;
-    rollover: boolean;
+    rollover?: boolean;
     defaultValue?: number;
 }): number {
     const parsedNum = typeof num === 'number' ? num : parseInt(num as string, 10);

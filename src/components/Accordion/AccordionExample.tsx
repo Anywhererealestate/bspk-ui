@@ -2,8 +2,16 @@ import { AccordionProps } from '.';
 import { createExampleChildElement } from '-/utils/createExampleChildElement';
 import { ComponentExampleFn } from '-/utils/demo';
 
+const AccordionContent = () => (
+    <p>
+        Actualize the plan and markets. Going forward, we should harness the asset. Leverage skillsets to achieve
+        maximum market share.
+    </p>
+);
+
 export const AccordionExample: ComponentExampleFn<AccordionProps> = ({ action, setState }) => ({
-    render: ({ props, Component, id }) => {
+    containerStyle: { minHeight: 225 },
+    render: ({ props, Component, id, preset }) => {
         const trailingElement = createExampleChildElement({
             exampleState: props,
             name: 'trailing',
@@ -25,53 +33,55 @@ export const AccordionExample: ComponentExampleFn<AccordionProps> = ({ action, s
                     {...props}
                     items={[
                         {
-                            id: 1,
-                            title: 'First Section',
+                            id: '1',
+                            title: `Section 1`,
                             leading: leadingElement,
                             trailing: trailingElement,
-                            children: (
-                                <div style={{ padding: 50, textAlign: 'center', backgroundColor: '#DBDBDB' }}>
-                                    Example Content
-                                </div>
-                            ),
+                            children: <AccordionContent />,
                         },
-                        {
-                            id: 2,
-                            title: 'Second Section',
-                            leading: leadingElement,
-                            trailing: trailingElement,
-                            children: (
-                                <div style={{ padding: 50, textAlign: 'center', backgroundColor: '#DBDBDB' }}>
-                                    Example Content
-                                </div>
-                            ),
-                        },
-                        {
-                            id: 3,
-                            title: 'Third Section',
-                            leading: leadingElement,
-                            trailing: trailingElement,
-                            children: (
-                                <div style={{ padding: 50, textAlign: 'center', backgroundColor: '#DBDBDB' }}>
-                                    Example Content
-                                </div>
-                            ),
-                        },
-                        {
-                            id: 4,
-                            title: 'Fourth Section',
-                            leading: leadingElement,
-                            trailing: trailingElement,
-                            children: (
-                                <div style={{ padding: 50, textAlign: 'center', backgroundColor: '#DBDBDB' }}>
-                                    Example Content
-                                </div>
-                            ),
-                        },
+                        ...(props.items ?? []),
                     ]}
+                    key={preset?.label}
                 />
             </>
         );
     },
+    presets: [
+        {
+            label: 'Multiple Sections',
+            propState: {
+                items: [
+                    {
+                        id: '2',
+                        title: 'Section 2',
+                        children: <AccordionContent />,
+                    },
+                    {
+                        id: '3',
+                        title: 'Section 3',
+                        children: <AccordionContent />,
+                    },
+                ],
+            },
+        },
+        {
+            label: 'Multiple Sections with 1 disabled',
+            propState: {
+                items: [
+                    { id: '2', title: 'Section 2', disabled: true, children: <AccordionContent /> },
+                    { id: '3', title: 'Section 3', children: <AccordionContent /> },
+                ],
+            },
+        },
+        {
+            label: 'Multiple Sections with 1 disabled and open',
+            propState: {
+                items: [
+                    { id: '2', title: 'Section 2', disabled: true, isOpen: true, children: <AccordionContent /> },
+                    { id: '3', title: 'Section 3', children: <AccordionContent /> },
+                ],
+            },
+        },
+    ],
     hideVariants: true,
 });

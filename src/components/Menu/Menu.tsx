@@ -1,8 +1,8 @@
-import { ReactNode, useMemo } from 'react';
+import { ReactNode, useMemo, useRef } from 'react';
 
 import { Portal } from '-/components/Portal';
-import { Scrim } from '-/components/Scrim';
 import { useId } from '-/hooks/useId';
+import { useOutsideClick } from '-/hooks/useOutsideClick';
 import { CommonProps, ElementProps, SetRef } from '-/types/common';
 import { cssWithVars } from '-/utils/cwv';
 
@@ -70,8 +70,12 @@ export type MenuProps = CommonProps<'data-bspk-owner' | 'id'> & {
      * @default true
      */
     floating?: boolean;
-    /** A function that is called when the user clicks outside of the menu. */
-    onOutsideClick?: () => void;
+    /**
+     * A function that is called when the user clicks outside of the menu.
+     *
+     * @required
+     */
+    onOutsideClick: () => void;
 };
 
 /**
@@ -91,7 +95,7 @@ export type MenuProps = CommonProps<'data-bspk-owner' | 'id'> & {
  *     }
  *
  * @name Menu
- * @phase DesignReview
+ * @phase UXReview
  */
 function Menu({
     //
@@ -111,16 +115,26 @@ function Menu({
         return itemDisplayCountProp && boundCount(itemCount, itemDisplayCountProp);
     }, [itemCount, itemDisplayCountProp]);
 
+    const menuElement = useRef(null as HTMLDivElement | null);
+
+    useOutsideClick({
+        elements: [menuElement.current],
+        callback: () => onOutsideClick?.(),
+        disabled: !onOutsideClick,
+    });
+
     const menu = (
         <>
-            {floating && <Scrim data-bspk-owner="menu" onClick={() => onOutsideClick?.()} variant="dropdown" />}
             <div
                 role="listbox"
                 {...props}
                 data-bspk="menu"
                 data-floating={floating || undefined}
                 id={menuId}
-                ref={innerRef}
+                ref={(node) => {
+                    innerRef?.(node);
+                    menuElement.current = node;
+                }}
                 style={cssWithVars({
                     ...props.style,
                     '--overflow-y':
