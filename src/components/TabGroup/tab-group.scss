@@ -68,7 +68,7 @@
             }
         }
 
-        &[data-active] {
+        &[data-selected] {
             color: var(--foreground-brand-primary);
 
             span {
