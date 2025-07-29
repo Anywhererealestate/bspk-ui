@@ -166,7 +166,7 @@ function TabGroup({
                             {!isActive && item.icon && <span aria-hidden="true">{item.icon}</span>}
                             {isActive && item.iconActive && <span aria-hidden="true">{item.iconActive}</span>}
                             {item.label}
-                            {item.badge && !item.disabled && <Badge count={item.badge} size={TAB_BADGE_SIZES[size]} />}
+                            {item.badge && <Badge count={item.badge} size={TAB_BADGE_SIZES[size]} />}
                         </span>
                     </button>
                 );
