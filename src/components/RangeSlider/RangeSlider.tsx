@@ -11,7 +11,17 @@ export type RangeSliderProps = Pick<
     SliderProps,
     'disabled' | 'interval' | 'intervalType' | 'label' | 'maximum' | 'minimum' | 'precision' | 'readOnly'
 > & {
+    /**
+     * The numerical value of the slider.
+     *
+     * @required
+     */
     value: [number, number];
+    /**
+     * Invoked with the new value when value changes.
+     *
+     * @required
+     */
     onChange: (newValue: [number, number]) => void;
     /** Optional function to format the display value of the slider. Useful for currency, percentages, etc. */
     getDisplayValue?: (value: [number, number]) => string;
