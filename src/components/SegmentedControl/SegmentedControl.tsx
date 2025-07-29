@@ -28,11 +28,11 @@ export type SegmentedControlOption = {
      */
     icon?: React.ReactNode;
     /**
-     * The icon to display before the label when the option is active.
+     * The icon to display on the left side of the button segment when the button segment is currently selected.
      *
      * @type BspkIcon
      */
-    iconActive?: React.ReactNode;
+    iconSelected?: React.ReactNode;
 };
 
 export type SegmentedControlProps = {
@@ -130,7 +130,8 @@ function SegmentedControl({
     return (
         <div {...containerProps} data-bspk="segmented-control" data-size={size} data-width={width}>
             {options.map((item, index) => {
-                const isActive = item.value === value;
+                const isSelected = item.value === value;
+                const icon = isSelected ? item.iconSelected : item.icon;
                 return (
                     <Fragment key={item.value}>
                         <Tooltip disabled={!hideLabels} label={item.label} placement="top">
@@ -138,13 +139,13 @@ function SegmentedControl({
                                 aria-label={item.label}
                                 data-first={index === 0 || undefined}
                                 data-last={index === options.length - 1 || undefined}
-                                data-selected={isActive || undefined}
+                                data-selected={isSelected || undefined}
                                 disabled={item.disabled || undefined}
                                 onClick={() => onChange(item.value || item.label)}
                             >
                                 <span data-outer>
                                     <span data-inner>
-                                        {(isActive && item.iconActive) || item.icon}
+                                        {icon && <span aria-hidden="true">{icon}</span>}
                                         {!hideLabels && item.label}
                                     </span>
                                 </span>
