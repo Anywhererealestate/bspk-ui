@@ -139,7 +139,7 @@ function RangeSlider({
                 delta = step;
                 break;
             default:
-                return; // Ignore other keys
+                return;
         }
 
         e.preventDefault();
