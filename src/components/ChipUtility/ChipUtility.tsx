@@ -94,6 +94,7 @@ function ChipUtility({
             data-flat={flat || undefined}
             data-selected={selected || undefined}
             data-touch-target-parent
+            disabled={disabled}
             onClick={disabled ? undefined : onClick}
         >
             <>
