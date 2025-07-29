@@ -6,18 +6,11 @@ export const DialogExample: ComponentExample<DialogProps> = {
     render: ({ props, setState, Component }) => {
         const label = 'Open Dialog';
 
-        const { children, ...modalProps } = props;
-
         return (
             <>
                 <Button label={label} onClick={() => setState({ open: true })} />
-                <Component
-                    data-example-component
-                    id="exampleId"
-                    {...modalProps}
-                    onClose={() => setState({ open: false })}
-                >
-                    {children}
+                <Component data-example-component {...props} id="exampleId" onClose={() => setState({ open: false })}>
+                    <div style={{ padding: 'var(--spacing-sizing-04)' }}>Hello, I am a dialog!</div>
                 </Component>
             </>
         );

@@ -24,7 +24,7 @@ export type ChipUtilityProps = {
      * The label of the chip.
      *
      * @example
-     *     'Hello I am Chip';
+     *     Hello I am Chip
      *
      * @required
      */
