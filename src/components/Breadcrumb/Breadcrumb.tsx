@@ -17,7 +17,7 @@ export type BreadcrumbItem = {
      * The label of the breadcrumb item.
      *
      * @example
-     *     'Page 1';
+     *     Page 1
      *
      * @required
      */
@@ -26,7 +26,7 @@ export type BreadcrumbItem = {
      * The href of the breadcrumb item.
      *
      * @example
-     *     'https://bspk.anywhere.re';
+     *     https://bspk.anywhere.re
      *
      * @required
      */
