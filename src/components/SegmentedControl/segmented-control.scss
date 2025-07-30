@@ -123,6 +123,7 @@
                 }
             }
         }
+
         &[data-disabled] {
             pointer-events: none;
             color: var(--foreground-neutral-disabled-on-surface);
