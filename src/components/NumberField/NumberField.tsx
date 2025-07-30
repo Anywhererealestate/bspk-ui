@@ -58,7 +58,6 @@ function NumberField({
 }: NumberFieldProps) {
     return (
         <FormField
-            Component={NumberInput}
             controlId={controlId}
             data-bspk="number-field"
             errorMessage={errorMessage}
