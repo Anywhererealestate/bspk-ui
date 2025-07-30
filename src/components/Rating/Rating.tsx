@@ -57,17 +57,23 @@ function Rating({ size = 'medium', value, onChange }: RatingProps) {
             aria-label={onChange ? 'Select a star rating' : `${value} out of ${MAX_STARS} stars`}
             data-bspk="rating"
             data-size={size}
-            role={onChange ? 'presentation' : 'img'}
+            role={onChange ? 'radiogroup' : 'img'}
         >
             {Array.from({ length: MAX_STARS }, (_, index) => {
                 const fill = getFill(index + 1, value);
+                const selected = value !== undefined && Math.floor(value) === index;
                 return (
                     <As
-                        aria-label={onChange ? `Rate ${value}` : undefined}
+                        aria-checked={selected}
+                        aria-hidden={!onChange}
+                        aria-label={onChange ? `Rate ${index + 1}` : undefined}
                         data-fill={fill}
                         data-star
                         key={index}
-                        onClick={onChange ? () => onChange?.(index + 1) : undefined}
+                        onClick={() => onChange?.(index + 1)}
+                        role="radio"
+                        tabIndex={selected ? 0 : -1}
+                        type="button"
                     >
                         <SvgStarFill width={iconWidths[size]} />
                         {fill === 'half' && (
