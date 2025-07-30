@@ -1,3 +1,4 @@
+import { ComponentType } from 'react';
 import { InlineAlert } from '-/components/InlineAlert';
 import { Txt } from '-/components/Txt';
 import { CommonProps, ElementProps, InvalidPropsLibrary } from '-/types/common';
@@ -5,12 +6,6 @@ import { CommonProps, ElementProps, InvalidPropsLibrary } from '-/types/common';
 import './form-field.scss';
 
 export type FieldControlProps = {
-    /**
-     * Marks the element as invalid and displays error message.
-     *
-     * @default false
-     */
-    invalid?: boolean;
     /** The id of the control description. */
     'aria-describedby'?: string;
     /** The id of the error message */
@@ -107,7 +102,6 @@ function FormField({
                 {labelTrailing}
             </header>
             {children({
-                invalid,
                 'aria-describedby': helperTextId,
                 'aria-errormessage': errorMessageId,
             })}

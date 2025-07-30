@@ -1,22 +1,22 @@
 import { FormFieldProps, FormField } from '-/components/FormField';
 import { NumberInputProps, NumberInput } from '-/components/NumberInput';
 
-export type NumberFieldProps = Pick<
-    NumberInputProps,
-    | 'align'
-    | 'disabled'
-    | 'errorMessage'
-    | 'id'
-    | 'invalid'
-    | 'max'
-    | 'min'
-    | 'name'
-    | 'onChange'
-    | 'readOnly'
-    | 'size'
-    | 'value'
-> &
-    Pick<FormFieldProps, 'controlId' | 'helperText' | 'label' | 'labelTrailing' | 'required'>;
+export type NumberFieldProps = Omit<FormFieldProps, 'children'> &
+    Pick<
+        NumberInputProps,
+        | 'align'
+        | 'disabled'
+        | 'errorMessage'
+        | 'id'
+        | 'invalid'
+        | 'max'
+        | 'min'
+        | 'name'
+        | 'onChange'
+        | 'readOnly'
+        | 'size'
+        | 'value'
+    >;
 
 /**
  * A input element that allows users to either input a numerical value or singularly increase or decrease the values by
@@ -58,6 +58,7 @@ function NumberField({
 }: NumberFieldProps) {
     return (
         <FormField
+            Component={NumberInput}
             controlId={controlId}
             data-bspk="number-field"
             errorMessage={errorMessage}

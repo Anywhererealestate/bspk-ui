@@ -3,7 +3,7 @@ import { TextareaProps, Textarea } from '-/components/Textarea';
 import { Txt } from '-/components/Txt';
 import { tryIntParse } from '-/utils/tryIntPsrse';
 
-export type TextareaFieldProps = Pick<FormFieldProps, 'controlId' | 'helperText' | 'label'> &
+export type TextareaFieldProps = Omit<FormFieldProps, 'children' | 'labelTrailing'> &
     TextareaProps & {
         /**
          * Whether the character count should be displayed.
@@ -43,35 +43,31 @@ function TextareaField({
     label,
     errorMessage,
     helperText,
-    controlId: id,
-    onChange,
-    maxLength: maxLengthProp,
-    invalid,
-    readOnly,
-    disabled,
+    controlId,
     required,
-    characterCount = true,
-    ...textareaProps
+    invalid,
+    ...inputProps
 }: TextareaFieldProps) {
-    const maxLength = tryIntParse(maxLengthProp) || -1;
+    const maxLength = tryIntParse(inputProps.maxLength) || -1;
 
     return (
         <FormField
-            controlId={id}
+            controlId={controlId}
             data-bspk="textarea-field"
             errorMessage={errorMessage}
             helperText={helperText}
             invalid={invalid}
             label={label}
             labelTrailing={
-                characterCount && (
+                // If characterCount is false, we don't want to show the labelTrailing
+                inputProps.characterCount && (
                     <Txt
                         style={{
                             color: 'var(--foreground-neutral-on-surface-variant-02)',
                         }}
                         variant="body-small"
                     >
-                        {`${textareaProps?.value?.length || 0}${maxLength > 0 ? `/${maxLength}` : ''}`}
+                        {`${inputProps?.value?.length || 0}${maxLength > 0 ? `/${maxLength}` : ''}`}
                     </Txt>
                 )
             }
@@ -79,17 +75,11 @@ function TextareaField({
         >
             {(fieldProps) => (
                 <Textarea
-                    {...textareaProps}
+                    //
+                    {...inputProps}
                     {...fieldProps}
-                    aria-label={textareaProps['aria-label'] || label}
-                    disabled={disabled}
-                    id={id}
+                    errorMessage={errorMessage}
                     invalid={invalid}
-                    onChange={(next, event) => {
-                        onChange(next, event);
-                    }}
-                    readOnly={readOnly}
-                    required={required}
                 />
             )}
         </FormField>
