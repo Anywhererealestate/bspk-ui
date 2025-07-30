@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+// import { Fragment } from 'react';
 
 import { Tooltip } from '-/components/Tooltip';
 import { useOptionIconsInvalid } from '-/hooks/useOptionIconsInvalid';
@@ -121,40 +121,46 @@ function SegmentedControl({
     width = 'hug',
     showLabels: showLabelsProp = true,
     ...containerProps
-}: ElementProps<SegmentedControlProps, 'div'>) {
+}: ElementProps<SegmentedControlProps, 'ul'>) {
     const options = Array.isArray(optionsProp) ? optionsProp : [];
     useOptionIconsInvalid(options);
 
     const hideLabels = showLabelsProp === false && options.every((item) => item.icon && item.label);
 
     return (
-        <div {...containerProps} data-bspk="segmented-control" data-size={size} data-width={width}>
+        <ul {...containerProps} data-bspk="segmented-control" data-size={size} data-width={width} role="tablist">
             {options.map((item, index) => {
                 const isSelected = item.value === value;
                 const icon = isSelected ? item.iconSelected : item.icon;
                 return (
-                    <Fragment key={item.value}>
-                        <Tooltip disabled={!hideLabels} label={item.label} placement="top">
-                            <button
-                                aria-label={item.label}
-                                data-first={index === 0 || undefined}
-                                data-last={index === options.length - 1 || undefined}
-                                data-selected={isSelected || undefined}
-                                disabled={item.disabled || undefined}
-                                onClick={() => onChange(item.value || item.label)}
-                            >
-                                <span data-outer>
-                                    <span data-inner>
-                                        {icon && <span aria-hidden="true">{icon}</span>}
-                                        {!hideLabels && item.label}
-                                    </span>
+                    <Tooltip disabled={!hideLabels} key={item.value} label={item.label} placement="top">
+                        <li
+                            aria-label={item.label}
+                            aria-selected={isSelected}
+                            data-first={index === 0 || undefined}
+                            data-last={index === options.length - 1 || undefined}
+                            data-selected={isSelected || undefined}
+                            onClick={() => !item.disabled && onChange(item.value || item.label)}
+                            onKeyDown={(e) => {
+                                if (!item.disabled && (e.key === 'Enter' || e.key === ' ')) {
+                                    e.preventDefault();
+                                    onChange(item.value || item.label);
+                                }
+                            }}
+                            role="tab"
+                            tabIndex={item.disabled ? -1 : 0}
+                        >
+                            <span data-outer>
+                                <span data-inner>
+                                    {icon && <span aria-hidden="true">{icon}</span>}
+                                    {!hideLabels && item.label}
                                 </span>
-                            </button>
-                        </Tooltip>
-                    </Fragment>
+                            </span>
+                        </li>
+                    </Tooltip>
                 );
             })}
-        </div>
+        </ul>
     );
 }
 
