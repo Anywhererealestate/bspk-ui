@@ -158,6 +158,7 @@ function TabGroup({
                     <li
                         aria-disabled={item.disabled || undefined}
                         aria-selected={isSelected || undefined}
+                        data-disabled={item.disabled || undefined}
                         data-selected={isSelected || undefined}
                         key={item.value}
                         onClick={() => {

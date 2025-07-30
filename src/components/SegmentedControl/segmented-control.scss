@@ -82,51 +82,48 @@
             }
         }
 
-        &:not(:disabled) {
-            &:hover {
-                [data-inner] {
-                    background: var(--interactions-neutral-hover-opacity);
-                }
-            }
-
-            &:active {
-                [data-inner] {
-                    background: var(--interactions-neutral-press-opacity);
-                }
-            }
-
-            &[data-selected] {
-                [data-inner] {
-                    background: var(--surface-neutral-t1-base);
-                }
-            }
-
-            &:focus-visible {
-                outline: none;
-
-                [data-inner] {
-                    position: relative;
-                    z-index: 2;
-                    outline: solid 2px var(--stroke-neutral-focus);
-                }
-
-                &:first-of-type {
-                    [data-inner] {
-                        border-top-right-radius: 0;
-                        border-bottom-right-radius: 0;
-                    }
-                }
-
-                &:last-of-type {
-                    [data-inner] {
-                        border-top-left-radius: 0;
-                        border-bottom-left-radius: 0;
-                    }
-                }
+        &:hover {
+            [data-inner] {
+                background: var(--interactions-neutral-hover-opacity);
             }
         }
 
-        &:disabled {
+        &:active {
+            [data-inner] {
+                background: var(--interactions-neutral-press-opacity);
+            }
+        }
+
+        &[data-selected] {
+            [data-inner] {
+                background: var(--surface-neutral-t1-base);
+            }
+        }
+
+        &:focus-visible {
+            outline: none;
+
+            [data-inner] {
+                position: relative;
+                z-index: 2;
+                outline: solid 2px var(--stroke-neutral-focus);
+            }
+
+            &:first-of-type {
+                [data-inner] {
+                    border-top-right-radius: 0;
+                    border-bottom-right-radius: 0;
+                }
+            }
+
+            &:last-of-type {
+                [data-inner] {
+                    border-top-left-radius: 0;
+                    border-bottom-left-radius: 0;
+                }
+            }
+        }
+        &[data-disabled] {
             pointer-events: none;
             color: var(--foreground-neutral-disabled-on-surface);
             cursor: not-allowed;

@@ -46,11 +46,6 @@
             background: var(--interactions-neutral-press-opacity);
         }
 
-        &:disabled {
-            pointer-events: none;
-            color: var(--foreground-neutral-disabled-on-surface);
-        }
-
         &:focus-visible {
             outline: solid 2px var(--stroke-neutral-focus);
         }
@@ -68,6 +63,11 @@
             svg {
                 width: var(--spacing-sizing-05);
             }
+        }
+
+        &[data-disabled] {
+            pointer-events: none;
+            color: var(--foreground-neutral-disabled-on-surface);
         }
 
         &[data-selected] {

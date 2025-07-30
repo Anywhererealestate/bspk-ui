@@ -133,31 +133,33 @@ function SegmentedControl({
                 const isSelected = item.value === value;
                 const icon = isSelected ? item.iconSelected : item.icon;
                 return (
-                    <Tooltip disabled={!hideLabels} key={item.value} label={item.label} placement="top">
-                        <li
-                            aria-label={item.label}
-                            aria-selected={isSelected}
-                            data-first={index === 0 || undefined}
-                            data-last={index === options.length - 1 || undefined}
-                            data-selected={isSelected || undefined}
-                            onClick={() => !item.disabled && onChange(item.value || item.label)}
-                            onKeyDown={(e) => {
-                                if (!item.disabled && (e.key === 'Enter' || e.key === ' ')) {
-                                    e.preventDefault();
-                                    onChange(item.value || item.label);
-                                }
-                            }}
-                            role="tab"
-                            tabIndex={item.disabled ? -1 : 0}
-                        >
+                    <li
+                        aria-label={item.label}
+                        aria-selected={isSelected}
+                        data-disabled={item.disabled || undefined}
+                        data-first={index === 0 || undefined}
+                        data-last={index === options.length - 1 || undefined}
+                        data-selected={isSelected || undefined}
+                        key={item.value}
+                        onClick={() => !item.disabled && onChange(item.value || item.label)}
+                        onKeyDown={(e) => {
+                            if (!item.disabled && (e.key === 'Enter' || e.key === ' ')) {
+                                e.preventDefault();
+                                onChange(item.value || item.label);
+                            }
+                        }}
+                        role="tab"
+                        tabIndex={item.disabled ? -1 : 0}
+                    >
+                        <Tooltip disabled={!hideLabels} label={item.label} placement="top">
                             <span data-outer>
                                 <span data-inner>
                                     {icon && <span aria-hidden="true">{icon}</span>}
                                     {!hideLabels && item.label}
                                 </span>
                             </span>
-                        </li>
-                    </Tooltip>
+                        </Tooltip>
+                    </li>
                 );
             })}
         </ul>
