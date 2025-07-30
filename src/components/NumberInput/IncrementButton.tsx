@@ -6,21 +6,24 @@ export type IncrementButtonProps = {
     disabled: boolean;
     increment: -1 | 1;
     onIncrement: (increment: -1 | 1) => void;
+    inputId: string;
 };
 
-function IncrementButton({ increment, disabled, onIncrement }: IncrementButtonProps) {
+function IncrementButton({ increment, disabled, onIncrement, inputId }: IncrementButtonProps) {
     const add = increment === 1;
 
     const { setTriggerElement, ...handlers } = useLongPress(() => onIncrement(increment), disabled);
 
     return (
         <button
-            aria-label={`${add ? 'Increase' : 'Decrease'} value`}
+            {...handlers}
+            aria-controls={inputId}
+            aria-hidden="true"
             data-increment={increment}
             disabled={disabled}
             ref={setTriggerElement}
+            tabIndex={-1}
             type="button"
-            {...handlers}
         >
             {add ? <SvgAdd /> : <SvgRemove />}
         </button>
