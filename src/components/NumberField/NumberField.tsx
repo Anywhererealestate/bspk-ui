@@ -48,26 +48,35 @@ export type NumberFieldProps = Pick<
  */
 function NumberField({
     label,
-    errorMessage: errorMessageProp,
+    errorMessage,
     helperText,
     controlId,
     labelTrailing,
     required,
+    invalid,
     ...inputProps
 }: NumberFieldProps) {
-    const errorMessage = (!inputProps.readOnly && !inputProps.disabled && errorMessageProp) || undefined;
-
     return (
         <FormField
             controlId={controlId}
             data-bspk="number-field"
             errorMessage={errorMessage}
             helperText={helperText}
+            invalid={invalid}
             label={label}
             labelTrailing={labelTrailing}
             required={required}
         >
-            {(fieldProps) => <NumberInput {...inputProps} {...fieldProps} aria-label={label} id={controlId} />}
+            {(fieldProps) => (
+                <NumberInput
+                    {...inputProps}
+                    {...fieldProps}
+                    aria-label={label}
+                    errorMessage={errorMessage}
+                    id={controlId}
+                    invalid={invalid}
+                />
+            )}
         </FormField>
     );
 }
