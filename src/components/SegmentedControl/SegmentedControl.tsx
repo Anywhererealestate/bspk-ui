@@ -154,7 +154,11 @@ function SegmentedControl({
                         <Tooltip disabled={!hideLabels} label={item.label} placement="top">
                             <span data-outer>
                                 <span data-inner>
-                                    {icon && <span aria-hidden="true">{icon}</span>}
+                                    {icon && (
+                                        <span aria-hidden="true" data-icon>
+                                            {icon}
+                                        </span>
+                                    )}
                                     {!hideLabels && item.label}
                                 </span>
                             </span>

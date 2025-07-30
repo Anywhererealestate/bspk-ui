@@ -33,6 +33,11 @@
         width: var(--svg-width) !important;
     }
 
+    [data-icon] {
+        display: flex;
+        flex: 0 0 auto;
+    }
+
     li {
         list-style: none;
         border: 0;
