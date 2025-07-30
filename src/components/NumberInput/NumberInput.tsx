@@ -43,8 +43,6 @@ export type NumberInputProps = CommonProps<'aria-label' | 'disabled' | 'id' | 'n
          * accepted.
          *
          * @default 99
-         * @maximum 99
-         * @minimum 1
          */
         max?: number;
         /**
@@ -52,7 +50,6 @@ export type NumberInputProps = CommonProps<'aria-label' | 'disabled' | 'id' | 'n
          * accepted.
          *
          * @default 0
-         * @minimum 0
          */
         min?: number;
     };
@@ -132,7 +129,12 @@ function NumberInput({
             data-stepper-input
         >
             {!!centered && (
-                <IncrementButton disabled={valueNumber + -1 < min} increment={-1} onIncrement={handleIncrement} />
+                <IncrementButton
+                    disabled={valueNumber + -1 < min}
+                    increment={-1}
+                    inputId={inputId}
+                    onIncrement={handleIncrement}
+                />
             )}
             <input
                 aria-label={ariaLabel}
@@ -153,10 +155,20 @@ function NumberInput({
             {!centered && (
                 <>
                     <div aria-hidden data-divider />
-                    <IncrementButton disabled={valueNumber + -1 < min} increment={-1} onIncrement={handleIncrement} />
+                    <IncrementButton
+                        disabled={valueNumber + -1 < min}
+                        increment={-1}
+                        inputId={inputId}
+                        onIncrement={handleIncrement}
+                    />
                 </>
             )}
-            <IncrementButton disabled={valueNumber + 1 > max} increment={1} onIncrement={handleIncrement} />
+            <IncrementButton
+                disabled={valueNumber + 1 > max}
+                increment={1}
+                inputId={inputId}
+                onIncrement={handleIncrement}
+            />
         </div>
     );
 }

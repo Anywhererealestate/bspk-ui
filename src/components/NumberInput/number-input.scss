@@ -16,18 +16,16 @@
     max-width: 280px;
 
     &:focus-within {
-        input {
-            outline: solid 2px var(--stroke-neutral-focus);
-        }
+        outline: solid 2px var(--stroke-neutral-focus);
     }
 
     [data-divider] {
-        width: 4px;
-        border-right: 1px solid var(--stroke-neutral-base);
+        width: 1px;
+        background: var(--stroke-neutral-base);
+        margin: 3px 0;
 
         // account for border - 3(margin)  * 2 + 2(border)
         height: calc(var(--height) - 8px);
-        margin: 3px 0;
     }
 
     button {
@@ -44,7 +42,7 @@
         }
 
         &:focus {
-            outline: solid 2px var(--stroke-neutral-focus);
+            outline: none;
         }
 
         display: flex;
@@ -70,7 +68,7 @@
         flex-grow: 1;
 
         &:focus {
-            outline: solid 2px var(--stroke-neutral-focus);
+            outline: none;
         }
 
         &::-webkit-outer-spin-button,
