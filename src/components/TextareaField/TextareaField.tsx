@@ -41,7 +41,7 @@ export type TextareaFieldProps = Pick<FormFieldProps, 'controlId' | 'helperText'
  */
 function TextareaField({
     label,
-    errorMessage: errorMessageProp,
+    errorMessage,
     helperText,
     controlId: id,
     onChange,
@@ -54,9 +54,6 @@ function TextareaField({
     ...textareaProps
 }: TextareaFieldProps) {
     const maxLength = tryIntParse(maxLengthProp) || -1;
-    const errorMessage = (!readOnly && !disabled && errorMessageProp) || undefined;
-
-    if (typeof onChange !== 'function') return null;
 
     return (
         <FormField
@@ -85,11 +82,13 @@ function TextareaField({
                     {...textareaProps}
                     {...fieldProps}
                     aria-label={textareaProps['aria-label'] || label}
+                    disabled={disabled}
                     id={id}
                     invalid={invalid}
                     onChange={(next, event) => {
                         onChange(next, event);
                     }}
+                    readOnly={readOnly}
                     required={required}
                 />
             )}

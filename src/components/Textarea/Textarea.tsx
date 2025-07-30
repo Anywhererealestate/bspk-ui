@@ -89,7 +89,7 @@ export type TextareaProps = CommonProps<'aria-label' | 'disabled' | 'id' | 'read
  * @element
  *
  * @name Textarea
- * @phase UXReview
+ * @phase Utility
  */
 function Textarea({
     invalid: invalidProp,
