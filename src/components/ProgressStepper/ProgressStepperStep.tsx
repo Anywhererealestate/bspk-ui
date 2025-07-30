@@ -11,7 +11,12 @@ export function ProgressStepperStep({ label, state, stepNumber }: ProgressSteppe
     const badgeContent = state === 'completed' ? <SvgCheck /> : <Txt variant="labels-large">{stepNumber}</Txt>;
 
     return (
-        <div data-progress-stepper-step="" data-state={state}>
+        <div
+            aria-label={`Step ${stepNumber}: ${label} (${state})`}
+            data-progress-stepper-step=""
+            data-state={state}
+            role="listitem"
+        >
             <div data-progress-stepper-step-badge="">{badgeContent}</div>
 
             <div data-progress-stepper-step-label="">{label}</div>

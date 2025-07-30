@@ -79,8 +79,8 @@ function ProgressStepper({ steps, value = 0 }: ProgressStepperProps) {
     const percentCompleted = steps.length > 1 ? ((value - 1) / (steps.length - 1)) * 100 : 0;
 
     return (
-        <div data-bspk="progress-stepper">
-            <div data-progress-stepper-background="">
+        <div aria-label="Progress Stepper" data-bspk="progress-stepper" role="list">
+            <div data-progress-stepper-background="" role="presentation">
                 <div
                     data-progress-stepper-background-filled=""
                     style={{ width: `${Math.min(percentCompleted, 100)}%` }}
