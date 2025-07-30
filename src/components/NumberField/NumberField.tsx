@@ -34,6 +34,7 @@ export type NumberFieldProps = FormFieldWrapProps<NumberInputProps>;
 function NumberField({
     label,
     errorMessage,
+    disabled,
     helperText,
     controlId,
     labelTrailing,
@@ -57,6 +58,7 @@ function NumberField({
                     {...inputProps}
                     {...fieldProps}
                     aria-label={label}
+                    disabled={disabled}
                     errorMessage={errorMessage}
                     id={controlId}
                     invalid={invalid}

@@ -130,7 +130,7 @@ function NumberInput({
         >
             {!!centered && (
                 <IncrementButton
-                    disabled={valueNumber + -1 < min}
+                    disabled={disabled ? true : valueNumber + -1 < min}
                     increment={-1}
                     inputId={inputId}
                     onIncrement={handleIncrement}
@@ -156,7 +156,7 @@ function NumberInput({
                 <>
                     <div aria-hidden data-divider />
                     <IncrementButton
-                        disabled={valueNumber + -1 < min}
+                        disabled={disabled ? true : valueNumber + -1 < min}
                         increment={-1}
                         inputId={inputId}
                         onIncrement={handleIncrement}
@@ -164,7 +164,7 @@ function NumberInput({
                 </>
             )}
             <IncrementButton
-                disabled={valueNumber + 1 > max}
+                disabled={disabled ? true : valueNumber + 1 > max}
                 increment={1}
                 inputId={inputId}
                 onIncrement={handleIncrement}
