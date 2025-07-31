@@ -34,7 +34,7 @@ export function SliderTemplate({
     }
 
     return (
-        <div data-bspk="slider" data-disabled={disabled ? '' : undefined} data-readonly={readOnly ? '' : undefined}>
+        <div data-bspk="slider" data-disabled={disabled || undefined} data-readonly={readOnly || undefined}>
             <div data-top-labels="">
                 <Txt variant="labels-small">{label}</Txt>
 
