@@ -44,7 +44,7 @@ type DotSize = 'medium' | 'small' | 'x-small';
  *     }
  *
  * @name PageControl
- * @phase QA
+ * @phase UXReview
  */
 function PageControl({ value, numPages, variant = 'flat' }: PageControlProps) {
     if (numPages < 2) return null;
@@ -54,7 +54,7 @@ function PageControl({ value, numPages, variant = 'flat' }: PageControlProps) {
             aria-label={`Page ${value} of ${numPages}`}
             data-bspk="page-control"
             data-variant={variant || undefined}
-            role="presentation"
+            role="img"
         >
             {getDots(value, numPages).map(({ page, size }, index) => (
                 <span
@@ -63,6 +63,7 @@ function PageControl({ value, numPages, variant = 'flat' }: PageControlProps) {
                     data-dot={page}
                     data-size={size}
                     key={index + 1}
+                    role="presentation"
                 />
             ))}
         </span>
