@@ -1,4 +1,4 @@
-import { ReactNode, useRef } from 'react';
+import { ReactNode, useEffect, useRef } from 'react';
 
 import './vertical-slider.scss';
 import { SliderProps } from '-/components/Slider';
@@ -107,10 +107,20 @@ function VerticalSlider({
             newValue = value - keyboardInterval;
         } else if (e.key === 'ArrowUp') {
             newValue = value + keyboardInterval;
+        } else {
+            return;
         }
 
         onChange(normalizeSliderValue(newValue));
     };
+
+    useEffect(() => {
+        return () => {
+            window.removeEventListener('mousemove', handleMouseMove);
+            window.removeEventListener('mouseup', handleMouseUp);
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const valuePercent = Math.min(Math.max(((value - minimum) / (maximum - minimum)) * 100, 0), 100);
 

@@ -24,15 +24,6 @@ export function SliderTemplate({
     sliderRef,
     displayValue,
 }: SliderTemplateProps) {
-    if (value < minimum || value > maximum) {
-        // eslint-disable-next-line no-console
-        console.error(`Slider '${label}' has out of bounds value`, {
-            value,
-            minimum,
-            maximum,
-        });
-    }
-
     return (
         <div data-bspk="slider" data-disabled={disabled ? '' : undefined} data-readonly={readOnly ? '' : undefined}>
             <div data-top-labels="">
@@ -42,17 +33,11 @@ export function SliderTemplate({
             </div>
 
             <div
-                aria-label={label}
-                aria-readonly={readOnly}
-                aria-valuemax={maximum}
-                aria-valuemin={minimum}
-                aria-valuenow={value}
-                aria-valuetext={`${displayValue || value}`}
                 data-slider-body=""
                 onKeyDown={disabled ? undefined : onKeyDown}
                 onMouseDown={handleMouseDown}
                 ref={sliderRef}
-                role="slider"
+                role="presentation"
                 tabIndex={-1}
             >
                 <div data-slider-background="" />

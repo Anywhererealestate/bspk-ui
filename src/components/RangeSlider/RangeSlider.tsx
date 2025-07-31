@@ -164,6 +164,14 @@ function RangeSlider({
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [minimum, maximum]);
 
+    useEffect(() => {
+        return () => {
+            window.removeEventListener('mousemove', handleMouseMove);
+            window.removeEventListener('mouseup', handleMouseUp);
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     const [start, end] = value;
     const startPercent = ((start - minimum) / (maximum - minimum)) * 100;
     const endPercent = ((end - minimum) / (maximum - minimum)) * 100;

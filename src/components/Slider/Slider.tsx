@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 import './slider.scss';
 import { SliderIntervalDots } from './SliderIntervalDots';
@@ -66,9 +66,12 @@ export type SliderProps = Pick<CommonPropsLibrary, 'disabled' | 'readOnly'> & {
  *
  * @example
  *     import { Slider } from '@bspk/ui/Slider';
+ *     import { useState } from 'react';
  *
  *     function Example() {
- *         return <Slider>Example Slider</Slider>;
+ *         const [value, setValue] = useState<number>(50);
+ *
+ *         return <Slider value={value} minimum={0} maximum={100} label="Slider Example" onChange={setValue} />;
  *     }
  *
  * @name Slider
@@ -146,6 +149,14 @@ function Slider({
 
         onChange(normalizeSliderValue(newValue));
     };
+
+    useEffect(() => {
+        return () => {
+            window.removeEventListener('mousemove', handleMouseMove);
+            window.removeEventListener('mouseup', handleMouseUp);
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const valuePercent = Math.min(Math.max(((value - minimum) / (maximum - minimum)) * 100, 0), 100);
 
