@@ -7,19 +7,21 @@ type IntervalDotProps = Pick<SliderProps, 'maximum' | 'minimum' | 'value'> & {
 export function SliderIntervalDots({ interval, maximum, minimum, value }: IntervalDotProps) {
     if (interval <= 0) return null;
 
+    const count = Math.floor((maximum - minimum) / interval);
+    const dots = [];
 
-const length = Math.floor((maximum - minimum) / interval);
-
-   return const newArray = Array.from({ length: n }, (_, i) => {
+    for (let i = 1; i < count; i++) {
         const pointValue = i * interval;
         const percent = (pointValue / (maximum - minimum)) * 100;
-        
-  return <div
-                data-interval-dot={pointValue < value ? 'filled' : ''}
+        dots.push(
+            <div
+                data-filled-section={pointValue < value ? '' : undefined}
+                data-interval-dot
                 key={i}
                 style={{ left: `${percent}%` }}
-            />;
-});
+            />,
+        );
+    }
 
     return dots;
 }
