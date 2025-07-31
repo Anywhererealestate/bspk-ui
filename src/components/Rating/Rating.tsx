@@ -72,8 +72,7 @@ function Rating({ size = 'medium', value, onChange }: RatingProps) {
                         key={index}
                         onClick={() => onChange?.(index + 1)}
                         role={onChange ? 'radio' : 'presentation'}
-                        // tabIndex={onChange ? (selected ? 0 : -1) : -1}
-                        tabIndex={selected ? 0 : -1}
+                        tabIndex={onChange ? (selected ? 0 : -1) : -1}
                         type="button"
                     >
                         <SvgStarFill width={iconWidths[size]} />
