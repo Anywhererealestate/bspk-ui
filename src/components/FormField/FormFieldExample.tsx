@@ -16,27 +16,22 @@ export const FormFieldExample: ComponentExample<FormFieldWrapProps<TextInputProp
 
         return (
             <FormField
-                {...{
-                    invalid,
-                    errorMessage,
-                    label,
-                    controlId,
-                    helperText,
-                    labelTrailing,
-                }}
+                controlId={controlId}
+                errorMessage={errorMessage}
+                helperText={helperText}
+                invalid={invalid}
+                label={label}
+                labelTrailing={labelTrailing}
             >
-                {({ 'aria-describedby': ariaDescribedBy, 'aria-errormessage': ariaErrorMessage }) => {
+                {(fieldProps) => {
                     return (
                         <TextInput
                             {...inputProps}
-                            aria-describedby={ariaDescribedBy}
-                            aria-errormessage={ariaErrorMessage}
-                            aria-invalid={props.invalid}
+                            {...fieldProps}
                             aria-label={label}
+                            errorMessage={errorMessage}
                             invalid={invalid}
-                            onChange={(next: string) => {
-                                setState({ value: next });
-                            }}
+                            onChange={(next: string) => setState({ value: next })}
                             value={props.value}
                         />
                     );
