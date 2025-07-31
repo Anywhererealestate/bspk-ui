@@ -71,7 +71,8 @@ function Rating({ size = 'medium', value, onChange }: RatingProps) {
                         data-star
                         key={index}
                         onClick={() => onChange?.(index + 1)}
-                        role="radio"
+                        role={onChange ? 'radio' : 'presentation'}
+                        // tabIndex={onChange ? (selected ? 0 : -1) : -1}
                         tabIndex={selected ? 0 : -1}
                         type="button"
                     >
