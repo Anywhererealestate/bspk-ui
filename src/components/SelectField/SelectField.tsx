@@ -1,20 +1,7 @@
-import { FormFieldProps, FormField } from '-/components/FormField';
+import { FormField, FormFieldWrapProps } from '-/components/FormField';
 import { SelectProps, Select } from '-/components/Select';
 
-export type SelectFieldProps = Omit<FormFieldProps, 'children'> &
-    Pick<
-        SelectProps,
-        | 'disabled'
-        | 'itemDisplayCount'
-        | 'label'
-        | 'name'
-        | 'onChange'
-        | 'options'
-        | 'placeholder'
-        | 'readOnly'
-        | 'size'
-        | 'value'
-    >;
+export type SelectFieldProps = FormFieldWrapProps<SelectProps>;
 
 /**
  * A component that allows users to input large amounts of text that could span multiple lines.

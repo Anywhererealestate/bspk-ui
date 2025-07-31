@@ -1,17 +1,17 @@
-import { FormFieldProps, FormField } from '-/components/FormField';
+import { FormFieldWrapProps, FormField } from '-/components/FormField';
 import { TextareaProps, Textarea } from '-/components/Textarea';
 import { Txt } from '-/components/Txt';
 import { tryIntParse } from '-/utils/tryIntPsrse';
 
-export type TextareaFieldProps = Omit<FormFieldProps, 'children' | 'labelTrailing'> &
-    TextareaProps & {
-        /**
-         * Whether the character count should be displayed.
-         *
-         * @default true
-         */
-        characterCount?: boolean;
-    };
+export type TextareaFieldProps = FormFieldWrapProps<TextareaProps> & {
+    /**
+     * Whether the character count should be displayed.
+     *
+     * @default true
+     */
+    characterCount?: boolean;
+};
+
 /**
  * A component that allows users to input large amounts of text that could span multiple lines.
  *
@@ -46,6 +46,7 @@ function TextareaField({
     controlId,
     required,
     invalid,
+    characterCount,
     ...inputProps
 }: TextareaFieldProps) {
     const maxLength = tryIntParse(inputProps.maxLength) || -1;
@@ -59,8 +60,8 @@ function TextareaField({
             invalid={invalid}
             label={label}
             labelTrailing={
-                // If characterCount is false, we don't want to show the labelTrailing
-                inputProps.characterCount && (
+                // If characterCount is falsey, we don't want to show the labelTrailing
+                characterCount && (
                     <Txt
                         style={{
                             color: 'var(--foreground-neutral-on-surface-variant-02)',

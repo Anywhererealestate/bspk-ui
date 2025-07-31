@@ -11,6 +11,9 @@ export type FieldControlProps = {
     'aria-errormessage'?: string;
 };
 
+// omits are usually a code smell, but in this case, we need to ensure we get all the props from child components
+export type FormFieldWrapProps<T extends Record<string, unknown>> = Omit<FormFieldProps, keyof T | 'children'> & T;
+
 export type FormFieldProps = CommonProps<'required'> &
     InvalidPropsLibrary & {
         /**

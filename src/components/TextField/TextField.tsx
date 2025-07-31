@@ -1,25 +1,7 @@
-import { FormFieldProps, FormField } from '-/components/FormField';
+import { FormField, FormFieldWrapProps } from '-/components/FormField';
 import { TextInputProps, TextInput } from '-/components/TextInput';
 
-export type TextFieldProps = Omit<FormFieldProps, 'children'> &
-    Pick<
-        TextInputProps,
-        | 'autoComplete'
-        | 'disabled'
-        | 'errorMessage'
-        | 'inputRef'
-        | 'invalid'
-        | 'leading'
-        | 'name'
-        | 'onChange'
-        | 'placeholder'
-        | 'readOnly'
-        | 'required'
-        | 'size'
-        | 'trailing'
-        | 'type'
-        | 'value'
-    >;
+export type TextFieldProps = FormFieldWrapProps<TextInputProps>;
 
 /**
  * A text input that allows users to enter text, numbers or symbols in a singular line.

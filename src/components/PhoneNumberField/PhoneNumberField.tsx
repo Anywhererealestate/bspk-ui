@@ -1,25 +1,7 @@
-import { FormField, FormFieldProps } from '-/components/FormField';
+import { FormField, FormFieldWrapProps } from '-/components/FormField';
 import { PhoneNumberInput, PhoneNumberInputProps } from '-/components/PhoneNumberInput';
 
-export type PhoneNumberFieldProps = Omit<FormFieldProps, 'children'> &
-    Pick<
-        PhoneNumberInputProps,
-        | 'autoComplete'
-        | 'disabled'
-        | 'disableFormatting'
-        | 'errorMessage'
-        | 'initialCountryCode'
-        | 'inputRef'
-        | 'invalid'
-        | 'name'
-        | 'onChange'
-        | 'placeholder'
-        | 'readOnly'
-        | 'required'
-        | 'size'
-        | 'type'
-        | 'value'
-    >;
+export type PhoneNumberFieldProps = FormFieldWrapProps<PhoneNumberInputProps>;
 
 /**
  * A text input that allows users to enter text phone numbers with country codes.

@@ -1,29 +1,47 @@
-import { FormFieldProps } from './FormField';
-import { TextInput } from '-/components/TextInput';
+import { FormFieldWrapProps, FormField } from './FormField';
+import { TextInput, TextInputProps } from '-/components/TextInput';
 import { ComponentExample } from '-/utils/demo';
 
-export const FormFieldExample: ComponentExample<FormFieldProps & { value: string }> = {
-    render: ({ props, setState, Component }) => {
+export const FormFieldExample: ComponentExample<FormFieldWrapProps<TextInputProps>> = {
+    render: ({ props, setState }) => {
+        const {
+            invalid,
+            errorMessage,
+            label,
+            controlId = 'example-control-id',
+            helperText,
+            labelTrailing,
+            ...inputProps
+        } = props;
+
         return (
-            <Component {...props}>
-                {({ invalid, 'aria-describedby': ariaDescribedBy, 'aria-errormessage': ariaErrorMessage }) => {
+            <FormField
+                {...{
+                    invalid,
+                    errorMessage,
+                    label,
+                    controlId,
+                    helperText,
+                    labelTrailing,
+                }}
+            >
+                {({ 'aria-describedby': ariaDescribedBy, 'aria-errormessage': ariaErrorMessage }) => {
                     return (
                         <TextInput
+                            {...inputProps}
                             aria-describedby={ariaDescribedBy}
                             aria-errormessage={ariaErrorMessage}
-                            aria-invalid={invalid}
-                            aria-label=""
+                            aria-invalid={props.invalid}
+                            aria-label={label}
                             invalid={invalid}
-                            name=""
                             onChange={(next: string) => {
                                 setState({ value: next });
                             }}
-                            placeholder="Placeholder"
                             value={props.value}
                         />
                     );
                 }}
-            </Component>
+            </FormField>
         );
     },
 };

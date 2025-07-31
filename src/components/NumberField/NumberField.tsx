@@ -1,22 +1,7 @@
-import { FormFieldProps, FormField } from '-/components/FormField';
+import { FormField, FormFieldWrapProps } from '-/components/FormField';
 import { NumberInputProps, NumberInput } from '-/components/NumberInput';
 
-export type NumberFieldProps = Omit<FormFieldProps, 'children'> &
-    Pick<
-        NumberInputProps,
-        | 'align'
-        | 'disabled'
-        | 'errorMessage'
-        | 'id'
-        | 'invalid'
-        | 'max'
-        | 'min'
-        | 'name'
-        | 'onChange'
-        | 'readOnly'
-        | 'size'
-        | 'value'
-    >;
+export type NumberFieldProps = FormFieldWrapProps<NumberInputProps>;
 
 /**
  * A input element that allows users to either input a numerical value or singularly increase or decrease the values by
