@@ -103,7 +103,7 @@ export type ListItemProps<As extends ElementType = 'div', T = HTMLElement> = Com
  *     }
  *
  * @name ListItem
- * @phase UXReview
+ * @phase Utility
  */
 function ListItem<As extends ElementType = 'div', T = HTMLElement>({
     as,
@@ -157,7 +157,7 @@ function ListItem<As extends ElementType = 'div', T = HTMLElement>({
             data-component={leading?.name || undefined}
             data-readonly={readOnly || undefined}
             ref={innerRef}
-            role={actionable ? 'option' : undefined}
+            role={actionable ? 'listitem' : 'textbox'}
             tabIndex={actionable ? 0 : undefined}
         >
             <AsInner data-inner>
