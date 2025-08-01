@@ -124,12 +124,12 @@ function TimeInput({
                 />
                 <Button
                     icon={<SvgSchedule />}
+                    iconOnly
                     label={`${open ? 'Close' : 'Open'} Time Picker`}
                     onClick={() => {
                         setOpen(!open);
                         elements.reference?.focus();
                     }}
-                    showLabel={false}
                     variant="tertiary"
                 />
             </div>

@@ -9,14 +9,13 @@ export type BadgeProps = {
      * The content of the badge. If larger than 99, the badge will display '99+'. If not a number the badge will be
      * hidden.
      *
-     * Ignored if the variant is 'notification'.
-     *
      * @example
      *     5;
      *
      * @default 1
      *
      * @type number
+     * @requires {variant: default}
      */
     count?: number;
     /**
@@ -28,9 +27,8 @@ export type BadgeProps = {
     /**
      * The size of the badge.
      *
-     * Ignored if the variant is 'notification'.
-     *
      * @default small
+     * @requires {variant: default}
      */
     size?: 'small' | 'x-small';
     /**
@@ -42,9 +40,8 @@ export type BadgeProps = {
     /**
      * Whether the badge should have a border that matches the surface color.
      *
-     * Ignored if the variant is 'notification'.
-     *
      * @default false
+     * @requires {variant: default}
      */
     surfaceBorder?: boolean;
     /**

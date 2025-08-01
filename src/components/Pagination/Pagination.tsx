@@ -73,9 +73,9 @@ function Pagination({ numPages, value, onChange }: PaginationProps) {
                 data-bspk-owner="pagination"
                 disabled={isOutOfBoundsValue || isOneOrFewerPages || isFirstPage}
                 icon={<SvgIcon name="ChevronLeft" />}
+                iconOnly
                 label="Previous page"
                 onClick={previousPage}
-                showLabel={false}
                 size="small"
                 variant="tertiary"
             />
@@ -90,9 +90,9 @@ function Pagination({ numPages, value, onChange }: PaginationProps) {
                 data-bspk-owner="pagination"
                 disabled={isOutOfBoundsValue || isOneOrFewerPages || isLastPage}
                 icon={<SvgIcon name="ChevronRight" />}
+                iconOnly
                 label="Next page"
                 onClick={nextPage}
-                showLabel={false}
                 size="small"
                 variant="tertiary"
             />

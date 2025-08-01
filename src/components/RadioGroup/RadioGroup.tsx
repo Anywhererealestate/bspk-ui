@@ -4,10 +4,7 @@ import { ElementProps, CommonProps } from '-/types/common';
 
 import './radio-group.scss';
 
-export type RadioGroupOption = Pick<
-    RadioOptionProps,
-    'checked' | 'description' | 'disabled' | 'label' | 'name' | 'onChange'
-> &
+export type RadioGroupOption = Pick<RadioOptionProps, 'checked' | 'description' | 'disabled' | 'label' | 'name'> &
     Required<CommonProps<'value'>>;
 
 export type RadioGroupProps = CommonProps<'name'> & {

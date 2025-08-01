@@ -1,14 +1,13 @@
-/* eslint-disable @cspell/spellchecker */ import { useState, useEffect } from 'react';
-
-import { SkeletonProps } from '.';
+import { useState } from 'react';
+import { SkeletonProps, SkeletonVariant } from '.';
 import { Avatar } from '-/components/Avatar';
 import { ExamplePlaceholder } from '-/components/ExamplePlaceholder';
 import { useTimeout } from '-/hooks/useTimeout';
-import { ComponentExample } from '-/utils/demo';
+import { ComponentExample, ComponentExampleRenderProps } from '-/utils/demo';
 
 export const SkeletonExample: ComponentExample<SkeletonProps> = {
     render: ({ props, preset, Component }) => {
-        if (preset?.label === 'Loading Transition') return <SkeletonTransition {...props} Component={Component} />;
+        if (preset?.label === 'Loading Transition') return <SkeletonTransition Component={Component} props={props} />;
         return <Component {...props} />;
     },
     presets: [
@@ -20,42 +19,31 @@ export const SkeletonExample: ComponentExample<SkeletonProps> = {
             },
         },
     ],
+    variants: {
+        variant: (props) => ({
+            children: props.variant ? PROP_VARIANT_CHILDREN[props.variant] : null,
+        }),
+    },
 };
 
 function SkeletonTransition({
     Component,
-    ...props
-}: SkeletonProps & { Component: React.ComponentType<SkeletonProps> }) {
-    const loadingTimeout = useTimeout();
+    props: { children, ...restProps },
+}: Pick<ComponentExampleRenderProps<SkeletonProps>, 'Component' | 'props'>) {
     const [loaded, setLoaded] = useState(false);
-    useEffect(() => {
-        setLoaded(false);
-        loadingTimeout.set(() => setLoaded(true), 3000);
-    }, [loadingTimeout, props.variant]);
+    useTimeout(() => setLoaded(true), 3000);
 
-    return (
-        <Component {...props}>
-            {loaded && (
-                <>
-                    {props.variant === 'rectangular' && (
-                        <ExamplePlaceholder height={props.height} width={props.width} />
-                    )}
-                    {props.variant === 'circular' && (
-                        <ExamplePlaceholder
-                            height={props.height}
-                            style={{ borderRadius: '100%' }}
-                            width={props.width}
-                        />
-                    )}
-                    {props.variant === 'photo' && (
-                        <ExamplePlaceholder height={props.height} width={props.width}>
-                            Loaded
-                        </ExamplePlaceholder>
-                    )}
-                    {props.variant === 'profile' && <Avatar color="red" name="Bob Boberson" />}
-                    {props.variant === 'thumbnail' && <ExamplePlaceholder height={props.height} width={props.width} />}
-                </>
-            )}
-        </Component>
-    );
+    return <Component {...restProps}>{loaded && <>{children}</>}</Component>;
 }
+
+const PROP_VARIANT_CHILDREN: Record<SkeletonVariant, SkeletonProps['children']> = {
+    rectangular: <ExamplePlaceholder height="100px" width="100px" />,
+    circular: <ExamplePlaceholder height="100px" style={{ borderRadius: '100%' }} width="100px" />,
+    photo: (
+        <ExamplePlaceholder height="100px" width="100px">
+            Loaded
+        </ExamplePlaceholder>
+    ),
+    profile: <Avatar color="red" name="Bob Robertson" />,
+    thumbnail: <ExamplePlaceholder height="100px" width="100px" />,
+};

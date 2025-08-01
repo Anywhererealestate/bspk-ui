@@ -189,9 +189,9 @@ function Modal({
                     </Txt>
                     <Button
                         icon={<SvgClose />}
+                        iconOnly
                         label="close"
                         onClick={dialogProps.onClose}
-                        showLabel={false}
                         variant="tertiary"
                     />
                 </header>

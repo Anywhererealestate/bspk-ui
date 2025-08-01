@@ -5,7 +5,7 @@ import { ListItem } from '-/components/ListItem';
 import { ComponentExampleFn } from '-/utils/demo';
 
 export const ModalExample: ComponentExampleFn<ModalProps> = ({ action }) => ({
-    hideVariants: true,
+    variants: false,
     render: ({ props, setState }) => {
         const label = 'Open Modal';
 

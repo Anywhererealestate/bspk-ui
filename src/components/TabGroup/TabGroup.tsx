@@ -142,6 +142,8 @@ function TabGroup({
     const options = Array.isArray(optionsProp) ? optionsProp : [];
     useOptionIconsInvalid(options);
 
+    if (options.length < 2) return <></>;
+
     return (
         <div
             {...containerProps}
