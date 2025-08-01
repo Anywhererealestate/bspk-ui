@@ -79,7 +79,7 @@ export function TimeInputListbox<T>({ options, selectedValue, type: kind, onSele
         >
             {options.map((val, index) => (
                 <span
-                    aria-label={`${val} ${kind}`}
+                    aria-label={`${val}`.padStart(2, '0')}
                     aria-selected={`${val}` === `${selectedValue}` || undefined}
                     data-active={activeIndex === index || undefined}
                     data-index={index}
