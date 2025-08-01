@@ -88,10 +88,11 @@ function NumberInput({
     readOnly = DEFAULT.readOnly,
     name,
     id: inputIdProp,
-    invalid,
     'aria-label': ariaLabel,
     max: maxProp,
     min: minProp,
+    errorMessage,
+    invalid,
 }: NumberInputProps) {
     const centered = align !== 'left';
     const inputId = useId(inputIdProp);
@@ -137,6 +138,8 @@ function NumberInput({
                 />
             )}
             <input
+                aria-errormessage={errorMessage}
+                aria-invalid={invalid}
                 aria-label={ariaLabel}
                 autoComplete="off"
                 defaultValue={String(valueNumber)}
