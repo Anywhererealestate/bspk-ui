@@ -166,11 +166,12 @@ function Select({
                         {...toggleProps}
                     >
                         <ListItem
-                            as="span"
+                            data-bspk-owner="select"
                             data-placeholder={!selectedItem || undefined}
                             label={selectedItem?.label || placeholder}
                             owner="select"
                             readOnly
+                            role="button"
                         />
                         <span data-icon>
                             <SvgChevronRight />
