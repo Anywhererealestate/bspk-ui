@@ -38,7 +38,6 @@ export const MenuExample: ComponentExampleFn<ElementProps<MenuProps, 'div'> & { 
                 <ListItem
                     label="Dark mode"
                     leading={props['data-dark-mode'] ? <SvgDarkModeFill /> : <SvgDarkMode />}
-                    role="checkbox"
                     trailing={
                         <Switch
                             aria-label="Toggle dark mode"
@@ -62,7 +61,6 @@ export const MenuExample: ComponentExampleFn<ElementProps<MenuProps, 'div'> & { 
                     onClick={() => {
                         action('Log out clicked');
                     }}
-                    role="button"
                 />
             </Component>
         );

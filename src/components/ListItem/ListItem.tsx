@@ -117,7 +117,7 @@ function ListItem<As extends ElementType = 'div', T = HTMLElement>({
     readOnly,
     innerRef,
     selected = false,
-    role,
+    // role,
     ...props
 }: ElementProps<ListItemProps<As, T>, As>) {
     let As: ElementType = as || 'span';
@@ -147,41 +147,43 @@ function ListItem<As extends ElementType = 'div', T = HTMLElement>({
     return (
         <li
             {...props}
-            // aria-disabled={disabled || undefined}
-            aria-label={As === 'label' ? undefined : label}
-            // aria-selected={selected || undefined}
+            aria-disabled={disabled || undefined}
+            // aria-label={As === 'label' ? undefined : label}
+            aria-selected={selected || undefined}
             data-action={actionable || undefined}
             data-active={active || undefined}
             data-bspk="list-item"
             data-component={leading?.name || undefined}
+            // data-inner
             data-readonly={readOnly || undefined}
             ref={innerRef as React.Ref<HTMLLIElement>}
+            role="option"
             // role={actionable ? 'listitem' : 'listitem'}
             // tabIndex={actionable ? 0 : undefined}
         >
-            <As
+            {/* <As
                 {...props}
                 aria-disabled={disabled || undefined}
                 aria-selected={selected || undefined}
                 data-inner
                 role={role}
-                tabIndex={actionable ? 0 : undefined}
-            >
-                {leading && (
-                    <span data-component={leading.name} data-leading>
-                        {leading.child}
-                    </span>
-                )}
-                <span data-item-label>
-                    <Truncated data-text>{label}</Truncated>
-                    {subText && <span data-sub-text>{subText}</span>}
+                // tabIndex={actionable ? 0 : undefined}
+            > */}
+            {leading && (
+                <span data-component={leading.name} data-leading>
+                    {leading.child}
                 </span>
-                {trailing && (
-                    <span data-component={trailing.name} data-trailing>
-                        {trailing.child}
-                    </span>
-                )}
-            </As>
+            )}
+            <span data-item-label>
+                <Truncated data-text>{label}</Truncated>
+                {subText && <span data-sub-text>{subText}</span>}
+            </span>
+            {trailing && (
+                <span data-component={trailing.name} data-trailing>
+                    {trailing.child}
+                </span>
+            )}
+            {/* </As> */}
         </li>
     );
 }
