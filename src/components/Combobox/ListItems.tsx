@@ -51,7 +51,7 @@ function ListItems<I extends Item>({
                     onClick={(event: React.MouseEvent<HTMLElement, MouseEvent>) => {
                         onChange?.(allSelected ? [] : items.map((item) => item.value), event);
                     }}
-                    role="option"
+                    // role="option"
                     tabIndex={-1}
                     trailing={
                         <Checkbox
@@ -74,7 +74,7 @@ function ListItems<I extends Item>({
                         {...item}
                         active={activeIndex === index || undefined}
                         aria-disabled={item.disabled || undefined}
-                        aria-posinset={index + 1}
+                        // aria-posinset={index + 1}
                         as="button"
                         disabled={item.disabled || undefined}
                         id={`${menuId}-item-${index}`}
@@ -83,8 +83,8 @@ function ListItems<I extends Item>({
                         onClick={(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
                             onChange?.(isMulti ? multiSelectValue(selected, item.value) : [item.value], event);
                         }}
-                        role="option"
-                        selected={selected || undefined}
+                        // role="option"
+                        // selected={selected || undefined}
                         tabIndex={-1}
                         trailing={
                             isMulti ? (

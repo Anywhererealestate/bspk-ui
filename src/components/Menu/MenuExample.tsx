@@ -62,6 +62,7 @@ export const MenuExample: ComponentExampleFn<ElementProps<MenuProps, 'div'> & { 
                     onClick={() => {
                         action('Log out clicked');
                     }}
+                    role="button"
                 />
             </Component>
         );

@@ -1,22 +1,24 @@
 body[data-bspk] a[data-bspk='list-item'] {
     color: unset !important;
-    text-decoration: !important;
-    font: !important;
+
+    // text-decoration: !important;
+    // font: !important;
 }
 
 [data-bspk='list-item'] {
     display: block;
     width: 100%;
     padding: 0 var(--spacing-sizing-02);
-    background: unset;
-    border: unset;
-    margin: unset;
-    text-decoration: unset;
+
+    // background: unset;
+    // border: unset;
+    // margin: unset;
+    // text-decoration: unset;
     user-select: none;
     color: var(--foreground-neutral-on-surface);
 
-    &:is(a),
-    &:is(button),
+    // &:is(a),
+    // &:is(button),
     &[onclick],
     &[role='button'] {
         cursor: pointer;
@@ -62,6 +64,11 @@ body[data-bspk] a[data-bspk='list-item'] {
         gap: var(--spacing-sizing-03);
         padding: var(--spacing-sizing-02) 0;
         justify-items: stretch;
+        text-decoration: unset;
+        background: unset;
+        border: unset;
+        margin: unset;
+        user-select: none;
     }
 
     [data-leading],

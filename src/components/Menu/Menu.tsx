@@ -126,7 +126,6 @@ function Menu({
     const menu = (
         <>
             <div
-                role="listbox"
                 {...props}
                 data-bspk="menu"
                 data-floating={floating || undefined}
@@ -135,6 +134,7 @@ function Menu({
                     innerRef?.(node);
                     menuElement.current = node;
                 }}
+                role="list"
                 style={cssWithVars({
                     ...props.style,
                     '--overflow-y':
