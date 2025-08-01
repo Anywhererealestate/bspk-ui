@@ -165,7 +165,10 @@ function PhoneNumberInput({
                             <SvgIcon name="KeyboardArrowDown" />
                         </button>
                         <Divider orientation="vertical" />
-                        <span aria-label="Country code" style={{ cursor: 'default' }}>{`+${callingCode}`}</span>
+                        <span
+                            // aria-label="Country code"
+                            style={{ cursor: 'default' }}
+                        >{`+${callingCode}`}</span>
                     </div>
                 }
                 readOnly={readOnly}
