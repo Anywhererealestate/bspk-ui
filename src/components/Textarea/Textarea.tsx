@@ -12,7 +12,7 @@ const DEFAULT = {
     textSize: 'medium',
 } as const;
 
-export type TextareaProps = CommonProps<'aria-label' | 'disabled' | 'id' | 'readOnly' | 'required'> &
+export type TextareaProps = CommonProps<'aria-label' | 'disabled' | 'id' | 'readOnly'> &
     InvalidPropsLibrary & {
         /**
          * Callback when the value of the field changes.
@@ -89,7 +89,7 @@ export type TextareaProps = CommonProps<'aria-label' | 'disabled' | 'id' | 'read
  * @element
  *
  * @name Textarea
- * @phase UXReview
+ * @phase Utility
  */
 function Textarea({
     invalid: invalidProp,

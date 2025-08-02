@@ -77,7 +77,7 @@ export type NumberInputProps = CommonProps<'aria-label' | 'disabled' | 'id' | 'n
  *     }
  *
  * @name NumberInput
- * @phase UXReview
+ * @phase Utility
  */
 function NumberInput({
     value,
@@ -88,10 +88,11 @@ function NumberInput({
     readOnly = DEFAULT.readOnly,
     name,
     id: inputIdProp,
-    invalid,
     'aria-label': ariaLabel,
     max: maxProp,
     min: minProp,
+    errorMessage,
+    invalid,
 }: NumberInputProps) {
     const centered = align !== 'left';
     const inputId = useId(inputIdProp);
@@ -130,13 +131,15 @@ function NumberInput({
         >
             {!!centered && (
                 <IncrementButton
-                    disabled={valueNumber + -1 < min}
+                    disabled={disabled ? true : valueNumber + -1 < min}
                     increment={-1}
                     inputId={inputId}
                     onIncrement={handleIncrement}
                 />
             )}
             <input
+                aria-errormessage={errorMessage}
+                aria-invalid={invalid}
                 aria-label={ariaLabel}
                 autoComplete="off"
                 defaultValue={String(valueNumber)}
@@ -156,7 +159,7 @@ function NumberInput({
                 <>
                     <div aria-hidden data-divider />
                     <IncrementButton
-                        disabled={valueNumber + -1 < min}
+                        disabled={disabled ? true : valueNumber + -1 < min}
                         increment={-1}
                         inputId={inputId}
                         onIncrement={handleIncrement}
@@ -164,7 +167,7 @@ function NumberInput({
                 </>
             )}
             <IncrementButton
-                disabled={valueNumber + 1 > max}
+                disabled={disabled ? true : valueNumber + 1 > max}
                 increment={1}
                 inputId={inputId}
                 onIncrement={handleIncrement}

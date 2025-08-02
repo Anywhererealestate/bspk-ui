@@ -1,25 +1,7 @@
-import { FormFieldProps, FormField } from '-/components/FormField';
+import { FormField, FormFieldWrapProps } from '-/components/FormField';
 import { TextInputProps, TextInput } from '-/components/TextInput';
 
-export type TextFieldProps = Pick<
-    TextInputProps,
-    | 'autoComplete'
-    | 'disabled'
-    | 'errorMessage'
-    | 'inputRef'
-    | 'invalid'
-    | 'leading'
-    | 'name'
-    | 'onChange'
-    | 'placeholder'
-    | 'readOnly'
-    | 'required'
-    | 'size'
-    | 'trailing'
-    | 'type'
-    | 'value'
-> &
-    Pick<FormFieldProps, 'controlId' | 'helperText' | 'label' | 'labelTrailing'>;
+export type TextFieldProps = FormFieldWrapProps<TextInputProps>;
 
 /**
  * A text input that allows users to enter text, numbers or symbols in a singular line.
@@ -63,7 +45,7 @@ function TextField({
             data-bspk="text-field"
             errorMessage={errorMessage}
             helperText={helperText}
-            invalid={!inputProps.readOnly && !inputProps.disabled && invalid}
+            invalid={invalid}
             label={label}
             labelTrailing={labelTrailing}
             required={required}
@@ -73,7 +55,9 @@ function TextField({
                     {...inputProps}
                     {...fieldProps}
                     aria-label={label}
+                    errorMessage={errorMessage}
                     id={controlId}
+                    invalid={invalid}
                     required={required}
                     value={inputProps.value ?? ''}
                 />

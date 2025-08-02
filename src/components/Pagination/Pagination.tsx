@@ -47,7 +47,7 @@ export type PaginationProps = {
  *     }
  *
  * @name Pagination
- * @phase QA
+ * @phase UXReview
  */
 function Pagination({ numPages, value, onChange }: PaginationProps) {
     const nextPage = () => {
@@ -74,7 +74,7 @@ function Pagination({ numPages, value, onChange }: PaginationProps) {
                 disabled={isOutOfBoundsValue || isOneOrFewerPages || isFirstPage}
                 icon={<SvgIcon name="ChevronLeft" />}
                 iconOnly
-                label="Previous page"
+                label={isFirstPage ? 'First page' : `Previous page (${value - 1})`}
                 onClick={previousPage}
                 size="small"
                 variant="tertiary"
@@ -91,7 +91,7 @@ function Pagination({ numPages, value, onChange }: PaginationProps) {
                 disabled={isOutOfBoundsValue || isOneOrFewerPages || isLastPage}
                 icon={<SvgIcon name="ChevronRight" />}
                 iconOnly
-                label="Next page"
+                label={isLastPage ? 'Last page' : `Next page (${value + 1})`}
                 onClick={nextPage}
                 size="small"
                 variant="tertiary"
