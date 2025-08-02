@@ -5,17 +5,14 @@ import { CommonProps, ElementProps, InvalidPropsLibrary } from '-/types/common';
 import './form-field.scss';
 
 export type FieldControlProps = {
-    /**
-     * Marks the element as invalid and displays error message.
-     *
-     * @default false
-     */
-    invalid?: boolean;
     /** The id of the control description. */
     'aria-describedby'?: string;
     /** The id of the error message */
     'aria-errormessage'?: string;
 };
+
+// omits are usually a code smell, but in this case, we need to ensure we get all the props from child components
+export type FormFieldWrapProps<T extends Record<string, unknown>> = Omit<FormFieldProps, keyof T | 'children'> & T;
 
 export type FormFieldProps = CommonProps<'required'> &
     InvalidPropsLibrary & {
@@ -107,7 +104,6 @@ function FormField({
                 {labelTrailing}
             </header>
             {children({
-                invalid,
                 'aria-describedby': helperTextId,
                 'aria-errormessage': errorMessageId,
             })}
