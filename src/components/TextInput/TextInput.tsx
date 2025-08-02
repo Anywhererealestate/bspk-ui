@@ -78,7 +78,7 @@ export type TextInputProps = CommonProps<
  * @element
  *
  * @name TextInput
- * @phase UXReview
+ * @phase Utility
  */
 function TextInput({
     invalid: invalidProp,
@@ -114,7 +114,6 @@ function TextInput({
             data-empty={!value.toString().length || undefined}
             data-invalid={invalid || undefined}
             data-readonly={readOnly || undefined}
-            data-required={required || undefined}
             data-size={size}
             ref={containerRef}
             {...otherProps}
