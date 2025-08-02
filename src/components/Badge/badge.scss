@@ -1,5 +1,9 @@
+@use './wrapper';
+
 [data-bspk='badge'] {
     --size: var(--spacing-sizing-06);
+    --foreground: var(--foreground-brand-on-primary);
+    --background: var(--foreground-brand-primary);
 
     display: flex;
     align-items: center;
@@ -12,11 +16,6 @@
     padding: 0 var(--spacing-sizing-02);
     background-color: var(--background);
     color: var(--foreground);
-
-    &[data-color='primary'] {
-        --foreground: var(--foreground-brand-on-primary);
-        --background: var(--foreground-brand-primary);
-    }
 
     &[data-color='secondary'] {
         --foreground: var(--foreground-brand-on-secondary);
@@ -38,25 +37,6 @@
 
     &[data-surface-border] {
         border: 2px solid var(--surface-neutral-t1-base);
-    }
-}
-
-[data-bspk='badge-wrapper'] {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    width: fit-content;
-    height: fit-content;
-    flex-shrink: 0;
-
-    [data-bspk='badge'] {
-        position: absolute;
-        top: 0;
-        right: 0;
-        transform: scale(1) translate(50%, -50%);
-        transform-origin: 100% 0%;
-        z-index: 2;
     }
 }
 
