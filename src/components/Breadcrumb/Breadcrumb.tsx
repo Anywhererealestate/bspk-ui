@@ -3,7 +3,7 @@ import { SvgMoreHoriz } from '@bspk/icons/MoreHoriz';
 
 import { Button } from '-/components/Button';
 import { Link } from '-/components/Link';
-import { ListItem } from '-/components/ListItem';
+// import { ListItem } from '-/components/ListItem';
 import { Menu } from '-/components/Menu';
 import { Txt } from '-/components/Txt';
 import { useCombobox } from '-/hooks/useCombobox';
@@ -11,6 +11,7 @@ import { useId } from '-/hooks/useId';
 import { CommonProps } from '-/types/common';
 
 import './breadcrumb.scss';
+import '-/components/ListItem/list-item.scss';
 
 export type BreadcrumbItem = {
     /**
@@ -92,7 +93,8 @@ function Breadcrumb({ id: propId, items: itemsProp }: BreadcrumbProps) {
     const id = useId(propId);
     const items = Array.isArray(itemsProp) ? itemsProp : [];
 
-    const { elements, isOpen, menuProps, toggleProps, activeIndex } = useCombobox({
+    // const { elements, isOpen, menuProps, toggleProps, activeIndex } = useCombobox({
+    const { elements, isOpen, menuProps, toggleProps } = useCombobox({
         refWidth: false,
     });
 
@@ -130,12 +132,19 @@ function Breadcrumb({ id: propId, items: itemsProp }: BreadcrumbProps) {
                                 }}
                             >
                                 {middleItems.map((item, idx) => (
-                                    <ListItem
-                                        key={`Breadcrumb-${idx}`}
-                                        {...item}
-                                        active={activeIndex === idx || undefined}
-                                        id={`${id}-item-${idx}`}
-                                    />
+                                    <li data-action data-bspk="list-item" key={`Breadcrumb-${idx}`}>
+                                        <a
+                                            href={item.href}
+                                            style={{
+                                                textDecoration: 'none',
+                                                color: 'inherit',
+                                                display: 'inline-flex',
+                                                alignItems: 'center',
+                                            }}
+                                        >
+                                            {item.label}
+                                        </a>
+                                    </li>
                                 ))}
                             </Menu>
                         )}
