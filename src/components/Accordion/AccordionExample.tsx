@@ -83,5 +83,5 @@ export const AccordionExample: ComponentExampleFn<AccordionProps> = ({ action, s
             },
         },
     ],
-    hideVariants: true,
+    variants: false,
 });

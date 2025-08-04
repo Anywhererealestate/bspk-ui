@@ -42,9 +42,9 @@ export type ComponentExampleRenderProps<Props = Record<string, unknown>> = {
     preset?: DemoPreset;
     setState: DemoSetState<Props>;
     Component: React.ComponentType<Props>;
-    context?: {
-        [key: string]: unknown;
-        preset?: DemoPreset;
+    variant?: {
+        name: string;
+        value: unknown;
     };
     id: string;
 };
@@ -53,19 +53,28 @@ export type ComponentExampleRender<Props = Record<string, unknown>> = (
     params: ComponentExampleRenderProps<Props>,
 ) => React.ReactNode;
 
-export type ComponentExample<Props = Record<string, unknown>, PropName = keyof Props> = {
+type ComponentVariantOverride<Props> = {
+    [K in keyof Props]?: Props[K] | { options: Props[K][] };
+};
+
+export type ComponentVariantOverrides<Props = Record<string, unknown>, PropName extends keyof Props = keyof Props> = {
+    [Key in PropName]?: ComponentVariantOverride<Props> | false | ((props: Props) => ComponentVariantOverride<Props>);
+};
+
+export type ComponentExample<Props = Record<string, unknown>, PropName extends keyof Props = keyof Props> = {
     /**
      * The style of the wrapping component.
      *
-     * //
+     * @example
+     *     { width: '100%' },
      */
     containerStyle?: React.CSSProperties | ((propState: Props) => React.CSSProperties);
     /**
-     * True to hide all or a list of variants to hide.
+     * False to hide all or a record of variants to hide or modify props.
      *
-     * Helpful for hiding variants that can have unexpected collisions with the other examples.
+     * Helpful for hiding or setting static default props for specific variants
      */
-    hideVariants?: PropName[] | true;
+    variants?: ComponentVariantOverrides<Props> | boolean;
     /**
      * This is used to set the initial propState of the component.
      *
@@ -93,7 +102,6 @@ export type ComponentExample<Props = Record<string, unknown>, PropName = keyof P
         title: string;
         content: (params: { Component: React.ComponentType<Props>; props: Props }) => React.ReactNode;
     }[];
-    variantsExample?: (params: { Component: React.ComponentType<Props>; props: Props }) => React.ReactNode;
 };
 
 export type ComponentExampleFn<Props = Record<string, unknown>> = (params: {

@@ -52,6 +52,7 @@ function ExamplePlaceholder({
     return (
         <div
             {...props}
+            data-bspk-utility="example-placeholder"
             data-example-placeholder
             ref={ref}
             style={{

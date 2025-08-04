@@ -111,9 +111,9 @@ function Breadcrumb({ id: propId, items: itemsProp }: BreadcrumbProps) {
                     <li>
                         <Button
                             icon={<SvgMoreHoriz />}
+                            iconOnly
                             innerRef={elements.setReference}
                             label={`Access to ${middleItems.length} pages`}
-                            showLabel={false}
                             size="small"
                             toolTip={`${middleItems.length} pages`}
                             variant="tertiary"

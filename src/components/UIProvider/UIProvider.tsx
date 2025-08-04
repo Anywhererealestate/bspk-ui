@@ -33,6 +33,7 @@ function UIProvider({ children }: UIProviderProps) {
 
     return (
         <UIContext.Provider
+            data-bspk-utility="ui-provider"
             value={{
                 theme,
                 setTheme,

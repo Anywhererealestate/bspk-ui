@@ -15,5 +15,5 @@ export const DialogExample: ComponentExample<DialogProps> = {
             </>
         );
     },
-    hideVariants: true,
+    variants: false,
 };

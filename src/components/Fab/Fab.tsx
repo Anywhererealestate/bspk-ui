@@ -12,7 +12,7 @@ export type FabVariant = 'neutral' | 'primary' | 'secondary';
 
 export type FabProps<As extends ElementType = 'button'> = Pick<
     ButtonProps<As>,
-    'as' | 'icon' | 'onClick' | 'showLabel' | 'toolTip'
+    'as' | 'icon' | 'iconOnly' | 'onClick' | 'toolTip'
 > &
     Required<Pick<ButtonProps<As>, 'label'>> & {
         /**
@@ -59,7 +59,7 @@ export type FabProps<As extends ElementType = 'button'> = Pick<
 function Fab<As extends ElementType = 'button'>({
     size = 'small',
     variant = 'primary',
-    showLabel: showLabelProp = true,
+    iconOnly: iconOnlyProp = false,
     as,
     placement = 'bottom-right',
     container = 'local',
@@ -68,8 +68,8 @@ function Fab<As extends ElementType = 'button'>({
     toolTip,
     ...otherProps
 }: ElementProps<FabProps<As>, As>) {
-    // ignore showLabel=false if there is no icon
-    const hideLabel = showLabelProp === false && icon;
+    // ignore iconOnly=true if there is no icon
+    const iconOnly = iconOnlyProp === true && !!icon;
 
     const { logError } = useErrorLogger();
     logError(!!icon && !isValidIcon(icon), 'Button - The icon prop must be a valid icon element.');
@@ -83,20 +83,20 @@ function Fab<As extends ElementType = 'button'>({
             data-bspk="fab"
             data-container={container}
             data-placement={placement}
-            data-round={hideLabel || undefined}
+            data-round={iconOnly || undefined}
             data-size={size}
             data-variant={variant}
         >
             {!!icon && isValidElement(icon) && (
-                <span aria-hidden={showLabelProp || undefined} data-button-icon>
+                <span aria-hidden={!iconOnly || undefined} data-button-icon>
                     {icon}
                 </span>
             )}
-            {!hideLabel && <span data-fab-label>{label}</span>}
+            {!iconOnly && <span data-fab-label>{label}</span>}
         </As>
     );
 
-    return toolTip || hideLabel ? (
+    return toolTip || iconOnly ? (
         <Tooltip label={toolTip || label} placement="top">
             {button}
         </Tooltip>
