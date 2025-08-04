@@ -204,9 +204,7 @@
         "./Txt": "./dist/components/Txt/index.js",
         "./Txt/*": "./dist/components/Txt/*.js",
         "./UIProvider": "./dist/components/UIProvider/index.js",
-        "./UIProvider/*": "./dist/components/UIProvider/*.js",
-        "./VerticalSlider": "./dist/components/VerticalSlider/index.js",
-        "./VerticalSlider/*": "./dist/components/VerticalSlider/*.js"
+        "./UIProvider/*": "./dist/components/UIProvider/*.js"
     },
     "publishConfig": {
         "access": "public"

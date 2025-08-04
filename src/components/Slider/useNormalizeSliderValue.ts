@@ -1,27 +1,13 @@
-export const useNormalizeSliderValue = ({
-    minimum,
-    maximum,
-    intervalType,
-    interval,
-    precision,
-}: {
-    minimum: number;
-    maximum: number;
-    intervalType: 'continuous' | 'discrete';
-    interval: number;
-    precision: number;
-}) => {
-    const clamp = (val: number) => Math.min(Math.max(val, minimum), maximum);
+export const useNormalizeSliderValue = ({ min, max, step }: { min: number; max: number; step: number }) => {
+    const clamp = (val: number) => Math.min(Math.max(val, min), max);
 
     const normalizeSliderValue = (val: number) => {
         let newValue = clamp(val);
 
-        if (intervalType === 'discrete') {
-            newValue = Math.round(newValue / interval) * interval;
-        } else {
-            const factor = Math.pow(10, precision);
-            newValue = Math.round(newValue * factor) / factor;
-        }
+        newValue = Math.round(newValue / step) * step;
+
+        // Fix floating-point precision issues
+        newValue = parseFloat(newValue.toFixed(10));
 
         return clamp(newValue);
     };

@@ -7,7 +7,7 @@ import { SliderTemplate } from './SliderTemplate';
 import { useNormalizeSliderValue } from './useNormalizeSliderValue';
 import { CommonPropsLibrary } from '-/types/common';
 
-export type SliderProps = Pick<CommonPropsLibrary, 'disabled' | 'readOnly'> & {
+export type SliderProps = Pick<CommonPropsLibrary, 'disabled' | 'name' | 'readOnly'> & {
     /**
      * The label of the slider.
      *
@@ -31,33 +31,27 @@ export type SliderProps = Pick<CommonPropsLibrary, 'disabled' | 'readOnly'> & {
      *
      * @default 0
      */
-    minimum: number;
+    min: number;
     /**
      * The maximum value of the slider.
      *
      * @default 100
      */
-    maximum: number;
+    max: number;
     /**
-     * If the slider's value interval should be continuous or discrete
+     * Indicates if marks should be displayed on the slider.
      *
-     * @default 'continuous'
+     * @default false
      */
-    intervalType?: 'continuous' | 'discrete';
+    marks?: boolean;
     /**
-     * The interval value when intervalType is set to 'discrete'. Ignored in continuous mode.
+     * The number that specifies the granularity that the value must adhere to
      *
      * @default 1
      */
-    interval?: number;
-    /**
-     * Number of decimal places to round to in continuous mode. Ignored in discrete mode.
-     *
-     * @default 0
-     */
-    precision?: number;
+    step?: number;
     /** Optional function to format the display value of the slider. Useful for currency, percentages, etc. */
-    getDisplayValue?: (value: number) => string;
+    formatValue?: (value: number) => string;
 };
 
 /**
@@ -71,7 +65,7 @@ export type SliderProps = Pick<CommonPropsLibrary, 'disabled' | 'readOnly'> & {
  *     function Example() {
  *         const [value, setValue] = useState<number>(50);
  *
- *         return <Slider value={value} minimum={0} maximum={100} label="Slider Example" onChange={setValue} />;
+ *         return <Slider value={value} min={0} max={100} label="Slider Example" onChange={setValue} />;
  *     }
  *
  * @name Slider
@@ -80,25 +74,23 @@ export type SliderProps = Pick<CommonPropsLibrary, 'disabled' | 'readOnly'> & {
 function Slider({
     value,
     onChange,
-    minimum = 0,
-    maximum = 100,
+    min = 0,
+    max = 100,
     label,
-    intervalType = 'continuous',
-    interval = 1,
+    marks = false,
+    step = 1,
     disabled = false,
-    precision = 0,
     readOnly = false,
-    getDisplayValue,
+    formatValue,
+    name,
 }: SliderProps) {
     const sliderRef = useRef<HTMLDivElement>(null);
     const isDraggingRef = useRef(false);
 
     const { normalizeSliderValue } = useNormalizeSliderValue({
-        minimum,
-        maximum,
-        intervalType,
-        interval,
-        precision,
+        min,
+        max,
+        step,
     });
 
     const getValueFromPosition = (clientX: number) => {
@@ -110,7 +102,7 @@ function Slider({
 
         percent = Math.max(0, Math.min(1, percent));
 
-        return normalizeSliderValue(minimum + percent * (maximum - minimum));
+        return normalizeSliderValue(min + percent * (max - min));
     };
 
     const handleMouseMove = (e: MouseEvent) => {
@@ -142,9 +134,11 @@ function Slider({
         let newValue = value;
 
         if (e.key === 'ArrowLeft') {
-            newValue = value - interval;
+            newValue = value - step;
         } else if (e.key === 'ArrowRight') {
-            newValue = value + interval;
+            newValue = value + step;
+        } else {
+            return;
         }
 
         onChange(normalizeSliderValue(newValue));
@@ -158,16 +152,17 @@ function Slider({
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const valuePercent = Math.min(Math.max(((value - minimum) / (maximum - minimum)) * 100, 0), 100);
+    const valuePercent = Math.min(Math.max(((value - min) / (max - min)) * 100, 0), 100);
 
     return (
         <SliderTemplate
             disabled={disabled}
-            displayValue={getDisplayValue ? getDisplayValue(value) : undefined}
+            displayValue={formatValue ? formatValue(value) : undefined}
             handleMouseDown={handleMouseDown}
             label={label}
-            maximum={maximum}
-            minimum={minimum}
+            max={max}
+            min={min}
+            name={name}
             onKeyDown={handleKeyDown}
             readOnly={readOnly}
             sliderRef={sliderRef}
@@ -175,9 +170,7 @@ function Slider({
         >
             <div data-slider-fill="" style={{ width: `${valuePercent}%` }} />
 
-            {intervalType === 'discrete' && (
-                <SliderIntervalDots interval={interval} maximum={maximum} minimum={minimum} value={value} />
-            )}
+            {marks && <SliderIntervalDots max={max} min={min} step={step} value={value} />}
 
             <SliderKnob tabIndex={0} valuePercent={valuePercent} />
         </SliderTemplate>

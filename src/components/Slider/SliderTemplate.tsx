@@ -3,7 +3,7 @@ import { ReactNode } from 'react';
 import { SliderProps } from './Slider';
 import { Txt } from '-/components/Txt';
 
-type SliderTemplateProps = Pick<SliderProps, 'disabled' | 'label' | 'maximum' | 'minimum' | 'readOnly' | 'value'> & {
+type SliderTemplateProps = Pick<SliderProps, 'disabled' | 'label' | 'max' | 'min' | 'name' | 'readOnly' | 'value'> & {
     children: ReactNode;
     onKeyDown: (e: React.KeyboardEvent<HTMLDivElement>) => void;
     handleMouseDown: (e: React.MouseEvent) => void;
@@ -18,11 +18,12 @@ export function SliderTemplate({
     label,
     readOnly,
     value,
-    minimum,
-    maximum,
+    min,
+    max,
     handleMouseDown,
     sliderRef,
     displayValue,
+    name,
 }: SliderTemplateProps) {
     return (
         <div data-bspk="slider" data-disabled={disabled || undefined} data-readonly={readOnly || undefined}>
@@ -33,6 +34,7 @@ export function SliderTemplate({
             </div>
 
             <div
+                aria-hidden={true}
                 data-slider-body=""
                 onKeyDown={disabled ? undefined : onKeyDown}
                 onMouseDown={handleMouseDown}
@@ -45,13 +47,25 @@ export function SliderTemplate({
                 {children}
             </div>
 
+            <input
+                aria-label={label}
+                disabled={disabled}
+                hidden={true}
+                max={max}
+                min={min}
+                name={name}
+                readOnly={readOnly}
+                type="range"
+                value={value}
+            />
+
             <div data-bottom-labels="">
                 <Txt data-min-label="" variant="body-small">
-                    {minimum}
+                    {min}
                 </Txt>
 
                 <Txt data-max-label="" variant="body-small">
-                    {maximum}
+                    {max}
                 </Txt>
             </div>
         </div>

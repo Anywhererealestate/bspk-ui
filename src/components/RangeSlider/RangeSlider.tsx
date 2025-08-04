@@ -9,7 +9,7 @@ import { useNormalizeSliderValue } from '-/components/Slider/useNormalizeSliderV
 
 export type RangeSliderProps = Pick<
     SliderProps,
-    'disabled' | 'interval' | 'intervalType' | 'label' | 'maximum' | 'minimum' | 'precision' | 'readOnly'
+    'disabled' | 'label' | 'marks' | 'max' | 'min' | 'name' | 'readOnly' | 'step'
 > & {
     /**
      * The numerical value of the slider.
@@ -24,7 +24,7 @@ export type RangeSliderProps = Pick<
      */
     onChange: (newValue: [number, number]) => void;
     /** Optional function to format the display value of the slider. Useful for currency, percentages, etc. */
-    getDisplayValue?: (value: [number, number]) => string;
+    formatValue?: (value: [number, number]) => string;
 };
 
 /**
@@ -38,7 +38,7 @@ export type RangeSliderProps = Pick<
  *     const [value, setValue] = useState<[number, number]>([20, 80]);
  *
  *     function Example() {
- *         return <RangeSlider minimum={0} maximum={100} value={value} onChange={setValue} />;
+ *         return <RangeSlider min={0} max={100} value={value} onChange={setValue} />;
  *     }
  *
  * @name RangeSlider
@@ -47,39 +47,37 @@ export type RangeSliderProps = Pick<
 function RangeSlider({
     value = [0, 0],
     onChange,
-    minimum = 0,
-    maximum = 100,
+    min = 0,
+    max = 100,
     label,
-    intervalType = 'continuous',
-    interval = 1,
+    step = 1,
     disabled = false,
-    precision = 0,
     readOnly = false,
-    getDisplayValue,
+    formatValue,
+    marks = false,
+    name,
 }: RangeSliderProps) {
     const { normalizeSliderValue } = useNormalizeSliderValue({
-        minimum,
-        maximum,
-        intervalType,
-        interval,
-        precision,
+        min,
+        max,
+        step,
     });
     const sliderRef = useRef<HTMLDivElement>(null);
 
     const activeThumbRef = useRef<0 | 1 | null>(null);
     const lastActiveThumbRef = useRef<0 | 1>(0);
 
-    const clamp = (val: number) => Math.min(Math.max(val, minimum), maximum);
+    const clamp = (val: number) => Math.min(Math.max(val, min), max);
 
     const getValueFromPosition = (clientX: number) => {
         const slider = sliderRef.current;
-        if (!slider) return minimum;
+        if (!slider) return min;
 
         const { left, width } = slider.getBoundingClientRect();
         let percent = (clientX - left) / width;
         percent = Math.max(0, Math.min(1, percent));
 
-        const newValue = normalizeSliderValue(minimum + percent * (maximum - minimum));
+        const newValue = normalizeSliderValue(min + percent * (max - min));
 
         return clamp(newValue);
     };
@@ -128,7 +126,6 @@ function RangeSlider({
 
         const thumbToMove = activeThumbRef.current ?? lastActiveThumbRef.current ?? 0;
 
-        const step = intervalType === 'discrete' ? interval : Math.pow(10, -precision);
         let delta = 0;
 
         switch (e.key) {
@@ -155,14 +152,14 @@ function RangeSlider({
 
     useEffect(() => {
         const [start, end] = value;
-        const clampedStart = Math.min(Math.max(start, minimum), maximum);
-        const clampedEnd = Math.min(Math.max(end, minimum), maximum);
+        const clampedStart = Math.min(Math.max(start, min), max);
+        const clampedEnd = Math.min(Math.max(end, min), max);
 
         if (clampedStart !== start || clampedEnd !== end) {
             onChange([clampedStart, clampedEnd]);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [minimum, maximum]);
+    }, [min, max]);
 
     useEffect(() => {
         return () => {
@@ -173,8 +170,8 @@ function RangeSlider({
     }, []);
 
     const [start, end] = value;
-    const startPercent = ((start - minimum) / (maximum - minimum)) * 100;
-    const endPercent = ((end - minimum) / (maximum - minimum)) * 100;
+    const startPercent = ((start - min) / (max - min)) * 100;
+    const endPercent = ((end - min) / (max - min)) * 100;
 
     const fillLeft = Math.min(startPercent, endPercent);
     const fillWidth = Math.abs(endPercent - startPercent);
@@ -182,11 +179,12 @@ function RangeSlider({
     return (
         <SliderTemplate
             disabled={disabled}
-            displayValue={getDisplayValue ? getDisplayValue(value) : `${start} - ${end}`}
+            displayValue={formatValue ? formatValue(value) : `${start} - ${end}`}
             handleMouseDown={handleMouseDown}
             label={label}
-            maximum={maximum}
-            minimum={minimum}
+            max={max}
+            min={min}
+            name={name}
             onKeyDown={handleKeyDown}
             readOnly={readOnly}
             sliderRef={sliderRef}
@@ -200,9 +198,7 @@ function RangeSlider({
                 }}
             />
 
-            {intervalType === 'discrete' && (
-                <SliderIntervalDots interval={interval} maximum={maximum} minimum={minimum} value={start} />
-            )}
+            {marks && <SliderIntervalDots max={max} min={min} step={step} value={start} />}
 
             <SliderKnob
                 onFocus={() => {
