@@ -8,6 +8,7 @@ import { ComponentExample, ComponentExampleRenderProps } from '-/utils/demo';
 export const SkeletonExample: ComponentExample<SkeletonProps> = {
     render: ({ props, preset, Component }) => {
         if (preset?.label === 'Loading Transition') return <SkeletonTransition Component={Component} props={props} />;
+
         return <Component {...props} />;
     },
     presets: [
@@ -19,21 +20,18 @@ export const SkeletonExample: ComponentExample<SkeletonProps> = {
             },
         },
     ],
-    variants: {
-        variant: (props) => ({
-            children: props.variant ? PROP_VARIANT_CHILDREN[props.variant] : null,
-        }),
-    },
 };
 
 function SkeletonTransition({
     Component,
-    props: { children, ...restProps },
+    props,
 }: Pick<ComponentExampleRenderProps<SkeletonProps>, 'Component' | 'props'>) {
     const [loaded, setLoaded] = useState(false);
     useTimeout(() => setLoaded(true), 3000);
 
-    return <Component {...restProps}>{loaded && <>{children}</>}</Component>;
+    return (
+        <Component {...props}>{loaded && <>{PROP_VARIANT_CHILDREN[props!.variant as SkeletonVariant]}</>}</Component>
+    );
 }
 
 const PROP_VARIANT_CHILDREN: Record<SkeletonVariant, SkeletonProps['children']> = {
