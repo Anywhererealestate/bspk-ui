@@ -45,7 +45,7 @@ function Truncated<As extends ElementType = 'span'>({
     const span = (
         <span
             {...props}
-            // data-bspk="truncated" - not needed as this is a utility component
+            data-bspk-utility="truncated"
             ref={(node) => setElement(node)}
             style={{
                 ...props.style,

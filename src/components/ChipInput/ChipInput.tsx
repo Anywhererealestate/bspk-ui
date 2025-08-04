@@ -34,6 +34,7 @@ export type ChipInputProps = Pick<ChipUtilityProps, 'disabled' | 'label' | 'lead
 function ChipInput({ disabled, label, leadingIcon, onClick, removable = true }: ChipInputProps) {
     return (
         <ChipUtility
+            data-bspk="chip-input"
             disabled={disabled}
             label={label}
             leadingIcon={leadingIcon}

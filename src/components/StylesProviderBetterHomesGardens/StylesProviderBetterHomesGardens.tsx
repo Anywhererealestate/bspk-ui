@@ -6,6 +6,7 @@ import '-/styles/base.scss';
  *
  * @name StylesProviderBetterHomesGardens
  * @phase Utility
+ * @generated
  */
 function StylesProviderBetterHomesGardens(): JSX.Element | null {
     return null;
@@ -16,3 +17,4 @@ StylesProviderBetterHomesGardens.bspkName = 'StylesProviderBetterHomesGardens';
 export { StylesProviderBetterHomesGardens };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
+

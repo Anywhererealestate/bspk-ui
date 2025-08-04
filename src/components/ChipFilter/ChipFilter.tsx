@@ -54,6 +54,7 @@ function ChipFilter({ disabled, label, leadingIcon, onClick, trailingIcon, trail
         ) : undefined;
     return (
         <ChipUtility
+            data-bspk="chip-filter"
             disabled={disabled}
             label={label}
             leadingIcon={leadingIcon}

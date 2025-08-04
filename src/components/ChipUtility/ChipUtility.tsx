@@ -89,7 +89,7 @@ function ChipUtility({
 }: ChipUtilityProps) {
     return (
         <button
-            data-bspk="chip-utility"
+            data-bspk-utility="chip-utility"
             data-disabled={disabled || undefined}
             data-flat={flat || undefined}
             data-selected={selected || undefined}
