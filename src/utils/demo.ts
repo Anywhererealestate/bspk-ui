@@ -42,9 +42,9 @@ export type ComponentExampleRenderProps<Props = Record<string, unknown>> = {
     preset?: DemoPreset;
     setState: DemoSetState<Props>;
     Component: React.ComponentType<Props>;
-    context?: {
-        [key: string]: unknown;
-        preset?: DemoPreset;
+    variant?: {
+        name: string;
+        value: unknown;
     };
     id: string;
 };

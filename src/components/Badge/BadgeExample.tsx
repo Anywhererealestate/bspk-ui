@@ -12,7 +12,7 @@ export const BadgeExample: ComponentExample<BadgeProps> = {
     },
     containerStyle: { width: '100%' },
     variants: {
-        surfaceBorder: { count: { options: [9, 99, 999] } },
+        surfaceBorder: { color: { options: ['primary', 'secondary'] } },
         size: { count: { options: [9, 99, 999] } },
     },
 };

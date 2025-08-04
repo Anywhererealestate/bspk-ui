@@ -48,7 +48,7 @@ export type BadgeProps = {
  * Visual indicator for new items within a parent page represented with a numerical count of new items.
  *
  * @example
- *     import { Badge } from '@bspk/ui/badge';
+ *     import { Badge } from '@bspk/ui/Badge';
  *
  *     function Example() {
  *         return <Badge count={5} size="small" color="primary" />;
@@ -65,14 +65,20 @@ function Badge({ count: countProp, size = 'small', surfaceBorder, children, colo
     if (typeof count === 'undefined') return children || null;
 
     const badge = (
-        <sup data-bspk="badge" data-color={color} data-size={size} data-surface-border={surfaceBorder || undefined}>
+        <sup
+            data-attachment={!!children || undefined}
+            data-bspk="badge"
+            data-color={color}
+            data-size={size}
+            data-surface-border={surfaceBorder || undefined}
+        >
             {typeof count === 'number' && count > 99 ? '99+' : count}
         </sup>
     );
 
     if (children) {
         return (
-            <span data-bspk="badge-wrapper">
+            <span data-attachment-wrapper>
                 {children}
                 {badge}
             </span>
