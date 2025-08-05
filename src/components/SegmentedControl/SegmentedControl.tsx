@@ -82,9 +82,9 @@ export type SegmentedControlProps = {
      * Determines if the labels of the options should be displayed. If icons are not provided for every option this is
      * ignored and labels are shown.
      *
-     * @default true
+     * @default false
      */
-    showLabels?: boolean;
+    iconsOnly?: boolean;
 };
 
 /**
@@ -119,13 +119,14 @@ function SegmentedControl({
     size = 'medium',
     options: optionsProp,
     width = 'hug',
-    showLabels: showLabelsProp = true,
+    iconsOnly: iconsOnlyProp = false,
     ...containerProps
 }: ElementProps<SegmentedControlProps, 'div'>) {
     const options = Array.isArray(optionsProp) ? optionsProp : [];
     useOptionIconsInvalid(options);
 
-    const hideLabels = showLabelsProp === false && options.every((item) => item.icon && item.label);
+    // If all options have icons, we can hide the labels
+    const iconsOnly = iconsOnlyProp === true && options.every((item) => item.icon && item.label);
 
     return (
         <div {...containerProps} data-bspk="segmented-control" data-size={size} data-width={width}>
@@ -133,7 +134,7 @@ function SegmentedControl({
                 const isActive = item.value === value;
                 return (
                     <Fragment key={item.value}>
-                        <Tooltip disabled={!hideLabels} label={item.label} placement="top">
+                        <Tooltip disabled={!iconsOnly} label={item.label} placement="top">
                             <button
                                 aria-label={item.label}
                                 data-first={index === 0 || undefined}
@@ -145,7 +146,7 @@ function SegmentedControl({
                                 <span data-outer>
                                     <span data-inner>
                                         {(isActive && item.iconActive) || item.icon}
-                                        {!hideLabels && item.label}
+                                        {!iconsOnly && item.label}
                                     </span>
                                 </span>
                             </button>

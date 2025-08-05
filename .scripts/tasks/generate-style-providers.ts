@@ -34,6 +34,7 @@ import '-/styles/base.scss';
  *
  * @name ${componentName}
  * @phase Utility
+ * @generated
  */
 function ${componentName}(): JSX.Element | null {
     return null;

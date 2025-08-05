@@ -41,6 +41,8 @@
         "./AvatarGroup/*": "./dist/components/AvatarGroup/*.js",
         "./Badge": "./dist/components/Badge/index.js",
         "./Badge/*": "./dist/components/Badge/*.js",
+        "./BadgeDot": "./dist/components/BadgeDot/index.js",
+        "./BadgeDot/*": "./dist/components/BadgeDot/*.js",
         "./BannerAlert": "./dist/components/BannerAlert/index.js",
         "./BannerAlert/*": "./dist/components/BannerAlert/*.js",
         "./Breadcrumb": "./dist/components/Breadcrumb/index.js",

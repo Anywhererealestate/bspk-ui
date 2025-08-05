@@ -1,13 +1,13 @@
-import { Radio } from '-/components/Radio';
-import { ToggleOptionProps, ToggleOption } from '-/components/ToggleOption';
+import { RadioOption, RadioOptionProps } from '-/components/RadioOption';
 import { useId } from '-/hooks/useId';
 import { ElementProps, CommonProps } from '-/types/common';
 
 import './radio-group.scss';
 
-export type RadioGroupOption = Pick<ToggleOptionProps, 'description' | 'label'> & Required<CommonProps<'value'>>;
+export type RadioGroupOption = Pick<RadioOptionProps, 'checked' | 'description' | 'disabled' | 'label' | 'name'> &
+    Required<CommonProps<'value'>>;
 
-export type RadioGroupProps = CommonProps<'disabled' | 'name'> & {
+export type RadioGroupProps = CommonProps<'name'> & {
     /**
      * The value of the control.
      *
@@ -54,11 +54,11 @@ export type RadioGroupProps = CommonProps<'disabled' | 'name'> & {
      */
     label: string;
     /**
-     * Shows the RadioGroup label. When label isn't showing it is used as the aria-label prop.
+     * Hides the RadioGroup label. When label isn't showing it is used as the aria-label prop.
      *
-     * @default true
+     * @default false
      */
-    showLabel?: boolean;
+    hideLabel?: boolean;
 };
 
 /**
@@ -98,8 +98,7 @@ function RadioGroup({
     name,
     value: groupValue,
     label: groupLabel,
-    showLabel = true,
-    disabled,
+    hideLabel: hideLabelProp = false,
     ...props
 }: ElementProps<RadioGroupProps, 'div'>) {
     const id = `radio-group-${useId()}`;
@@ -107,26 +106,26 @@ function RadioGroup({
     return (
         <div
             {...props}
-            aria-labelledby={showLabel ? `${id}-label` : undefined}
+            aria-label={hideLabelProp ? groupLabel : undefined}
+            aria-labelledby={!hideLabelProp ? `${id}-label` : undefined}
             data-bspk="radio-group"
-            data-disabled={disabled || undefined}
             id={id}
             role="group"
         >
-            {showLabel && <label id={`${id}-label`}>{groupLabel}</label>}
+            {!hideLabelProp && <label id={`${id}-label`}>{groupLabel}</label>}
             <div role="radiogroup">
-                {options.map(({ label, description, value }, index) => {
+                {options.map(({ label, description, disabled, value }, index) => {
                     return (
-                        <ToggleOption description={description} key={`toggle-option-${value || index}`} label={label}>
-                            <Radio
-                                aria-label={label}
-                                checked={groupValue === value}
-                                disabled={disabled}
-                                name={name}
-                                onChange={(checked) => checked && onChange(value)}
-                                value={value}
-                            />
-                        </ToggleOption>
+                        <RadioOption
+                            checked={groupValue === value}
+                            description={description}
+                            disabled={disabled}
+                            key={`radio-option-${value || index}`}
+                            label={label}
+                            name={name}
+                            onChange={(checked) => checked && onChange(value)}
+                            value={value}
+                        />
                     );
                 })}
             </div>

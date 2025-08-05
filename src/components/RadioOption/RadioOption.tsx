@@ -25,10 +25,11 @@ export type RadioOptionProps = InvalidPropsLibrary &
  */
 function RadioOption({ label: labelProp, description, ...checkboxProps }: RadioOptionProps) {
     const label = labelProp || description;
+    const ariaLabel = description ? `${labelProp} - ${description}` : labelProp;
     return (
         label && (
             <ToggleOption data-bspk="radio-option" description={description} label={label}>
-                <Radio {...checkboxProps} aria-label={label} />
+                <Radio {...checkboxProps} aria-label={ariaLabel} />
             </ToggleOption>
         )
     );

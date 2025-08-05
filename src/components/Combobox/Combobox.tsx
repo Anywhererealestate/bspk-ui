@@ -159,23 +159,34 @@ function Combobox<Item extends ComboboxItemProps>({
                     onClose={closeMenu}
                     open={isOpen}
                 >
-                    <ListItems
-                        activeIndex={activeIndex}
-                        allSelected={allSelected}
-                        data-testid="listbox-items"
-                        isMulti={isMulti}
-                        items={items}
-                        menuId={menuId}
-                        onChange={(next) => {
-                            onChange(next);
-                            if (!isMulti) closeMenu();
-                        }}
-                        selectAll={selectAll}
-                        selectedValues={selectedValues}
-                    />
+                    <div
+                        aria-errormessage={errorMessage || undefined}
+                        aria-invalid={invalid || undefined}
+                        aria-multiselectable={isMulti || undefined}
+                        id={menuId}
+                        role="listbox"
+                        style={{ display: 'contents' }}
+                    >
+                        <ListItems
+                            activeIndex={activeIndex}
+                            allSelected={allSelected}
+                            data-testid="listbox-items"
+                            isMulti={isMulti}
+                            items={items}
+                            menuId={menuId}
+                            onChange={(next) => {
+                                onChange(next);
+                                if (!isMulti) closeMenu();
+                            }}
+                            selectAll={selectAll}
+                            selectedValues={selectedValues}
+                        />
+                    </div>
                 </Modal>
             ) : (
                 <Menu
+                    aria-errormessage={errorMessage || undefined}
+                    aria-invalid={invalid || undefined}
                     aria-multiselectable={isMulti || undefined}
                     data-bspk="listbox"
                     data-disabled={disabled || undefined}

@@ -12,7 +12,7 @@ import { getLocalMeta } from '../utils';
 
 const errors: string[] = [];
 
-const { componentsMeta, typesMeta } = await getLocalMeta(true);
+const { componentsMeta, typesMeta } = await getLocalMeta();
 
 const packageJsonData = JSON.parse(fs.readFileSync(path.resolve('./package.json'), 'utf-8'));
 
@@ -31,7 +31,7 @@ if (!hasExports) {
     errors.push('❌ package.json does not have an "exports" field. Please add it.');
 }
 
-componentsMeta.forEach(({ name, slug }) => {
+componentsMeta.forEach(({ name, slug, phase }) => {
     if (hasExports) {
         const exports = [
             { key: `./${name}/*`, value: `./dist/components/${name}/*.js` },
@@ -62,24 +62,25 @@ componentsMeta.forEach(({ name, slug }) => {
     }
 
     const hasDefaultDescription = content.includes(`Component description.`);
-    const propNameMatch = content.match(/\.bspkName = '([^']+)'/);
-    const dataNameMatch = content.match(/data-bspk="([^"]+)"/);
+    const hasFunctionName = content.includes(`.bspkName = '${name}'`);
+    const hasDataName = content.includes(`data-bspk="${slug}"`);
+    const hasDataUtilityName = content.includes(`data-bspk-utility="${slug}"`);
+    const isGenerated = content.includes(`@generated`);
+
     const sassNameMatch = content.match(/import '\.\/(.*)\.scss'/);
 
-    const propName = propNameMatch?.[1];
-    const dataName = dataNameMatch?.[1];
     const sassName = sassNameMatch?.[1];
+
+    if (phase !== 'Utility' && !isGenerated && !hasDataName && !hasDataUtilityName) {
+        errors.push(`❌ ${name} does not have a data-bspk attribute. Please add it to the component.`);
+    }
 
     if (sassName && sassName !== slug && sassName !== 'base') {
         errors.push(`❌ ${name} sass name does not match component slug "${sassName}"`);
     }
 
-    if (!propName) {
-        errors.push(`❌ ${name} does not have a bspkName property`);
-    }
-
-    if (dataName && dataName !== slug) {
-        errors.push(`❌ ${name} data-bspk attribute does not match component slug "${sassName}"`);
+    if (!hasFunctionName) {
+        errors.push(`❌ ${name} does not have a valid bspkName property`);
     }
 
     if (hasDefaultDescription) {
@@ -88,7 +89,7 @@ componentsMeta.forEach(({ name, slug }) => {
 
     // lint component Properties
 
-    const props = typesMeta?.find((t: { name: string }) => t.name === `${propName}Props`);
+    const props = typesMeta?.find((t: { name: string }) => t.name === `${name}Props`);
 
     if (props?.properties) {
         // does not have duplicate property names

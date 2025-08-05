@@ -69,7 +69,7 @@ export type AvatarProps = {
      */
     image?: string;
     /**
-     * Whether to show the represeneetd user's name as a tooltip.
+     * Whether to show the represented user's name as a tooltip.
      *
      * @default true
      */

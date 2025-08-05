@@ -46,10 +46,10 @@ export type TagProps = {
  */
 function Tag({ label, color = 'white', size = 'small', variant = 'flat' }: TagProps) {
     return (
-        <div data-bspk="tag" data-color={color} data-size={size} data-variant={variant}>
+        <span data-bspk="tag" data-color={color} data-size={size} data-variant={variant}>
             {label && <Truncated>{label}</Truncated>}
             {variant === 'corner-wrap' && <div data-triangle />}
-        </div>
+        </span>
     );
 }
 

@@ -1,28 +1,21 @@
-import { FC } from 'react';
-
 import { PaginationProps } from './Pagination';
 import { Button } from '-/components/Button';
 
-export const PageList: FC<Pick<PaginationProps, 'numPages' | 'onChange' | 'value'>> = ({
-    numPages,
-    onChange,
-    value,
-}) => {
-    const pageButtons = [];
+export type PageListProps = Pick<PaginationProps, 'numPages' | 'onChange' | 'value'>;
 
-    for (let i = 1; i <= numPages; i++) {
-        pageButtons.push(
+export function PageList({ numPages, onChange, value }: PageListProps) {
+    return Array.from({ length: numPages }, (_, index) => {
+        const page = index + 1;
+        return (
             <Button
-                aria-label={`Page ${i}`}
+                aria-label={`Page ${page}`}
                 data-bspk-owner="pagination"
-                key={i}
-                label={String(i)}
-                onClick={() => onChange(i)}
-                showLabel={true}
+                key={page}
+                label={String(page)}
+                onClick={() => onChange(page)}
                 size="small"
-                variant={value === i ? 'primary' : 'tertiary'}
-            />,
+                variant={value === page ? 'primary' : 'tertiary'}
+            />
         );
-    }
-    return pageButtons;
-};
+    });
+}

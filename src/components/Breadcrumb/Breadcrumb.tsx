@@ -17,7 +17,7 @@ export type BreadcrumbItem = {
      * The label of the breadcrumb item.
      *
      * @example
-     *     'Page 1';
+     *     Page 1
      *
      * @required
      */
@@ -26,7 +26,7 @@ export type BreadcrumbItem = {
      * The href of the breadcrumb item.
      *
      * @example
-     *     'https://bspk.anywhere.re';
+     *     https://bspk.anywhere.re
      *
      * @required
      */
@@ -111,9 +111,9 @@ function Breadcrumb({ id: propId, items: itemsProp }: BreadcrumbProps) {
                     <li>
                         <Button
                             icon={<SvgMoreHoriz />}
+                            iconOnly
                             innerRef={elements.setReference}
                             label={`Access to ${middleItems.length} pages`}
-                            showLabel={false}
                             size="small"
                             toolTip={`${middleItems.length} pages`}
                             variant="tertiary"

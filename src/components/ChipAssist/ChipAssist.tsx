@@ -20,10 +20,18 @@ export type ChipAssistProps = Pick<ChipUtilityProps, 'disabled' | 'label' | 'lea
  *     }
  *
  * @name ChipAssist
- * @phase QA
+ * @phase UXReview
  */
 function ChipAssist({ disabled, label, leadingIcon, onClick }: ChipAssistProps) {
-    return <ChipUtility disabled={disabled} label={label} leadingIcon={leadingIcon} onClick={onClick} />;
+    return (
+        <ChipUtility
+            data-bspk="chip-assist"
+            disabled={disabled}
+            label={label}
+            leadingIcon={leadingIcon}
+            onClick={onClick}
+        />
+    );
 }
 
 ChipAssist.bspkName = 'ChipAssist';
