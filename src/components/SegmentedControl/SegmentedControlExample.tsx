@@ -9,6 +9,36 @@ import { ComponentExample } from '-/utils/demo';
 
 export const SegmentedControlExample: ComponentExample<SegmentedControlProps> = {
     containerStyle: { width: '100%' },
+    render: ({ props, Component }) => {
+        const backupProps: Partial<SegmentedControlProps> = {} as SegmentedControlProps;
+
+        if (!Array.isArray(props.options) || !props.options.length) {
+            //   backupProps.value = '1';
+            backupProps.options = [
+                {
+                    value: '1',
+                    label: 'Option 1',
+                    icon: undefined,
+                    iconSelected: undefined,
+                },
+                {
+                    value: '2',
+                    label: 'Disabled 2',
+                    icon: undefined,
+                    iconSelected: undefined,
+                    disabled: true,
+                },
+                {
+                    value: '3',
+                    label: 'Option 3',
+                    icon: undefined,
+                    iconSelected: undefined,
+                },
+            ];
+        }
+
+        return <Component {...props} {...backupProps} />;
+    },
     presets: [
         {
             label: 'With icons',
@@ -18,7 +48,7 @@ export const SegmentedControlExample: ComponentExample<SegmentedControlProps> = 
                         value: '1',
                         label: 'Option 1',
                         icon: <SvgDiamond />,
-                        iconActive: <SvgDiamondFill />,
+                        iconSelected: <SvgDiamondFill />,
                     },
                     {
                         value: '2',
@@ -30,7 +60,7 @@ export const SegmentedControlExample: ComponentExample<SegmentedControlProps> = 
                         value: '3',
                         label: 'Option 3',
                         icon: <SvgSquare />,
-                        iconActive: <SvgSquareFill />,
+                        iconSelected: <SvgSquareFill />,
                     },
                 ],
             },
@@ -44,7 +74,7 @@ export const SegmentedControlExample: ComponentExample<SegmentedControlProps> = 
                         value: '1',
                         label: 'Option 1',
                         icon: <SvgDiamond />,
-                        iconActive: <SvgDiamondFill />,
+                        iconSelected: <SvgDiamondFill />,
                     },
                     {
                         value: '2',
@@ -56,10 +86,11 @@ export const SegmentedControlExample: ComponentExample<SegmentedControlProps> = 
                         value: '3',
                         label: 'Option 3',
                         icon: <SvgSquare />,
-                        iconActive: <SvgSquareFill />,
+                        iconSelected: <SvgSquareFill />,
                     },
                 ],
             },
         },
     ],
+    variants: true,
 };

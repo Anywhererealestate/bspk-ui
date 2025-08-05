@@ -9,10 +9,10 @@
     },
     "javascript.suggest.paths": false,
     "cssVariables.lookupFiles": [
-        "**/*.css",
-        "**/*.scss",
-        "**/*.sass",
-        "**/*.less",
+        // "**/*.css",
+        // "**/*.scss",
+        // "**/*.sass",
+        // "**/*.less",
         "node_modules/@bspk/styles/anywhere.css"
     ]
 }
