@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, MouseEvent } from 'react';
 
 import { useTimeout } from './useTimeout';
 
@@ -38,7 +38,8 @@ export function useLongPress(callback: () => void, disabled: boolean) {
     };
 
     return {
-        onMouseDown: () => {
+        onMouseDown: (event: MouseEvent) => {
+            event.preventDefault();
             intervalRef.current = INITIAL_INTERVAL;
             callback();
             timeout.set(run, intervalRef.current);

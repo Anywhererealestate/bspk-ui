@@ -14,6 +14,9 @@ export type TruncatedProps<As extends ElementType = 'span'> = {
     /**
      * The content to render.
      *
+     * @example
+     *     Some really long text that might be truncated when displayed in a small container.
+     *
      * @type string
      * @required
      */
@@ -42,9 +45,14 @@ function Truncated<As extends ElementType = 'span'>({
     const span = (
         <span
             {...props}
-            data-bspk="truncated"
+            data-bspk-utility="truncated"
             ref={(node) => setElement(node)}
-            style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+            style={{
+                ...props.style,
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+            }}
         >
             {children}
         </span>

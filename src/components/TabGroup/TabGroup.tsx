@@ -40,11 +40,11 @@ export type TabGroupOption = {
      */
     icon?: ReactNode;
     /**
-     * The icon to display on the left side of the tab when the tab is active.
+     * The icon to display on the left side of the tab when the tab is currently selected.
      *
      * @type BspkIcon
      */
-    iconActive?: ReactNode;
+    iconSelected?: ReactNode;
     /** The badge count to display on the tab */
     badge?: number;
 };
@@ -142,6 +142,8 @@ function TabGroup({
     const options = Array.isArray(optionsProp) ? optionsProp : [];
     useOptionIconsInvalid(options);
 
+    if (options.length < 2) return <></>;
+
     return (
         <div
             {...containerProps}
@@ -151,11 +153,11 @@ function TabGroup({
             data-width={width}
         >
             {options.map((item, itemIndex) => {
-                const isActive = item.value === value;
-
+                const isSelected = item.value === value;
+                const icon = isSelected ? item.iconSelected : item.icon;
                 return (
                     <button
-                        data-active={isActive || undefined}
+                        data-selected={isSelected || undefined}
                         disabled={item.disabled || undefined}
                         key={item.value}
                         onClick={() => {
@@ -163,7 +165,7 @@ function TabGroup({
                         }}
                     >
                         <span>
-                            {(isActive && item.iconActive) || item.icon}
+                            {icon && <span aria-hidden="true">{icon}</span>}
                             {item.label}
                             {item.badge && !item.disabled && <Badge count={item.badge} size={TAB_BADGE_SIZES[size]} />}
                         </span>

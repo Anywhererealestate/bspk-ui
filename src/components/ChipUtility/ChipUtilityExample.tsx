@@ -2,6 +2,7 @@ import { ChipUtilityProps } from '.';
 import { ComponentExample } from '-/utils/demo';
 
 export const ChipUtilityExample: ComponentExample<ChipUtilityProps> = {
+    render: ({ props, Component }) => <Component {...props} />,
     presets: [
         {
             label: 'Basic',

@@ -36,7 +36,7 @@ export type ChipGroupProps = {
  *     }
  *
  * @name ChipGroup
- * @phase QA
+ * @phase UXReview
  */
 function ChipGroup({ children, wrap = true }: ChipGroupProps) {
     return (

@@ -13,10 +13,10 @@ export type ChipSuggestionProps = Pick<ChipUtilityProps, 'disabled' | 'label' | 
  *     }
  *
  * @name ChipSuggestion
- * @phase QA
+ * @phase UXReview
  */
 function ChipSuggestion({ disabled, label, onClick }: ChipSuggestionProps) {
-    return <ChipUtility disabled={disabled} label={label} onClick={onClick} />;
+    return <ChipUtility data-bspk="chip-suggestion" disabled={disabled} label={label} onClick={onClick} />;
 }
 
 ChipSuggestion.bspkName = 'ChipSuggestion';

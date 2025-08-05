@@ -35,5 +35,31 @@ export const SegmentedControlExample: ComponentExample<SegmentedControlProps> = 
                 ],
             },
         },
+        {
+            label: 'Icons only',
+            propState: {
+                iconsOnly: true,
+                options: [
+                    {
+                        value: '1',
+                        label: 'Option 1',
+                        icon: <SvgDiamond />,
+                        iconActive: <SvgDiamondFill />,
+                    },
+                    {
+                        value: '2',
+                        label: 'Disabled 2',
+                        disabled: true,
+                        icon: <SvgCircle />,
+                    },
+                    {
+                        value: '3',
+                        label: 'Option 3',
+                        icon: <SvgSquare />,
+                        iconActive: <SvgSquareFill />,
+                    },
+                ],
+            },
+        },
     ],
 };

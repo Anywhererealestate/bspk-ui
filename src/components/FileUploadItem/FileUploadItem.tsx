@@ -44,7 +44,7 @@ export type FileUploadItemProps = FileEntry & {
  *     }
  *
  * @name FileUploadItem
- * @phase QA
+ * @phase UXReview
  */
 function FileUploadItem({
     fileName = '',
@@ -69,9 +69,9 @@ function FileUploadItem({
                 </div>
                 <Button
                     icon={<SvgDelete />}
+                    iconOnly
                     label={onCancelToolTip || 'Cancel'}
                     onClick={() => onCancel({ fileName })}
-                    showLabel={false}
                     size="large"
                     variant="tertiary"
                 />

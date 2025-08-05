@@ -1,20 +1,7 @@
-import { FormFieldProps, FormField } from '-/components/FormField';
+import { FormField, FormFieldWrapProps } from '-/components/FormField';
 import { SelectProps, Select } from '-/components/Select';
 
-export type SelectFieldProps = Pick<
-    SelectProps,
-    | 'disabled'
-    | 'itemDisplayCount'
-    | 'label'
-    | 'name'
-    | 'onChange'
-    | 'options'
-    | 'placeholder'
-    | 'readOnly'
-    | 'size'
-    | 'value'
-> &
-    Pick<FormFieldProps, 'controlId' | 'errorMessage' | 'helperText' | 'labelTrailing' | 'required'>;
+export type SelectFieldProps = FormFieldWrapProps<SelectProps>;
 
 /**
  * A component that allows users to input large amounts of text that could span multiple lines.
@@ -48,26 +35,36 @@ export type SelectFieldProps = Pick<
  */
 function SelectField({
     label,
-    errorMessage: errorMessageProp,
+    errorMessage,
     helperText,
-    controlId: id,
+    controlId,
     labelTrailing,
     required,
-    ...selectProps
+    invalid,
+    ...inputProps
 }: SelectFieldProps) {
-    const errorMessage = (!selectProps.readOnly && !selectProps.disabled && errorMessageProp) || undefined;
-
     return (
         <FormField
-            controlId={id}
+            controlId={controlId}
             data-bspk="select-field"
             errorMessage={errorMessage}
             helperText={helperText}
+            invalid={invalid}
             label={label}
             labelTrailing={labelTrailing}
             required={required}
         >
-            {(fieldProps) => <Select {...selectProps} {...fieldProps} id={id} invalid={!!errorMessage} label={label} />}
+            {(fieldProps) => (
+                <Select
+                    //
+                    {...inputProps}
+                    {...fieldProps}
+                    errorMessage={errorMessage}
+                    id={controlId}
+                    invalid={!!errorMessage}
+                    label={label}
+                />
+            )}
         </FormField>
     );
 }

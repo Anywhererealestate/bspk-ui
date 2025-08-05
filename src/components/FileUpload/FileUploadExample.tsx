@@ -24,7 +24,7 @@ export const FileUploadExample: ComponentExampleFn<FileUploadProps> = ({ action 
             },
         },
     ],
-    hideVariants: true,
+    variants: false,
 });
 
 function FileUploadExampleMockUpload({

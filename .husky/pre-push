@@ -1,1 +1,1 @@
-npm run pretty && npm run lint && npm run lint:css && npx tsx .scripts/check-css-vars.ts && npm run build
+npm run pretty && npm run pr-check
