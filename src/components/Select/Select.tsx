@@ -152,18 +152,19 @@ function Select({
             {({ setReference, toggleProps }) => (
                 <>
                     <input defaultValue={selected} name={name} type="hidden" />
-                    <button
+                    <span
+                        aria-disabled={disabled || readOnly}
                         aria-label={label || selectedItem?.label || placeholder}
                         data-bspk="select"
                         data-invalid={invalid || undefined}
                         data-size={size}
-                        disabled={disabled || readOnly}
                         id={id}
                         ref={(node) => {
                             if (node) setReference(node);
                         }}
                         {...props}
                         {...toggleProps}
+                        role="listbox"
                     >
                         <ListItem
                             data-bspk-owner="select"
@@ -171,12 +172,11 @@ function Select({
                             label={selectedItem?.label || placeholder}
                             owner="select"
                             readOnly
-                            role="button"
                         />
                         <span data-icon>
                             <SvgChevronRight />
                         </span>
-                    </button>
+                    </span>
                 </>
             )}
         </Combobox>
