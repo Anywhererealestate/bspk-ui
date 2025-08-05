@@ -171,7 +171,7 @@ function Listbox<Item extends ListboxItemProps>({
                     onClick={(event: React.MouseEvent<HTMLElement, MouseEvent>) => {
                         onChange?.(allSelected ? [] : items.map((item) => item.value), event);
                     }}
-                    tabIndex={-1}
+                    role="option"
                     trailing={
                         <Checkbox
                             aria-label={selectAll}
@@ -202,7 +202,6 @@ function Listbox<Item extends ListboxItemProps>({
                         active={activeIndex === index || undefined}
                         aria-disabled={item.disabled || undefined}
                         aria-selected={selected || undefined}
-                        as="button"
                         disabled={item.disabled || undefined}
                         id={`${menuId}-item-${index}`}
                         key={`${menuId}-item-${index}`}
@@ -221,7 +220,7 @@ function Listbox<Item extends ListboxItemProps>({
                                 );
                             }
                         }}
-                        tabIndex={-1}
+                        role="option"
                         trailing={
                             isMulti ? (
                                 <Checkbox
