@@ -15,12 +15,6 @@
     margin: unset;
     text-decoration: unset;
 
-    // &:is(a),
-    // &:is(button),
-    &[role='button'] {
-        cursor: pointer;
-    }
-
     [data-pseudo='focus'] &,
     &:focus-visible,
     &:has(*:focus-visible) {
