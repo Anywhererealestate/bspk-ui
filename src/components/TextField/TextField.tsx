@@ -14,6 +14,7 @@ export type TextFieldProps = Pick<
     | 'placeholder'
     | 'readOnly'
     | 'required'
+    | 'showClearButton'
     | 'size'
     | 'trailing'
     | 'type'

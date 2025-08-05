@@ -111,6 +111,8 @@
         "./PageControl/*": "./dist/components/PageControl/*.js",
         "./Pagination": "./dist/components/Pagination/index.js",
         "./Pagination/*": "./dist/components/Pagination/*.js",
+        "./Password": "./dist/components/Password/index.js",
+        "./Password/*": "./dist/components/Password/*.js",
         "./PhoneNumberField": "./dist/components/PhoneNumberField/index.js",
         "./PhoneNumberField/*": "./dist/components/PhoneNumberField/*.js",
         "./PhoneNumberInput": "./dist/components/PhoneNumberInput/index.js",

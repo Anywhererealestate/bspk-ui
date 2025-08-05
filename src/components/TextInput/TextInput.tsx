@@ -46,7 +46,7 @@ export type TextInputProps = CommonProps<
          *
          * @default text
          */
-        type?: Extract<HTMLInputTypeAttribute, 'number' | 'text'>;
+        type?: Extract<HTMLInputTypeAttribute, 'number' | 'password' | 'text'>;
         /**
          * Specifies if user agent has any permission to provide automated assistance in filling out form field values
          *
