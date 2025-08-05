@@ -1,5 +1,4 @@
 import { AnchorHTMLAttributes, ElementType, ReactNode } from 'react';
-// import { AnchorHTMLAttributes, ElementType, ReactNode, AriaRole } from 'react';
 import { ListItemButton } from './ListItemButton';
 import { Truncated } from '-/components/Truncated';
 import { CommonProps, ElementProps, SetRef } from '-/types/common';
@@ -122,24 +121,12 @@ function ListItem<As extends ElementType = 'div', T = HTMLElement>({
     ...props
 }: ElementProps<ListItemProps<As, T>, As>) {
     let As: ElementType = as || 'span';
-    // const role: AriaRole[] = ['option', roleProp || 'listitem'];
-    // let AsInner: ElementType = as || 'span';
 
     const { leading, trailing } = useChildren(leadingProp, trailingProp);
 
     if (!label) return;
 
     if (props.href) As = 'a';
-
-    // if (trailing?.name) {
-    //     // if trailing is a ListItemButton and As is a button, change As to div
-    //     if (trailing?.name === 'ListItemButton') As = 'div';
-
-    //     // if (['Checkbox', 'Radio', 'Switch'].includes(trailing.name)) {
-    //     //     As = 'div';
-    //     //     role.push('button');
-    //     // }
-    // }
 
     if (!As && 'onClick' in props) As = 'li';
 
@@ -149,29 +136,18 @@ function ListItem<As extends ElementType = 'div', T = HTMLElement>({
         <div
             {...props}
             aria-disabled={disabled || undefined}
-            // aria-label={As === 'label' ? undefined : label}
-            // aria-label={label}
             aria-selected={selected || undefined}
             data-action={actionable || undefined}
             data-active={active || undefined}
             data-bspk="list-item"
             data-bspk-owner={owner || undefined}
             data-component={leading?.name || undefined}
-            // data-inner
             data-readonly={readOnly || undefined}
             ref={innerRef as React.Ref<HTMLDivElement>}
             role="option"
-            // role={actionable ? 'listitem' : 'listitem'}
-            // tabIndex={actionable ? 0 : undefined}
+            // check on this still needed
+            selected={selected || undefined}
         >
-            {/* <As
-                {...props}
-                aria-disabled={disabled || undefined}
-                aria-selected={selected || undefined}
-                data-inner
-                role={role}
-                // tabIndex={actionable ? 0 : undefined}
-            > */}
             {leading && (
                 <span data-component={leading.name} data-leading>
                     {leading.child}
@@ -186,7 +162,6 @@ function ListItem<As extends ElementType = 'div', T = HTMLElement>({
                     {trailing.child}
                 </span>
             )}
-            {/* </As> */}
         </div>
     );
 }
