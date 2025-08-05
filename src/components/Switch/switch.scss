@@ -46,7 +46,7 @@
         }
     }
 
-    &:has(input[type='checkbox']:disabled):not[readonly] {
+    &:has(input[type='checkbox']:disabled) {
         input[type='checkbox'] {
             pointer-events: none;
         }
