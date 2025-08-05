@@ -130,15 +130,15 @@ function ListItem<As extends ElementType = 'div', T = HTMLElement>({
 
     if (props.href) As = 'a';
 
-    if (trailing?.name) {
-        // if trailing is a ListItemButton and As is a button, change As to div
-        if (trailing?.name === 'ListItemButton') As = 'div';
+    // if (trailing?.name) {
+    //     // if trailing is a ListItemButton and As is a button, change As to div
+    //     if (trailing?.name === 'ListItemButton') As = 'div';
 
-        // if (['Checkbox', 'Radio', 'Switch'].includes(trailing.name)) {
-        //     As = 'div';
-        //     role.push('button');
-        // }
-    }
+    //     // if (['Checkbox', 'Radio', 'Switch'].includes(trailing.name)) {
+    //     //     As = 'div';
+    //     //     role.push('button');
+    //     // }
+    // }
 
     if (!As && 'onClick' in props) As = 'li';
 
