@@ -2,6 +2,7 @@ import { ProgressionStepperProps } from '.';
 import { ComponentExample } from '-/utils/demo';
 
 export const ProgressionStepperExample: ComponentExample<ProgressionStepperProps> = {
+    containerStyle: { width: '100%' },
     presets: [
         {
             label: 'Horizontal',
