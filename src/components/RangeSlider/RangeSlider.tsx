@@ -178,7 +178,7 @@ function RangeSlider({
 
     return (
         <SliderTemplate
-            componentName="range-slider"
+            data-bspk="range-slider"
             disabled={disabled}
             displayValue={formatValue ? formatValue(value) : `${start} - ${end}`}
             handleMouseDown={handleMouseDown}

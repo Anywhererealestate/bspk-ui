@@ -156,7 +156,7 @@ function Slider({
 
     return (
         <SliderTemplate
-            componentName="slider"
+            data-bspk="slider"
             disabled={disabled}
             displayValue={formatValue ? formatValue(value) : undefined}
             handleMouseDown={handleMouseDown}

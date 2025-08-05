@@ -9,7 +9,7 @@ type SliderTemplateProps = Pick<SliderProps, 'disabled' | 'label' | 'max' | 'min
     handleMouseDown: (e: React.MouseEvent) => void;
     sliderRef: React.RefObject<HTMLDivElement>;
     displayValue?: string;
-    componentName: string;
+    ['data-bspk']: string;
 };
 
 export function SliderTemplate({
@@ -25,10 +25,14 @@ export function SliderTemplate({
     sliderRef,
     displayValue,
     name,
-    componentName,
+    ...restProps
 }: SliderTemplateProps) {
     return (
-        <div data-bspk={componentName} data-disabled={disabled || undefined} data-readonly={readOnly || undefined}>
+        <div
+            data-bspk={restProps['data-bspk']}
+            data-disabled={disabled || undefined}
+            data-readonly={readOnly || undefined}
+        >
             <div data-top-labels="">
                 <Txt variant="labels-small">{label}</Txt>
 
