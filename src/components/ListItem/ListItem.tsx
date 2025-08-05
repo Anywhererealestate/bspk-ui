@@ -146,10 +146,11 @@ function ListItem<As extends ElementType = 'div', T = HTMLElement>({
     const actionable = ('onClick' in props || 'href' in props) && !disabled && !readOnly;
 
     return (
-        <li
+        <div
             {...props}
             aria-disabled={disabled || undefined}
             // aria-label={As === 'label' ? undefined : label}
+            aria-label={label}
             aria-selected={selected || undefined}
             data-action={actionable || undefined}
             data-active={active || undefined}
@@ -158,7 +159,7 @@ function ListItem<As extends ElementType = 'div', T = HTMLElement>({
             data-component={leading?.name || undefined}
             // data-inner
             data-readonly={readOnly || undefined}
-            ref={innerRef as React.Ref<HTMLLIElement>}
+            ref={innerRef as React.Ref<HTMLDivElement>}
             role="option"
             // role={actionable ? 'listitem' : 'listitem'}
             // tabIndex={actionable ? 0 : undefined}
@@ -186,7 +187,7 @@ function ListItem<As extends ElementType = 'div', T = HTMLElement>({
                 </span>
             )}
             {/* </As> */}
-        </li>
+        </div>
     );
 }
 ListItem.bspkName = 'ListItem';
