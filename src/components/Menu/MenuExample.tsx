@@ -22,7 +22,6 @@ export const MenuExample: ComponentExampleFn<ElementProps<MenuProps, 'div'> & { 
         return (
             <Component
                 {...props}
-                aria-label="Settings Menu"
                 floating={false}
                 portal={false}
                 style={{ padding: 'var(--spacing-sizing-02) var(--spacing-sizing-02)' }}
@@ -38,10 +37,6 @@ export const MenuExample: ComponentExampleFn<ElementProps<MenuProps, 'div'> & { 
                 <ListItem
                     label="Dark mode"
                     leading={props['data-dark-mode'] ? <SvgDarkModeFill /> : <SvgDarkMode />}
-                    onClick={() => {
-                        setState((prev) => ({ 'data-dark-mode': !prev['data-dark-mode'] }));
-                        action('Dark mode toggled');
-                    }}
                     trailing={
                         <Switch
                             aria-label="Toggle dark mode"
@@ -51,7 +46,6 @@ export const MenuExample: ComponentExampleFn<ElementProps<MenuProps, 'div'> & { 
                                 setState((prev) => ({ 'data-dark-mode': !prev['data-dark-mode'] }));
                                 action('Dark mode toggled');
                             }}
-                            readOnly={true}
                         />
                     }
                 />
@@ -66,6 +60,7 @@ export const MenuExample: ComponentExampleFn<ElementProps<MenuProps, 'div'> & { 
                     onClick={() => {
                         action('Log out clicked');
                     }}
+                    role="button"
                 />
             </Component>
         );
