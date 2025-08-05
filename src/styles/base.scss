@@ -58,7 +58,7 @@ body[data-bspk] {
     color: var(--foreground-neutral-on-surface);
     min-width: 343px;
 
-    a:not([data-bspk='button']) {
+    a:not([data-bspk='button'], [data-bspk='list-item']) {
         color: var(--foreground-link-text-default);
 
         &:not([disabled]) {

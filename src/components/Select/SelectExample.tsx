@@ -34,11 +34,10 @@ export const SelectExample: ComponentExample<SelectProps> = {
             label: 'Simple',
             propState: { isMulti: false },
         },
-        // this is not A11y compliant, so we are not including it in the presets
-        // {
-        //     label: 'Multi',
-        //     propState: { isMulti: true },
-        // },
+        {
+            label: 'Multi',
+            propState: { isMulti: true },
+        },
         {
             label: 'Long text',
             propState: {

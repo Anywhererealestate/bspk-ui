@@ -137,13 +137,12 @@ function Select({
             description={description || ''}
             disabled={disabled}
             errorMessage={errorMessage}
-            header={placeholder || label}
             id={id}
             invalid={invalid}
             isMulti={isMulti}
             itemDisplayCount={itemDisplayCount}
             items={options}
-            label={label}
+            label={placeholder || label}
             onChange={onChange}
             readOnly={readOnly}
             selectAll={selectAll}

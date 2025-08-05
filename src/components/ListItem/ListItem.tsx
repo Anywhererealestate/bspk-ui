@@ -103,7 +103,7 @@ export type ListItemProps<As extends ElementType = 'div', T = HTMLElement> = Com
  *     }
  *
  * @name ListItem
- * @phase Utility
+ * @phase UXReview
  */
 function ListItem<As extends ElementType = 'div', T = HTMLElement>({
     as,
@@ -118,32 +118,41 @@ function ListItem<As extends ElementType = 'div', T = HTMLElement>({
     selected = false,
     ...props
 }: ElementProps<ListItemProps<As, T>, As>) {
+    const children = useChildren(leadingProp, trailingProp);
+    let { trailing } = children;
+    const { leading } = children;
+
+    if (!label) return null;
+
     let As: ElementType = as || 'span';
 
-    const { leading, trailing } = useChildren(leadingProp, trailingProp);
+    if (props.href) {
+        As = 'a';
+        if (trailing && ['Checkbox', 'Radio', 'Switch'].includes(trailing.name)) trailing = null;
+        //
+    } else if (trailing) {
+        // if trailing is a ListItemButton and As is a button, change As to div
+        if (trailing.name.includes('Button')) As = 'div';
+        if (['Checkbox', 'Radio', 'Switch'].includes(trailing.name)) As = 'label';
+    }
 
-    if (!label) return;
-
-    if (props.href) As = 'a';
-
-    if (!As && 'onClick' in props) As = 'li';
+    if (!props.href && !As && 'onClick' in props) As = 'button';
 
     const actionable = ('onClick' in props || 'href' in props) && !disabled && !readOnly;
 
     return (
-        <div
+        <As
             {...props}
             aria-disabled={disabled || undefined}
+            aria-label={As === 'label' ? undefined : label}
             aria-selected={selected || undefined}
             data-action={actionable || undefined}
             data-active={active || undefined}
             data-bspk="list-item"
             data-component={leading?.name || undefined}
             data-readonly={readOnly || undefined}
-            ref={innerRef as React.Ref<HTMLDivElement>}
-            role="option"
-            // check on this still needed
-            selected={selected || undefined}
+            ref={innerRef}
+            tabIndex={actionable ? 0 : props.tabIndex}
         >
             {leading && (
                 <span data-component={leading.name} data-leading>
@@ -159,7 +168,7 @@ function ListItem<As extends ElementType = 'div', T = HTMLElement>({
                     {trailing.child}
                 </span>
             )}
-        </div>
+        </As>
     );
 }
 ListItem.bspkName = 'ListItem';

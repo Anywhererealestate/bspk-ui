@@ -2,7 +2,8 @@ import { Checkbox } from '-/components/Checkbox';
 import { ToggleOptionProps, ToggleOption } from '-/components/ToggleOption';
 import { ElementProps, CommonProps } from '-/types/common';
 
-export type CheckboxGroupOption = Pick<ToggleOptionProps, 'description' | 'label'> & Required<CommonProps<'value'>>;
+export type CheckboxGroupOption = Pick<ToggleOptionProps, 'description' | 'disabled' | 'label'> &
+    Required<CommonProps<'value'>>;
 
 export type CheckboxGroupProps = CommonProps<'aria-label' | 'disabled' | 'readOnly'> & {
     /**
@@ -86,7 +87,7 @@ function CheckboxGroup({
     values = [],
     selectAll,
     selectAllProps,
-    disabled,
+    disabled: disabledGroup = false,
     readOnly,
     ...props
 }: ElementProps<CheckboxGroupProps, 'div'>) {
@@ -98,7 +99,7 @@ function CheckboxGroup({
                         <Checkbox
                             aria-label={selectAllProps?.label || 'All'}
                             checked={!!values.length && values.length === options.length}
-                            disabled={disabled}
+                            disabled={disabledGroup}
                             indeterminate={!!values.length && values.length < options.length}
                             name={name}
                             onChange={(checked) => onChange(checked ? options.map((o) => o.value) : [])}
@@ -108,12 +109,12 @@ function CheckboxGroup({
                     </ToggleOption>
                 </>
             )}
-            {options.map(({ label, description, value }) => (
-                <ToggleOption description={description} key={value} label={label}>
+            {options.map(({ label, description, value, disabled }) => (
+                <ToggleOption description={description} disabled={disabled || disabledGroup} key={value} label={label}>
                     <Checkbox
                         aria-label={label}
                         checked={values.includes(value)}
-                        disabled={disabled}
+                        disabled={disabled || disabledGroup}
                         name={name}
                         onChange={(checked) => {
                             onChange(checked ? [...values, value] : values.filter((v) => v !== value));

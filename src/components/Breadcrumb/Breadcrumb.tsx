@@ -125,6 +125,7 @@ function Breadcrumb({ id: propId, items: itemsProp }: BreadcrumbProps) {
                                 innerRef={elements.setFloating}
                                 itemDisplayCount={false}
                                 {...menuProps}
+                                role="navigation"
                                 style={{
                                     ...menuProps.style,
                                     width: '200px',
@@ -137,7 +138,6 @@ function Breadcrumb({ id: propId, items: itemsProp }: BreadcrumbProps) {
                                         active={activeIndex === idx || undefined}
                                         id={`${id}-item-${idx}`}
                                         onClick={() => window.open(item.href, '_self')}
-                                        role="link"
                                     />
                                 ))}
                             </Menu>

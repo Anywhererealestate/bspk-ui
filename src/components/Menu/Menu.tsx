@@ -134,7 +134,6 @@ function Menu({
                     innerRef?.(node);
                     menuElement.current = node;
                 }}
-                role="listbox"
                 style={cssWithVars({
                     ...props.style,
                     '--overflow-y':

@@ -27,7 +27,7 @@ export type ComboboxItemProps = CommonProps<'disabled'> &
 
 export type ComboboxProps<Item extends ComboboxItemProps = ComboboxItemProps> = CommonProps<'data-bspk-owner' | 'id'> &
     Pick<MenuProps, 'itemDisplayCount'> &
-    Pick<ModalProps, 'description' | 'header'> &
+    Pick<ModalProps, 'description'> &
     Pick<UseComboboxProps, 'disabled' | 'errorMessage' | 'invalid' | 'offsetOptions' | 'readOnly' | 'refWidth'> & {
         /**
          * Content to display in the listbox.
@@ -116,8 +116,8 @@ function Combobox<Item extends ComboboxItemProps>({
     errorMessage,
     refWidth,
     offsetOptions = 4,
-    header,
     description,
+    label,
     ...props
 }: ElementProps<ComboboxProps<Item>, 'div'>) {
     const menuId = useId(idProp);
@@ -155,7 +155,7 @@ function Combobox<Item extends ComboboxItemProps>({
                 <Modal
                     data-bspk-owner={props['data-bspk-owner'] || undefined}
                     description={description}
-                    header={header}
+                    header={label}
                     onClose={closeMenu}
                     open={isOpen}
                 >
@@ -187,6 +187,7 @@ function Combobox<Item extends ComboboxItemProps>({
                 <Menu
                     aria-errormessage={errorMessage || undefined}
                     aria-invalid={invalid || undefined}
+                    aria-label={label}
                     aria-multiselectable={isMulti || undefined}
                     data-bspk="listbox"
                     data-disabled={disabled || undefined}
