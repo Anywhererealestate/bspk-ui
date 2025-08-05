@@ -13,17 +13,20 @@ ul[data-bspk-utility='tab-list'] {
         --item-flex-grow: 1;
     }
 
+    --icon-size: var(--spacing-sizing-05);
     --font: var(--labels-base);
     --height: var(--spacing-sizing-10);
 
     &[data-size='small'] {
         --font: var(--labels-small);
         --height: var(--spacing-sizing-08);
+        --icon-size: var(--spacing-sizing-04);
     }
 
     &[data-size='large'] {
         --font: var(--labels-large);
         --height: var(--spacing-sizing-12);
+        --icon-size: var(--spacing-sizing-06);
     }
 
     li {
@@ -59,7 +62,7 @@ ul[data-bspk-utility='tab-list'] {
             }
 
             svg {
-                width: var(--spacing-sizing-05);
+                width: var(--icon-size);
             }
         }
     }
