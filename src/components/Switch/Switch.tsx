@@ -62,7 +62,6 @@ function Switch({ checked = false, disabled: disabledProp = false, readOnly, ...
                 {...props}
                 aria-disabled={disabled || undefined}
                 checked={!!checked}
-                data-readonly={readOnly || undefined}
                 disabled={disabled || undefined}
                 onChange={(event) => props.onChange(!!event.target.checked, event)}
                 type="checkbox"
