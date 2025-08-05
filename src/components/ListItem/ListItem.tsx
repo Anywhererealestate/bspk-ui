@@ -150,7 +150,7 @@ function ListItem<As extends ElementType = 'div', T = HTMLElement>({
             {...props}
             aria-disabled={disabled || undefined}
             // aria-label={As === 'label' ? undefined : label}
-            aria-label={label}
+            // aria-label={label}
             aria-selected={selected || undefined}
             data-action={actionable || undefined}
             data-active={active || undefined}
