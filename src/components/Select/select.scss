@@ -18,6 +18,7 @@
     max-height: var(--select-height);
     display: flex;
     flex-direction: row;
+    align-items: center;
     gap: var(--spacing-sizing-02);
     flex-grow: 0;
     flex-shrink: 0;
@@ -38,11 +39,12 @@
         text-overflow: ellipsis;
         overflow: hidden;
         padding: 0;
+        min-height: auto;
 
-        [data-inner] {
-            min-height: auto;
-            padding: 0;
-        }
+        // [data-inner] {
+        //     min-height: auto;
+        //     padding: 0;
+        // }
 
         [data-item-label] [data-text] {
             color: var(--select-text-color);
