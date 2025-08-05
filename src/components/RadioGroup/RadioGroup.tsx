@@ -7,7 +7,7 @@ import './radio-group.scss';
 export type RadioGroupOption = Pick<RadioOptionProps, 'checked' | 'description' | 'disabled' | 'label' | 'name'> &
     Required<CommonProps<'value'>>;
 
-export type RadioGroupProps = CommonProps<'name'> & {
+export type RadioGroupProps = CommonProps<'disabled' | 'name'> & {
     /**
      * The value of the control.
      *
@@ -99,6 +99,7 @@ function RadioGroup({
     value: groupValue,
     label: groupLabel,
     hideLabel: hideLabelProp = false,
+    disabled: disabledGroup = false,
     ...props
 }: ElementProps<RadioGroupProps, 'div'>) {
     const id = `radio-group-${useId()}`;
@@ -119,7 +120,7 @@ function RadioGroup({
                         <RadioOption
                             checked={groupValue === value}
                             description={description}
-                            disabled={disabled}
+                            disabled={disabledGroup || disabled}
                             key={`radio-option-${value || index}`}
                             label={label}
                             name={name}

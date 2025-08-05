@@ -1,3 +1,5 @@
+import { ChangeEvent } from 'react';
+
 import { CheckboxProps, Checkbox } from '-/components/Checkbox';
 import { ToggleOptionProps, ToggleOption } from '-/components/ToggleOption';
 import { InvalidPropsLibrary } from '-/types/common';
@@ -10,7 +12,7 @@ export type CheckboxOptionProps = InvalidPropsLibrary &
          *
          * @required
          */
-        onChange: (checked: boolean, event: React.ChangeEvent<HTMLInputElement>) => void;
+        onChange: (checked: boolean, event: ChangeEvent<HTMLInputElement>) => void;
     };
 
 /**
@@ -45,7 +47,12 @@ function CheckboxOption({ label: labelProp, description, ...checkboxProps }: Che
     const label = labelProp || description;
     return (
         label && (
-            <ToggleOption data-bspk="checkbox-option" description={description} label={label}>
+            <ToggleOption
+                data-bspk="checkbox-option"
+                description={description}
+                disabled={checkboxProps.disabled}
+                label={label}
+            >
                 <Checkbox {...checkboxProps} aria-label={label} />
             </ToggleOption>
         )
