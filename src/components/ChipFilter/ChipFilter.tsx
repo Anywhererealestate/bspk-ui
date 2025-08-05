@@ -41,7 +41,7 @@ export type ChipFilterProps = Pick<ChipUtilityProps, 'disabled' | 'label' | 'lea
  *     }
  *
  * @name ChipFilter
- * @phase QA
+ * @phase UXReview
  */
 function ChipFilter({ disabled, label, leadingIcon, onClick, trailingIcon, trailingBadgeCount }: ChipFilterProps) {
     const trailingIconComponent =
@@ -54,6 +54,7 @@ function ChipFilter({ disabled, label, leadingIcon, onClick, trailingIcon, trail
         ) : undefined;
     return (
         <ChipUtility
+            data-bspk="chip-filter"
             disabled={disabled}
             label={label}
             leadingIcon={leadingIcon}

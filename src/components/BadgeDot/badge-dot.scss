@@ -1,0 +1,26 @@
+[data-bspk='badge-dot'] {
+    /*! 
+    --size: is set via inline style 
+    --outline-width: is set via inline style
+    */
+
+    display: block;
+    width: var(--size, 6px);
+    height: var(--size, 6px);
+    border-radius: var(--radius-full);
+    background-color: var(--background);
+
+    &[data-color='primary'] {
+        --background: var(--foreground-brand-primary);
+    }
+
+    &[data-color='secondary'] {
+        --background: var(--foreground-brand-secondary);
+    }
+
+    &[data-outline] {
+        border: var(--outline-width) solid var(--surface-neutral-t1-base);
+    }
+}
+
+/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

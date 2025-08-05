@@ -1,22 +1,7 @@
-import { FormFieldProps, FormField } from '-/components/FormField';
+import { FormField, FormFieldWrapProps } from '-/components/FormField';
 import { NumberInputProps, NumberInput } from '-/components/NumberInput';
 
-export type NumberFieldProps = Pick<
-    NumberInputProps,
-    | 'align'
-    | 'disabled'
-    | 'errorMessage'
-    | 'id'
-    | 'invalid'
-    | 'max'
-    | 'min'
-    | 'name'
-    | 'onChange'
-    | 'readOnly'
-    | 'size'
-    | 'value'
-> &
-    Pick<FormFieldProps, 'controlId' | 'helperText' | 'label' | 'labelTrailing' | 'required'>;
+export type NumberFieldProps = FormFieldWrapProps<NumberInputProps>;
 
 /**
  * A input element that allows users to either input a numerical value or singularly increase or decrease the values by
@@ -48,26 +33,37 @@ export type NumberFieldProps = Pick<
  */
 function NumberField({
     label,
-    errorMessage: errorMessageProp,
+    errorMessage,
+    disabled,
     helperText,
     controlId,
     labelTrailing,
     required,
+    invalid,
     ...inputProps
 }: NumberFieldProps) {
-    const errorMessage = (!inputProps.readOnly && !inputProps.disabled && errorMessageProp) || undefined;
-
     return (
         <FormField
             controlId={controlId}
             data-bspk="number-field"
             errorMessage={errorMessage}
             helperText={helperText}
+            invalid={invalid}
             label={label}
             labelTrailing={labelTrailing}
             required={required}
         >
-            {(fieldProps) => <NumberInput {...inputProps} {...fieldProps} aria-label={label} id={controlId} />}
+            {(fieldProps) => (
+                <NumberInput
+                    {...inputProps}
+                    {...fieldProps}
+                    aria-label={label}
+                    disabled={disabled}
+                    errorMessage={errorMessage}
+                    id={controlId}
+                    invalid={invalid}
+                />
+            )}
         </FormField>
     );
 }

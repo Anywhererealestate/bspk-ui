@@ -134,7 +134,7 @@ export type ModalProps = Pick<DialogProps, 'data-bspk-owner' | 'id' | 'innerRef'
  * @ignoreRefs ButtonProps
  *
  * @name Modal
- * @phase Dev
+ * @phase QA
  */
 function Modal({
     header,
@@ -189,9 +189,9 @@ function Modal({
                     </Txt>
                     <Button
                         icon={<SvgClose />}
+                        iconOnly
                         label="close"
                         onClick={dialogProps.onClose}
-                        showLabel={false}
                         variant="tertiary"
                     />
                 </header>

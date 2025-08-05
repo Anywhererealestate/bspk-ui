@@ -76,7 +76,7 @@ export type ${componentName}Props = {
  *     }
  *
  * @name ${componentName}
- * @phase WorkInProgress
+ * @phase Dev
  * 
  */
 function ${componentName}({ children, variant = DEFAULT.variant }: ${componentName}Props) {
@@ -92,6 +92,25 @@ ${componentName}.bspkName = '${componentName}';
 export { ${componentName} };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
+`,
+);
+
+const componentExampleFilePath = path.join(componentDirectoryPath, `${componentName}Example.tsx`);
+
+fs.writeFileSync(
+    componentExampleFilePath,
+    `import { ${componentName}Props } from '.';
+import { ComponentExample } from '-/utils/demo';
+
+export const ${componentName}Example: ComponentExample<${componentName}Props> = {
+    containerStyle: { width: '100%' },
+    defaultState: {},
+    disableProps: [],
+    presets: [],
+    render: ({ props, Component }) => <Component {...props} />,
+    sections: [],
+    variants: {},
+};
 `,
 );
 

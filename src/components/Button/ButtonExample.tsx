@@ -1,3 +1,4 @@
+import { SvgPerson } from '@bspk/icons/Person';
 import { ButtonProps } from '.';
 import { ComponentExample } from '-/utils/demo';
 
@@ -20,10 +21,13 @@ export const ButtonExample: ComponentExample<ButtonProps> = {
         {
             label: 'Icon only',
             propState: {
-                showLabel: false,
+                iconOnly: true,
                 icon: 'Add',
                 label: 'Add',
             },
         },
     ],
+    variants: {
+        iconOnly: () => ({ icon: <SvgPerson />, label: 'Person' }),
+    },
 };

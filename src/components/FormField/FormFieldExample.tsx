@@ -1,29 +1,42 @@
-import { FormFieldProps } from './FormField';
-import { TextInput } from '-/components/TextInput';
+import { FormFieldWrapProps, FormField } from './FormField';
+import { TextInput, TextInputProps } from '-/components/TextInput';
 import { ComponentExample } from '-/utils/demo';
 
-export const FormFieldExample: ComponentExample<FormFieldProps & { value: string }> = {
-    render: ({ props, setState, Component }) => {
+export const FormFieldExample: ComponentExample<FormFieldWrapProps<TextInputProps>> = {
+    render: ({ props, setState }) => {
+        const {
+            invalid,
+            errorMessage,
+            label,
+            controlId = 'example-control-id',
+            helperText,
+            labelTrailing,
+            ...inputProps
+        } = props;
+
         return (
-            <Component {...props}>
-                {({ invalid, 'aria-describedby': ariaDescribedBy, 'aria-errormessage': ariaErrorMessage }) => {
+            <FormField
+                controlId={controlId}
+                errorMessage={errorMessage}
+                helperText={helperText}
+                invalid={invalid}
+                label={label}
+                labelTrailing={labelTrailing}
+            >
+                {(fieldProps) => {
                     return (
                         <TextInput
-                            aria-describedby={ariaDescribedBy}
-                            aria-errormessage={ariaErrorMessage}
-                            aria-invalid={invalid}
-                            aria-label=""
+                            {...inputProps}
+                            {...fieldProps}
+                            aria-label={label}
+                            errorMessage={errorMessage}
                             invalid={invalid}
-                            name=""
-                            onChange={(next: string) => {
-                                setState({ value: next });
-                            }}
-                            placeholder="Placeholder"
+                            onChange={(next: string) => setState({ value: next })}
                             value={props.value}
                         />
                     );
                 }}
-            </Component>
+            </FormField>
         );
     },
 };

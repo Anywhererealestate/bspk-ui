@@ -6,6 +6,7 @@ import '-/styles/base.scss';
  *
  * @name StylesProviderDenaliBoss
  * @phase Utility
+ * @generated
  */
 function StylesProviderDenaliBoss(): JSX.Element | null {
     return null;

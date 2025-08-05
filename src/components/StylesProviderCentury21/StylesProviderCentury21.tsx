@@ -6,6 +6,7 @@ import '-/styles/base.scss';
  *
  * @name StylesProviderCentury21
  * @phase Utility
+ * @generated
  */
 function StylesProviderCentury21(): JSX.Element | null {
     return null;

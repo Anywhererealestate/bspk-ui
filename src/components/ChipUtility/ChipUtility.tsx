@@ -5,7 +5,7 @@ import { isValidIcon } from '-/utils/children';
 
 import './chip-utility.scss';
 
-export type BadgeItem = Pick<BadgeProps, 'count' | 'size' | 'surfaceBorder' | 'variant'>;
+export type BadgeItem = Pick<BadgeProps, 'count' | 'size' | 'surfaceBorder'>;
 
 export type ChipUtilityProps = {
     /**
@@ -89,7 +89,7 @@ function ChipUtility({
 }: ChipUtilityProps) {
     return (
         <button
-            data-bspk="chip-utility"
+            data-bspk-utility="chip-utility"
             data-disabled={disabled || undefined}
             data-flat={flat || undefined}
             data-selected={selected || undefined}
@@ -114,7 +114,6 @@ function ChipUtility({
                         count={trailingBadge.count}
                         size={trailingBadge.size}
                         surfaceBorder={trailingBadge.surfaceBorder}
-                        variant={trailingBadge.variant}
                     />
                 )}
             </>
