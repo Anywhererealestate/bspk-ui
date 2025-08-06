@@ -50,12 +50,6 @@ export type ListItemProps<As extends ElementType = 'div', T = HTMLElement> = Com
     href?: AnchorHTMLAttributes<unknown>['href'];
     /** A ref to the list item div element. */
     innerRef?: SetRef<T>;
-    /**
-     * Whether the ListItem is selected.
-     *
-     * @default false
-     */
-    selected?: boolean;
 };
 
 /**
@@ -98,7 +92,6 @@ function ListItem<As extends ElementType = 'div', T = HTMLElement>({
     label,
     leading,
     readOnly,
-    selected,
     subText,
     trailing,
     ...props
@@ -119,7 +112,6 @@ function ListItem<As extends ElementType = 'div', T = HTMLElement>({
             {...props}
             aria-disabled={disabled || undefined}
             aria-label={As === 'label' || As === 'span' || As === 'div' ? undefined : label}
-            aria-selected={selected || undefined}
             as={As}
             data-action={actionable || undefined}
             data-active={active || undefined}

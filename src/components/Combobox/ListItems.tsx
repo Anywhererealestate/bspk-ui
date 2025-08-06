@@ -74,6 +74,7 @@ function ListItems<I extends Item>({
                         {...item}
                         active={activeIndex === index || undefined}
                         aria-disabled={item.disabled || undefined}
+                        aria-selected={selected || undefined}
                         as={isMulti ? 'label' : 'button'}
                         disabled={item.disabled || undefined}
                         id={`${menuId}-item-${index}`}
@@ -82,8 +83,6 @@ function ListItems<I extends Item>({
                         onClick={(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
                             onChange?.(isMulti ? multiSelectValue(selected, item.value) : [item.value], event);
                         }}
-                        // check on this still needed
-                        selected={selected || undefined}
                         tabIndex={-1}
                         trailing={
                             isMulti ? (
