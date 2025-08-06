@@ -119,7 +119,9 @@ export type ListItemProps<As extends ElementType = 'div', T = HTMLElement> = Com
 function ListItem<As extends ElementType = 'div', T = HTMLElement>(props: ElementProps<ListItemProps<As, T>, As>) {
     const { label, disabled, selected, readOnly, active, innerRef, subText, ...rest } = props;
 
-    const { As, leading, trailing, actionable } = useListItemLogic(props);
+    const { As, leading, trailing } = useListItemLogic(props);
+
+    const actionable = (As === 'a' || As === 'button') && !props.disabled && !props.readOnly;
 
     if (!As) return null;
 
@@ -171,7 +173,6 @@ function useListItemLogic<As extends ElementType = 'div', T = HTMLElement>({
     As: ElementType | null;
     leading?: { child: ReactNode; name: string } | null;
     trailing?: { child: ReactNode; name: string } | null;
-    actionable?: boolean;
 } {
     const children = useValidChildren(leadingProp, trailingProp);
     const trailingName = (children.trailing?.name || '') as TrailingComponentName;
@@ -181,12 +182,9 @@ function useListItemLogic<As extends ElementType = 'div', T = HTMLElement>({
             As: null,
         };
 
-    const actionable = ('onClick' in props || 'href' in props) && !props.disabled && !props.readOnly;
-
     if (as)
         return {
             As: as,
-            actionable,
             ...children,
         };
 
@@ -196,7 +194,6 @@ function useListItemLogic<As extends ElementType = 'div', T = HTMLElement>({
         if (TRAILING_COMPONENTS_ACTIONABLE.includes(trailingName)) children.trailing = null;
         return {
             As: 'a',
-            actionable: true,
             ...children,
         };
     }
@@ -204,27 +201,23 @@ function useListItemLogic<As extends ElementType = 'div', T = HTMLElement>({
     if (props.onClick || as === 'button')
         return {
             As: 'button',
-            actionable: true,
             ...children,
         };
 
     if (['Checkbox', 'Radio', 'Switch'].includes(trailingName))
         return {
             As: 'label',
-            actionable: true,
             ...children,
         };
 
     if (trailingName.includes('Button'))
         return {
             As: 'div',
-            actionable: false,
             ...children,
         };
 
     return {
         As: 'span',
-        actionable,
         ...children,
     };
 }
