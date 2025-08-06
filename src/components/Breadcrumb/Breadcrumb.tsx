@@ -137,7 +137,6 @@ function Breadcrumb({ id: propId, items: itemsProp }: BreadcrumbProps) {
                                         {...item}
                                         active={activeIndex === idx || undefined}
                                         id={`${id}-item-${idx}`}
-                                        onClick={() => window.open(item.href, '_self')}
                                     />
                                 ))}
                             </Menu>
