@@ -7,21 +7,11 @@ import { useErrorLogger } from '-/utils/errors';
 
 import './list-item.scss';
 
-type SubComponentName =
-    | 'Avatar'
-    | 'Checkbox'
-    | 'Icon'
-    | 'Img'
-    | 'ListItemButton'
-    | 'Radio'
-    | 'string'
-    | 'Switch'
-    | 'Tag'
-    | 'Txt';
+export const LEADING_COMPONENTS = ['Icon', 'Img', 'Avatar'] as const;
 
-export const LEADING_COMPONENTS: SubComponentName[] = ['Icon', 'Img', 'Avatar'] as const;
+export type LeadingComponentName = (typeof LEADING_COMPONENTS)[number];
 
-export const TRAILING_COMPONENTS: SubComponentName[] = [
+export const TRAILING_COMPONENTS = [
     'ListItemButton',
     'Checkbox',
     'Icon',
@@ -32,7 +22,14 @@ export const TRAILING_COMPONENTS: SubComponentName[] = [
     'string',
 ] as const;
 
-const TRAILING_COMPONENTS_ACTIONABLE: SubComponentName[] = ['ListItemButton', 'Checkbox', 'Radio', 'Switch'] as const;
+type TrailingComponentName = (typeof TRAILING_COMPONENTS)[number];
+
+const TRAILING_COMPONENTS_ACTIONABLE: TrailingComponentName[] = [
+    'ListItemButton',
+    'Checkbox',
+    'Radio',
+    'Switch',
+] as const;
 
 export type ListItemProps<As extends ElementType = 'div', T = HTMLElement> = CommonProps<
     'active' | 'disabled' | 'readOnly'
@@ -177,7 +174,7 @@ function useListItemLogic<As extends ElementType = 'div', T = HTMLElement>({
     actionable?: boolean;
 } {
     const children = useValidChildren(leadingProp, trailingProp);
-    const trailingName = (children.trailing?.name || '') as SubComponentName;
+    const trailingName = (children.trailing?.name || '') as TrailingComponentName;
 
     if (!label)
         return {
@@ -248,7 +245,7 @@ function useValidChildren(
     let trailing: ChildElement | null = trailingElements[0] || null;
 
     if (leading) {
-        const valid = LEADING_COMPONENTS.includes(leading.name as SubComponentName);
+        const valid = LEADING_COMPONENTS.includes(leading.name as LeadingComponentName);
         if (!valid) leading = null;
         logError(
             !valid,
@@ -257,7 +254,7 @@ function useValidChildren(
     }
 
     if (trailing) {
-        const valid = TRAILING_COMPONENTS.includes(trailing.name as SubComponentName);
+        const valid = TRAILING_COMPONENTS.includes(trailing.name as TrailingComponentName);
         if (!valid) trailing = null;
         logError(
             !valid,
