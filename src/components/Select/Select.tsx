@@ -99,7 +99,7 @@ export type SelectProps<T extends SelectOption = SelectOption> = CommonProps<'na
  *     }
  *
  * @name Select
- * @phase UXReview
+ * @phase Dev
  */
 function Select({
     options = [],
@@ -163,7 +163,6 @@ function Select({
                         }}
                         {...props}
                         {...toggleProps}
-                        role="listbox"
                     >
                         <ListItem
                             data-bspk-owner="select"

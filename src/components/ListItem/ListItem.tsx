@@ -146,7 +146,7 @@ function ListItem<As extends ElementType = 'div', T = HTMLElement>({
         <As
             {...props}
             aria-disabled={disabled || undefined}
-            aria-label={As === 'label' || As === 'span' ? undefined : label}
+            aria-label={As === 'label' || As === 'span' || As === 'div' ? undefined : label}
             aria-selected={selected || undefined}
             data-action={actionable || undefined}
             data-active={active || undefined}
@@ -155,10 +155,11 @@ function ListItem<As extends ElementType = 'div', T = HTMLElement>({
             data-component={leading?.name || undefined}
             data-readonly={readOnly || undefined}
             ref={innerRef}
-            tabIndex={actionable ? 0 : props.tabIndex}
+            role={As === 'button' ? 'option' : undefined}
+            tabIndex={actionable ? 0 : undefined}
         >
             {leading && (
-                <span data-component={leading.name} data-leading>
+                <span aria-hidden={true} data-component={leading.name} data-leading>
                     {leading.child}
                 </span>
             )}
