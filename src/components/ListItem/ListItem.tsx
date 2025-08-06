@@ -120,6 +120,7 @@ function ListItem<As extends ElementType = 'div', T = HTMLElement>({
             aria-disabled={disabled || undefined}
             aria-label={As === 'label' || As === 'span' || As === 'div' ? undefined : label}
             aria-selected={selected || undefined}
+            as={As}
             data-action={actionable || undefined}
             data-active={active || undefined}
             data-bspk="list-item"
