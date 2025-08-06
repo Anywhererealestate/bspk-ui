@@ -78,8 +78,8 @@ export type FileUploadProps = Pick<FileUploadItemProps, 'cancelButtonLabel' | 'o
  *         const [files, setFiles] = useState([]);
  *         return (
  *             <FileUpload
- *                 dragAndDrop={true}
- *                 multipleFiles={true}
+ *                 dragAndDrop
+ *                 multipleFiles
  *                 acceptedFileTypes={['image/png', 'image/gif', 'image/svg+xml']}
  *                 files={files}
  *                 maxFileSize={5}
@@ -197,7 +197,7 @@ function FileUpload({
                 <Txt variant="body-small">{uploadSubtitle}</Txt>
                 <input
                     accept={acceptedFileTypes?.join(', ')}
-                    hidden={true}
+                    hidden
                     id="temp-id"
                     multiple={multipleFiles}
                     onChange={handleFileChange}

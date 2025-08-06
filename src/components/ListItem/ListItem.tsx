@@ -2,23 +2,8 @@ import { AnchorHTMLAttributes, ElementType, ReactNode } from 'react';
 import { ListItemButton } from './ListItemButton';
 import { Truncated } from '-/components/Truncated';
 import { CommonProps, ElementProps, SetRef } from '-/types/common';
-import { ChildElement, getChildrenElements } from '-/utils/children';
-import { useErrorLogger } from '-/utils/errors';
 
 import './list-item.scss';
-
-export const LEADING_COMPONENTS = Object.freeze(['Icon', 'Img', 'Avatar']);
-
-export const TRAILING_COMPONENTS = Object.freeze([
-    'ListItemButton',
-    'Checkbox',
-    'Icon',
-    'Radio',
-    'Switch',
-    'Tag',
-    'Txt',
-    'string',
-]);
 
 export type ListItemProps<As extends ElementType = 'div', T = HTMLElement> = CommonProps<
     'active' | 'disabled' | 'owner' | 'readOnly'
@@ -65,12 +50,6 @@ export type ListItemProps<As extends ElementType = 'div', T = HTMLElement> = Com
     href?: AnchorHTMLAttributes<unknown>['href'];
     /** A ref to the list item div element. */
     innerRef?: SetRef<T>;
-    /**
-     * Whether the ListItem is selected.
-     *
-     * @default false
-     */
-    selected?: boolean;
 };
 
 /**
@@ -106,72 +85,55 @@ export type ListItemProps<As extends ElementType = 'div', T = HTMLElement> = Com
  * @phase UXReview
  */
 function ListItem<As extends ElementType = 'div', T = HTMLElement>({
+    active,
     as,
     disabled,
-    leading: leadingProp,
-    trailing: trailingProp,
-    label,
-    subText,
-    active,
-    readOnly,
     innerRef,
-    selected = false,
+    label,
+    leading,
+    readOnly,
     owner,
     role,
+    subText,
+    trailing,
     ...props
 }: ElementProps<ListItemProps<As, T>, As>) {
-    const children = useChildren(leadingProp, trailingProp);
-    let { trailing } = children;
-    const { leading } = children;
-
     if (!label) return null;
 
-    let As: ElementType = as || 'span';
+    let As = as || 'div';
 
-    if (props.href) {
-        As = 'a';
-        if (trailing && ['Checkbox', 'Radio', 'Switch'].includes(trailing.name)) trailing = null;
-        //
-    } else if (trailing) {
-        // if trailing is a ListItemButton and As is a button, change As to div
-        if (trailing.name.includes('Button')) As = 'div';
-        if (['Checkbox', 'Radio', 'Switch'].includes(trailing.name)) As = 'label';
+    if (!as) {
+        if (props.href) As = 'a';
+        else if (props.onClick) As = 'button';
     }
 
-    if (!props.href && !As && 'onClick' in props) As = 'button';
-
-    const actionable = ('onClick' in props || 'href' in props) && !disabled && !readOnly;
+    const actionable = (As === 'a' || As === 'button') && !props.disabled && !props.readOnly;
 
     return (
         <As
             {...props}
             aria-disabled={disabled || undefined}
             aria-label={As === 'label' || As === 'span' || As === 'div' ? undefined : label}
-            aria-selected={selected || undefined}
+            as={As}
             data-action={actionable || undefined}
             data-active={active || undefined}
             data-bspk="list-item"
             data-bspk-owner={owner || undefined}
-            data-component={leading?.name || undefined}
             data-readonly={readOnly || undefined}
             ref={innerRef}
             role={As === 'button' ? 'option' : undefined}
             tabIndex={actionable ? 0 : undefined}
         >
             {leading && (
-                <span aria-hidden={true} data-component={leading.name} data-leading>
-                    {leading.child}
+                <span aria-hidden data-leading>
+                    {leading}
                 </span>
             )}
             <span data-item-label>
                 <Truncated data-text>{label}</Truncated>
                 {subText && <span data-sub-text>{subText}</span>}
             </span>
-            {trailing && (
-                <span data-component={trailing.name} data-trailing>
-                    {trailing.child}
-                </span>
-            )}
+            {trailing && <span data-trailing>{trailing}</span>}
         </As>
     );
 }
@@ -180,44 +142,5 @@ ListItem.bspkName = 'ListItem';
 ListItem.Button = ListItemButton;
 
 export { ListItem };
-
-function useChildren(
-    leadingProp: ReactNode,
-    trailingProp: ReactNode,
-): {
-    leading?: { child: ReactNode; name: string } | null;
-    trailing?: { child: ReactNode; name: string } | null;
-} {
-    const { logError } = useErrorLogger();
-
-    let leading: ChildElement | null = getChildrenElements(leadingProp)[0] || null;
-
-    const trailingElements = getChildrenElements(trailingProp);
-
-    let trailing: ChildElement | null = trailingElements[0] || null;
-
-    if (leading) {
-        const valid = LEADING_COMPONENTS.includes(leading.name);
-        if (!valid) leading = null;
-        logError(
-            !valid,
-            `ListItem - Leading child is invalid. Must be one of:${LEADING_COMPONENTS} Elements: ${leading?.name || 'None'}`,
-        );
-    }
-
-    if (trailing) {
-        const valid = TRAILING_COMPONENTS.includes(trailing.name);
-        if (!valid) trailing = null;
-        logError(
-            !valid,
-            `ListItem - Trailing child is invalid. Must be one of:${TRAILING_COMPONENTS} Elements: ${trailing?.name || 'None'}`,
-        );
-    }
-
-    return {
-        leading,
-        trailing,
-    };
-}
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
