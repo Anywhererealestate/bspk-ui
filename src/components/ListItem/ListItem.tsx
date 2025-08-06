@@ -105,7 +105,7 @@ function ListItem<As extends ElementType = 'div', T = HTMLElement>({
 }: ElementProps<ListItemProps<As, T>, As>) {
     if (!label) return null;
 
-    let As: ElementType = as || 'span';
+    let As = as || 'div';
 
     if (!as) {
         if (props.href) As = 'a';
