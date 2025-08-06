@@ -83,6 +83,7 @@ export type ListboxProps<Item extends ListboxItemProps = ListboxItemProps> = Com
          * Usually only used for showing no items found.
          */
         children?: ReactNode;
+        includeAriaLabel?: boolean;
     };
 
 /**
@@ -120,6 +121,7 @@ export type ListboxProps<Item extends ListboxItemProps = ListboxItemProps> = Com
  * @phase Utility
  */
 function Listbox<Item extends ListboxItemProps>({
+    includeAriaLabel,
     itemDisplayCount,
     items = [],
     innerRef,
@@ -206,6 +208,7 @@ function Listbox<Item extends ListboxItemProps>({
                         as={isMulti ? 'label' : 'button'}
                         disabled={item.disabled || undefined}
                         id={`${menuId}-item-${index}`}
+                        includeAriaLabel={includeAriaLabel}
                         key={`${menuId}-item-${index}`}
                         label={renderProps?.label?.toString() || item.label?.toString()}
                         onClick={(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {

@@ -52,6 +52,8 @@ export type ListItemProps<As extends ElementType = 'div', T = HTMLElement> = Com
     innerRef?: SetRef<T>;
     /** The ARIA role of the list item. */
     role?: string;
+    /** Whether the aria-label should be included on the list item. */
+    includeAriaLabel?: boolean;
 };
 
 /**
@@ -87,6 +89,7 @@ export type ListItemProps<As extends ElementType = 'div', T = HTMLElement> = Com
  * @phase UXReview
  */
 function ListItem<As extends ElementType = 'div', T = HTMLElement>({
+    includeAriaLabel = true,
     active,
     as,
     disabled,
@@ -115,7 +118,9 @@ function ListItem<As extends ElementType = 'div', T = HTMLElement>({
         <As
             {...props}
             aria-disabled={disabled || undefined}
-            aria-label={As === 'label' || As === 'span' || As === 'div' ? undefined : label}
+            aria-label={
+                As === 'label' || As === 'span' || As === 'div' || includeAriaLabel === false ? undefined : label
+            }
             as={As}
             data-action={actionable || undefined}
             data-active={active || undefined}
