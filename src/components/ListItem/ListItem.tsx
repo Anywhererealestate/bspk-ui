@@ -117,13 +117,41 @@ export type ListItemProps<As extends ElementType = 'div', T = HTMLElement> = Com
  * @phase UXReview
  */
 function ListItem<As extends ElementType = 'div', T = HTMLElement>(props: ElementProps<ListItemProps<As, T>, As>) {
-    const { label, disabled, selected, readOnly, active, innerRef, subText, ...rest } = props;
+    const {
+        label,
+        disabled,
+        selected,
+        readOnly,
+        active,
+        innerRef,
+        subText,
+        leading: leadingProp,
+        trailing: trailingProp,
+        ...rest
+    } = props;
 
-    const { As, leading, trailing } = useListItemLogic(props);
+    const children = useValidChildren(leadingProp, trailingProp);
+    const { logError } = useErrorLogger();
+
+    const As = useListItemAs({ trailingName: children.trailing?.name, ...props });
+
+    if (!label) return null;
+
+    if (As === 'a' && children.trailing?.name) {
+        if (TRAILING_COMPONENTS_ACTIONABLE.includes(children.trailing.name)) {
+            logError(
+                true,
+                `ListItem - Trailing child is invalid in anchor tags. Must NOT be one of: ${TRAILING_COMPONENTS_ACTIONABLE.join(
+                    ', ',
+                )}. Found: ${children.trailing?.name}`,
+            );
+            children.trailing = null;
+        }
+    }
 
     const actionable = (As === 'a' || As === 'button') && !props.disabled && !props.readOnly;
 
-    if (!As) return null;
+    const { leading, trailing } = children;
 
     return (
         <As
@@ -141,7 +169,7 @@ function ListItem<As extends ElementType = 'div', T = HTMLElement>(props: Elemen
             tabIndex={actionable ? 0 : undefined}
         >
             {leading && (
-                <span aria-hidden={true} data-component={leading.name} data-leading>
+                <span aria-hidden data-component={leading.name} data-leading>
                     {leading.child}
                 </span>
             )}
@@ -163,72 +191,29 @@ ListItem.Button = ListItemButton;
 
 export { ListItem };
 
-function useListItemLogic<As extends ElementType = 'div', T = HTMLElement>({
+function useListItemAs<As extends ElementType = 'div'>({
     as,
-    leading: leadingProp,
-    trailing: trailingProp,
-    label,
+    trailingName,
     ...props
-}: ElementProps<ListItemProps<As, T>, As>): {
-    As: ElementType | null;
-    leading?: { child: ReactNode; name: string } | null;
-    trailing?: { child: ReactNode; name: string } | null;
-} {
-    const children = useValidChildren(leadingProp, trailingProp);
-    const trailingName = (children.trailing?.name || '') as TrailingComponentName;
-
-    if (!label)
-        return {
-            As: null,
-        };
-
-    if (as)
-        return {
-            As: as,
-            ...children,
-        };
-
+}: {
+    as?: As;
+    href?: string;
+    onClick?: () => void;
+    trailingName?: TrailingComponentName;
+}): ElementType {
     // anchors
-    if (props.href || as === 'a') {
-        // if the trailing is focusable, we need to remove the leading
-        if (TRAILING_COMPONENTS_ACTIONABLE.includes(trailingName)) children.trailing = null;
-        return {
-            As: 'a',
-            ...children,
-        };
-    }
+    if (props.href || as === 'a') return 'a';
 
-    if (props.onClick || as === 'button')
-        return {
-            As: 'button',
-            ...children,
-        };
+    if (trailingName && ['Checkbox', 'Radio', 'Switch'].includes(trailingName)) return 'label';
 
-    if (['Checkbox', 'Radio', 'Switch'].includes(trailingName))
-        return {
-            As: 'label',
-            ...children,
-        };
+    if (props.onClick || as === 'button') return 'button';
 
-    if (trailingName.includes('Button'))
-        return {
-            As: 'div',
-            ...children,
-        };
+    if (trailingName && trailingName.includes('Button')) return 'div';
 
-    return {
-        As: 'span',
-        ...children,
-    };
+    return as || 'span';
 }
 
-function useValidChildren(
-    leadingProp: ReactNode,
-    trailingProp: ReactNode,
-): {
-    leading?: { child: ReactNode; name: string } | null;
-    trailing?: { child: ReactNode; name: string } | null;
-} {
+function useValidChildren(leadingProp: ReactNode, trailingProp: ReactNode) {
     const { logError } = useErrorLogger();
 
     let leading: ChildElement | null = getChildrenElements(leadingProp)[0] || null;
@@ -258,6 +243,9 @@ function useValidChildren(
     return {
         leading,
         trailing,
+    } as {
+        leading?: { child: ReactNode; name: LeadingComponentName } | null;
+        trailing?: { child: ReactNode; name: TrailingComponentName } | null;
     };
 }
 
