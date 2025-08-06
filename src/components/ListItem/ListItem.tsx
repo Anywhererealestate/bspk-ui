@@ -107,9 +107,10 @@ function ListItem<As extends ElementType = 'div', T = HTMLElement>({
 
     let As: ElementType = as || 'span';
 
-    if (!as && props.href) As = 'a';
-
-    if (!as && props.onClick) As = 'button';
+    if (!as) {
+        if (props.href) As = 'a';
+        else if (props.onClick) As = 'button';
+    }
 
     const actionable = (As === 'a' || As === 'button') && !props.disabled && !props.readOnly;
 
