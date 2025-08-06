@@ -91,16 +91,16 @@ export type ListItemProps<As extends ElementType = 'div', T = HTMLElement> = Com
  * @phase UXReview
  */
 function ListItem<As extends ElementType = 'div', T = HTMLElement>({
-    label,
-    disabled,
-    selected,
-    readOnly,
     active,
-    innerRef,
-    subText,
-    leading,
-    trailing,
     as,
+    disabled,
+    innerRef,
+    label,
+    leading,
+    readOnly,
+    selected,
+    subText,
+    trailing,
     ...props
 }: ElementProps<ListItemProps<As, T>, As>) {
     if (!label) return null;
