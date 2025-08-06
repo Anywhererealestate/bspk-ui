@@ -19,6 +19,7 @@ export const ListItemExample: ComponentExampleFn<ListItemProps> = ({ action, set
             label: 'Long Label',
             propState: {
                 label: 'This is a really long label that should be truncated if it exceeds the width of the ListItem',
+                subText: 'See below to for other leading and trailing examples',
                 trailing: 'Checkbox',
                 leading: 'Avatar',
             },
