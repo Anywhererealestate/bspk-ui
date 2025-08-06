@@ -23,7 +23,10 @@ type ExampleChildElementProps = {
  * Returns example leading and trailing components for use in component examples. Allows which type of element is
  * rendered to be determined by the example state.
  */
-export function createExampleChildElement({ exampleState, name, setState, action, id }: ExampleChildElementProps) {
+export function createExampleChildElement({ exampleState, name, setState, action, id }: ExampleChildElementProps): {
+    element: JSX.Element | null;
+    componentName?: string;
+} {
     const componentName = exampleState[name];
 
     if (componentName === 'Checkbox' || componentName === 'Radio' || componentName === 'Switch') {
@@ -33,42 +36,48 @@ export function createExampleChildElement({ exampleState, name, setState, action
 
         const toggleName = `data-${name}-toggle-${id}`;
 
-        return (
-            <As
-                aria-label={`${componentName} demo`}
-                checked={exampleState[toggleName]}
-                disabled={exampleState.disabled}
-                name={`${name}-toggle`}
-                onChange={(checked: boolean) => {
-                    setState({ [toggleName]: checked });
-                }}
-                onClick={() => action(`${name} ${componentName} clicked`)}
-                readOnly={exampleState.readOnly}
-                value={`${name}-${componentName}`}
-            />
-        );
+        return {
+            element: (
+                <As
+                    aria-label={`${componentName} demo`}
+                    checked={exampleState[toggleName]}
+                    disabled={exampleState.disabled}
+                    name={`${name}-toggle`}
+                    onChange={(checked: boolean) => {
+                        setState({ [toggleName]: checked });
+                    }}
+                    onClick={() => action(`${name} ${componentName} clicked`)}
+                    readOnly={exampleState.readOnly}
+                    value={`${name}-${componentName}`}
+                />
+            ),
+            componentName,
+        };
     }
 
     if (componentName === 'ListItemButton')
-        return (
-            <ListItem.Button
-                icon={<SvgContentCopy />}
-                label="LI Button"
-                onClick={() => action('ListItem button clicked')}
-            />
-        );
+        return {
+            element: (
+                <ListItem.Button
+                    icon={<SvgContentCopy />}
+                    label="LI Button"
+                    onClick={() => action('ListItem button clicked')}
+                />
+            ),
+            componentName,
+        };
 
-    if (componentName === 'Img') return <Img alt="placeholder" src="/placeholder.svg" />;
+    if (componentName === 'Img') return { element: <Img alt="placeholder" src="/placeholder.svg" /> };
 
-    if (componentName === 'Avatar') return <Avatar name="List Item" showTooltip={false} />;
+    if (componentName === 'Avatar') return { element: <Avatar name="List Item" showTooltip={false} /> };
 
     if (componentName === 'Tag') {
-        return <Tag label="Tag" />;
+        return { element: <Tag label="Tag" /> };
     }
 
-    if (componentName === 'Txt') return <Txt>Text</Txt>;
+    if (componentName === 'Txt') return { element: <Txt>Text</Txt> };
 
-    if (componentName === 'Icon') return <SvgDiamond />;
+    if (componentName === 'Icon') return { element: <SvgDiamond /> };
 
-    return null;
+    return { element: null };
 }
