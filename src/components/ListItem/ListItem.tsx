@@ -7,9 +7,21 @@ import { useErrorLogger } from '-/utils/errors';
 
 import './list-item.scss';
 
-export const LEADING_COMPONENTS = Object.freeze(['Icon', 'Img', 'Avatar']);
+type SubComponentName =
+    | 'Avatar'
+    | 'Checkbox'
+    | 'Icon'
+    | 'Img'
+    | 'ListItemButton'
+    | 'Radio'
+    | 'string'
+    | 'Switch'
+    | 'Tag'
+    | 'Txt';
 
-export const TRAILING_COMPONENTS = Object.freeze([
+export const LEADING_COMPONENTS: SubComponentName[] = ['Icon', 'Img', 'Avatar'] as const;
+
+export const TRAILING_COMPONENTS: SubComponentName[] = [
     'ListItemButton',
     'Checkbox',
     'Icon',
@@ -18,7 +30,9 @@ export const TRAILING_COMPONENTS = Object.freeze([
     'Tag',
     'Txt',
     'string',
-]);
+] as const;
+
+const TRAILING_COMPONENTS_ACTIONABLE: SubComponentName[] = ['ListItemButton', 'Checkbox', 'Radio', 'Switch'] as const;
 
 export type ListItemProps<As extends ElementType = 'div', T = HTMLElement> = CommonProps<
     'active' | 'disabled' | 'readOnly'
@@ -105,44 +119,16 @@ export type ListItemProps<As extends ElementType = 'div', T = HTMLElement> = Com
  * @name ListItem
  * @phase UXReview
  */
-function ListItem<As extends ElementType = 'div', T = HTMLElement>({
-    as,
-    disabled,
-    leading: leadingProp,
-    trailing: trailingProp,
-    label,
-    subText,
-    active,
-    readOnly,
-    innerRef,
-    selected = false,
-    ...props
-}: ElementProps<ListItemProps<As, T>, As>) {
-    const children = useChildren(leadingProp, trailingProp);
-    let { trailing } = children;
-    const { leading } = children;
+function ListItem<As extends ElementType = 'div', T = HTMLElement>(props: ElementProps<ListItemProps<As, T>, As>) {
+    const { label, disabled, selected, readOnly, active, innerRef, subText, ...rest } = props;
 
-    if (!label) return null;
+    const { As, leading, trailing, actionable } = useListItemLogic(props);
 
-    let As: ElementType = as || 'span';
-
-    if (props.href) {
-        As = 'a';
-        if (trailing && ['Checkbox', 'Radio', 'Switch'].includes(trailing.name)) trailing = null;
-        //
-    } else if (trailing) {
-        // if trailing is a ListItemButton and As is a button, change As to div
-        if (trailing.name.includes('Button')) As = 'div';
-        if (['Checkbox', 'Radio', 'Switch'].includes(trailing.name)) As = 'label';
-    }
-
-    if (!props.href && !As && 'onClick' in props) As = 'button';
-
-    const actionable = ('onClick' in props || 'href' in props) && !disabled && !readOnly;
+    if (!As) return null;
 
     return (
         <As
-            {...props}
+            {...rest}
             aria-disabled={disabled || undefined}
             aria-label={As === 'label' || As === 'span' || As === 'div' ? undefined : label}
             aria-selected={selected || undefined}
@@ -178,7 +164,75 @@ ListItem.Button = ListItemButton;
 
 export { ListItem };
 
-function useChildren(
+function useListItemLogic<As extends ElementType = 'div', T = HTMLElement>({
+    as,
+    leading: leadingProp,
+    trailing: trailingProp,
+    label,
+    ...props
+}: ElementProps<ListItemProps<As, T>, As>): {
+    As: ElementType | null;
+    leading?: { child: ReactNode; name: string } | null;
+    trailing?: { child: ReactNode; name: string } | null;
+    actionable?: boolean;
+} {
+    const children = useValidChildren(leadingProp, trailingProp);
+    const trailingName = (children.trailing?.name || '') as SubComponentName;
+
+    if (!label)
+        return {
+            As: null,
+        };
+
+    const actionable = ('onClick' in props || 'href' in props) && !props.disabled && !props.readOnly;
+
+    if (as)
+        return {
+            As: as,
+            actionable,
+            ...children,
+        };
+
+    // anchors
+    if (props.href || as === 'a') {
+        // if the trailing is focusable, we need to remove the leading
+        if (TRAILING_COMPONENTS_ACTIONABLE.includes(trailingName)) children.trailing = null;
+        return {
+            As: 'a',
+            actionable: true,
+            ...children,
+        };
+    }
+
+    if (props.onClick || as === 'button')
+        return {
+            As: 'button',
+            actionable: true,
+            ...children,
+        };
+
+    if (['Checkbox', 'Radio', 'Switch'].includes(trailingName))
+        return {
+            As: 'label',
+            actionable: true,
+            ...children,
+        };
+
+    if (trailingName.includes('Button'))
+        return {
+            As: 'div',
+            actionable: false,
+            ...children,
+        };
+
+    return {
+        As: 'span',
+        actionable,
+        ...children,
+    };
+}
+
+function useValidChildren(
     leadingProp: ReactNode,
     trailingProp: ReactNode,
 ): {
@@ -194,7 +248,7 @@ function useChildren(
     let trailing: ChildElement | null = trailingElements[0] || null;
 
     if (leading) {
-        const valid = LEADING_COMPONENTS.includes(leading.name);
+        const valid = LEADING_COMPONENTS.includes(leading.name as SubComponentName);
         if (!valid) leading = null;
         logError(
             !valid,
@@ -203,7 +257,7 @@ function useChildren(
     }
 
     if (trailing) {
-        const valid = TRAILING_COMPONENTS.includes(trailing.name);
+        const valid = TRAILING_COMPONENTS.includes(trailing.name as SubComponentName);
         if (!valid) trailing = null;
         logError(
             !valid,
