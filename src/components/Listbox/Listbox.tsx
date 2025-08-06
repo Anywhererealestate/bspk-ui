@@ -162,6 +162,7 @@ function Listbox<Item extends ListboxItemProps>({
         >
             {isMulti && selectAll && (
                 <ListItem
+                    as="label"
                     data-selected={allSelected || undefined}
                     id={`${menuId}-select-all`}
                     key="select-all"
@@ -200,6 +201,7 @@ function Listbox<Item extends ListboxItemProps>({
                         active={activeIndex === index || undefined}
                         aria-disabled={item.disabled || undefined}
                         aria-selected={selected || undefined}
+                        as={isMulti ? 'label' : 'button'}
                         disabled={item.disabled || undefined}
                         id={`${menuId}-item-${index}`}
                         key={`${menuId}-item-${index}`}

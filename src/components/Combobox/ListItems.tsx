@@ -45,6 +45,7 @@ function ListItems<I extends Item>({
         <>
             {isMulti && selectAll && (
                 <ListItem
+                    as="label"
                     data-selected={allSelected || undefined}
                     key="select-all"
                     label={selectAll}
@@ -73,7 +74,7 @@ function ListItems<I extends Item>({
                         {...item}
                         active={activeIndex === index || undefined}
                         aria-disabled={item.disabled || undefined}
-                        as="button"
+                        as={isMulti ? 'label' : 'button'}
                         disabled={item.disabled || undefined}
                         id={`${menuId}-item-${index}`}
                         key={`${menuId}-item-${index}`}

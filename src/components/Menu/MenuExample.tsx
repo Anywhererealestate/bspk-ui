@@ -35,6 +35,7 @@ export const MenuExample: ComponentExampleFn<ElementProps<MenuProps, 'div'> & { 
                 <ListItem href="#/my-profile" label="My profile" leading={<SvgAccountCircle />} />
                 <ListItem href="#/settings" label="Settings" leading={<SvgSettings />} />
                 <ListItem
+                    as="label"
                     label="Dark mode"
                     leading={props['data-dark-mode'] ? <SvgDarkModeFill /> : <SvgDarkMode />}
                     trailing={
