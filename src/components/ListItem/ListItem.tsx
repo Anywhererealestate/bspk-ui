@@ -2,34 +2,8 @@ import { AnchorHTMLAttributes, ElementType, ReactNode } from 'react';
 import { ListItemButton } from './ListItemButton';
 import { Truncated } from '-/components/Truncated';
 import { CommonProps, ElementProps, SetRef } from '-/types/common';
-import { ChildElement, getChildrenElements } from '-/utils/children';
-import { useErrorLogger } from '-/utils/errors';
 
 import './list-item.scss';
-
-export const LEADING_COMPONENTS = ['Icon', 'Img', 'Avatar'] as const;
-
-export type LeadingComponentName = (typeof LEADING_COMPONENTS)[number];
-
-export const TRAILING_COMPONENTS = [
-    'ListItemButton',
-    'Checkbox',
-    'Icon',
-    'Radio',
-    'Switch',
-    'Tag',
-    'Txt',
-    'string',
-] as const;
-
-type TrailingComponentName = (typeof TRAILING_COMPONENTS)[number];
-
-const TRAILING_COMPONENTS_ACTIONABLE: TrailingComponentName[] = [
-    'ListItemButton',
-    'Checkbox',
-    'Radio',
-    'Switch',
-] as const;
 
 export type ListItemProps<As extends ElementType = 'div', T = HTMLElement> = CommonProps<
     'active' | 'disabled' | 'readOnly'
@@ -116,72 +90,53 @@ export type ListItemProps<As extends ElementType = 'div', T = HTMLElement> = Com
  * @name ListItem
  * @phase UXReview
  */
-function ListItem<As extends ElementType = 'div', T = HTMLElement>(props: ElementProps<ListItemProps<As, T>, As>) {
-    const {
-        label,
-        disabled,
-        selected,
-        readOnly,
-        active,
-        innerRef,
-        subText,
-        leading: leadingProp,
-        trailing: trailingProp,
-        ...rest
-    } = props;
-
-    const children = useValidChildren(leadingProp, trailingProp);
-    const { logError } = useErrorLogger();
-
-    const As = useListItemAs({ trailingName: children.trailing?.name, ...props });
-
+function ListItem<As extends ElementType = 'div', T = HTMLElement>({
+    label,
+    disabled,
+    selected,
+    readOnly,
+    active,
+    innerRef,
+    subText,
+    leading,
+    trailing,
+    as,
+    ...props
+}: ElementProps<ListItemProps<As, T>, As>) {
     if (!label) return null;
 
-    if (As === 'a' && children.trailing?.name) {
-        if (TRAILING_COMPONENTS_ACTIONABLE.includes(children.trailing.name)) {
-            logError(
-                true,
-                `ListItem - Trailing child is invalid in anchor tags. Must NOT be one of: ${TRAILING_COMPONENTS_ACTIONABLE.join(
-                    ', ',
-                )}. Found: ${children.trailing?.name}`,
-            );
-            children.trailing = null;
-        }
-    }
+    let As: ElementType = as || 'span';
+
+    if (!as && props.href) As = 'a';
+
+    if (!as && props.onClick) As = 'button';
 
     const actionable = (As === 'a' || As === 'button') && !props.disabled && !props.readOnly;
 
-    const { leading, trailing } = children;
-
     return (
         <As
-            {...rest}
+            {...props}
             aria-disabled={disabled || undefined}
             aria-label={As === 'label' || As === 'span' || As === 'div' ? undefined : label}
             aria-selected={selected || undefined}
             data-action={actionable || undefined}
             data-active={active || undefined}
             data-bspk="list-item"
-            data-component={leading?.name || undefined}
             data-readonly={readOnly || undefined}
             ref={innerRef}
             role={As === 'button' ? 'option' : undefined}
             tabIndex={actionable ? 0 : undefined}
         >
             {leading && (
-                <span aria-hidden data-component={leading.name} data-leading>
-                    {leading.child}
+                <span aria-hidden data-leading>
+                    {leading}
                 </span>
             )}
             <span data-item-label>
                 <Truncated data-text>{label}</Truncated>
                 {subText && <span data-sub-text>{subText}</span>}
             </span>
-            {trailing && (
-                <span data-component={trailing.name} data-trailing>
-                    {trailing.child}
-                </span>
-            )}
+            {trailing && <span data-trailing>{trailing}</span>}
         </As>
     );
 }
@@ -190,63 +145,5 @@ ListItem.bspkName = 'ListItem';
 ListItem.Button = ListItemButton;
 
 export { ListItem };
-
-function useListItemAs<As extends ElementType = 'div'>({
-    as,
-    trailingName,
-    ...props
-}: {
-    as?: As;
-    href?: string;
-    onClick?: () => void;
-    trailingName?: TrailingComponentName;
-}): ElementType {
-    // anchors
-    if (props.href || as === 'a') return 'a';
-
-    if (trailingName && ['Checkbox', 'Radio', 'Switch'].includes(trailingName)) return 'label';
-
-    if (props.onClick || as === 'button') return 'button';
-
-    if (trailingName && trailingName.includes('Button')) return 'div';
-
-    return as || 'span';
-}
-
-function useValidChildren(leadingProp: ReactNode, trailingProp: ReactNode) {
-    const { logError } = useErrorLogger();
-
-    let leading: ChildElement | null = getChildrenElements(leadingProp)[0] || null;
-
-    const trailingElements = getChildrenElements(trailingProp);
-
-    let trailing: ChildElement | null = trailingElements[0] || null;
-
-    if (leading) {
-        const valid = LEADING_COMPONENTS.includes(leading.name as LeadingComponentName);
-        if (!valid) leading = null;
-        logError(
-            !valid,
-            `ListItem - Leading child is invalid. Must be one of:${LEADING_COMPONENTS} Elements: ${leading?.name || 'None'}`,
-        );
-    }
-
-    if (trailing) {
-        const valid = TRAILING_COMPONENTS.includes(trailing.name as TrailingComponentName);
-        if (!valid) trailing = null;
-        logError(
-            !valid,
-            `ListItem - Trailing child is invalid. Must be one of:${TRAILING_COMPONENTS} Elements: ${trailing?.name || 'None'}`,
-        );
-    }
-
-    return {
-        leading,
-        trailing,
-    } as {
-        leading?: { child: ReactNode; name: LeadingComponentName } | null;
-        trailing?: { child: ReactNode; name: TrailingComponentName } | null;
-    };
-}
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
