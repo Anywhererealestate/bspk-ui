@@ -50,6 +50,8 @@ export type ListItemProps<As extends ElementType = 'div', T = HTMLElement> = Com
     href?: AnchorHTMLAttributes<unknown>['href'];
     /** A ref to the list item div element. */
     innerRef?: SetRef<T>;
+    /** The ARIA role of the list item. */
+    role?: string;
 };
 
 /**
@@ -121,7 +123,7 @@ function ListItem<As extends ElementType = 'div', T = HTMLElement>({
             data-bspk-owner={owner || undefined}
             data-readonly={readOnly || undefined}
             ref={innerRef}
-            role={As === 'button' ? 'option' : undefined}
+            role={As === 'button' ? role || 'option' : undefined}
             tabIndex={actionable ? 0 : undefined}
         >
             {leading && (
