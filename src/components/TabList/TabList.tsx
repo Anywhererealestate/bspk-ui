@@ -1,4 +1,4 @@
-import { Fragment, ReactNode, useMemo, useState } from 'react';
+import { Fragment, ReactNode, useMemo } from 'react';
 
 import { Badge, BadgeProps } from '-/components/Badge';
 import { Tooltip } from '-/components/Tooltip';
@@ -171,7 +171,7 @@ function TabList({
         return option ? option.value : options[0]?.value;
     }, [options, valueProp]);
 
-    const { keyNavigationProps, activeElementId, setElements, setActiveElementId } = useKeyNavigation({
+    const { handleKeyDown, activeElementId, setElements, setActiveElementId } = useKeyNavigation({
         onSelect: (nextActiveId) => {
             onChange(options.find((opt) => opt.id === nextActiveId)?.value || '');
         },
@@ -180,10 +180,15 @@ function TabList({
     // If all options have icons, we can hide the labels
     const iconsOnly = iconsOnlyProp === true && options.every((item) => item.icon && item.label);
 
+    const handleClick = (item: (typeof options)[number]) => (e: React.MouseEvent<HTMLLIElement>) => {
+        setTimeout(() => (e.target as HTMLElement).focus(), 100);
+        setActiveElementId(item.id);
+        if (!item.disabled) onChange(item.value);
+    };
+
     return (
         <ul
             {...containerProps}
-            {...keyNavigationProps}
             aria-label={label}
             data-bspk-utility="tab-list"
             data-hug={width === 'hug' || undefined}
@@ -210,16 +215,13 @@ function TabList({
                                 aria-controls={id}
                                 aria-disabled={item.disabled || undefined}
                                 aria-selected={isSelected || undefined}
-                                data-value={item.value}
                                 data-active={activeElementId === item.id || undefined}
+                                data-value={item.value}
                                 id={item.id}
+                                onClick={handleClick(item)}
+                                onKeyDown={handleKeyDown}
                                 role="tab"
                                 tabIndex={isSelected ? 0 : -1}
-                                onClick={(e) => {
-                                    setTimeout(() => (e.target as HTMLElement).focus(), 100);
-                                    setActiveElementId(item.id);
-                                    if (!item.disabled) onChange(item.value);
-                                }}
                             >
                                 {icon && <span aria-hidden="true">{icon}</span>}
                                 {!iconsOnly && <Truncated data-label>{item.label}</Truncated>}

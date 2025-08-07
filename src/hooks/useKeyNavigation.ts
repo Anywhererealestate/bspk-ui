@@ -1,4 +1,4 @@
-import { Dispatch, DOMAttributes, SetStateAction, useEffect, useRef, useState } from 'react';
+import { Dispatch, DOMAttributes, SetStateAction, useRef, useState } from 'react';
 import { useOutsideClick } from './useOutsideClick';
 import { handleKeyDown } from '-/utils/handleKeyDown';
 
@@ -13,10 +13,10 @@ export type UseKeyNavigationProps = {
  * This hook provides functionality to navigate through elements using arrow keys and select an element with the Enter
  * or Space key, or onClick.
  */
-export function useKeyNavigation<T extends HTMLElement = HTMLUListElement>({
+export function useKeyNavigation<T extends HTMLElement>({
     onSelect,
 }: UseKeyNavigationProps): {
-    keyNavigationProps: DOMAttributes<T>;
+    handleKeyDown: DOMAttributes<T>['onKeyDown'];
     activeElementId: string | null;
     setElements: (newElements: HTMLElement[]) => void;
     setActiveElementId: Dispatch<SetStateAction<string | null>>;
@@ -49,19 +49,17 @@ export function useKeyNavigation<T extends HTMLElement = HTMLUListElement>({
 
     return {
         setElements,
-        keyNavigationProps: {
-            onKeyDown: handleKeyDown(
-                {
-                    ArrowRight: handleIncrement(1),
-                    ArrowDown: handleIncrement(1),
-                    ArrowUp: handleIncrement(-1),
-                    ArrowLeft: handleIncrement(-1),
-                    Enter: handleSelect(),
-                    Space: handleSelect(),
-                },
-                { preventDefault: true, stopPropagation: true },
-            ),
-        },
+        handleKeyDown: handleKeyDown(
+            {
+                ArrowRight: handleIncrement(1),
+                ArrowDown: handleIncrement(1),
+                ArrowUp: handleIncrement(-1),
+                ArrowLeft: handleIncrement(-1),
+                Enter: handleSelect(),
+                Space: handleSelect(),
+            },
+            { preventDefault: true, stopPropagation: true },
+        ),
         activeElementId,
         setActiveElementId,
     };

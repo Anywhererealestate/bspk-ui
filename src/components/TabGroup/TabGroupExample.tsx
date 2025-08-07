@@ -98,4 +98,10 @@ export const TabGroupExample: ComponentExample<TabGroupProps> = {
             },
         },
     ],
+
+    variants: {
+        showTrail: {
+            width: 'hug',
+        },
+    },
 };
