@@ -128,7 +128,7 @@ function ListItem<As extends ElementType = 'div', T = HTMLElement>({
             data-bspk-owner={owner || undefined}
             data-readonly={readOnly || undefined}
             ref={innerRef}
-            role={As === 'button' ? role || 'option' : undefined}
+            role={role || (As === 'button' ? 'option' : undefined)}
             tabIndex={actionable ? 0 : undefined}
         >
             {leading && (
