@@ -24,6 +24,7 @@ export const MenuExample: ComponentExampleFn<ElementProps<MenuProps, 'div'> & { 
                 {...props}
                 floating={false}
                 portal={false}
+                scroll={false}
                 style={{ padding: 'var(--spacing-sizing-02) var(--spacing-sizing-02)' }}
             >
                 <ListItem

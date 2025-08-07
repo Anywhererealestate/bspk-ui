@@ -9,7 +9,10 @@ import { useId } from '-/hooks/useId';
 
 import './search-bar.scss';
 
-export type SearchBarProps<T extends ListboxItemProps = ListboxItemProps> = Pick<ListboxProps<T>, 'itemDisplayCount'> &
+export type SearchBarProps<T extends ListboxItemProps = ListboxItemProps> = Pick<
+    ListboxProps<T>,
+    'itemCount' | 'itemDisplayCount'
+> &
     Pick<TextInputProps, 'aria-label' | 'disabled' | 'id' | 'inputRef' | 'name' | 'size'> & {
         /** The current value of the search bar. */
         value?: string;
@@ -103,13 +106,14 @@ export type SearchBarProps<T extends ListboxItemProps = ListboxItemProps> = Pick
  * @phase UXReview
  */
 function SearchBar({
-    itemDisplayCount: itemCount,
     items,
     noResultsMessage,
     placeholder = 'Search',
     'aria-label': ariaLabel,
     id: idProp,
     inputRef,
+    itemCount,
+    itemDisplayCount,
     name,
     size = 'medium',
     onSelect,
@@ -175,8 +179,10 @@ function SearchBar({
             </div>
             {isOpen && (
                 <Listbox
+                    {...menuProps}
                     innerRef={elements.setFloating}
-                    itemDisplayCount={itemCount}
+                    itemCount={itemCount}
+                    itemDisplayCount={itemDisplayCount}
                     items={items}
                     onChange={(selectedValues, event) => {
                         event?.preventDefault();
@@ -185,7 +191,6 @@ function SearchBar({
                         onChange(item?.label || '');
                         closeMenu();
                     }}
-                    {...menuProps}
                 >
                     {!!value?.length && !items?.length && (
                         <div data-bspk="no-items-found">

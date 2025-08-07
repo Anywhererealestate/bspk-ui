@@ -123,7 +123,8 @@ function Breadcrumb({ id: propId, items: itemsProp }: BreadcrumbProps) {
                         {isOpen && (
                             <Menu
                                 innerRef={elements.setFloating}
-                                itemDisplayCount={false}
+                                itemCount={middleItems.length}
+                                itemDisplayCount={middleItems.length <= 10 ? middleItems.length : 10}
                                 {...menuProps}
                                 role="navigation"
                                 style={{
