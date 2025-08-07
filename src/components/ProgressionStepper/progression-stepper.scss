@@ -9,6 +9,7 @@
 
     ol {
         display: flex;
+        flex-direction: row;
         width: 100%;
         margin: 0;
         padding: 0;
@@ -20,6 +21,7 @@
             margin: 0;
             padding: 0;
             gap: var(--spacing-sizing-02);
+            flex-grow: 1;
 
             [data-line-circle] {
                 display: flex;
@@ -54,8 +56,19 @@
 
             [data-content] {
                 display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+
+                [data-variant='horizontal'] & {
+                    align-items: center;
+                    justify-content: center;
+                    width: 100%;
+                }
+
                 padding: 0 var(--spacing-sizing-10);
                 font: var(--body-small);
+                text-align: center;
             }
 
             &:first-of-type {
