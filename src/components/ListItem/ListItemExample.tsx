@@ -27,13 +27,12 @@ export const ListItemExample: ComponentExampleFn<ListItemProps> = ({ action, set
         return <ListItem {...props} as={as} leading={leading.element} trailing={trailing.element} />;
     },
     presets: [
-        // really long label
         {
             value: 'long-label',
             label: 'Long Label',
             propState: {
                 label: 'This is a really long label that should be truncated if it exceeds the width of the ListItem',
-                subText: 'See below to for other leading and trailing examples',
+                subText: 'See below for other leading and trailing examples',
                 trailing: 'Checkbox',
                 leading: 'Avatar',
             },
