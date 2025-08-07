@@ -39,8 +39,6 @@ const useCountryCodeSelectOptions = (initialCountryCode?: SupportedCountryCode) 
 export type PhoneNumberInputProps = FormFieldControlProps &
     Pick<
         TextInputProps,
-        | 'aria-describedby'
-        | 'aria-errormessage'
         | 'aria-label'
         | 'autoComplete'
         | 'disabled'
