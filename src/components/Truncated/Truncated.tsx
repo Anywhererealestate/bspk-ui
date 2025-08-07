@@ -49,6 +49,7 @@ function Truncated<As extends ElementType = 'span'>({
             ref={(node) => setElement(node)}
             style={{
                 ...props.style,
+                display: 'inline-block',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
                 whiteSpace: 'nowrap',

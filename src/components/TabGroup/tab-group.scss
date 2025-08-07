@@ -6,6 +6,8 @@
         color: var(--foreground-neutral-on-surface-variant-02);
         background: none;
         border-bottom: 1px solid var(--stroke-neutral-low);
+        position: relative;
+        padding: 0 var(--spacing-sizing-04);
 
         &:not([aria-disabled]) {
             &[data-active] {
@@ -21,31 +23,23 @@
             color: var(--foreground-neutral-disabled-on-surface);
         }
 
-        [data-inner] {
-            position: relative;
-            gap: var(--spacing-sizing-02);
-            margin: 0 var(--spacing-sizing-04);
-        }
-
         &[aria-selected] {
             color: var(--foreground-brand-primary);
 
-            [data-inner] {
-                &::after {
-                    content: '';
-                    display: block;
-                    width: 100%;
-                    height: 2px;
-                    background-color: var(--stroke-brand-primary);
-                    bottom: -1px;
-                    position: absolute;
-                    border-top-right-radius: 2px;
-                    border-top-left-radius: 2px;
-                }
+            &::after {
+                content: '';
+                display: block;
+                width: calc(100% - var(--spacing-sizing-04) * 2);
+                height: 2px;
+                background-color: var(--stroke-brand-primary);
+                bottom: -1px;
+                position: absolute;
+                border-top-right-radius: 2px;
+                border-top-left-radius: 2px;
+            }
 
-                svg {
-                    color: var(--surface-brand-primary);
-                }
+            svg {
+                color: var(--surface-brand-primary);
             }
         }
     }

@@ -37,7 +37,7 @@ export const SegmentedControlExample: ComponentExample<SegmentedControlProps> = 
         {
             label: 'With icons',
             propState: {
-                iconsOnly: false,
+                iconsOnly: undefined,
             },
         },
         {
@@ -46,6 +46,16 @@ export const SegmentedControlExample: ComponentExample<SegmentedControlProps> = 
                 iconsOnly: true,
             },
         },
+        {
+            label: 'Long label text',
+            propState: {
+                iconsOnly: undefined,
+                options: PRESET_OPTIONS.map((option) => ({
+                    ...option,
+                    label: `${option.label} with a very long label text that should be truncated if it exceeds the width of the control`,
+                })),
+            },
+        },
     ],
-    variants: true,
+    variants: false,
 };

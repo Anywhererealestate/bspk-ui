@@ -1,16 +1,8 @@
-import { DOMAttributes, useState } from 'react';
+import { Dispatch, DOMAttributes, SetStateAction, useEffect, useRef, useState } from 'react';
 import { useOutsideClick } from './useOutsideClick';
 import { handleKeyDown } from '-/utils/handleKeyDown';
 
 export type UseKeyNavigationProps = {
-    /**
-     * The elements to navigate through using the keyboard.
-     *
-     * Can be an array of HTMLElements or a string selector to find elements within the container.
-     *
-     * If not provided, the hook will use the children of the container element.
-     */
-    elements: HTMLElement[];
     /** The callback function to call when a tab is selected (Enter or Space keys). */
     onSelect: (activeId?: string) => void;
 };
@@ -23,61 +15,41 @@ export type UseKeyNavigationProps = {
  */
 export function useKeyNavigation<T extends HTMLElement = HTMLUListElement>({
     onSelect,
-    elements,
 }: UseKeyNavigationProps): {
-    keyNavProps: DOMAttributes<T>;
+    keyNavigationProps: DOMAttributes<T>;
+    activeElementId: string | null;
+    setElements: (newElements: HTMLElement[]) => void;
+    setActiveElementId: Dispatch<SetStateAction<string | null>>;
 } {
-    const [activeElement, setActiveElementState] = useState<HTMLElement | null>(elements[0] || null);
-
-    const setActiveElement = (nextElement: HTMLElement | null) => {
-        elements.forEach((element) => {
-            const isActive = !!nextElement && (element.contains(nextElement) || element.id === nextElement?.id);
-            element.toggleAttribute('data-active', isActive);
-            if (isActive) setActiveElementState(nextElement);
-        });
+    const elements = useRef<HTMLElement[]>([]);
+    const setElements = (newElements: HTMLElement[]) => {
+        elements.current = newElements;
     };
 
+    const [activeElementId, setActiveElementId] = useState<string | null>(null);
+
     useOutsideClick({
-        elements,
-        callback: () => {
-            setActiveElement(null);
-        },
+        elements: elements.current,
+        callback: () => setActiveElementId(null),
     });
 
-    if (!elements.length) return { keyNavProps: {} };
-
     const handleIncrement = (increment: -1 | 1) => (): void => {
-        if (!activeElement) {
-            setActiveElement(elements[0]);
-            return;
-        }
+        let currentElement = elements.current[0];
+        if (activeElementId)
+            currentElement = elements.current.find((el) => el.id === activeElementId) || elements.current[0];
 
-        const activeIndex = elements.indexOf(activeElement);
-        const nextindex = (activeIndex + increment + elements.length) % elements.length;
-        setActiveElement(elements[nextindex]);
+        const activeIndex = elements.current.indexOf(currentElement);
+        const nextindex = (activeIndex + increment + elements.current.length) % elements.current.length;
+        setActiveElementId(elements.current[nextindex].id);
     };
 
     const handleSelect = () => () => {
-        if (activeElement) onSelect(activeElement.id);
+        if (activeElementId) onSelect(activeElementId);
     };
 
     return {
-        keyNavProps: {
-            onFocus: () => {
-                if (!activeElement) setActiveElement(elements[0]);
-            },
-            onMouseOverCapture: (e) => {
-                setActiveElement(e.target as HTMLElement);
-            },
-            onMouseLeave: () => setActiveElement(null),
-            onClick: (e) => {
-                const targetElement = e.target as HTMLElement;
-                const foundElement = elements.find((el) => el.contains(targetElement) || el.isEqualNode(targetElement));
-                if (foundElement) {
-                    setActiveElement(foundElement);
-                    onSelect(foundElement.id);
-                }
-            },
+        setElements,
+        keyNavigationProps: {
             onKeyDown: handleKeyDown(
                 {
                     ArrowRight: handleIncrement(1),
@@ -90,5 +62,7 @@ export function useKeyNavigation<T extends HTMLElement = HTMLUListElement>({
                 { preventDefault: true, stopPropagation: true },
             ),
         },
+        activeElementId,
+        setActiveElementId,
     };
 }

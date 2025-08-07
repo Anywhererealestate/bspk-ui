@@ -1,10 +1,12 @@
 ul[data-bspk-utility='tab-list'] {
+    --item-flex-grow: 0;
+
     display: flex;
     flex-direction: row;
     list-style: none;
     width: fit-content;
-
-    --item-flex-grow: 0;
+    height: var(--height);
+    font: var(--font);
 
     &[data-width='fill'] {
         align-items: stretch;
@@ -29,6 +31,11 @@ ul[data-bspk-utility='tab-list'] {
         --icon-size: var(--spacing-sizing-06);
     }
 
+    &:has(:focus-visible) {
+        outline: 2px solid var(--stroke-neutral-focus);
+        outline-offset: 2px;
+    }
+
     li {
         list-style: none;
         cursor: pointer;
@@ -37,33 +44,31 @@ ul[data-bspk-utility='tab-list'] {
         white-space: nowrap;
         outline: none;
         user-select: none;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: var(--spacing-sizing-02);
 
         &[aria-disabled] {
             cursor: not-allowed;
         }
 
-        [data-inner] {
-            height: var(--height);
+        span {
             display: flex;
             flex-direction: row;
             align-items: center;
             justify-content: center;
+            pointer-events: none;
+        }
 
-            span {
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                justify-content: center;
-            }
+        [data-label][style] {
+            justify-content: left;
+            max-width: 200px !important;
+        }
 
-            [data-label][style] {
-                justify-content: left;
-                max-width: 200px !important;
-            }
-
-            svg {
-                width: var(--icon-size);
-            }
+        svg {
+            width: var(--icon-size);
         }
     }
 }

@@ -1,4 +1,4 @@
-import { TabList, TabListProps } from '-/components/TabList';
+import { TabList, TabListProps, TabOption } from '-/components/TabList';
 import { useOptionIconsInvalid } from '-/hooks/useOptionIconsInvalid';
 import { ElementProps } from '-/types/common';
 
@@ -6,7 +6,7 @@ import './tab-group.scss';
 
 export type TabGroupSize = 'large' | 'medium' | 'small';
 
-export type TabGroupProps = TabListProps & {
+export type TabGroupProps = Omit<TabListProps<TabOption>, 'iconsOnly'> & {
     /**
      * When width is 'hug' this determines if the trailing underline should be showing. When width is 'fill' this
      * property isn't applicable.

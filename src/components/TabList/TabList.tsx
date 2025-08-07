@@ -166,15 +166,12 @@ function TabList({
 
     useOptionIconsInvalid(options);
 
-    const [elements, setElements] = useState<HTMLElement[] | null>(null);
-
     const value = useMemo(() => {
         const option = options.find((opt) => opt.value === valueProp);
         return option ? option.value : options[0]?.value;
     }, [options, valueProp]);
 
-    const { keyNavProps } = useKeyNavigation({
-        elements: elements?.filter((el) => !el.ariaDisabled) || [],
+    const { keyNavigationProps, activeElementId, setElements, setActiveElementId } = useKeyNavigation({
         onSelect: (nextActiveId) => {
             onChange(options.find((opt) => opt.id === nextActiveId)?.value || '');
         },
@@ -186,7 +183,7 @@ function TabList({
     return (
         <ul
             {...containerProps}
-            {...keyNavProps}
+            {...keyNavigationProps}
             aria-label={label}
             data-bspk-utility="tab-list"
             data-hug={width === 'hug' || undefined}
@@ -194,7 +191,12 @@ function TabList({
             data-width={width}
             id={id}
             ref={(node) => {
-                if (node && !elements) setElements(Array.from(node.children) as HTMLElement[]);
+                if (node) {
+                    const newElements = (Array.from(node.children) as HTMLElement[]).filter(
+                        (el) => !el.hasAttribute('aria-disabled'),
+                    );
+                    setElements(newElements);
+                }
             }}
             role="tablist"
         >
@@ -209,17 +211,21 @@ function TabList({
                                 aria-disabled={item.disabled || undefined}
                                 aria-selected={isSelected || undefined}
                                 data-value={item.value}
+                                data-active={activeElementId === item.id || undefined}
                                 id={item.id}
                                 role="tab"
                                 tabIndex={isSelected ? 0 : -1}
+                                onClick={(e) => {
+                                    setTimeout(() => (e.target as HTMLElement).focus(), 100);
+                                    setActiveElementId(item.id);
+                                    if (!item.disabled) onChange(item.value);
+                                }}
                             >
-                                <span data-inner>
-                                    {icon && <span aria-hidden="true">{icon}</span>}
-                                    {!iconsOnly && <Truncated data-label>{item.label}</Truncated>}
-                                    {item.badge && !item.disabled && (
-                                        <Badge count={item.badge} size={TAB_BADGE_SIZES[size]} />
-                                    )}
-                                </span>
+                                {icon && <span aria-hidden="true">{icon}</span>}
+                                {!iconsOnly && <Truncated data-label>{item.label}</Truncated>}
+                                {item.badge && !item.disabled && (
+                                    <Badge count={item.badge} size={TAB_BADGE_SIZES[size]} />
+                                )}
                             </li>
                         </Tooltip>
                     </Fragment>
