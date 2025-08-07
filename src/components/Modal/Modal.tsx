@@ -183,7 +183,7 @@ function Modal({
             showScrim={true}
         >
             <div data-bspk="modal" ref={(node) => innerRef?.(node)} style={{ visibility: 'hidden' }}>
-                <header>
+                <div data-modal-header>
                     <Txt as="div" data-dialog-title variant="heading-h4">
                         {header}
                     </Txt>
@@ -194,14 +194,14 @@ function Modal({
                         onClick={dialogProps.onClose}
                         variant="tertiary"
                     />
-                </header>
-                <main>{children}</main>
+                </div>
+                <div data-modal-main>{children}</div>
                 {Array.isArray(buttons) && buttons.length > 0 && (
-                    <footer data-button-format={buttonFormat}>
+                    <div data-button-format={buttonFormat} data-modal-footer>
                         {buttons.map((buttonProps, idx) => (
                             <Button key={idx} {...buttonProps} size={isMobile ? 'medium' : 'small'} />
                         ))}
-                    </footer>
+                    </div>
                 )}
             </div>
         </Dialog>
