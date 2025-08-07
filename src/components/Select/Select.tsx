@@ -127,7 +127,6 @@ function Select({
         <Combobox
             description={description || ''}
             disabled={disabled}
-            header={placeholder || label}
             id={id}
             isMulti={isMulti}
             itemDisplayCount={itemDisplayCount}
