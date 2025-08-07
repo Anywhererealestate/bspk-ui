@@ -9,7 +9,7 @@
         padding: var(--spacing-sizing-04);
     }
 
-    > header {
+    > [data-modal-header] {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
@@ -17,13 +17,13 @@
         gap: var(--spacing-sizing-04);
     }
 
-    main {
+    [data-modal-main] {
         flex: 1;
         overflow-y: auto;
         max-height: fit-content;
     }
 
-    > footer {
+    > [data-modal-footer] {
         display: flex;
         flex-direction: row-reverse;
         justify-content: flex-start;
