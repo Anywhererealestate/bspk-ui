@@ -25,7 +25,7 @@ export type ComboboxItemProps = CommonProps<'disabled'> &
         value: string;
     };
 
-export type ComboboxProps<Item extends ComboboxItemProps = ComboboxItemProps> = CommonProps<'data-bspk-owner' | 'id'> &
+export type ComboboxProps<Item extends ComboboxItemProps = ComboboxItemProps> = CommonProps<'id' | 'owner'> &
     Pick<MenuProps, 'itemDisplayCount'> &
     Pick<ModalProps, 'description' | 'header'> &
     Pick<UseComboboxProps, 'disabled' | 'errorMessage' | 'invalid' | 'offsetOptions' | 'readOnly' | 'refWidth'> & {
@@ -118,6 +118,7 @@ function Combobox<Item extends ComboboxItemProps>({
     offsetOptions = 4,
     header,
     description,
+    owner,
     ...props
 }: ElementProps<ComboboxProps<Item>, 'div'>) {
     const menuId = useId(idProp);
@@ -153,11 +154,11 @@ function Combobox<Item extends ComboboxItemProps>({
             {children({ toggleProps, setReference: elements.setReference })}
             {isMobile ? (
                 <Modal
-                    data-bspk-owner={props['data-bspk-owner'] || undefined}
                     description={description}
                     header={header}
                     onClose={closeMenu}
                     open={isOpen}
+                    owner={owner || undefined}
                 >
                     <div
                         aria-errormessage={errorMessage || undefined}

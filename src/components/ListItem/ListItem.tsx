@@ -21,7 +21,7 @@ export const TRAILING_COMPONENTS = Object.freeze([
 ]);
 
 export type ListItemProps<As extends ElementType = 'div', T = HTMLElement> = CommonProps<
-    'active' | 'disabled' | 'readOnly'
+    'active' | 'disabled' | 'owner' | 'readOnly'
 > & {
     /**
      * The element type to render as.
@@ -117,6 +117,7 @@ function ListItem<As extends ElementType = 'div', T = HTMLElement>({
     innerRef,
     selected = false,
     role: roleProp,
+    owner,
     ...props
 }: ElementProps<ListItemProps<As, T>, As>) {
     let As: ElementType = as || 'div';
@@ -152,6 +153,7 @@ function ListItem<As extends ElementType = 'div', T = HTMLElement>({
             data-action={actionable || undefined}
             data-active={active || undefined}
             data-bspk="list-item"
+            data-bspk-owner={owner || undefined}
             data-component={leading?.name || undefined}
             data-readonly={readOnly || undefined}
             ref={innerRef}

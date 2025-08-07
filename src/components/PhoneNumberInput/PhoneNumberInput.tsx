@@ -174,11 +174,11 @@ function PhoneNumberInput({
                 <>
                     {isMobile ? (
                         <Modal
-                            data-bspk-owner="phone-number-input"
                             description="select a country code for your phone number"
                             header="Country Code"
                             onClose={closeMenu}
                             open={showCountryCodeSelectMenu}
+                            owner="phone-number-input"
                         >
                             {countryCodeSelectOptions.map((option, index) => (
                                 <ListItem
@@ -200,7 +200,6 @@ function PhoneNumberInput({
                     ) : (
                         <Listbox
                             activeIndex={activeIndex}
-                            data-bspk-owner="phone-number-input"
                             innerRef={elements.setFloating}
                             itemDisplayCount={countryCodeSelectOptions.length}
                             items={countryCodeSelectOptions}
@@ -209,6 +208,7 @@ function PhoneNumberInput({
                                 closeMenu();
                                 setCountryCode(next[0] as SupportedCountryCode);
                             }}
+                            owner="phone-number-input"
                             selectedValues={[countryCode]}
                             {...menuProps}
                         />

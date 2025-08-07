@@ -135,7 +135,6 @@ function TimeInput({
             </div>
             {!!open && (
                 <Menu
-                    data-bspk-owner="time-input"
                     floating
                     innerRef={(node) => {
                         if (!node) return;
@@ -146,6 +145,7 @@ function TimeInput({
                     onOutsideClick={() => {
                         setOpen(false);
                     }}
+                    owner="time-input"
                     style={{ ...floatingStyles }}
                 >
                     <div data-scroll-values>

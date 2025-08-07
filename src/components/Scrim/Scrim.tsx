@@ -2,7 +2,7 @@ import { CommonProps } from '-/types/common';
 
 import './scrim.scss';
 
-export type ScrimProps = CommonProps<'data-bspk-owner'> & {
+export type ScrimProps = CommonProps<'owner'> & {
     /**
      * Whether the Scrim should be visible.
      *

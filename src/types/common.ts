@@ -127,8 +127,10 @@ export type CommonPropsLibrary = {
      * This is a utility attribute used to identify the owning component of another component.
      *
      * This is used to identify the component in the UI library and is not intended for public use.
+     *
+     * @utility
      */
-    'data-bspk-owner'?: string;
+    owner?: string;
 };
 
 export type CommonProps<K extends keyof CommonPropsLibrary> = Pick<CommonPropsLibrary, K>;

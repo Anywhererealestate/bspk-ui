@@ -29,7 +29,7 @@ function boundCount(itemLength = 0, itemDisplayCount = 0) {
     );
 }
 
-export type MenuProps = CommonProps<'data-bspk-owner' | 'id'> & {
+export type MenuProps = CommonProps<'id' | 'owner'> & {
     /** A ref to the inner div element. */
     innerRef?: SetRef<HTMLDivElement>;
     /**
@@ -107,6 +107,7 @@ function Menu({
     itemCount,
     floating = true,
     onOutsideClick,
+    owner,
     ...props
 }: ElementProps<MenuProps, 'div'>) {
     const menuId = useId(idProp);
@@ -129,6 +130,7 @@ function Menu({
                 role="listbox"
                 {...props}
                 data-bspk="menu"
+                data-bspk-owner={owner || undefined}
                 data-floating={floating || undefined}
                 id={menuId}
                 ref={(node) => {
