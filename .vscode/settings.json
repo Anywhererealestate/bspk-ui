@@ -15,10 +15,7 @@
         "typescriptreact",
     ],
     "cssVariables.lookupFiles": [
-        "**/*.css",
-        "**/*.scss",
-        "**/*.sass",
-        "**/*.less",
+        "**/styles/**.scss",
         "node_modules/@bspk/styles/anywhere.css"
     ]
 }

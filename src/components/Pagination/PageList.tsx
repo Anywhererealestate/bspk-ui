@@ -9,10 +9,10 @@ export function PageList({ numPages, onChange, value }: PageListProps) {
         return (
             <Button
                 aria-label={`Page ${page}`}
-                data-bspk-owner="pagination"
                 key={page}
                 label={String(page)}
                 onClick={() => onChange(page)}
+                owner="pagination"
                 size="small"
                 variant={value === page ? 'primary' : 'tertiary'}
             />

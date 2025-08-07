@@ -8,7 +8,7 @@ import { CommonProps, ElementProps, SetRef } from '-/types/common';
 
 import './dialog.scss';
 
-export type DialogProps = CommonProps<'data-bspk-owner' | 'id'> & {
+export type DialogProps = CommonProps<'id' | 'owner'> & {
     /** The content of the dialog. */
     children?: ReactNode;
     /** A ref to the dialog element. */
@@ -78,6 +78,7 @@ function Dialog({
     placement = 'center',
     showScrim = true,
     id: idProp,
+    owner,
     ...containerProps
 }: ElementProps<DialogProps, 'div'>) {
     const id = useId(idProp);
@@ -137,6 +138,7 @@ function Dialog({
                 <div
                     {...containerProps}
                     data-bspk="dialog"
+                    data-bspk-owner={owner || undefined}
                     data-placement={placement}
                     data-visibility={visibility}
                     id={id}
@@ -161,10 +163,10 @@ function Dialog({
                     </FocusTrap>
                 </div>
                 <Scrim
-                    data-bspk-owner="dialog"
                     onClick={() => {
                         onClose();
                     }}
+                    owner="dialog"
                     visible={showScrim !== false}
                 />
             </Portal>

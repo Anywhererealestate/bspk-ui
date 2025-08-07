@@ -9,7 +9,7 @@ import './button.scss';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'tertiary';
 
-export type ButtonProps<As extends ElementType = 'button'> = CommonProps<'disabled'> & {
+export type ButtonProps<As extends ElementType = 'button'> = CommonProps<'disabled' | 'owner'> & {
     /**
      * The label of the button.
      *
@@ -112,6 +112,7 @@ function Button<As extends ElementType = 'button'>(props: ElementProps<ButtonPro
         toolTip: toolTipProp,
         children,
         innerRef,
+        owner,
         ...containerProps
     } = props;
     const label = typeof children === 'string' ? children : labelProp || '';
@@ -129,6 +130,7 @@ function Button<As extends ElementType = 'button'>(props: ElementProps<ButtonPro
             {...containerProps}
             aria-label={label}
             data-bspk="button"
+            data-bspk-owner={owner || undefined}
             data-destructive={destructive || undefined}
             data-size={size}
             data-touch-target-parent

@@ -144,7 +144,6 @@ function SearchBar({
                         containerRefLocal.current = node;
                         elements.setReference(node);
                     }}
-                    data-bspk-owner="search-bar"
                     disabled={disabled}
                     id={id}
                     inputRef={(node) => {
@@ -158,6 +157,7 @@ function SearchBar({
                         if (str.length) openMenu();
                     }}
                     onClick={onClick}
+                    owner="search-bar"
                     {...triggerProps}
                     onKeyDownCapture={(event) => {
                         const handled = onKeyDownCapture(event);
