@@ -70,12 +70,12 @@ function Pagination({ numPages, value, onChange }: PaginationProps) {
     return (
         <span data-bspk="pagination">
             <Button
-                data-bspk-owner="pagination"
                 disabled={isOutOfBoundsValue || isOneOrFewerPages || isFirstPage}
                 icon={<SvgIcon name="ChevronLeft" />}
                 iconOnly
                 label={isFirstPage ? 'First page' : `Previous page (${value - 1})`}
                 onClick={previousPage}
+                owner="pagination"
                 size="small"
                 variant="tertiary"
             />
@@ -87,12 +87,12 @@ function Pagination({ numPages, value, onChange }: PaginationProps) {
             )}
 
             <Button
-                data-bspk-owner="pagination"
                 disabled={isOutOfBoundsValue || isOneOrFewerPages || isLastPage}
                 icon={<SvgIcon name="ChevronRight" />}
                 iconOnly
                 label={isLastPage ? 'Last page' : `Next page (${value + 1})`}
                 onClick={nextPage}
+                owner="pagination"
                 size="small"
                 variant="tertiary"
             />

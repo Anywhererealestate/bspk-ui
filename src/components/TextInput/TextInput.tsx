@@ -14,7 +14,7 @@ export const DEFAULT = {
 } as const;
 
 export type TextInputProps = CommonProps<
-    'aria-label' | 'disabled' | 'id' | 'name' | 'readOnly' | 'required' | 'size' | 'value'
+    'aria-label' | 'disabled' | 'id' | 'name' | 'owner' | 'readOnly' | 'required' | 'size' | 'value'
 > &
     InvalidPropsLibrary & {
         /**
@@ -100,6 +100,7 @@ function TextInput({
     containerRef,
     errorMessage,
     showClearButton = true,
+    owner,
     ...otherProps
 }: ElementProps<TextInputProps, 'div'>) {
     const id = useId(idProp);
@@ -109,6 +110,7 @@ function TextInput({
     return (
         <div
             data-bspk="text-input"
+            data-bspk-owner={owner || undefined}
             data-clear-hidden={showClearButton === false || undefined}
             data-disabled={disabled || undefined}
             data-empty={!value.toString().length || undefined}

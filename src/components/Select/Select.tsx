@@ -167,9 +167,9 @@ function Select({
                     >
                         <ListItem
                             as="span"
-                            data-bspk-owner="select"
                             data-placeholder={!selectedItem || undefined}
                             label={selectedItem?.label || placeholder}
+                            owner="select"
                             readOnly
                         />
                         <span data-icon>
