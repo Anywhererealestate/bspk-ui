@@ -99,7 +99,7 @@ export type SelectProps<T extends SelectOption = SelectOption> = CommonProps<'na
  *     }
  *
  * @name Select
- * @phase UXReview
+ * @phase Dev
  */
 function Select({
     options = [],
@@ -137,13 +137,12 @@ function Select({
             description={description || ''}
             disabled={disabled}
             errorMessage={errorMessage}
-            header={placeholder || label}
             id={id}
             invalid={invalid}
             isMulti={isMulti}
             itemDisplayCount={itemDisplayCount}
             items={options}
-            label={label}
+            label={placeholder || label}
             onChange={onChange}
             readOnly={readOnly}
             selectAll={selectAll}
@@ -152,12 +151,12 @@ function Select({
             {({ setReference, toggleProps }) => (
                 <>
                     <input defaultValue={selected} name={name} type="hidden" />
-                    <button
+                    <span
+                        aria-disabled={disabled || readOnly}
                         aria-label={label || selectedItem?.label || placeholder}
                         data-bspk="select"
                         data-invalid={invalid || undefined}
                         data-size={size}
-                        disabled={disabled || readOnly}
                         id={id}
                         ref={(node) => {
                             if (node) setReference(node);
@@ -166,7 +165,7 @@ function Select({
                         {...toggleProps}
                     >
                         <ListItem
-                            as="span"
+                            data-bspk-owner="select"
                             data-placeholder={!selectedItem || undefined}
                             label={selectedItem?.label || placeholder}
                             owner="select"
@@ -175,7 +174,7 @@ function Select({
                         <span data-icon>
                             <SvgChevronRight />
                         </span>
-                    </button>
+                    </span>
                 </>
             )}
         </Combobox>

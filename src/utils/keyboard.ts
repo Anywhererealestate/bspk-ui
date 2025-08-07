@@ -242,7 +242,7 @@ export type KeyboardEventCode =
     | 'Space'
     | 'Tab';
 
-export const EVENT_KEY: Record<KeyboardEventKey, KeyboardEventKey> = Object.freeze({
+export const EVENT_KEY: Record<KeyboardEventKey, KeyboardEventKey> = {
     Backspace: 'Backspace',
     Tab: 'Tab',
     Enter: 'Enter',
@@ -377,6 +377,6 @@ export const EVENT_KEY: Record<KeyboardEventKey, KeyboardEventKey> = Object.free
     '<': '<',
     '>': '>',
     '?': '?',
-});
+} as const;
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

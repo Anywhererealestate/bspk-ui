@@ -1,26 +1,19 @@
-body[data-bspk] a[data-bspk='list-item'] {
-    color: unset !important;
-    text-decoration: !important;
-    font: !important;
-}
-
 [data-bspk='list-item'] {
-    display: block;
+    display: flex;
     width: 100%;
-    padding: 0 var(--spacing-sizing-02);
+    user-select: none;
+    color: var(--foreground-neutral-on-surface);
+    height: 100%;
+    overflow: hidden;
+    min-height: var(--list-item-height);
+    flex-direction: row;
+    gap: var(--spacing-sizing-03);
+    padding: var(--spacing-sizing-02);
+    justify-items: stretch;
     background: unset;
     border: unset;
     margin: unset;
     text-decoration: unset;
-    user-select: none;
-    color: var(--foreground-neutral-on-surface);
-
-    &:is(a),
-    &:is(button),
-    &[onclick],
-    &[role='button'] {
-        cursor: pointer;
-    }
 
     [data-pseudo='focus'] &,
     &:focus-visible,
@@ -50,18 +43,6 @@ body[data-bspk] a[data-bspk='list-item'] {
         [data-sub-text] {
             color: var(--foreground-neutral-disabled-on-surface);
         }
-    }
-
-    [data-inner] {
-        height: 100%;
-        width: 100%;
-        overflow: hidden;
-        min-height: var(--list-item-height);
-        display: flex;
-        flex-direction: row;
-        gap: var(--spacing-sizing-03);
-        padding: var(--spacing-sizing-02) 0;
-        justify-items: stretch;
     }
 
     [data-leading],
@@ -106,7 +87,7 @@ body[data-bspk] a[data-bspk='list-item'] {
         pointer-events: none;
     }
 
-    [data-component='Img'] > img {
+    img {
         height: 36px;
         width: 36px;
         max-width: unset;

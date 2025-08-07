@@ -23,13 +23,18 @@ export type RadioOptionProps = InvalidPropsLibrary &
  * @name RadioOption
  * @phase Utility
  */
-function RadioOption({ label: labelProp, description, ...checkboxProps }: RadioOptionProps) {
+function RadioOption({ label: labelProp, description, ...radioProps }: RadioOptionProps) {
     const label = labelProp || description;
     const ariaLabel = description ? `${labelProp} - ${description}` : labelProp;
     return (
         label && (
-            <ToggleOption data-bspk="radio-option" description={description} label={label}>
-                <Radio {...checkboxProps} aria-label={ariaLabel} />
+            <ToggleOption
+                data-bspk="radio-option"
+                description={description}
+                disabled={radioProps.disabled}
+                label={label}
+            >
+                <Radio {...radioProps} aria-label={ariaLabel} />
             </ToggleOption>
         )
     );

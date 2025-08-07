@@ -91,7 +91,7 @@ export type AvatarProps = {
  *                 image="/profile.jpg"
  *                 initials="AR"
  *                 name="Andre Giant"
- *                 showTooltip={true}
+ *                 showTooltip
  *                 size="large"
  *             />
  *         );
