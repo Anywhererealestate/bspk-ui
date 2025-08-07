@@ -46,7 +46,7 @@ function useDialogHeight() {
 
 export type ModalCallToAction = Pick<ButtonProps, 'destructive'> & Pick<CallToActionButton, 'label' | 'onClick'>;
 
-export type ModalProps = Pick<DialogProps, 'id' | 'innerRef' | 'onClose' | 'open'> & {
+export type ModalProps = Pick<DialogProps, 'data-bspk-owner' | 'id' | 'innerRef' | 'onClose' | 'open'> & {
     /**
      * Modal header.
      *
@@ -183,7 +183,7 @@ function Modal({
             showScrim={true}
         >
             <div data-bspk="modal" ref={(node) => innerRef?.(node)} style={{ visibility: 'hidden' }}>
-                <div data-modal-header>
+                <header>
                     <Txt as="div" data-dialog-title variant="heading-h4">
                         {header}
                     </Txt>
@@ -194,14 +194,14 @@ function Modal({
                         onClick={dialogProps.onClose}
                         variant="tertiary"
                     />
-                </div>
-                <div data-modal-main>{children}</div>
+                </header>
+                <main>{children}</main>
                 {Array.isArray(buttons) && buttons.length > 0 && (
-                    <div data-button-format={buttonFormat} data-modal-footer>
+                    <footer data-button-format={buttonFormat}>
                         {buttons.map((buttonProps, idx) => (
                             <Button key={idx} {...buttonProps} size={isMobile ? 'medium' : 'small'} />
                         ))}
-                    </div>
+                    </footer>
                 )}
             </div>
         </Dialog>
