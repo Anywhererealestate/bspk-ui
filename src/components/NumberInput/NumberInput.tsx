@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import { IncrementButton } from './IncrementButton';
 import { useId } from '-/hooks/useId';
-import { CommonProps, InvalidPropsLibrary } from '-/types/common';
+import { CommonProps, FormFieldControlProps } from '-/types/common';
 
 import './number-input.scss';
 
@@ -22,8 +22,10 @@ function isNumber(value: unknown, fallbackValue: number | undefined = undefined)
     return isNaN(num) ? fallbackValue : num;
 }
 
-export type NumberInputProps = CommonProps<'aria-label' | 'disabled' | 'id' | 'name' | 'readOnly' | 'size'> &
-    InvalidPropsLibrary & {
+export type NumberInputProps = CommonProps<
+    'aria-label' | 'disabled' | 'id' | 'invalid' | 'name' | 'readOnly' | 'size'
+> &
+    FormFieldControlProps & {
         /** The value of the control. */
         value?: number | string;
         /**
@@ -91,8 +93,8 @@ function NumberInput({
     'aria-label': ariaLabel,
     max: maxProp,
     min: minProp,
-    errorMessage,
     invalid,
+    ...inputElementProps
 }: NumberInputProps) {
     const centered = align !== 'left';
     const inputId = useId(inputIdProp);
@@ -138,7 +140,7 @@ function NumberInput({
                 />
             )}
             <input
-                aria-errormessage={errorMessage}
+                {...inputElementProps}
                 aria-invalid={invalid}
                 aria-label={ariaLabel}
                 autoComplete="off"

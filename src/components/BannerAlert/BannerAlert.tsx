@@ -85,7 +85,7 @@ function BannerAlert({
     elevated = false,
 }: ElementProps<BannerAlertProps, 'div'>) {
     return (
-        <article data-bspk="banner-alert" data-elevated={elevated || undefined} data-variant={variant}>
+        <div data-bspk="banner-alert" data-elevated={elevated || undefined} data-variant={variant} role="alert">
             <div data-icon-bar>
                 {variant === 'error' && <SvgErrorFill />}
                 {variant === 'informational' && <SvgInfoFill />}
@@ -110,7 +110,7 @@ function BannerAlert({
                     )}
                 </div>
             </div>
-        </article>
+        </div>
     );
 }
 

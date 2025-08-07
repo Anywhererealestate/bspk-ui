@@ -2,7 +2,7 @@ import { SvgCancel } from '@bspk/icons/Cancel';
 import { ChangeEvent, HTMLInputAutoCompleteAttribute, HTMLInputTypeAttribute, ReactNode } from 'react';
 
 import { useId } from '-/hooks/useId';
-import { ElementProps, CommonProps, InvalidPropsLibrary, SetRef } from '-/types/common';
+import { ElementProps, CommonProps, FormFieldControlProps, SetRef } from '-/types/common';
 
 import './text-input.scss';
 
@@ -14,9 +14,9 @@ export const DEFAULT = {
 } as const;
 
 export type TextInputProps = CommonProps<
-    'aria-label' | 'disabled' | 'id' | 'name' | 'owner' | 'readOnly' | 'required' | 'size' | 'value'
+    'aria-label' | 'disabled' | 'id' | 'invalid' | 'name' | 'owner' | 'readOnly' | 'required' | 'size' | 'value'
 > &
-    InvalidPropsLibrary & {
+    FormFieldControlProps & {
         /**
          * Callback when the value of the field changes.
          *
@@ -98,9 +98,10 @@ function TextInput({
     disabled,
     autoComplete = DEFAULT.autoComplete,
     containerRef,
-    errorMessage,
     showClearButton = true,
     owner,
+    'aria-describedby': ariaDescribedBy,
+    'aria-errormessage': ariaErrorMessage,
     ...otherProps
 }: ElementProps<TextInputProps, 'div'>) {
     const id = useId(idProp);
@@ -123,7 +124,8 @@ function TextInput({
             {leading && <span data-leading>{leading}</span>}
 
             <input
-                aria-errormessage={errorMessage || undefined}
+                aria-describedby={ariaDescribedBy || undefined}
+                aria-errormessage={ariaErrorMessage || undefined}
                 aria-invalid={invalid || undefined}
                 aria-label={ariaLabel}
                 autoComplete={autoComplete}

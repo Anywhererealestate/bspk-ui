@@ -2,9 +2,12 @@ import { ReactElement } from 'react';
 
 import './toggle-option.scss';
 
+export type ToggleOptionControlProps<T extends { 'aria-label'?: string }> = Omit<T, 'aria-label'> &
+    Pick<ToggleOptionProps, 'description' | 'label'>;
+
 export type ToggleOptionProps = {
     /**
-     * The label of the option. Also used as the aria-label of the checkbox.
+     * The label of the option. Also used as the aria-label of the control.
      *
      * @required
      */

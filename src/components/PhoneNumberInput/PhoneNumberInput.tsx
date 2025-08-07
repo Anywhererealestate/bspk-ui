@@ -9,7 +9,7 @@ import { Modal } from '-/components/Modal';
 import { TextInput, TextInputProps } from '-/components/TextInput';
 import { useCombobox } from '-/hooks/useCombobox';
 import { useUIContext } from '-/hooks/useUIContext';
-import { InvalidPropsLibrary } from '-/types/common';
+import { FormFieldControlProps } from '-/types/common';
 import { countryCodeData, countryCodes, SupportedCountryCode } from '-/utils/countryCodes';
 import { guessUserCountryCode } from '-/utils/guessUserCountryCode';
 
@@ -36,13 +36,16 @@ const useCountryCodeSelectOptions = (initialCountryCode?: SupportedCountryCode) 
     }, []);
 };
 
-export type PhoneNumberInputProps = InvalidPropsLibrary &
+export type PhoneNumberInputProps = FormFieldControlProps &
     Pick<
         TextInputProps,
+        | 'aria-describedby'
+        | 'aria-errormessage'
         | 'aria-label'
         | 'autoComplete'
         | 'disabled'
         | 'inputRef'
+        | 'invalid'
         | 'name'
         | 'placeholder'
         | 'readOnly'
@@ -83,13 +86,11 @@ export type PhoneNumberInputProps = InvalidPropsLibrary &
  * @phase QA
  */
 function PhoneNumberInput({
-    errorMessage,
     value,
     onChange,
     disableFormatting,
     initialCountryCode,
     disabled,
-    invalid,
     readOnly,
     ...inputProps
 }: PhoneNumberInputProps) {
@@ -104,9 +105,7 @@ function PhoneNumberInput({
     } = useCombobox({
         placement: 'bottom',
         disabled,
-        invalid,
         readOnly,
-        errorMessage,
     });
 
     const { countryCodeSelectOptions, defaultCountryCode } = useCountryCodeSelectOptions(initialCountryCode);
@@ -147,12 +146,8 @@ function PhoneNumberInput({
     return (
         <div data-bspk="phone-number-input" ref={setRef}>
             <TextInput
-                onChange={handleChange}
-                value={formattedValue}
                 {...inputProps}
                 disabled={disabled}
-                errorMessage={errorMessage}
-                invalid={invalid}
                 leading={
                     <div style={{ display: 'flex', alignItems: 'center' }}>
                         <button
@@ -168,7 +163,9 @@ function PhoneNumberInput({
                         <span aria-label="Country code" style={{ cursor: 'default' }}>{`+${callingCode}`}</span>
                     </div>
                 }
+                onChange={handleChange}
                 readOnly={readOnly}
+                value={formattedValue}
             />
             {showCountryCodeSelectMenu && (
                 <>

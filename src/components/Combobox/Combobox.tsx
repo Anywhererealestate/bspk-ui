@@ -28,7 +28,7 @@ export type ComboboxItemProps = CommonProps<'disabled'> &
 export type ComboboxProps<Item extends ComboboxItemProps = ComboboxItemProps> = CommonProps<'id' | 'owner'> &
     Pick<MenuProps, 'itemDisplayCount'> &
     Pick<ModalProps, 'description' | 'header'> &
-    Pick<UseComboboxProps, 'disabled' | 'errorMessage' | 'invalid' | 'offsetOptions' | 'readOnly' | 'refWidth'> & {
+    Pick<UseComboboxProps, 'disabled' | 'offsetOptions' | 'readOnly' | 'refWidth'> & {
         /**
          * Content to display in the listbox.
          *
@@ -111,9 +111,7 @@ function Combobox<Item extends ComboboxItemProps>({
     isMulti,
     selectAll: selectAllProp,
     children,
-    invalid,
     readOnly,
-    errorMessage,
     refWidth,
     offsetOptions = 4,
     header,
@@ -129,9 +127,7 @@ function Combobox<Item extends ComboboxItemProps>({
         refWidth,
         placement: 'bottom-start',
         disabled,
-        invalid,
         readOnly,
-        errorMessage,
         offsetOptions,
     });
 
@@ -161,8 +157,6 @@ function Combobox<Item extends ComboboxItemProps>({
                     owner={owner || undefined}
                 >
                     <div
-                        aria-errormessage={errorMessage || undefined}
-                        aria-invalid={invalid || undefined}
                         aria-multiselectable={isMulti || undefined}
                         id={menuId}
                         role="listbox"
@@ -186,8 +180,6 @@ function Combobox<Item extends ComboboxItemProps>({
                 </Modal>
             ) : (
                 <Menu
-                    aria-errormessage={errorMessage || undefined}
-                    aria-invalid={invalid || undefined}
                     aria-multiselectable={isMulti || undefined}
                     data-bspk="listbox"
                     data-disabled={disabled || undefined}

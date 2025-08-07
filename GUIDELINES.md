@@ -11,7 +11,6 @@ export type CheckboxOptionProps = Pick<
     CheckboxProps,
     'checked' | 'disabled' | 'indeterminate' | 'name' | 'onChange' | 'readOnly' | 'value'
 > &
-    InvalidPropsLibrary &
     Pick<ToggleOptionProps, 'description' | 'label'>;
 ```
 

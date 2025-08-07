@@ -41,7 +41,6 @@ export type TextareaFieldProps = FormFieldWrapProps<TextareaProps> & {
  */
 function TextareaField({
     label,
-    errorMessage,
     helperText,
     controlId,
     required,
@@ -55,7 +54,6 @@ function TextareaField({
         <FormField
             controlId={controlId}
             data-bspk="textarea-field"
-            errorMessage={errorMessage}
             helperText={helperText}
             invalid={invalid}
             label={label}
@@ -79,7 +77,6 @@ function TextareaField({
                     //
                     {...inputProps}
                     {...fieldProps}
-                    errorMessage={errorMessage}
                     invalid={invalid}
                 />
             )}
