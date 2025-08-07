@@ -11,6 +11,7 @@ import { useId } from '-/hooks/useId';
 import { CommonProps } from '-/types/common';
 
 import './breadcrumb.scss';
+import '-/components/ListItem/list-item.scss';
 
 export type BreadcrumbItem = {
     /**
@@ -105,7 +106,7 @@ function Breadcrumb({ id: propId, items: itemsProp }: BreadcrumbProps) {
             <ol>
                 <li>
                     <Link href={items[0].href} label={items[0].label} />
-                    <SvgChevronRight aria-hidden={true} />
+                    <SvgChevronRight aria-hidden />
                 </li>
                 {items.length > 5 ? (
                     <li>
@@ -124,6 +125,7 @@ function Breadcrumb({ id: propId, items: itemsProp }: BreadcrumbProps) {
                                 innerRef={elements.setFloating}
                                 itemDisplayCount={false}
                                 {...menuProps}
+                                role="navigation"
                                 style={{
                                     ...menuProps.style,
                                     width: '200px',
@@ -139,13 +141,13 @@ function Breadcrumb({ id: propId, items: itemsProp }: BreadcrumbProps) {
                                 ))}
                             </Menu>
                         )}
-                        <SvgChevronRight aria-hidden={true} />
+                        <SvgChevronRight aria-hidden />
                     </li>
                 ) : (
                     middleItems.map((item, idx) => (
                         <li key={`Breadcrumb-${idx}`}>
                             <Link {...item} />
-                            <SvgChevronRight aria-hidden={true} />
+                            <SvgChevronRight aria-hidden />
                         </li>
                     ))
                 )}

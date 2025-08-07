@@ -11,12 +11,12 @@ export type RadioOptionProps = ToggleOptionControlProps<RadioProps>;
  * @name RadioOption
  * @phase Utility
  */
-function RadioOption({ label: labelProp, description, ...radioProps }: RadioOptionProps) {
+function RadioOption({ label: labelProp, description, disabled, ...radioProps }: RadioOptionProps) {
     const label = labelProp || description;
     const ariaLabel = description ? `${labelProp} - ${description}` : labelProp;
     return (
         label && (
-            <ToggleOption data-bspk="radio-option" description={description} label={label}>
+            <ToggleOption data-bspk="radio-option" description={description} disabled={disabled} label={label}>
                 <Radio {...radioProps} aria-label={ariaLabel} />
             </ToggleOption>
         )

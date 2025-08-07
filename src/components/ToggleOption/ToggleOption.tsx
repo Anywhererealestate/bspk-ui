@@ -29,9 +29,9 @@ export type ToggleOptionProps = {
  * @name ToggleOption
  * @phase Utility
  */
-function ToggleOption({ label, description, children }: ToggleOptionProps) {
+function ToggleOption({ label, description, children, disabled }: ToggleOptionProps) {
     return (
-        <label data-bspk="toggle-option">
+        <label aria-disabled={!!disabled || undefined} data-bspk="toggle-option">
             <span data-control>{children}</span>
             <span data-label>{label}</span>
             {description && <span data-description>{description}</span>}

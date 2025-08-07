@@ -31,12 +31,12 @@ export type CheckboxOptionProps = ToggleOptionControlProps<CheckboxProps>;
  * @name CheckboxOption
  * @phase UXReview
  */
-function CheckboxOption({ label: labelProp, description, ...checkboxProps }: CheckboxOptionProps) {
+function CheckboxOption({ label: labelProp, description, disabled, ...checkboxProps }: CheckboxOptionProps) {
     const label = labelProp || description;
     const ariaLabel = description ? `${labelProp} - ${description}` : labelProp;
     return (
         label && (
-            <ToggleOption data-bspk="checkbox-option" description={description} label={label}>
+            <ToggleOption data-bspk="checkbox-option" description={description} disabled={disabled} label={label}>
                 <Checkbox {...checkboxProps} aria-label={ariaLabel} />
             </ToggleOption>
         )

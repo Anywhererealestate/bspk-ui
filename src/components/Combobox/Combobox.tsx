@@ -27,7 +27,7 @@ export type ComboboxItemProps = CommonProps<'disabled'> &
 
 export type ComboboxProps<Item extends ComboboxItemProps = ComboboxItemProps> = CommonProps<'id' | 'owner'> &
     Pick<MenuProps, 'itemDisplayCount'> &
-    Pick<ModalProps, 'description' | 'header'> &
+    Pick<ModalProps, 'description'> &
     Pick<UseComboboxProps, 'disabled' | 'offsetOptions' | 'readOnly' | 'refWidth'> & {
         /**
          * Content to display in the listbox.
@@ -114,9 +114,9 @@ function Combobox<Item extends ComboboxItemProps>({
     readOnly,
     refWidth,
     offsetOptions = 4,
-    header,
     description,
     owner,
+    label,
     ...props
 }: ElementProps<ComboboxProps<Item>, 'div'>) {
     const menuId = useId(idProp);
@@ -151,7 +151,7 @@ function Combobox<Item extends ComboboxItemProps>({
             {isMobile ? (
                 <Modal
                     description={description}
-                    header={header}
+                    header={label}
                     onClose={closeMenu}
                     open={isOpen}
                     owner={owner || undefined}

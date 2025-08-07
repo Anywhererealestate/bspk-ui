@@ -127,7 +127,6 @@ function Menu({
     const menu = (
         <>
             <div
-                role="listbox"
                 {...props}
                 data-bspk="menu"
                 data-bspk-owner={owner || undefined}

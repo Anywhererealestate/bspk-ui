@@ -180,7 +180,7 @@ function Modal({
             aria-label={header}
             innerRef={setModalRefs}
             placement="center"
-            showScrim={true}
+            showScrim
         >
             <div data-bspk="modal" ref={(node) => innerRef?.(node)} style={{ visibility: 'hidden' }}>
                 <div data-modal-header>

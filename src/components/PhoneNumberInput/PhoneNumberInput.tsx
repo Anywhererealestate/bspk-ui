@@ -160,7 +160,7 @@ function PhoneNumberInput({
                             <SvgIcon name="KeyboardArrowDown" />
                         </button>
                         <Divider orientation="vertical" />
-                        <span aria-label="Country code" style={{ cursor: 'default' }}>{`+${callingCode}`}</span>
+                        <span style={{ cursor: 'default' }}>{`+${callingCode}`}</span>
                     </div>
                 }
                 onChange={handleChange}
@@ -183,6 +183,7 @@ function PhoneNumberInput({
                                     aria-selected={countryCode === option.value}
                                     data-bspk="country-code-select-option"
                                     id={`${option.value}-country-code-select-option`}
+                                    includeAriaLabel={false}
                                     key={option.value}
                                     label={option.label}
                                     leading={option.leading}
@@ -197,6 +198,8 @@ function PhoneNumberInput({
                     ) : (
                         <Listbox
                             activeIndex={activeIndex}
+                            data-bspk-owner="phone-number-input"
+                            includeAriaLabel={false}
                             innerRef={elements.setFloating}
                             itemDisplayCount={countryCodeSelectOptions.length}
                             items={countryCodeSelectOptions}

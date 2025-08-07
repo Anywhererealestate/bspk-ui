@@ -51,7 +51,8 @@ function useKeyDownNavigation(containerElement: HTMLElement, setShow: (show: boo
             return true;
         }
 
-        if (event.key !== EVENT_KEY.Enter && !event.key.startsWith('Arrow')) return false;
+        if (event.key !== EVENT_KEY.Enter && event.key !== EVENT_KEY[' '] && !event.key.startsWith('Arrow'))
+            return false;
 
         if (event.key.startsWith('Arrow') && !containerElement) {
             event.preventDefault();
@@ -64,7 +65,7 @@ function useKeyDownNavigation(containerElement: HTMLElement, setShow: (show: boo
 
         event.preventDefault();
 
-        if (event.key === EVENT_KEY.Enter && activeIndex !== -1) {
+        if ((event.key === EVENT_KEY[' '] || event.key === EVENT_KEY.Enter) && activeIndex !== -1) {
             itemElements[activeIndex].click();
             return true;
         }

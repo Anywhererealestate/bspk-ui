@@ -59,6 +59,7 @@ export const ModalExample: ComponentExampleFn<ModalProps> = ({ action }) => ({
                             .fill('')
                             .map((_, index) => (
                                 <ListItem
+                                    as="label"
                                     key={`key${index}`}
                                     label={`Option ${index + 1}`}
                                     onClick={() => action(`Option ${index + 1} clicked`)}

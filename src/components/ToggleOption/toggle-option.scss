@@ -40,7 +40,7 @@
         color: var(--foreground-neutral-on-surface-variant-01);
     }
 
-    &:not(:has(:disabled)) {
+    &:not([aria-disabled]) {
         [data-pseudo='focus'] &,
         &:focus-visible,
         &:has(*:focus-visible) {
@@ -48,7 +48,9 @@
         }
     }
 
-    &:has(:disabled) {
+    &[aria-disabled] {
+        cursor: not-allowed;
+
         [data-label] {
             color: var(--foreground-neutral-disabled-on-surface);
         }
