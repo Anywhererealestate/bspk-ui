@@ -57,9 +57,9 @@ const optionId = (id: string, index: number) => `${id}-item-${index + 1}`;
 
 export type TabListProps<O extends TabOption = TabOption> = {
     /**
-     * The tabs to display. Each tab has a label and an optional leading icon.
+     * The tabs to display.
      *
-     * Minimum of two tab options are required. Maximum of seven tab options are ideal.
+     * If **less than 2** items are provided, the component will not render.
      *
      * @example
      *     [
