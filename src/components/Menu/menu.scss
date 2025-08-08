@@ -9,7 +9,11 @@
     border-radius: var(--radius-lg);
     display: flex;
     flex-direction: column;
-    overflow: hidden var(--overflow-y);
+
+    &[data-scroll='true'] {
+        overflow: hidden scroll;
+        max-height: calc(calc(var(--item-display-count, 1) * var(--list-item-height)) + 2px /* borders */);
+    }
 
     &[data-floating] {
         z-index: var(--z-index-dropdown);

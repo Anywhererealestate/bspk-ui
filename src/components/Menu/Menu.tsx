@@ -102,6 +102,8 @@ function Menu({
 
     const menuElement = useRef(null as HTMLDivElement | null);
 
+    const scrollDefault = scroll === true && itemCount > itemDisplayCount;
+
     useOutsideClick({
         elements: [menuElement.current],
         callback: () => onOutsideClick?.(),
@@ -115,6 +117,7 @@ function Menu({
                 data-bspk="menu"
                 data-bspk-owner={owner || undefined}
                 data-floating={floating || undefined}
+                data-scroll={scroll || scrollDefault || undefined}
                 id={menuId}
                 ref={(node) => {
                     innerRef?.(node);
@@ -122,11 +125,7 @@ function Menu({
                 }}
                 style={cssWithVars({
                     ...props.style,
-                    '--overflow-y': scroll === true && itemCount > itemDisplayCount ? 'scroll' : undefined,
-                    maxHeight:
-                        scroll === false
-                            ? 'auto'
-                            : `calc(calc(${itemDisplayCount} * var(--list-item-height)) + 2px /* borders */)`,
+                    '--item-display-count': itemDisplayCount,
                 })}
             >
                 {children}
