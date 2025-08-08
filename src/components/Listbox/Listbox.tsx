@@ -123,6 +123,7 @@ export type ListboxProps<Item extends ListboxItemProps = ListboxItemProps> = Com
 function Listbox<Item extends ListboxItemProps>({
     includeAriaLabel,
     itemDisplayCount,
+    itemCount,
     items = [],
     innerRef,
     onChange,
@@ -160,8 +161,8 @@ function Listbox<Item extends ListboxItemProps>({
             data-no-items={!items.length || undefined}
             id={menuId}
             innerRef={innerRef}
-            itemCount={items.length}
-            itemDisplayCount={itemDisplayCount}
+            itemCount={itemCount || items.length}
+            itemDisplayCount={itemDisplayCount || items.length}
             role="listbox"
         >
             {isMulti && selectAll && (

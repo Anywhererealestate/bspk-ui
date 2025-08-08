@@ -66,5 +66,29 @@ export const MenuExample: ComponentExampleFn<ElementProps<MenuProps, 'div'> & { 
             </Component>
         );
     },
+    presets: [
+        {
+            label: 'Scroll = False',
+            propState: {
+                floating: false,
+                portal: false,
+                itemDisplayCount: 5,
+                itemCount: 11,
+                scroll: false,
+            },
+        },
+        {
+            label: 'Item Display Count',
+            propState: {
+                floating: false,
+                portal: false,
+                itemDisplayCount: 5,
+                itemCount: 11,
+                scroll: true,
+            },
+        },
+    ],
+
     disableProps: ['floating', 'portal'],
+    variants: false,
 });

@@ -150,11 +150,11 @@ function TimeInput({
                         elements.setFloating(node as HTMLElement);
                         node.querySelector<HTMLElement>('[data-scroll-column="hours"]')?.focus();
                     }}
-                    itemDisplayCount={false}
                     onOutsideClick={() => {
                         setOpen(false);
                     }}
                     owner="time-input"
+                    scroll={false}
                     style={{ ...floatingStyles }}
                 >
                     <div data-scroll-values>

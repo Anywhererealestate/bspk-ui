@@ -203,7 +203,10 @@ function PhoneNumberInput({
                             data-bspk-owner="phone-number-input"
                             includeAriaLabel={false}
                             innerRef={elements.setFloating}
-                            itemDisplayCount={countryCodeSelectOptions.length}
+                            itemCount={countryCodeSelectOptions.length}
+                            itemDisplayCount={
+                                countryCodeSelectOptions.length <= 10 ? countryCodeSelectOptions.length : 10
+                            }
                             items={countryCodeSelectOptions}
                             onChange={(next, event) => {
                                 event?.preventDefault();

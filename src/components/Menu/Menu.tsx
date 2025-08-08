@@ -1,4 +1,5 @@
-import { ReactNode, useMemo, useRef } from 'react';
+// import { ReactNode, useMemo, useRef } from 'react';
+import { ReactNode, useRef } from 'react';
 
 import { Portal } from '-/components/Portal';
 import { useId } from '-/hooks/useId';
@@ -10,23 +11,6 @@ import './menu.scss';
 
 export function menuItemId(menuId: string, index: number) {
     return `menu-${menuId}-item-${index}`;
-}
-
-export const MIN_ITEM_COUNT = 3;
-export const MAX_ITEM_COUNT = 10;
-
-// returns the item count to display based on the items and the itemDisplayCount bounded by the MIN_ITEM_COUNT and MAX_ITEM_COUNT
-function boundCount(itemLength = 0, itemDisplayCount = 0) {
-    const minItemCount = Math.max(MIN_ITEM_COUNT, itemLength);
-    const maxItemCount = Math.min(MAX_ITEM_COUNT, itemLength);
-    return (
-        // Ensure we don't display less than the minimum item count
-        Math.min(
-            minItemCount,
-            // Ensure we don't display more items than available
-            Math.min(maxItemCount, itemDisplayCount),
-        )
-    );
 }
 
 export type MenuProps = CommonProps<'id' | 'owner'> & {
@@ -48,20 +32,13 @@ export type MenuProps = CommonProps<'id' | 'owner'> & {
     /**
      * The number of items to show in the menu. This is used to determine the height of the menu.
      *
-     * - If set to `false`, the menu will not have a maximum height and will grow to fit its content.
-     * - If set to a number, the menu will display that many items before scrolling.
-     * - If not set or set to `undefined`, the menu will default to showing a minimum of 3 items and a maximum of 10
-     *   items.
-     *
-     * @default false
+     * @default 1
      */
-    itemDisplayCount?: number | false;
+    itemDisplayCount?: number;
     /**
      * The number of items in the menu.
      *
-     * This is used to determine the maximum height of the menu when `itemDisplayCount` is set to a number.
-     *
-     * @required
+     * @default 1
      */
     itemCount?: number;
     /**
@@ -76,6 +53,14 @@ export type MenuProps = CommonProps<'id' | 'owner'> & {
      * @required
      */
     onOutsideClick: () => void;
+    /**
+     * Whether or not the menu is scrollable.
+     *
+     * Setting to false will override itemDisplayCount.
+     *
+     * @default true
+     */
+    scroll?: boolean;
 };
 
 /**
@@ -88,7 +73,9 @@ export type MenuProps = CommonProps<'id' | 'owner'> & {
  *
  *     export function Example() {
  *         return (
- *             <Menu>
+ *             <Menu scroll={false}>
+ *                 <ListItem label="List Item" />
+ *                 <ListItem label="List Item" />
  *                 <ListItem label="List Item" />
  *             </Menu>
  *         );
@@ -103,20 +90,19 @@ function Menu({
     id: idProp,
     children,
     portal = true,
-    itemDisplayCount: itemDisplayCountProp = false,
-    itemCount,
+    itemDisplayCount = 1,
+    itemCount = 1,
     floating = true,
     onOutsideClick,
     owner,
+    scroll = true,
     ...props
 }: ElementProps<MenuProps, 'div'>) {
     const menuId = useId(idProp);
 
-    const itemDisplayCount = useMemo(() => {
-        return itemDisplayCountProp && boundCount(itemCount, itemDisplayCountProp);
-    }, [itemCount, itemDisplayCountProp]);
-
     const menuElement = useRef(null as HTMLDivElement | null);
+
+    const scrollDefault = scroll === true && itemCount > itemDisplayCount;
 
     useOutsideClick({
         elements: [menuElement.current],
@@ -131,6 +117,7 @@ function Menu({
                 data-bspk="menu"
                 data-bspk-owner={owner || undefined}
                 data-floating={floating || undefined}
+                data-scroll={scroll || scrollDefault || undefined}
                 id={menuId}
                 ref={(node) => {
                     innerRef?.(node);
@@ -138,12 +125,7 @@ function Menu({
                 }}
                 style={cssWithVars({
                     ...props.style,
-                    '--overflow-y':
-                        itemCount && itemDisplayCount && itemCount > itemDisplayCount ? 'scroll' : undefined,
-                    maxHeight:
-                        itemDisplayCount === false
-                            ? 'auto'
-                            : `calc(calc(${itemDisplayCount} * var(--list-item-height)) + 2px /* borders */)`,
+                    '--item-display-count': itemDisplayCount,
                 })}
             >
                 {children}
