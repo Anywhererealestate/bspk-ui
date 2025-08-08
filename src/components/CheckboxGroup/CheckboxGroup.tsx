@@ -6,7 +6,7 @@ export type CheckboxGroupOption = Pick<ToggleOptionProps, 'description' | 'disab
     Required<CommonProps<'value'>>;
 
 export type CheckboxGroupProps = CommonProps<'aria-label' | 'disabled' | 'readOnly'> &
-    Pick<FormFieldControlProps, 'aria-describedby'> & {
+    FormFieldControlProps & {
         /**
          * The function to call when the checkboxes are changed.
          *
@@ -91,10 +91,16 @@ function CheckboxGroup({
     disabled: disabledGroup = false,
     readOnly,
     'aria-describedby': ariaDescribedBy,
+    'aria-errormessage': ariaErrorMessage,
     ...props
 }: ElementProps<CheckboxGroupProps, 'div'>) {
     return (
-        <div {...props} aria-describedby={ariaDescribedBy || undefined} data-bspk="checkbox-group" role="group">
+        <div
+            {...props}
+            aria-describedby={ariaErrorMessage || ariaDescribedBy || undefined}
+            data-bspk="checkbox-group"
+            role="group"
+        >
             {selectAll && (
                 <>
                     <ToggleOption label={selectAllProps?.label || 'All'}>
