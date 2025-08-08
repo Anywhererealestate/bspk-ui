@@ -37,7 +37,6 @@ function Radio(props: ElementProps<RadioProps, 'input'>) {
             <input
                 {...otherProps}
                 checked={!!checked}
-                className="bspk-radio"
                 data-invalid={invalid || undefined}
                 disabled={disabled || undefined}
                 onChange={(event) => onChange(!!event.target.checked, event)}

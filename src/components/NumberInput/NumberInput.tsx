@@ -148,7 +148,6 @@ function NumberInput({
                 aria-invalid={invalid}
                 aria-label={ariaLabel}
                 autoComplete="off"
-                className="bspk-number-input"
                 defaultValue={String(valueNumber)}
                 disabled={disabled}
                 id={inputId}

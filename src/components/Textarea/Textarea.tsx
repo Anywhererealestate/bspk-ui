@@ -138,7 +138,6 @@ function Textarea({
                 aria-errormessage={ariaErrorMessage || undefined}
                 aria-invalid={invalid || undefined}
                 aria-label={ariaLabel}
-                className="bspk-textarea"
                 id={id}
                 name={name}
                 onBlur={(event) => {
