@@ -68,7 +68,7 @@ export const MenuExample: ComponentExampleFn<ElementProps<MenuProps, 'div'> & { 
     },
     presets: [
         {
-            label: 'custom menu',
+            label: 'Scroll = False',
             propState: {
                 floating: false,
                 portal: false,
@@ -78,7 +78,7 @@ export const MenuExample: ComponentExampleFn<ElementProps<MenuProps, 'div'> & { 
             },
         },
         {
-            label: 'Scrollable',
+            label: 'Item Display Count',
             propState: {
                 floating: false,
                 portal: false,
