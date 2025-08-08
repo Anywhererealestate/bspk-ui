@@ -1,11 +1,10 @@
 import { ChangeEvent } from 'react';
 
-import { ElementProps, CommonProps, FormFieldControlProps } from '-/types/common';
+import { ElementProps, CommonProps } from '-/types/common';
 
 import './radio.scss';
 
 export type RadioProps = CommonProps<'aria-label' | 'disabled' | 'invalid' | 'name'> &
-    FormFieldControlProps &
     Required<CommonProps<'value'>> & {
         /**
          * Marks the radio as checked.
@@ -38,6 +37,7 @@ function Radio(props: ElementProps<RadioProps, 'input'>) {
             <input
                 {...otherProps}
                 checked={!!checked}
+                className="bspk-radio"
                 data-invalid={invalid || undefined}
                 disabled={disabled || undefined}
                 onChange={(event) => onChange(!!event.target.checked, event)}
