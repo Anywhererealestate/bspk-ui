@@ -53,6 +53,13 @@ export type MenuProps = CommonProps<'id' | 'owner'> & {
      * @required
      */
     onOutsideClick: () => void;
+    /**
+     * Whether or not the menu is scrollable.
+     *
+     * Setting to false will override itemDisplayCount.
+     *
+     * @default true
+     */
     scroll?: boolean;
 };
 
