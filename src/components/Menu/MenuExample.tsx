@@ -20,7 +20,12 @@ export const MenuExample: ComponentExampleFn<ElementProps<MenuProps, 'div'> & { 
 }) => ({
     render: ({ props, Component, setState }) => {
         return (
-            <Component {...props} style={{ padding: 'var(--spacing-sizing-02) var(--spacing-sizing-02)' }}>
+            <Component
+                {...props}
+                floating={false}
+                portal={false}
+                style={{ padding: 'var(--spacing-sizing-02) var(--spacing-sizing-02)' }}
+            >
                 <ListItem
                     label="Michael Scott"
                     leading={<Avatar image="/profile2.jpg" name="Michael Scott" />}
@@ -67,6 +72,8 @@ export const MenuExample: ComponentExampleFn<ElementProps<MenuProps, 'div'> & { 
             propState: {
                 floating: false,
                 portal: false,
+                itemDisplayCount: 5,
+                itemCount: 11,
                 scroll: false,
             },
         },
@@ -75,12 +82,13 @@ export const MenuExample: ComponentExampleFn<ElementProps<MenuProps, 'div'> & { 
             propState: {
                 floating: false,
                 portal: false,
-                scroll: true,
                 itemDisplayCount: 5,
                 itemCount: 11,
+                scroll: true,
             },
         },
     ],
 
-    // disableProps: ['floating', 'portal'],
+    disableProps: ['floating', 'portal'],
+    variants: false,
 });
