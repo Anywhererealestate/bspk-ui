@@ -92,7 +92,6 @@ function Table<R extends TableRow>({ rows, columns, title, ...props }: ElementPr
                 {...props}
                 aria-labelledby={title ? `${tableId}-title` : undefined}
                 data-table
-                // role="table"
                 style={cssWithVars({
                     '--template-columns': columns.map((c) => `minmax(0, ${c.width || '1fr'})`).join(' '),
                 })}
@@ -129,7 +128,6 @@ function Table<R extends TableRow>({ rows, columns, title, ...props }: ElementPr
                             data-cell-columm={cell.column.id}
                             data-cell-row={rowIndex % 2 === 0 ? 'odd' : 'even'}
                             key={cell.id}
-                            // role="cell"
                         >
                             {flexRender(cell.column.columnDef.cell, cell.getContext())}
                         </div>
