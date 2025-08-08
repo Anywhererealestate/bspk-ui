@@ -2,12 +2,11 @@ import { AriaAttributes, useState } from 'react';
 
 import { useFloating, UseFloatingElements, UseFloatingProps } from './useFloating';
 import { useId } from './useId';
-import { CommonProps, InvalidPropsLibrary } from '-/types/common';
+import { CommonProps } from '-/types/common';
 import { EVENT_KEY } from '-/utils/keyboard';
 import { scrollElementIntoView } from '-/utils/scrollElementIntoView';
 
 export type UseComboboxProps = CommonProps<'disabled' | 'readOnly'> &
-    InvalidPropsLibrary &
     Pick<UseFloatingProps, 'offsetOptions' | 'placement' | 'refWidth'> & {
         /**
          * The element to use for outside click detection.
@@ -103,8 +102,6 @@ export function useCombobox({
     placement = 'bottom',
     refWidth = true,
     disabled,
-    errorMessage,
-    invalid,
     readOnly,
     offsetOptions,
 }: UseComboboxProps): {
@@ -152,13 +149,11 @@ export function useCombobox({
             onOutsideClick: () => setShow(false),
         },
         toggleProps: {
-            'aria-errormessage': errorMessage || undefined,
             'aria-activedescendant': selectedId || undefined,
             'aria-controls': menuId,
             'aria-disabled': disabled || undefined,
             'aria-expanded': show,
             'aria-haspopup': 'listbox' as AriaAttributes['aria-haspopup'],
-            'aria-invalid': invalid || undefined,
             'aria-owns': menuId,
             'aria-readonly': readOnly || undefined,
             role: 'combobox',

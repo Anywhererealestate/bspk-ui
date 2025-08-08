@@ -29,7 +29,6 @@ export const FormFieldExample: ComponentExample<FormFieldWrapProps<TextInputProp
                             {...inputProps}
                             {...fieldProps}
                             aria-label={label}
-                            errorMessage={errorMessage}
                             invalid={invalid}
                             onChange={(next: string) => setState({ value: next })}
                             value={props.value}

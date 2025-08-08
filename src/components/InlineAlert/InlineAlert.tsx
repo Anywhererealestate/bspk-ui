@@ -42,7 +42,7 @@ export type InlineAlertProps = {
  */
 function InlineAlert({ children, variant = 'informational', id }: InlineAlertProps) {
     return (
-        <div data-bspk="inline-alert" data-variant={variant} id={id}>
+        <div data-bspk="inline-alert" data-variant={variant} id={id} role="alert">
             {VARIANT_ICON[variant]}
             <Txt variant="body-small">{children}</Txt>
         </div>

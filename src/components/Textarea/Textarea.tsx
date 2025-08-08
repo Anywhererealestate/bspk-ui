@@ -1,7 +1,7 @@
 import { ChangeEvent, useRef } from 'react';
 
 import { useId } from '-/hooks/useId';
-import { CommonProps, InvalidPropsLibrary, SetRef } from '-/types/common';
+import { CommonProps, FormFieldControlProps, SetRef } from '-/types/common';
 import { cssWithVars } from '-/utils/cwv';
 
 import './textarea.scss';
@@ -12,8 +12,8 @@ const DEFAULT = {
     textSize: 'medium',
 } as const;
 
-export type TextareaProps = CommonProps<'aria-label' | 'disabled' | 'id' | 'readOnly'> &
-    InvalidPropsLibrary & {
+export type TextareaProps = CommonProps<'aria-label' | 'disabled' | 'id' | 'invalid' | 'readOnly'> &
+    FormFieldControlProps & {
         /**
          * Callback when the value of the field changes.
          *
@@ -103,7 +103,8 @@ function Textarea({
     id: idProp,
     minRows: minRowsProp = DEFAULT.minRows,
     maxRows: maxRowsProp = DEFAULT.maxRows,
-    errorMessage,
+    'aria-describedby': ariaDescribedBy,
+    'aria-errormessage': ariaErrorMessage,
     ...otherProps
 }: TextareaProps) {
     const id = useId(idProp);
@@ -133,7 +134,8 @@ function Textarea({
         >
             <textarea
                 {...otherProps}
-                aria-errormessage={errorMessage || undefined}
+                aria-describedby={ariaDescribedBy || undefined}
+                aria-errormessage={ariaErrorMessage || undefined}
                 aria-invalid={invalid || undefined}
                 aria-label={ariaLabel}
                 id={id}

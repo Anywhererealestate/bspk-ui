@@ -55,7 +55,6 @@ function TextField({
                     {...inputProps}
                     {...fieldProps}
                     aria-label={label}
-                    errorMessage={errorMessage}
                     id={controlId}
                     invalid={invalid}
                     required={required}

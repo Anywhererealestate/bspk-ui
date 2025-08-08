@@ -1,12 +1,12 @@
 import { ChangeEvent, useEffect, useRef } from 'react';
 
-import { CommonProps, ElementProps, InvalidPropsLibrary } from '-/types/common';
+import { CommonProps, ElementProps, FormFieldControlProps, RequiredCommonProps } from '-/types/common';
 
 import './checkbox.scss';
 
-export type CheckboxProps = CommonProps<'aria-label' | 'disabled' | 'name'> &
-    InvalidPropsLibrary &
-    Required<CommonProps<'value'>> & {
+export type CheckboxProps = CommonProps<'aria-label' | 'disabled' | 'invalid' | 'name'> &
+    FormFieldControlProps &
+    RequiredCommonProps<'value'> & {
         /**
          * If the checkbox is partially checked or
          * [indeterminate](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#indeterminate_state_checkboxes).
@@ -66,8 +66,6 @@ function Checkbox({
     indeterminate: indeterminateProp,
     invalid,
     disabled,
-    errorMessage,
-
     ...props
 }: ElementProps<CheckboxProps, 'input'>) {
     const indeterminate = !!indeterminateProp;
@@ -87,7 +85,8 @@ function Checkbox({
         >
             <input
                 {...props}
-                aria-errormessage={errorMessage || undefined}
+                aria-describedby={props['aria-describedby'] || undefined}
+                aria-errormessage={props['aria-errormessage'] || undefined}
                 aria-invalid={invalid || undefined}
                 checked={checked}
                 disabled={disabled || undefined}

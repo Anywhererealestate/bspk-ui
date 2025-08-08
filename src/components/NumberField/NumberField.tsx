@@ -59,7 +59,6 @@ function NumberField({
                     {...fieldProps}
                     aria-label={label}
                     disabled={disabled}
-                    errorMessage={errorMessage}
                     id={controlId}
                     invalid={invalid}
                 />

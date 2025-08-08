@@ -14,12 +14,12 @@ export type PhoneNumberFieldProps = FormFieldWrapProps<PhoneNumberInputProps>;
  */
 function PhoneNumberField({
     label,
-    errorMessage,
     helperText,
     controlId,
     labelTrailing,
     required,
     invalid,
+    errorMessage,
     ...inputProps
 }: PhoneNumberFieldProps) {
     return (
@@ -33,15 +33,7 @@ function PhoneNumberField({
             labelTrailing={labelTrailing}
             required={required}
         >
-            {(fieldProps) => (
-                <PhoneNumberInput
-                    {...inputProps}
-                    {...fieldProps}
-                    aria-label={label}
-                    errorMessage={errorMessage}
-                    invalid={invalid}
-                />
-            )}
+            {(fieldProps) => <PhoneNumberInput {...inputProps} {...fieldProps} aria-label={label} invalid={invalid} />}
         </FormField>
     );
 }
