@@ -90,6 +90,8 @@ function PhoneNumberInput({
     initialCountryCode,
     disabled,
     readOnly,
+    'aria-describedby': ariaDescribedBy,
+    'aria-errormessage': ariaErrorMessage,
     ...inputProps
 }: PhoneNumberInputProps) {
     const { isMobile } = useUIContext();
@@ -145,6 +147,8 @@ function PhoneNumberInput({
         <div data-bspk="phone-number-input" ref={setRef}>
             <TextInput
                 {...inputProps}
+                aria-describedby={ariaDescribedBy || undefined}
+                aria-errormessage={ariaErrorMessage || undefined}
                 disabled={disabled}
                 leading={
                     <div style={{ display: 'flex', alignItems: 'center' }}>

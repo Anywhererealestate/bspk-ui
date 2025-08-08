@@ -103,12 +103,13 @@ function Select({
     disabled,
     id: propId,
     invalid,
-
     readOnly,
     name,
     isMulti,
     selectAll,
     description,
+    'aria-describedby': ariaDescribedBy,
+    'aria-errormessage': ariaErrorMessage,
     ...props
 }: ElementProps<SelectProps, 'button'>) {
     const id = useId(propId);
@@ -141,7 +142,11 @@ function Select({
                 <>
                     <input defaultValue={selected} name={name} type="hidden" />
                     <span
+                        {...props}
+                        {...toggleProps}
+                        aria-describedby={ariaDescribedBy || undefined}
                         aria-disabled={disabled || readOnly}
+                        aria-errormessage={ariaErrorMessage || undefined}
                         aria-label={label || selectedItem?.label || placeholder}
                         data-bspk="select"
                         data-invalid={invalid || undefined}
@@ -150,8 +155,6 @@ function Select({
                         ref={(node) => {
                             if (node) setReference(node);
                         }}
-                        {...props}
-                        {...toggleProps}
                     >
                         <ListItem
                             data-bspk-owner="select"

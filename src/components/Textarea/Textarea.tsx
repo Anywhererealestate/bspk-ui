@@ -103,6 +103,8 @@ function Textarea({
     id: idProp,
     minRows: minRowsProp = DEFAULT.minRows,
     maxRows: maxRowsProp = DEFAULT.maxRows,
+    'aria-describedby': ariaDescribedBy,
+    'aria-errormessage': ariaErrorMessage,
     ...otherProps
 }: TextareaProps) {
     const id = useId(idProp);
@@ -132,8 +134,11 @@ function Textarea({
         >
             <textarea
                 {...otherProps}
+                aria-describedby={ariaDescribedBy || undefined}
+                aria-errormessage={ariaErrorMessage || undefined}
                 aria-invalid={invalid || undefined}
                 aria-label={ariaLabel}
+                className="bspk-textarea"
                 id={id}
                 name={name}
                 onBlur={(event) => {

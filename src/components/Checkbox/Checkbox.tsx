@@ -85,8 +85,11 @@ function Checkbox({
         >
             <input
                 {...props}
+                aria-describedby={props['aria-describedby'] || undefined}
+                aria-errormessage={props['aria-errormessage'] || undefined}
                 aria-invalid={invalid || undefined}
                 checked={checked}
+                className="bspk-checkbox"
                 disabled={disabled || undefined}
                 onChange={(event) => props.onChange(!!event.target.checked, event)}
                 ref={(node) => {

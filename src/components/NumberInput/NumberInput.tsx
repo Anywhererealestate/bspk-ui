@@ -94,6 +94,8 @@ function NumberInput({
     max: maxProp,
     min: minProp,
     invalid,
+    'aria-describedby': ariaDescribedBy,
+    'aria-errormessage': ariaErrorMessage,
     ...inputElementProps
 }: NumberInputProps) {
     const centered = align !== 'left';
@@ -141,9 +143,12 @@ function NumberInput({
             )}
             <input
                 {...inputElementProps}
+                aria-describedby={ariaDescribedBy || undefined}
+                aria-errormessage={ariaErrorMessage || undefined}
                 aria-invalid={invalid}
                 aria-label={ariaLabel}
                 autoComplete="off"
+                className="bspk-number-input"
                 defaultValue={String(valueNumber)}
                 disabled={disabled}
                 id={inputId}
