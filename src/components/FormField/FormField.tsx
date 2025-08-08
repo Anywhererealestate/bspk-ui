@@ -1,42 +1,36 @@
 import { InlineAlert } from '-/components/InlineAlert';
 import { Txt } from '-/components/Txt';
-import { CommonProps, ElementProps, InvalidPropsLibrary } from '-/types/common';
+import { CommonProps, ElementProps, FormFieldControlProps } from '-/types/common';
 
 import './form-field.scss';
 
-export type FieldControlProps = {
-    /** The id of the control description. */
-    'aria-describedby'?: string;
-    /** The id of the error message */
-    'aria-errormessage'?: string;
-};
-
 // omits are usually a code smell, but in this case, we need to ensure we get all the props from child components
-export type FormFieldWrapProps<T extends Record<string, unknown>> = Omit<FormFieldProps, keyof T | 'children'> & T;
+export type FormFieldWrapProps<T extends Record<string, unknown>> = Omit<FormFieldProps, keyof T | 'children'> &
+    Omit<T, 'aria-describedby' | 'aria-errormessage'>;
 
-export type FormFieldProps = CommonProps<'required'> &
-    InvalidPropsLibrary & {
-        /**
-         * The label of the field.
-         *
-         * @required
-         */
-        label: string;
-        /** The id of the control. */
-        controlId: string;
-        /**
-         * The children of the form field. This should be a control such as TextInput, Select, DatePicker, or
-         * TimePicker.
-         *
-         * @type (childProps: FieldControlProps) => JSX.Element
-         * @required
-         */
-        children: (childProps: FieldControlProps) => JSX.Element;
-        /** The helperText of the field. */
-        helperText?: string;
-        /** The trailing element of the label. */
-        labelTrailing?: React.ReactNode;
-    };
+export type FormFieldProps = CommonProps<'invalid' | 'required'> & {
+    /** The error message to display when the field is invalid. */
+    errorMessage?: string;
+    /**
+     * The label of the field.
+     *
+     * @required
+     */
+    label: string;
+    /** The id of the control. */
+    controlId: string;
+    /**
+     * The children of the form field. This should be a control such as TextInput, Select, DatePicker, or TimePicker.
+     *
+     * @type (childProps: FormFieldControlProps) => JSX.Element
+     * @required
+     */
+    children: (childProps: FormFieldControlProps) => JSX.Element;
+    /** The helperText of the field. */
+    helperText?: string;
+    /** The trailing element of the label. */
+    labelTrailing?: React.ReactNode;
+};
 
 /**
  * Wrapper component for form controls.
@@ -83,7 +77,7 @@ function FormField({
 }: ElementProps<FormFieldProps, 'div'>) {
     const errorMessage = invalid && errorMessageProp ? errorMessageProp : undefined;
     const errorMessageId = errorMessage ? `${controlId}-error-message` : undefined;
-    const helperText = !invalid && helperTextProp ? helperTextProp : undefined;
+    const helperText = !errorMessage && helperTextProp ? helperTextProp : undefined;
     const helperTextId = !errorMessage && helperText ? `${controlId}-helper-text` : undefined;
 
     if (typeof children !== 'function') return null;

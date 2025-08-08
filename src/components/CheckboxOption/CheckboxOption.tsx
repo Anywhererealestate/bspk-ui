@@ -1,19 +1,7 @@
-import { ChangeEvent } from 'react';
-
 import { CheckboxProps, Checkbox } from '-/components/Checkbox';
-import { ToggleOptionProps, ToggleOption } from '-/components/ToggleOption';
-import { InvalidPropsLibrary } from '-/types/common';
+import { ToggleOption, ToggleOptionControlProps } from '-/components/ToggleOption';
 
-export type CheckboxOptionProps = InvalidPropsLibrary &
-    Pick<CheckboxProps, 'checked' | 'disabled' | 'indeterminate' | 'name' | 'value'> &
-    Pick<ToggleOptionProps, 'description' | 'label'> & {
-        /**
-         * The function to call when the checkbox is checked or unchecked.
-         *
-         * @required
-         */
-        onChange: (checked: boolean, event: ChangeEvent<HTMLInputElement>) => void;
-    };
+export type CheckboxOptionProps = ToggleOptionControlProps<CheckboxProps>;
 
 /**
  * A control that allows users to choose one or more items from a list or turn an feature on or off.
@@ -43,17 +31,13 @@ export type CheckboxOptionProps = InvalidPropsLibrary &
  * @name CheckboxOption
  * @phase UXReview
  */
-function CheckboxOption({ label: labelProp, description, ...checkboxProps }: CheckboxOptionProps) {
+function CheckboxOption({ label: labelProp, description, disabled, ...checkboxProps }: CheckboxOptionProps) {
     const label = labelProp || description;
+    const ariaLabel = description ? `${labelProp} - ${description}` : labelProp;
     return (
         label && (
-            <ToggleOption
-                data-bspk="checkbox-option"
-                description={description}
-                disabled={checkboxProps.disabled}
-                label={label}
-            >
-                <Checkbox {...checkboxProps} aria-label={label} />
+            <ToggleOption data-bspk="checkbox-option" description={description} disabled={disabled} label={label}>
+                <Checkbox {...checkboxProps} aria-label={ariaLabel} />
             </ToggleOption>
         )
     );

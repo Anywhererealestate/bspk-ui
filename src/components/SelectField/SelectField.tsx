@@ -35,12 +35,12 @@ export type SelectFieldProps = FormFieldWrapProps<SelectProps>;
  */
 function SelectField({
     label,
-    errorMessage,
     helperText,
     controlId,
     labelTrailing,
     required,
     invalid,
+    errorMessage,
     ...inputProps
 }: SelectFieldProps) {
     return (
@@ -59,9 +59,8 @@ function SelectField({
                     //
                     {...inputProps}
                     {...fieldProps}
-                    errorMessage={errorMessage}
                     id={controlId}
-                    invalid={!!errorMessage}
+                    invalid={invalid}
                     label={label}
                 />
             )}

@@ -1,7 +1,7 @@
 import { SwitchProps, Switch } from '-/components/Switch';
-import { ToggleOptionProps, ToggleOption } from '-/components/ToggleOption';
+import { ToggleOption, ToggleOptionControlProps } from '-/components/ToggleOption';
 
-export type SwitchOptionProps = Omit<SwitchProps, 'aria-label'> & Pick<ToggleOptionProps, 'description' | 'label'>;
+export type SwitchOptionProps = ToggleOptionControlProps<SwitchProps>;
 
 /**
  * A control that allows users to choose one or more items from a list or turn an feature on or off.

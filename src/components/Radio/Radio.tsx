@@ -1,11 +1,10 @@
 import { ChangeEvent } from 'react';
 
-import { ElementProps, InvalidPropsLibrary, CommonProps } from '-/types/common';
+import { ElementProps, CommonProps } from '-/types/common';
 
 import './radio.scss';
 
-export type RadioProps = CommonProps<'aria-label' | 'disabled' | 'name'> &
-    InvalidPropsLibrary &
+export type RadioProps = CommonProps<'aria-label' | 'disabled' | 'invalid' | 'name'> &
     Required<CommonProps<'value'>> & {
         /**
          * Marks the radio as checked.
@@ -31,14 +30,13 @@ export type RadioProps = CommonProps<'aria-label' | 'disabled' | 'name'> &
  * @phase Utility
  */
 function Radio(props: ElementProps<RadioProps, 'input'>) {
-    const { checked = false, invalid, disabled, onChange, errorMessage, ...otherProps } = props;
+    const { checked = false, invalid, disabled, onChange, ...otherProps } = props;
 
     return (
         <span data-bspk="radio">
             <input
                 {...otherProps}
                 checked={!!checked}
-                data-errormessage={errorMessage || undefined}
                 data-invalid={invalid || undefined}
                 disabled={disabled || undefined}
                 onChange={(event) => onChange(!!event.target.checked, event)}

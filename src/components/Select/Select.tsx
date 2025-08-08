@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 import { Combobox, ComboboxProps } from '-/components/Combobox';
 import { ListItem } from '-/components/ListItem';
 import { useId } from '-/hooks/useId';
-import { CommonProps, ElementProps } from '-/types/common';
+import { CommonProps, ElementProps, FormFieldControlProps } from '-/types/common';
 
 import './select.scss';
 
@@ -15,20 +15,11 @@ export type SelectOption = Record<string, unknown> & {
     label: string;
 };
 
-export type SelectProps<T extends SelectOption = SelectOption> = CommonProps<'name' | 'size'> &
+export type SelectProps<T extends SelectOption = SelectOption> = CommonProps<'invalid' | 'name' | 'size'> &
+    FormFieldControlProps &
     Pick<
         ComboboxProps<T>,
-        | 'disabled'
-        | 'errorMessage'
-        | 'id'
-        | 'invalid'
-        | 'isMulti'
-        | 'itemDisplayCount'
-        | 'label'
-        | 'onChange'
-        | 'readOnly'
-        | 'selectAll'
-        | 'value'
+        'disabled' | 'id' | 'isMulti' | 'itemDisplayCount' | 'label' | 'onChange' | 'readOnly' | 'selectAll' | 'value'
     > & {
         /**
          * Array of options to display in the select
@@ -112,12 +103,13 @@ function Select({
     disabled,
     id: propId,
     invalid,
-    errorMessage,
     readOnly,
     name,
     isMulti,
     selectAll,
     description,
+    'aria-describedby': ariaDescribedBy,
+    'aria-errormessage': ariaErrorMessage,
     ...props
 }: ElementProps<SelectProps, 'button'>) {
     const id = useId(propId);
@@ -136,9 +128,7 @@ function Select({
         <Combobox
             description={description || ''}
             disabled={disabled}
-            errorMessage={errorMessage}
             id={id}
-            invalid={invalid}
             isMulti={isMulti}
             itemDisplayCount={itemDisplayCount}
             items={options}
@@ -152,7 +142,11 @@ function Select({
                 <>
                     <input defaultValue={selected} name={name} type="hidden" />
                     <span
+                        {...props}
+                        {...toggleProps}
+                        aria-describedby={ariaDescribedBy || undefined}
                         aria-disabled={disabled || readOnly}
+                        aria-errormessage={ariaErrorMessage || undefined}
                         aria-label={label || selectedItem?.label || placeholder}
                         data-bspk="select"
                         data-invalid={invalid || undefined}
@@ -161,8 +155,6 @@ function Select({
                         ref={(node) => {
                             if (node) setReference(node);
                         }}
-                        {...props}
-                        {...toggleProps}
                     >
                         <ListItem
                             data-bspk-owner="select"
