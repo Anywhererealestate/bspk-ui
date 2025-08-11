@@ -6,7 +6,7 @@ import './otp-input.scss';
 export type OTPInputProps = Pick<TextInputProps, 'disabled' | 'invalid' | 'onChange' | 'readOnly' | 'size' | 'value'>;
 
 /**
- * Component description.
+ * A row of numerical input fields that are used to input a temporary secure pin code sent to the customer.
  *
  * @example
  *     import { OTPInput } from '@bspk/ui/OTPInput';
