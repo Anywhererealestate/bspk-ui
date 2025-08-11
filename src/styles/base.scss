@@ -58,7 +58,7 @@ body[data-bspk] {
     color: var(--foreground-neutral-on-surface);
     min-width: 343px;
 
-    a:not([data-bspk='button']) {
+    a:not([data-bspk='button'], [data-bspk='list-item']) {
         color: var(--foreground-link-text-default);
 
         &:not([disabled]) {
@@ -270,6 +270,25 @@ body[data-bspk] {
         width: var(--spacing-sizing-12);
         height: var(--spacing-sizing-12);
         border-radius: var(--radius-sm);
+    }
+}
+
+[data-attachment-wrapper] {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: fit-content;
+    height: fit-content;
+    flex-shrink: 0;
+
+    [data-attachment] {
+        position: absolute;
+        top: 0;
+        right: 0;
+        transform: scale(1) translate(50%, -50%);
+        transform-origin: 100% 0%;
+        z-index: 2;
     }
 }
 

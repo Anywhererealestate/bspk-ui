@@ -9,7 +9,7 @@ import './button.scss';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'tertiary';
 
-export type ButtonProps<As extends ElementType = 'button'> = CommonProps<'disabled'> & {
+export type ButtonProps<As extends ElementType = 'button'> = CommonProps<'disabled' | 'owner'> & {
     /**
      * The label of the button.
      *
@@ -23,11 +23,14 @@ export type ButtonProps<As extends ElementType = 'button'> = CommonProps<'disabl
      */
     icon?: ReactNode;
     /**
-     * Shows the button label. When label isn't showing it is used in a tooltip and as the aria-label prop.
+     * When true the button label is hidden and only the icon is shown. When label isn't showing it is used in a tooltip
+     * and as the aria-label prop.
      *
-     * @default true
+     * Ignored if `icon` is not provided.
+     *
+     * @default false
      */
-    showLabel?: boolean;
+    iconOnly?: boolean;
     /**
      * The element type to render as.
      *
@@ -105,18 +108,19 @@ function Button<As extends ElementType = 'button'>(props: ElementProps<ButtonPro
         disabled = false,
         label: labelProp,
         icon,
-        // showLabel: showLabelProp = true,
-        showLabel = true,
+        iconOnly: iconOnlyProp = false,
         toolTip: toolTipProp,
         children,
         innerRef,
+        owner,
         ...containerProps
     } = props;
     const label = typeof children === 'string' ? children : labelProp || '';
 
-    // ignore showLabel=false if there is no icon
-    const hideLabel = showLabel === false && icon;
-    const toolTip = toolTipProp || (hideLabel ? label : undefined);
+    // ignore iconOnly if there is no icon
+    const iconOnly = iconOnlyProp === true && !!icon;
+    // if toolTip label is not provided and iconOnly is true, toolTip should be label
+    const toolTip = toolTipProp || (iconOnly ? label : undefined);
     const { logError } = useErrorLogger();
     logError(!!icon && !isValidIcon(icon), 'Button - The icon prop must be a valid icon element.');
     logError(!label, 'Button - The button must have a label.');
@@ -126,6 +130,7 @@ function Button<As extends ElementType = 'button'>(props: ElementProps<ButtonPro
             {...containerProps}
             aria-label={label}
             data-bspk="button"
+            data-bspk-owner={owner || undefined}
             data-destructive={destructive || undefined}
             data-size={size}
             data-touch-target-parent
@@ -139,11 +144,11 @@ function Button<As extends ElementType = 'button'>(props: ElementProps<ButtonPro
             ) : (
                 <>
                     {!!icon && isValidElement(icon) && (
-                        <span aria-hidden={showLabel || undefined} data-button-icon>
+                        <span aria-hidden={iconOnly || undefined} data-button-icon>
                             {icon}
                         </span>
                     )}
-                    {!hideLabel && <span data-button-label>{label}</span>}
+                    {!iconOnly && <span data-button-label>{label}</span>}
                 </>
             )}
             <span data-touch-target />

@@ -1,10 +1,14 @@
 import { ReactElement } from 'react';
 
 import './toggle-option.scss';
+import { CommonProps } from '-/types/common';
 
-export type ToggleOptionProps = {
+export type ToggleOptionControlProps<T extends { 'aria-label'?: string }> = Omit<T, 'aria-label'> &
+    Pick<ToggleOptionProps, 'description' | 'label'>;
+
+export type ToggleOptionProps = CommonProps<'disabled'> & {
     /**
-     * The label of the option. Also used as the aria-label of the checkbox.
+     * The label of the option. Also used as the aria-label of the control.
      *
      * @required
      */
@@ -26,9 +30,9 @@ export type ToggleOptionProps = {
  * @name ToggleOption
  * @phase Utility
  */
-function ToggleOption({ label, description, children }: ToggleOptionProps) {
+function ToggleOption({ label, description, children, disabled }: ToggleOptionProps) {
     return (
-        <label data-bspk="toggle-option">
+        <label aria-disabled={!!disabled || undefined} data-bspk="toggle-option">
             <span data-control>{children}</span>
             <span data-label>{label}</span>
             {description && <span data-description>{description}</span>}

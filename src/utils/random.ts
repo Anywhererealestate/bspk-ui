@@ -16,7 +16,7 @@ export function randomNumber(min = 0, max = 100): number {
  * @returns A random string of the specified length containing alphanumeric characters.
  */
 export function randomString(length: number = 8): string {
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
     let result = '';
     const rand = new Uint32Array(length);
     window.crypto.getRandomValues(rand);

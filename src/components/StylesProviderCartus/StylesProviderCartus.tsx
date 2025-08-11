@@ -6,6 +6,7 @@ import '-/styles/base.scss';
  *
  * @name StylesProviderCartus
  * @phase Utility
+ * @generated
  */
 function StylesProviderCartus(): JSX.Element | null {
     return null;

@@ -12,14 +12,14 @@ const AccordionContent = () => (
 export const AccordionExample: ComponentExampleFn<AccordionProps> = ({ action, setState }) => ({
     containerStyle: { minHeight: 225 },
     render: ({ props, Component, id, preset }) => {
-        const trailingElement = createExampleChildElement({
+        const trailing = createExampleChildElement({
             exampleState: props,
             name: 'trailing',
             setState,
             action,
             id,
         });
-        const leadingElement = createExampleChildElement({
+        const leading = createExampleChildElement({
             exampleState: props,
             name: 'leading',
             setState,
@@ -35,8 +35,8 @@ export const AccordionExample: ComponentExampleFn<AccordionProps> = ({ action, s
                         {
                             id: '1',
                             title: `Section 1`,
-                            leading: leadingElement,
-                            trailing: trailingElement,
+                            leading: leading.element,
+                            trailing: trailing.element,
                             children: <AccordionContent />,
                         },
                         ...(props.items ?? []),
@@ -83,5 +83,5 @@ export const AccordionExample: ComponentExampleFn<AccordionProps> = ({ action, s
             },
         },
     ],
-    hideVariants: true,
+    variants: false,
 });

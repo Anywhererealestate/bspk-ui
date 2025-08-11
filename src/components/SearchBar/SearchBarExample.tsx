@@ -13,6 +13,13 @@ export const SearchBarExample: ComponentExample = {
                 item.label.toLowerCase().includes(searchValue),
             );
 
-        return <Component {...props} items={props.items || []} />;
+        return (
+            <Component
+                {...props}
+                itemCount={props.items?.length || undefined}
+                itemDisplayCount={props.items && props.items.length <= 7 ? props.items.length : 7}
+                items={props.items || []}
+            />
+        );
     },
 };

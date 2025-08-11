@@ -1,13 +1,15 @@
 import { ReactNode } from 'react';
 import { cssWithVars } from '-/utils/cwv';
 
+export type SkeletonVariant = 'circular' | 'photo' | 'profile' | 'rectangular' | 'thumbnail';
+
 export type SkeletonProps = {
     /**
      * The variant of the skeleton that best hints the content being loaded.
      *
      * @default rectangular
      */
-    variant?: 'circular' | 'photo' | 'profile' | 'rectangular' | 'thumbnail';
+    variant?: SkeletonVariant;
     /**
      * The width of the skeleton. This is ignored when variant is 'profile' or 'thumbnail'.
      *

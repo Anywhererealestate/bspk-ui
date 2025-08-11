@@ -20,7 +20,7 @@ export type ListboxItemProps = CommonProps<'disabled'> &
     };
 
 export type ListboxProps<Item extends ListboxItemProps = ListboxItemProps> = CommonProps<'disabled' | 'id'> &
-    Pick<MenuProps, 'data-bspk-owner' | 'itemCount' | 'itemDisplayCount' | 'onOutsideClick'> & {
+    Pick<MenuProps, 'itemCount' | 'itemDisplayCount' | 'onOutsideClick' | 'owner'> & {
         /**
          * Content to display in the listbox.
          *
@@ -83,6 +83,7 @@ export type ListboxProps<Item extends ListboxItemProps = ListboxItemProps> = Com
          * Usually only used for showing no items found.
          */
         children?: ReactNode;
+        includeAriaLabel?: boolean;
     };
 
 /**
@@ -120,7 +121,9 @@ export type ListboxProps<Item extends ListboxItemProps = ListboxItemProps> = Com
  * @phase Utility
  */
 function Listbox<Item extends ListboxItemProps>({
+    includeAriaLabel,
     itemDisplayCount,
+    itemCount,
     items = [],
     innerRef,
     onChange,
@@ -132,6 +135,7 @@ function Listbox<Item extends ListboxItemProps>({
     isMulti,
     selectAll: selectAllProp,
     children,
+    owner,
     ...props
 }: ElementProps<ListboxProps<Item>, 'div'>) {
     const menuId = useId(idProp);
@@ -152,16 +156,18 @@ function Listbox<Item extends ListboxItemProps>({
             {...props}
             aria-multiselectable={isMulti || undefined}
             data-bspk="listbox"
+            data-bspk-owner={owner || undefined}
             data-disabled={disabled || undefined}
             data-no-items={!items.length || undefined}
             id={menuId}
             innerRef={innerRef}
-            itemCount={items.length}
-            itemDisplayCount={itemDisplayCount}
+            itemCount={itemCount || items.length}
+            itemDisplayCount={itemDisplayCount || items.length}
             role="listbox"
         >
             {isMulti && selectAll && (
                 <ListItem
+                    as="label"
                     data-selected={allSelected || undefined}
                     id={`${menuId}-select-all`}
                     key="select-all"
@@ -170,7 +176,6 @@ function Listbox<Item extends ListboxItemProps>({
                         onChange?.(allSelected ? [] : items.map((item) => item.value), event);
                     }}
                     role="option"
-                    tabIndex={-1}
                     trailing={
                         <Checkbox
                             aria-label={selectAll}
@@ -200,11 +205,11 @@ function Listbox<Item extends ListboxItemProps>({
                         {...renderProps}
                         active={activeIndex === index || undefined}
                         aria-disabled={item.disabled || undefined}
-                        aria-posinset={index + 1}
                         aria-selected={selected || undefined}
-                        as="button"
+                        as={isMulti ? 'label' : 'button'}
                         disabled={item.disabled || undefined}
                         id={`${menuId}-item-${index}`}
+                        includeAriaLabel={includeAriaLabel}
                         key={`${menuId}-item-${index}`}
                         label={renderProps?.label?.toString() || item.label?.toString()}
                         onClick={(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -222,7 +227,6 @@ function Listbox<Item extends ListboxItemProps>({
                             }
                         }}
                         role="option"
-                        tabIndex={-1}
                         trailing={
                             isMulti ? (
                                 <Checkbox

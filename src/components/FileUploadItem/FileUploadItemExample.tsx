@@ -59,7 +59,7 @@ export const FileUploadItemExample: ComponentExampleFn<FileUploadItemProps> = ({
             },
         },
     ],
-    hideVariants: true,
+    variants: false,
 });
 
 function FileUploadItemExampleRender({ progress, ...props }: FileUploadItemProps) {

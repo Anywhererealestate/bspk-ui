@@ -6,6 +6,7 @@ import '-/styles/base.scss';
  *
  * @name StylesProviderEra
  * @phase Utility
+ * @generated
  */
 function StylesProviderEra(): JSX.Element | null {
     return null;

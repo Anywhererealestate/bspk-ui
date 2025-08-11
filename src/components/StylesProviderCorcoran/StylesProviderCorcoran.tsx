@@ -6,6 +6,7 @@ import '-/styles/base.scss';
  *
  * @name StylesProviderCorcoran
  * @phase Utility
+ * @generated
  */
 function StylesProviderCorcoran(): JSX.Element | null {
     return null;

@@ -18,7 +18,15 @@ export const MERIDIEM_OPTIONS: Meridiem[] = ['AM', 'PM'];
 
 export type TimeInputProps = Pick<
     TextInputProps,
-    'aria-label' | 'disabled' | 'errorMessage' | 'id' | 'invalid' | 'name' | 'readOnly' | 'size'
+    | 'aria-describedby'
+    | 'aria-errormessage'
+    | 'aria-label'
+    | 'disabled'
+    | 'id'
+    | 'invalid'
+    | 'name'
+    | 'readOnly'
+    | 'size'
 > & {
     value?: string;
 };
@@ -41,12 +49,13 @@ function TimeInput({
     value,
     'aria-label': ariaLabel,
     disabled,
-    errorMessage,
     id: idProp,
     invalid,
     readOnly,
     name,
     size,
+    'aria-describedby': ariaDescribedBy,
+    'aria-errormessage': ariaErrorMessage,
 }: TimeInputProps) {
     const id = useId(idProp);
 
@@ -76,10 +85,10 @@ function TimeInput({
         <>
             {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
             <div
+                aria-describedby={ariaErrorMessage || ariaDescribedBy || undefined}
                 data-aria-label={ariaLabel || undefined}
                 data-bspk="time-input"
                 data-disabled={disabled || undefined}
-                data-error={errorMessage || undefined}
                 data-invalid={invalid || undefined}
                 data-name={name || undefined}
                 data-open={open || undefined}
@@ -124,28 +133,28 @@ function TimeInput({
                 />
                 <Button
                     icon={<SvgSchedule />}
+                    iconOnly
                     label={`${open ? 'Close' : 'Open'} Time Picker`}
                     onClick={() => {
                         setOpen(!open);
                         elements.reference?.focus();
                     }}
-                    showLabel={false}
                     variant="tertiary"
                 />
             </div>
             {!!open && (
                 <Menu
-                    data-bspk-owner="time-input"
                     floating
                     innerRef={(node) => {
                         if (!node) return;
                         elements.setFloating(node as HTMLElement);
                         node.querySelector<HTMLElement>('[data-scroll-column="hours"]')?.focus();
                     }}
-                    itemDisplayCount={false}
                     onOutsideClick={() => {
                         setOpen(false);
                     }}
+                    owner="time-input"
+                    scroll={false}
                     style={{ ...floatingStyles }}
                 >
                     <div data-scroll-values>

@@ -7,93 +7,101 @@ import { SvgSquareFill } from '@bspk/icons/SquareFill';
 import { TabGroupProps } from '.';
 import { ComponentExample } from '-/utils/demo';
 
+const PRESET_OPTIONS: TabGroupProps['options'] = [
+    {
+        value: '1',
+        label: 'Option 1',
+        icon: undefined,
+        iconSelected: undefined,
+        badge: undefined,
+    },
+    {
+        value: '2',
+        label: 'Disabled 2',
+        icon: undefined,
+        iconSelected: undefined,
+        badge: undefined,
+        disabled: true,
+    },
+    {
+        value: '3',
+        label: 'Option 3',
+        icon: undefined,
+        iconSelected: undefined,
+        badge: undefined,
+    },
+];
+
+const OPTION_ICONS = [
+    {
+        icon: <SvgDiamond />,
+        iconSelected: <SvgDiamondFill />,
+    },
+
+    {
+        icon: <SvgCircle />,
+        iconSelected: undefined,
+    },
+    {
+        icon: <SvgSquare />,
+        iconSelected: <SvgSquareFill />,
+    },
+];
+
 export const TabGroupExample: ComponentExample<TabGroupProps> = {
     containerStyle: { width: '100%' },
+    defaultState: {
+        options: PRESET_OPTIONS,
+    },
     presets: [
         {
             label: 'With icons',
             propState: {
-                options: [
-                    {
-                        value: '1',
-                        label: 'Option 1',
-                        icon: <SvgDiamond />,
-                        iconSelected: <SvgDiamondFill />,
-                        badge: undefined,
-                    },
-                    {
-                        value: '2',
-                        label: 'Disabled 2',
-                        disabled: true,
-                        icon: <SvgCircle />,
-                        badge: undefined,
-                    },
-                    {
-                        value: '3',
-                        label: 'Option 3',
-                        icon: <SvgSquare />,
-                        iconSelected: <SvgSquareFill />,
-                        badge: undefined,
-                    },
-                ],
+                value: '1',
+                options: PRESET_OPTIONS.map((option, index) => ({
+                    ...option,
+                    icon: OPTION_ICONS[index].icon,
+                    iconSelected: OPTION_ICONS[index].iconSelected,
+                })),
             },
         },
         {
             label: 'With badges',
             propState: {
-                options: [
-                    {
-                        value: '1',
-                        label: 'Option 1',
-                        icon: undefined,
-                        iconSelected: undefined,
-                        badge: 7,
-                    },
-                    {
-                        value: '2',
-                        label: 'Disabled 2',
-                        disabled: true,
-                        icon: undefined,
-                        iconSelected: undefined,
-                        badge: 6,
-                    },
-                    {
-                        value: '3',
-                        label: 'Option 3',
-                        icon: undefined,
-                        iconSelected: undefined,
-                        badge: 5,
-                    },
-                ],
+                value: '1',
+                options: PRESET_OPTIONS.map((option, index) => ({
+                    ...option,
+                    badge: Math.round((index + 1) * 2.6),
+                })),
             },
         },
         {
             label: 'With icons & badges',
             propState: {
-                options: [
-                    {
-                        value: '1',
-                        label: 'Option 1',
-                        icon: <SvgDiamond />,
-                        iconSelected: <SvgDiamondFill />,
-                        badge: 9,
-                    },
-                    {
-                        value: '2',
-                        label: 'Disabled 2',
-                        disabled: true,
-                        icon: <SvgCircle />,
-                        badge: 8,
-                    },
-                    {
-                        value: '3',
-                        label: 'Option 3',
-                        icon: <SvgSquare />,
-                        iconSelected: <SvgSquareFill />,
-                        badge: 7,
-                    },
-                ],
+                value: '1',
+                options: PRESET_OPTIONS.map((option, index) => ({
+                    ...option,
+                    icon: OPTION_ICONS[index].icon,
+                    iconSelected: OPTION_ICONS[index].iconSelected,
+                    badge: Math.round((index + 1) * 2.6),
+                })),
+            },
+        },
+        {
+            label: 'Long Text only',
+            propState: {
+                value: '1',
+                options: PRESET_OPTIONS.map((option) => ({
+                    ...option,
+                    label: `${option.label} with a very long label that never seems to end and goes on forever`,
+                })),
             },
         },
     ],
+
+    variants: {
+        showTrail: {
+            width: 'hug',
+        },
+    },
 };

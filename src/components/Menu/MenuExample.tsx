@@ -22,7 +22,6 @@ export const MenuExample: ComponentExampleFn<ElementProps<MenuProps, 'div'> & { 
         return (
             <Component
                 {...props}
-                aria-label="Settings Menu"
                 floating={false}
                 portal={false}
                 style={{ padding: 'var(--spacing-sizing-02) var(--spacing-sizing-02)' }}
@@ -36,9 +35,9 @@ export const MenuExample: ComponentExampleFn<ElementProps<MenuProps, 'div'> & { 
                 <ListItem href="#/my-profile" label="My profile" leading={<SvgAccountCircle />} />
                 <ListItem href="#/settings" label="Settings" leading={<SvgSettings />} />
                 <ListItem
+                    as="label"
                     label="Dark mode"
                     leading={props['data-dark-mode'] ? <SvgDarkModeFill /> : <SvgDarkMode />}
-                    role="checkbox"
                     trailing={
                         <Switch
                             aria-label="Toggle dark mode"
@@ -62,9 +61,34 @@ export const MenuExample: ComponentExampleFn<ElementProps<MenuProps, 'div'> & { 
                     onClick={() => {
                         action('Log out clicked');
                     }}
+                    role="button"
                 />
             </Component>
         );
     },
+    presets: [
+        {
+            label: 'Scroll = False',
+            propState: {
+                floating: false,
+                portal: false,
+                itemDisplayCount: 5,
+                itemCount: 11,
+                scroll: false,
+            },
+        },
+        {
+            label: 'Item Display Count',
+            propState: {
+                floating: false,
+                portal: false,
+                itemDisplayCount: 5,
+                itemCount: 11,
+                scroll: true,
+            },
+        },
+    ],
+
     disableProps: ['floating', 'portal'],
+    variants: false,
 });

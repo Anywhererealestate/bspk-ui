@@ -9,7 +9,7 @@ import { Modal } from '-/components/Modal';
 import { TextInput, TextInputProps } from '-/components/TextInput';
 import { useCombobox } from '-/hooks/useCombobox';
 import { useUIContext } from '-/hooks/useUIContext';
-import { InvalidPropsLibrary } from '-/types/common';
+import { FormFieldControlProps } from '-/types/common';
 import { countryCodeData, countryCodes, SupportedCountryCode } from '-/utils/countryCodes';
 import { guessUserCountryCode } from '-/utils/guessUserCountryCode';
 
@@ -36,13 +36,14 @@ const useCountryCodeSelectOptions = (initialCountryCode?: SupportedCountryCode) 
     }, []);
 };
 
-export type PhoneNumberInputProps = InvalidPropsLibrary &
+export type PhoneNumberInputProps = FormFieldControlProps &
     Pick<
         TextInputProps,
         | 'aria-label'
         | 'autoComplete'
         | 'disabled'
         | 'inputRef'
+        | 'invalid'
         | 'name'
         | 'placeholder'
         | 'readOnly'
@@ -83,14 +84,14 @@ export type PhoneNumberInputProps = InvalidPropsLibrary &
  * @phase QA
  */
 function PhoneNumberInput({
-    errorMessage,
     value,
     onChange,
     disableFormatting,
     initialCountryCode,
     disabled,
-    invalid,
     readOnly,
+    'aria-describedby': ariaDescribedBy,
+    'aria-errormessage': ariaErrorMessage,
     ...inputProps
 }: PhoneNumberInputProps) {
     const { isMobile } = useUIContext();
@@ -104,9 +105,7 @@ function PhoneNumberInput({
     } = useCombobox({
         placement: 'bottom',
         disabled,
-        invalid,
         readOnly,
-        errorMessage,
     });
 
     const { countryCodeSelectOptions, defaultCountryCode } = useCountryCodeSelectOptions(initialCountryCode);
@@ -147,12 +146,10 @@ function PhoneNumberInput({
     return (
         <div data-bspk="phone-number-input" ref={setRef}>
             <TextInput
-                onChange={handleChange}
-                value={formattedValue}
                 {...inputProps}
+                aria-describedby={ariaDescribedBy || undefined}
+                aria-errormessage={ariaErrorMessage || undefined}
                 disabled={disabled}
-                errorMessage={errorMessage}
-                invalid={invalid}
                 leading={
                     <div style={{ display: 'flex', alignItems: 'center' }}>
                         <button
@@ -165,20 +162,22 @@ function PhoneNumberInput({
                             <SvgIcon name="KeyboardArrowDown" />
                         </button>
                         <Divider orientation="vertical" />
-                        <span aria-label="Country code" style={{ cursor: 'default' }}>{`+${callingCode}`}</span>
+                        <span style={{ cursor: 'default' }}>{`+${callingCode}`}</span>
                     </div>
                 }
+                onChange={handleChange}
                 readOnly={readOnly}
+                value={formattedValue}
             />
             {showCountryCodeSelectMenu && (
                 <>
                     {isMobile ? (
                         <Modal
-                            data-bspk-owner="phone-number-input"
                             description="select a country code for your phone number"
                             header="Country Code"
                             onClose={closeMenu}
                             open={showCountryCodeSelectMenu}
+                            owner="phone-number-input"
                         >
                             {countryCodeSelectOptions.map((option, index) => (
                                 <ListItem
@@ -186,6 +185,7 @@ function PhoneNumberInput({
                                     aria-selected={countryCode === option.value}
                                     data-bspk="country-code-select-option"
                                     id={`${option.value}-country-code-select-option`}
+                                    includeAriaLabel={false}
                                     key={option.value}
                                     label={option.label}
                                     leading={option.leading}
@@ -201,14 +201,19 @@ function PhoneNumberInput({
                         <Listbox
                             activeIndex={activeIndex}
                             data-bspk-owner="phone-number-input"
+                            includeAriaLabel={false}
                             innerRef={elements.setFloating}
-                            itemDisplayCount={countryCodeSelectOptions.length}
+                            itemCount={countryCodeSelectOptions.length}
+                            itemDisplayCount={
+                                countryCodeSelectOptions.length <= 10 ? countryCodeSelectOptions.length : 10
+                            }
                             items={countryCodeSelectOptions}
                             onChange={(next, event) => {
                                 event?.preventDefault();
                                 closeMenu();
                                 setCountryCode(next[0] as SupportedCountryCode);
                             }}
+                            owner="phone-number-input"
                             selectedValues={[countryCode]}
                             {...menuProps}
                         />

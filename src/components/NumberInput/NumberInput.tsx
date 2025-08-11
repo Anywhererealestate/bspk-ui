@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import { IncrementButton } from './IncrementButton';
 import { useId } from '-/hooks/useId';
-import { CommonProps, InvalidPropsLibrary } from '-/types/common';
+import { CommonProps, FormFieldControlProps } from '-/types/common';
 
 import './number-input.scss';
 
@@ -22,8 +22,10 @@ function isNumber(value: unknown, fallbackValue: number | undefined = undefined)
     return isNaN(num) ? fallbackValue : num;
 }
 
-export type NumberInputProps = CommonProps<'aria-label' | 'disabled' | 'id' | 'name' | 'readOnly' | 'size'> &
-    InvalidPropsLibrary & {
+export type NumberInputProps = CommonProps<
+    'aria-label' | 'disabled' | 'id' | 'invalid' | 'name' | 'readOnly' | 'size'
+> &
+    FormFieldControlProps & {
         /** The value of the control. */
         value?: number | string;
         /**
@@ -77,7 +79,7 @@ export type NumberInputProps = CommonProps<'aria-label' | 'disabled' | 'id' | 'n
  *     }
  *
  * @name NumberInput
- * @phase UXReview
+ * @phase Utility
  */
 function NumberInput({
     value,
@@ -88,10 +90,13 @@ function NumberInput({
     readOnly = DEFAULT.readOnly,
     name,
     id: inputIdProp,
-    invalid,
     'aria-label': ariaLabel,
     max: maxProp,
     min: minProp,
+    invalid,
+    'aria-describedby': ariaDescribedBy,
+    'aria-errormessage': ariaErrorMessage,
+    ...inputElementProps
 }: NumberInputProps) {
     const centered = align !== 'left';
     const inputId = useId(inputIdProp);
@@ -130,13 +135,17 @@ function NumberInput({
         >
             {!!centered && (
                 <IncrementButton
-                    disabled={valueNumber + -1 < min}
+                    disabled={disabled ? true : valueNumber + -1 < min}
                     increment={-1}
                     inputId={inputId}
                     onIncrement={handleIncrement}
                 />
             )}
             <input
+                {...inputElementProps}
+                aria-describedby={ariaDescribedBy || undefined}
+                aria-errormessage={ariaErrorMessage || undefined}
+                aria-invalid={invalid}
                 aria-label={ariaLabel}
                 autoComplete="off"
                 defaultValue={String(valueNumber)}
@@ -156,7 +165,7 @@ function NumberInput({
                 <>
                     <div aria-hidden data-divider />
                     <IncrementButton
-                        disabled={valueNumber + -1 < min}
+                        disabled={disabled ? true : valueNumber + -1 < min}
                         increment={-1}
                         inputId={inputId}
                         onIncrement={handleIncrement}
@@ -164,7 +173,7 @@ function NumberInput({
                 </>
             )}
             <IncrementButton
-                disabled={valueNumber + 1 > max}
+                disabled={disabled ? true : valueNumber + 1 > max}
                 increment={1}
                 inputId={inputId}
                 onIncrement={handleIncrement}

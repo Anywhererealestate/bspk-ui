@@ -42,12 +42,7 @@ export type CallToActionButton = {
     size?: ButtonSize;
 };
 
-/**
- * The props that are common to input elements.
- *
- * If an element is invalid it must have an errorMessage.
- */
-export type InvalidPropsLibrary = {
+export type CommonPropsLibrary = {
     /**
      * Marks the element as invalid and displays error state theme.
      *
@@ -56,17 +51,6 @@ export type InvalidPropsLibrary = {
      * @default false
      */
     invalid?: boolean;
-    /**
-     * Marks the element as invalid and displays error message.
-     *
-     * When an element is invalid it must display an error message explaining why it is invalid.
-     */
-    errorMessage?: string;
-};
-
-export type InvalidProps<K extends keyof InvalidPropsLibrary> = Pick<InvalidPropsLibrary, K>;
-
-export type CommonPropsLibrary = {
     /** The id of the element. If not provided one will be generated. */
     id?: string;
     /**
@@ -127,11 +111,22 @@ export type CommonPropsLibrary = {
      * This is a utility attribute used to identify the owning component of another component.
      *
      * This is used to identify the component in the UI library and is not intended for public use.
+     *
+     * @utility
      */
-    'data-bspk-owner'?: string;
+    owner?: string;
 };
 
 export type CommonProps<K extends keyof CommonPropsLibrary> = Pick<CommonPropsLibrary, K>;
+
+export type RequiredCommonProps<K extends keyof CommonPropsLibrary> = Required<Pick<CommonPropsLibrary, K>>;
+
+export type FormFieldControlProps = {
+    /** The id of the control description. */
+    'aria-describedby'?: string;
+    /** The id of the error message */
+    'aria-errormessage'?: string;
+};
 
 export type Brand =
     | 'anywhere'

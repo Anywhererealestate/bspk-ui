@@ -1,25 +1,7 @@
-import { FormField, FormFieldProps } from '-/components/FormField';
+import { FormField, FormFieldWrapProps } from '-/components/FormField';
 import { PhoneNumberInput, PhoneNumberInputProps } from '-/components/PhoneNumberInput';
 
-export type PhoneNumberFieldProps = Pick<
-    PhoneNumberInputProps,
-    | 'autoComplete'
-    | 'disabled'
-    | 'disableFormatting'
-    | 'errorMessage'
-    | 'initialCountryCode'
-    | 'inputRef'
-    | 'invalid'
-    | 'name'
-    | 'onChange'
-    | 'placeholder'
-    | 'readOnly'
-    | 'required'
-    | 'size'
-    | 'type'
-    | 'value'
-> &
-    Pick<FormFieldProps, 'controlId' | 'helperText' | 'label' | 'labelTrailing'>;
+export type PhoneNumberFieldProps = FormFieldWrapProps<PhoneNumberInputProps>;
 
 /**
  * A text input that allows users to enter text phone numbers with country codes.
@@ -32,43 +14,26 @@ export type PhoneNumberFieldProps = Pick<
  */
 function PhoneNumberField({
     label,
-    errorMessage: errorMessageProp,
     helperText,
     controlId,
     labelTrailing,
     required,
-    value,
-    onChange,
-    disableFormatting,
-    initialCountryCode,
     invalid,
+    errorMessage,
     ...inputProps
 }: PhoneNumberFieldProps) {
-    const errorMessage = (!inputProps.readOnly && !inputProps.disabled && errorMessageProp) || undefined;
-
     return (
         <FormField
             controlId={controlId}
             data-bspk="phone-number-field"
             errorMessage={errorMessage}
             helperText={helperText}
-            invalid={!inputProps.readOnly && !inputProps.disabled && invalid}
+            invalid={invalid}
             label={label}
             labelTrailing={labelTrailing}
             required={required}
         >
-            {(fieldProps) => (
-                <PhoneNumberInput
-                    aria-label={label}
-                    disableFormatting={disableFormatting}
-                    errorMessage={errorMessage}
-                    initialCountryCode={initialCountryCode}
-                    onChange={onChange}
-                    value={value}
-                    {...fieldProps}
-                    {...inputProps}
-                />
-            )}
+            {(fieldProps) => <PhoneNumberInput {...inputProps} {...fieldProps} aria-label={label} invalid={invalid} />}
         </FormField>
     );
 }

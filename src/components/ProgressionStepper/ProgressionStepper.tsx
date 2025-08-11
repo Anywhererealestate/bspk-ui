@@ -32,11 +32,7 @@ export type ProgressionStepperProps = {
      * The steps to display in the progress bar.
      *
      * @example
-     *     [
-     *         { name: '[Name of step to proceed forward 1]' },
-     *         { name: '[Name of step to proceed forward 2]' },
-     *         { name: '[Name of step to proceed forward 3]' },
-     *     ];
+     *     [{ name: 'Name of step 1' }, { name: 'Name of step 2' }, { name: 'Name of step 3' }];
      *
      * @type Array<ProgressionStepperItem>
      * @required
@@ -74,7 +70,7 @@ export type ProgressionStepperProps = {
  *     }
  *
  * @name ProgressionStepper
- * @phase Backlog
+ * @phase Dev
  */
 function ProgressionStepper({
     steps = [],
@@ -100,14 +96,19 @@ function ProgressionStepper({
                 </label>
             )}
             <ol>
-                {steps.flatMap(({ name, subtext }, index) => {
+                {steps.map(({ name, subtext }, index) => {
                     const stepNum = index + 1;
                     let status: 'complete' | 'current' | 'incomplete' = 'incomplete';
-                    if (stepNum < currentStep) status = 'complete';
-                    else if (stepNum === currentStep) status = 'current';
+                    if (currentStep > stepNum) status = 'complete';
+                    else if (currentStep === stepNum) status = 'current';
 
                     return (
-                        <li data-status={status} data-step={stepNum} key={`step-${index}`}>
+                        <li
+                            aria-current={status === 'current' ? 'step' : undefined}
+                            data-status={status}
+                            data-step={stepNum}
+                            key={`step-${index}`}
+                        >
                             <span aria-hidden data-line-circle>
                                 <span data-line="before" />
                                 <span data-circle>

@@ -2,12 +2,11 @@ import { AriaAttributes, useState } from 'react';
 
 import { useFloating, UseFloatingElements, UseFloatingProps } from './useFloating';
 import { useId } from './useId';
-import { CommonProps, InvalidPropsLibrary } from '-/types/common';
+import { CommonProps } from '-/types/common';
 import { EVENT_KEY } from '-/utils/keyboard';
 import { scrollElementIntoView } from '-/utils/scrollElementIntoView';
 
 export type UseComboboxProps = CommonProps<'disabled' | 'readOnly'> &
-    InvalidPropsLibrary &
     Pick<UseFloatingProps, 'offsetOptions' | 'placement' | 'refWidth'> & {
         /**
          * The element to use for outside click detection.
@@ -52,7 +51,8 @@ function useKeyDownNavigation(containerElement: HTMLElement, setShow: (show: boo
             return true;
         }
 
-        if (event.key !== EVENT_KEY.Enter && !event.key.startsWith('Arrow')) return false;
+        if (event.key !== EVENT_KEY.Enter && event.key !== EVENT_KEY[' '] && !event.key.startsWith('Arrow'))
+            return false;
 
         if (event.key.startsWith('Arrow') && !containerElement) {
             event.preventDefault();
@@ -65,7 +65,7 @@ function useKeyDownNavigation(containerElement: HTMLElement, setShow: (show: boo
 
         event.preventDefault();
 
-        if (event.key === EVENT_KEY.Enter && activeIndex !== -1) {
+        if ((event.key === EVENT_KEY[' '] || event.key === EVENT_KEY.Enter) && activeIndex !== -1) {
             itemElements[activeIndex].click();
             return true;
         }
@@ -102,8 +102,6 @@ export function useCombobox({
     placement = 'bottom',
     refWidth = true,
     disabled,
-    errorMessage,
-    invalid,
     readOnly,
     offsetOptions,
 }: UseComboboxProps): {
@@ -151,13 +149,11 @@ export function useCombobox({
             onOutsideClick: () => setShow(false),
         },
         toggleProps: {
-            'aria-errormessage': errorMessage || undefined,
             'aria-activedescendant': selectedId || undefined,
             'aria-controls': menuId,
             'aria-disabled': disabled || undefined,
             'aria-expanded': show,
             'aria-haspopup': 'listbox' as AriaAttributes['aria-haspopup'],
-            'aria-invalid': invalid || undefined,
             'aria-owns': menuId,
             'aria-readonly': readOnly || undefined,
             role: 'combobox',

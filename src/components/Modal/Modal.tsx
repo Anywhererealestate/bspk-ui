@@ -46,7 +46,7 @@ function useDialogHeight() {
 
 export type ModalCallToAction = Pick<ButtonProps, 'destructive'> & Pick<CallToActionButton, 'label' | 'onClick'>;
 
-export type ModalProps = Pick<DialogProps, 'data-bspk-owner' | 'id' | 'innerRef' | 'onClose' | 'open'> & {
+export type ModalProps = Pick<DialogProps, 'id' | 'innerRef' | 'onClose' | 'open' | 'owner'> & {
     /**
      * Modal header.
      *
@@ -180,28 +180,28 @@ function Modal({
             aria-label={header}
             innerRef={setModalRefs}
             placement="center"
-            showScrim={true}
+            showScrim
         >
             <div data-bspk="modal" ref={(node) => innerRef?.(node)} style={{ visibility: 'hidden' }}>
-                <header>
+                <div data-modal-header>
                     <Txt as="div" data-dialog-title variant="heading-h4">
                         {header}
                     </Txt>
                     <Button
                         icon={<SvgClose />}
+                        iconOnly
                         label="close"
                         onClick={dialogProps.onClose}
-                        showLabel={false}
                         variant="tertiary"
                     />
-                </header>
-                <main>{children}</main>
+                </div>
+                <div data-modal-main>{children}</div>
                 {Array.isArray(buttons) && buttons.length > 0 && (
-                    <footer data-button-format={buttonFormat}>
+                    <div data-button-format={buttonFormat} data-modal-footer>
                         {buttons.map((buttonProps, idx) => (
                             <Button key={idx} {...buttonProps} size={isMobile ? 'medium' : 'small'} />
                         ))}
-                    </footer>
+                    </div>
                 )}
             </div>
         </Dialog>

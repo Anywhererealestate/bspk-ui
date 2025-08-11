@@ -70,6 +70,7 @@ function Divider({
     return (
         <div
             {...props}
+            aria-hidden
             aria-orientation={orientation}
             data-bspk="divider"
             data-hide-padding={!padding || undefined}

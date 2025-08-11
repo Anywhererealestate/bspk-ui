@@ -47,7 +47,7 @@ export type PaginationProps = {
  *     }
  *
  * @name Pagination
- * @phase QA
+ * @phase UXReview
  */
 function Pagination({ numPages, value, onChange }: PaginationProps) {
     const nextPage = () => {
@@ -70,12 +70,12 @@ function Pagination({ numPages, value, onChange }: PaginationProps) {
     return (
         <span data-bspk="pagination">
             <Button
-                data-bspk-owner="pagination"
                 disabled={isOutOfBoundsValue || isOneOrFewerPages || isFirstPage}
                 icon={<SvgIcon name="ChevronLeft" />}
-                label="Previous page"
+                iconOnly
+                label={isFirstPage ? 'First page' : `Previous page (${value - 1})`}
                 onClick={previousPage}
-                showLabel={false}
+                owner="pagination"
                 size="small"
                 variant="tertiary"
             />
@@ -87,12 +87,12 @@ function Pagination({ numPages, value, onChange }: PaginationProps) {
             )}
 
             <Button
-                data-bspk-owner="pagination"
                 disabled={isOutOfBoundsValue || isOneOrFewerPages || isLastPage}
                 icon={<SvgIcon name="ChevronRight" />}
-                label="Next page"
+                iconOnly
+                label={isLastPage ? 'Last page' : `Next page (${value + 1})`}
                 onClick={nextPage}
-                showLabel={false}
+                owner="pagination"
                 size="small"
                 variant="tertiary"
             />

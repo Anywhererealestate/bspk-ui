@@ -23,7 +23,7 @@ export type PasswordProps = Pick<
  * @name Password
  * @phase Dev
  */
-function Password({ disabled, readOnly, ...restTextFieldProps }: PasswordProps) {
+function Password({ disabled, readOnly, label, ...restTextFieldProps }: PasswordProps) {
     const [isShowingPassword, setIsShowingPassword] = useState(false);
 
     const togglePasswordVisibility =
@@ -36,8 +36,10 @@ function Password({ disabled, readOnly, ...restTextFieldProps }: PasswordProps) 
     return (
         <span data-bspk="password">
             <TextField
+                aria-label={label}
                 controlId="Example controlId"
                 disabled={disabled}
+                label={label}
                 readOnly={readOnly}
                 showClearButton={false}
                 trailing={

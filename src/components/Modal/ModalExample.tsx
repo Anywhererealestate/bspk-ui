@@ -5,7 +5,7 @@ import { ListItem } from '-/components/ListItem';
 import { ComponentExampleFn } from '-/utils/demo';
 
 export const ModalExample: ComponentExampleFn<ModalProps> = ({ action }) => ({
-    hideVariants: true,
+    variants: false,
     render: ({ props, setState }) => {
         const label = 'Open Modal';
 
@@ -59,6 +59,7 @@ export const ModalExample: ComponentExampleFn<ModalProps> = ({ action }) => ({
                             .fill('')
                             .map((_, index) => (
                                 <ListItem
+                                    as="label"
                                     key={`key${index}`}
                                     label={`Option ${index + 1}`}
                                     onClick={() => action(`Option ${index + 1} clicked`)}

@@ -1,19 +1,7 @@
-import { ChangeEvent } from 'react';
-
 import { RadioProps, Radio } from '-/components/Radio';
-import { ToggleOptionProps, ToggleOption } from '-/components/ToggleOption';
-import { InvalidPropsLibrary } from '-/types/common';
+import { ToggleOption, ToggleOptionControlProps } from '-/components/ToggleOption';
 
-export type RadioOptionProps = InvalidPropsLibrary &
-    Pick<RadioProps, 'checked' | 'disabled' | 'name' | 'value'> &
-    Pick<ToggleOptionProps, 'description' | 'label'> & {
-        /**
-         * The function to call when the radio is checked.
-         *
-         * @required
-         */
-        onChange: (checked: boolean, event: ChangeEvent<HTMLInputElement>) => void;
-    };
+export type RadioOptionProps = ToggleOptionControlProps<RadioProps>;
 
 /**
  * A control that allows users to choose one or more items from a list or turn an feature on or off.
@@ -23,13 +11,13 @@ export type RadioOptionProps = InvalidPropsLibrary &
  * @name RadioOption
  * @phase Utility
  */
-function RadioOption({ label: labelProp, description, ...checkboxProps }: RadioOptionProps) {
+function RadioOption({ label: labelProp, description, disabled, ...radioProps }: RadioOptionProps) {
     const label = labelProp || description;
     const ariaLabel = description ? `${labelProp} - ${description}` : labelProp;
     return (
         label && (
-            <ToggleOption data-bspk="radio-option" description={description} label={label}>
-                <Radio {...checkboxProps} aria-label={ariaLabel} />
+            <ToggleOption data-bspk="radio-option" description={description} disabled={disabled} label={label}>
+                <Radio {...radioProps} aria-label={ariaLabel} />
             </ToggleOption>
         )
     );
