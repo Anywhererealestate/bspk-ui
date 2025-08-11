@@ -1,65 +1,68 @@
 [data-bspk='table'] {
     /*! --template-columns: is set via inline style */
     width: 100%;
-    border-collapse: separate;
     text-align: left;
-    border-spacing: 2rem 0.125rem;
     color: var(--foreground-neutral-on-surface);
-    font: var(--labels-base);
     border-radius: var(--radius-md);
     border: 1px solid var(--stroke-neutral-low);
-    border-top-left-radius: var(--radius-md);
-    border-top-right-radius: var(--radius-md);
     overflow: hidden;
-
-    [data-table] {
-        display: grid;
-        width: 100%;
-        grid-template-columns: var(--template-columns, repeat(auto-fill, minmax(0, 1fr)));
-    }
 
     [data-title] {
         padding: var(--spacing-sizing-03);
-        width: 100%;
         border-bottom: 1px solid var(--stroke-neutral-low);
     }
 
-    [data-title],
-    [data-head] {
-        background: var(--surface-neutral-t2-lowest);
-        font: var(--labels-base);
+    table {
+        display: grid;
+        border-collapse: collapse;
+        grid-template-columns: repeat(var(--template-columns, 1), 1fr);
     }
 
-    [data-head] {
-        padding: 0 var(--spacing-sizing-03);
-        display: flex;
+    thead,
+    tbody,
+    tr {
+        display: grid;
+        grid-column: 1 / -1;
+        grid-template-columns: subgrid;
+        background-color: var(--surface-neutral-t2-lowest);
+    }
+
+    thead {
         align-items: center;
-        flex-direction: row;
-        height: var(--spacing-sizing-10);
         font: var(--labels-base);
         justify-content: space-between;
         cursor: pointer;
+        padding: var(--spacing-sizing-03), 0;
         border: none none 1px solid var(--stroke-neutral-low);
-        position: relative;
-        z-index: 1;
+        background-color: var(--surface-neutral-t2-lowest);
+    }
+
+    th {
+        display: flex;
+        min-height: var(--spacing-sizing-06);
+        align-items: center;
+        padding: 0 var(--spacing-sizing-03);
+        font: var(--labels-base);
+        justify-content: space-between;
 
         &:focus {
             outline: solid 2px var(--stroke-neutral-focus);
-            z-index: 2;
         }
     }
 
-    [data-cell] {
+    tr {
+        padding: var(--spacing-sizing-04) 0;
+
+        &[data-cell-row='odd'] {
+            background-color: var(--surface-neutral-t1-base);
+        }
+    }
+
+    td {
         display: flex;
         flex-direction: column;
+        padding: 0 var(--spacing-sizing-03);
         gap: var(--spacing-sizing-02);
-        padding: var(--spacing-sizing-04);
-        background-color: var(--surface-neutral-t1-base);
-        font: var(--labels-small);
-
-        &[data-cell-row='even'] {
-            background-color: var(--surface-neutral-t2-lowest);
-        }
 
         p {
             margin: 0;

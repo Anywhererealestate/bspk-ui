@@ -52,10 +52,32 @@ export type TableProps<R extends TableRow> = {
 };
 
 /**
- * Component description coming soon.
+ * A container for displaying tabular data.
+ *
+ * The table supports sorting and custom column definitions.
+ *
+ * @example
+ *     import { Table } from '@bspk/ui/Table';
+ *
+ *     function Example() {
+ *         return (
+ *             <Table
+ *                 columns={[
+ *                     { key: 'state', label: 'State', width: '100px' },
+ *                     { key: 'capital', label: 'Capital', width: '1fr' },
+ *                 ]}
+ *                 rows={[
+ *                     { state: 'New Jersey', capital: 'Trenton' },
+ *                     { state: 'New York', capital: 'Albany' },
+ *                     { state: 'California', capital: 'Sacramento' },
+ *                 ]}
+ *                 title="State Capitals"
+ *             />
+ *         );
+ *     }
  *
  * @name Table
- * @phase QA
+ * @phase UXReview
  */
 
 function Table<R extends TableRow>({ rows, columns, title, ...props }: ElementProps<TableProps<R>, 'div'>) {
@@ -88,52 +110,59 @@ function Table<R extends TableRow>({ rows, columns, title, ...props }: ElementPr
                     {title}
                 </div>
             )}
-            <div
-                {...props}
+            <table
                 aria-labelledby={title ? `${tableId}-title` : undefined}
-                data-table
                 style={cssWithVars({
-                    '--template-columns': columns.map((c) => `minmax(0, ${c.width || '1fr'})`).join(' '),
+                    '--template-columns': columns.length,
+                    gridTemplateColumns: columns.map((col) => col.width || '1fr').join(' '),
+                    ...props.style,
                 })}
             >
-                {table.getHeaderGroups().map((headerGroup) =>
-                    headerGroup.headers.map((header, index, arr) => {
-                        const isSorted = header.column.getIsSorted();
-                        const isFirst = index === 0;
-                        const isLast = index === arr.length - 1;
-                        const dataHeadValue = isFirst ? 'first' : isLast ? 'last' : '';
-
-                        return (
-                            <div
-                                data-head={dataHeadValue}
-                                key={header.id}
-                                onClick={header.column.getToggleSortingHandler()}
-                                onKeyDown={handleKeyDown({
-                                    Space: () => header.column.getToggleSortingHandler(),
-                                    Enter: () => header.column.getToggleSortingHandler(),
-                                })}
-                                role="button"
-                                tabIndex={0}
-                            >
-                                {flexRender(header.column.columnDef.header, header.getContext())}
-                                {isSorted && <>{isSorted === 'asc' ? <SvgAZAscend /> : <SvgAZDescend />}</>}
-                            </div>
-                        );
-                    }),
-                )}
-                {table.getRowModel().rows.map((row, rowIndex) =>
-                    row.getVisibleCells().map((cell) => (
-                        <div
-                            data-cell={cell.id}
-                            data-cell-columm={cell.column.id}
-                            data-cell-row={rowIndex % 2 === 0 ? 'odd' : 'even'}
-                            key={cell.id}
-                        >
-                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                        </div>
-                    )),
-                )}
-            </div>
+                <thead>
+                    <tr>
+                        {table.getHeaderGroups().map((headerGroup) =>
+                            headerGroup.headers.map((header, index) => {
+                                const isSorted = header.column.getIsSorted();
+                                return (
+                                    <th
+                                        aria-sort={
+                                            isSorted === 'asc'
+                                                ? 'ascending'
+                                                : isSorted === 'desc'
+                                                  ? 'descending'
+                                                  : undefined
+                                        }
+                                        data-th-index={index}
+                                        key={header.id}
+                                        onClick={header.column.getToggleSortingHandler()}
+                                        onKeyDown={handleKeyDown({
+                                            Space: () => header.column.getToggleSortingHandler(),
+                                            Enter: () => header.column.getToggleSortingHandler(),
+                                        })}
+                                        role="columnheader"
+                                        scope="col"
+                                        tabIndex={0}
+                                    >
+                                        {flexRender(header.column.columnDef.header, header.getContext())}
+                                        {isSorted && <>{isSorted === 'asc' ? <SvgAZAscend /> : <SvgAZDescend />}</>}
+                                    </th>
+                                );
+                            }),
+                        )}
+                    </tr>
+                </thead>
+                <tbody>
+                    {table.getRowModel().rows.map((row, rowIndex) => (
+                        <tr data-cell-row={rowIndex % 2 === 0 ? 'odd' : 'even'} data-row-index={rowIndex} key={row.id}>
+                            {row.getVisibleCells().map((cell, cellIndex) => (
+                                <td data-cell-index={cellIndex} key={cell.id}>
+                                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                </td>
+                            ))}
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
         </div>
     );
 }

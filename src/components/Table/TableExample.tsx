@@ -18,10 +18,11 @@ export const TableExample: ComponentExample<TableProps<ExampleRow>> = {
                     { key: 'age', label: 'Age', width: '1fr' },
                 ]}
                 rows={[
-                    { id: 1, name: 'Alice', age: 19 },
-                    { id: 2, name: 'Bob', age: 30 },
-                    { id: 3, name: 'Charlie', age: 74 },
+                    { id: 1, name: 'Bob', age: 74 },
+                    { id: 2, name: 'Charlie', age: 19 },
+                    { id: 3, name: 'Alice', age: 30 },
                 ]}
+                title="Example Table"
             />
         );
     },
