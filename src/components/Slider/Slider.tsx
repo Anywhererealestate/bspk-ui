@@ -3,8 +3,9 @@ import { useEffect, useRef } from 'react';
 import './slider.scss';
 import { SliderIntervalDots } from './SliderIntervalDots';
 import { SliderKnob } from './SliderKnob';
-import { SliderTemplate } from './SliderTemplate';
+// import { SliderTemplate } from './SliderTemplate';
 import { useNormalizeSliderValue } from './useNormalizeSliderValue';
+import { Txt } from '-/components/Txt';
 import { CommonPropsLibrary } from '-/types/common';
 
 export type SliderProps = Pick<CommonPropsLibrary, 'disabled' | 'name' | 'readOnly'> & {
@@ -82,7 +83,6 @@ function Slider({
     disabled = false,
     readOnly = false,
     formatValue,
-    name,
 }: SliderProps) {
     const sliderRef = useRef<HTMLDivElement>(null);
     const isDraggingRef = useRef(false);
@@ -118,21 +118,25 @@ function Slider({
         window.removeEventListener('mouseup', handleMouseUp);
     };
 
-    const handleMouseDown = (e: React.MouseEvent) => {
+    const handleTrackClick = (e: React.MouseEvent<HTMLDivElement>) => {
         if (disabled || readOnly) return;
-        isDraggingRef.current = true;
         const newValue = getValueFromPosition(e.clientX);
         onChange(newValue);
+    };
+
+    const handleKnobMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+        if (disabled || readOnly) return;
+        e.stopPropagation(); // Prevent track click from firing
+        isDraggingRef.current = true;
 
         window.addEventListener('mousemove', handleMouseMove);
         window.addEventListener('mouseup', handleMouseUp);
     };
 
-    const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    const handleKnobKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
         if (disabled || readOnly) return;
 
         let newValue = value;
-
         if (e.key === 'ArrowLeft') {
             newValue = value - step;
         } else if (e.key === 'ArrowRight') {
@@ -140,7 +144,6 @@ function Slider({
         } else {
             return;
         }
-
         onChange(normalizeSliderValue(newValue));
     };
 
@@ -154,27 +157,63 @@ function Slider({
 
     const valuePercent = Math.min(Math.max(((value - min) / (max - min)) * 100, 0), 100);
 
+    const displayValue = formatValue ? formatValue(value) : value;
+
     return (
-        <SliderTemplate
-            data-bspk="slider"
-            disabled={disabled}
-            displayValue={formatValue ? formatValue(value) : undefined}
-            handleMouseDown={handleMouseDown}
-            label={label}
-            max={max}
-            min={min}
-            name={name}
-            onKeyDown={handleKeyDown}
-            readOnly={readOnly}
-            sliderRef={sliderRef}
-            value={value}
-        >
-            <div data-slider-fill="" style={{ width: `${valuePercent}%` }} />
+        <div data-bspk="slider" data-disabled={disabled || undefined} data-readonly={readOnly || undefined}>
+            <div data-top-labels="">
+                <Txt variant="labels-small">{label}</Txt>
 
-            {marks && <SliderIntervalDots max={max} min={min} step={step} value={value} />}
+                <Txt data-value-label="">{displayValue ?? value}</Txt>
+            </div>
+            <div data-slider-parent>
+                <div
+                    aria-disabled={disabled || undefined}
+                    aria-label={label}
+                    aria-readonly={readOnly || undefined}
+                    aria-valuemax={max}
+                    aria-valuemin={min}
+                    aria-valuenow={value}
+                    aria-valuetext={displayValue?.toString()}
+                    data-slider-body
+                    onClick={handleTrackClick}
+                    onKeyDown={handleKnobKeyDown}
+                    ref={sliderRef}
+                    role="slider"
+                    tabIndex={disabled ? -1 : 0}
+                >
+                    <div data-slider-background />
+                    <div data-slider-fill style={{ width: `${valuePercent}%` }} />
+                    {marks && <SliderIntervalDots max={max} min={min} step={step} value={value} />}
+                </div>
+                <SliderKnob
+                    aria-label={label}
+                    aria-valuemax={max}
+                    aria-valuemin={min}
+                    aria-valuenow={value}
+                    aria-valuetext={displayValue?.toString()}
+                    onKeyDown={handleKnobKeyDown}
+                    onMouseDown={handleKnobMouseDown}
+                    style={{
+                        left: `calc(${valuePercent}% - 12px)`, // adjust knob position, 12px is half knob width
+                        position: 'absolute',
+                        top: 0,
+                    }}
+                    tabIndex={disabled ? -1 : 0}
+                    valuePercent={valuePercent}
+                />
+            </div>
 
-            <SliderKnob tabIndex={0} valuePercent={valuePercent} />
-        </SliderTemplate>
+            <div data-bottom-labels="">
+                <Txt data-min-label="" variant="body-small">
+                    {min}
+                </Txt>
+
+                <Txt data-max-label="" variant="body-small">
+                    {max}
+                </Txt>
+            </div>
+        </div>
     );
 }
 
