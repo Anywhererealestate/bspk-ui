@@ -15,7 +15,15 @@ export function SliderIntervalDots({ step, max, min, value }: IntervalDotProps) 
         const percent = (pointValue / (max - min)) * 100;
         dots.push(
             <div
-                data-filled-section={pointValue < value ? '' : undefined}
+                data-filled-section={
+                    typeof value === 'number'
+                        ? pointValue < value
+                            ? ''
+                            : undefined
+                        : pointValue < value[0]
+                          ? ''
+                          : undefined
+                }
                 data-interval-dot
                 key={i}
                 style={{ left: `${percent}%` }}
