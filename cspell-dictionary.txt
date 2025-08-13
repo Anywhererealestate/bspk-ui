@@ -20,6 +20,8 @@ falsey
 Yoshi
 Wario
 Waluigi
+Inigo
+Fezzik
 
 # BRANDS
 

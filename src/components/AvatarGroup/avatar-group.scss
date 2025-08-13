@@ -10,4 +10,12 @@
         gap: var(--spacing-sizing-02);
         overflow: hidden;
     }
+
+    [data-stacked-8]:not(:last-child) {
+        margin-right: -16px;
+    }
+
+    [data-stacked-4]:not(:last-child) {
+        margin-right: -12px;
+    }
 }

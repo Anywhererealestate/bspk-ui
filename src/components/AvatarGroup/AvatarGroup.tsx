@@ -10,8 +10,10 @@ export type AvatarGroupProps = {
      *
      * @example
      *     [
-     *         { name: 'Jane Doe', image: '/profile.jpg' },
-     *         { name: 'John Smith', initials: 'JS' },
+     *         { name: 'Fezzik', image: '/profile.jpg' },
+     *         { name: 'Inigo Montoya', initials: 'IM', color: 'blue' },
+     *         { name: 'Miracle Max', initials: 'MM', color: 'green' },
+     *         { name: 'Princess Buttercup', showIcon: true },
      *     ];
      *
      * @type Array<AvatarItem>
@@ -29,8 +31,7 @@ export type AvatarGroupProps = {
      *
      * This is used to limit the number of avatars displayed in the group.
      *
-     * @minimum 3
-     * @maximum 5
+     * Recommended to set this to a value between 3 and 5 for optimal display.
      */
     max?: number;
     /**
@@ -51,15 +52,16 @@ export type AvatarGroupProps = {
  *         return (
  *             <AvatarGroup
  *                 items={[
- *                     { name: 'Jane Doe', image: '/path/to/image.jpg' },
+ *                     { name: 'Andre Giant', image: '/path/to/image.jpg' },
  *                     { name: 'John Smith', initials: 'JS' },
+ *                     { name: 'Princess Buttercup' },
  *                 ]}
  *             />
  *         );
  *     }
  *
  * @name AvatarGroup
- * @phase Backlog
+ * @phase Dev
  */
 function AvatarGroup({ items, size = 'small', max = 5, variant }: AvatarGroupProps) {
     if (!Array.isArray(items) || !items?.length) return null;
@@ -69,9 +71,20 @@ function AvatarGroup({ items, size = 'small', max = 5, variant }: AvatarGroupPro
     return (
         <div data-bspk="avatar-group" data-max={max} data-size={size} data-variant={variant}>
             <div data-wrap>
-                {items.map((item, index) => (
-                    <Avatar key={index} {...item} size={size} />
+                {items.slice(0, max).map((item, index) => (
+                    <Avatar
+                        data-stacked-4={
+                            variant === 'stacked' && (size === 'x-small' || size === 'small') ? true : undefined
+                        }
+                        data-stacked-8={
+                            variant === 'stacked' && (size === 'medium' || size === 'large') ? true : undefined
+                        }
+                        key={index}
+                        {...item}
+                        size={size}
+                    />
                 ))}
+
                 {overFlowCount > 0 && (
                     <div aria-hidden data-bspk="avatar" data-color="white" data-size={size}>
                         <span data-overflow-count>+{overFlowCount}</span>
