@@ -7,15 +7,22 @@
         flex-direction: row;
         align-items: end;
         justify-content: end;
-        gap: var(--spacing-sizing-02);
         overflow: hidden;
     }
 
-    [data-stacked-8]:not(:last-child) {
-        margin-right: -16px;
+    [data-gap='02'] {
+        gap: var(--spacing-sizing-02);
     }
 
-    [data-stacked-4]:not(:last-child) {
-        margin-right: -12px;
+    [data-gap='04'] {
+        gap: var(--spacing-sizing-04);
+    }
+
+    [data-stacked='04']:not(:last-child) {
+        margin-right: -8px;
+    }
+
+    [data-stacked='02']:not(:last-child) {
+        margin-right: -4px;
     }
 }

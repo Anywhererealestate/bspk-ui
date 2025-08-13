@@ -67,18 +67,20 @@ function AvatarGroup({ items, size = 'small', max = 5, variant }: AvatarGroupPro
     if (!Array.isArray(items) || !items?.length) return null;
 
     const overFlowCount = items.length - max;
+    const small = size === 'x-small' || size === 'small';
 
     return (
-        <div data-bspk="avatar-group" data-max={max} data-size={size} data-variant={variant}>
+        <div
+            data-bspk="avatar-group"
+            data-gap={variant === 'spread' ? (small ? '02' : '04') : undefined}
+            data-max={max}
+            data-size={size}
+            data-variant={variant}
+        >
             <div data-wrap>
                 {items.slice(0, max).map((item, index) => (
                     <Avatar
-                        data-stacked-4={
-                            variant === 'stacked' && (size === 'x-small' || size === 'small') ? true : undefined
-                        }
-                        data-stacked-8={
-                            variant === 'stacked' && (size === 'medium' || size === 'large') ? true : undefined
-                        }
+                        data-stacked={variant === 'stacked' ? (small ? '02' : '04') : undefined}
                         key={index}
                         {...item}
                         size={size}
