@@ -86,27 +86,25 @@ function Slider({
 }: SliderProps) {
     const sliderRef = useRef<HTMLDivElement>(null);
     const isDraggingRef = useRef<0 | 1 | null>(null);
+    const { normalizeSliderValue } = useNormalizeSliderValue({ min, max, step });
 
-    const { normalizeSliderValue } = useNormalizeSliderValue({
-        min,
-        max,
-        step,
-    });
-
-    // Support both single value and range
     const isRange = Array.isArray(value);
     let val0 = isRange ? value[0] : (value as number);
     let val1 = isRange ? value[1] : (value as number);
 
-    // Ensure val0 <= val1 for rendering
-    if (val0 > val1) {
+    // Always show the lower value first
+    if (isRange && val0 > val1) {
         [val0, val1] = [val1, val0];
     }
+
+    const displayValue = formatValue ? formatValue([val0, val1]) : isRange ? `${val0} – ${val1}` : `${val0}`;
+
+    const percent0 = Math.min(Math.max(((val0 - min) / (max - min)) * 100, 0), 100);
+    const percent1 = Math.min(Math.max(((val1 - min) / (max - min)) * 100, 0), 100);
 
     const getValueFromPosition = (clientX: number) => {
         const slider = sliderRef.current;
         if (!slider) return min;
-
         const { left, width } = slider.getBoundingClientRect();
         let percent = (clientX - left) / width;
         percent = Math.max(0, Math.min(1, percent));
@@ -116,13 +114,10 @@ function Slider({
     const handleMouseMove = (e: MouseEvent) => {
         if (isDraggingRef.current === null || disabled || readOnly) return;
         const newValue = getValueFromPosition(e.clientX);
-
         if (isRange) {
             if (isDraggingRef.current === 0) {
-                // Move only val0, val1 stays the same
                 onChange([normalizeSliderValue(newValue), val1]);
             } else {
-                // Move only val1, val0 stays the same
                 onChange([val0, normalizeSliderValue(newValue)]);
             }
         } else {
@@ -141,10 +136,10 @@ function Slider({
         const clickValue = getValueFromPosition(e.clientX);
         if (isRange) {
             if (Math.abs(clickValue - val0) < Math.abs(clickValue - val1)) {
-                onChange([Math.min(clickValue, val1), val1] as [number, number]);
+                onChange([clickValue, val1]);
                 isDraggingRef.current = 0;
             } else {
-                onChange([val0, Math.max(clickValue, val0)] as [number, number]);
+                onChange([val0, clickValue]);
                 isDraggingRef.current = 1;
             }
         } else {
@@ -163,23 +158,15 @@ function Slider({
     const handleKnobKeyDown = (knobIndex: 0 | 1) => (e: React.KeyboardEvent<HTMLDivElement>) => {
         if (disabled || readOnly) return;
         let newValue = knobIndex === 0 ? val0 : val1;
-        if (e.key === 'ArrowLeft') {
-            newValue = newValue - step;
-        } else if (e.key === 'ArrowRight') {
-            newValue = newValue + step;
-        } else {
-            return;
-        }
+        if (e.key === 'ArrowLeft') newValue -= step;
+        else if (e.key === 'ArrowRight') newValue += step;
+        else return;
         newValue = normalizeSliderValue(newValue);
-
         if (isRange) {
-            if (knobIndex === 0) {
-                onChange([newValue, val1]);
-            } else {
-                onChange([val0, newValue]);
-            }
+            if (knobIndex === 0) onChange([newValue, val1]);
+            else onChange([val0, newValue]);
         } else {
-            onChange(normalizeSliderValue(newValue));
+            onChange(newValue);
         }
     };
 
@@ -190,15 +177,6 @@ function Slider({
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-
-    const percent0 = Math.min(Math.max(((val0 - min) / (max - min)) * 100, 0), 100);
-    const percent1 = Math.min(Math.max(((val1 - min) / (max - min)) * 100, 0), 100);
-
-    const displayValue = formatValue
-        ? formatValue(isRange ? [val0, val1] : [val0, val1])
-        : isRange
-          ? `${val0} – ${val1}`
-          : `${val0}`;
 
     return (
         <div data-bspk="slider" data-disabled={disabled || undefined} data-readonly={readOnly || undefined}>
