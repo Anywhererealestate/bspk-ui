@@ -52,9 +52,9 @@ function ProgressionStepperBar({
                     <div data-complete={i < stepCompleted || undefined} data-step={i} key={i} />
                 ))}
             </div>
-            <label>
+            <span data-label>
                 {stepCompleted} of {stepCount} steps completed.
-            </label>
+            </span>
         </div>
     );
 }
