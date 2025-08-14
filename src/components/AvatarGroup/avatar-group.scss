@@ -10,19 +10,19 @@
         overflow: hidden;
     }
 
+    [data-gap='01'] {
+        gap: var(--spacing-sizing-01);
+    }
+
     [data-gap='02'] {
         gap: var(--spacing-sizing-02);
     }
 
-    [data-gap='04'] {
-        gap: var(--spacing-sizing-04);
-    }
-
-    [data-stacked='04']:not(:last-child) {
+    [data-stacked='02']:not(:last-child) {
         margin-right: -8px;
     }
 
-    [data-stacked='02']:not(:last-child) {
+    [data-stacked='01']:not(:last-child) {
         margin-right: -4px;
     }
 }

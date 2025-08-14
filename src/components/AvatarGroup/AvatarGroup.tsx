@@ -70,17 +70,11 @@ function AvatarGroup({ items, size = 'small', max = 5, variant }: AvatarGroupPro
     const small = size === 'x-small' || size === 'small';
 
     return (
-        <div
-            data-bspk="avatar-group"
-            data-gap={variant === 'spread' ? (small ? '02' : '04') : undefined}
-            data-max={max}
-            data-size={size}
-            data-variant={variant}
-        >
-            <div data-wrap>
+        <div data-bspk="avatar-group" data-max={max} data-size={size} data-variant={variant}>
+            <div data-gap={variant === 'spread' ? (small ? '01' : '02') : undefined} data-wrap>
                 {items.slice(0, max).map((item, index) => (
                     <Avatar
-                        data-stacked={variant === 'stacked' ? (small ? '02' : '04') : undefined}
+                        data-stacked={variant === 'stacked' ? (small ? '01' : '02') : undefined}
                         key={index}
                         {...item}
                         size={size}
