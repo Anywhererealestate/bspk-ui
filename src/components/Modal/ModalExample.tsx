@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { ModalProps, Modal } from '.';
 import { Button } from '-/components/Button';
 import { Checkbox } from '-/components/Checkbox';
@@ -7,18 +8,34 @@ import { ComponentExampleFn } from '-/utils/demo';
 export const ModalExample: ComponentExampleFn<ModalProps> = ({ action }) => ({
     variants: false,
     render: ({ props, setState }) => {
-        const label = 'Open Modal';
+        const MenuExampleInner = () => {
+            const label = 'Open Modal';
+            const buttonRef = useRef<HTMLButtonElement | null>(null);
 
-        const { children, ...modalProps } = props;
+            const { children, ...modalProps } = props;
 
-        return (
-            <>
-                <Button label={label} onClick={() => setState({ open: true })} />
-                <Modal data-example-component id="exampleId" {...modalProps} onClose={() => setState({ open: false })}>
-                    {children}
-                </Modal>
-            </>
-        );
+            return (
+                <>
+                    <Button
+                        innerRef={(instance) => {
+                            buttonRef.current = instance;
+                        }}
+                        label={label}
+                        onClick={() => setState({ open: true })}
+                    />
+                    <Modal
+                        container={buttonRef.current ?? undefined}
+                        data-example-component
+                        id="exampleId"
+                        {...modalProps}
+                        onClose={() => setState({ open: false })}
+                    >
+                        {children}
+                    </Modal>
+                </>
+            );
+        };
+        return <MenuExampleInner />;
     },
     presets: [
         // confirmation modal
