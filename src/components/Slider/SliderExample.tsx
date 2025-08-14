@@ -18,17 +18,17 @@ export const SliderExample: ComponentExample<SliderProps> = {
             return <Component {...sliderProps} onChange={setValue} value={value} />;
         };
 
-        return <SliderDemo {...props} />;
+        return <SliderDemo {...props} max={props.max || 100} min={props.min || 0} value={props.value || 50} />;
     },
     presets: [
         {
             label: 'Basic Slider',
             propState: {
                 label: 'Basic option',
-                min: 0,
-                max: 100,
+                min: 20,
+                max: 80,
                 step: 1,
-                value: 20,
+                value: 30,
             },
         },
         {

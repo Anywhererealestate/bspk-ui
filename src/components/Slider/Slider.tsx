@@ -8,7 +8,7 @@ import { useNormalizeSliderValue } from './useNormalizeSliderValue';
 import { Txt } from '-/components/Txt';
 import { CommonPropsLibrary } from '-/types/common';
 
-export type SliderProps = Pick<CommonPropsLibrary, 'disabled' | 'name' | 'readOnly'> & {
+export type SliderProps = Pick<CommonPropsLibrary, 'disabled' | 'readOnly'> & {
     /**
      * The label of the slider.
      *
@@ -17,6 +17,8 @@ export type SliderProps = Pick<CommonPropsLibrary, 'disabled' | 'name' | 'readOn
     label: string;
     /**
      * The numerical value of the slider.
+     *
+     * Providing an array of two numbers will create a **range slider**.
      *
      * @required
      */
@@ -30,13 +32,13 @@ export type SliderProps = Pick<CommonPropsLibrary, 'disabled' | 'name' | 'readOn
     /**
      * The minimum value of the slider.
      *
-     * @default 0
+     * @required
      */
     min: number;
     /**
-     * The maximum value of the slider.
+     * The maximum value of the slider.;
      *
-     * @default 100
+     * @required
      */
     max: number;
     /**
@@ -64,7 +66,7 @@ export type SliderProps = Pick<CommonPropsLibrary, 'disabled' | 'name' | 'readOn
  *     import { useState } from 'react';
  *
  *     function Example() {
- *         const [value, setValue] = useState<number>(50);
+ *         const [value, setValue] = useState(50);
  *
  *         return <Slider value={value} min={0} max={100} label="Slider Example" onChange={setValue} />;
  *     }
@@ -75,8 +77,8 @@ export type SliderProps = Pick<CommonPropsLibrary, 'disabled' | 'name' | 'readOn
 function Slider({
     value,
     onChange,
-    min = 0,
-    max = 100,
+    min,
+    max,
     label,
     marks = false,
     step = 1,
