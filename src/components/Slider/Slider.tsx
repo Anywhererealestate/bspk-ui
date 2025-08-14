@@ -3,7 +3,6 @@ import { useEffect, useRef } from 'react';
 import './slider.scss';
 import { SliderIntervalDots } from './SliderIntervalDots';
 import { SliderKnob } from './SliderKnob';
-// import { SliderTemplate } from './SliderTemplate';
 import { useNormalizeSliderValue } from './useNormalizeSliderValue';
 import { Txt } from '-/components/Txt';
 import { CommonPropsLibrary } from '-/types/common';
