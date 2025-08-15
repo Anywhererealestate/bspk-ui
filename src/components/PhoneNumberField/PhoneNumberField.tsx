@@ -10,7 +10,7 @@ export type PhoneNumberFieldProps = FormFieldWrapProps<PhoneNumberInputProps>;
  *     <PhoneNumberField label="Phone Number" initialCountryCode="US" value={value} onChange={onChange} />;
  *
  * @name PhoneNumberField
- * @phase QA
+ * @phase UXReview
  */
 function PhoneNumberField({
     label,
