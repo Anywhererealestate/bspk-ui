@@ -110,6 +110,7 @@ function Avatar({
     image,
     name: ariaLabel,
     showTooltip = DEFAULT.showTooltip,
+    ...props
 }: AvatarProps) {
     const children = useMemo(() => {
         if (image) return <img alt={ariaLabel} src={image} />;
@@ -139,7 +140,7 @@ function Avatar({
     if (!children) return null;
 
     const avatar = (
-        <div aria-describedby={ariaLabel} data-bspk="avatar" data-color={color} data-size={size}>
+        <div aria-describedby={ariaLabel} data-bspk="avatar" data-color={color} data-size={size} {...props}>
             {children}
         </div>
     );
