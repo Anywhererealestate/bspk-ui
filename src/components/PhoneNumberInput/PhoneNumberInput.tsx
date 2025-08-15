@@ -81,7 +81,7 @@ export type PhoneNumberInputProps = FormFieldControlProps &
  *     <PhoneNumberInput aria-label="Phone Number" initialCountryCode="US" value={value} onChange={onChange} />;
  *
  * @name PhoneNumberInput
- * @phase QA
+ * @phase UXReview
  */
 function PhoneNumberInput({
     value,
