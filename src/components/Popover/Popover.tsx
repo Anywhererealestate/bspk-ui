@@ -8,6 +8,7 @@ import { Placement, useFloating } from '-/hooks/useFloating';
 import { useId } from '-/hooks/useId';
 import { useOutsideClick } from '-/hooks/useOutsideClick';
 import { CallToActionButton, CommonProps } from '-/types/common';
+import { cssWithVars } from '-/utils/cwv';
 
 import './popover.scss';
 
@@ -102,6 +103,16 @@ function Popover({ placement = 'top', header, content, callToAction, children, d
         [children, disabled, id],
     );
 
+    const getArrowX = () => {
+        if (middlewareData?.arrow?.x) {
+            if (placement === 'top-start' || placement === 'bottom-start') return '16px';
+            if (placement === 'top' || placement === 'bottom') return `${middlewareData.arrow.x}px`;
+            if (placement === 'top-end' || placement === 'bottom-end')
+                return `${(middlewareData?.arrow?.x * 2 || 32) - 16}px`;
+        }
+        return '0px';
+    };
+
     return disabled ? (
         children
     ) : (
@@ -134,7 +145,7 @@ function Popover({ placement = 'top', header, content, callToAction, children, d
                                 label={callToAction.label}
                                 onClick={callToAction.onClick}
                                 size="small"
-                                variant="secondary"
+                                variant="primary"
                             />
                         )}
                     </div>
@@ -143,10 +154,10 @@ function Popover({ placement = 'top', header, content, callToAction, children, d
                         ref={(node) => {
                             arrowRef.current = node;
                         }}
-                        style={{
-                            left: `${middlewareData?.arrow?.x}px`,
-                            top: `${middlewareData?.arrow?.y}px`,
-                        }}
+                        style={cssWithVars({
+                            '--position-left': getArrowX(),
+                            '--position-top': middlewareData?.arrow?.y ? `${middlewareData.arrow.y}px` : '0px',
+                        })}
                     />
                 </div>
             </Portal>

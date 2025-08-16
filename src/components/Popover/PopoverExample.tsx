@@ -7,7 +7,7 @@ export const PopoverExample: ComponentExampleFn<PopoverProps> = ({ action }) => 
         return (
             <>
                 <Component {...props}>
-                    <Button label={`Click me (${props.placement})`} variant="secondary" />
+                    <Button label={`Click me for a Popover (${props.placement})`} variant="secondary" />
                 </Component>
             </>
         );
@@ -17,7 +17,7 @@ export const PopoverExample: ComponentExampleFn<PopoverProps> = ({ action }) => 
             label: 'With CallToAction',
             propState: {
                 callToAction: {
-                    label: 'Click me',
+                    label: 'CTA Button',
                     onClick: () => action('Call to action clicked!'),
                 },
             },
