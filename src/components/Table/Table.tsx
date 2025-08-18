@@ -52,10 +52,32 @@ export type TableProps<R extends TableRow> = {
 };
 
 /**
- * Component description coming soon.
+ * A container for displaying tabular data.
+ *
+ * The table supports sorting and custom column definitions.
+ *
+ * @example
+ *     import { Table } from '@bspk/ui/Table';
+ *
+ *     function Example() {
+ *         return (
+ *             <Table
+ *                 columns={[
+ *                     { key: 'state', label: 'State', width: '100px' },
+ *                     { key: 'capital', label: 'Capital', width: '1fr' },
+ *                 ]}
+ *                 rows={[
+ *                     { state: 'New Jersey', capital: 'Trenton' },
+ *                     { state: 'New York', capital: 'Albany' },
+ *                     { state: 'California', capital: 'Sacramento' },
+ *                 ]}
+ *                 title="State Capitals"
+ *             />
+ *         );
+ *     }
  *
  * @name Table
- * @phase QA
+ * @phase UXReview
  */
 
 function Table<R extends TableRow>({ rows, columns, title, ...props }: ElementProps<TableProps<R>, 'div'>) {
