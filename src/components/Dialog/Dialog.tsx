@@ -88,18 +88,10 @@ function Dialog({
     const handleKeyDown = useCallback((e: KeyboardEvent) => e.key === 'Escape' && onClose(), [onClose]);
 
     useEffect(() => {
-        const htmlElement = document.querySelector('html');
+        document.documentElement.style.overflow = open ? 'hidden' : '';
 
-        if (!open) {
-            if (htmlElement) htmlElement.style.overflow = '';
-            return () => {
-                document.removeEventListener('keydown', handleKeyDown);
-            };
-        }
+        if (open) document.addEventListener('keydown', handleKeyDown);
 
-        htmlElement!.style.overflow = 'hidden';
-
-        document.addEventListener('keydown', handleKeyDown);
         return () => {
             document.removeEventListener('keydown', handleKeyDown);
         };
