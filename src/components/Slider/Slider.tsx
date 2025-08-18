@@ -2,12 +2,13 @@ import { useEffect, useRef } from 'react';
 
 import './slider.scss';
 import { SliderIntervalDots } from './SliderIntervalDots';
-import { SliderKnob } from './SliderKnob';
 import { useNormalizeSliderValue } from './useNormalizeSliderValue';
 import { Txt } from '-/components/Txt';
 import { CommonPropsLibrary } from '-/types/common';
 
-export type SliderProps = Pick<CommonPropsLibrary, 'disabled' | 'readOnly'> & {
+export type SliderValue = number | [number, number];
+
+export type SliderProps<Value> = Pick<CommonPropsLibrary, 'disabled' | 'readOnly'> & {
     /**
      * The label of the slider.
      *
@@ -21,13 +22,13 @@ export type SliderProps = Pick<CommonPropsLibrary, 'disabled' | 'readOnly'> & {
      *
      * @required
      */
-    value: number | [number, number];
+    value: Value;
     /**
      * Invoked with the new value when value changes.
      *
      * @required
      */
-    onChange: (newValue: number | [number, number]) => void;
+    onChange: (newValue: Value) => void;
     /**
      * The minimum value of the slider.
      *
@@ -53,7 +54,13 @@ export type SliderProps = Pick<CommonPropsLibrary, 'disabled' | 'readOnly'> & {
      */
     step?: number;
     /** Optional function to format the display value of the slider. Useful for currency, percentages, etc. */
-    formatValue?: (value: [number, number]) => string;
+    formatValue?: (value: Value) => string;
+    /**
+     * The name of the slider input, useful for form submissions.
+     *
+     * @required
+     */
+    name: string;
 };
 
 /**
@@ -73,8 +80,8 @@ export type SliderProps = Pick<CommonPropsLibrary, 'disabled' | 'readOnly'> & {
  * @name Slider
  * @phase UXReview
  */
-function Slider({
-    value,
+function Slider<V = SliderValue>({
+    value: valueProp,
     onChange,
     min,
     max,
@@ -83,22 +90,25 @@ function Slider({
     step = 1,
     disabled = false,
     readOnly = false,
+    name,
     formatValue,
-}: SliderProps) {
+}: SliderProps<V>) {
+    const value = (valueProp as V) || min;
     const sliderRef = useRef<HTMLDivElement>(null);
     const isDraggingRef = useRef<0 | 1 | null>(null);
     const { normalizeSliderValue } = useNormalizeSliderValue({ min, max, step });
 
     const isRange = Array.isArray(value);
-    let val0 = isRange ? value[0] : (value as number);
-    let val1 = isRange ? value[1] : (value as number);
+    let val0: number = isRange ? value[0] : value;
+    let val1: number = isRange ? value[1] : value;
 
     // Always show the lower value first
     if (isRange && val0 > val1) {
         [val0, val1] = [val1, val0];
     }
 
-    const displayValue = formatValue ? formatValue([val0, val1]) : isRange ? `${val0} – ${val1}` : `${val0}`;
+    const displayValue = isRange ? `${val0} – ${val1}` : `${val0}`;
+    if (typeof formatValue === 'function') formatValue((isRange ? [val0, val1] : val0) as V);
 
     const percent0 = Math.min(Math.max(((val0 - min) / (max - min)) * 100, 0), 100);
     const percent1 = Math.min(Math.max(((val1 - min) / (max - min)) * 100, 0), 100);
@@ -115,15 +125,10 @@ function Slider({
     const handleMouseMove = (e: MouseEvent) => {
         if (isDraggingRef.current === null || disabled || readOnly) return;
         const newValue = getValueFromPosition(e.clientX);
-        if (isRange) {
-            if (isDraggingRef.current === 0) {
-                onChange([normalizeSliderValue(newValue), val1]);
-            } else {
-                onChange([val0, normalizeSliderValue(newValue)]);
-            }
-        } else {
-            onChange(normalizeSliderValue(newValue));
-        }
+        let normalValue = normalizeSliderValue(newValue);
+        let nextValue: number | [number, number] = normalValue;
+        if (isRange) nextValue = isDraggingRef.current === 0 ? [normalValue, val1] : [val0, normalValue];
+        onChange(nextValue as V);
     };
 
     const handleMouseUp = () => {
@@ -135,17 +140,19 @@ function Slider({
     const handleTrackClick = (e: React.MouseEvent<HTMLDivElement>) => {
         if (disabled || readOnly) return;
         const clickValue = getValueFromPosition(e.clientX);
+        let nextValue: number | [number, number] = normalizeSliderValue(clickValue);
+
         if (isRange) {
             if (Math.abs(clickValue - val0) < Math.abs(clickValue - val1)) {
-                onChange([clickValue, val1]);
+                nextValue = [clickValue, val1];
                 isDraggingRef.current = 0;
             } else {
-                onChange([val0, clickValue]);
+                nextValue = [val0, clickValue];
                 isDraggingRef.current = 1;
             }
-        } else {
-            onChange(normalizeSliderValue(clickValue));
         }
+
+        onChange(nextValue as V);
     };
 
     const handleKnobMouseDown = (knobIndex: 0 | 1) => (e: React.MouseEvent<HTMLDivElement>) => {
@@ -163,12 +170,14 @@ function Slider({
         else if (e.key === 'ArrowRight') newValue += step;
         else return;
         newValue = normalizeSliderValue(newValue);
+
+        let nextValue: number | [number, number] = newValue;
         if (isRange) {
-            if (knobIndex === 0) onChange([newValue, val1]);
-            else onChange([val0, newValue]);
-        } else {
-            onChange(newValue);
+            if (knobIndex === 0) nextValue = [newValue, val1];
+            else nextValue = [val0, newValue];
         }
+
+        onChange(nextValue as V);
     };
 
     useEffect(() => {
@@ -181,6 +190,7 @@ function Slider({
 
     return (
         <div data-bspk="slider" data-disabled={disabled || undefined} data-readonly={readOnly || undefined}>
+            <input name={name} type="hidden" value={isRange ? `${val0},${val1}` : val0} />
             <div data-top-labels>
                 <Txt variant="labels-small">{label}</Txt>
                 <Txt data-value-label>{displayValue}</Txt>
@@ -221,28 +231,32 @@ function Slider({
                     )}
                 </div>
                 {isRange && (
-                    <SliderKnob
-                        aria-label={`${label} minimum`}
+                    <div
+                        aria-label={`${label} start`}
                         aria-valuemax={max}
                         aria-valuemin={min}
                         aria-valuenow={val0}
                         aria-valuetext={val0.toString()}
+                        data-slider-knob
                         onKeyDown={handleKnobKeyDown(0)}
                         onMouseDown={handleKnobMouseDown(0)}
+                        role="slider"
+                        style={{ left: `calc(${percent0}% - 8px)` }}
                         tabIndex={disabled ? -1 : 0}
-                        valuePercent={percent0}
                     />
                 )}
-                <SliderKnob
-                    aria-label={isRange ? `${label} maximum` : label}
+                <div
+                    aria-label={isRange ? `${label} end` : label}
                     aria-valuemax={max}
                     aria-valuemin={min}
                     aria-valuenow={val1}
                     aria-valuetext={val1.toString()}
+                    data-slider-knob
                     onKeyDown={handleKnobKeyDown(isRange ? 1 : 0)}
                     onMouseDown={handleKnobMouseDown(isRange ? 1 : 0)}
+                    role="slider"
+                    style={{ left: `calc(${percent1}% - 8px)` }}
                     tabIndex={disabled ? -1 : 0}
-                    valuePercent={percent1}
                 />
             </div>
             <div data-bottom-labels>
