@@ -107,8 +107,14 @@ function Slider<V = SliderValue>({
         [val0, val1] = [val1, val0];
     }
 
-    const displayValue = isRange ? `${val0} – ${val1}` : `${val0}`;
-    if (typeof formatValue === 'function') formatValue((isRange ? [val0, val1] : val0) as V);
+    let displayValue: string;
+    if (typeof formatValue === 'function') {
+        displayValue = formatValue(value as V);
+    } else if (Array.isArray(value)) {
+        displayValue = `${value[0]} – ${value[1]}`;
+    } else {
+        displayValue = `${value}`;
+    }
 
     const percent0 = Math.min(Math.max(((val0 - min) / (max - min)) * 100, 0), 100);
     const percent1 = Math.min(Math.max(((val1 - min) / (max - min)) * 100, 0), 100);
@@ -125,7 +131,7 @@ function Slider<V = SliderValue>({
     const handleMouseMove = (e: MouseEvent) => {
         if (isDraggingRef.current === null || disabled || readOnly) return;
         const newValue = getValueFromPosition(e.clientX);
-        let normalValue = normalizeSliderValue(newValue);
+        const normalValue = normalizeSliderValue(newValue);
         let nextValue: number | [number, number] = normalValue;
         if (isRange) nextValue = isDraggingRef.current === 0 ? [normalValue, val1] : [val0, normalValue];
         onChange(nextValue as V);

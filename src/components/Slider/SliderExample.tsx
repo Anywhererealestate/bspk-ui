@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { Slider, SliderProps } from './Slider';
+import { SliderProps } from './Slider';
 import { ComponentExample } from '-/utils/demo';
 
 export const SliderExample: ComponentExample<SliderProps<number | [number, number]>> = {
