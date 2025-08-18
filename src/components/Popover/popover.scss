@@ -21,7 +21,6 @@
             border: none;
             cursor: pointer;
             padding: 0;
-            margin: 0 0 0 auto;
             color: var(--foreground-neutral-on-surface-variant-01);
             height: var(--spacing-sizing-06);
             width: var(--spacing-sizing-06);
@@ -91,16 +90,11 @@
         flex-direction: column;
     }
 
-    [data-call-to-action] {
+    [data-cta-row] {
+        display: flex;
+        align-items: end;
+        gap: var(--spacing-sizing-02);
         margin: 0 0 0 auto;
-
-        /* background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0 var(--spacing-sizing-03);
-    height: var(--spacing-sizing-12);
-    font: var(--labels-small);
-    color: var(--foreground-brand-primary); */
     }
 }
 

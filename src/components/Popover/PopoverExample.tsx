@@ -22,5 +22,18 @@ export const PopoverExample: ComponentExampleFn<PopoverProps> = ({ action }) => 
                 },
             },
         },
+        {
+            label: 'With both CallToActions',
+            propState: {
+                callToAction: {
+                    label: 'Primary',
+                    onClick: () => action('Primary call to action clicked!'),
+                },
+                secondaryCallToAction: {
+                    label: 'Secondary',
+                    onClick: () => action('Secondary call to action clicked!'),
+                },
+            },
+        },
     ],
 });

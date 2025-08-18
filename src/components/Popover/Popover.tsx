@@ -34,6 +34,12 @@ export type PopoverProps = CommonProps<'disabled'> & {
      */
     callToAction?: CallToActionButton;
     /**
+     * The secondary call to action button properties.
+     *
+     * @type CallToActionButton
+     */
+    secondaryCallToAction?: CallToActionButton;
+    /**
      * A single element that will trigger the popover when clicked.
      *
      * @type ReactElement
@@ -74,7 +80,15 @@ export type PopoverProps = CommonProps<'disabled'> & {
  * @name Popover
  * @phase UXReview
  */
-function Popover({ placement = 'top', header, content, callToAction, children, disabled = false }: PopoverProps) {
+function Popover({
+    placement = 'top',
+    header,
+    content,
+    callToAction,
+    secondaryCallToAction,
+    children,
+    disabled = false,
+}: PopoverProps) {
     const id = useId();
     const [show, setShow] = useState(false);
     const arrowRef = useRef<HTMLElement | null>(null);
@@ -139,15 +153,24 @@ function Popover({ placement = 'top', header, content, callToAction, children, d
                         <Txt as="div" variant="body-small">
                             {content}
                         </Txt>
-                        {callToAction?.label && callToAction?.onClick && (
-                            <Button
-                                data-call-to-action
-                                label={callToAction.label}
-                                onClick={callToAction.onClick}
-                                size="small"
-                                variant="primary"
-                            />
-                        )}
+                        <div data-cta-row>
+                            {secondaryCallToAction?.label && secondaryCallToAction?.onClick && (
+                                <Button
+                                    label={secondaryCallToAction.label}
+                                    onClick={secondaryCallToAction.onClick}
+                                    size="small"
+                                    variant="secondary"
+                                />
+                            )}
+                            {callToAction?.label && callToAction?.onClick && (
+                                <Button
+                                    label={callToAction.label}
+                                    onClick={callToAction.onClick}
+                                    size="small"
+                                    variant="primary"
+                                />
+                            )}
+                        </div>
                     </div>
                     <div
                         data-arrow
