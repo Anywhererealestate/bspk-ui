@@ -17,9 +17,6 @@ export type DialogProps = CommonProps<'id' | 'owner'> &
         /**
          * If the dialog should appear.
          *
-         * @example
-         *     false;
-         *
          * @default false
          */
         open?: boolean;
@@ -74,7 +71,7 @@ function Dialog({
     children,
     innerRef,
     onClose,
-    open,
+    open = false,
     placement = 'center',
     showScrim = true,
     id: idProp,
