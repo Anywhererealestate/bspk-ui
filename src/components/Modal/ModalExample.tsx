@@ -7,26 +7,17 @@ import { ComponentExampleFn } from '-/utils/demo';
 export const ModalExample: ComponentExampleFn<ModalProps> = ({ action }) => ({
     variants: false,
     render: ({ props, setState }) => {
-        const MenuExampleInner = () => {
-            const label = 'Open Modal';
+        const label = 'Open Modal';
+        const { children, ...modalProps } = props;
 
-            const { children, ...modalProps } = props;
-
-            return (
-                <>
-                    <Button label={label} onClick={() => setState({ open: true })} />
-                    <Modal
-                        data-example-component
-                        id="exampleId"
-                        {...modalProps}
-                        onClose={() => setState({ open: false })}
-                    >
-                        {children}
-                    </Modal>
-                </>
-            );
-        };
-        return <MenuExampleInner />;
+        return (
+            <>
+                <Button label={label} onClick={() => setState({ open: true })} />
+                <Modal data-example-component id="exampleId" {...modalProps} onClose={() => setState({ open: false })}>
+                    {children}
+                </Modal>
+            </>
+        );
     },
     presets: [
         // confirmation modal
