@@ -22,7 +22,7 @@ export const TableExample: ComponentExample<TableProps<ExampleRow>> = {
                     { id: 2, name: 'Charlie', age: 19 },
                     { id: 3, name: 'Alice', age: 30 },
                 ]}
-                title="Example Table"
+                title={props.title ? props.title : 'Example Table'}
             />
         );
     },
