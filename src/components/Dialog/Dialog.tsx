@@ -84,64 +84,38 @@ function Dialog({
 }: ElementProps<DialogProps, 'div'>) {
     const id = useId(idProp);
     const boxRef = useRef<HTMLDivElement | null>(null);
-    const [visibility, setVisibilityState] = useState<'hidden' | 'hiding' | 'show' | 'showing'>(
-        open ? 'show' : 'hidden',
-    );
-
-    const prevVisibility = useRef(visibility);
-
-    const setVisibility = useCallback((next: typeof visibility) => {
-        setVisibilityState((prev) => {
-            prevVisibility.current = prev;
-            return next;
-        });
-    }, []);
 
     const handleKeyDown = useCallback((e: KeyboardEvent) => e.key === 'Escape' && onClose(), [onClose]);
 
     useEffect(() => {
-        if (open) {
-            if (prevVisibility.current.startsWith('show')) return;
-            setVisibility('showing');
-            return;
+        const htmlElement = document.querySelector('html');
+
+        if (!open) {
+            if (htmlElement) htmlElement.style.overflow = '';
+            return () => {
+                document.removeEventListener('keydown', handleKeyDown);
+            };
         }
 
-        if (prevVisibility.current.startsWith('hid')) return;
-        setVisibility('hiding');
-    }, [open, setVisibility]);
-
-    useEffect(() => {
-        if (prevVisibility.current === visibility) return;
-
-        if (visibility === 'showing') {
-            document.body.style.overflow = 'hidden';
-            setTimeout(() => setVisibility('show'), 10);
-        }
-
-        if (visibility === 'hiding') {
-            document.body.style.overflow = '';
-            setTimeout(() => setVisibility('hidden'), 10);
-        }
-    }, [setVisibility, visibility]);
-
-    useEffect(() => {
-        if (visibility.startsWith('hid')) return;
+        htmlElement!.style.overflow = 'hidden';
 
         document.addEventListener('keydown', handleKeyDown);
         return () => {
             document.removeEventListener('keydown', handleKeyDown);
         };
-    }, [handleKeyDown, visibility]);
+    }, [handleKeyDown, open]);
+
+    console.log({ container });
 
     return (
-        visibility !== 'hidden' && (
+        open && (
             <Portal container={container}>
                 <div
                     {...containerProps}
                     data-bspk="dialog"
                     data-bspk-owner={owner || undefined}
                     data-placement={placement}
-                    data-visibility={visibility}
+                    data-visibility="show"
                     id={id}
                     ref={innerRef}
                     role="presentation"

@@ -10,21 +10,13 @@ export const ModalExample: ComponentExampleFn<ModalProps> = ({ action }) => ({
     render: ({ props, setState }) => {
         const MenuExampleInner = () => {
             const label = 'Open Modal';
-            const buttonRef = useRef<HTMLButtonElement | null>(null);
 
             const { children, ...modalProps } = props;
 
             return (
                 <>
-                    <Button
-                        innerRef={(instance) => {
-                            buttonRef.current = instance;
-                        }}
-                        label={label}
-                        onClick={() => setState({ open: true })}
-                    />
+                    <Button label={label} onClick={() => setState({ open: true })} />
                     <Modal
-                        container={buttonRef.current ?? undefined}
                         data-example-component
                         id="exampleId"
                         {...modalProps}

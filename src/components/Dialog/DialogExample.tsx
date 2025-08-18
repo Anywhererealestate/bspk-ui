@@ -7,22 +7,12 @@ export const DialogExample: ComponentExample<DialogProps> = {
     render: ({ props, setState, Component }) => {
         const DialogExampleInner = () => {
             const label = 'Open Dialog';
-            const buttonRef = useRef<HTMLButtonElement | null>(null);
-
             return (
                 <>
-                    <Button
-                        id="anchor portal here"
-                        innerRef={(instance) => {
-                            buttonRef.current = instance;
-                        }}
-                        label={label}
-                        onClick={() => setState({ open: true })}
-                    />
+                    <Button id="anchor portal here" label={label} onClick={() => setState({ open: true })} />
                     <Component
                         data-example-component
                         {...props}
-                        container={buttonRef.current ?? undefined}
                         id="exampleId"
                         onClose={() => setState({ open: false })}
                     >
