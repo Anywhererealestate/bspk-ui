@@ -1,4 +1,3 @@
-import { useRef } from 'react';
 import { ModalProps, Modal } from '.';
 import { Button } from '-/components/Button';
 import { Checkbox } from '-/components/Checkbox';

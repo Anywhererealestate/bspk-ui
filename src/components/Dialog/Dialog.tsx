@@ -1,5 +1,5 @@
 import { FocusTrap } from 'focus-trap-react';
-import { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
+import { ReactNode, useCallback, useEffect, useRef } from 'react';
 
 import { Portal, PortalProps } from '-/components/Portal';
 import { Scrim } from '-/components/Scrim';
@@ -104,8 +104,6 @@ function Dialog({
             document.removeEventListener('keydown', handleKeyDown);
         };
     }, [handleKeyDown, open]);
-
-    console.log({ container });
 
     return (
         open && (

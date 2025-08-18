@@ -1,4 +1,3 @@
-import { useRef } from 'react';
 import { DialogProps } from '.';
 import { Button } from '-/components/Button';
 import { ComponentExample } from '-/utils/demo';
