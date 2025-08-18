@@ -10,12 +10,13 @@
     border: 1px solid var(--stroke-neutral-low);
     border-top-left-radius: var(--radius-md);
     border-top-right-radius: var(--radius-md);
-    overflow: hidden;
+    background-color: var(--surface-neutral-t1-base);
 
-    [data-table] {
+    table {
         display: grid;
         width: 100%;
         grid-template-columns: var(--template-columns, repeat(auto-fill, minmax(0, 1fr)));
+        border-collapse: collapse;
     }
 
     [data-title] {
@@ -24,22 +25,31 @@
         border-bottom: 1px solid var(--stroke-neutral-low);
     }
 
+    tr,
+    tbody,
+    thead {
+        display: contents;
+    }
+
     [data-title],
-    [data-head] {
+    th {
         background: var(--surface-neutral-t2-lowest);
         font: var(--labels-base);
     }
 
-    [data-head] {
-        padding: 0 var(--spacing-sizing-03);
+    td,
+    th {
         display: flex;
+        min-height: var(--spacing-sizing-10);
+        padding: 0 var(--spacing-sizing-04);
+    }
+
+    th {
         align-items: center;
         flex-direction: row;
-        height: var(--spacing-sizing-10);
-        font: var(--labels-base);
         justify-content: space-between;
         cursor: pointer;
-        border: none none 1px solid var(--stroke-neutral-low);
+        border-bottom: 1px solid var(--stroke-neutral-base);
         position: relative;
         z-index: 1;
 
@@ -49,23 +59,21 @@
         }
     }
 
-    [data-cell] {
-        display: flex;
+    td {
         flex-direction: column;
+        justify-content: center;
         gap: var(--spacing-sizing-02);
-        padding: var(--spacing-sizing-04);
-        background-color: var(--surface-neutral-t1-base);
         font: var(--labels-small);
-
-        &[data-cell-row='even'] {
-            background-color: var(--surface-neutral-t2-lowest);
-        }
 
         p {
             margin: 0;
             padding: 0;
             font: var(--body-small);
         }
+    }
+
+    tr:nth-child(even) td {
+        background-color: var(--surface-neutral-t2-lowest);
     }
 }
 

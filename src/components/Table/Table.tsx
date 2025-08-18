@@ -88,54 +88,60 @@ function Table<R extends TableRow>({ rows, columns, title, ...props }: ElementPr
                     {title}
                 </div>
             )}
-            <div
+            <table
                 {...props}
+                aria-colcount={columns.length}
                 aria-labelledby={title ? `${tableId}-title` : undefined}
-                data-table
-                role="table"
+                aria-rowcount={table.getRowModel().rows.length}
                 style={cssWithVars({
                     '--template-columns': columns.map((c) => `minmax(0, ${c.width || '1fr'})`).join(' '),
                 })}
             >
-                {table.getHeaderGroups().map((headerGroup) =>
-                    headerGroup.headers.map((header, index, arr) => {
-                        const isSorted = header.column.getIsSorted();
-                        const isFirst = index === 0;
-                        const isLast = index === arr.length - 1;
-                        const dataHeadValue = isFirst ? 'first' : isLast ? 'last' : '';
+                <thead>
+                    <tr>
+                        {table.getHeaderGroups().map((headerGroup) =>
+                            headerGroup.headers.map((header, index, arr) => {
+                                const isSorted = header.column.getIsSorted();
+                                const isFirst = index === 0;
+                                const isLast = index === arr.length - 1;
+                                const dataHeadValue = isFirst ? 'first' : isLast ? 'last' : '';
 
-                        return (
-                            <div
-                                data-head={dataHeadValue}
-                                key={header.id}
-                                onClick={header.column.getToggleSortingHandler()}
-                                onKeyDown={handleKeyDown({
-                                    Space: () => header.column.getToggleSortingHandler(),
-                                    Enter: () => header.column.getToggleSortingHandler(),
-                                })}
-                                role="columnheader"
-                                tabIndex={0}
-                            >
-                                {flexRender(header.column.columnDef.header, header.getContext())}
-                                {isSorted && <>{isSorted === 'asc' ? <SvgAZAscend /> : <SvgAZDescend />}</>}
-                            </div>
-                        );
-                    }),
-                )}
-                {table.getRowModel().rows.map((row, rowIndex) =>
-                    row.getVisibleCells().map((cell) => (
-                        <div
-                            data-cell={cell.id}
-                            data-cell-columm={cell.column.id}
-                            data-cell-row={rowIndex % 2 === 0 ? 'odd' : 'even'}
-                            key={cell.id}
-                            role="cell"
-                        >
-                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                        </div>
-                    )),
-                )}
-            </div>
+                                return (
+                                    <th
+                                        aria-sort={
+                                            isSorted ? (isSorted === 'asc' ? 'ascending' : 'descending') : 'none'
+                                        }
+                                        data-head={dataHeadValue}
+                                        key={header.id}
+                                        onClick={header.column.getToggleSortingHandler()}
+                                        onKeyDown={handleKeyDown({
+                                            Space: () => header.column.getToggleSortingHandler(),
+                                            Enter: () => header.column.getToggleSortingHandler(),
+                                        })}
+                                        role="columnheader"
+                                        scope="col"
+                                        tabIndex={0}
+                                    >
+                                        {flexRender(header.column.columnDef.header, header.getContext())}
+                                        {isSorted && <>{isSorted === 'asc' ? <SvgAZAscend /> : <SvgAZDescend />}</>}
+                                    </th>
+                                );
+                            }),
+                        )}
+                    </tr>
+                </thead>
+                <tbody>
+                    {table.getRowModel().rows.map((row) => (
+                        <tr key={row.id} role="row">
+                            {row.getVisibleCells().map((cell) => (
+                                <td data-cell={cell.id} data-cell-column={cell.column.id} key={cell.id}>
+                                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                </td>
+                            ))}
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
         </div>
     );
 }

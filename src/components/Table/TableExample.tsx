@@ -13,15 +13,21 @@ export const TableExample: ComponentExample<TableProps<ExampleRow>> = {
             <Component
                 {...props}
                 columns={[
-                    { key: 'id', label: 'ID', width: '100px' },
+                    { key: 'id', label: 'ID', width: '50px' },
                     { key: 'name', label: 'Name', width: '1fr' },
                     { key: 'age', label: 'Age', width: '1fr' },
                 ]}
                 rows={[
-                    { id: 1, name: 'Alice', age: 19 },
+                    { id: 1, name: 'Alice', age: 74 },
                     { id: 2, name: 'Bob', age: 30 },
-                    { id: 3, name: 'Charlie', age: 74 },
+                    { id: 3, name: 'Charlie', age: 19 },
+                    { id: 4, name: 'Diana', age: 45 },
+                    { id: 5, name: 'Ethan', age: 22 },
+                    { id: 6, name: 'Fiona', age: 29 },
+                    { id: 7, name: 'George', age: 35 },
+                    { id: 8, name: 'Hannah', age: 50 },
                 ]}
+                title="Example Table"
             />
         );
     },
