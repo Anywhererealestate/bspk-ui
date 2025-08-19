@@ -9,7 +9,7 @@ export const DialogExample: ComponentExample<DialogProps> = {
             <>
                 <Button label={label} onClick={() => setState({ open: true })} />
                 <Component data-example-component {...props} id="exampleId" onClose={() => setState({ open: false })}>
-                    <div style={{ padding: 'var(--spacing-sizing-04)' }}>Hello, I am a dialog!</div>
+                    <div style={{ padding: 'var(--spacing-sizing-04)' }}>Hello, I am a ({props.placement}) dialog!</div>
                 </Component>
             </>
         );

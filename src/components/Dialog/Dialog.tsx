@@ -86,12 +86,8 @@ function Dialog({
 
     useEffect(() => {
         document.documentElement.style.overflow = open ? 'hidden' : '';
-
         if (open) document.addEventListener('keydown', handleKeyDown);
-
-        return () => {
-            document.removeEventListener('keydown', handleKeyDown);
-        };
+        return () => document.removeEventListener('keydown', handleKeyDown);
     }, [handleKeyDown, open]);
 
     return (
@@ -102,7 +98,6 @@ function Dialog({
                     data-bspk="dialog"
                     data-bspk-owner={owner || undefined}
                     data-placement={placement}
-                    data-visibility="show"
                     id={id}
                     ref={innerRef}
                     role="presentation"
