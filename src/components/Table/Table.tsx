@@ -17,6 +17,9 @@ import { handleKeyDown } from '-/utils/handleKeyDown';
 
 export type TableRow = Record<string, ReactNode>;
 
+const meta = <R extends TableRow = Record<string, ReactNode>>(columnDef: ColumnDef<R, unknown>) =>
+    columnDef.meta as TableColumn<R>;
+
 export type TableColumn<R extends TableRow = Record<string, ReactNode>> = {
     /**
      * The key of the column. This is used to access the data in the row.
@@ -40,6 +43,12 @@ export type TableColumn<R extends TableRow = Record<string, ReactNode>> = {
      * @type string
      */
     width?: string;
+    /**
+     * The alignment of the column. This is used to set the text alignment of the column.
+     *
+     * @default left
+     */
+    align?: 'center' | 'left' | 'right';
 };
 
 export type TableProps<R extends TableRow> = {
@@ -49,6 +58,12 @@ export type TableProps<R extends TableRow> = {
     columns: TableColumn<R>[];
     /** The title of the table. */
     title?: string;
+    /**
+     * The size of the table.
+     *
+     * @default medium
+     */
+    size?: 'large' | 'medium' | 'small' | 'x-large';
 };
 
 /**
@@ -79,84 +94,99 @@ export type TableProps<R extends TableRow> = {
  * @name Table
  * @phase UXReview
  */
-
-function Table<R extends TableRow>({ rows, columns, title, ...props }: ElementProps<TableProps<R>, 'div'>) {
+function Table<R extends TableRow>({
+    rows,
+    columns: columnsProp,
+    title,
+    size = 'medium',
+    ...props
+}: ElementProps<TableProps<R>, 'div'>) {
     const [sorting, setSorting] = useState<SortingState>([]);
     const tableId = useId();
 
-    const columnDefs: ColumnDef<R>[] = useMemo(
-        () =>
-            columns.map((col) => ({
+    const table = useReactTable({
+        data: rows,
+        columns: columnsProp.map(
+            (col): ColumnDef<R> => ({
                 accessorKey: col.key as string,
                 header: col.label,
                 cell: (info) => info.getValue(),
-            })),
-        [columns],
-    );
-
-    const table = useReactTable({
-        data: rows,
-        columns: columnDefs,
+                meta: { ...col, align: col.align || 'left' },
+            }),
+        ),
         getCoreRowModel: getCoreRowModel(),
         getSortedRowModel: getSortedRowModel(),
         state: { sorting },
         onSortingChange: setSorting,
     });
 
+    const headers = useMemo(
+        () =>
+            table
+                .getHeaderGroups()
+                .flatMap((headerGroup) => headerGroup.headers)
+                .map((header) => ({
+                    ...header,
+                    meta: meta(header.column.columnDef),
+                    isSorted: header.column.getIsSorted(),
+                })),
+        [table],
+    );
+
     return (
-        <div {...props} data-bspk="table" id={tableId} style={props.style}>
-            {title && (
-                <div data-title id={`${tableId}-title`}>
-                    {title}
-                </div>
-            )}
+        <div {...props} data-bspk="table" data-size={size || 'medium'} id={tableId} style={props.style}>
             <table
                 {...props}
-                aria-colcount={columns.length}
-                aria-labelledby={title ? `${tableId}-title` : undefined}
+                aria-colcount={headers.length}
                 aria-rowcount={table.getRowModel().rows.length}
                 style={cssWithVars({
-                    '--template-columns': columns.map((c) => `minmax(0, ${c.width || '1fr'})`).join(' '),
+                    '--column-count': headers.length,
+                    '--template-columns': headers.map((header) => `minmax(0, ${header.meta.width || '1fr'})`).join(' '),
                 })}
             >
+                {title && <caption>{title}</caption>}
                 <thead>
                     <tr>
-                        {table.getHeaderGroups().map((headerGroup) =>
-                            headerGroup.headers.map((header, index, arr) => {
-                                const isSorted = header.column.getIsSorted();
-                                const isFirst = index === 0;
-                                const isLast = index === arr.length - 1;
-                                const dataHeadValue = isFirst ? 'first' : isLast ? 'last' : '';
-
-                                return (
-                                    <th
-                                        aria-sort={
-                                            isSorted ? (isSorted === 'asc' ? 'ascending' : 'descending') : 'none'
-                                        }
-                                        data-head={dataHeadValue}
-                                        key={header.id}
-                                        onClick={header.column.getToggleSortingHandler()}
-                                        onKeyDown={handleKeyDown({
-                                            Space: () => header.column.getToggleSortingHandler(),
-                                            Enter: () => header.column.getToggleSortingHandler(),
-                                        })}
-                                        role="columnheader"
-                                        scope="col"
-                                        tabIndex={0}
-                                    >
-                                        {flexRender(header.column.columnDef.header, header.getContext())}
-                                        {isSorted && <>{isSorted === 'asc' ? <SvgAZAscend /> : <SvgAZDescend />}</>}
-                                    </th>
-                                );
-                            }),
-                        )}
+                        {headers.map((header) => {
+                            return (
+                                <th
+                                    aria-sort={
+                                        header.isSorted
+                                            ? header.isSorted === 'asc'
+                                                ? 'ascending'
+                                                : 'descending'
+                                            : 'none'
+                                    }
+                                    data-align={header.meta.align}
+                                    key={header.id}
+                                    onClick={header.column.getToggleSortingHandler()}
+                                    onKeyDown={handleKeyDown({
+                                        Space: () => header.column.getToggleSortingHandler(),
+                                        Enter: () => header.column.getToggleSortingHandler(),
+                                    })}
+                                    role="columnheader"
+                                    scope="col"
+                                    tabIndex={0}
+                                >
+                                    {flexRender(header.column.columnDef.header, header.getContext())}
+                                    {header.isSorted && (
+                                        <>{header.isSorted === 'asc' ? <SvgAZAscend /> : <SvgAZDescend />}</>
+                                    )}
+                                </th>
+                            );
+                        })}
                     </tr>
                 </thead>
                 <tbody>
                     {table.getRowModel().rows.map((row) => (
                         <tr key={row.id} role="row">
                             {row.getVisibleCells().map((cell) => (
-                                <td data-cell={cell.id} data-cell-column={cell.column.id} key={cell.id}>
+                                <td
+                                    data-align={meta(cell.column.columnDef).align || 'left'}
+                                    data-cell={cell.id}
+                                    data-cell-column={cell.column.id}
+                                    key={cell.id}
+                                >
                                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                 </td>
                             ))}

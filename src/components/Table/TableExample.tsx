@@ -8,27 +8,23 @@ type ExampleRow = {
 };
 
 export const TableExample: ComponentExample<TableProps<ExampleRow>> = {
-    render: ({ Component, props }) => {
-        return (
-            <Component
-                {...props}
-                columns={[
-                    { key: 'id', label: 'ID', width: '50px' },
-                    { key: 'name', label: 'Name', width: '1fr' },
-                    { key: 'age', label: 'Age', width: '1fr' },
-                ]}
-                rows={[
-                    { id: 1, name: 'Alice', age: 74 },
-                    { id: 2, name: 'Bob', age: 30 },
-                    { id: 3, name: 'Charlie', age: 19 },
-                    { id: 4, name: 'Diana', age: 45 },
-                    { id: 5, name: 'Ethan', age: 22 },
-                    { id: 6, name: 'Fiona', age: 29 },
-                    { id: 7, name: 'George', age: 35 },
-                    { id: 8, name: 'Hannah', age: 50 },
-                ]}
-                title="Example Table"
-            />
-        );
+    defaultState: {
+        size: 'medium',
+        columns: [
+            { key: 'id', label: 'ID', width: '50px', align: 'center' },
+            { key: 'name', label: 'Name', width: '1fr', align: 'left' },
+            { key: 'age', label: 'Age', width: '1fr', align: 'right' },
+        ],
+        rows: [
+            { id: 1, name: 'Alice', age: 74 },
+            { id: 2, name: 'Bob', age: 30 },
+            { id: 3, name: 'Charlie', age: 19 },
+            { id: 4, name: 'Diana', age: 45 },
+            { id: 5, name: 'Ethan', age: 22 },
+            { id: 6, name: 'Fiona', age: 29 },
+            { id: 7, name: 'George', age: 35 },
+            { id: 8, name: 'Hannah', age: 50 },
+        ],
+        title: 'Example Table',
     },
 };
