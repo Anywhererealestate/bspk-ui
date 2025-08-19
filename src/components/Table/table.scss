@@ -3,6 +3,7 @@
 
     --white-background: var(--surface-neutral-t1-base);
     --grey-background: var(--surface-neutral-t2-lowest);
+    --icon-size: var(--spacing-sizing-05);
 
     width: 100%;
     border-collapse: separate;
@@ -16,6 +17,25 @@
     border-top-right-radius: var(--radius-md);
     background: var(--white-background);
 
+    /* [data-size='medium'] */
+    --min-height: var(--spacing-sizing-10);
+    --padding-y: var(--spacing-sizing-02);
+
+    &[data-size='x-large'] {
+        --min-height: var(--spacing-sizing-14);
+        --padding-y: var(--spacing-sizing-04);
+    }
+
+    &[data-size='large'] {
+        --min-height: var(--spacing-sizing-12);
+        --padding-y: var(--spacing-sizing-03);
+    }
+
+    &[data-size='small'] {
+        --min-height: var(--spacing-sizing-08);
+        --padding-y: var(--spacing-sizing-01);
+    }
+
     table {
         display: grid;
         width: 100%;
@@ -28,45 +48,16 @@
             display: contents;
         }
 
-        /* [data-size='medium'] */
-        --min-height: var(--spacing-sizing-10);
-        --padding-y: var(--spacing-sizing-02);
-
-        &[data-size='x-large'] {
-            --min-height: var(--spacing-sizing-14);
-            --padding-y: var(--spacing-sizing-04);
-        }
-
-        &[data-size='large'] {
-            --min-height: var(--spacing-sizing-12);
-            --padding-y: var(--spacing-sizing-03);
-        }
-
-        &[data-size='small'] {
-            --min-height: var(--spacing-sizing-08);
-            --padding-y: var(--spacing-sizing-01);
-        }
-
         caption,
         td,
-        th {
+        th,
+        th > button {
             display: flex;
             flex-direction: column;
             justify-content: center;
             min-height: var(--min-height);
             padding: calc(var(--padding-y) + 2px) var(--spacing-sizing-04);
-
-            &[data-align='right'] {
-                align-items: flex-end;
-            }
-
-            &[data-align='center'] {
-                align-items: center;
-            }
-
-            &[data-align='left'] {
-                align-items: flex-start;
-            }
+            border: none;
         }
 
         caption {
@@ -89,37 +80,91 @@
             font: var(--labels-small);
             cursor: pointer;
             border-bottom: 1px solid var(--stroke-neutral-base);
-            position: relative;
-            z-index: 1;
 
-            &:focus {
-                outline: solid 2px var(--stroke-neutral-focus);
-                z-index: 2;
+            &[aria-sort] {
+                padding: 0;
+
+                button {
+                    background: var(--grey-background);
+                    flex-direction: row;
+                    align-items: center;
+                    justify-content: space-between;
+                    gap: var(--spacing-sizing-02);
+                    width: 100%;
+                    cursor: pointer;
+
+                    &:hover {
+                        background:
+                            linear-gradient(
+                                var(--interactions-neutral-hover-opacity),
+                                var(--interactions-neutral-hover-opacity)
+                            ),
+                            linear-gradient(var(--grey-background), var(--grey-background));
+                    }
+
+                    &:focus {
+                        outline: solid 2px var(--stroke-neutral-focus);
+                        z-index: 2;
+                    }
+
+                    svg {
+                        width: var(--icon-size);
+                    }
+                }
             }
 
-            &:hover {
-                background:
-                    linear-gradient(
-                        var(--interactions-neutral-hover-opacity),
-                        var(--interactions-neutral-hover-opacity)
-                    ),
-                    linear-gradient(var(--grey-background), var(--grey-background));
+            &[data-align='right'] {
+                align-items: flex-end;
+
+                button {
+                    justify-content: flex-end;
+                }
+            }
+
+            &[data-align='center'] {
+                align-items: center;
+
+                button {
+                    justify-content: center;
+                }
+            }
+
+            &[data-align='left'] {
+                align-items: flex-start;
+
+                button {
+                    justify-content: space-between;
+                }
             }
         }
 
-        // target the first row of thead only if caption is not present
-        thead:first-child tr:first-child th {
-            &:first-child {
-                border-top-left-radius: var(--radius-md);
-            }
+        thead:first-child {
+            // target the first header row only if the thead is first, i.e. caption is not present
+            tr:first-child th {
+                &:first-child {
+                    border-top-left-radius: var(--radius-md);
+                }
 
-            &:last-child {
-                border-top-right-radius: var(--radius-md);
+                &:last-child {
+                    border-top-right-radius: var(--radius-md);
+                }
             }
         }
 
         td {
             font: var(--body-small);
+
+            &[data-align='right'] {
+                align-items: flex-end;
+            }
+
+            &[data-align='center'] {
+                align-items: center;
+            }
+
+            &[data-align='left'] {
+                align-items: flex-start;
+            }
 
             p {
                 margin: 0;
@@ -127,7 +172,7 @@
                 font: var(--body-small);
             }
 
-            &:hover {
+            &[data-action]:hover {
                 background:
                     linear-gradient(
                         var(--interactions-neutral-hover-opacity),
@@ -140,7 +185,7 @@
         tr:nth-child(even) td {
             background: var(--grey-background);
 
-            &:hover {
+            &[data-action]:hover {
                 background:
                     linear-gradient(
                         var(--interactions-neutral-hover-opacity),

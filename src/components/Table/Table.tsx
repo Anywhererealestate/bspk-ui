@@ -1,6 +1,7 @@
 import './table.scss';
 import { SvgAZAscend } from '@bspk/icons/AZAscend';
 import { SvgAZDescend } from '@bspk/icons/AZDescend';
+import { SvgSortByAlpha } from '@bspk/icons/SortByAlpha';
 import {
     useReactTable,
     getCoreRowModel,
@@ -13,20 +14,27 @@ import { ReactNode, useMemo, useState } from 'react';
 import { useId } from '-/hooks/useId';
 import { ElementProps } from '-/types/common';
 import { cssWithVars } from '-/utils/cwv';
-import { handleKeyDown } from '-/utils/handleKeyDown';
+
+const SORT_DIRECTION_ICON = {
+    ascending: <SvgAZAscend />,
+    descending: <SvgAZDescend />,
+    none: <SvgSortByAlpha />,
+} as const;
 
 export type TableRow = Record<string, ReactNode>;
+
+export type KeyOfTableRow = keyof TableRow;
 
 const meta = <R extends TableRow = Record<string, ReactNode>>(columnDef: ColumnDef<R, unknown>) =>
     columnDef.meta as TableColumn<R>;
 
-export type TableColumn<R extends TableRow = Record<string, ReactNode>> = {
+export type TableColumn<R extends TableRow = Record<string, ReactNode>, K = keyof R> = {
     /**
      * The key of the column. This is used to access the data in the row.
      *
      * @type string
      */
-    key: keyof R;
+    key: K;
     /**
      * The label of the column. This is used to display the column header.
      *
@@ -49,6 +57,12 @@ export type TableColumn<R extends TableRow = Record<string, ReactNode>> = {
      * @default left
      */
     align?: 'center' | 'left' | 'right';
+    /**
+     * Whether the column is sortable.
+     *
+     * @default false
+     */
+    enableSorting?: boolean;
 };
 
 export type TableProps<R extends TableRow> = {
@@ -108,7 +122,7 @@ function Table<R extends TableRow>({
         data: rows,
         columns: columnsProp.map(
             (col): ColumnDef<R> => ({
-                accessorKey: col.key as string,
+                accessorKey: col.key,
                 header: col.label,
                 cell: (info) => info.getValue(),
                 meta: { ...col, align: col.align || 'left' },
@@ -128,7 +142,6 @@ function Table<R extends TableRow>({
                 .map((header) => ({
                     ...header,
                     meta: meta(header.column.columnDef),
-                    isSorted: header.column.getIsSorted(),
                 })),
         [table],
     );
@@ -148,29 +161,32 @@ function Table<R extends TableRow>({
                 <thead>
                     <tr>
                         {headers.map((header) => {
+                            const sort = header.column.getIsSorted();
+
+                            let sortDirection: 'ascending' | 'descending' | 'none' | undefined;
+                            if (header.meta.enableSorting) sortDirection = sort ? `${sort}ending` : 'none';
+
                             return (
                                 <th
-                                    aria-sort={
-                                        header.isSorted
-                                            ? header.isSorted === 'asc'
-                                                ? 'ascending'
-                                                : 'descending'
-                                            : 'none'
-                                    }
+                                    aria-sort={sortDirection}
                                     data-align={header.meta.align}
                                     key={header.id}
-                                    onClick={header.column.getToggleSortingHandler()}
-                                    onKeyDown={handleKeyDown({
-                                        Space: () => header.column.getToggleSortingHandler(),
-                                        Enter: () => header.column.getToggleSortingHandler(),
-                                    })}
-                                    role="columnheader"
                                     scope="col"
-                                    tabIndex={0}
                                 >
-                                    {flexRender(header.column.columnDef.header, header.getContext())}
-                                    {header.isSorted && (
-                                        <>{header.isSorted === 'asc' ? <SvgAZAscend /> : <SvgAZDescend />}</>
+                                    {sortDirection ? (
+                                        <button onClick={header.column.getToggleSortingHandler()} type="button">
+                                            {flexRender(header.column.columnDef.header, header.getContext())}
+                                            <span aria-hidden>{SORT_DIRECTION_ICON[sortDirection]}</span>
+                                            {sortDirection !== 'none' && (
+                                                <span data-sr-only>
+                                                    <span aria-live="polite" role="status">
+                                                        sorted {sortDirection}
+                                                    </span>
+                                                </span>
+                                            )}
+                                        </button>
+                                    ) : (
+                                        flexRender(header.column.columnDef.header, header.getContext())
                                     )}
                                 </th>
                             );
@@ -179,7 +195,7 @@ function Table<R extends TableRow>({
                 </thead>
                 <tbody>
                     {table.getRowModel().rows.map((row) => (
-                        <tr key={row.id} role="row">
+                        <tr key={row.id}>
                             {row.getVisibleCells().map((cell) => (
                                 <td
                                     data-align={meta(cell.column.columnDef).align || 'left'}

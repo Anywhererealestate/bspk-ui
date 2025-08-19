@@ -9,11 +9,10 @@ type ExampleRow = {
 
 export const TableExample: ComponentExample<TableProps<ExampleRow>> = {
     defaultState: {
-        size: 'medium',
         columns: [
             { key: 'id', label: 'ID', width: '50px', align: 'center' },
-            { key: 'name', label: 'Name', width: '1fr', align: 'left' },
-            { key: 'age', label: 'Age', width: '1fr', align: 'right' },
+            { key: 'name', label: 'Name', width: '1fr', align: 'left', enableSorting: true },
+            { key: 'age', label: 'Age', width: '1fr', align: 'right', enableSorting: true },
         ],
         rows: [
             { id: 1, name: 'Alice', age: 74 },
