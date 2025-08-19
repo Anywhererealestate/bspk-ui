@@ -126,11 +126,7 @@ function Table<R extends TableRow>({ rows, columns, title, ...props }: ElementPr
                                 return (
                                     <th
                                         aria-sort={
-                                            isSorted === 'asc'
-                                                ? 'ascending'
-                                                : isSorted === 'desc'
-                                                  ? 'descending'
-                                                  : undefined
+                                            isSorted ? (isSorted === 'asc' ? 'ascending' : 'descending') : 'none'
                                         }
                                         data-th-index={index}
                                         key={header.id}
