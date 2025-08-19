@@ -30,6 +30,7 @@
     --z-index-navbar: 700;
     --z-index-footer: 600;
     --list-item-height: var(--spacing-sizing-13);
+    --webkit-focus-ring-color: var(--stroke-neutral-focus);
 }
 
 @media (prefers-reduced-motion) {
@@ -290,6 +291,10 @@ body[data-bspk] {
         transform-origin: 100% 0%;
         z-index: 2;
     }
+}
+
+:focus-visible {
+    outline: var(--stroke-neutral-focus) auto 2px;
 }
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

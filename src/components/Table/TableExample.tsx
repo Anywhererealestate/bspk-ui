@@ -13,7 +13,7 @@ export const TableExample: ComponentExample<TableProps<ExampleRow>> = {
             <Component
                 {...props}
                 columns={[
-                    { key: 'id', label: 'ID', width: '100px' },
+                    { key: 'id', label: 'ID', width: '75px' },
                     { key: 'name', label: 'Name', width: '1fr' },
                     { key: 'age', label: 'Age', width: '1fr' },
                 ]}

@@ -1,11 +1,10 @@
 [data-bspk='table'] {
-    /*! --template-columns: is set via inline style */
     width: 100%;
-    text-align: left;
     color: var(--foreground-neutral-on-surface);
     border-radius: var(--radius-md);
     border: 1px solid var(--stroke-neutral-low);
-    overflow: hidden;
+    background-color: var(--surface-neutral-t2-lowest);
+    overflow-x: hidden;
 
     [data-title] {
         padding: var(--spacing-sizing-03);
@@ -15,6 +14,9 @@
     table {
         display: grid;
         border-collapse: collapse;
+        background-color: var(--surface-neutral-t1-base);
+
+        /*! grid-template-columns are even or and inline style is set by the columns.width prop */
         grid-template-columns: repeat(var(--template-columns, 1), 1fr);
     }
 
@@ -24,16 +26,11 @@
         display: grid;
         grid-column: 1 / -1;
         grid-template-columns: subgrid;
-        background-color: var(--surface-neutral-t2-lowest);
     }
 
     thead {
-        align-items: center;
-        font: var(--labels-base);
-        justify-content: space-between;
         cursor: pointer;
-        padding: var(--spacing-sizing-03), 0;
-        border: none none 1px solid var(--stroke-neutral-low);
+        border-bottom: 2px solid var(--stroke-neutral-low);
         background-color: var(--surface-neutral-t2-lowest);
     }
 
@@ -41,34 +38,19 @@
         display: flex;
         min-height: var(--spacing-sizing-06);
         align-items: center;
-        padding: 0 var(--spacing-sizing-03);
+        padding: var(--spacing-sizing-04) var(--spacing-sizing-03);
         font: var(--labels-base);
         justify-content: space-between;
-
-        &:focus {
-            outline: solid 2px var(--stroke-neutral-focus);
-        }
     }
 
     tr {
-        padding: var(--spacing-sizing-04) 0;
-
-        &[data-cell-row='odd'] {
-            background-color: var(--surface-neutral-t1-base);
+        &[data-cell-row='even'] {
+            background-color: var(--surface-neutral-t2-lowest);
         }
     }
 
     td {
-        display: flex;
-        flex-direction: column;
-        padding: 0 var(--spacing-sizing-03);
-        gap: var(--spacing-sizing-02);
-
-        p {
-            margin: 0;
-            padding: 0;
-            font: var(--body-small);
-        }
+        padding: var(--spacing-sizing-04) var(--spacing-sizing-03);
     }
 }
 
