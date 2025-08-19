@@ -30,23 +30,21 @@
 
     thead {
         cursor: pointer;
-        border-bottom: 2px solid var(--stroke-neutral-low);
+        border-bottom: 1px solid var(--stroke-neutral-base);
         background-color: var(--surface-neutral-t2-lowest);
     }
 
     th {
         display: flex;
-        min-height: var(--spacing-sizing-14);
+        min-height: var(--spacing-sizing-10);
         align-items: center;
-        padding: var(--spacing-sizing-04) var(--spacing-sizing-03);
+        padding: 0 var(--spacing-sizing-04);
         font: var(--labels-base);
         justify-content: space-between;
     }
 
-    tr {
-        &[data-cell-row='even'] {
-            background-color: var(--surface-neutral-t2-lowest);
-        }
+    tr:nth-child(even) {
+        background-color: var(--surface-neutral-t2-lowest);
     }
 
     td {
