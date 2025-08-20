@@ -53,8 +53,12 @@ export type SliderProps<Value> = Pick<CommonPropsLibrary, 'disabled' | 'readOnly
      * @default 1
      */
     step?: number;
-    /** Optional function to format the display value of the slider. Useful for currency, percentages, etc. */
-    formatValue?: (value: Value) => string;
+    /**
+     * Optional function to format the display of each number.
+     *
+     * Useful for currency, percentages, etc.
+     */
+    formatNumber?: (value: number, context?: 'max' | 'min' | 'rangeEnd' | 'rangeStart') => string;
     /**
      * The name of the slider input, useful for form submissions.
      *
@@ -91,9 +95,11 @@ function Slider<V = SliderValue>({
     disabled = false,
     readOnly = false,
     name,
-    formatValue,
+    formatNumber: formatNumberProp,
 }: SliderProps<V>) {
     const value = (valueProp as V) || min;
+    const formatNumber: SliderProps<V>['formatNumber'] = (rawValue, context) =>
+        formatNumberProp?.(rawValue, context) || rawValue.toString();
     const sliderRef = useRef<HTMLDivElement>(null);
     const isDraggingRef = useRef<0 | 1 | null>(null);
     const { normalizeSliderValue } = useNormalizeSliderValue({ min, max, step });
@@ -107,9 +113,9 @@ function Slider<V = SliderValue>({
         [val0, val1] = [val1, val0];
     }
 
-    let displayValue: string;
-    if (typeof formatValue === 'function') displayValue = formatValue(value as V);
-    else displayValue = Array.isArray(value) ? `${value[0]} – ${value[1]}` : `${value}`;
+    const displayValue = isRange
+        ? [formatNumber(val0, 'rangeStart'), formatNumber(val1, 'rangeEnd')].join(' - ')
+        : formatNumber(val0, 'rangeStart');
 
     const percent0 = Math.min(Math.max(((val0 - min) / (max - min)) * 100, 0), 100);
     const percent1 = Math.min(Math.max(((val1 - min) / (max - min)) * 100, 0), 100);
@@ -251,7 +257,7 @@ function Slider<V = SliderValue>({
                     aria-valuemax={max}
                     aria-valuemin={min}
                     aria-valuenow={val1}
-                    aria-valuetext={val1.toString()}
+                    aria-valuetext={val1?.toString()}
                     data-slider-knob
                     onKeyDown={handleKnobKeyDown(isRange ? 1 : 0)}
                     onMouseDown={handleKnobMouseDown(isRange ? 1 : 0)}
@@ -262,10 +268,10 @@ function Slider<V = SliderValue>({
             </div>
             <div data-bottom-labels>
                 <Txt data-min-label variant="body-small">
-                    {min}
+                    {formatNumber(min, 'min')}
                 </Txt>
                 <Txt data-max-label variant="body-small">
-                    {max}
+                    {formatNumber(max, 'max')}
                 </Txt>
             </div>
         </div>
