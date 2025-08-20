@@ -2,12 +2,13 @@ import { useEffect, useRef } from 'react';
 
 import './slider.scss';
 import { SliderIntervalDots } from './SliderIntervalDots';
-import { SliderKnob } from './SliderKnob';
-import { SliderTemplate } from './SliderTemplate';
 import { useNormalizeSliderValue } from './useNormalizeSliderValue';
+import { Txt } from '-/components/Txt';
 import { CommonPropsLibrary } from '-/types/common';
 
-export type SliderProps = Pick<CommonPropsLibrary, 'disabled' | 'name' | 'readOnly'> & {
+export type SliderValue = number | [number, number];
+
+export type SliderProps<Value> = Pick<CommonPropsLibrary, 'disabled' | 'readOnly'> & {
     /**
      * The label of the slider.
      *
@@ -17,25 +18,27 @@ export type SliderProps = Pick<CommonPropsLibrary, 'disabled' | 'name' | 'readOn
     /**
      * The numerical value of the slider.
      *
+     * Providing an array of two numbers will create a **range slider**.
+     *
      * @required
      */
-    value: number;
+    value: Value;
     /**
      * Invoked with the new value when value changes.
      *
      * @required
      */
-    onChange: (newValue: number) => void;
+    onChange: (newValue: Value) => void;
     /**
      * The minimum value of the slider.
      *
-     * @default 0
+     * @required
      */
     min: number;
     /**
-     * The maximum value of the slider.
+     * The maximum value of the slider.;
      *
-     * @default 100
+     * @required
      */
     max: number;
     /**
@@ -50,8 +53,18 @@ export type SliderProps = Pick<CommonPropsLibrary, 'disabled' | 'name' | 'readOn
      * @default 1
      */
     step?: number;
-    /** Optional function to format the display value of the slider. Useful for currency, percentages, etc. */
-    formatValue?: (value: number) => string;
+    /**
+     * Optional function to format the display of each number.
+     *
+     * Useful for currency, percentages, etc.
+     */
+    formatNumber?: (value: number, context?: 'max' | 'min' | 'rangeEnd' | 'rangeStart') => string;
+    /**
+     * The name of the slider input, useful for form submissions.
+     *
+     * @required
+     */
+    name: string;
 };
 
 /**
@@ -63,85 +76,115 @@ export type SliderProps = Pick<CommonPropsLibrary, 'disabled' | 'name' | 'readOn
  *     import { useState } from 'react';
  *
  *     function Example() {
- *         const [value, setValue] = useState<number>(50);
+ *         const [value, setValue] = useState(50);
  *
  *         return <Slider value={value} min={0} max={100} label="Slider Example" onChange={setValue} />;
  *     }
  *
  * @name Slider
- * @phase Dev
+ * @phase UXReview
  */
-function Slider({
-    value,
+function Slider<V = SliderValue>({
+    value: valueProp,
     onChange,
-    min = 0,
-    max = 100,
+    min,
+    max,
     label,
     marks = false,
     step = 1,
     disabled = false,
     readOnly = false,
-    formatValue,
     name,
-}: SliderProps) {
+    formatNumber: formatNumberProp,
+}: SliderProps<V>) {
+    const value = (valueProp as V) || min;
+    const formatNumber: SliderProps<V>['formatNumber'] = (rawValue, context) =>
+        formatNumberProp?.(rawValue, context) || rawValue.toString();
     const sliderRef = useRef<HTMLDivElement>(null);
-    const isDraggingRef = useRef(false);
+    const isDraggingRef = useRef<0 | 1 | null>(null);
+    const { normalizeSliderValue } = useNormalizeSliderValue({ min, max, step });
 
-    const { normalizeSliderValue } = useNormalizeSliderValue({
-        min,
-        max,
-        step,
-    });
+    const isRange = Array.isArray(value);
+    let val0: number = isRange ? value[0] : value;
+    let val1: number = isRange ? value[1] : value;
+
+    // Always show the lower value first
+    if (isRange && val0 > val1) {
+        [val0, val1] = [val1, val0];
+    }
+
+    const displayValue = isRange
+        ? [formatNumber(val0, 'rangeStart'), formatNumber(val1, 'rangeEnd')].join(' - ')
+        : formatNumber(val0, 'rangeStart');
+
+    const percent0 = Math.min(Math.max(((val0 - min) / (max - min)) * 100, 0), 100);
+    const percent1 = Math.min(Math.max(((val1 - min) / (max - min)) * 100, 0), 100);
 
     const getValueFromPosition = (clientX: number) => {
         const slider = sliderRef.current;
-        if (!slider) return value;
-
+        if (!slider) return min;
         const { left, width } = slider.getBoundingClientRect();
         let percent = (clientX - left) / width;
-
         percent = Math.max(0, Math.min(1, percent));
-
         return normalizeSliderValue(min + percent * (max - min));
     };
 
     const handleMouseMove = (e: MouseEvent) => {
-        if (!isDraggingRef.current || disabled || readOnly) return;
+        if (isDraggingRef.current === null || disabled || readOnly) return;
         const newValue = getValueFromPosition(e.clientX);
-
-        onChange(newValue);
+        const normalValue = normalizeSliderValue(newValue);
+        let nextValue: number | [number, number] = normalValue;
+        if (isRange) nextValue = isDraggingRef.current === 0 ? [normalValue, val1] : [val0, normalValue];
+        onChange(nextValue as V);
     };
 
     const handleMouseUp = () => {
-        isDraggingRef.current = false;
+        isDraggingRef.current = null;
         window.removeEventListener('mousemove', handleMouseMove);
         window.removeEventListener('mouseup', handleMouseUp);
     };
 
-    const handleMouseDown = (e: React.MouseEvent) => {
+    const handleTrackClick = (e: React.MouseEvent<HTMLDivElement>) => {
         if (disabled || readOnly) return;
-        isDraggingRef.current = true;
-        const newValue = getValueFromPosition(e.clientX);
-        onChange(newValue);
+        const clickValue = getValueFromPosition(e.clientX);
+        let nextValue: number | [number, number] = normalizeSliderValue(clickValue);
 
+        if (isRange) {
+            if (Math.abs(clickValue - val0) < Math.abs(clickValue - val1)) {
+                nextValue = [clickValue, val1];
+                isDraggingRef.current = 0;
+            } else {
+                nextValue = [val0, clickValue];
+                isDraggingRef.current = 1;
+            }
+        }
+
+        onChange(nextValue as V);
+    };
+
+    const handleKnobMouseDown = (knobIndex: 0 | 1) => (e: React.MouseEvent<HTMLDivElement>) => {
+        if (disabled || readOnly) return;
+        e.stopPropagation();
+        isDraggingRef.current = knobIndex;
         window.addEventListener('mousemove', handleMouseMove);
         window.addEventListener('mouseup', handleMouseUp);
     };
 
-    const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    const handleKnobKeyDown = (knobIndex: 0 | 1) => (e: React.KeyboardEvent<HTMLDivElement>) => {
         if (disabled || readOnly) return;
+        let newValue = knobIndex === 0 ? val0 : val1;
+        if (e.key === 'ArrowLeft') newValue -= step;
+        else if (e.key === 'ArrowRight') newValue += step;
+        else return;
+        newValue = normalizeSliderValue(newValue);
 
-        let newValue = value;
-
-        if (e.key === 'ArrowLeft') {
-            newValue = value - step;
-        } else if (e.key === 'ArrowRight') {
-            newValue = value + step;
-        } else {
-            return;
+        let nextValue: number | [number, number] = newValue;
+        if (isRange) {
+            if (knobIndex === 0) nextValue = [newValue, val1];
+            else nextValue = [val0, newValue];
         }
 
-        onChange(normalizeSliderValue(newValue));
+        onChange(nextValue as V);
     };
 
     useEffect(() => {
@@ -152,29 +195,86 @@ function Slider({
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const valuePercent = Math.min(Math.max(((value - min) / (max - min)) * 100, 0), 100);
-
     return (
-        <SliderTemplate
-            data-bspk="slider"
-            disabled={disabled}
-            displayValue={formatValue ? formatValue(value) : undefined}
-            handleMouseDown={handleMouseDown}
-            label={label}
-            max={max}
-            min={min}
-            name={name}
-            onKeyDown={handleKeyDown}
-            readOnly={readOnly}
-            sliderRef={sliderRef}
-            value={value}
-        >
-            <div data-slider-fill="" style={{ width: `${valuePercent}%` }} />
-
-            {marks && <SliderIntervalDots max={max} min={min} step={step} value={value} />}
-
-            <SliderKnob tabIndex={0} valuePercent={valuePercent} />
-        </SliderTemplate>
+        <div data-bspk="slider" data-disabled={disabled || undefined} data-readonly={readOnly || undefined}>
+            <input name={name} type="hidden" value={isRange ? `${val0},${val1}` : val0} />
+            <div data-top-labels>
+                <Txt variant="labels-small">{label}</Txt>
+                <Txt data-value-label>{displayValue}</Txt>
+            </div>
+            <div data-slider-parent>
+                <div
+                    aria-disabled={disabled || undefined}
+                    aria-label={label}
+                    aria-readonly={readOnly || undefined}
+                    aria-valuemax={max}
+                    aria-valuemin={min}
+                    aria-valuenow={val0}
+                    aria-valuetext={displayValue}
+                    data-slider-body
+                    onClick={handleTrackClick}
+                    onKeyDown={(e) => {
+                        if (disabled || readOnly) return;
+                        if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+                            if (!isRange) {
+                                handleKnobKeyDown(0)(e as React.KeyboardEvent<HTMLDivElement>);
+                            }
+                        }
+                    }}
+                    ref={sliderRef}
+                    role="slider"
+                    tabIndex={disabled ? -1 : 0}
+                >
+                    <div data-slider-background />
+                    <div
+                        data-slider-fill
+                        style={{
+                            left: isRange ? `${percent0}%` : '0%',
+                            width: isRange ? `${percent1 - percent0}%` : `${percent0}%`,
+                        }}
+                    />
+                    {marks && (
+                        <SliderIntervalDots max={max} min={min} step={step} value={isRange ? [val0, val1] : val0} />
+                    )}
+                </div>
+                {isRange && (
+                    <div
+                        aria-label={`${label} start`}
+                        aria-valuemax={max}
+                        aria-valuemin={min}
+                        aria-valuenow={val0}
+                        aria-valuetext={val0.toString()}
+                        data-slider-knob
+                        onKeyDown={handleKnobKeyDown(0)}
+                        onMouseDown={handleKnobMouseDown(0)}
+                        role="slider"
+                        style={{ left: `calc(${percent0}% - 8px)` }}
+                        tabIndex={disabled ? -1 : 0}
+                    />
+                )}
+                <div
+                    aria-label={isRange ? `${label} end` : label}
+                    aria-valuemax={max}
+                    aria-valuemin={min}
+                    aria-valuenow={val1}
+                    aria-valuetext={val1?.toString()}
+                    data-slider-knob
+                    onKeyDown={handleKnobKeyDown(isRange ? 1 : 0)}
+                    onMouseDown={handleKnobMouseDown(isRange ? 1 : 0)}
+                    role="slider"
+                    style={{ left: `calc(${percent1}% - 8px)` }}
+                    tabIndex={disabled ? -1 : 0}
+                />
+            </div>
+            <div data-bottom-labels>
+                <Txt data-min-label variant="body-small">
+                    {formatNumber(min, 'min')}
+                </Txt>
+                <Txt data-max-label variant="body-small">
+                    {formatNumber(max, 'max')}
+                </Txt>
+            </div>
+        </div>
     );
 }
 
