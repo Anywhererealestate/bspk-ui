@@ -108,13 +108,8 @@ function Slider<V = SliderValue>({
     }
 
     let displayValue: string;
-    if (typeof formatValue === 'function') {
-        displayValue = formatValue(value as V);
-    } else if (Array.isArray(value)) {
-        displayValue = `${value[0]} – ${value[1]}`;
-    } else {
-        displayValue = `${value}`;
-    }
+    if (typeof formatValue === 'function') displayValue = formatValue(value as V);
+    else displayValue = Array.isArray(value) ? `${value[0]} – ${value[1]}` : `${value}`;
 
     const percent0 = Math.min(Math.max(((val0 - min) / (max - min)) * 100, 0), 100);
     const percent1 = Math.min(Math.max(((val1 - min) / (max - min)) * 100, 0), 100);
