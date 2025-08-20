@@ -78,6 +78,14 @@ export type TableProps<R extends TableRow> = {
      * @default medium
      */
     size?: 'large' | 'medium' | 'small' | 'x-large';
+    /**
+     * The number of rows per page.
+     *
+     * If the number of rows exceeds the page size, pagination controls will be displayed.
+     *
+     * @default 10
+     */
+    pageSize?: number;
 };
 
 /**

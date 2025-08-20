@@ -26,4 +26,16 @@ export const TableExample: ComponentExample<TableProps<ExampleRow>> = {
         ],
         title: 'Example Table',
     },
+    presets: [
+        {
+            label: 'Large data set',
+            propState: {
+                rows: Array.from({ length: 100 }, (_, i) => ({
+                    id: i + 1,
+                    name: `Person ${i + 1}`,
+                    age: Math.floor(Math.random() * 100),
+                })),
+            },
+        },
+    ],
 };
