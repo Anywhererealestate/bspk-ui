@@ -7,6 +7,12 @@ type ExampleRow = {
     age: number;
 };
 
+const exampleData = Array.from({ length: 100 }, (_, i) => ({
+    id: i + 1,
+    name: `Person ${i + 1}`,
+    age: Math.floor(Math.random() * 100),
+}));
+
 export const TableExample: ComponentExample<TableProps<ExampleRow>> = {
     defaultState: {
         columns: [
@@ -14,7 +20,7 @@ export const TableExample: ComponentExample<TableProps<ExampleRow>> = {
             { key: 'name', label: 'Name', width: '1fr', align: 'left', enableSorting: true },
             { key: 'age', label: 'Age', width: '1fr', align: 'right', enableSorting: true },
         ],
-        rows: [
+        data: [
             { id: 1, name: 'Alice', age: 74 },
             { id: 2, name: 'Bob', age: 30 },
             { id: 3, name: 'Charlie', age: 19 },
@@ -30,11 +36,7 @@ export const TableExample: ComponentExample<TableProps<ExampleRow>> = {
         {
             label: 'Large data set',
             propState: {
-                rows: Array.from({ length: 100 }, (_, i) => ({
-                    id: i + 1,
-                    name: `Person ${i + 1}`,
-                    age: Math.floor(Math.random() * 100),
-                })),
+                data: exampleData,
             },
         },
     ],

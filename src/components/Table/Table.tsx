@@ -9,8 +9,11 @@ import {
     ColumnDef,
     SortingState,
     getSortedRowModel,
+    getPaginationRowModel,
+    TableState,
 } from '@tanstack/react-table';
 import { ReactNode, useMemo, useState } from 'react';
+import { TableFooter, TableRow } from './Footer';
 import { useId } from '-/hooks/useId';
 import { ElementProps } from '-/types/common';
 import { cssWithVars } from '-/utils/cwv';
@@ -20,10 +23,6 @@ const SORT_DIRECTION_ICON = {
     descending: <SvgAZDescend />,
     none: <SvgSortByAlpha />,
 } as const;
-
-export type TableRow = Record<string, ReactNode>;
-
-export type KeyOfTableRow = keyof TableRow;
 
 const meta = <R extends TableRow = Record<string, ReactNode>>(columnDef: ColumnDef<R, unknown>) =>
     columnDef.meta as TableColumn<R>;
@@ -67,7 +66,7 @@ export type TableColumn<R extends TableRow = Record<string, ReactNode>, K = keyo
 
 export type TableProps<R extends TableRow> = {
     /** The data of the table. */
-    rows: R[];
+    data: R[];
     /** The columns of the table. */
     columns: TableColumn<R>[];
     /** The title of the table. */
@@ -117,32 +116,54 @@ export type TableProps<R extends TableRow> = {
  * @phase UXReview
  */
 function Table<R extends TableRow>({
-    rows,
+    data = [],
     columns: columnsProp,
     title,
     size = 'medium',
+    pageSize = 10,
     ...props
 }: ElementProps<TableProps<R>, 'div'>) {
     const [sorting, setSorting] = useState<SortingState>([]);
+    const [pageIndex, setPageIndex] = useState(0);
     const tableId = useId();
 
-    const table = useReactTable({
-        data: rows,
-        columns: columnsProp.map(
-            (col): ColumnDef<R> => ({
-                accessorKey: col.key,
-                header: col.label,
-                cell: (info) => info.getValue(),
-                meta: { ...col, align: col.align || 'left' },
-            }),
-        ),
-        getCoreRowModel: getCoreRowModel(),
-        getSortedRowModel: getSortedRowModel(),
-        state: { sorting },
-        onSortingChange: setSorting,
-    });
+    const hasPagination = data?.length > pageSize;
 
-    const headers = useMemo(
+    const tableState = useMemo(() => {
+        const nextState: Partial<TableState> = { sorting };
+        if (hasPagination) nextState.pagination = { pageIndex, pageSize };
+        return nextState;
+    }, [sorting, hasPagination, pageIndex, pageSize]);
+
+    const tableColumns = useMemo(
+        () =>
+            columnsProp.map(
+                (col): ColumnDef<R> => ({
+                    accessorKey: col.key,
+                    header: col.label,
+                    cell: (info) => info.getValue(),
+                    meta: { ...col, align: col.align || 'left' },
+                }),
+            ),
+        [columnsProp],
+    );
+
+    const tableProps = useMemo(
+        () => ({
+            data,
+            columns: tableColumns,
+            getPaginationRowModel: hasPagination ? getPaginationRowModel() : undefined,
+            getCoreRowModel: getCoreRowModel(),
+            getSortedRowModel: getSortedRowModel(),
+            state: tableState,
+            onSortingChange: setSorting,
+        }),
+        [data, tableColumns, tableState, hasPagination],
+    );
+
+    const table = useReactTable(tableProps);
+
+    const columns = useMemo(
         () =>
             table
                 .getHeaderGroups()
@@ -154,21 +175,32 @@ function Table<R extends TableRow>({
         [table],
     );
 
+    // const { currentPage, setCurrentPage } = usePaginationState(numPages);
+
+    // const { rows, numPages } = useMemo(() => {
+    //     const start = (currentPage - 1) * pageSize;
+    //     const end = start + pageSize;
+    //     return {
+    //         rows: table.getRowModel().rows.slice(start, end),
+    //         numPages: Math.ceil(table.getRowModel().rows.length / pageSize),
+    //     };
+    // }, [table, pageSize]);
+
     return (
         <div {...props} data-bspk="table" data-size={size || 'medium'} id={tableId} style={props.style}>
             <table
                 {...props}
-                aria-colcount={headers.length}
+                aria-colcount={columns.length}
                 aria-rowcount={table.getRowModel().rows.length}
                 style={cssWithVars({
-                    '--column-count': headers.length,
-                    '--template-columns': headers.map((header) => `minmax(0, ${header.meta.width || '1fr'})`).join(' '),
+                    '--column-count': columns.length,
+                    '--template-columns': columns.map((header) => `minmax(0, ${header.meta.width || '1fr'})`).join(' '),
                 })}
             >
                 {title && <caption>{title}</caption>}
                 <thead>
                     <tr>
-                        {headers.map((header) => {
+                        {columns.map((header) => {
                             const sort = header.column.getIsSorted();
 
                             let sortDirection: 'ascending' | 'descending' | 'none' | undefined;
@@ -218,6 +250,9 @@ function Table<R extends TableRow>({
                     ))}
                 </tbody>
             </table>
+            {hasPagination && (
+                <TableFooter pageIndex={pageIndex} pageSize={pageSize} setPageIndex={setPageIndex} table={table} />
+            )}
         </div>
     );
 }
