@@ -7,7 +7,7 @@ import { Txt } from '-/components/Txt';
 import { Placement, useFloating } from '-/hooks/useFloating';
 import { useId } from '-/hooks/useId';
 import { useOutsideClick } from '-/hooks/useOutsideClick';
-import { CallToActionButton, CommonProps } from '-/types/common';
+import { CallToActionButton, CommonProps, ElementProps } from '-/types/common';
 import { cssWithVars } from '-/utils/cwv';
 
 import './popover.scss';
@@ -46,6 +46,13 @@ export type PopoverProps = CommonProps<'disabled'> & {
      * @required
      */
     children: ReactElement;
+    /**
+     * Controls the width of the popover. When set to true, the width of the popover will match the width of the
+     * reference element.
+     *
+     * @default false
+     */
+    refWidth?: boolean;
 };
 
 /**
@@ -88,7 +95,9 @@ function Popover({
     secondaryCallToAction,
     children,
     disabled = false,
-}: PopoverProps) {
+    refWidth = false,
+    ...props
+}: ElementProps<PopoverProps, 'div'>) {
     const id = useId();
     const [show, setShow] = useState(false);
     const arrowRef = useRef<HTMLElement | null>(null);
@@ -99,6 +108,7 @@ function Popover({
         offsetOptions: 22,
         arrowRef,
         hide: !show,
+        refWidth: refWidth,
     });
 
     useOutsideClick({
@@ -116,6 +126,8 @@ function Popover({
             }),
         [children, disabled, id],
     );
+
+    const basicArrowX = middlewareData?.arrow?.x ? `${middlewareData.arrow.x}px` : '0px';
 
     const getArrowX = () => {
         if (middlewareData?.arrow?.x) {
@@ -141,7 +153,7 @@ function Popover({
                         elements.setFloating(node);
                         elements.setReference(document.querySelector<HTMLElement>(`[aria-describedby="${id}"]`));
                     }}
-                    style={floatingStyles}
+                    style={{ ...floatingStyles, ...props.style }}
                 >
                     <header>
                         <Txt variant="heading-h6">{header}</Txt>
@@ -178,7 +190,7 @@ function Popover({
                             arrowRef.current = node;
                         }}
                         style={cssWithVars({
-                            '--position-left': getArrowX(),
+                            '--position-left': refWidth ? getArrowX() : basicArrowX,
                             '--position-top': middlewareData?.arrow?.y ? `${middlewareData.arrow.y}px` : '0px',
                         })}
                     />

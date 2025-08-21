@@ -1,13 +1,16 @@
 import { PopoverProps } from '.';
 import { Button } from '-/components/Button';
+import { Txt } from '-/components/Txt';
 import { ComponentExampleFn } from '-/utils/demo';
 
 export const PopoverExample: ComponentExampleFn<PopoverProps> = ({ action }) => ({
+    containerStyle: { width: '100%' },
     render: ({ props, Component }) => {
         return (
             <>
+                <Txt style={{ marginBottom: `var(--spacing-sizing-02)` }}>Click button for a Popover</Txt>
                 <Component {...props}>
-                    <Button label={`Click me for a Popover (${props.placement})`} variant="secondary" />
+                    <Button label={`${props.placement}`} variant="secondary" />
                 </Component>
             </>
         );
