@@ -39,4 +39,5 @@ export const PopoverExample: ComponentExampleFn<PopoverProps> = ({ action }) => 
             },
         },
     ],
+    variants: false,
 });
