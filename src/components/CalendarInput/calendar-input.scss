@@ -1,0 +1,30 @@
+[data-bspk='calendar-input'] {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 360px;
+
+    button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 0;
+        text-align: inherit;
+        background: none;
+        box-shadow: none;
+        padding: 0;
+        cursor: pointer;
+        border: none;
+        color: inherit;
+        font: inherit;
+    }
+
+    [data-disabled],
+    [data-readonly='true'] {
+        button {
+            cursor: default;
+        }
+    }
+}
+
+/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

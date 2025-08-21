@@ -1,0 +1,109 @@
+[data-bspk='date-picker'],
+[data-bspk='month-picker'],
+[data-bspk='year-picker'] {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sizing-01);
+    padding: var(--spacing-sizing-01);
+    width: 360px;
+    box-sizing: border-box;
+
+    button {
+        border-radius: 0;
+        text-align: inherit;
+        background: none;
+        box-shadow: none;
+        padding: 0;
+        cursor: pointer;
+        border: none;
+        color: inherit;
+        font: inherit;
+    }
+
+    [data-period-row],
+    [data-control-row],
+    [data-weekdays] {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+    }
+
+    [data-day],
+    [data-weekday] {
+        flex: 1;
+        height: var(--spacing-sizing-12);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    [data-weekday] {
+        color: var(--foreground-neutral-on-surface-variant-01);
+        font: var(--labels-base);
+        line-height: var(--typography-line-height-lh-2);
+        font-size: var(--typography-size-base);
+    }
+
+    [data-day] {
+        color: var(--foreground-neutral-on-surface);
+        font: var(--labels-base);
+        line-height: var(--typography-line-height-lh-2);
+        font-size: var(--typography-size-base);
+
+        button {
+            height: var(--spacing-sizing-10);
+            width: var(--spacing-sizing-10);
+            text-align: center;
+            border-radius: var(--radius-sm);
+        }
+    }
+
+    [data-day][data-selected] {
+        button {
+            --primary-background: var(--surface-brand-primary);
+            background-color: var(--primary-background);
+            color: var(--foreground-brand-on-primary);
+        }
+    }
+
+    [data-other-month] {
+        color: var(--foreground-neutral-on-surface-variant-02);
+        cursor: not-allowed;
+    }
+
+    [data-control-row] {
+        border-bottom: 1px solid var(--stroke-neutral-low);
+        align-items: center;
+        gap: var(--spacing-sizing-02);
+        padding: var(--spacing-sizing-01) 0 3px;
+        box-sizing: border-box;
+
+        [data-current-period] {
+            flex: 1;
+            text-align: center;
+            color: var(--foreground-neutral-on-surface);
+            font: var(--labels-base);
+            line-height: var(--typography-line-height-lh-2);
+            font-size: var(--typography-size-base);
+        }
+
+        [data-month-button] {
+            height: var(--spacing-sizing-12);
+            width: var(--spacing-sizing-12);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--foreground-neutral-on-surface-variant-01);
+        }
+    }
+
+    &[data-variant='elevated'] {
+        box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.32);
+        box-shadow: 0px 8px 12px 0px rgba(0, 0, 0, 0.15);
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--stroke-neutral-low);
+        background: var(--surface-neutral-t1-base);
+    }
+}
+
+/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

@@ -50,6 +50,8 @@
         "./Breadcrumb/*": "./dist/components/Breadcrumb/*.js",
         "./Button": "./dist/components/Button/index.js",
         "./Button/*": "./dist/components/Button/*.js",
+        "./CalendarInput": "./dist/components/CalendarInput/index.js",
+        "./CalendarInput/*": "./dist/components/CalendarInput/*.js",
         "./Card": "./dist/components/Card/index.js",
         "./Card/*": "./dist/components/Card/*.js",
         "./Checkbox": "./dist/components/Checkbox/index.js",
@@ -72,6 +74,8 @@
         "./ChipUtility/*": "./dist/components/ChipUtility/*.js",
         "./Combobox": "./dist/components/Combobox/index.js",
         "./Combobox/*": "./dist/components/Combobox/*.js",
+        "./DatePicker": "./dist/components/DatePicker/index.js",
+        "./DatePicker/*": "./dist/components/DatePicker/*.js",
         "./Dialog": "./dist/components/Dialog/index.js",
         "./Dialog/*": "./dist/components/Dialog/*.js",
         "./Divider": "./dist/components/Divider/index.js",
@@ -106,6 +110,8 @@
         "./MenuButton/*": "./dist/components/MenuButton/*.js",
         "./Modal": "./dist/components/Modal/index.js",
         "./Modal/*": "./dist/components/Modal/*.js",
+        "./MonthPicker": "./dist/components/MonthPicker/index.js",
+        "./MonthPicker/*": "./dist/components/MonthPicker/*.js",
         "./NumberField": "./dist/components/NumberField/index.js",
         "./NumberField/*": "./dist/components/NumberField/*.js",
         "./NumberInput": "./dist/components/NumberInput/index.js",
@@ -209,7 +215,9 @@
         "./Txt": "./dist/components/Txt/index.js",
         "./Txt/*": "./dist/components/Txt/*.js",
         "./UIProvider": "./dist/components/UIProvider/index.js",
-        "./UIProvider/*": "./dist/components/UIProvider/*.js"
+        "./UIProvider/*": "./dist/components/UIProvider/*.js",
+        "./YearPicker": "./dist/components/YearPicker/index.js",
+        "./YearPicker/*": "./dist/components/YearPicker/*.js"
     },
     "publishConfig": {
         "access": "public"
@@ -221,6 +229,7 @@
         "@bspk/styles": "^1.0.2",
         "@floating-ui/dom": "^1.6.13",
         "@tanstack/react-table": "^8.21.3",
+        "date-fns": "^4.1.0",
         "focus-trap-react": "^11.0.1",
         "libphonenumber-js": "^1.12.9"
     },
