@@ -52,7 +52,7 @@ export type PopoverProps = CommonProps<'disabled'> & {
      *
      * @default false
      */
-    refWidth?: boolean;
+    matchWidth?: boolean;
 };
 
 /**
@@ -95,7 +95,7 @@ function Popover({
     secondaryCallToAction,
     children,
     disabled = false,
-    refWidth = false,
+    matchWidth = false,
     ...props
 }: ElementProps<PopoverProps, 'div'>) {
     const id = useId();
@@ -108,7 +108,7 @@ function Popover({
         offsetOptions: 22,
         arrowRef,
         hide: !show,
-        refWidth: refWidth,
+        refWidth: matchWidth,
     });
 
     useOutsideClick({
@@ -134,7 +134,7 @@ function Popover({
             if (placement === 'top-start' || placement === 'bottom-start') return '16px';
             if (placement === 'top' || placement === 'bottom') return `${middlewareData.arrow.x}px`;
             if (placement === 'top-end' || placement === 'bottom-end')
-                return `${(middlewareData?.arrow?.x * 2 || 32) - 16}px`;
+                return `${(middlewareData.arrow.x * 2 || 32) - 16}px`;
         }
         return '0px';
     };
@@ -190,8 +190,8 @@ function Popover({
                             arrowRef.current = node;
                         }}
                         style={cssWithVars({
-                            '--position-left': refWidth ? getArrowX() : basicArrowX,
-                            '--position-top': middlewareData?.arrow?.y ? `${middlewareData.arrow.y}px` : '0px',
+                            '--position-left': matchWidth ? getArrowX() : basicArrowX,
+                            '--position-top': `${middlewareData?.arrow?.y || 0}px`,
                         })}
                     />
                 </div>
