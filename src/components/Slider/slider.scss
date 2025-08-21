@@ -22,6 +22,12 @@
         color: var(--foreground-neutral-on-surface-variant-02);
     }
 
+    [data-slider-parent] {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
     [data-slider-body] {
         position: relative;
         display: flex;

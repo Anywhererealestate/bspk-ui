@@ -8,7 +8,6 @@ export const ModalExample: ComponentExampleFn<ModalProps> = ({ action }) => ({
     variants: false,
     render: ({ props, setState }) => {
         const label = 'Open Modal';
-
         const { children, ...modalProps } = props;
 
         return (
