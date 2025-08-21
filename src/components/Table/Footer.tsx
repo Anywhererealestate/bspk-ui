@@ -1,33 +1,36 @@
-import { Table } from '@tanstack/react-table';
-import { ReactNode } from 'react';
 import { Pagination } from '-/components/Pagination';
 
-export type TableRow = Record<string, ReactNode>;
-
-export function TableFooter<R extends TableRow = Record<string, ReactNode>>({
-    table,
+export function TableFooter({
     pageIndex,
     pageSize,
     setPageIndex,
+    totalRows,
+    id,
 }: {
     pageIndex: number;
-    table: Table<R>;
     pageSize: number;
     setPageIndex: (newVal: number) => void;
+    totalRows: number;
+    id: string;
 }) {
-    const paginationRowModel = table.getPaginationRowModel();
-    const totalRows = table.getFilteredRowModel().rows.length;
     const startRow = totalRows === 0 ? 0 : pageIndex * pageSize + 1;
-    const endRow = startRow + paginationRowModel.rows.length - 1;
+    const endRow = Math.min(startRow + pageSize - 1, totalRows);
 
     return (
-        <div data-pagination>
+        <div data-pagination role="group">
             <div data-pagination-label>
                 Showing {startRow}-{endRow} of {totalRows} results
             </div>
-
+            <div data-sr-only id={`${id}-pagination-description`}>
+                <p>
+                    The buttons inside this control allow you to paginate through the data in the table above,
+                    {pageSize}
+                    rows at a time.
+                </p>
+            </div>
             <Pagination
-                numPages={table.getPageCount()}
+                aria-labelledby={`${id}-pagination-description`}
+                numPages={Math.ceil(totalRows / pageSize)}
                 onChange={(newVal) => setPageIndex(newVal - 1)}
                 value={pageIndex + 1}
             />

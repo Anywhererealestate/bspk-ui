@@ -1,43 +1,71 @@
 import { TableProps } from './Table';
-import { ComponentExample } from '-/utils/demo';
+import { TableRow, TableSize } from './utils';
+import { Tag, TagProps } from '-/components/Tag';
+import { Truncated } from '-/components/Truncated';
+import { COMPONENT_PHASE_COLORS } from '-/constants/phases';
+import { ComponentPhase } from '-/types/meta';
+import { ComponentExample, ComponentExampleFn } from '-/utils/demo';
 
-type ExampleRow = {
-    id: number;
-    name: string;
-    age: number;
+const tableSizeToTagSize: Record<TableSize, TagProps['size']> = {
+    large: 'small',
+    medium: 'x-small',
+    small: 'x-small',
+    'x-large': 'small',
 };
 
-const exampleData = Array.from({ length: 100 }, (_, i) => ({
-    id: i + 1,
-    name: `Person ${i + 1}`,
-    age: Math.floor(Math.random() * 100),
-}));
-
-export const TableExample: ComponentExample<TableProps<ExampleRow>> = {
-    defaultState: {
-        columns: [
-            { key: 'id', label: 'ID', width: '50px', align: 'center' },
-            { key: 'name', label: 'Name', width: '1fr', align: 'left', enableSorting: true },
-            { key: 'age', label: 'Age', width: '1fr', align: 'right', enableSorting: true },
-        ],
-        data: [
-            { id: 1, name: 'Alice', age: 74 },
-            { id: 2, name: 'Bob', age: 30 },
-            { id: 3, name: 'Charlie', age: 19 },
-            { id: 4, name: 'Diana', age: 45 },
-            { id: 5, name: 'Ethan', age: 22 },
-            { id: 6, name: 'Fiona', age: 29 },
-            { id: 7, name: 'George', age: 35 },
-            { id: 8, name: 'Hannah', age: 50 },
-        ],
-        title: 'Example Table',
-    },
-    presets: [
-        {
-            label: 'Large data set',
-            propState: {
-                data: exampleData,
-            },
+export const TableExample: ComponentExampleFn<TableProps<TableRow>> = ({
+    componentsMeta,
+}): ComponentExample<TableProps<TableRow & { phase: ComponentPhase; description: string }>> => {
+    return {
+        containerStyle: { width: '100%' },
+        defaultState: {
+            title: 'Components',
+            columnDefs: [
+                {
+                    key: 'name',
+                    label: 'Name',
+                    width: '1fr',
+                    sort: 'string',
+                },
+                {
+                    key: 'phase',
+                    label: 'Phase',
+                    width: '1fr',
+                    align: 'center',
+                    sort: 'string',
+                    formatter: ({ phase }, size) => (
+                        <Tag color={COMPONENT_PHASE_COLORS[phase]} label={phase} size={tableSizeToTagSize[size]} />
+                    ),
+                },
+                {
+                    key: 'cssLines',
+                    label: 'CSS Lines',
+                    width: '1fr',
+                    sort: 'number',
+                    align: 'right',
+                },
+                {
+                    key: 'dependencies',
+                    label: 'Dependencies',
+                    width: '1fr',
+                },
+                {
+                    key: 'description',
+                    label: 'Description',
+                    width: '2fr',
+                    formatter: (row) => <Truncated>{row.description}</Truncated>,
+                },
+            ],
+            data: componentsMeta
+                .filter((c) => c.phase !== 'Utility')
+                .map((c) => ({
+                    id: c.slug,
+                    name: c.name,
+                    phase: c.phase,
+                    dependencies: c.dependencies,
+                    description: c.description || '',
+                    cssLines: c.css.split('\n').length - 1,
+                })),
         },
-    ],
+    };
 };

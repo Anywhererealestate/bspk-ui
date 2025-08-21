@@ -53,6 +53,7 @@ function Truncated<As extends ElementType = 'span'>({
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
                 whiteSpace: 'nowrap',
+                maxWidth: '100%',
             }}
         >
             {children}

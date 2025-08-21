@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { AlertVariant } from '-/types/common';
+import { ComponentMeta } from '-/types/meta';
 
 export type TypeProperty = {
     name: string;
@@ -107,6 +108,7 @@ export type ComponentExample<Props = Record<string, unknown>, PropName extends k
 export type ComponentExampleFn<Props = Record<string, unknown>> = (params: {
     setState: DemoSetState<Props>;
     action: DemoAction;
+    componentsMeta: ComponentMeta[];
 }) => ComponentExample<Props>;
 
 export type Preset<Props> = {
