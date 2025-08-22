@@ -101,7 +101,7 @@ function Fab<As extends ElementType = 'button'>(props: ElementProps<FabProps<As>
             }}
         >
             {!!icon && isValidElement(icon) && (
-                <span aria-hidden={!iconOnly || undefined} data-fab-icon>
+                <span aria-hidden={true} data-fab-icon>
                     {icon}
                 </span>
             )}
