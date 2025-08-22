@@ -20,7 +20,7 @@ export const TableExample: ComponentExampleFn<TableProps<TableRow>> = ({
         containerStyle: { width: '100%' },
         defaultState: {
             title: 'Components',
-            columnDefs: [
+            columns: [
                 {
                     key: 'name',
                     label: 'Name',

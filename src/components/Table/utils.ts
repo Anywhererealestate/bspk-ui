@@ -30,7 +30,7 @@ export type TableRow = {
 
 export type TableColumnSortingFn = (a: TableCellValue, b: TableCellValue) => -1 | 0 | 1;
 
-export type TableColumnDef<R extends TableRow> = {
+export type TableColumn<R extends TableRow> = {
     /**
      * The key of the column. This is used to access the data in the row.
      *
@@ -105,12 +105,12 @@ export function useTable<R extends TableRow>({
     data,
     pageIndex,
     pageSize,
-    columnDefs,
+    columns,
 }: {
     data: R[];
     pageIndex: number;
     pageSize: number;
-    columnDefs?: TableColumnDef<R>[];
+    columns?: TableColumn<R>[];
 }) {
     const [sorting, setSorting] = useState<SortState>([]);
 
@@ -126,7 +126,7 @@ export function useTable<R extends TableRow>({
                     const aValue = a[key];
                     const bValue = b[key];
 
-                    const colSort = columnDefs?.find((col) => col.key === key)?.sort;
+                    const colSort = columns?.find((col) => col.key === key)?.sort;
 
                     if (!colSort) continue;
 
@@ -146,12 +146,11 @@ export function useTable<R extends TableRow>({
         result = result.slice(start, end);
 
         return result;
-    }, [data, sorting, pageIndex, pageSize, columnDefs]);
+    }, [data, sorting, pageIndex, pageSize, columns]);
 
     return {
         rows: filteredData,
         sorting,
-        columns: columnDefs,
         toggleSorting: (key: string) => {
             setSorting((prev) => {
                 const nextArr = [...prev];
@@ -166,7 +165,7 @@ export function useTable<R extends TableRow>({
                 return nextArr;
             });
         },
-        totalColumns: columnDefs?.length || 0,
-        totalColumnsDisplayed: columnDefs?.length || 0,
+        totalColumns: columns?.length || 0,
+        totalColumnsDisplayed: columns?.length || 0,
     };
 }

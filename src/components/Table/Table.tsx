@@ -3,7 +3,7 @@ import { SvgAZAscend } from '@bspk/icons/AZAscend';
 import { SvgAZDescend } from '@bspk/icons/AZDescend';
 import { useState } from 'react';
 import { TableFooter } from './Footer';
-import { formatCell, TableColumnDef, TableRow, TableSize, useTable } from './utils';
+import { formatCell, TableColumn, TableRow, TableSize, useTable } from './utils';
 import { useId } from '-/hooks/useId';
 import { ElementProps } from '-/types/common';
 import { cssWithVars } from '-/utils/cwv';
@@ -17,7 +17,7 @@ export type TableProps<R extends TableRow> = {
     /** The data of the table. */
     data: R[];
     /** The column definitions of the table. */
-    columnDefs: TableColumnDef<R>[];
+    columns: TableColumn<R>[];
     /** The title of the table. */
     title?: string;
     /**
@@ -66,7 +66,7 @@ export type TableProps<R extends TableRow> = {
  */
 function Table<R extends TableRow>({
     data = [],
-    columnDefs,
+    columns,
     title,
     size = 'medium',
     pageSize = 10,
@@ -77,11 +77,10 @@ function Table<R extends TableRow>({
 
     const hasPagination = data?.length > pageSize;
 
-    const { rows, sorting, toggleSorting, columns, totalColumns, totalColumnsDisplayed } = useTable<R>({
+    const { rows, sorting, toggleSorting, totalColumns, totalColumnsDisplayed } = useTable<R>({
         data,
         pageIndex,
         pageSize,
-        columnDefs,
     });
 
     return (
