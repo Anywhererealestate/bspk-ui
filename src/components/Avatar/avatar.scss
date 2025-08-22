@@ -122,7 +122,7 @@
     }
 
     &[disabled] {
-        --state-background: var(--interactions-neutral-disabled-opacity);
+        opacity: 0.5;
     }
 
     &:focus:not(:active) {
