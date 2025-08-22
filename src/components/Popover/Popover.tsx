@@ -102,7 +102,7 @@ function Popover({
         offsetOptions: 22,
         arrowRef,
         hide: !show,
-        refWidth,
+        refWidth: refWidth,
     });
 
     useOutsideClick({
