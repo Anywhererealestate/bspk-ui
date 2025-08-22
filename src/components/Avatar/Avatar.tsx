@@ -119,6 +119,7 @@ function Avatar({
     showTooltip = DEFAULT.showTooltip,
     onClick,
     disabled,
+    ...props
 }: AvatarProps) {
     const children = useMemo(() => {
         if (image) return <img alt={ariaLabel} aria-hidden={true} src={image} />;
@@ -158,6 +159,7 @@ function Avatar({
             disabled={disabled || undefined}
             onClick={disabled ? undefined : onClick}
             tabIndex={0}
+            {...props}
         >
             {children}
         </button>
