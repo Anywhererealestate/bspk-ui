@@ -1,7 +1,7 @@
 import { ElementType, isValidElement } from 'react';
 
 import { ButtonProps } from '-/components/Button';
-import { Tooltip } from '-/components/Tooltip';
+import { Tooltip, TooltipTriggerProps } from '-/components/Tooltip';
 import { ElementProps } from '-/types/common';
 import { isValidIcon } from '-/utils/children';
 import { useErrorLogger } from '-/utils/errors';
@@ -56,29 +56,30 @@ export type FabProps<As extends ElementType = 'button'> = Pick<
  * @name Fab
  * @phase UXReview
  */
-function Fab<As extends ElementType = 'button'>({
-    size = 'small',
-    variant = 'primary',
-    iconOnly: iconOnlyProp = false,
-    as,
-    placement = 'bottom-right',
-    container = 'local',
-    label,
-    icon,
-    toolTip,
-    ...otherProps
-}: ElementProps<FabProps<As>, As>) {
+function Fab<As extends ElementType = 'button'>(props: ElementProps<FabProps<As>, As>) {
+    const {
+        size = 'small',
+        variant = 'primary',
+        iconOnly: iconOnlyProp = false,
+        as: As = 'button',
+        placement = 'bottom-right',
+        container = 'local',
+        label,
+        icon,
+        toolTip,
+        ...otherProps
+    } = props;
+
     // ignore iconOnly=true if there is no icon
     const iconOnly = iconOnlyProp === true && !!icon;
 
     const { logError } = useErrorLogger();
     logError(!!icon && !isValidIcon(icon), 'Button - The icon prop must be a valid icon element.');
 
-    const As: ElementType = as || 'button';
-
-    const button = (
+    const button = (triggerProps: TooltipTriggerProps) => (
         <As
             {...otherProps}
+            aria-describedby={triggerProps['aria-describedby']}
             aria-label={label}
             data-bspk="fab"
             data-container={container}
@@ -86,6 +87,18 @@ function Fab<As extends ElementType = 'button'>({
             data-round={iconOnly || undefined}
             data-size={size}
             data-variant={variant}
+            onFocus={(e) => {
+                triggerProps.onFocus?.();
+                otherProps.onFocus?.(e);
+            }}
+            onMouseLeave={(e) => {
+                triggerProps.onMouseLeave?.();
+                otherProps.onMouseLeave?.(e);
+            }}
+            onMouseOver={(e) => {
+                triggerProps.onMouseOver?.();
+                otherProps.onMouseOver?.(e);
+            }}
         >
             {!!icon && isValidElement(icon) && (
                 <span aria-hidden={!iconOnly || undefined} data-button-icon>
@@ -96,13 +109,14 @@ function Fab<As extends ElementType = 'button'>({
         </As>
     );
 
-    return toolTip || iconOnly ? (
-        <Tooltip label={toolTip || label} placement="top">
-            {button}
-        </Tooltip>
-    ) : (
-        button
-    );
+    if (toolTip || iconOnly)
+        return (
+            <Tooltip label={toolTip || label} placement="top">
+                {button}
+            </Tooltip>
+        );
+
+    return button({});
 }
 
 Fab.bspkName = 'Fab';

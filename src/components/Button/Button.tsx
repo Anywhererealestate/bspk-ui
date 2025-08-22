@@ -1,6 +1,6 @@
 import { ElementType, ReactNode, isValidElement } from 'react';
 
-import { Tooltip } from '-/components/Tooltip';
+import { Tooltip, TooltipTriggerProps } from '-/components/Tooltip';
 import { ButtonSize, CommonProps, ElementProps, SetRef } from '-/types/common';
 import { isValidIcon } from '-/utils/children';
 import { useErrorLogger } from '-/utils/errors';
@@ -125,9 +125,10 @@ function Button<As extends ElementType = 'button'>(props: ElementProps<ButtonPro
     logError(!!icon && !isValidIcon(icon), 'Button - The icon prop must be a valid icon element.');
     logError(!label, 'Button - The button must have a label.');
 
-    const button = (
+    const button = (triggerProps: TooltipTriggerProps) => (
         <As
             {...containerProps}
+            aria-describedby={triggerProps['aria-describedby']}
             aria-label={label}
             data-bspk="button"
             data-bspk-owner={owner || undefined}
@@ -137,6 +138,18 @@ function Button<As extends ElementType = 'button'>(props: ElementProps<ButtonPro
             data-variant={variant}
             data-width={width}
             disabled={disabled || undefined}
+            onFocus={(e) => {
+                triggerProps.onFocus?.();
+                containerProps.onFocus?.(e);
+            }}
+            onMouseLeave={(e) => {
+                triggerProps.onMouseLeave?.();
+                containerProps.onMouseLeave?.(e);
+            }}
+            onMouseOver={(e) => {
+                triggerProps.onMouseOver?.();
+                containerProps.onMouseOver?.(e);
+            }}
             ref={innerRef}
         >
             {children && typeof children !== 'string' ? (
@@ -155,15 +168,14 @@ function Button<As extends ElementType = 'button'>(props: ElementProps<ButtonPro
         </As>
     );
 
-    if (toolTip) {
+    if (toolTip)
         return (
             <Tooltip label={toolTip} placement="top">
                 {button}
             </Tooltip>
         );
-    }
 
-    return button;
+    return button({});
 }
 
 Button.bspkName = 'Button';
