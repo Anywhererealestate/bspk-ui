@@ -54,11 +54,17 @@ export type TableColumn<R extends TableRow> = {
      */
     width?: string;
     /**
-     * The alignment of the column. This is used to set the text alignment of the column.
+     * The horizontal alignment of the column. This is used to set the text alignment of the column.
      *
      * @default left
      */
     align?: 'center' | 'left' | 'right';
+    /**
+     * The vertical alignment of the column. This is used to set the text alignment of the column.
+     *
+     * @default center
+     */
+    valign?: 'bottom' | 'center' | 'top';
     /**
      * The sorting function for the column.
      *
@@ -120,9 +126,7 @@ export function useTable<R extends TableRow>({
         // Apply sorting
         if (sorting.length) {
             result = result.sort((a, b) => {
-                for (const sort of sorting) {
-                    const { key, order } = sort;
-
+                for (const { key, order } of sorting) {
                     const aValue = a[key];
                     const bValue = b[key];
 
@@ -166,6 +170,5 @@ export function useTable<R extends TableRow>({
             });
         },
         totalColumns: columns?.length || 0,
-        totalColumnsDisplayed: columns?.length || 0,
     };
 }

@@ -5,7 +5,8 @@
     --grey-background: var(--surface-neutral-t2-lowest);
     --icon-size: var(--spacing-sizing-05);
 
-    width: 100%;
+    min-width: 100%;
+    overflow: auto hidden;
     border-collapse: separate;
     text-align: left;
     border-spacing: 2rem 0.125rem;
@@ -36,11 +37,16 @@
         --padding-y: var(--spacing-sizing-01);
     }
 
+    [data-scroll-container] {
+        width: fit-content;
+        min-width: 100%;
+    }
+
     table {
         display: grid;
-        width: 100%;
-        grid-template-columns: var(--template-columns, repeat(auto-fill, minmax(0, 1fr)));
+        grid-template-columns: var(--template-columns);
         border-collapse: collapse;
+        min-width: 100%;
 
         tr,
         tbody,
@@ -48,19 +54,19 @@
             display: contents;
         }
 
-        caption,
-        td,
-        th,
-        th > button {
+        %cell {
             display: flex;
             flex-direction: column;
             justify-content: center;
             min-height: var(--min-height);
             padding: calc(var(--padding-y) + 2px) var(--spacing-sizing-04);
             border: none;
+            overflow: hidden;
         }
 
         caption {
+            @extend %cell;
+
             grid-column: 1 / -1;
             background: var(--grey-background);
             border-bottom: 1px solid var(--stroke-neutral-low);
@@ -70,21 +76,26 @@
             align-items: center;
             font: var(--labels-small);
 
-            // prevent background bleed
+            /* prevent background bleed */
             border-top-left-radius: var(--radius-md);
             border-top-right-radius: var(--radius-md);
         }
 
         th {
+            @extend %cell;
+
             background: var(--grey-background);
             font: var(--labels-small);
             cursor: pointer;
             border-bottom: 1px solid var(--stroke-neutral-base);
+            white-space: nowrap;
 
             &[data-sortable] {
                 padding: 0;
 
                 button {
+                    @extend %cell;
+
                     background: var(--grey-background);
                     flex-direction: row;
                     align-items: center;
@@ -92,6 +103,7 @@
                     gap: var(--spacing-sizing-02);
                     width: 100%;
                     cursor: pointer;
+                    font: inherit;
 
                     &:hover {
                         background:
@@ -140,7 +152,7 @@
         }
 
         thead:first-child {
-            // target the first header row only if the thead is first, i.e. caption is not present
+            /* target the first header row only if the thead is first, i.e. caption is not present */
             tr:first-child th {
                 &:first-child {
                     border-top-left-radius: var(--radius-md);
@@ -153,6 +165,8 @@
         }
 
         td {
+            @extend %cell;
+
             font: var(--body-small);
 
             &[data-align='right'] {
@@ -165,6 +179,18 @@
 
             &[data-align='left'] {
                 align-items: flex-start;
+            }
+
+            &[data-valign='top'] {
+                justify-content: flex-start;
+            }
+
+            &[data-valign='bottom'] {
+                justify-content: flex-end;
+            }
+
+            &[data-valign='center'] {
+                justify-content: center;
             }
 
             p {
@@ -195,9 +221,11 @@
                     linear-gradient(var(--grey-background), var(--grey-background));
             }
         }
+    }
 
-        tr:last-child {
-            // prevent background bleed
+    &:not([data-has-pagination]) {
+        table tr:last-child {
+            /* prevent background bleed */
             td:first-child {
                 border-bottom-left-radius: var(--radius-md);
             }
@@ -218,6 +246,7 @@
 
         [data-pagination-label] {
             font: var(--body-small);
+            min-width: fit-content;
         }
 
         [data-bspk='pagination'] {

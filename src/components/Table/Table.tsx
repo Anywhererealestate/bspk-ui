@@ -14,10 +14,18 @@ const SORT_DIRECTION_ICON = {
 } as const;
 
 export type TableProps<R extends TableRow> = {
-    /** The data of the table. */
+    /**
+     * The data of the table.
+     *
+     * Array<TableRow>
+     */
     data: R[];
-    /** The column definitions of the table. */
-    columns: TableColumn<R>[];
+    /**
+     * The column definitions of the table.
+     *
+     * @type Array<TableColumn>
+     */
+    columns: (TableColumn<R> | boolean)[];
     /** The title of the table. */
     title?: string;
     /**
@@ -51,7 +59,7 @@ export type TableProps<R extends TableRow> = {
  *                     { key: 'state', label: 'State', width: '100px' },
  *                     { key: 'capital', label: 'Capital', width: '1fr' },
  *                 ]}
- *                 rows={[
+ *                 data={[
  *                     { state: 'New Jersey', capital: 'Trenton' },
  *                     { state: 'New York', capital: 'Albany' },
  *                     { state: 'California', capital: 'Sacramento' },
@@ -66,7 +74,7 @@ export type TableProps<R extends TableRow> = {
  */
 function Table<R extends TableRow>({
     data = [],
-    columns,
+    columns: columnsProp,
     title,
     size = 'medium',
     pageSize = 10,
@@ -75,90 +83,106 @@ function Table<R extends TableRow>({
     const [pageIndex, setPageIndex] = useState(0);
     const tableId = useId();
 
+    const columns = columnsProp.filter((column): column is TableColumn<R> => {
+        return typeof column === 'object' && column !== null;
+    });
     const hasPagination = data?.length > pageSize;
 
-    const { rows, sorting, toggleSorting, totalColumns, totalColumnsDisplayed } = useTable<R>({
+    const { rows, sorting, toggleSorting, totalColumns } = useTable<R>({
         data,
         pageIndex,
         pageSize,
+        columns,
     });
 
     return (
-        <div {...props} data-bspk="table" data-size={size || 'medium'} id={tableId} style={props.style}>
-            <table
-                {...props}
-                aria-colcount={totalColumns}
-                aria-rowcount={data.length}
-                style={cssWithVars({
-                    '--column-count': totalColumnsDisplayed,
-                    '--template-columns': columns?.map((column) => `minmax(0, ${column.width || '1fr'})`).join(' '),
-                })}
-            >
-                {title && <caption>{title}</caption>}
-                <thead>
-                    <tr>
-                        {columns?.map((column) => {
-                            const sort = sorting.find((s) => s.key === column.key)?.order;
-                            const sortable = !!column.sort;
+        <div
+            {...props}
+            data-bspk="table"
+            data-has-pagination={hasPagination || undefined}
+            data-size={size || 'medium'}
+            id={tableId}
+            style={props.style}
+        >
+            <div data-scroll-container>
+                <table
+                    {...props}
+                    aria-colcount={totalColumns}
+                    aria-rowcount={data.length}
+                    style={cssWithVars({
+                        '--template-columns': columns
+                            // Create a template column for each column definition
+                            ?.map((column) => `minmax(min-content, ${column.width || '1fr'})`)
+                            .join(' '),
+                    })}
+                >
+                    {title && <caption>{title}</caption>}
+                    <thead>
+                        <tr>
+                            {columns?.map((column) => {
+                                const sort = sorting.find((s) => s.key === column.key)?.order;
+                                const sortable = !!column.sort;
 
-                            let sortDirection: 'ascending' | 'descending' | undefined;
-                            if (sortable) sortDirection = sort && `${sort}ending`;
+                                let sortDirection: 'ascending' | 'descending' | undefined;
+                                if (sortable) sortDirection = sort && `${sort}ending`;
 
-                            return (
-                                <th
-                                    aria-sort={sortDirection}
-                                    data-align={column.align}
-                                    data-sortable={sortable || undefined}
-                                    key={column.key}
-                                    scope="col"
-                                >
-                                    {sortable ? (
-                                        <button onClick={() => toggleSorting(column.key)} type="button">
-                                            {column.label}
-                                            {sortDirection && (
-                                                <>
-                                                    <span aria-hidden>{SORT_DIRECTION_ICON[sortDirection]}</span>
-                                                    <span data-sr-only>
-                                                        <span aria-live="polite" role="status">
-                                                            sorted {sortDirection}
+                                return (
+                                    <th
+                                        aria-sort={sortDirection}
+                                        data-align={column.align}
+                                        data-sortable={sortable || undefined}
+                                        key={column.key}
+                                        scope="col"
+                                    >
+                                        {sortable ? (
+                                            <button onClick={() => toggleSorting(column.key)} type="button">
+                                                {column.label}
+                                                {sortDirection && (
+                                                    <>
+                                                        <span aria-hidden>{SORT_DIRECTION_ICON[sortDirection]}</span>
+                                                        <span data-sr-only>
+                                                            <span aria-live="polite" role="status">
+                                                                sorted {sortDirection}
+                                                            </span>
                                                         </span>
-                                                    </span>
-                                                </>
-                                            )}
-                                        </button>
-                                    ) : (
-                                        column.label
-                                    )}
-                                </th>
-                            );
-                        })}
-                    </tr>
-                </thead>
-                <tbody>
-                    {rows.map((row) => (
-                        <tr key={row.id}>
-                            {columns?.map((column) => (
-                                <td
-                                    data-align={column.align || 'left'}
-                                    data-cell={column.key}
-                                    key={`${row.id}-${column.key}`}
-                                >
-                                    {formatCell(column.formatter?.(row, size) || row[column.key])}
-                                </td>
-                            ))}
+                                                    </>
+                                                )}
+                                            </button>
+                                        ) : (
+                                            column.label
+                                        )}
+                                    </th>
+                                );
+                            })}
                         </tr>
-                    ))}
-                </tbody>
-            </table>
-            {hasPagination && (
-                <TableFooter
-                    id={tableId}
-                    pageIndex={pageIndex}
-                    pageSize={pageSize}
-                    setPageIndex={setPageIndex}
-                    totalRows={data.length}
-                />
-            )}
+                    </thead>
+                    <tbody>
+                        {rows.map((row) => (
+                            <tr key={row.id}>
+                                {columns?.map((column) => (
+                                    <td
+                                        data-align={column.align || 'left'}
+                                        data-cell={column.key}
+                                        data-valign={column.valign || 'center'}
+                                        key={`${row.id}-${column.key}`}
+                                    >
+                                        {formatCell(column.formatter?.(row, size) || row[column.key])}
+                                    </td>
+                                ))}
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+                {hasPagination && (
+                    <TableFooter
+                        id={tableId}
+                        pageIndex={pageIndex}
+                        pageSize={pageSize}
+                        setPageIndex={setPageIndex}
+                        totalRows={data.length}
+                    />
+                )}
+            </div>
         </div>
     );
 }

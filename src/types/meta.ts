@@ -104,6 +104,6 @@ export type UtilityMeta = BaseMeta & {
     returns?: string;
 };
 
-export type ComponentPhase = 'Backlog' | 'Dev' | 'QA' | 'QA' | 'Stable' | 'Utility' | 'UXReview';
+export type ComponentPhase = 'Backlog' | 'Dev' | 'QA' | 'Stable' | 'Utility' | 'UXReview';
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

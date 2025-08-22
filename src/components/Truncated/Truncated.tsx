@@ -48,12 +48,12 @@ function Truncated<As extends ElementType = 'span'>({
             data-bspk-utility="truncated"
             ref={(node) => setElement(node)}
             style={{
+                maxWidth: '100%',
                 ...props.style,
                 display: 'inline-block',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
                 whiteSpace: 'nowrap',
-                maxWidth: '100%',
             }}
         >
             {children}
