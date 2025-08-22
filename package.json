@@ -142,8 +142,6 @@
         "./RadioGroup/*": "./dist/components/RadioGroup/*.js",
         "./RadioOption": "./dist/components/RadioOption/index.js",
         "./RadioOption/*": "./dist/components/RadioOption/*.js",
-        "./RangeSlider": "./dist/components/RangeSlider/index.js",
-        "./RangeSlider/*": "./dist/components/RangeSlider/*.js",
         "./Rating": "./dist/components/Rating/index.js",
         "./Rating/*": "./dist/components/Rating/*.js",
         "./Scrim": "./dist/components/Scrim/index.js",
