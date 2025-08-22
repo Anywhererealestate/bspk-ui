@@ -61,6 +61,7 @@
     [data-day][data-selected] {
         button {
             --primary-background: var(--surface-brand-primary);
+
             background-color: var(--primary-background);
             color: var(--foreground-brand-on-primary);
         }
@@ -98,8 +99,7 @@
     }
 
     &[data-variant='elevated'] {
-        box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.32);
-        box-shadow: 0px 8px 12px 0px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 8px 12px 0 rgb(0 0 0 / 15%);
         border-radius: var(--radius-lg);
         border: 1px solid var(--stroke-neutral-low);
         background: var(--surface-neutral-t1-base);
