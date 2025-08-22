@@ -121,11 +121,11 @@ function Avatar({
     disabled,
 }: AvatarProps) {
     const children = useMemo(() => {
-        if (image) return <img alt={ariaLabel} src={image} />;
+        if (image) return <img alt={ariaLabel} aria-hidden={true} src={image} />;
 
         if (showIcon)
             return (
-                <span data-icon>
+                <span aria-hidden={true} data-icon>
                     <SvgPerson />
                 </span>
             );
@@ -151,6 +151,7 @@ function Avatar({
         <button
             {...triggerProps}
             aria-describedby={triggerProps?.['aria-describedby'] || ariaLabel}
+            aria-label={ariaLabel}
             data-bspk="avatar"
             data-color={color}
             data-size={size}
