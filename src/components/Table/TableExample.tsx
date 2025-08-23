@@ -35,7 +35,6 @@ export const TableExample: ComponentExampleFn<TableProps<TableRow>> = ({
                     serviceYears: 9,
                 },
                 {
-                    // captain of ds9
                     id: '3',
                     firstName: 'Benjamin',
                     lastName: 'Sisko',
