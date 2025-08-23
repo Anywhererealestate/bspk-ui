@@ -4,42 +4,50 @@ import { ReactElement, cloneElement, useMemo, useRef, useState } from 'react';
 import { Button } from '-/components/Button';
 import { Portal } from '-/components/Portal';
 import { Txt } from '-/components/Txt';
-import { Placement, useFloating } from '-/hooks/useFloating';
+import { Placement, useFloating, UseFloatingProps } from '-/hooks/useFloating';
 import { useId } from '-/hooks/useId';
 import { useOutsideClick } from '-/hooks/useOutsideClick';
-import { CallToActionButton, CommonProps } from '-/types/common';
+import { CallToActionButton, CommonProps, ElementProps } from '-/types/common';
+import { cssWithVars } from '-/utils/cwv';
 
 import './popover.scss';
 
-export type PopoverProps = CommonProps<'disabled'> & {
-    /**
-     * The placement of the popover.
-     *
-     * @default top
-     */
-    placement?: Placement;
-    /** The popover header. */
-    header: string;
-    /**
-     * The content of the popover.
-     *
-     * @type multiline
-     */
-    content: string;
-    /**
-     * The call to action button properties.
-     *
-     * @type CallToActionButton
-     */
-    callToAction?: CallToActionButton;
-    /**
-     * A single element that will trigger the popover when clicked.
-     *
-     * @type ReactElement
-     * @required
-     */
-    children: ReactElement;
-};
+export type PopoverProps = CommonProps<'disabled'> &
+    Pick<UseFloatingProps, 'refWidth'> & {
+        /**
+         * The placement of the popover.
+         *
+         * @default top
+         */
+        placement?: Placement;
+        /** The popover header. */
+        header: string;
+        /**
+         * The content of the popover.
+         *
+         * @type multiline
+         */
+        content: string;
+        /**
+         * The call to action button properties.
+         *
+         * @type CallToActionButton
+         */
+        callToAction?: CallToActionButton;
+        /**
+         * The secondary call to action button properties.
+         *
+         * @type CallToActionButton
+         */
+        secondaryCallToAction?: CallToActionButton;
+        /**
+         * A single element that will trigger the popover when clicked.
+         *
+         * @type ReactElement
+         * @required
+         */
+        children: ReactElement;
+    };
 
 /**
  * Brief message that provide additional guidance and helps users perform an action if needed.
@@ -73,7 +81,17 @@ export type PopoverProps = CommonProps<'disabled'> & {
  * @name Popover
  * @phase UXReview
  */
-function Popover({ placement = 'top', header, content, callToAction, children, disabled = false }: PopoverProps) {
+function Popover({
+    placement = 'top',
+    header,
+    content,
+    callToAction,
+    secondaryCallToAction,
+    children,
+    disabled = false,
+    refWidth = false,
+    ...props
+}: ElementProps<PopoverProps, 'div'>) {
     const id = useId();
     const [show, setShow] = useState(false);
     const arrowRef = useRef<HTMLElement | null>(null);
@@ -84,6 +102,7 @@ function Popover({ placement = 'top', header, content, callToAction, children, d
         offsetOptions: 22,
         arrowRef,
         hide: !show,
+        refWidth: refWidth,
     });
 
     useOutsideClick({
@@ -102,6 +121,18 @@ function Popover({ placement = 'top', header, content, callToAction, children, d
         [children, disabled, id],
     );
 
+    const basicArrowX = middlewareData?.arrow?.x ? `${middlewareData.arrow.x}px` : '0px';
+
+    const getArrowX = () => {
+        if (middlewareData?.arrow?.x) {
+            if (placement === 'top-start' || placement === 'bottom-start') return '16px';
+            if (placement === 'top' || placement === 'bottom') return `${middlewareData.arrow.x}px`;
+            if (placement === 'top-end' || placement === 'bottom-end')
+                return `${(middlewareData.arrow.x * 2 || 32) - 16}px`;
+        }
+        return '0px';
+    };
+
     return disabled ? (
         children
     ) : (
@@ -116,7 +147,7 @@ function Popover({ placement = 'top', header, content, callToAction, children, d
                         elements.setFloating(node);
                         elements.setReference(document.querySelector<HTMLElement>(`[aria-describedby="${id}"]`));
                     }}
-                    style={floatingStyles}
+                    style={{ ...floatingStyles, ...props.style }}
                 >
                     <header>
                         <Txt variant="heading-h6">{header}</Txt>
@@ -128,25 +159,34 @@ function Popover({ placement = 'top', header, content, callToAction, children, d
                         <Txt as="div" variant="body-small">
                             {content}
                         </Txt>
-                        {callToAction?.label && callToAction?.onClick && (
-                            <Button
-                                data-call-to-action
-                                label={callToAction.label}
-                                onClick={callToAction.onClick}
-                                size="small"
-                                variant="secondary"
-                            />
-                        )}
+                        <div data-cta-row>
+                            {secondaryCallToAction?.label && secondaryCallToAction?.onClick && (
+                                <Button
+                                    label={secondaryCallToAction.label}
+                                    onClick={secondaryCallToAction.onClick}
+                                    size="small"
+                                    variant="secondary"
+                                />
+                            )}
+                            {callToAction?.label && callToAction?.onClick && (
+                                <Button
+                                    label={callToAction.label}
+                                    onClick={callToAction.onClick}
+                                    size="small"
+                                    variant="primary"
+                                />
+                            )}
+                        </div>
                     </div>
                     <div
                         data-arrow
                         ref={(node) => {
                             arrowRef.current = node;
                         }}
-                        style={{
-                            left: `${middlewareData?.arrow?.x}px`,
-                            top: `${middlewareData?.arrow?.y}px`,
-                        }}
+                        style={cssWithVars({
+                            '--position-left': refWidth ? getArrowX() : basicArrowX,
+                            '--position-top': `${middlewareData?.arrow?.y || 0}px`,
+                        })}
                     />
                 </div>
             </Portal>
