@@ -157,7 +157,7 @@ function Button<As extends ElementType = 'button'>(props: ElementProps<ButtonPro
             ) : (
                 <>
                     {!!icon && isValidElement(icon) && (
-                        <span aria-hidden={iconOnly || undefined} data-button-icon>
+                        <span aria-hidden={true} data-button-icon>
                             {icon}
                         </span>
                     )}
