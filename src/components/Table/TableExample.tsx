@@ -54,6 +54,7 @@ export const TableExample: ComponentExampleFn<TableProps<TableRow>> = ({
                     key: 'firstName',
                     label: 'First Name',
                     width: '1fr',
+                    sort: 'string',
                 },
                 {
                     key: 'lastName',

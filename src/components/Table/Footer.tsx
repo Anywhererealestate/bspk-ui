@@ -6,16 +6,17 @@ export function TableFooter({
     setPageIndex,
     totalRows,
     id,
+    totalPages,
 }: {
     pageIndex: number;
     pageSize: number;
     setPageIndex: (newVal: number) => void;
     totalRows: number;
     id: string;
+    totalPages: number;
 }) {
     const startRow = totalRows === 0 ? 0 : pageIndex * pageSize + 1;
     const endRow = Math.min(startRow + pageSize - 1, totalRows);
-
     return (
         <div data-pagination role="group">
             <div data-pagination-label>
@@ -30,7 +31,7 @@ export function TableFooter({
             </div>
             <Pagination
                 aria-labelledby={`${id}-pagination-description`}
-                numPages={Math.ceil(totalRows / pageSize)}
+                numPages={totalPages}
                 onChange={(newVal) => setPageIndex(newVal - 1)}
                 value={pageIndex + 1}
             />

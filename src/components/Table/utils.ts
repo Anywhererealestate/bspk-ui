@@ -170,5 +170,6 @@ export function useTable<R extends TableRow>({
             });
         },
         totalColumns: columns?.length || 0,
+        totalPages: Math.ceil(data.length / pageSize),
     };
 }

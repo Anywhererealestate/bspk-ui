@@ -1,7 +1,7 @@
 import './table.scss';
 import { SvgAZAscend } from '@bspk/icons/AZAscend';
 import { SvgAZDescend } from '@bspk/icons/AZDescend';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { TableFooter } from './Footer';
 import { formatCell, TableColumn, TableRow, TableSize, useTable } from './utils';
 import { useId } from '-/hooks/useId';
@@ -80,15 +80,17 @@ function Table<R extends TableRow>({
     pageSize = 10,
     ...props
 }: ElementProps<TableProps<R>, 'div'>) {
-    const [pageIndex, setPageIndex] = useState(0);
     const tableId = useId();
+    const [pageIndex, setPageIndex] = useState(0);
+    // when the length of data changes we should reset the
+    useEffect(() => setPageIndex(0), [data.length]);
 
     const columns = columnsProp.filter((column): column is TableColumn<R> => {
         return typeof column === 'object' && column !== null;
     });
     const hasPagination = data?.length > pageSize;
 
-    const { rows, sorting, toggleSorting, totalColumns } = useTable<R>({
+    const { rows, sorting, toggleSorting, totalColumns, totalPages } = useTable<R>({
         data,
         pageIndex,
         pageSize,
@@ -139,7 +141,9 @@ function Table<R extends TableRow>({
                                                 {column.label}
                                                 {sortDirection && (
                                                     <>
-                                                        <span aria-hidden>{SORT_DIRECTION_ICON[sortDirection]}</span>
+                                                        <span aria-hidden data-sort-icon>
+                                                            {SORT_DIRECTION_ICON[sortDirection]}
+                                                        </span>
                                                         <span data-sr-only>
                                                             <span aria-live="polite" role="status">
                                                                 sorted {sortDirection}
@@ -179,6 +183,7 @@ function Table<R extends TableRow>({
                         pageIndex={pageIndex}
                         pageSize={pageSize}
                         setPageIndex={setPageIndex}
+                        totalPages={totalPages}
                         totalRows={data.length}
                     />
                 )}
