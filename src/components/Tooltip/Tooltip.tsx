@@ -54,7 +54,7 @@ export type TooltipProps = {
  *     export function Example() {
  *         return (
  *             <Tooltip label="I explain what this button does" placement="top">
- *                 <Button>Click me</Button>
+ *                 {(triggerProps) => <Button {...triggerProps}>Click me</Button>}
  *             </Tooltip>
  *         );
  *     }
