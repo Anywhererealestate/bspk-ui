@@ -9,6 +9,7 @@ export const ButtonExample: ComponentExample<ButtonProps> = {
             propState: {
                 icon: 'Add',
                 label: 'Add',
+                iconOnly: false,
             },
         },
         {
@@ -16,6 +17,7 @@ export const ButtonExample: ComponentExample<ButtonProps> = {
             propState: {
                 label: 'Add',
                 icon: undefined,
+                iconOnly: false,
             },
         },
         {

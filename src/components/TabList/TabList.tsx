@@ -211,24 +211,27 @@ function TabList({
                 return (
                     <Fragment key={item.id}>
                         <Tooltip disabled={!iconsOnly} label={item.label} placement="top">
-                            <li
-                                aria-controls={id}
-                                aria-disabled={item.disabled || undefined}
-                                aria-selected={isSelected || undefined}
-                                data-active={activeElementId === item.id || undefined}
-                                data-value={item.value}
-                                id={item.id}
-                                onClick={handleClick(item)}
-                                onKeyDown={handleKeyDown}
-                                role="tab"
-                                tabIndex={isSelected ? 0 : -1}
-                            >
-                                {icon && <span aria-hidden="true">{icon}</span>}
-                                {!iconsOnly && <Truncated data-label>{item.label}</Truncated>}
-                                {item.badge && !item.disabled && (
-                                    <Badge count={item.badge} size={TAB_BADGE_SIZES[size]} />
-                                )}
-                            </li>
+                            {(triggerProps) => (
+                                <li
+                                    aria-controls={id}
+                                    aria-disabled={item.disabled || undefined}
+                                    aria-selected={isSelected || undefined}
+                                    data-active={activeElementId === item.id || undefined}
+                                    data-value={item.value}
+                                    id={item.id}
+                                    onClick={handleClick(item)}
+                                    onKeyDown={handleKeyDown}
+                                    role="tab"
+                                    tabIndex={isSelected ? 0 : -1}
+                                    {...triggerProps}
+                                >
+                                    {icon && <span aria-hidden="true">{icon}</span>}
+                                    {!iconsOnly && <Truncated data-label>{item.label}</Truncated>}
+                                    {item.badge && !item.disabled && (
+                                        <Badge count={item.badge} size={TAB_BADGE_SIZES[size]} />
+                                    )}
+                                </li>
+                            )}
                         </Tooltip>
                     </Fragment>
                 );
