@@ -1,4 +1,4 @@
-import { ElementType, ReactNode, isValidElement } from 'react';
+import { AriaAttributes, ElementType, ReactNode, isValidElement } from 'react';
 
 import { Tooltip, TooltipTriggerProps } from '-/components/Tooltip';
 import { ButtonSize, CommonProps, ElementProps, SetRef } from '-/types/common';
@@ -98,7 +98,9 @@ export type ButtonProps<As extends ElementType = 'button'> = CommonProps<'disabl
  * @name Button
  * @phase UXReview
  */
-function Button<As extends ElementType = 'button'>(props: ElementProps<ButtonProps<As>, As>): JSX.Element {
+function Button<As extends ElementType = 'button'>(
+    props: AriaAttributes & ElementProps<ButtonProps<As>, As>,
+): JSX.Element {
     const {
         size = 'medium',
         variant = 'primary',
@@ -128,7 +130,7 @@ function Button<As extends ElementType = 'button'>(props: ElementProps<ButtonPro
     const button = (triggerProps: TooltipTriggerProps) => (
         <As
             {...containerProps}
-            aria-describedby={triggerProps['aria-describedby']}
+            aria-describedby={triggerProps['aria-describedby'] || containerProps['aria-describedby']}
             aria-label={label}
             data-bspk="button"
             data-bspk-owner={owner || undefined}

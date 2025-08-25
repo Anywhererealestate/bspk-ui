@@ -1,4 +1,4 @@
-import { ElementType, isValidElement } from 'react';
+import { AriaAttributes, ElementType, isValidElement } from 'react';
 
 import { ButtonProps } from '-/components/Button';
 import { Tooltip, TooltipTriggerProps } from '-/components/Tooltip';
@@ -56,7 +56,7 @@ export type FabProps<As extends ElementType = 'button'> = Pick<
  * @name Fab
  * @phase UXReview
  */
-function Fab<As extends ElementType = 'button'>(props: ElementProps<FabProps<As>, As>) {
+function Fab<As extends ElementType = 'button'>(props: AriaAttributes & ElementProps<FabProps<As>, As>) {
     const {
         size = 'small',
         variant = 'primary',
@@ -79,7 +79,7 @@ function Fab<As extends ElementType = 'button'>(props: ElementProps<FabProps<As>
     const button = (triggerProps: TooltipTriggerProps) => (
         <As
             {...otherProps}
-            aria-describedby={triggerProps['aria-describedby']}
+            aria-describedby={triggerProps['aria-describedby'] || otherProps['aria-describedby']}
             aria-label={label}
             data-bspk="fab"
             data-container={container}
