@@ -31,7 +31,7 @@ export type SelectFieldProps = FormFieldWrapProps<SelectProps>;
  *     }
  *
  * @name SelectField
- * @phase UXReview
+ * @phase Dev
  */
 function SelectField({
     label,

@@ -37,7 +37,7 @@ export const ProgressionStepperExample: ComponentExample<ProgressionStepperProps
             label: 'Widget',
             propState: {
                 variant: 'widget',
-                currentStep: 2,
+                currentStep: 3,
                 steps: [
                     { name: 'Name of step 1' },
                     { name: 'Name of step 2' },
