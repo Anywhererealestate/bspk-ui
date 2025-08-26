@@ -1,16 +1,36 @@
 import './table.scss';
 import { SvgAZAscend } from '@bspk/icons/AZAscend';
 import { SvgAZDescend } from '@bspk/icons/AZDescend';
-import { useEffect, useState } from 'react';
+import { AriaAttributes, useEffect, useState } from 'react';
 import { TableFooter } from './Footer';
-import { formatCell, TableColumn, TableRow, TableSize, useTable } from './utils';
+import { formatCell, SortOrder, TableColumn, TableRow, TableSize, useTable } from './utils';
 import { useId } from '-/hooks/useId';
 import { ElementProps } from '-/types/common';
 import { cssWithVars } from '-/utils/cwv';
 
-const SORT_DIRECTION_ICON = {
-    ascending: <SvgAZAscend />,
-    descending: <SvgAZDescend />,
+const SORT_META: Record<
+    SortOrder | 'none',
+    {
+        icon: JSX.Element | null;
+        label: string;
+        aria: AriaAttributes['aria-sort'];
+    }
+> = {
+    asc: {
+        icon: <SvgAZAscend />,
+        label: 'sorted ascending',
+        aria: 'ascending',
+    },
+    desc: {
+        icon: <SvgAZDescend />,
+        label: 'sorted descending',
+        aria: 'descending',
+    },
+    none: {
+        icon: null,
+        label: 'not sorted',
+        aria: 'none',
+    },
 } as const;
 
 export type TableProps<R extends TableRow> = {
@@ -122,35 +142,31 @@ function Table<R extends TableRow>({
                     <thead>
                         <tr>
                             {columns?.map((column) => {
-                                const sort = sorting.find((s) => s.key === column.key)?.order;
-                                const sortable = !!column.sort;
-
-                                let sortDirection: 'ascending' | 'descending' | undefined;
-                                if (sortable) sortDirection = sort && `${sort}ending`;
+                                const sortMeta =
+                                    column.sort &&
+                                    SORT_META[sorting.find((s) => s.key === column.key)?.order || 'none'];
 
                                 return (
                                     <th
-                                        aria-sort={sortDirection}
+                                        aria-sort={sortMeta?.aria}
                                         data-align={column.align}
-                                        data-sortable={sortable || undefined}
+                                        data-sortable={!!sortMeta || undefined}
                                         key={column.key}
                                         scope="col"
                                     >
-                                        {sortable ? (
+                                        {sortMeta ? (
                                             <button onClick={() => toggleSorting(column.key)} type="button">
                                                 {column.label}
-                                                {sortDirection && (
-                                                    <>
-                                                        <span aria-hidden data-sort-icon>
-                                                            {SORT_DIRECTION_ICON[sortDirection]}
-                                                        </span>
-                                                        <span data-sr-only>
-                                                            <span aria-live="polite" role="status">
-                                                                sorted {sortDirection}
-                                                            </span>
-                                                        </span>
-                                                    </>
+                                                {sortMeta?.icon && (
+                                                    <span aria-hidden data-sort-icon>
+                                                        {sortMeta?.icon}
+                                                    </span>
                                                 )}
+                                                <span data-sr-only>
+                                                    <span aria-live="polite" role="status">
+                                                        {sortMeta.label}
+                                                    </span>
+                                                </span>
                                             </button>
                                         ) : (
                                             column.label

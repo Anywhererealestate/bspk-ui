@@ -6,7 +6,9 @@ const parseDateTime = (val: TableCellValue) => {
     return 0;
 };
 
-const BUILT_IN_COLUMN_SORTERS = {
+export type BuiltInColumnSorters = 'boolean' | 'date' | 'number' | 'string';
+
+const BUILT_IN_COLUMN_SORTERS: Record<BuiltInColumnSorters, TableColumnSortingFn> = {
     string: (a: TableCellValue, b: TableCellValue) => `${a}`.localeCompare(`${b}`),
     number: (a: TableCellValue, b: TableCellValue) => {
         const aNum = typeof a === 'number' ? a : Number(a) || 0;
@@ -28,7 +30,7 @@ export type TableRow = {
     id: string;
 };
 
-export type TableColumnSortingFn = (a: TableCellValue, b: TableCellValue) => -1 | 0 | 1;
+export type TableColumnSortingFn = (a: TableCellValue, b: TableCellValue) => number;
 
 export type TableColumn<R extends TableRow> = {
     /**
@@ -68,11 +70,13 @@ export type TableColumn<R extends TableRow> = {
     /**
      * The sorting function for the column.
      *
-     * This can be a custom sorting function or one of the built-in sorting functions.
+     * This can be a custom sorting function or one of the built-in sorting functions:
+     *
+     * `string`, `boolean`, `date`, or `number`.
      *
      * If unspecified, the column will not be sortable.
      */
-    sort?: TableColumnSortingFn | keyof typeof BUILT_IN_COLUMN_SORTERS;
+    sort?: BuiltInColumnSorters | TableColumnSortingFn;
     /**
      * A formatter function for the cell values in the column.
      *
