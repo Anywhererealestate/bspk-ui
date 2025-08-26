@@ -8,12 +8,9 @@ import '-/styles/base.scss';
  * @phase Utility
  * @generated
  */
-function StylesProviderDenaliBoss(): JSX.Element | null {
+export function StylesProviderDenaliBoss(): JSX.Element | null {
     return null;
 }
 
-StylesProviderDenaliBoss.bspkName = 'StylesProviderDenaliBoss';
-
-export { StylesProviderDenaliBoss };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

@@ -67,7 +67,7 @@ export type DialogProps = CommonProps<'id' | 'owner'> &
  * @name Dialog
  * @phase Utility
  */
-function Dialog({
+export function Dialog({
     children,
     innerRef,
     onClose,
@@ -131,8 +131,5 @@ function Dialog({
     );
 }
 
-Dialog.bspkName = 'Dialog';
-
-export { Dialog };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

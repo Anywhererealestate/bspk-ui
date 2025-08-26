@@ -62,7 +62,7 @@ export type TooltipProps = {
  * @name Tooltip
  * @phase UXReview
  */
-function Tooltip({
+export function Tooltip({
     placement = DEFAULT.placement,
     label,
     children,
@@ -132,8 +132,5 @@ function Tooltip({
     );
 }
 
-Tooltip.bspkName = 'Tooltip';
-
-export { Tooltip };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

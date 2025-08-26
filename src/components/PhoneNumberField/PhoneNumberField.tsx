@@ -12,7 +12,7 @@ export type PhoneNumberFieldProps = FormFieldWrapProps<PhoneNumberInputProps>;
  * @name PhoneNumberField
  * @phase UXReview
  */
-function PhoneNumberField({
+export function PhoneNumberField({
     label,
     helperText,
     controlId,
@@ -38,8 +38,5 @@ function PhoneNumberField({
     );
 }
 
-PhoneNumberField.bspkName = 'PhoneNumberField';
-
-export { PhoneNumberField };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

@@ -50,7 +50,7 @@ export type PaginationProps = {
  * @name Pagination
  * @phase UXReview
  */
-function Pagination({ numPages, value, onChange, ...ariaProps }: AriaAttributes & PaginationProps) {
+export function Pagination({ numPages, value, onChange, ...ariaProps }: AriaAttributes & PaginationProps) {
     const nextPage = () => {
         if (value < numPages) {
             onChange(value + 1);
@@ -101,8 +101,5 @@ function Pagination({ numPages, value, onChange, ...ariaProps }: AriaAttributes 
     );
 }
 
-Pagination.bspkName = 'Pagination';
-
-export { Pagination };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

@@ -51,7 +51,7 @@ export type LayoutProps<As extends ElementType = 'div'> = {
  * @name Layout
  * @phase Utility
  */
-function Layout<As extends ElementType = 'div'>({
+export function Layout<As extends ElementType = 'div'>({
     children,
     column,
     gap = '16',
@@ -84,8 +84,5 @@ function Layout<As extends ElementType = 'div'>({
     );
 }
 
-Layout.bspkName = 'Layout';
-
-export { Layout };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

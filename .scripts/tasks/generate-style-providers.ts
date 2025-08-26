@@ -40,8 +40,6 @@ function ${componentName}(): JSX.Element | null {
     return null;
 }
 
-${componentName}.bspkName = '${componentName}';
-
 export { ${componentName} };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

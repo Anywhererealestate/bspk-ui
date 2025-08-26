@@ -83,7 +83,7 @@ export type PhoneNumberInputProps = FormFieldControlProps &
  * @name PhoneNumberInput
  * @phase UXReview
  */
-function PhoneNumberInput({
+export function PhoneNumberInput({
     value,
     onChange,
     disableFormatting,
@@ -224,8 +224,5 @@ function PhoneNumberInput({
     );
 }
 
-PhoneNumberInput.bspkName = 'PhoneNumberInput';
-
-export { PhoneNumberInput };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

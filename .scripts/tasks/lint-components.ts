@@ -1,9 +1,5 @@
 /* eslint-disable no-console */
-/**
- * $ npx tsx .scripts/tasks/lint-components.ts
- *
- * This script checks if all components have a `data-bspk="name"` attribute, a 'bspkName' property.
- */
+/** $ npx tsx .scripts/tasks/lint-components.ts */
 
 import fs from 'fs';
 import path from 'path';
@@ -62,7 +58,6 @@ componentsMeta.forEach(({ name, slug, phase }) => {
     }
 
     const hasDefaultDescription = content.includes(`Component description.`);
-    const hasFunctionName = content.includes(`.bspkName = '${name}'`);
     const hasDataName = content.includes(`data-bspk="${slug}"`);
     const hasDataUtilityName = content.includes(`data-bspk-utility="${slug}"`);
     const isGenerated = content.includes(`@generated`);
@@ -77,10 +72,6 @@ componentsMeta.forEach(({ name, slug, phase }) => {
 
     if (sassName && sassName !== slug && sassName !== 'base') {
         errors.push(`❌ ${name} sass name does not match component slug "${sassName}"`);
-    }
-
-    if (!hasFunctionName) {
-        errors.push(`❌ ${name} does not have a valid bspkName property`);
     }
 
     if (hasDefaultDescription) {

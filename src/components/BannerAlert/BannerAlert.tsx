@@ -76,7 +76,7 @@ export type BannerAlertProps = {
  * @name BannerAlert
  * @phase UXReview
  */
-function BannerAlert({
+export function BannerAlert({
     variant = 'informational',
     onClose,
     header,
@@ -114,8 +114,5 @@ function BannerAlert({
     );
 }
 
-BannerAlert.bspkName = 'BannerAlert';
-
-export { BannerAlert };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

@@ -55,7 +55,7 @@ export type LinkProps = Pick<CommonPropsLibrary, 'disabled'> & {
  * @name Link
  * @phase UXReview
  */
-function Link({ label, trailingIcon, size, variant, target = '_self', ...props }: ElementProps<LinkProps, 'a'>) {
+export function Link({ label, trailingIcon, size, variant, target = '_self', ...props }: ElementProps<LinkProps, 'a'>) {
     let LazyIcon: LazyExoticComponent<ComponentType<unknown>> | undefined = undefined;
 
     if (trailingIcon === 'external')
@@ -89,8 +89,5 @@ function Link({ label, trailingIcon, size, variant, target = '_self', ...props }
     );
 }
 
-Link.bspkName = 'Link';
-
-export { Link };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

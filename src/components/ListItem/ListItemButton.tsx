@@ -4,6 +4,5 @@ import { ButtonProps, Button } from '-/components/Button';
 function ListItemButton({ label, icon, ...buttonProps }: Pick<ButtonProps, 'icon' | 'label' | 'onClick'>) {
     return <Button icon={icon} iconOnly label={label} {...buttonProps} size="large" variant="tertiary" />;
 }
-ListItemButton.bspkName = 'ListItemButton';
 
 export { ListItemButton };

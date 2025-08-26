@@ -24,7 +24,7 @@ export type PortalProps = {
  * @name Portal
  * @phase Utility
  */
-function Portal({ children, container }: PortalProps) {
+export function Portal({ children, container }: PortalProps) {
     const [portalContainer, setPortalContainer] = useState<HTMLElement | null>(container || null);
 
     useEffect(() => {
@@ -37,8 +37,5 @@ function Portal({ children, container }: PortalProps) {
     return <>{createPortal(children, portalContainer)}</>;
 }
 
-Portal.bspkName = 'Portal';
-
-export { Portal };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
