@@ -70,7 +70,7 @@ export type ProgressionStepperProps = {
  *     }
  *
  * @name ProgressionStepper
- * @phase Dev
+ * @phase UXReview
  */
 function ProgressionStepper({
     steps = [],
