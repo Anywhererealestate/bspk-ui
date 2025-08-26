@@ -43,7 +43,7 @@ function PasswordField({ disabled, readOnly, label, ...restTextFieldProps }: Pas
               };
 
     return (
-        <span data-bspk="password-input">
+        <span data-bspk="password-field">
             <TextField
                 aria-label={label}
                 disabled={disabled}
@@ -62,7 +62,7 @@ function PasswordField({ disabled, readOnly, label, ...restTextFieldProps }: Pas
     );
 }
 
-PasswordField.bspkName = 'Password';
+PasswordField.bspkName = 'PasswordField';
 
 export { PasswordField };
 
