@@ -1,6 +1,6 @@
 import { ElementType } from 'react';
 
-import { Tooltip } from '-/components/Tooltip';
+import { Tooltip, TooltipTriggerProps } from '-/components/Tooltip';
 import { useTruncatedText } from '-/hooks/useTruncatedText';
 import { ElementConstructorProps } from '-/types/common';
 
@@ -42,24 +42,26 @@ function Truncated<As extends ElementType = 'span'>({
 }: ElementConstructorProps<As, 'children'> & TruncatedProps<As>) {
     const { setElement, isTruncated } = useTruncatedText();
 
-    const span = (
+    const span = (triggerProps: TooltipTriggerProps) => (
         <span
             {...props}
             data-bspk-utility="truncated"
             ref={(node) => setElement(node)}
             style={{
+                maxWidth: '100%',
                 ...props.style,
                 display: 'inline-block',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
                 whiteSpace: 'nowrap',
             }}
+            {...triggerProps}
         >
             {children}
         </span>
     );
 
-    return isTruncated ? <Tooltip label={label || children}>{span}</Tooltip> : span;
+    return isTruncated ? <Tooltip label={label || children}>{span}</Tooltip> : span({});
 }
 
 Truncated.bspkName = 'Truncated';

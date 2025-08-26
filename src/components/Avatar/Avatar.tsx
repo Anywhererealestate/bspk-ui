@@ -1,7 +1,8 @@
 import { SvgPerson } from '@bspk/icons/Person';
 import { useMemo } from 'react';
 
-import { Tooltip } from '-/components/Tooltip';
+import { Tooltip, TooltipTriggerProps } from '-/components/Tooltip';
+import { CommonProps } from '-/types/common';
 import { ColorVariant } from '-/utils/colorVariants';
 
 import './avatar.scss';
@@ -23,7 +24,7 @@ export type SizeVariant =
     | 'xxxx-large'
     | 'xxxxx-large';
 
-export type AvatarProps = {
+export type AvatarProps = CommonProps<'disabled'> & {
     /**
      * The name of the person or entity represented by the avatar. This is used for accessibility purposes.
      *
@@ -74,6 +75,12 @@ export type AvatarProps = {
      * @default true
      */
     showTooltip?: boolean;
+    /**
+     * The function to call when the avatar is clicked.
+     *
+     * @type () => void
+     */
+    onClick?: () => void;
 };
 
 /**
@@ -110,14 +117,16 @@ function Avatar({
     image,
     name: ariaLabel,
     showTooltip = DEFAULT.showTooltip,
+    onClick,
+    disabled,
     ...props
 }: AvatarProps) {
     const children = useMemo(() => {
-        if (image) return <img alt={ariaLabel} src={image} />;
+        if (image) return <img alt={ariaLabel} aria-hidden={true} src={image} />;
 
         if (showIcon)
             return (
-                <span data-icon>
+                <span aria-hidden={true} data-icon>
                     <SvgPerson />
                 </span>
             );
@@ -139,13 +148,24 @@ function Avatar({
 
     if (!children) return null;
 
-    const avatar = (
-        <div aria-describedby={ariaLabel} data-bspk="avatar" data-color={color} data-size={size} {...props}>
+    const avatar = (triggerProps?: TooltipTriggerProps) => (
+        <button
+            {...triggerProps}
+            aria-describedby={triggerProps?.['aria-describedby'] || ariaLabel}
+            aria-label={ariaLabel}
+            data-bspk="avatar"
+            data-color={color}
+            data-size={size}
+            disabled={disabled || undefined}
+            onClick={disabled ? undefined : onClick}
+            tabIndex={0}
+            {...props}
+        >
             {children}
-        </div>
+        </button>
     );
 
-    return showTooltip ? <Tooltip label={ariaLabel}>{avatar}</Tooltip> : avatar;
+    return showTooltip ? <Tooltip label={ariaLabel}>{avatar}</Tooltip> : avatar();
 }
 
 Avatar.bspkName = 'Avatar';
