@@ -3,54 +3,6 @@
  * the meta output file.
  */
 
-export type BaseMeta = {
-    name: string;
-    description?: string;
-    file: string;
-    example?: string;
-};
-
-export type TypeMeta = BaseMeta & {
-    id: string;
-    references?: string[];
-    properties?: TypeProperty[];
-    components?: string[];
-};
-
-export type TypeProperty = {
-    name: string;
-    description?: string;
-    type?: string[] | string;
-    exampleType?: string;
-    default?: unknown;
-    required?: boolean;
-    options?: number[] | string[];
-    variants?: string[];
-    references?: string[];
-    minimum?: number;
-    maximum?: number;
-    example?: string;
-};
-
-export type ComponentMeta = BaseMeta & {
-    slug: string;
-    dependencies: string[];
-    css: string;
-    hasTouchTarget: boolean;
-    usage?: {
-        code: string;
-        description?: string;
-    };
-    phase: ComponentPhase;
-};
-
-export type UtilityMeta = BaseMeta & {
-    param?: string;
-    returns?: string;
-};
-
-export type ComponentPhase = 'Backlog' | 'Dev' | 'QA' | 'QA' | 'Stable' | 'Utility' | 'UXReview';
-
 export const COMPONENT_PHASE_ORDER: ComponentPhase[] = [
     'Utility', // Utility components are not tracked in the progress
     //
@@ -105,5 +57,53 @@ export const COMPONENT_PHASES: Record<
         description: "The component progress isn't tracked as it's a utility component.",
     },
 };
+
+export type BaseMeta = {
+    name: string;
+    description?: string;
+    file: string;
+    example?: string;
+};
+
+export type TypeMeta = BaseMeta & {
+    id: string;
+    references?: string[];
+    properties?: TypeProperty[];
+    components?: string[];
+};
+
+export type TypeProperty = {
+    name: string;
+    description?: string;
+    type?: string[] | string;
+    exampleType?: string;
+    default?: unknown;
+    required?: boolean;
+    options?: number[] | string[];
+    variants?: string[];
+    references?: string[];
+    minimum?: number;
+    maximum?: number;
+    example?: string;
+};
+
+export type ComponentMeta = BaseMeta & {
+    slug: string;
+    dependencies: string[];
+    css: string;
+    hasTouchTarget: boolean;
+    usage?: {
+        code: string;
+        description?: string;
+    };
+    phase: ComponentPhase;
+};
+
+export type UtilityMeta = BaseMeta & {
+    param?: string;
+    returns?: string;
+};
+
+export type ComponentPhase = 'Backlog' | 'Dev' | 'QA' | 'Stable' | 'Utility' | 'UXReview';
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
