@@ -21,7 +21,7 @@ import {
     TypeMeta,
     ComponentPhase,
     COMPONENT_PHASE_ORDER,
-} from './meta-types';
+} from './src/types/meta';
 
 const RESET = '\x1b[0m';
 const BLUE = '\x1b[34m';
@@ -549,7 +549,7 @@ export const UI_HASH = meta.UI_HASH as string;
 export const VERSION = meta.VERSION as string;
 export const BUILD = meta.BUILD as string;`,
 
-            fs.readFileSync(path.resolve(__dirname, 'meta-types.ts'), { encoding: 'utf-8' }),
+            fs.readFileSync(path.resolve(__dirname, './src/types/meta.ts'), { encoding: 'utf-8' }),
 
             `export type MetaComponentName = '${metaComponentNames.join("' | '")}';`,
 
