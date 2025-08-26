@@ -1,10 +1,19 @@
 import { useState } from 'react';
 import { TextField, TextFieldProps } from '-/components/TextField';
-import './password.scss';
+import '-/components/PasswordInput/password-input.scss';
 
-export type PasswordProps = Pick<
+export type PasswordFieldProps = Pick<
     TextFieldProps,
-    'disabled' | 'invalid' | 'label' | 'name' | 'onChange' | 'readOnly' | 'size' | 'value'
+    | 'controlId'
+    | 'disabled'
+    | 'errorMessage'
+    | 'invalid'
+    | 'label'
+    | 'name'
+    | 'onChange'
+    | 'readOnly'
+    | 'size'
+    | 'value'
 >;
 
 /**
@@ -20,10 +29,10 @@ export type PasswordProps = Pick<
  *         return <Password value={value} onChange={setValue} />;
  *     }
  *
- * @name Password
+ * @name PasswordField
  * @phase Dev
  */
-function Password({ disabled, readOnly, label, ...restTextFieldProps }: PasswordProps) {
+function PasswordField({ disabled, readOnly, label, ...restTextFieldProps }: PasswordFieldProps) {
     const [isShowingPassword, setIsShowingPassword] = useState(false);
 
     const togglePasswordVisibility =
@@ -34,20 +43,15 @@ function Password({ disabled, readOnly, label, ...restTextFieldProps }: Password
               };
 
     return (
-        <span data-bspk="password">
+        <span data-bspk="password-input">
             <TextField
                 aria-label={label}
-                controlId="Example controlId"
                 disabled={disabled}
                 label={label}
                 readOnly={readOnly}
                 showClearButton={false}
                 trailing={
-                    <button
-                        aria-label="Toggle password visibility"
-                        data-toggle-visibility-button
-                        onClick={togglePasswordVisibility}
-                    >
+                    <button data-toggle-visibility-button onClick={togglePasswordVisibility}>
                         {isShowingPassword ? 'Hide' : 'Show'}
                     </button>
                 }
@@ -58,8 +62,8 @@ function Password({ disabled, readOnly, label, ...restTextFieldProps }: Password
     );
 }
 
-Password.bspkName = 'Password';
+PasswordField.bspkName = 'Password';
 
-export { Password };
+export { PasswordField };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

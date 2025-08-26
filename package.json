@@ -118,6 +118,8 @@
         "./Pagination/*": "./dist/components/Pagination/*.js",
         "./Password": "./dist/components/Password/index.js",
         "./Password/*": "./dist/components/Password/*.js",
+        "./PasswordInput": "./dist/components/PasswordInput/index.js",
+        "./PasswordInput/*": "./dist/components/PasswordInput/*.js",
         "./PhoneNumberField": "./dist/components/PhoneNumberField/index.js",
         "./PhoneNumberField/*": "./dist/components/PhoneNumberField/*.js",
         "./PhoneNumberInput": "./dist/components/PhoneNumberInput/index.js",

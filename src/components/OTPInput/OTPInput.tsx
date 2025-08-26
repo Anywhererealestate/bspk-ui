@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import { TextInputProps } from '-/components/TextInput';
-import { Txt } from '-/components/Txt';
 import './otp-input.scss';
 
 export type OTPInputProps = Pick<TextInputProps, 'disabled' | 'invalid' | 'onChange' | 'readOnly' | 'size' | 'value'>;
@@ -72,8 +71,6 @@ function OTPInput({ value, onChange, size, disabled, invalid, readOnly }: OTPInp
             data-readonly={readOnly ? '' : undefined}
             data-size={size}
         >
-            <Txt variant="labels-small">Enter your One Time Passcode (OTP)</Txt>
-
             <div data-inputs-wrapper>
                 {Array.from({ length: 6 }).map((_, index) => (
                     <span data-input-wrapper="" key={index} role="presentation">
