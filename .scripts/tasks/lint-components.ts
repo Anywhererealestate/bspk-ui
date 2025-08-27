@@ -58,6 +58,7 @@ componentsMeta.forEach(({ name, slug, phase }) => {
     }
 
     const hasDefaultDescription = content.includes(`Component description.`);
+    const hasFunctionName = content.includes(`.bspkName = '${name}'`);
     const hasDataName = content.includes(`data-bspk="${slug}"`);
     const hasDataUtilityName = content.includes(`data-bspk-utility="${slug}"`);
     const isGenerated = content.includes(`@generated`);
@@ -72,6 +73,10 @@ componentsMeta.forEach(({ name, slug, phase }) => {
 
     if (sassName && sassName !== slug && sassName !== 'base') {
         errors.push(`❌ ${name} sass name does not match component slug "${sassName}"`);
+    }
+
+    if (hasFunctionName) {
+        errors.push(`❌ ${name} should not have a bspkName property`);
     }
 
     if (hasDefaultDescription) {
