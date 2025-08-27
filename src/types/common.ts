@@ -6,7 +6,7 @@
  * @bspk/ui/Txt".
  */
 
-import { JSXElementConstructor, ReactNode, ComponentPropsWithoutRef } from 'react';
+import { JSXElementConstructor, ReactNode, ComponentPropsWithoutRef, AriaAttributes, HTMLAttributes } from 'react';
 
 export type AlertVariant = 'error' | 'informational' | 'success' | 'warning';
 
@@ -22,6 +22,29 @@ export type ElementConstructorProps<
     E extends JSXElementConstructor<unknown> | keyof JSX.IntrinsicElements,
     O extends string = '',
 > = Omit<ComponentPropsWithoutRef<E>, O>;
+
+/** Props for a component that renders a container element, allowing customization of the container element's attributes. */
+export type ContainerElementProps<
+    E extends JSXElementConstructor<unknown> | keyof JSX.IntrinsicElements,
+    O extends string = '',
+> = {
+    /**
+     * Props which allow customization of the container element's attributes.
+     *
+     * @type ElementProps
+     */
+    elementProps?: Omit<
+        AriaAttributes & ComponentPropsWithoutRef<E> & DataProps & HTMLAttributes<E>,
+        O | 'style' | 'tabIndex'
+    >;
+    /** The inline style to apply to the container element. */
+    style?: HTMLAttributes<E>['style'];
+    /** A value greater than -1 makes an element tabbable. */
+    tabIndex?: HTMLAttributes<E>['tabIndex'];
+};
+
+/** Properties that begin with "data-"" */
+export type DataProps = Partial<Record<`data-${string}`, unknown>>;
 
 export type ButtonSize = 'large' | 'medium' | 'small' | 'x-small';
 

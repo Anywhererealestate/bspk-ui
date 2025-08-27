@@ -1,10 +1,10 @@
 // import { ReactNode, useMemo, useRef } from 'react';
-import { ReactNode, useRef } from 'react';
+import { HTMLAttributes, ReactNode, useRef } from 'react';
 
 import { Portal, PortalProps } from '-/components/Portal';
 import { useId } from '-/hooks/useId';
 import { useOutsideClick } from '-/hooks/useOutsideClick';
-import { CommonProps, ElementProps, SetRef } from '-/types/common';
+import { CommonProps, ContainerElementProps, SetRef } from '-/types/common';
 import { cssWithVars } from '-/utils/cwv';
 
 import './menu.scss';
@@ -14,6 +14,7 @@ export function menuItemId(menuId: string, index: number) {
 }
 
 export type MenuProps = CommonProps<'id' | 'owner'> &
+    ContainerElementProps<'div'> &
     Pick<PortalProps, 'container'> & {
         /** A ref to the inner div element. */
         innerRef?: SetRef<HTMLDivElement>;
@@ -62,6 +63,13 @@ export type MenuProps = CommonProps<'id' | 'owner'> &
          * @default true
          */
         scroll?: boolean;
+        /**
+         * The [WIA-ARIA role](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles) of the
+         * menu.
+         *
+         * @default listbox
+         */
+        role?: HTMLAttributes<'div'>['role'];
     };
 
 /**
@@ -98,8 +106,9 @@ export function Menu({
     owner,
     scroll = true,
     container,
-    ...props
-}: ElementProps<MenuProps, 'div'>) {
+    elementProps,
+    style,
+}: MenuProps) {
     const menuId = useId(idProp);
 
     const menuElement = useRef(null as HTMLDivElement | null);
@@ -115,7 +124,7 @@ export function Menu({
     const menu = (
         <>
             <div
-                {...props}
+                {...elementProps}
                 data-bspk="menu"
                 data-bspk-owner={owner || undefined}
                 data-floating={floating || undefined}
@@ -126,7 +135,7 @@ export function Menu({
                     menuElement.current = node;
                 }}
                 style={cssWithVars({
-                    ...props.style,
+                    ...style,
                     '--item-display-count': itemDisplayCount,
                 })}
             >
@@ -137,6 +146,5 @@ export function Menu({
 
     return portal ? <Portal container={container}>{menu}</Portal> : menu;
 }
-
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
