@@ -40,7 +40,7 @@ export type ElementAttributes<
      */
     elementAttributes?: Omit<
         AriaAttributes & ComponentPropsWithoutRef<E> & DataProps & HTMLAttributes<E>,
-        O | 'style' | 'tabIndex'
+        O | 'role' | 'style' | 'tabIndex'
     >;
     /** The inline style to apply to the container element. */
     style?: HTMLAttributes<E>['style'];
