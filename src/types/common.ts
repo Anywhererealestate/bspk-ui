@@ -24,16 +24,21 @@ export type ElementConstructorProps<
 > = Omit<ComponentPropsWithoutRef<E>, O>;
 
 /** Props for a component that renders a container element, allowing customization of the container element's attributes. */
-export type ContainerElementProps<
+export type ElementAttributes<
+    /** HTML Element */
     E extends JSXElementConstructor<unknown> | keyof JSX.IntrinsicElements,
+    /** Properties to Omit */
     O extends string = '',
 > = {
     /**
-     * Props which allow customization of the container element's attributes.
+     * Properties which allow customization of the container element's attributes. These include [standard HTML
+     * attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes), [ARIA
+     * attributes](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes), and [custom
+     * data attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/How_to/Use_data_attributes).
      *
-     * @type ElementProps
+     * @type ElementAttributes
      */
-    elementProps?: Omit<
+    elementAttributes?: Omit<
         AriaAttributes & ComponentPropsWithoutRef<E> & DataProps & HTMLAttributes<E>,
         O | 'style' | 'tabIndex'
     >;

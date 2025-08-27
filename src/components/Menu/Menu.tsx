@@ -4,7 +4,7 @@ import { HTMLAttributes, ReactNode, useRef } from 'react';
 import { Portal, PortalProps } from '-/components/Portal';
 import { useId } from '-/hooks/useId';
 import { useOutsideClick } from '-/hooks/useOutsideClick';
-import { CommonProps, ContainerElementProps, SetRef } from '-/types/common';
+import { CommonProps, ElementAttributes, SetRef } from '-/types/common';
 import { cssWithVars } from '-/utils/cwv';
 
 import './menu.scss';
@@ -14,7 +14,7 @@ export function menuItemId(menuId: string, index: number) {
 }
 
 export type MenuProps = CommonProps<'id' | 'owner'> &
-    ContainerElementProps<'div'> &
+    ElementAttributes<'div'> &
     Pick<PortalProps, 'container'> & {
         /** A ref to the inner div element. */
         innerRef?: SetRef<HTMLDivElement>;
@@ -106,7 +106,7 @@ export function Menu({
     owner,
     scroll = true,
     container,
-    elementProps,
+    elementAttributes,
     style,
 }: MenuProps) {
     const menuId = useId(idProp);
@@ -124,7 +124,7 @@ export function Menu({
     const menu = (
         <>
             <div
-                {...elementProps}
+                {...elementAttributes}
                 data-bspk="menu"
                 data-bspk-owner={owner || undefined}
                 data-floating={floating || undefined}
