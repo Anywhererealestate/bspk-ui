@@ -119,7 +119,7 @@ function Tooltip({
                                 arrowRef.current = node;
                             }}
                             style={{
-                                zIndex: 1000,
+                                zIndex: 'var(--z-index-tooltip-popover)',
                                 opacity: showTail ? 1 : 0,
                                 left: middlewareData.arrow?.x != null ? `${middlewareData.arrow?.x}px` : '',
                                 top: middlewareData.arrow?.y != null ? `${middlewareData.arrow?.y}px` : '',
