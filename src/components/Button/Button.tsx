@@ -2,8 +2,6 @@ import { AriaAttributes, ElementType, ReactNode, isValidElement } from 'react';
 
 import { Tooltip, TooltipTriggerProps } from '-/components/Tooltip';
 import { ButtonSize, CommonProps, ElementProps, SetRef } from '-/types/common';
-import { isValidIcon } from '-/utils/children';
-import { useErrorLogger } from '-/utils/errors';
 
 import './button.scss';
 
@@ -98,7 +96,7 @@ export type ButtonProps<As extends ElementType = 'button'> = CommonProps<'disabl
  * @name Button
  * @phase UXReview
  */
-function Button<As extends ElementType = 'button'>(
+export function Button<As extends ElementType = 'button'>(
     props: AriaAttributes & ElementProps<ButtonProps<As>, As>,
 ): JSX.Element {
     const {
@@ -123,9 +121,6 @@ function Button<As extends ElementType = 'button'>(
     const iconOnly = iconOnlyProp === true && !!icon;
     // if toolTip label is not provided and iconOnly is true, toolTip should be label
     const toolTip = toolTipProp || (iconOnly ? label : undefined);
-    const { logError } = useErrorLogger();
-    logError(!!icon && !isValidIcon(icon), 'Button - The icon prop must be a valid icon element.');
-    logError(!label, 'Button - The button must have a label.');
 
     const button = (triggerProps: TooltipTriggerProps) => (
         <As
@@ -180,8 +175,5 @@ function Button<As extends ElementType = 'button'>(
     return button({});
 }
 
-Button.bspkName = 'Button';
-
-export { Button };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

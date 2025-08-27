@@ -80,7 +80,7 @@ export type TextInputProps = CommonProps<
  * @name TextInput
  * @phase Utility
  */
-function TextInput({
+export function TextInput({
     invalid: invalidProp,
     onChange,
     size = DEFAULT.size,
@@ -154,8 +154,5 @@ function TextInput({
     );
 }
 
-TextInput.bspkName = 'TextInput';
-
-export { TextInput };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

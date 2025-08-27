@@ -25,7 +25,6 @@ union, tuple, or different types of data. Interfaces can only be used to describ
 
 - Every Component gets a JSDoc.
 - Use `function Component() {}` over `const Component = () => {}`. This is honestly just a preference, looks cleaner.
-- Every Component get a Bespoke Name: `ComponentX.bspkName = 'ComponentX'`. It should be the same name as the Component.
 
 ## Styles
 

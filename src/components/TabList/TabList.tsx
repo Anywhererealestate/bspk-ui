@@ -5,7 +5,6 @@ import { Tooltip } from '-/components/Tooltip';
 import { Truncated } from '-/components/Truncated';
 import { useId } from '-/hooks/useId';
 import { useKeyNavigation } from '-/hooks/useKeyNavigation';
-import { useOptionIconsInvalid } from '-/hooks/useOptionIconsInvalid';
 import { ElementProps } from '-/types/common';
 
 import './tab-list.scss';
@@ -145,7 +144,7 @@ export type TabListProps<O extends TabOption = TabOption> = {
  * @name TabList
  * @phase Utility
  */
-function TabList({
+export function TabList({
     //
     onChange,
     value: valueProp,
@@ -158,13 +157,10 @@ function TabList({
     ...containerProps
 }: ElementProps<TabListProps, 'ul'>) {
     const id = useId(idProp);
-    const options = useMemo(
-        () =>
-            Array.isArray(optionsProp) ? optionsProp.map((opt, index) => ({ ...opt, id: optionId(id, index) })) : [],
-        [id, optionsProp],
-    );
-
-    useOptionIconsInvalid(options);
+    const options = useMemo(() => {
+        if (!Array.isArray(optionsProp)) return [];
+        return optionsProp.map((opt, index) => ({ ...opt, id: optionId(id, index) }));
+    }, [id, optionsProp]);
 
     const value = useMemo(() => {
         const option = options.find((opt) => opt.value === valueProp);
@@ -240,8 +236,5 @@ function TabList({
     );
 }
 
-TabList.bspkName = 'TabList';
-
-export { TabList };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

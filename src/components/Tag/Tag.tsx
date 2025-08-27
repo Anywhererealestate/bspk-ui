@@ -44,7 +44,7 @@ export type TagProps = {
  * @name Tag
  * @phase UXReview
  */
-function Tag({ label, color = 'white', size = 'small', variant = 'flat' }: TagProps) {
+export function Tag({ label, color = 'white', size = 'small', variant = 'flat' }: TagProps) {
     return (
         <span data-bspk="tag" data-color={color} data-size={size} data-variant={variant}>
             {label && <Truncated>{label}</Truncated>}
@@ -53,8 +53,5 @@ function Tag({ label, color = 'white', size = 'small', variant = 'flat' }: TagPr
     );
 }
 
-Tag.bspkName = 'Tag';
-
-export { Tag };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
