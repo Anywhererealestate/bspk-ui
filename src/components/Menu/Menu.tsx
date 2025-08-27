@@ -1,5 +1,5 @@
 // import { ReactNode, useMemo, useRef } from 'react';
-import { HTMLAttributes, ReactNode, useRef } from 'react';
+import { ReactNode, useRef } from 'react';
 
 import { Portal, PortalProps } from '-/components/Portal';
 import { useId } from '-/hooks/useId';
@@ -63,13 +63,6 @@ export type MenuProps = CommonProps<'id' | 'owner'> &
          * @default true
          */
         scroll?: boolean;
-        /**
-         * The [WIA-ARIA role](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles) of the
-         * menu.
-         *
-         * @default listbox
-         */
-        role?: HTMLAttributes<'div'>['role'];
     };
 
 /**

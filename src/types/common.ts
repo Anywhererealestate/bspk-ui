@@ -46,6 +46,13 @@ export type ElementAttributes<
     style?: HTMLAttributes<E>['style'];
     /** A value greater than -1 makes an element tabbable. */
     tabIndex?: HTMLAttributes<E>['tabIndex'];
+    /**
+     * The [WIA-ARIA role](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles) of the
+     * element.
+     *
+     * @default listbox
+     */
+    role?: HTMLAttributes<E>['role'];
 };
 
 /** Properties that begin with "data-"" */
