@@ -39,7 +39,7 @@ export type TextareaFieldProps = FormFieldWrapProps<TextareaProps> & {
  * @name TextareaField
  * @phase UXReview
  */
-function TextareaField({
+export function TextareaField({
     label,
     helperText,
     controlId,
@@ -84,8 +84,5 @@ function TextareaField({
     );
 }
 
-TextareaField.bspkName = 'TextareaField';
-
-export { TextareaField };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

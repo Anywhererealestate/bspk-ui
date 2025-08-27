@@ -38,7 +38,7 @@ export type ChipGroupProps = {
  * @name ChipGroup
  * @phase UXReview
  */
-function ChipGroup({ children, wrap = true }: ChipGroupProps) {
+export function ChipGroup({ children, wrap = true }: ChipGroupProps) {
     return (
         <div data-bspk="chip-group" data-wrap={wrap || undefined}>
             {children}
@@ -46,8 +46,5 @@ function ChipGroup({ children, wrap = true }: ChipGroupProps) {
     );
 }
 
-ChipGroup.bspkName = 'ChipGroup';
-
-export { ChipGroup };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

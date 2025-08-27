@@ -59,10 +59,8 @@ function ProgressCircle({ label, labelPosition, size = 'medium' }: ProgressCircl
     );
 }
 
-ProgressCircle.bspkName = 'ProgressCircle';
+ProgressCircle.SVG = ProgressCircleSVG;
 
 export { ProgressCircle };
-
-ProgressCircle.SVG = ProgressCircleSVG;
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

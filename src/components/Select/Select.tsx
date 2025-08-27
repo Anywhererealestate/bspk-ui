@@ -92,7 +92,7 @@ export type SelectProps<T extends SelectOption = SelectOption> = CommonProps<'in
  * @name Select
  * @phase Dev
  */
-function Select({
+export function Select({
     options = [],
     value: selected,
     onChange,
@@ -173,8 +173,5 @@ function Select({
     );
 }
 
-Select.bspkName = 'Select';
-
-export { Select };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

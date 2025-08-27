@@ -65,7 +65,7 @@ export type FormFieldProps = CommonProps<'invalid' | 'required'> & {
  * @name FormField
  * @phase Utility
  */
-function FormField({
+export function FormField({
     label,
     invalid,
     errorMessage: errorMessageProp,
@@ -115,8 +115,5 @@ function FormField({
     );
 }
 
-FormField.bspkName = 'FormField';
-
-export { FormField };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

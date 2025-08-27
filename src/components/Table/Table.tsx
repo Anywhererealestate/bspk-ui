@@ -92,7 +92,7 @@ export type TableProps<R extends TableRow> = {
  * @name Table
  * @phase UXReview
  */
-function Table<R extends TableRow>({
+export function Table<R extends TableRow>({
     data = [],
     columns: columnsProp,
     title,
@@ -208,6 +208,3 @@ function Table<R extends TableRow>({
     );
 }
 
-Table.bspkName = 'Table';
-
-export { Table };

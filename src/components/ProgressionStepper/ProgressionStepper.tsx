@@ -72,7 +72,7 @@ export type ProgressionStepperProps = {
  * @name ProgressionStepper
  * @phase UXReview
  */
-function ProgressionStepper({
+export function ProgressionStepper({
     steps = [],
     currentStep: currentStepProp = 0,
     variant = 'horizontal',
@@ -134,8 +134,5 @@ function ProgressionStepper({
     );
 }
 
-ProgressionStepper.bspkName = 'ProgressionStepper';
-
-export { ProgressionStepper };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

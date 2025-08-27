@@ -169,11 +169,6 @@ function generateComponentMeta({
         return null;
     }
 
-    if (!content.includes(".bspkName = '")) {
-        console.warn(`No bspkName found for component ${name} for ${componentFile}`);
-        return null;
-    }
-
     const componentDoc = [...(jsDocs || [])].find((doc) => doc.name === name);
 
     if (!componentDoc) {

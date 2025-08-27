@@ -27,7 +27,7 @@ export type ListItemsProps<I extends Item> = {
     allSelected?: boolean;
 };
 
-function ListItems<I extends Item>({
+export function ListItems<I extends Item>({
     isMulti = false,
     items = [],
     activeIndex,
@@ -105,5 +105,3 @@ function ListItems<I extends Item>({
         </>
     );
 }
-
-export { ListItems };
