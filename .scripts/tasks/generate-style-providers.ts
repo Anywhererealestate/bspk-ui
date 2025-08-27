@@ -36,11 +36,9 @@ import '-/styles/base.scss';
  * @phase Utility
  * @generated
  */
-function ${componentName}(): JSX.Element | null {
+export function ${componentName}(): JSX.Element | null {
     return null;
 }
-
-export { ${componentName} };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
 
