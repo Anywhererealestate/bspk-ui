@@ -62,7 +62,7 @@ body[data-bspk] {
     a:not([data-bspk='button'], [data-bspk='list-item']) {
         color: var(--foreground-link-text-default);
 
-        &:not([disabled]) {
+        &:not([aria-disabled]) {
             &:hover,
             &[data-pseudo='hover'] {
                 color: var(--foreground-link-text-default-hovered);
@@ -80,7 +80,7 @@ body[data-bspk] {
             }
         }
 
-        &[disabled] {
+        &[aria-disabled] {
             pointer-events: none;
             cursor: text;
             color: var(--foreground-link-text-default-disabled);
@@ -91,7 +91,7 @@ body[data-bspk] {
         text-decoration: none;
         color: var(--foreground-neutral-on-surface);
 
-        &:not([disabled]) {
+        &:not([aria-disabled]) {
             &:hover,
             &[data-pseudo='hover'] {
                 text-decoration: underline;
@@ -110,7 +110,7 @@ body[data-bspk] {
             }
         }
 
-        &[disabled] {
+        &[aria-disabled] {
             pointer-events: none;
             color: var(--foreground-link-text-subtle-disabled);
         }
@@ -120,7 +120,7 @@ body[data-bspk] {
         text-decoration: none;
         color: var(--foreground-neutral-inverse-on-surface);
 
-        &:not([disabled]) {
+        &:not([aria-disabled]) {
             &:hover,
             &[data-pseudo='hover'] {
                 text-decoration: underline;
@@ -139,7 +139,7 @@ body[data-bspk] {
             }
         }
 
-        &[disabled] {
+        &[aria-disabled] {
             pointer-events: none;
             color: var(--foreground-link-text-subtle-inversed-disabled);
         }

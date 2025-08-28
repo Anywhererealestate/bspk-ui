@@ -11,7 +11,7 @@ export const FormFieldExample: ComponentExample<FormFieldWrapProps<TextInputProp
             controlId = 'example-control-id',
             helperText,
             labelTrailing,
-            ...inputProps
+            ...inputAttr
         } = props;
 
         return (
@@ -26,7 +26,7 @@ export const FormFieldExample: ComponentExample<FormFieldWrapProps<TextInputProp
                 {(fieldProps) => {
                     return (
                         <TextInput
-                            {...inputProps}
+                            {...inputAttr}
                             {...fieldProps}
                             aria-label={label}
                             invalid={invalid}

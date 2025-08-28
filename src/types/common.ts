@@ -6,22 +6,34 @@
  * @bspk/ui/Txt".
  */
 
-import { JSXElementConstructor, ReactNode, ComponentPropsWithoutRef } from 'react';
+import { JSXElementConstructor, ReactNode, ComponentPropsWithoutRef, AriaAttributes, HTMLAttributes } from 'react';
 
 export type AlertVariant = 'error' | 'informational' | 'success' | 'warning';
 
 export type SetRef<T> = (instance: T | null) => void;
 
-export type ElementProps<
+/** Props for a component that renders a container element, allowing customization of the container element's attributes. */
+export type ElementAttributes<
+    /** HTML Element */
+    E extends JSXElementConstructor<unknown> | keyof JSX.IntrinsicElements,
+    /** Component Props to Omit */
     P extends Record<string, unknown>,
-    E extends JSXElementConstructor<unknown> | keyof JSX.IntrinsicElements,
+    /** Properties to Omit */
     O extends string = '',
-> = Omit<ComponentPropsWithoutRef<E>, O | keyof P> & P;
+> = P & {
+    /**
+     * Properties which allow customization of the container element's attributes. These include [standard HTML
+     * attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes), [ARIA
+     * attributes](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes), and [custom
+     * data attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/How_to/Use_data_attributes).
+     *
+     * @type ElementAttributes
+     */
+    attr?: Omit<AriaAttributes & ComponentPropsWithoutRef<E> & DataProps & HTMLAttributes<E>, O | keyof P>;
+};
 
-export type ElementConstructorProps<
-    E extends JSXElementConstructor<unknown> | keyof JSX.IntrinsicElements,
-    O extends string = '',
-> = Omit<ComponentPropsWithoutRef<E>, O>;
+/** Properties that begin with "data-"" */
+export type DataProps = Partial<{ [key: `data-${string}`]: unknown }>;
 
 export type ButtonSize = 'large' | 'medium' | 'small' | 'x-small';
 
@@ -43,6 +55,8 @@ export type CallToActionButton = {
 };
 
 export type CommonPropsLibrary = {
+    /** Inline styles to apply to the element. */
+    style?: React.CSSProperties;
     /**
      * Marks the element as invalid and displays error state theme.
      *
@@ -115,6 +129,13 @@ export type CommonPropsLibrary = {
      * @utility
      */
     owner?: string;
+    /** The [ARIA role](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles) of the element. */
+    role?: HTMLAttributes<HTMLElement>['role'];
+    /**
+     * The [tabIndex](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Global_attributes/tabindex) of the
+     * element.
+     */
+    tabIndex?: HTMLAttributes<HTMLElement>['tabIndex'];
 };
 
 export type CommonProps<K extends keyof CommonPropsLibrary> = Pick<CommonPropsLibrary, K>;

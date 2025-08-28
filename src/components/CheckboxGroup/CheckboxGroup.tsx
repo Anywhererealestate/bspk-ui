@@ -1,56 +1,59 @@
 import { Checkbox } from '-/components/Checkbox';
 import { ToggleOptionProps, ToggleOption } from '-/components/ToggleOption';
-import { ElementProps, CommonProps, FormFieldControlProps } from '-/types/common';
+import { CommonProps, ElementAttributes, FormFieldControlProps } from '-/types/common';
 
 export type CheckboxGroupOption = Pick<ToggleOptionProps, 'description' | 'disabled' | 'label'> &
     Required<CommonProps<'value'>>;
 
-export type CheckboxGroupProps = CommonProps<'aria-label' | 'disabled' | 'readOnly'> &
-    FormFieldControlProps & {
-        /**
-         * The function to call when the checkboxes are changed.
-         *
-         * @example
-         *     (values) => setState({ values });
-         *
-         * @required
-         */
-        onChange: (values: string[]) => void;
-        /**
-         * The input control name of the checkboxes.
-         *
-         * @required
-         */
-        name: string;
-        /**
-         * The options for the checkboxes.
-         *
-         * @example
-         *     [
-         *         { label: 'Option 1', value: 'option1' },
-         *         { label: 'Option 2', value: 'option2' },
-         *         { label: 'Option 3', value: 'option3' },
-         *     ];
-         *
-         * @type Array<CheckboxGroupOption>
-         * @required
-         */
-        options: CheckboxGroupOption[];
-        /**
-         * The values of the checked checkboxes.
-         *
-         * @type Array<string>
-         */
-        values?: CheckboxGroupProps['options'][number]['value'][];
-        /**
-         * Whether to show a select all checkbox at the top of the list.
-         *
-         * @default false
-         */
-        selectAll?: boolean;
-        /** The props for the select all checkbox. */
-        selectAllProps?: CheckboxGroupOption;
-    };
+export type CheckboxGroupProps = ElementAttributes<
+    'div',
+    CommonProps<'aria-label' | 'disabled' | 'readOnly'> &
+        FormFieldControlProps & {
+            /**
+             * The function to call when the checkboxes are changed.
+             *
+             * @example
+             *     (values) => setState({ values });
+             *
+             * @required
+             */
+            onChange: (values: string[]) => void;
+            /**
+             * The input control name of the checkboxes.
+             *
+             * @required
+             */
+            name: string;
+            /**
+             * The options for the checkboxes.
+             *
+             * @example
+             *     [
+             *         { label: 'Option 1', value: 'option1' },
+             *         { label: 'Option 2', value: 'option2' },
+             *         { label: 'Option 3', value: 'option3' },
+             *     ];
+             *
+             * @type Array<CheckboxGroupOption>
+             * @required
+             */
+            options: CheckboxGroupOption[];
+            /**
+             * The values of the checked checkboxes.
+             *
+             * @type Array<string>
+             */
+            values?: CheckboxGroupProps['options'][number]['value'][];
+            /**
+             * Whether to show a select all checkbox at the top of the list.
+             *
+             * @default false
+             */
+            selectAll?: boolean;
+            /** The props for the select all checkbox. */
+            selectAllProps?: CheckboxGroupOption;
+        }
+>;
 
 /**
  * A group of checkboxes that allows users to choose one or more items from a list or turn an feature on or off.
@@ -92,11 +95,11 @@ export function CheckboxGroup({
     readOnly,
     'aria-describedby': ariaDescribedBy,
     'aria-errormessage': ariaErrorMessage,
-    ...props
-}: ElementProps<CheckboxGroupProps, 'div'>) {
+    attr,
+}: CheckboxGroupProps) {
     return (
         <div
-            {...props}
+            {...attr}
             aria-describedby={ariaErrorMessage || ariaDescribedBy || undefined}
             data-bspk="checkbox-group"
             role="group"
@@ -135,6 +138,5 @@ export function CheckboxGroup({
         </div>
     );
 }
-
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

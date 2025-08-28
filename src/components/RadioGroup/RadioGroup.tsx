@@ -1,66 +1,69 @@
 import { RadioOption, RadioOptionProps } from '-/components/RadioOption';
 import { useId } from '-/hooks/useId';
-import { ElementProps, CommonProps, FormFieldControlProps } from '-/types/common';
+import { CommonProps, ElementAttributes, FormFieldControlProps } from '-/types/common';
 
 import './radio-group.scss';
 
 export type RadioGroupOption = Pick<RadioOptionProps, 'checked' | 'description' | 'disabled' | 'label' | 'name'> &
     Required<CommonProps<'value'>>;
 
-export type RadioGroupProps = CommonProps<'disabled' | 'name'> &
-    FormFieldControlProps & {
-        /**
-         * The value of the control.
-         *
-         * @example
-         *     1;
-         *
-         * @required
-         */
-        value: string;
-        /**
-         * The function to call when the radios are changed.
-         *
-         * @example
-         *     (value) => setState({ value }),
-         *
-         * @required
-         */
-        onChange: (value: string) => void;
-        /**
-         * The options for the radios.
-         *
-         * @example
-         *     [
-         *         {
-         *             value: '1',
-         *             label: 'Option 1',
-         *         },
-         *         {
-         *             value: '2',
-         *             label: 'Option 2',
-         *             description: 'Description here',
-         *         },
-         *         { value: '3', label: 'Option 3' },
-         *     ];
-         *
-         * @type Array<RadioGroupOption>
-         * @required
-         */
-        options: RadioGroupOption[];
-        /**
-         * The label of the radio group.
-         *
-         * @required
-         */
-        label: string;
-        /**
-         * Hides the RadioGroup label. When label isn't showing it is used as the aria-label prop.
-         *
-         * @default false
-         */
-        hideLabel?: boolean;
-    };
+export type RadioGroupProps = ElementAttributes<
+    'div',
+    CommonProps<'disabled' | 'name'> &
+        FormFieldControlProps & {
+            /**
+             * The value of the control.
+             *
+             * @example
+             *     1;
+             *
+             * @required
+             */
+            value: string;
+            /**
+             * The function to call when the radios are changed.
+             *
+             * @example
+             *     (value) => setState({ value }),
+             *
+             * @required
+             */
+            onChange: (value: string) => void;
+            /**
+             * The options for the radios.
+             *
+             * @example
+             *     [
+             *         {
+             *             value: '1',
+             *             label: 'Option 1',
+             *         },
+             *         {
+             *             value: '2',
+             *             label: 'Option 2',
+             *             description: 'Description here',
+             *         },
+             *         { value: '3', label: 'Option 3' },
+             *     ];
+             *
+             * @type Array<RadioGroupOption>
+             * @required
+             */
+            options: RadioGroupOption[];
+            /**
+             * The label of the radio group.
+             *
+             * @required
+             */
+            label: string;
+            /**
+             * Hides the RadioGroup label. When label isn't showing it is used as the aria-label prop.
+             *
+             * @default false
+             */
+            hideLabel?: boolean;
+        }
+>;
 
 /**
  * A group of radios that allows users to choose one or more items from a list or turn an feature on or off.
@@ -101,15 +104,17 @@ export function RadioGroup({
     label: groupLabel,
     hideLabel: hideLabelProp = false,
     disabled: disabledGroup = false,
-    ...props
-}: ElementProps<RadioGroupProps, 'div'>) {
+    'aria-describedby': ariaDescribedBy,
+    'aria-errormessage': ariaErrorMessage,
+    attr,
+}: RadioGroupProps) {
     const id = `radio-group-${useId()}`;
 
     return (
         <div
-            {...props}
-            aria-describedby={props['aria-describedby']}
-            aria-errormessage={props['aria-errormessage']}
+            {...attr}
+            aria-describedby={ariaDescribedBy}
+            aria-errormessage={ariaErrorMessage}
             aria-label={hideLabelProp ? groupLabel : undefined}
             aria-labelledby={!hideLabelProp ? `${id}-label` : undefined}
             data-bspk="radio-group"
@@ -136,6 +141,5 @@ export function RadioGroup({
         </div>
     );
 }
-
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

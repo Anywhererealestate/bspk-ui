@@ -1,12 +1,13 @@
-import './table.scss';
 import { SvgAZAscend } from '@bspk/icons/AZAscend';
 import { SvgAZDescend } from '@bspk/icons/AZDescend';
 import { AriaAttributes, useEffect, useState } from 'react';
 import { TableFooter } from './Footer';
 import { formatCell, SortOrder, TableColumn, TableRow, TableSize, useTable } from './utils';
 import { useId } from '-/hooks/useId';
-import { ElementProps } from '-/types/common';
+import { ElementAttributes } from '-/types/common';
 import { cssWithVars } from '-/utils/cwv';
+
+import './table.scss';
 
 const SORT_META: Record<
     SortOrder | 'none',
@@ -33,36 +34,39 @@ const SORT_META: Record<
     },
 } as const;
 
-export type TableProps<R extends TableRow> = {
-    /**
-     * The data of the table.
-     *
-     * Array<TableRow>
-     */
-    data: R[];
-    /**
-     * The column definitions of the table.
-     *
-     * @type Array<TableColumn>
-     */
-    columns: (TableColumn<R> | boolean)[];
-    /** The title of the table. */
-    title?: string;
-    /**
-     * The size of the table.
-     *
-     * @default medium
-     */
-    size?: TableSize;
-    /**
-     * The number of rows per page.
-     *
-     * If the number of rows exceeds the page size, pagination controls will be displayed.
-     *
-     * @default 10
-     */
-    pageSize?: number;
-};
+export type TableProps<R extends TableRow> = ElementAttributes<
+    'table',
+    {
+        /**
+         * The data of the table.
+         *
+         * Array<TableRow>
+         */
+        data: R[];
+        /**
+         * The column definitions of the table.
+         *
+         * @type Array<TableColumn>
+         */
+        columns: (TableColumn<R> | boolean)[];
+        /** The title of the table. */
+        title?: string;
+        /**
+         * The size of the table.
+         *
+         * @default medium
+         */
+        size?: TableSize;
+        /**
+         * The number of rows per page.
+         *
+         * If the number of rows exceeds the page size, pagination controls will be displayed.
+         *
+         * @default 10
+         */
+        pageSize?: number;
+    }
+>;
 
 /**
  * A container for displaying tabular data.
@@ -98,8 +102,8 @@ export function Table<R extends TableRow>({
     title,
     size = 'medium',
     pageSize = 10,
-    ...props
-}: ElementProps<TableProps<R>, 'div'>) {
+    attr,
+}: TableProps<R>) {
     const tableId = useId();
     const [pageIndex, setPageIndex] = useState(0);
     // when the length of data changes we should reset the
@@ -119,16 +123,14 @@ export function Table<R extends TableRow>({
 
     return (
         <div
-            {...props}
+            {...attr}
             data-bspk="table"
             data-has-pagination={hasPagination || undefined}
             data-size={size || 'medium'}
             id={tableId}
-            style={props.style}
         >
             <div data-scroll-container>
                 <table
-                    {...props}
                     aria-colcount={totalColumns}
                     aria-rowcount={data.length}
                     style={cssWithVars({
@@ -207,4 +209,3 @@ export function Table<R extends TableRow>({
         </div>
     );
 }
-

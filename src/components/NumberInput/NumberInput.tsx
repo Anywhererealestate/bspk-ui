@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import { IncrementButton } from './IncrementButton';
 import { useId } from '-/hooks/useId';
-import { CommonProps, FormFieldControlProps } from '-/types/common';
+import { CommonProps, ElementAttributes, FormFieldControlProps } from '-/types/common';
 
 import './number-input.scss';
 
@@ -22,39 +22,43 @@ function isNumber(value: unknown, fallbackValue: number | undefined = undefined)
     return isNaN(num) ? fallbackValue : num;
 }
 
-export type NumberInputProps = CommonProps<
-    'aria-label' | 'disabled' | 'id' | 'invalid' | 'name' | 'readOnly' | 'size'
-> &
-    FormFieldControlProps & {
-        /** The value of the control. */
-        value?: number | string;
-        /**
-         * Callback when the value changes.
-         *
-         * @required
-         */
-        onChange: (value: number | string | undefined) => void;
-        /**
-         * The alignment of the input box. Centered between the plus and minus buttons or to the left of the buttons.
-         *
-         * @default center
-         */
-        align?: 'center' | 'left';
-        /**
-         * Defines the [maximum](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/max) value that is
-         * accepted.
-         *
-         * @default 99
-         */
-        max?: number;
-        /**
-         * Defines the [minimum](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/min) value that is
-         * accepted.
-         *
-         * @default 0
-         */
-        min?: number;
-    };
+export type NumberInputProps = ElementAttributes<
+    'div',
+    CommonProps<'aria-label' | 'disabled' | 'id' | 'invalid' | 'name' | 'readOnly' | 'size'> &
+        FormFieldControlProps & {
+            /** The value of the control. */
+            value?: number | string;
+            /**
+             * Callback when the value changes.
+             *
+             * @required
+             */
+            onChange: (value: number | string | undefined) => void;
+            /**
+             * The alignment of the input box. Centered between the plus and minus buttons or to the left of the
+             * buttons.
+             *
+             * @default center
+             */
+            align?: 'center' | 'left';
+            /**
+             * Defines the [maximum](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/max) value that is
+             * accepted.
+             *
+             * @default 99
+             */
+            max?: number;
+            /**
+             * Defines the [minimum](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/min) value that is
+             * accepted.
+             *
+             * @default 0
+             */
+            min?: number;
+            /** Props to pass to the input element. */
+            inputElementProps?: React.InputHTMLAttributes<HTMLInputElement>;
+        }
+>;
 
 /**
  * A input element that allows users to either input a numerical value or singularly increase or decrease the values by
@@ -96,7 +100,8 @@ export function NumberInput({
     invalid,
     'aria-describedby': ariaDescribedBy,
     'aria-errormessage': ariaErrorMessage,
-    ...inputElementProps
+    attr,
+    inputElementProps,
 }: NumberInputProps) {
     const centered = align !== 'left';
     const inputId = useId(inputIdProp);
@@ -125,6 +130,7 @@ export function NumberInput({
 
     return (
         <div
+            {...attr}
             data-bspk="number-input"
             data-centered={centered || undefined}
             data-disabled={disabled || undefined}
@@ -181,6 +187,5 @@ export function NumberInput({
         </div>
     );
 }
-
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

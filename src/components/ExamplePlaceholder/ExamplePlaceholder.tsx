@@ -1,38 +1,43 @@
 import { useRef } from 'react';
 
 import { Txt } from '-/components/Txt';
-import { ElementProps } from '-/types/common';
+import { CommonProps, ElementAttributes } from '-/types/common';
 
 const dimension = (value: number | string) => (typeof value === 'number' ? `${value}px` : `${value}`);
 
-export type ExamplePlaceholderProps = {
-    /**
-     * Whether to hide the size text.
-     *
-     * @default false
-     */
-    hideSize?: boolean;
-    /**
-     * The height of the placeholder.
-     *
-     * @default 100
-     * @type string
-     */
-    height?: number | string;
-    /**
-     * The width of the placeholder.
-     *
-     * @default 100%
-     * @type string
-     */
-    width?: number | string;
-    /**
-     * The direction of the placeholder.
-     *
-     * @default 'row'
-     */
-    direction?: 'column' | 'row';
-};
+export type ExamplePlaceholderProps = ElementAttributes<
+    'div',
+    CommonProps<'style'> & {
+        /**
+         * Whether to hide the size text.
+         *
+         * @default false
+         */
+        hideSize?: boolean;
+        /**
+         * The height of the placeholder.
+         *
+         * @default 100
+         * @type string
+         */
+        height?: number | string;
+        /**
+         * The width of the placeholder.
+         *
+         * @default 100%
+         * @type string
+         */
+        width?: number | string;
+        /**
+         * The direction of the placeholder.
+         *
+         * @default 'row'
+         */
+        direction?: 'column' | 'row';
+        /** The content to display inside the placeholder. */
+        children?: React.ReactNode;
+    }
+>;
 
 /**
  * A utility component that serves as a placeholder for examples.
@@ -45,18 +50,19 @@ export function ExamplePlaceholder({
     height = 100,
     width = '100%',
     direction = 'row',
-    ...props
-}: ElementProps<ExamplePlaceholderProps, 'div'>) {
+    attr,
+    style,
+}: ExamplePlaceholderProps) {
     const ref = useRef<HTMLDivElement | null>(null);
 
     return (
         <div
-            {...props}
+            {...attr}
             data-bspk-utility="example-placeholder"
             data-example-placeholder
             ref={ref}
             style={{
-                ...props.style,
+                ...style,
                 width: dimension(width),
                 height: dimension(height),
                 flexDirection: direction,
@@ -72,4 +78,3 @@ export function ExamplePlaceholder({
         </div>
     );
 }
-

@@ -50,8 +50,10 @@ export const PageInput: FC<PageInputProps> = ({ numPages, onChange, value }) => 
             <div data-bspk="page-input">
                 <TextInput
                     aria-label="Page input"
+                    inputAttr={{
+                        onBlur: handleSubmit,
+                    }}
                     name="page-input"
-                    onBlur={handleSubmit}
                     onChange={handleChange}
                     showClearButton={false}
                     size="small"

@@ -37,7 +37,7 @@ export function TextField({
     labelTrailing,
     required,
     invalid,
-    ...inputProps
+    ...inputAttr
 }: TextFieldProps) {
     return (
         <FormField
@@ -52,18 +52,17 @@ export function TextField({
         >
             {(fieldProps) => (
                 <TextInput
-                    {...inputProps}
+                    {...inputAttr}
                     {...fieldProps}
                     aria-label={label}
                     id={controlId}
                     invalid={invalid}
                     required={required}
-                    value={inputProps.value ?? ''}
+                    value={inputAttr.value ?? ''}
                 />
             )}
         </FormField>
     );
 }
-
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

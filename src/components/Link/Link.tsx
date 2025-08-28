@@ -1,46 +1,49 @@
 import { AnchorHTMLAttributes, ComponentType, lazy, LazyExoticComponent, Suspense } from 'react';
 
-import { CommonPropsLibrary, ElementProps } from '-/types/common';
+import { CommonProps, ElementAttributes } from '-/types/common';
 
 import './link.scss';
 
-export type LinkProps = Pick<CommonPropsLibrary, 'disabled'> & {
-    /**
-     * The label of the link.
-     *
-     * @required
-     */
-    label: string;
-    /** The variant of the link. Controls the icon that is displayed and link target. */
-    trailingIcon?: 'chevron' | 'external' | 'link';
-    /**
-     * The [href](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/a#href) of the link.
-     *
-     * @example
-     *     https://bspk.dev
-     */
-    href: AnchorHTMLAttributes<unknown>['href'];
-    /**
-     * The size of the link.
-     *
-     * @default base
-     */
-    size?: 'base' | 'large' | 'small';
-    /**
-     * Change the color of the link to a subtle color. This is useful for links that are not primary actions, for
-     * example footer menus.
-     *
-     * @default default
-     */
-    variant?: 'default' | 'subtle-inverse' | 'subtle';
-    /**
-     * The [target](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/a#target) of the link. If the
-     * `trailingIcon` is set to `external`, this will default to `_blank`.
-     *
-     * @default _self
-     */
-    target?: '_blank' | '_parent' | '_self' | '_top';
-};
+export type LinkProps = ElementAttributes<
+    'a',
+    CommonProps<'disabled'> & {
+        /**
+         * The label of the link.
+         *
+         * @required
+         */
+        label: string;
+        /** The variant of the link. Controls the icon that is displayed and link target. */
+        trailingIcon?: 'chevron' | 'external' | 'link';
+        /**
+         * The [href](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/a#href) of the link.
+         *
+         * @example
+         *     https://bspk.dev
+         */
+        href: AnchorHTMLAttributes<unknown>['href'];
+        /**
+         * The size of the link.
+         *
+         * @default base
+         */
+        size?: 'base' | 'large' | 'small';
+        /**
+         * Change the color of the link to a subtle color. This is useful for links that are not primary actions, for
+         * example footer menus.
+         *
+         * @default default
+         */
+        variant?: 'default' | 'subtle-inverse' | 'subtle';
+        /**
+         * The [target](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/a#target) of the link. If
+         * the `trailingIcon` is set to `external`, this will default to `_blank`.
+         *
+         * @default _self
+         */
+        target?: '_blank' | '_parent' | '_self' | '_top';
+    }
+>;
 
 /**
  * This is the standalone link component. Inline links can use the native `a` element.
@@ -55,7 +58,7 @@ export type LinkProps = Pick<CommonPropsLibrary, 'disabled'> & {
  * @name Link
  * @phase UXReview
  */
-export function Link({ label, trailingIcon, size, variant, target = '_self', ...props }: ElementProps<LinkProps, 'a'>) {
+export function Link({ label, trailingIcon, size, variant, target = '_self', href, disabled, attr }: LinkProps) {
     let LazyIcon: LazyExoticComponent<ComponentType<unknown>> | undefined = undefined;
 
     if (trailingIcon === 'external')
@@ -71,12 +74,15 @@ export function Link({ label, trailingIcon, size, variant, target = '_self', ...
 
     return (
         <a
-            {...props}
+            {...attr}
+            aria-disabled={disabled || undefined}
             data-bspk="link"
             data-size={size}
             data-subtle={variant === 'subtle' || undefined}
             data-subtle-inverse={variant === 'subtle-inverse' || undefined}
             data-trailing-icon={trailingIcon || undefined}
+            href={href}
+            rel={trailingIcon === 'external' ? 'noopener noreferrer' : undefined}
             target={trailingIcon === 'external' ? '_blank' : target}
         >
             <span>{label}</span>
@@ -88,6 +94,5 @@ export function Link({ label, trailingIcon, size, variant, target = '_self', ...
         </a>
     );
 }
-
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

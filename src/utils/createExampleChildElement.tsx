@@ -45,8 +45,8 @@ export function createExampleChildElement({ exampleState, name, setState, action
                     name={`${name}-toggle`}
                     onChange={(checked: boolean) => {
                         setState({ [toggleName]: checked });
+                        action(`${name} ${componentName} changed`);
                     }}
-                    onClick={() => action(`${name} ${componentName} clicked`)}
                     readOnly={exampleState.readOnly}
                     value={`${name}-${componentName}`}
                 />

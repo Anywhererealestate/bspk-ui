@@ -1,36 +1,39 @@
-import { ElementProps } from '-/types/common';
+import { ElementAttributes } from '-/types/common';
 import { cssWithVars } from '-/utils/cwv';
 
 import './divider.scss';
 
-export type DividerProps = {
-    /**
-     * The orientation of the divider.
-     *
-     * @default horizontal
-     */
-    orientation?: 'horizontal' | 'vertical';
-    /**
-     * The thickness of the divider.
-     *
-     * @default light
-     */
-    thickness?: 'heavy' | 'light';
-    /**
-     * If the divider padding is shown.
-     *
-     * @default true
-     */
-    padding?: boolean;
-    /**
-     * The inset (margin) of the divider. The value is a number between 0 and 12, which corresponds to the spacing
-     * sizing variables defined in the theme. The inset is applied to the left and right sides of the divider when the
-     * orientation is horizontal, and to the top and bottom when the orientation is vertical.
-     *
-     * @default 0
-     */
-    inset?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
-};
+export type DividerProps = ElementAttributes<
+    'div',
+    {
+        /**
+         * The orientation of the divider.
+         *
+         * @default horizontal
+         */
+        orientation?: 'horizontal' | 'vertical';
+        /**
+         * The thickness of the divider.
+         *
+         * @default light
+         */
+        thickness?: 'heavy' | 'light';
+        /**
+         * If the divider padding is shown.
+         *
+         * @default true
+         */
+        padding?: boolean;
+        /**
+         * The inset (margin) of the divider. The value is a number between 0 and 12, which corresponds to the spacing
+         * sizing variables defined in the theme. The inset is applied to the left and right sides of the divider when
+         * the orientation is horizontal, and to the top and bottom when the orientation is vertical.
+         *
+         * @default 0
+         */
+        inset?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
+    }
+>;
 
 const insetToVariable = (insetProp: number | string) => {
     const inset = Number(insetProp);
@@ -65,11 +68,11 @@ export function Divider({
     orientation = 'horizontal',
     thickness = 'light',
     inset = 0,
-    ...props
-}: ElementProps<DividerProps, 'div'>) {
+    attr,
+}: DividerProps) {
     return (
         <div
-            {...props}
+            {...attr}
             aria-hidden
             aria-orientation={orientation}
             data-bspk="divider"
@@ -78,12 +81,11 @@ export function Divider({
             data-thickness={thickness}
             role="separator"
             style={cssWithVars({
-                ...props.style,
+                ...attr?.style,
                 '--inset': insetToVariable(inset),
             })}
         />
     );
 }
-
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
