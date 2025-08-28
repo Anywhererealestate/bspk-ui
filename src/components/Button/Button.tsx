@@ -1,78 +1,81 @@
-import { AriaAttributes, ElementType, ReactNode, isValidElement } from 'react';
+import { ElementType, ReactNode, isValidElement } from 'react';
 
 import { Tooltip, TooltipTriggerProps } from '-/components/Tooltip';
-import { ButtonSize, CommonProps, ElementProps, SetRef } from '-/types/common';
+import { ButtonSize, CommonProps, ElementAttributes, SetRef } from '-/types/common';
 
 import './button.scss';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'tertiary';
 
-export type ButtonProps<As extends ElementType = 'button'> = CommonProps<'disabled' | 'owner'> & {
-    /**
-     * The label of the button.
-     *
-     * @required
-     */
-    label: string;
-    /**
-     * The icon of the button.
-     *
-     * @type BspkIcon
-     */
-    icon?: ReactNode;
-    /**
-     * When true the button label is hidden and only the icon is shown. When label isn't showing it is used in a tooltip
-     * and as the aria-label prop.
-     *
-     * Ignored if `icon` is not provided.
-     *
-     * @default false
-     */
-    iconOnly?: boolean;
-    /**
-     * The element type to render as.
-     *
-     * @default button
-     * @type ElementType
-     */
-    as?: As;
-    /**
-     * The function of the button is destructive.
-     *
-     * @default false
-     */
-    destructive?: boolean;
-    /**
-     * The size of the button.
-     *
-     * @default medium
-     */
-    size?: ButtonSize;
-    /**
-     * The color variant of the button.
-     *
-     * @default primary
-     */
-    variant?: ButtonVariant;
-    /**
-     * The width of the button.
-     *
-     * @default hug
-     */
-    width?: 'fill' | 'hug';
-    /**
-     * If `string` is passed, it will be used as the label.
-     *
-     * If `ReactNode` is passed, it will override the default button content. (Not recommended)
-     */
-    children?: ReactNode;
-    /** The tool tip text that appears when hovered. */
-    toolTip?: string;
-    /** The function to call when the button is clicked. */
-    onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-    /** A ref to the Button element. */
-    innerRef?: SetRef<HTMLButtonElement>;
-};
+export type ButtonProps<As extends ElementType = 'button'> = ElementAttributes<
+    As,
+    CommonProps<'disabled' | 'owner' | 'role' | 'style' | 'tabIndex'> & {
+        /**
+         * The label of the button.
+         *
+         * @required
+         */
+        label: string;
+        /**
+         * The icon of the button.
+         *
+         * @type BspkIcon
+         */
+        icon?: ReactNode;
+        /**
+         * When true the button label is hidden and only the icon is shown. When label isn't showing it is used in a
+         * tooltip and as the aria-label prop.
+         *
+         * Ignored if `icon` is not provided.
+         *
+         * @default false
+         */
+        iconOnly?: boolean;
+        /**
+         * The element type to render as.
+         *
+         * @default button
+         * @type ElementType
+         */
+        as?: As;
+        /**
+         * The function of the button is destructive.
+         *
+         * @default false
+         */
+        destructive?: boolean;
+        /**
+         * The size of the button.
+         *
+         * @default medium
+         */
+        size?: ButtonSize;
+        /**
+         * The color variant of the button.
+         *
+         * @default primary
+         */
+        variant?: ButtonVariant;
+        /**
+         * The width of the button.
+         *
+         * @default hug
+         */
+        width?: 'fill' | 'hug';
+        /**
+         * If `string` is passed, it will be used as the label.
+         *
+         * If `ReactNode` is passed, it will override the default button content. (Not recommended)
+         */
+        children?: ReactNode;
+        /** The tool tip text that appears when hovered. */
+        toolTip?: string;
+        /** The function to call when the button is clicked. */
+        onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+        /** A ref to the Button element. */
+        innerRef?: SetRef<HTMLButtonElement>;
+    }
+>;
 
 /**
  * A clickable component that allows users to perform an action, make a choice or trigger a change in state.
@@ -96,9 +99,7 @@ export type ButtonProps<As extends ElementType = 'button'> = CommonProps<'disabl
  * @name Button
  * @phase UXReview
  */
-export function Button<As extends ElementType = 'button'>(
-    props: AriaAttributes & ElementProps<ButtonProps<As>, As>,
-): JSX.Element {
+export function Button<As extends ElementType = 'button'>(props: ButtonProps<As>): JSX.Element {
     const {
         size = 'medium',
         variant = 'primary',
@@ -113,7 +114,11 @@ export function Button<As extends ElementType = 'button'>(
         children,
         innerRef,
         owner,
-        ...containerProps
+        elementAttributes,
+        onClick,
+        role = 'button',
+        tabIndex,
+        style,
     } = props;
     const label = typeof children === 'string' ? children : labelProp || '';
 
@@ -124,8 +129,8 @@ export function Button<As extends ElementType = 'button'>(
 
     const button = (triggerProps: TooltipTriggerProps) => (
         <As
-            {...containerProps}
-            aria-describedby={triggerProps['aria-describedby'] || containerProps['aria-describedby']}
+            {...elementAttributes}
+            aria-describedby={triggerProps['aria-describedby'] || elementAttributes?.['aria-describedby']}
             aria-label={label}
             data-bspk="button"
             data-bspk-owner={owner || undefined}
@@ -135,19 +140,23 @@ export function Button<As extends ElementType = 'button'>(
             data-variant={variant}
             data-width={width}
             disabled={disabled || undefined}
+            onClick={onClick}
             onFocus={(e) => {
                 triggerProps.onFocus?.();
-                containerProps.onFocus?.(e);
+                elementAttributes?.onFocus?.(e);
             }}
             onMouseLeave={(e) => {
                 triggerProps.onMouseLeave?.();
-                containerProps.onMouseLeave?.(e);
+                elementAttributes?.onMouseLeave?.(e);
             }}
             onMouseOver={(e) => {
                 triggerProps.onMouseOver?.();
-                containerProps.onMouseOver?.(e);
+                elementAttributes?.onMouseOver?.(e);
             }}
             ref={innerRef}
+            role={role}
+            style={style}
+            tabIndex={tabIndex}
         >
             {children && typeof children !== 'string' ? (
                 children
@@ -174,6 +183,5 @@ export function Button<As extends ElementType = 'button'>(
 
     return button({});
 }
-
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

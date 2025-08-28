@@ -1,60 +1,63 @@
 import { AnchorHTMLAttributes, ElementType, ReactNode } from 'react';
 import { ListItemButton } from './ListItemButton';
 import { Truncated } from '-/components/Truncated';
-import { CommonProps, ElementProps, SetRef } from '-/types/common';
+import { CommonProps, ElementAttributes, SetRef } from '-/types/common';
 
 import './list-item.scss';
 
-export type ListItemProps<As extends ElementType = 'div', T = HTMLElement> = CommonProps<
-    'active' | 'disabled' | 'owner' | 'readOnly'
-> & {
-    /**
-     * The element type to render as.
-     *
-     * @default div
-     * @type ElementType
-     */
-    as?: As;
-    /**
-     * The leading element to display in the ListItem.
-     *
-     * Leading elements may only be one of the following [Icon](/icons), Img, Avatar.
-     *
-     * @exampleType select
-     * @options Icon, Img, Avatar
-     */
-    leading?: ReactNode;
-    /**
-     * The label to display in the ListItem.
-     *
-     * @required
-     */
-    label: string;
-    /** The subtext to display in the ListItem. */
-    subText?: string;
-    /**
-     * The trailing element to display in the ListItem.
-     *
-     * Trailing elements may only be one of the following [Icon](/icons), Checkbox, ListItemButton, Radio, Switch, Tag,
-     * Txt.
-     *
-     * @exampleType select
-     * @options Checkbox, Icon, ListItemButton, Radio, Switch, Tag, Txt
-     */
-    trailing?: ReactNode;
-    /**
-     * The [href](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/a#href) of the list item.
-     *
-     * If the href is provided, the ListItem will render as an anchor element (`<a>`).
-     */
-    href?: AnchorHTMLAttributes<unknown>['href'];
-    /** A ref to the list item div element. */
-    innerRef?: SetRef<T>;
-    /** The ARIA role of the list item. */
-    role?: string;
-    /** Whether the aria-label should be included on the list item. */
-    includeAriaLabel?: boolean;
-};
+export type ListItemProps<As extends ElementType = 'div'> = ElementAttributes<
+    As,
+    CommonProps<'active' | 'disabled' | 'id' | 'owner' | 'readOnly' | 'tabIndex'> & {
+        /**
+         * The element type to render as.
+         *
+         * @default div
+         * @type ElementType
+         */
+        as?: As;
+        /**
+         * The leading element to display in the ListItem.
+         *
+         * Leading elements may only be one of the following [Icon](/icons), Img, Avatar.
+         *
+         * @exampleType select
+         * @options Icon, Img, Avatar
+         */
+        leading?: ReactNode;
+        /**
+         * The label to display in the ListItem.
+         *
+         * @required
+         */
+        label: string;
+        /** The subtext to display in the ListItem. */
+        subText?: string;
+        /**
+         * The trailing element to display in the ListItem.
+         *
+         * Trailing elements may only be one of the following [Icon](/icons), Checkbox, ListItemButton, Radio, Switch,
+         * Tag, Txt.
+         *
+         * @exampleType select
+         * @options Checkbox, Icon, ListItemButton, Radio, Switch, Tag, Txt
+         */
+        trailing?: ReactNode;
+        /**
+         * The [href](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/a#href) of the list item.
+         *
+         * If the href is provided, the ListItem will render as an anchor element (`<a>`).
+         */
+        href?: AnchorHTMLAttributes<unknown>['href'];
+        /** A ref to the list item div element. */
+        innerRef?: SetRef<As>;
+        /** The ARIA role of the list item. */
+        role?: string;
+        /** Whether the aria-label should be included on the list item. */
+        includeAriaLabel?: boolean;
+        /** The function to call when the list item is clicked. */
+        onClick?: (event: React.MouseEvent<HTMLElement, MouseEvent>) => void;
+    }
+>;
 
 /**
  * A hybrid interactive component that is used frequently to organize content and offers a wide range of control and
@@ -88,7 +91,7 @@ export type ListItemProps<As extends ElementType = 'div', T = HTMLElement> = Com
  * @name ListItem
  * @phase UXReview
  */
-function ListItem<As extends ElementType = 'div', T = HTMLElement>({
+function ListItem<As extends ElementType = 'div'>({
     includeAriaLabel = true,
     active,
     as,
@@ -101,22 +104,26 @@ function ListItem<As extends ElementType = 'div', T = HTMLElement>({
     role,
     subText,
     trailing,
-    ...props
-}: ElementProps<ListItemProps<As, T>, As>) {
+    elementAttributes,
+    href,
+    onClick,
+    id,
+    tabIndex,
+}: ListItemProps<As>) {
     if (!label) return null;
 
     let As = as || 'div';
 
     if (!as) {
-        if (props.href) As = 'a';
-        else if (props.onClick) As = 'button';
+        if (href) As = 'a';
+        else if (onClick) As = 'button';
     }
 
-    const actionable = (As === 'a' || As === 'button') && !props.disabled && !props.readOnly;
+    const actionable = (As === 'a' || As === 'button') && !disabled && !readOnly;
 
     return (
         <As
-            {...props}
+            {...elementAttributes}
             aria-disabled={disabled || undefined}
             aria-label={
                 As === 'label' || As === 'span' || As === 'div' || includeAriaLabel === false ? undefined : label
@@ -127,9 +134,10 @@ function ListItem<As extends ElementType = 'div', T = HTMLElement>({
             data-bspk="list-item"
             data-bspk-owner={owner || undefined}
             data-readonly={readOnly || undefined}
+            id={id}
             ref={innerRef}
             role={role || (As === 'button' ? 'option' : undefined)}
-            tabIndex={actionable ? 0 : undefined}
+            tabIndex={tabIndex || (actionable ? 0 : undefined)}
         >
             {leading && (
                 <span aria-hidden data-leading>

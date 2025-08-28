@@ -1,47 +1,50 @@
 import { ElementType } from 'react';
 
 import { SkeletonText } from '-/components/SkeletonText';
-import { ElementProps } from '-/types/common';
+import { CommonProps, ElementAttributes } from '-/types/common';
 import { TxtVariant } from '-/utils/txtVariants';
 
-export type TxtProps<As extends ElementType = 'span'> = {
-    /**
-     * The element type to render as.
-     *
-     * @default span
-     * @type ElementType
-     */
-    as?: As;
-    /**
-     * The content to render.
-     *
-     * @type string
-     * @required
-     */
-    children: unknown;
-    /**
-     * The variant to use.
-     *
-     * @default body-base
-     */
-    variant?: TxtVariant;
-    /** The id of the element. */
-    id?: string;
-    /**
-     * The number of lines to display for skeleton text.
-     *
-     * If not provided, it defaults to 0, meaning no skeleton lines will be shown.
-     *
-     * @default 0
-     */
-    skeletonLines?: number;
-    /**
-     * Inherit style and not set font style.
-     *
-     * @default false
-     */
-    inherit?: boolean;
-};
+export type TxtProps<As extends ElementType = 'span'> = ElementAttributes<
+    As,
+    CommonProps<'id' | 'style'> & {
+        /**
+         * The element type to render as.
+         *
+         * @default span
+         * @type ElementType
+         */
+        as?: As;
+        /**
+         * The content to render.
+         *
+         * @type string
+         * @required
+         */
+        children: unknown;
+        /**
+         * The variant to use.
+         *
+         * @default body-base
+         */
+        variant?: TxtVariant;
+        /** The id of the element. */
+        id?: string;
+        /**
+         * The number of lines to display for skeleton text.
+         *
+         * If not provided, it defaults to 0, meaning no skeleton lines will be shown.
+         *
+         * @default 0
+         */
+        skeletonLines?: number;
+        /**
+         * Inherit style and not set font style.
+         *
+         * @default false
+         */
+        inherit?: boolean;
+    }
+>;
 
 /**
  * A text component that applies the correct font styles based on the variant and size. variant
@@ -60,11 +63,12 @@ export function Txt<As extends ElementType = 'span'>({
     children,
     as,
     variant = 'body-base',
-    style: styleProp,
     skeletonLines = 0,
     inherit,
-    ...containerProps
-}: ElementProps<TxtProps<As>, As>) {
+    elementAttributes,
+    id,
+    style,
+}: TxtProps<As>) {
     const content = children?.toString();
 
     if (!content) return skeletonLines ? <SkeletonText lines={skeletonLines} variant={variant} /> : null;
@@ -73,10 +77,11 @@ export function Txt<As extends ElementType = 'span'>({
 
     return (
         <As
-            {...containerProps}
+            {...elementAttributes}
             data-bspk="txt"
+            id={id}
             style={{
-                ...styleProp,
+                ...style,
                 font: inherit ? undefined : `var(--${variant})`,
             }}
         >
@@ -84,6 +89,5 @@ export function Txt<As extends ElementType = 'span'>({
         </As>
     );
 }
-
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

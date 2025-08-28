@@ -1,11 +1,10 @@
 import { TabOption, TabList, TabListProps } from '-/components/TabList';
-import { ElementProps } from '-/types/common';
 
 import './segmented-control.scss';
 
 export type SegmentedControlOption = Pick<TabOption, 'disabled' | 'icon' | 'iconSelected' | 'label' | 'value'>;
 
-export type SegmentedControlProps = TabListProps<SegmentedControlOption>;
+export type SegmentedControlProps = Omit<TabListProps<SegmentedControlOption>, 'data-bspk'>;
 
 /**
  * Navigation tool that organizes content across different screens and views.
@@ -40,21 +39,26 @@ export function SegmentedControl({
     options,
     width = 'hug',
     iconsOnly,
-    ...containerProps
-}: ElementProps<SegmentedControlProps, 'ul'>) {
+    label,
+    elementAttributes,
+    id,
+    style,
+}: SegmentedControlProps) {
     return (
         <TabList
-            {...containerProps}
             data-bspk="segmented-control"
+            elementAttributes={elementAttributes}
             iconsOnly={iconsOnly}
+            id={id}
+            label={label}
             onChange={onChange}
             options={options}
             size={size}
+            style={style}
             value={value}
             width={width}
         />
     );
 }
-
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

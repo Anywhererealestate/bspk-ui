@@ -1,43 +1,42 @@
-import { AriaAttributes, ElementType, isValidElement } from 'react';
-
+import { ElementType, isValidElement } from 'react';
 import { ButtonProps } from '-/components/Button';
 import { Tooltip, TooltipTriggerProps } from '-/components/Tooltip';
-import { ElementProps } from '-/types/common';
+import { ElementAttributes } from '-/types/common';
 
 import './fab.scss';
 
 export type FabVariant = 'neutral' | 'primary' | 'secondary';
 
-export type FabProps<As extends ElementType = 'button'> = Pick<
-    ButtonProps<As>,
-    'as' | 'icon' | 'iconOnly' | 'onClick' | 'toolTip'
-> &
-    Required<Pick<ButtonProps<As>, 'label'>> & {
-        /**
-         * The size of the button.
-         *
-         * @default small
-         */
-        size?: 'medium' | 'small';
-        /**
-         * The style variant of the button.
-         *
-         * @default primary
-         */
-        variant?: FabVariant;
-        /**
-         * The placement of the button on the container.
-         *
-         * @default bottom-right
-         */
-        placement?: 'bottom-left' | 'bottom-right' | 'top-left' | 'top-right';
-        /**
-         * The container to render the button in.
-         *
-         * @default local
-         */
-        container?: 'local' | 'page';
-    };
+export type FabProps<As extends ElementType = 'button'> = ElementAttributes<
+    As,
+    Pick<ButtonProps<As>, 'as' | 'icon' | 'iconOnly' | 'onClick' | 'toolTip'> &
+        Required<Pick<ButtonProps<As>, 'label'>> & {
+            /**
+             * The size of the button.
+             *
+             * @default small
+             */
+            size?: 'medium' | 'small';
+            /**
+             * The style variant of the button.
+             *
+             * @default primary
+             */
+            variant?: FabVariant;
+            /**
+             * The placement of the button on the container.
+             *
+             * @default bottom-right
+             */
+            placement?: 'bottom-left' | 'bottom-right' | 'top-left' | 'top-right';
+            /**
+             * The container to render the button in.
+             *
+             * @default local
+             */
+            container?: 'local' | 'page';
+        }
+>;
 
 /**
  * A button that highlights a primary action that is elevated above the body content of a page; normally fixed to the
@@ -54,7 +53,7 @@ export type FabProps<As extends ElementType = 'button'> = Pick<
  * @name Fab
  * @phase UXReview
  */
-export function Fab<As extends ElementType = 'button'>(props: AriaAttributes & ElementProps<FabProps<As>, As>) {
+export function Fab<As extends ElementType = 'button'>(props: FabProps<As>) {
     const {
         size = 'small',
         variant = 'primary',
@@ -65,7 +64,8 @@ export function Fab<As extends ElementType = 'button'>(props: AriaAttributes & E
         label,
         icon,
         toolTip,
-        ...otherProps
+        elementAttributes,
+        onClick,
     } = props;
 
     // ignore iconOnly=true if there is no icon
@@ -73,8 +73,8 @@ export function Fab<As extends ElementType = 'button'>(props: AriaAttributes & E
 
     const button = (triggerProps: TooltipTriggerProps) => (
         <As
-            {...otherProps}
-            aria-describedby={triggerProps['aria-describedby'] || otherProps['aria-describedby']}
+            {...elementAttributes}
+            aria-describedby={triggerProps['aria-describedby'] || elementAttributes?.['aria-describedby'] || undefined}
             aria-label={label}
             data-bspk="fab"
             data-container={container}
@@ -82,17 +82,18 @@ export function Fab<As extends ElementType = 'button'>(props: AriaAttributes & E
             data-round={iconOnly || undefined}
             data-size={size}
             data-variant={variant}
+            onClick={onClick}
             onFocus={(e) => {
                 triggerProps.onFocus?.();
-                otherProps.onFocus?.(e);
+                elementAttributes?.onFocus?.(e);
             }}
             onMouseLeave={(e) => {
                 triggerProps.onMouseLeave?.();
-                otherProps.onMouseLeave?.(e);
+                elementAttributes?.onMouseLeave?.(e);
             }}
             onMouseOver={(e) => {
                 triggerProps.onMouseOver?.();
-                otherProps.onMouseOver?.(e);
+                elementAttributes?.onMouseOver?.(e);
             }}
         >
             {!!icon && isValidElement(icon) && (
@@ -113,6 +114,5 @@ export function Fab<As extends ElementType = 'button'>(props: AriaAttributes & E
 
     return button({});
 }
-
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

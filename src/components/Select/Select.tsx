@@ -1,10 +1,9 @@
 import { SvgChevronRight } from '@bspk/icons/ChevronRight';
 import { useMemo } from 'react';
-
 import { Combobox, ComboboxProps } from '-/components/Combobox';
 import { ListItem } from '-/components/ListItem';
 import { useId } from '-/hooks/useId';
-import { CommonProps, ElementProps, FormFieldControlProps } from '-/types/common';
+import { CommonProps, FormFieldControlProps } from '-/types/common';
 
 import './select.scss';
 
@@ -19,7 +18,16 @@ export type SelectProps<T extends SelectOption = SelectOption> = CommonProps<'in
     FormFieldControlProps &
     Pick<
         ComboboxProps<T>,
-        'disabled' | 'id' | 'isMulti' | 'itemDisplayCount' | 'label' | 'onChange' | 'readOnly' | 'selectAll' | 'value'
+        | 'disabled'
+        | 'elementAttributes'
+        | 'id'
+        | 'isMulti'
+        | 'itemDisplayCount'
+        | 'label'
+        | 'onChange'
+        | 'readOnly'
+        | 'selectAll'
+        | 'value'
     > & {
         /**
          * Array of options to display in the select
@@ -110,8 +118,8 @@ export function Select({
     description,
     'aria-describedby': ariaDescribedBy,
     'aria-errormessage': ariaErrorMessage,
-    ...props
-}: ElementProps<SelectProps, 'button'>) {
+    elementAttributes,
+}: SelectProps) {
     const id = useId(propId);
 
     const selectedItem: SelectOption | undefined = useMemo(() => {
@@ -128,6 +136,7 @@ export function Select({
         <Combobox
             description={description || ''}
             disabled={disabled}
+            elementAttributes={elementAttributes}
             id={id}
             isMulti={isMulti}
             itemDisplayCount={itemDisplayCount}
@@ -142,7 +151,6 @@ export function Select({
                 <>
                     <input defaultValue={selected} name={name} type="hidden" />
                     <span
-                        {...props}
                         {...toggleProps}
                         aria-describedby={ariaDescribedBy || undefined}
                         aria-disabled={disabled || readOnly}
@@ -172,6 +180,5 @@ export function Select({
         </Combobox>
     );
 }
-
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

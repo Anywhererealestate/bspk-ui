@@ -13,57 +13,59 @@ export function menuItemId(menuId: string, index: number) {
     return `menu-${menuId}-item-${index}`;
 }
 
-export type MenuProps = CommonProps<'id' | 'owner'> &
-    ElementAttributes<'div'> &
-    Pick<PortalProps, 'container'> & {
-        /** A ref to the inner div element. */
-        innerRef?: SetRef<HTMLDivElement>;
-        /**
-         * The items to display in the menu. These should be ListItem and Divider components.
-         *
-         * @required
-         */
-        children: ReactNode;
-        /**
-         * Should the menu be rendered in a portal? This is useful for menus that need to be rendered outside of the
-         * normal DOM flow, such as dropdowns or modals.
-         *
-         * @default true
-         */
-        portal?: boolean;
-        /**
-         * The number of items to show in the menu. This is used to determine the height of the menu.
-         *
-         * @default 1
-         */
-        itemDisplayCount?: number;
-        /**
-         * The number of items in the menu.
-         *
-         * @default 1
-         */
-        itemCount?: number;
-        /**
-         * Whether the menu is rendered as a floating element.
-         *
-         * @default true
-         */
-        floating?: boolean;
-        /**
-         * A function that is called when the user clicks outside of the menu.
-         *
-         * @required
-         */
-        onOutsideClick: () => void;
-        /**
-         * Whether or not the menu is scrollable.
-         *
-         * Setting to false will override itemDisplayCount.
-         *
-         * @default true
-         */
-        scroll?: boolean;
-    };
+export type MenuProps = ElementAttributes<
+    'div',
+    CommonProps<'id' | 'owner' | 'role' | 'style'> &
+        Pick<PortalProps, 'container'> & {
+            /** A ref to the inner div element. */
+            innerRef?: SetRef<HTMLDivElement>;
+            /**
+             * The items to display in the menu. These should be ListItem and Divider components.
+             *
+             * @required
+             */
+            children: ReactNode;
+            /**
+             * Should the menu be rendered in a portal? This is useful for menus that need to be rendered outside of the
+             * normal DOM flow, such as dropdowns or modals.
+             *
+             * @default true
+             */
+            portal?: boolean;
+            /**
+             * The number of items to show in the menu. This is used to determine the height of the menu.
+             *
+             * @default 1
+             */
+            itemDisplayCount?: number;
+            /**
+             * The number of items in the menu.
+             *
+             * @default 1
+             */
+            itemCount?: number;
+            /**
+             * Whether the menu is rendered as a floating element.
+             *
+             * @default true
+             */
+            floating?: boolean;
+            /**
+             * A function that is called when the user clicks outside of the menu.
+             *
+             * @required
+             */
+            onOutsideClick: () => void;
+            /**
+             * Whether or not the menu is scrollable.
+             *
+             * Setting to false will override itemDisplayCount.
+             *
+             * @default true
+             */
+            scroll?: boolean;
+        }
+>;
 
 /**
  * A container housing a simple list of options presented to the customer to select one option at a time.
@@ -100,6 +102,7 @@ export function Menu({
     scroll = true,
     container,
     elementAttributes,
+    role,
     style,
 }: MenuProps) {
     const menuId = useId(idProp);
@@ -127,6 +130,7 @@ export function Menu({
                     innerRef?.(node);
                     menuElement.current = node;
                 }}
+                role={role}
                 style={cssWithVars({
                     ...style,
                     '--item-display-count': itemDisplayCount,

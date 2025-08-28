@@ -12,24 +12,15 @@ export type AlertVariant = 'error' | 'informational' | 'success' | 'warning';
 
 export type SetRef<T> = (instance: T | null) => void;
 
-export type ElementProps<
-    P extends Record<string, unknown>,
-    E extends JSXElementConstructor<unknown> | keyof JSX.IntrinsicElements,
-    O extends string = '',
-> = Omit<ComponentPropsWithoutRef<E>, O | keyof P> & P;
-
-export type ElementConstructorProps<
-    E extends JSXElementConstructor<unknown> | keyof JSX.IntrinsicElements,
-    O extends string = '',
-> = Omit<ComponentPropsWithoutRef<E>, O>;
-
 /** Props for a component that renders a container element, allowing customization of the container element's attributes. */
 export type ElementAttributes<
     /** HTML Element */
     E extends JSXElementConstructor<unknown> | keyof JSX.IntrinsicElements,
+    /** Component Props to Omit */
+    P extends Record<string, unknown>,
     /** Properties to Omit */
     O extends string = '',
-> = {
+> = P & {
     /**
      * Properties which allow customization of the container element's attributes. These include [standard HTML
      * attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes), [ARIA
@@ -38,21 +29,7 @@ export type ElementAttributes<
      *
      * @type ElementAttributes
      */
-    elementAttributes?: Omit<
-        AriaAttributes & ComponentPropsWithoutRef<E> & DataProps & HTMLAttributes<E>,
-        O | 'role' | 'style' | 'tabIndex'
-    >;
-    /** The inline style to apply to the container element. */
-    style?: HTMLAttributes<E>['style'];
-    /** A value greater than -1 makes an element tabbable. */
-    tabIndex?: HTMLAttributes<E>['tabIndex'];
-    /**
-     * The [WIA-ARIA role](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles) of the
-     * element.
-     *
-     * @default listbox
-     */
-    role?: HTMLAttributes<E>['role'];
+    elementAttributes?: Omit<AriaAttributes & ComponentPropsWithoutRef<E> & DataProps & HTMLAttributes<E>, O | keyof P>;
 };
 
 /** Properties that begin with "data-"" */
@@ -78,6 +55,8 @@ export type CallToActionButton = {
 };
 
 export type CommonPropsLibrary = {
+    /** Inline styles to apply to the element. */
+    style?: React.CSSProperties;
     /**
      * Marks the element as invalid and displays error state theme.
      *
@@ -150,6 +129,15 @@ export type CommonPropsLibrary = {
      * @utility
      */
     owner?: string;
+    /** The [ARIA role](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles) of the element. */
+    role?: HTMLAttributes<HTMLElement>['role'];
+    /**
+     * The [tabIndex](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Global_attributes/tabindex) of the
+     * element.
+     */
+    tabIndex?: HTMLAttributes<HTMLElement>['tabIndex'];
+    /** This is used to identify the component in the UI library and is not intended for public use. */
+    'data-bspk'?: string;
 };
 
 export type CommonProps<K extends keyof CommonPropsLibrary> = Pick<CommonPropsLibrary, K>;

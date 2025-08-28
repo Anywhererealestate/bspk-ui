@@ -4,49 +4,52 @@ import { SvgErrorFill } from '@bspk/icons/ErrorFill';
 import { SvgInfoFill } from '@bspk/icons/InfoFill';
 import { SvgWarningFill } from '@bspk/icons/WarningFill';
 
-import { ElementProps, AlertVariant, CallToActionButton } from '-/types/common';
+import { AlertVariant, CallToActionButton, ElementAttributes } from '-/types/common';
 
 import './banner-alert.scss';
 
-export type BannerAlertProps = {
-    /**
-     * The color variant of the banner alert.
-     *
-     * @default informational
-     */
-    variant?: AlertVariant;
-    /**
-     * The function to call when the banner alert is closed. If not included the close button will not be displayed.
-     *
-     * @type () => void
-     */
-    onClose?: () => void;
-    /**
-     * The header of the banner alert.
-     *
-     * @required
-     */
-    header: string;
-    /**
-     * The body of the banner alert.
-     *
-     * @type multiline
-     * @required
-     */
-    body: string;
-    /**
-     * This property may be undefined or an object containing required CallToActionButton properties.
-     *
-     * @type CallToActionButton
-     */
-    callToAction?: CallToActionButton;
-    /**
-     * Is the alert elevated. If true a drop shadow is added.
-     *
-     * @default false
-     */
-    elevated?: boolean;
-};
+export type BannerAlertProps = ElementAttributes<
+    'div',
+    {
+        /**
+         * The color variant of the banner alert.
+         *
+         * @default informational
+         */
+        variant?: AlertVariant;
+        /**
+         * The function to call when the banner alert is closed. If not included the close button will not be displayed.
+         *
+         * @type () => void
+         */
+        onClose?: () => void;
+        /**
+         * The header of the banner alert.
+         *
+         * @required
+         */
+        header: string;
+        /**
+         * The body of the banner alert.
+         *
+         * @type multiline
+         * @required
+         */
+        body: string;
+        /**
+         * This property may be undefined or an object containing required CallToActionButton properties.
+         *
+         * @type CallToActionButton
+         */
+        callToAction?: CallToActionButton;
+        /**
+         * Is the alert elevated. If true a drop shadow is added.
+         *
+         * @default false
+         */
+        elevated?: boolean;
+    }
+>;
 
 /**
  * A visual and contextual message used to communicate an important message or notification to users relating to a
@@ -83,7 +86,7 @@ export function BannerAlert({
     callToAction,
     body,
     elevated = false,
-}: ElementProps<BannerAlertProps, 'div'>) {
+}: BannerAlertProps) {
     return (
         <div data-bspk="banner-alert" data-elevated={elevated || undefined} data-variant={variant} role="alert">
             <div data-icon-bar>
@@ -113,6 +116,5 @@ export function BannerAlert({
         </div>
     );
 }
-
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

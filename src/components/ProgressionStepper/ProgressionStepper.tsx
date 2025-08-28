@@ -1,8 +1,6 @@
-import { SvgCheck } from '@bspk/icons/Check';
-
-import { ElementProps } from '-/types/common';
-
 import './progression-stepper.scss';
+import { SvgCheck } from '@bspk/icons/Check';
+import { ElementAttributes } from '-/types/common';
 
 /** A progress stepper item is a single step in the progress bar. */
 export type ProgressionStepperItem = {
@@ -27,37 +25,40 @@ export type ProgressionStepperItem = {
     touchLink?: { label: string; onClick: () => void };
 };
 
-export type ProgressionStepperProps = {
-    /**
-     * The steps to display in the progress bar.
-     *
-     * @example
-     *     [{ name: 'Name of step 1' }, { name: 'Name of step 2' }, { name: 'Name of step 3' }];
-     *
-     * @type Array<ProgressionStepperItem>
-     * @required
-     */
-    steps: ProgressionStepperItem[];
-    /**
-     * The current step in the progress bar.
-     *
-     * If the current step is greater than the number of steps, all steps with be completed.
-     *
-     * If the current step is less than 1, all steps will be incomplete.
-     *
-     * @default 0
-     * @minimum 0
-     */
-    currentStep?: number;
-    /**
-     * The variant of the progress bar. Can be either horizontal, vertical, or widget.
-     *
-     * When on small width screens, the default will automatically switch to widget.
-     *
-     * @default horizontal
-     */
-    variant?: 'horizontal' | 'vertical' | 'widget';
-};
+export type ProgressionStepperProps = ElementAttributes<
+    'div',
+    {
+        /**
+         * The steps to display in the progress bar.
+         *
+         * @example
+         *     [{ name: 'Name of step 1' }, { name: 'Name of step 2' }, { name: 'Name of step 3' }];
+         *
+         * @type Array<ProgressionStepperItem>
+         * @required
+         */
+        steps: ProgressionStepperItem[];
+        /**
+         * The current step in the progress bar.
+         *
+         * If the current step is greater than the number of steps, all steps with be completed.
+         *
+         * If the current step is less than 1, all steps will be incomplete.
+         *
+         * @default 0
+         * @minimum 0
+         */
+        currentStep?: number;
+        /**
+         * The variant of the progress bar. Can be either horizontal, vertical, or widget.
+         *
+         * When on small width screens, the default will automatically switch to widget.
+         *
+         * @default horizontal
+         */
+        variant?: 'horizontal' | 'vertical' | 'widget';
+    }
+>;
 
 /**
  * A progress stepper is a horizontal visual indicator that let’s the user know the progression of the current process.
@@ -76,11 +77,11 @@ export function ProgressionStepper({
     steps = [],
     currentStep: currentStepProp = 0,
     variant = 'horizontal',
-    ...containerProps
-}: ElementProps<ProgressionStepperProps, 'div'>) {
+    elementAttributes,
+}: ProgressionStepperProps) {
     const currentStep = Math.max(0, Math.min(currentStepProp, steps.length + 1));
     return !steps?.length ? null : (
-        <div {...containerProps} data-bspk="progression-stepper" data-variant={variant}>
+        <div {...elementAttributes} data-bspk="progression-stepper" data-variant={variant}>
             {variant === 'widget' && (
                 <label>
                     <span data-title>{steps[Math.max(0, Math.min(currentStep - 1, steps.length - 1))].name}</span>
@@ -133,6 +134,5 @@ export function ProgressionStepper({
         </div>
     );
 }
-
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

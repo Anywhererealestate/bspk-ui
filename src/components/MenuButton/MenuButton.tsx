@@ -1,11 +1,10 @@
 import { SvgMenu } from '@bspk/icons/Menu';
-
 import { ButtonProps } from '-/components/Button';
-import { ElementProps } from '-/types/common';
+import { ElementAttributes } from '-/types/common';
 
 import './menu-button.scss';
 
-export type MenuButtonProps = Pick<ButtonProps, 'as' | 'onClick'>;
+export type MenuButtonProps = ElementAttributes<'button', Pick<ButtonProps, 'onClick'>>;
 
 /**
  * Utility component used within top navigation.
@@ -20,13 +19,12 @@ export type MenuButtonProps = Pick<ButtonProps, 'as' | 'onClick'>;
  * @name MenuButton
  * @phase Utility
  */
-export function MenuButton(props: ElementProps<MenuButtonProps, 'button'>) {
+export function MenuButton({ onClick, elementAttributes }: MenuButtonProps) {
     return (
-        <button data-bspk="menu-button" {...props}>
+        <button data-bspk="menu-button" onClick={onClick} {...elementAttributes}>
             <SvgMenu />
         </button>
     );
 }
-
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

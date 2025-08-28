@@ -1,11 +1,10 @@
 import { TabList, TabListProps, TabOption } from '-/components/TabList';
-import { ElementProps } from '-/types/common';
 
 import './tab-group.scss';
 
 export type TabGroupSize = 'large' | 'medium' | 'small';
 
-export type TabGroupProps = Omit<TabListProps<TabOption>, 'iconsOnly'> & {
+export type TabGroupProps = Omit<TabListProps<TabOption>, 'data-bspk' | 'iconsOnly'> & {
     /**
      * When width is 'hug' this determines if the trailing underline should be showing. When width is 'fill' this
      * property isn't applicable.
@@ -42,28 +41,33 @@ export type TabGroupProps = Omit<TabListProps<TabOption>, 'iconsOnly'> & {
  * @phase UXReview
  */
 export function TabGroup({
-    onChange: onTabChange,
+    onChange,
     value,
     size = 'medium',
     options,
     width = 'hug',
     showTrail = false,
-    ...containerProps
-}: ElementProps<TabGroupProps, 'ul'>) {
+    label,
+    elementAttributes,
+    id,
+    style,
+}: TabGroupProps) {
     if (!Array.isArray(options) || options.length < 2) return <></>;
     return (
         <TabList
             data-bspk="tab-group"
             data-show-trail={showTrail || undefined}
-            onChange={onTabChange}
+            elementAttributes={elementAttributes}
+            id={id}
+            label={label}
+            onChange={onChange}
             options={options}
             size={size}
+            style={style}
             value={value}
             width={width}
-            {...containerProps}
         />
     );
 }
-
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

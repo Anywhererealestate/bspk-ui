@@ -2,7 +2,7 @@ import { SvgCancel } from '@bspk/icons/Cancel';
 import { ChangeEvent, HTMLInputAutoCompleteAttribute, HTMLInputTypeAttribute, ReactNode } from 'react';
 
 import { useId } from '-/hooks/useId';
-import { ElementProps, CommonProps, FormFieldControlProps, SetRef } from '-/types/common';
+import { CommonProps, ElementAttributes, FormFieldControlProps, SetRef } from '-/types/common';
 
 import './text-input.scss';
 
@@ -13,53 +13,61 @@ export const DEFAULT = {
     autoComplete: 'off',
 } as const;
 
-export type TextInputProps = CommonProps<
-    'aria-label' | 'disabled' | 'id' | 'invalid' | 'name' | 'owner' | 'readOnly' | 'required' | 'size' | 'value'
-> &
-    FormFieldControlProps & {
-        /**
-         * Callback when the value of the field changes.
-         *
-         * @required
-         */
-        onChange: (next: string, event?: ChangeEvent<HTMLInputElement>) => void;
-        /** The ref of the container. */
-        containerRef?: SetRef<HTMLDivElement>;
-        /** The ref of the input. */
-        inputRef?: SetRef<HTMLInputElement>;
-        /**
-         * The trailing element to display in the field.
-         *
-         * @exampleType string
-         */
-        trailing?: ReactNode;
-        /**
-         * The leading element to display in the field.
-         *
-         * @exampleType string
-         */
-        leading?: ReactNode;
-        /** The placeholder of the field. */
-        placeholder?: string;
-        /**
-         * The type of the input.
-         *
-         * @default text
-         */
-        type?: Extract<HTMLInputTypeAttribute, 'number' | 'text'>;
-        /**
-         * Specifies if user agent has any permission to provide automated assistance in filling out form field values
-         *
-         * @default off
-         */
-        autoComplete?: HTMLInputAutoCompleteAttribute;
-        /**
-         * Specifies if the clear button should be shown. This should almost always be true, but can be set to false.
-         *
-         * @default true
-         */
-        showClearButton?: boolean;
-    };
+type TextInputBaseProps = {
+    /**
+     * Callback when the value of the field changes.
+     *
+     * @required
+     */
+    onChange: (next: string, event?: ChangeEvent<HTMLInputElement>) => void;
+    /** The ref of the container. */
+    containerRef?: SetRef<HTMLDivElement>;
+    /** The ref of the input. */
+    inputRef?: SetRef<HTMLInputElement>;
+    /**
+     * The trailing element to display in the field.
+     *
+     * @exampleType string
+     */
+    trailing?: ReactNode;
+    /**
+     * The leading element to display in the field.
+     *
+     * @exampleType string
+     */
+    leading?: ReactNode;
+    /** The placeholder of the field. */
+    placeholder?: string;
+    /**
+     * The type of the input.
+     *
+     * @default text
+     */
+    type?: Extract<HTMLInputTypeAttribute, 'number' | 'text'>;
+    /**
+     * Specifies if user agent has any permission to provide automated assistance in filling out form field values
+     *
+     * @default off
+     */
+    autoComplete?: HTMLInputAutoCompleteAttribute;
+    /**
+     * Specifies if the clear button should be shown. This should almost always be true, but can be set to false.
+     *
+     * @default true
+     */
+    showClearButton?: boolean;
+};
+
+export type TextInputProps = ElementAttributes<
+    'div',
+    CommonProps<
+        'aria-label' | 'disabled' | 'id' | 'invalid' | 'name' | 'owner' | 'readOnly' | 'required' | 'size' | 'value'
+    > &
+        FormFieldControlProps &
+        TextInputBaseProps & {
+            inputProps?: Omit<React.InputHTMLAttributes<HTMLInputElement>, keyof TextInputBaseProps>;
+        }
+>;
 
 /**
  * A text input that allows users to enter text, numbers or symbols in a singular line. This is the base element and is
@@ -102,14 +110,16 @@ export function TextInput({
     owner,
     'aria-describedby': ariaDescribedBy,
     'aria-errormessage': ariaErrorMessage,
-    ...otherProps
-}: ElementProps<TextInputProps, 'div'>) {
+    elementAttributes,
+    inputProps,
+}: TextInputProps) {
     const id = useId(idProp);
 
     const invalid = !readOnly && !disabled && invalidProp;
 
     return (
         <div
+            {...elementAttributes}
             data-bspk="text-input"
             data-bspk-owner={owner || undefined}
             data-clear-hidden={showClearButton === false || undefined}
@@ -119,7 +129,6 @@ export function TextInput({
             data-readonly={readOnly || undefined}
             data-size={size}
             ref={containerRef}
-            {...otherProps}
         >
             {leading && <span data-leading>{leading}</span>}
 
@@ -141,6 +150,7 @@ export function TextInput({
                 required={required || undefined}
                 type={type}
                 value={value || ''}
+                {...inputProps}
             />
 
             {trailing && <span data-trailing>{trailing}</span>}
@@ -153,6 +163,5 @@ export function TextInput({
         </div>
     );
 }
-
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

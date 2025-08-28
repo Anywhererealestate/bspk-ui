@@ -5,7 +5,7 @@ import { Tooltip } from '-/components/Tooltip';
 import { Truncated } from '-/components/Truncated';
 import { useId } from '-/hooks/useId';
 import { useKeyNavigation } from '-/hooks/useKeyNavigation';
-import { ElementProps } from '-/types/common';
+import { CommonProps, ElementAttributes } from '-/types/common';
 
 import './tab-list.scss';
 
@@ -54,67 +54,70 @@ export type TabOption = {
 
 const optionId = (id: string, index: number) => `${id}-item-${index + 1}`;
 
-export type TabListProps<O extends TabOption = TabOption> = {
-    /**
-     * The tabs to display.
-     *
-     * If **less than 2** items are provided, the component will not render.
-     *
-     * @example
-     *     [
-     *         { value: '1', label: 'Option 1' },
-     *         { value: '2', label: 'Disabled 2 ', disabled: true },
-     *         { value: '3', label: 'Option 3' },
-     *     ];
-     *
-     * @type Array<TabOption>
-     * @required
-     */
-    options: O[];
-    /**
-     * The value of the selected tab.
-     *
-     * @example
-     *     1;
-     *
-     * @required
-     */
-    value: TabOption['value'];
-    /**
-     * The function to call when the tab is clicked.
-     *
-     * @required
-     */
-    onChange: (tabValue: string) => void;
-    /**
-     * The size of the tabs.
-     *
-     * @default medium
-     */
-    size?: TabSize;
-    /**
-     * When 'fill' the options will fill the width of the container. When 'hug', the options will be as wide as their
-     * content.
-     *
-     * @default hug
-     */
-    width?: 'fill' | 'hug';
-    /**
-     * The label for the tab utility, used for accessibility.
-     *
-     * @required
-     */
-    label: string;
-    /** The id of the tab utility, used for accessibility. */
-    id?: string;
-    /**
-     * Determines if the labels of the options should be displayed. If icons are not provided for every option this is
-     * ignored and labels are shown.
-     *
-     * @default false
-     */
-    iconsOnly?: boolean;
-};
+export type TabListProps<O extends TabOption = TabOption> = ElementAttributes<
+    'ul',
+    CommonProps<'data-bspk' | 'style'> & {
+        /**
+         * The tabs to display.
+         *
+         * If **less than 2** items are provided, the component will not render.
+         *
+         * @example
+         *     [
+         *         { value: '1', label: 'Option 1' },
+         *         { value: '2', label: 'Disabled 2 ', disabled: true },
+         *         { value: '3', label: 'Option 3' },
+         *     ];
+         *
+         * @type Array<TabOption>
+         * @required
+         */
+        options: O[];
+        /**
+         * The value of the selected tab.
+         *
+         * @example
+         *     1;
+         *
+         * @required
+         */
+        value: TabOption['value'];
+        /**
+         * The function to call when the tab is clicked.
+         *
+         * @required
+         */
+        onChange: (tabValue: string) => void;
+        /**
+         * The size of the tabs.
+         *
+         * @default medium
+         */
+        size?: TabSize;
+        /**
+         * When 'fill' the options will fill the width of the container. When 'hug', the options will be as wide as
+         * their content.
+         *
+         * @default hug
+         */
+        width?: 'fill' | 'hug';
+        /**
+         * The label for the tab utility, used for accessibility.
+         *
+         * @required
+         */
+        label: string;
+        /** The id of the tab utility, used for accessibility. */
+        id?: string;
+        /**
+         * Determines if the labels of the options should be displayed. If icons are not provided for every option this
+         * is ignored and labels are shown.
+         *
+         * @default false
+         */
+        iconsOnly?: boolean;
+    }
+>;
 
 /**
  * Navigation tool that organizes content across different screens and views.
@@ -154,8 +157,10 @@ export function TabList({
     label,
     id: idProp,
     iconsOnly: iconsOnlyProp = false,
-    ...containerProps
-}: ElementProps<TabListProps, 'ul'>) {
+    elementAttributes,
+    'data-bspk': bspk,
+    style,
+}: TabListProps) {
     const id = useId(idProp);
     const options = useMemo(() => {
         if (!Array.isArray(optionsProp)) return [];
@@ -184,8 +189,9 @@ export function TabList({
 
     return (
         <ul
-            {...containerProps}
+            {...elementAttributes}
             aria-label={label}
+            data-bspk={bspk}
             data-bspk-utility="tab-list"
             data-hug={width === 'hug' || undefined}
             data-size={size}
@@ -200,6 +206,7 @@ export function TabList({
                 }
             }}
             role="tablist"
+            style={style}
         >
             {options.map((item) => {
                 const isSelected = item.value === value;
@@ -235,6 +242,5 @@ export function TabList({
         </ul>
     );
 }
-
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

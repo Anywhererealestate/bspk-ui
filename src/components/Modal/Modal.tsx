@@ -46,7 +46,10 @@ function useDialogHeight() {
 
 export type ModalCallToAction = Pick<ButtonProps, 'destructive'> & Pick<CallToActionButton, 'label' | 'onClick'>;
 
-export type ModalProps = Pick<DialogProps, 'container' | 'id' | 'innerRef' | 'onClose' | 'open' | 'owner'> & {
+export type ModalProps = Pick<
+    DialogProps,
+    'container' | 'elementAttributes' | 'id' | 'innerRef' | 'onClose' | 'open' | 'owner'
+> & {
     /**
      * Modal header.
      *
@@ -144,7 +147,12 @@ export function Modal({
     cancelButton,
     buttonFormat = 'horizontal',
     innerRef,
-    ...dialogProps
+    onClose,
+    container,
+    elementAttributes,
+    id,
+    open,
+    owner,
 }: ModalProps) {
     const { isMobile } = useUIContext();
 
@@ -162,23 +170,28 @@ export function Modal({
         if (callToAction && cancelButton) {
             nextButtons.push({
                 label: typeof cancelButton === 'string' ? cancelButton : 'Cancel',
-                onClick: dialogProps.onClose,
+                onClick: onClose,
                 variant: 'tertiary',
                 size: isMobile ? 'medium' : 'small',
             });
         }
 
         return nextButtons;
-    }, [callToAction, cancelButton, dialogProps.onClose, isMobile]);
+    }, [callToAction, cancelButton, onClose, isMobile]);
 
     const { setModalRefs } = useDialogHeight();
 
     return (
         <Dialog
-            {...dialogProps}
             aria-description={description}
             aria-label={header}
+            container={container}
+            elementAttributes={elementAttributes}
+            id={id}
             innerRef={setModalRefs}
+            onClose={onClose}
+            open={open}
+            owner={owner}
             placement="center"
             showScrim
         >
@@ -187,13 +200,7 @@ export function Modal({
                     <Txt as="div" data-dialog-title variant="heading-h4">
                         {header}
                     </Txt>
-                    <Button
-                        icon={<SvgClose />}
-                        iconOnly
-                        label="close"
-                        onClick={dialogProps.onClose}
-                        variant="tertiary"
-                    />
+                    <Button icon={<SvgClose />} iconOnly label="close" onClick={onClose} variant="tertiary" />
                 </div>
                 <div data-modal-main>{children}</div>
                 {Array.isArray(buttons) && buttons.length > 0 && (
@@ -207,6 +214,5 @@ export function Modal({
         </Dialog>
     );
 }
-
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
