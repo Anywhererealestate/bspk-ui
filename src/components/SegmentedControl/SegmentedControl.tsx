@@ -46,7 +46,8 @@ export function SegmentedControl({
 }: SegmentedControlProps) {
     return (
         <TabList
-            attr={{ ...attr, 'data-bspk': 'segmented-control' }}
+            attr={{ ...attr }}
+            data-bspk="segmented-control"
             iconsOnly={iconsOnly}
             id={id}
             label={label}

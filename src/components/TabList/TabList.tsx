@@ -116,6 +116,8 @@ export type TabListProps<O extends TabOption = TabOption> = ElementAttributes<
          * @default false
          */
         iconsOnly?: boolean;
+        /** The data bspk attribute for the tab utility. */
+        'data-bspk': string;
     }
 >;
 
@@ -159,6 +161,7 @@ export function TabList({
     iconsOnly: iconsOnlyProp = false,
     attr,
     style,
+    'data-bspk': dataBspk,
 }: TabListProps) {
     const id = useId(idProp);
     const options = useMemo(() => {
@@ -190,6 +193,7 @@ export function TabList({
         <ul
             {...attr}
             aria-label={label}
+            data-bspk={dataBspk}
             data-bspk-utility="tab-list"
             data-hug={width === 'hug' || undefined}
             data-size={size}

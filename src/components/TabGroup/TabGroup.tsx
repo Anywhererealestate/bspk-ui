@@ -55,7 +55,8 @@ export function TabGroup({
     if (!Array.isArray(options) || options.length < 2) return <></>;
     return (
         <TabList
-            attr={{ ...attr, 'data-show-trail': showTrail || undefined, 'data-bspk': 'tab-group' }}
+            attr={{ ...attr, 'data-show-trail': showTrail || undefined }}
+            data-bspk="tab-group"
             id={id}
             label={label}
             onChange={onChange}
