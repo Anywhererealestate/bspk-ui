@@ -1,6 +1,13 @@
 import { useState } from 'react';
 import './password-input.scss';
+import { Button, ButtonProps } from '-/components/Button';
 import { TextInput, TextInputProps } from '-/components/TextInput';
+
+const BUTTON_SIZE_MAP: Record<Exclude<TextInputProps['size'], undefined>, ButtonProps['size']> = {
+    small: 'small',
+    medium: 'medium',
+    large: 'large',
+};
 
 export type PasswordInputProps = Pick<
     TextInputProps,
@@ -33,7 +40,7 @@ export type PasswordInputProps = Pick<
  * @name PasswordInput
  * @phase Dev
  */
-function PasswordInput({ disabled, readOnly, ...restTextInputProps }: PasswordInputProps) {
+function PasswordInput({ disabled, readOnly, value, size = 'medium', ...restTextInputProps }: PasswordInputProps) {
     const [isShowingPassword, setIsShowingPassword] = useState(false);
 
     const togglePasswordVisibility =
@@ -47,15 +54,32 @@ function PasswordInput({ disabled, readOnly, ...restTextInputProps }: PasswordIn
         <span data-bspk="password-input">
             <TextInput
                 disabled={disabled}
+                leading={
+                    !isShowingPassword && (
+                        <span data-password>
+                            {Array.from({ length: value?.length || 0 }, (_, i) => (
+                                <span key={i}>o</span>
+                            ))}
+                        </span>
+                    )
+                }
+                onClick={(e) => {
+                    e.currentTarget.querySelector('input')?.focus();
+                }}
                 readOnly={readOnly}
                 showClearButton={false}
                 trailing={
-                    <button data-toggle-visibility-button onClick={togglePasswordVisibility}>
-                        {isShowingPassword ? 'Hide' : 'Show'}
-                    </button>
+                    <Button
+                        label={isShowingPassword ? 'Hide' : 'Show'}
+                        onClick={togglePasswordVisibility}
+                        size={BUTTON_SIZE_MAP[size]}
+                        variant="tertiary"
+                    />
                 }
                 type={isShowingPassword ? 'text' : 'password'}
                 {...restTextInputProps}
+                size={size}
+                value={value}
             />
         </span>
     );

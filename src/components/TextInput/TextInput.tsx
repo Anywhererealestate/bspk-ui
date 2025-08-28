@@ -142,9 +142,7 @@ export function TextInput({
                 type={type}
                 value={value || ''}
             />
-
             {trailing && <span data-trailing>{trailing}</span>}
-
             {showClearButton !== false && (
                 <button aria-label="clear" data-clear onClick={() => onChange('')}>
                     <SvgCancel />
@@ -153,6 +151,5 @@ export function TextInput({
         </div>
     );
 }
-
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
