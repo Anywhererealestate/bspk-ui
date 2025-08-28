@@ -56,8 +56,7 @@ export function TabGroup({
     return (
         <TabList
             data-bspk="tab-group"
-            data-show-trail={showTrail || undefined}
-            elementAttributes={elementAttributes}
+            elementAttributes={{ ...elementAttributes, 'data-show-trail': showTrail || undefined }}
             id={id}
             label={label}
             onChange={onChange}
