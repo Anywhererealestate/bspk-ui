@@ -48,15 +48,14 @@ export function TabGroup({
     width = 'hug',
     showTrail = false,
     label,
-    elementAttributes,
+    attr,
     id,
     style,
 }: TabGroupProps) {
     if (!Array.isArray(options) || options.length < 2) return <></>;
     return (
         <TabList
-            data-bspk="tab-group"
-            elementAttributes={{ ...elementAttributes, 'data-show-trail': showTrail || undefined }}
+            attr={{ ...attr, 'data-show-trail': showTrail || undefined, 'data-bspk': 'tab-group' }}
             id={id}
             label={label}
             onChange={onChange}

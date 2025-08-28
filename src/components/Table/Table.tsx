@@ -102,7 +102,7 @@ export function Table<R extends TableRow>({
     title,
     size = 'medium',
     pageSize = 10,
-    elementAttributes,
+    attr,
 }: TableProps<R>) {
     const tableId = useId();
     const [pageIndex, setPageIndex] = useState(0);
@@ -123,7 +123,7 @@ export function Table<R extends TableRow>({
 
     return (
         <div
-            {...elementAttributes}
+            {...attr}
             data-bspk="table"
             data-has-pagination={hasPagination || undefined}
             data-size={size || 'medium'}

@@ -38,18 +38,12 @@ export type TruncatedProps<As extends ElementType = 'span'> = ElementAttributes<
  * @name Truncated
  * @phase Utility
  */
-export function Truncated<As extends ElementType = 'span'>({
-    children,
-    label,
-    as,
-    elementAttributes,
-    style,
-}: TruncatedProps<As>) {
+export function Truncated<As extends ElementType = 'span'>({ children, label, as, attr, style }: TruncatedProps<As>) {
     const { setElement, isTruncated } = useTruncatedText();
     const As: ElementType = as || 'span';
     const span = (triggerProps: TooltipTriggerProps) => (
         <As
-            {...elementAttributes}
+            {...attr}
             data-bspk-utility="truncated"
             ref={(node: HTMLElement) => setElement(node)}
             style={{

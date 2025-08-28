@@ -68,11 +68,11 @@ export function Divider({
     orientation = 'horizontal',
     thickness = 'light',
     inset = 0,
-    elementAttributes,
+    attr,
 }: DividerProps) {
     return (
         <div
-            {...elementAttributes}
+            {...attr}
             aria-hidden
             aria-orientation={orientation}
             data-bspk="divider"
@@ -81,7 +81,7 @@ export function Divider({
             data-thickness={thickness}
             role="separator"
             style={cssWithVars({
-                ...elementAttributes?.style,
+                ...attr?.style,
                 '--inset': insetToVariable(inset),
             })}
         />

@@ -114,7 +114,7 @@ export function Button<As extends ElementType = 'button'>(props: ButtonProps<As>
         children,
         innerRef,
         owner,
-        elementAttributes,
+        attr,
         onClick,
         role = 'button',
         tabIndex,
@@ -129,8 +129,8 @@ export function Button<As extends ElementType = 'button'>(props: ButtonProps<As>
 
     const button = (triggerProps: TooltipTriggerProps) => (
         <As
-            {...elementAttributes}
-            aria-describedby={triggerProps['aria-describedby'] || elementAttributes?.['aria-describedby']}
+            {...attr}
+            aria-describedby={triggerProps['aria-describedby'] || attr?.['aria-describedby']}
             aria-label={label}
             data-bspk="button"
             data-bspk-owner={owner || undefined}
@@ -143,15 +143,15 @@ export function Button<As extends ElementType = 'button'>(props: ButtonProps<As>
             onClick={onClick}
             onFocus={(e) => {
                 triggerProps.onFocus?.();
-                elementAttributes?.onFocus?.(e);
+                attr?.onFocus?.(e);
             }}
             onMouseLeave={(e) => {
                 triggerProps.onMouseLeave?.();
-                elementAttributes?.onMouseLeave?.(e);
+                attr?.onMouseLeave?.(e);
             }}
             onMouseOver={(e) => {
                 triggerProps.onMouseOver?.();
-                elementAttributes?.onMouseOver?.(e);
+                attr?.onMouseOver?.(e);
             }}
             ref={innerRef}
             role={role}

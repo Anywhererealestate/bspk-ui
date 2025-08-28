@@ -80,7 +80,7 @@ export function Dialog({
     id: idProp,
     owner,
     container,
-    elementAttributes,
+    attr,
 }: DialogProps) {
     const id = useId(idProp);
     const boxRef = useRef<HTMLDivElement | null>(null);
@@ -97,7 +97,7 @@ export function Dialog({
         open && (
             <Portal container={container}>
                 <div
-                    {...elementAttributes}
+                    {...attr}
                     data-bspk="dialog"
                     data-bspk-owner={owner || undefined}
                     data-placement={placement}

@@ -64,7 +64,7 @@ export function Fab<As extends ElementType = 'button'>(props: FabProps<As>) {
         label,
         icon,
         toolTip,
-        elementAttributes,
+        attr,
         onClick,
     } = props;
 
@@ -73,8 +73,8 @@ export function Fab<As extends ElementType = 'button'>(props: FabProps<As>) {
 
     const button = (triggerProps: TooltipTriggerProps) => (
         <As
-            {...elementAttributes}
-            aria-describedby={triggerProps['aria-describedby'] || elementAttributes?.['aria-describedby'] || undefined}
+            {...attr}
+            aria-describedby={triggerProps['aria-describedby'] || attr?.['aria-describedby'] || undefined}
             aria-label={label}
             data-bspk="fab"
             data-container={container}
@@ -85,15 +85,15 @@ export function Fab<As extends ElementType = 'button'>(props: FabProps<As>) {
             onClick={onClick}
             onFocus={(e) => {
                 triggerProps.onFocus?.();
-                elementAttributes?.onFocus?.(e);
+                attr?.onFocus?.(e);
             }}
             onMouseLeave={(e) => {
                 triggerProps.onMouseLeave?.();
-                elementAttributes?.onMouseLeave?.(e);
+                attr?.onMouseLeave?.(e);
             }}
             onMouseOver={(e) => {
                 triggerProps.onMouseOver?.();
-                elementAttributes?.onMouseOver?.(e);
+                attr?.onMouseOver?.(e);
             }}
         >
             {!!icon && isValidElement(icon) && (

@@ -106,13 +106,13 @@ export function RadioGroup({
     disabled: disabledGroup = false,
     'aria-describedby': ariaDescribedBy,
     'aria-errormessage': ariaErrorMessage,
-    elementAttributes,
+    attr,
 }: RadioGroupProps) {
     const id = `radio-group-${useId()}`;
 
     return (
         <div
-            {...elementAttributes}
+            {...attr}
             aria-describedby={ariaDescribedBy}
             aria-errormessage={ariaErrorMessage}
             aria-label={hideLabelProp ? groupLabel : undefined}

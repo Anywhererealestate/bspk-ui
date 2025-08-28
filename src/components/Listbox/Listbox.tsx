@@ -20,7 +20,7 @@ export type ListboxItemProps = CommonProps<'disabled'> &
     };
 
 export type ListboxProps<Item extends ListboxItemProps = ListboxItemProps> = CommonProps<'disabled' | 'id'> &
-    Pick<MenuProps, 'elementAttributes' | 'itemCount' | 'itemDisplayCount' | 'onOutsideClick' | 'owner'> & {
+    Pick<MenuProps, 'attr' | 'itemCount' | 'itemDisplayCount' | 'onOutsideClick' | 'owner'> & {
         /**
          * Content to display in the listbox.
          *
@@ -137,7 +137,7 @@ export function Listbox<Item extends ListboxItemProps>({
     children,
     owner,
     onOutsideClick,
-    elementAttributes,
+    attr,
 }: ListboxProps<Item>) {
     const menuId = useId(idProp);
 
@@ -154,7 +154,7 @@ export function Listbox<Item extends ListboxItemProps>({
 
     return (
         <Menu
-            {...elementAttributes}
+            {...attr}
             aria-multiselectable={isMulti || undefined}
             data-bspk="listbox"
             data-bspk-owner={owner || undefined}

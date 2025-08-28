@@ -74,7 +74,7 @@ export function Checkbox({
     onChange,
     'aria-describedby': ariaDescribedBy,
     'aria-errormessage': ariaErrorMessage,
-    elementAttributes,
+    attr,
     value,
 }: CheckboxProps) {
     const indeterminate = !!indeterminateProp;
@@ -93,7 +93,7 @@ export function Checkbox({
             data-bspk="checkbox"
         >
             <input
-                {...elementAttributes}
+                {...attr}
                 aria-describedby={ariaDescribedBy || undefined}
                 aria-errormessage={ariaErrorMessage || undefined}
                 aria-invalid={invalid || undefined}

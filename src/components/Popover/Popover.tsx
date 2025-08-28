@@ -93,7 +93,7 @@ export function Popover({
     children,
     disabled = false,
     refWidth = false,
-    elementAttributes,
+    attr,
 }: PopoverProps) {
     const id = useId();
     const [show, setShow] = useState(false);
@@ -143,7 +143,7 @@ export function Popover({
             {child}
             <Portal>
                 <div
-                    {...elementAttributes}
+                    {...attr}
                     data-bspk="popover"
                     data-placement={middlewareData?.offset?.placement}
                     id={id}
@@ -151,7 +151,7 @@ export function Popover({
                         elements.setFloating(node);
                         elements.setReference(document.querySelector<HTMLElement>(`[aria-describedby="${id}"]`));
                     }}
-                    style={{ ...floatingStyles, ...elementAttributes?.style }}
+                    style={{ ...floatingStyles, ...attr?.style }}
                 >
                     <header>
                         <Txt variant="heading-h6">{header}</Txt>

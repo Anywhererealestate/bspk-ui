@@ -39,13 +39,13 @@ export function Radio({
     onChange,
     checked,
     disabled,
-    elementAttributes,
+    attr,
     invalid,
 }: RadioProps) {
     return (
         <span data-bspk="radio">
             <input
-                {...elementAttributes}
+                {...attr}
                 aria-label={ariaLabel}
                 checked={!!checked}
                 data-invalid={invalid || undefined}

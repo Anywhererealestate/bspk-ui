@@ -50,14 +50,14 @@ export function ExamplePlaceholder({
     height = 100,
     width = '100%',
     direction = 'row',
-    elementAttributes,
+    attr,
     style,
 }: ExamplePlaceholderProps) {
     const ref = useRef<HTMLDivElement | null>(null);
 
     return (
         <div
-            {...elementAttributes}
+            {...attr}
             data-bspk-utility="example-placeholder"
             data-example-placeholder
             ref={ref}

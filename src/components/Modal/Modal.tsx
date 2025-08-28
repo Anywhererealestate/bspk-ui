@@ -46,10 +46,7 @@ function useDialogHeight() {
 
 export type ModalCallToAction = Pick<ButtonProps, 'destructive'> & Pick<CallToActionButton, 'label' | 'onClick'>;
 
-export type ModalProps = Pick<
-    DialogProps,
-    'container' | 'elementAttributes' | 'id' | 'innerRef' | 'onClose' | 'open' | 'owner'
-> & {
+export type ModalProps = Pick<DialogProps, 'attr' | 'container' | 'id' | 'innerRef' | 'onClose' | 'open' | 'owner'> & {
     /**
      * Modal header.
      *
@@ -149,7 +146,7 @@ export function Modal({
     innerRef,
     onClose,
     container,
-    elementAttributes,
+    attr,
     id,
     open,
     owner,
@@ -185,8 +182,8 @@ export function Modal({
         <Dialog
             aria-description={description}
             aria-label={header}
+            attr={attr}
             container={container}
-            elementAttributes={elementAttributes}
             id={id}
             innerRef={setModalRefs}
             onClose={onClose}

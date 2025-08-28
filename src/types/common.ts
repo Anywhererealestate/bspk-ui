@@ -29,11 +29,11 @@ export type ElementAttributes<
      *
      * @type ElementAttributes
      */
-    elementAttributes?: Omit<AriaAttributes & ComponentPropsWithoutRef<E> & DataProps & HTMLAttributes<E>, O | keyof P>;
+    attr?: Omit<AriaAttributes & ComponentPropsWithoutRef<E> & DataProps & HTMLAttributes<E>, O | keyof P>;
 };
 
 /** Properties that begin with "data-"" */
-export type DataProps = Partial<Record<`data-${string}`, unknown>>;
+export type DataProps = Partial<{ [key: `data-${string}`]: unknown }>;
 
 export type ButtonSize = 'large' | 'medium' | 'small' | 'x-small';
 
@@ -136,8 +136,6 @@ export type CommonPropsLibrary = {
      * element.
      */
     tabIndex?: HTMLAttributes<HTMLElement>['tabIndex'];
-    /** This is used to identify the component in the UI library and is not intended for public use. */
-    'data-bspk'?: string;
 };
 
 export type CommonProps<K extends keyof CommonPropsLibrary> = Pick<CommonPropsLibrary, K>;

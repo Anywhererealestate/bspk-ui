@@ -18,8 +18,8 @@ export type SelectProps<T extends SelectOption = SelectOption> = CommonProps<'in
     FormFieldControlProps &
     Pick<
         ComboboxProps<T>,
+        | 'attr'
         | 'disabled'
-        | 'elementAttributes'
         | 'id'
         | 'isMulti'
         | 'itemDisplayCount'
@@ -118,7 +118,7 @@ export function Select({
     description,
     'aria-describedby': ariaDescribedBy,
     'aria-errormessage': ariaErrorMessage,
-    elementAttributes,
+    attr,
 }: SelectProps) {
     const id = useId(propId);
 
@@ -134,9 +134,9 @@ export function Select({
 
     return (
         <Combobox
+            attr={attr}
             description={description || ''}
             disabled={disabled}
-            elementAttributes={elementAttributes}
             id={id}
             isMulti={isMulti}
             itemDisplayCount={itemDisplayCount}

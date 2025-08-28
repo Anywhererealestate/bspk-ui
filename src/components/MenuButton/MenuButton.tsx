@@ -19,9 +19,9 @@ export type MenuButtonProps = ElementAttributes<'button', Pick<ButtonProps, 'onC
  * @name MenuButton
  * @phase Utility
  */
-export function MenuButton({ onClick, elementAttributes }: MenuButtonProps) {
+export function MenuButton({ onClick, attr }: MenuButtonProps) {
     return (
-        <button data-bspk="menu-button" onClick={onClick} {...elementAttributes}>
+        <button data-bspk="menu-button" onClick={onClick} {...attr}>
             <SvgMenu />
         </button>
     );

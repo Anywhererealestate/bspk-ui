@@ -78,7 +78,7 @@ export function FormField({
     labelTrailing,
     controlId,
     required,
-    elementAttributes,
+    attr,
 }: FormFieldProps) {
     const errorMessage = invalid && errorMessageProp ? errorMessageProp : undefined;
     const errorMessageId = errorMessage ? `${controlId}-error-message` : undefined;
@@ -88,7 +88,7 @@ export function FormField({
     if (typeof children !== 'function') return null;
 
     return (
-        <div {...elementAttributes} data-bspk="form-field" data-invalid={invalid}>
+        <div {...attr} data-bspk="form-field" data-invalid={invalid}>
             <header>
                 <label htmlFor={controlId}>
                     <Txt as="span" variant="labels-small">

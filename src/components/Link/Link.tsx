@@ -58,16 +58,7 @@ export type LinkProps = ElementAttributes<
  * @name Link
  * @phase UXReview
  */
-export function Link({
-    label,
-    trailingIcon,
-    size,
-    variant,
-    target = '_self',
-    href,
-    disabled,
-    elementAttributes,
-}: LinkProps) {
+export function Link({ label, trailingIcon, size, variant, target = '_self', href, disabled, attr }: LinkProps) {
     let LazyIcon: LazyExoticComponent<ComponentType<unknown>> | undefined = undefined;
 
     if (trailingIcon === 'external')
@@ -83,7 +74,7 @@ export function Link({
 
     return (
         <a
-            {...elementAttributes}
+            {...attr}
             aria-disabled={disabled || undefined}
             data-bspk="link"
             data-size={size}

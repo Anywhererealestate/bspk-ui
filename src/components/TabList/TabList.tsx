@@ -56,7 +56,7 @@ const optionId = (id: string, index: number) => `${id}-item-${index + 1}`;
 
 export type TabListProps<O extends TabOption = TabOption> = ElementAttributes<
     'ul',
-    CommonProps<'data-bspk' | 'style'> & {
+    CommonProps<'style'> & {
         /**
          * The tabs to display.
          *
@@ -157,8 +157,7 @@ export function TabList({
     label,
     id: idProp,
     iconsOnly: iconsOnlyProp = false,
-    elementAttributes,
-    'data-bspk': bspk,
+    attr,
     style,
 }: TabListProps) {
     const id = useId(idProp);
@@ -189,9 +188,8 @@ export function TabList({
 
     return (
         <ul
-            {...elementAttributes}
+            {...attr}
             aria-label={label}
-            data-bspk={bspk}
             data-bspk-utility="tab-list"
             data-hug={width === 'hug' || undefined}
             data-size={size}

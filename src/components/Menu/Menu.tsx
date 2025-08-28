@@ -101,7 +101,7 @@ export function Menu({
     owner,
     scroll = true,
     container,
-    elementAttributes,
+    attr,
     role,
     style,
 }: MenuProps) {
@@ -120,7 +120,7 @@ export function Menu({
     const menu = (
         <>
             <div
-                {...elementAttributes}
+                {...attr}
                 data-bspk="menu"
                 data-bspk-owner={owner || undefined}
                 data-floating={floating || undefined}

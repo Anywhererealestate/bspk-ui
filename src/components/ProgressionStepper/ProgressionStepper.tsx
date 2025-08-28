@@ -77,11 +77,11 @@ export function ProgressionStepper({
     steps = [],
     currentStep: currentStepProp = 0,
     variant = 'horizontal',
-    elementAttributes,
+    attr,
 }: ProgressionStepperProps) {
     const currentStep = Math.max(0, Math.min(currentStepProp, steps.length + 1));
     return !steps?.length ? null : (
-        <div {...elementAttributes} data-bspk="progression-stepper" data-variant={variant}>
+        <div {...attr} data-bspk="progression-stepper" data-variant={variant}>
             {variant === 'widget' && (
                 <label>
                     <span data-title>{steps[Math.max(0, Math.min(currentStep - 1, steps.length - 1))].name}</span>

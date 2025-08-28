@@ -110,7 +110,7 @@ export function TextInput({
     owner,
     'aria-describedby': ariaDescribedBy,
     'aria-errormessage': ariaErrorMessage,
-    elementAttributes,
+    attr,
     inputProps,
 }: TextInputProps) {
     const id = useId(idProp);
@@ -119,7 +119,7 @@ export function TextInput({
 
     return (
         <div
-            {...elementAttributes}
+            {...attr}
             data-bspk="text-input"
             data-bspk-owner={owner || undefined}
             data-clear-hidden={showClearButton === false || undefined}

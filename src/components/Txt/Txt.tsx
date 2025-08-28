@@ -63,7 +63,7 @@ export function Txt<As extends ElementType = 'span'>({
     variant = 'body-base',
     skeletonLines = 0,
     inherit,
-    elementAttributes,
+    attr,
     id,
     style,
 }: TxtProps<As>) {
@@ -75,7 +75,7 @@ export function Txt<As extends ElementType = 'span'>({
 
     return (
         <As
-            {...elementAttributes}
+            {...attr}
             data-bspk="txt"
             id={id}
             style={{

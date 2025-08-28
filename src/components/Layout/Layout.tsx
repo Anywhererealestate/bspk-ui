@@ -60,7 +60,7 @@ export function Layout<As extends ElementType = 'div'>({
     as,
     align = 'flex-start',
     justify = 'flex-start',
-    elementAttributes,
+    attr,
     style,
 }: LayoutProps) {
     const As: ElementType = as || 'div';
@@ -70,7 +70,7 @@ export function Layout<As extends ElementType = 'div'>({
 
     return (
         <As
-            {...elementAttributes}
+            {...attr}
             // data-bspk="layout" -- Utility components do not need a data-bspk attribute
             style={{
                 ...style,

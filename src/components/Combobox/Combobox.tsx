@@ -119,7 +119,7 @@ export function Combobox<Item extends ComboboxItemProps>({
     description,
     owner,
     label,
-    elementAttributes,
+    attr,
 }: ComboboxProps<Item>) {
     const menuId = useId(idProp);
     const { isMobile } = useUIContext();
@@ -152,8 +152,8 @@ export function Combobox<Item extends ComboboxItemProps>({
             {children({ toggleProps, setReference: elements.setReference })}
             {isMobile ? (
                 <Modal
+                    attr={attr}
                     description={description}
-                    elementAttributes={elementAttributes}
                     header={label}
                     onClose={closeMenu}
                     open={isOpen}
@@ -168,7 +168,6 @@ export function Combobox<Item extends ComboboxItemProps>({
                         <ListItems
                             activeIndex={activeIndex}
                             allSelected={allSelected}
-                            data-testid="listbox-items"
                             isMulti={isMulti}
                             items={items}
                             menuId={menuId}
@@ -184,13 +183,13 @@ export function Combobox<Item extends ComboboxItemProps>({
             ) : (
                 <Menu
                     aria-multiselectable={isMulti || undefined}
+                    attr={{
+                        ...attr,
+                        tabIndex: -1,
+                    }}
                     data-bspk="listbox"
                     data-disabled={disabled || undefined}
                     data-no-items={!items.length || undefined}
-                    elementAttributes={{
-                        ...elementAttributes,
-                        tabIndex: -1,
-                    }}
                     id={menuId}
                     innerRef={(node) => {
                         elements.setFloating(node);
@@ -204,7 +203,6 @@ export function Combobox<Item extends ComboboxItemProps>({
                     <ListItems
                         activeIndex={activeIndex}
                         allSelected={allSelected}
-                        data-testid="listbox-items"
                         isMulti={isMulti}
                         items={items}
                         menuId={menuId}

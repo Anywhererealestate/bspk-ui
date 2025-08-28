@@ -104,7 +104,7 @@ function ListItem<As extends ElementType = 'div'>({
     role,
     subText,
     trailing,
-    elementAttributes,
+    attr,
     href,
     onClick,
     id,
@@ -123,7 +123,7 @@ function ListItem<As extends ElementType = 'div'>({
 
     return (
         <As
-            {...elementAttributes}
+            {...attr}
             aria-disabled={disabled || undefined}
             aria-label={
                 As === 'label' || As === 'span' || As === 'div' || includeAriaLabel === false ? undefined : label

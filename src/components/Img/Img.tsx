@@ -31,8 +31,8 @@ export type ImgProps = ElementAttributes<
  * @name Img
  * @phase Backlog
  */
-export function Img({ alt, src, elementAttributes }: ImgProps) {
-    return <img {...elementAttributes} alt={alt} data-bspk="img" src={src} />;
+export function Img({ alt, src, attr }: ImgProps) {
+    return <img {...attr} alt={alt} data-bspk="img" src={src} />;
 }
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
