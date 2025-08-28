@@ -95,11 +95,11 @@ export function CheckboxGroup({
     readOnly,
     'aria-describedby': ariaDescribedBy,
     'aria-errormessage': ariaErrorMessage,
-    ...props
+    attr,
 }: CheckboxGroupProps) {
     return (
         <div
-            {...props}
+            {...attr}
             aria-describedby={ariaErrorMessage || ariaDescribedBy || undefined}
             data-bspk="checkbox-group"
             role="group"

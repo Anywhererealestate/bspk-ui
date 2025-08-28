@@ -150,7 +150,7 @@ export function SearchBar({
                     }}
                     disabled={disabled}
                     id={id}
-                    inputProps={{
+                    inputAttr={{
                         onClick,
                         onKeyDownCapture: (event) => {
                             const handled = onKeyDownCapture(event);

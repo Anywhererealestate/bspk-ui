@@ -65,7 +65,7 @@ export type TextInputProps = ElementAttributes<
     > &
         FormFieldControlProps &
         TextInputBaseProps & {
-            inputProps?: Omit<React.InputHTMLAttributes<HTMLInputElement>, keyof TextInputBaseProps>;
+            inputAttr?: Omit<React.InputHTMLAttributes<HTMLInputElement>, keyof TextInputBaseProps>;
         }
 >;
 
@@ -111,7 +111,7 @@ export function TextInput({
     'aria-describedby': ariaDescribedBy,
     'aria-errormessage': ariaErrorMessage,
     attr,
-    inputProps,
+    inputAttr,
 }: TextInputProps) {
     const id = useId(idProp);
 
@@ -133,6 +133,7 @@ export function TextInput({
             {leading && <span data-leading>{leading}</span>}
 
             <input
+                {...inputAttr}
                 aria-describedby={ariaDescribedBy || undefined}
                 aria-errormessage={ariaErrorMessage || undefined}
                 aria-invalid={invalid || undefined}
@@ -150,7 +151,6 @@ export function TextInput({
                 required={required || undefined}
                 type={type}
                 value={value || ''}
-                {...inputProps}
             />
 
             {trailing && <span data-trailing>{trailing}</span>}

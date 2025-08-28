@@ -5,7 +5,7 @@ import { CommonProps, ElementAttributes, FormFieldControlProps, RequiredCommonPr
 import './checkbox.scss';
 
 export type CheckboxProps = ElementAttributes<
-    'input',
+    'span',
     CommonProps<'aria-label' | 'disabled' | 'invalid' | 'name' | 'readOnly'> &
         FormFieldControlProps &
         RequiredCommonProps<'value'> & {
@@ -74,7 +74,7 @@ export function Checkbox({
     onChange,
     'aria-describedby': ariaDescribedBy,
     'aria-errormessage': ariaErrorMessage,
-    attr,
+    attr: attr,
     value,
 }: CheckboxProps) {
     const indeterminate = !!indeterminateProp;
@@ -88,12 +88,8 @@ export function Checkbox({
     }, [indeterminate]);
 
     return (
-        <span
-            //
-            data-bspk="checkbox"
-        >
+        <span {...attr} data-bspk="checkbox">
             <input
-                {...attr}
                 aria-describedby={ariaDescribedBy || undefined}
                 aria-errormessage={ariaErrorMessage || undefined}
                 aria-invalid={invalid || undefined}

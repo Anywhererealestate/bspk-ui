@@ -85,10 +85,17 @@ export function BannerAlert({
     header,
     callToAction,
     body,
+    attr,
     elevated = false,
 }: BannerAlertProps) {
     return (
-        <div data-bspk="banner-alert" data-elevated={elevated || undefined} data-variant={variant} role="alert">
+        <div
+            {...attr}
+            data-bspk="banner-alert"
+            data-elevated={elevated || undefined}
+            data-variant={variant}
+            role="alert"
+        >
             <div data-icon-bar>
                 {variant === 'error' && <SvgErrorFill />}
                 {variant === 'informational' && <SvgInfoFill />}
