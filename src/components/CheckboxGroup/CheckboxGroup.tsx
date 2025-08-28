@@ -81,7 +81,7 @@ export type CheckboxGroupProps = CommonProps<'aria-label' | 'disabled' | 'readOn
  * @name CheckboxGroup
  * @phase UXReview
  */
-function CheckboxGroup({
+export function CheckboxGroup({
     onChange,
     options = [],
     name,
@@ -136,8 +136,5 @@ function CheckboxGroup({
     );
 }
 
-CheckboxGroup.bspkName = 'CheckboxGroup';
-
-export { CheckboxGroup };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

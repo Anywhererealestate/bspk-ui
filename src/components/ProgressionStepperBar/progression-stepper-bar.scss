@@ -31,7 +31,7 @@
         }
     }
 
-    label {
+    [data-label] {
         font: var(--labels-small);
     }
 }

@@ -22,6 +22,7 @@
 }
 
 :root {
+    --z-index-focus: 9999;
     --z-index-tooltip-popover: 1100;
     --z-index-dialog: 1000;
     --z-index-dropdown: 1000;
@@ -167,15 +168,11 @@ body[data-bspk] {
 }
 
 [data-sr-only] {
-    position: absolute;
-    width: 1px;
     height: 1px;
-    padding: 0;
-    margin: -1px;
     overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border-width: 0;
+    position: absolute !important;
+    width: 1px;
+    clip: rect(1px, 1px, 1px, 1px);
 }
 
 [data-touch-target] ~ * {

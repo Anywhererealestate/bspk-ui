@@ -11,7 +11,7 @@ export type RadioOptionProps = ToggleOptionControlProps<RadioProps>;
  * @name RadioOption
  * @phase Utility
  */
-function RadioOption({ label: labelProp, description, disabled, ...radioProps }: RadioOptionProps) {
+export function RadioOption({ label: labelProp, description, disabled, ...radioProps }: RadioOptionProps) {
     const label = labelProp || description;
     const ariaLabel = description ? `${labelProp} - ${description}` : labelProp;
     return (
@@ -23,8 +23,5 @@ function RadioOption({ label: labelProp, description, disabled, ...radioProps }:
     );
 }
 
-RadioOption.bspkName = 'RadioOption';
-
-export { RadioOption };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

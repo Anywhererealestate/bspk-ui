@@ -8,12 +8,9 @@ import '-/styles/base.scss';
  * @phase Utility
  * @generated
  */
-function StylesProviderCentury21(): JSX.Element | null {
+export function StylesProviderCentury21(): JSX.Element | null {
     return null;
 }
 
-StylesProviderCentury21.bspkName = 'StylesProviderCentury21';
-
-export { StylesProviderCentury21 };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

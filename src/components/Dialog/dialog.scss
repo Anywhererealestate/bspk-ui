@@ -1,8 +1,62 @@
 [data-bspk='dialog'] {
+    --width: 600px; // default width for dialog box
+
     position: fixed;
     inset: 0;
     z-index: var(--z-index-dialog);
     pointer-events: none; // makes scrim clckable
+
+    @keyframes fade-in {
+        0% {
+            opacity: 0;
+            transform: translate(var(--spacing-sizing-01), var(--spacing-sizing-01));
+        }
+
+        100% {
+            opacity: 1;
+            transform: translate(0, 0);
+        }
+    }
+
+    @keyframes placement-left {
+        0% {
+            transform: translateX(-100vw);
+        }
+
+        100% {
+            transform: translateX(0);
+        }
+    }
+
+    @keyframes placement-right {
+        0% {
+            transform: translateX(100vw);
+        }
+
+        100% {
+            transform: translateX(0);
+        }
+    }
+
+    @keyframes placement-top {
+        0% {
+            transform: translateY(-100vh);
+        }
+
+        100% {
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes placement-bottom {
+        0% {
+            transform: translateY(100vh);
+        }
+
+        100% {
+            transform: translateY(0);
+        }
+    }
 
     [data-dialog-box] {
         pointer-events: all; // allow pointer events on the dialog box
@@ -14,6 +68,11 @@
         color: var(--foreground-neutral-on-surface);
         max-height: calc(100vh - var(--spacing-sizing-24));
         z-index: 2;
+        width: calc(100% - var(--spacing-sizing-08));
+        animation-name: var(--box-animation-name);
+        animation-duration: 0.5s;
+        animation-iteration-count: 1;
+        animation-fill-mode: forwards;
 
         > :first-of-type {
             margin-top: 0;
@@ -22,8 +81,6 @@
         > :last-child {
             margin-bottom: 0;
         }
-
-        width: calc(100% - var(--spacing-sizing-08));
 
         // we make the width responsive to the viewport
         @media (width >= 640px) {
@@ -43,77 +100,48 @@
         }
     }
 
-    [data-dialog-backdrop] {
-        z-index: 1;
-        position: fixed;
-        inset: 0;
-        background-color: var(--background-scrim);
-        opacity: 0;
-        transition: opacity 0.3s;
-    }
-
-    &[data-visibility='show'] {
-        [data-dialog-backdrop] {
-            opacity: 1;
-        }
-    }
-
     &[data-placement='center'] {
+        --box-animation-name: fade-in;
+
         display: flex;
         justify-content: center;
         align-items: center;
 
         [data-dialog-box] {
-            transition: opacity 1s;
-            opacity: 0;
-        }
-
-        &[data-visibility='show'] {
-            [data-dialog-box] {
-                opacity: 1;
-            }
+            position: absolute;
         }
     }
 
     &[data-placement='bottom'] {
+        --box-animation-name: placement-bottom;
+
         [data-dialog-box] {
             position: absolute;
             border-bottom-left-radius: 0;
             border-bottom-right-radius: 0;
-            width: 600px;
-            left: 50%;
+            width: var(--width);
+            left: calc(50% - var(--width) / 2);
             transform: translateX(-50%);
-            bottom: -100vh;
-            transition: bottom 0.3s;
-        }
-
-        &[data-visibility='show'] {
-            [data-dialog-box] {
-                bottom: 0;
-            }
+            bottom: 0;
         }
     }
 
     &[data-placement='top'] {
+        --box-animation-name: placement-top;
+
         [data-dialog-box] {
             position: absolute;
             border-top-left-radius: 0;
             border-top-right-radius: 0;
-            width: 600px;
-            left: 50%;
-            transform: translateX(-50%);
-            top: -100vh;
-            transition: top 0.3s;
-        }
-
-        &[data-visibility='show'] {
-            [data-dialog-box] {
-                top: 0;
-            }
+            width: var(--width);
+            left: calc(50% - var(--width) / 2);
+            top: 0;
         }
     }
 
     &[data-placement='left'] {
+        --box-animation-name: placement-left;
+
         [data-dialog-box] {
             position: absolute;
             max-height: unset;
@@ -121,18 +149,13 @@
             height: 100vh;
             border-bottom-left-radius: 0;
             border-top-left-radius: 0;
-            left: -100vw;
-            transition: left 0.3s;
-        }
-
-        &[data-visibility='show'] {
-            [data-dialog-box] {
-                left: 0;
-            }
+            left: 0;
         }
     }
 
     &[data-placement='right'] {
+        --box-animation-name: placement-right;
+
         [data-dialog-box] {
             position: absolute;
             max-height: unset;
@@ -140,14 +163,7 @@
             height: 100vh;
             border-bottom-right-radius: 0;
             border-top-right-radius: 0;
-            right: -100vw;
-            transition: right 0.3s;
-        }
-
-        &[data-visibility='show'] {
-            [data-dialog-box] {
-                right: 0;
-            }
+            right: 0;
         }
     }
 }

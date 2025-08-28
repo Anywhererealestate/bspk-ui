@@ -1,5 +1,4 @@
 import { TabOption, TabList, TabListProps } from '-/components/TabList';
-import { useOptionIconsInvalid } from '-/hooks/useOptionIconsInvalid';
 import { ElementProps } from '-/types/common';
 
 import './segmented-control.scss';
@@ -34,21 +33,15 @@ export type SegmentedControlProps = TabListProps<SegmentedControlOption>;
  * @name SegmentedControl
  * @phase UXReview
  */
-function SegmentedControl({
+export function SegmentedControl({
     onChange,
     value,
     size = 'medium',
-    options: optionsProp,
+    options,
     width = 'hug',
-    iconsOnly: iconsOnlyProp = false,
+    iconsOnly,
     ...containerProps
 }: ElementProps<SegmentedControlProps, 'ul'>) {
-    const options = Array.isArray(optionsProp) ? optionsProp : [];
-    useOptionIconsInvalid(options);
-
-    // If all options have icons, we can hide the labels
-    const iconsOnly = iconsOnlyProp === true && options.every((item) => item.icon && item.label);
-
     return (
         <TabList
             {...containerProps}
@@ -63,8 +56,5 @@ function SegmentedControl({
     );
 }
 
-SegmentedControl.bspkName = 'SegmentedControl';
-
-export { SegmentedControl };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

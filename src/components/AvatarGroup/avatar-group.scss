@@ -7,7 +7,22 @@
         flex-direction: row;
         align-items: end;
         justify-content: end;
-        gap: var(--spacing-sizing-02);
         overflow: hidden;
+    }
+
+    [data-gap='01'] {
+        gap: var(--spacing-sizing-01);
+    }
+
+    [data-gap='02'] {
+        gap: var(--spacing-sizing-02);
+    }
+
+    [data-stacked='02']:not(:last-child) {
+        margin-right: -8px;
+    }
+
+    [data-stacked='01']:not(:last-child) {
+        margin-right: -4px;
     }
 }

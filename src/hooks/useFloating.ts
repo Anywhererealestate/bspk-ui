@@ -65,11 +65,9 @@ export type UseFloatingProps = {
     /**
      * When set to true, the width of the floating element will match the width of the reference element.
      *
-     * When set to an HTMLElement, the width of the floating element will match the width of that HTMLElement.
-     *
      * @default true
      */
-    refWidth?: HTMLElement | boolean;
+    refWidth?: boolean;
     /** Whether to hide the floating element. */
     hide?: boolean;
 };
@@ -162,10 +160,10 @@ export function useFloating<ReferenceElementType extends HTMLElement = HTMLEleme
                     refWidth &&
                         size({
                             apply({ rects, elements }: MiddlewareState) {
-                                Object.assign(elements.floating.style, {
-                                    width:
-                                        refWidth === true ? `${rects.reference.width}px` : `${refWidth.offsetWidth}px`,
-                                });
+                                if (refWidth)
+                                    Object.assign(elements.floating.style, {
+                                        width: `${rects.reference.width}px`,
+                                    });
                             },
                         }),
                 ],

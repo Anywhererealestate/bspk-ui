@@ -11,7 +11,7 @@ export type SwitchOptionProps = ToggleOptionControlProps<SwitchProps>;
  * @name SwitchOption
  * @phase UXReview
  */
-function SwitchOption({ label: labelProp, description, ...checkboxProps }: SwitchOptionProps) {
+export function SwitchOption({ label: labelProp, description, ...checkboxProps }: SwitchOptionProps) {
     const label = labelProp || description;
     const ariaLabel = description ? `${labelProp} - ${description}` : labelProp;
 
@@ -24,8 +24,5 @@ function SwitchOption({ label: labelProp, description, ...checkboxProps }: Switc
     );
 }
 
-SwitchOption.bspkName = 'SwitchOption';
-
-export { SwitchOption };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

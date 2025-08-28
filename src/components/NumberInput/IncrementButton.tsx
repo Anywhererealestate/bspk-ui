@@ -9,7 +9,7 @@ export type IncrementButtonProps = {
     inputId: string;
 };
 
-function IncrementButton({ increment, disabled, onIncrement, inputId }: IncrementButtonProps) {
+export function IncrementButton({ increment, disabled, onIncrement, inputId }: IncrementButtonProps) {
     const add = increment === 1;
 
     const { setTriggerElement, ...handlers } = useLongPress(() => onIncrement(increment), disabled);
@@ -29,4 +29,3 @@ function IncrementButton({ increment, disabled, onIncrement, inputId }: Incremen
         </button>
     );
 }
-export { IncrementButton };

@@ -1,7 +1,7 @@
 // import { ReactNode, useMemo, useRef } from 'react';
 import { ReactNode, useRef } from 'react';
 
-import { Portal } from '-/components/Portal';
+import { Portal, PortalProps } from '-/components/Portal';
 import { useId } from '-/hooks/useId';
 import { useOutsideClick } from '-/hooks/useOutsideClick';
 import { CommonProps, ElementProps, SetRef } from '-/types/common';
@@ -13,55 +13,56 @@ export function menuItemId(menuId: string, index: number) {
     return `menu-${menuId}-item-${index}`;
 }
 
-export type MenuProps = CommonProps<'id' | 'owner'> & {
-    /** A ref to the inner div element. */
-    innerRef?: SetRef<HTMLDivElement>;
-    /**
-     * The items to display in the menu. These should be ListItem and Divider components.
-     *
-     * @required
-     */
-    children: ReactNode;
-    /**
-     * Should the menu be rendered in a portal? This is useful for menus that need to be rendered outside of the normal
-     * DOM flow, such as dropdowns or modals.
-     *
-     * @default true
-     */
-    portal?: boolean;
-    /**
-     * The number of items to show in the menu. This is used to determine the height of the menu.
-     *
-     * @default 1
-     */
-    itemDisplayCount?: number;
-    /**
-     * The number of items in the menu.
-     *
-     * @default 1
-     */
-    itemCount?: number;
-    /**
-     * Whether the menu is rendered as a floating element.
-     *
-     * @default true
-     */
-    floating?: boolean;
-    /**
-     * A function that is called when the user clicks outside of the menu.
-     *
-     * @required
-     */
-    onOutsideClick: () => void;
-    /**
-     * Whether or not the menu is scrollable.
-     *
-     * Setting to false will override itemDisplayCount.
-     *
-     * @default true
-     */
-    scroll?: boolean;
-};
+export type MenuProps = CommonProps<'id' | 'owner'> &
+    Pick<PortalProps, 'container'> & {
+        /** A ref to the inner div element. */
+        innerRef?: SetRef<HTMLDivElement>;
+        /**
+         * The items to display in the menu. These should be ListItem and Divider components.
+         *
+         * @required
+         */
+        children: ReactNode;
+        /**
+         * Should the menu be rendered in a portal? This is useful for menus that need to be rendered outside of the
+         * normal DOM flow, such as dropdowns or modals.
+         *
+         * @default true
+         */
+        portal?: boolean;
+        /**
+         * The number of items to show in the menu. This is used to determine the height of the menu.
+         *
+         * @default 1
+         */
+        itemDisplayCount?: number;
+        /**
+         * The number of items in the menu.
+         *
+         * @default 1
+         */
+        itemCount?: number;
+        /**
+         * Whether the menu is rendered as a floating element.
+         *
+         * @default true
+         */
+        floating?: boolean;
+        /**
+         * A function that is called when the user clicks outside of the menu.
+         *
+         * @required
+         */
+        onOutsideClick: () => void;
+        /**
+         * Whether or not the menu is scrollable.
+         *
+         * Setting to false will override itemDisplayCount.
+         *
+         * @default true
+         */
+        scroll?: boolean;
+    };
 
 /**
  * A container housing a simple list of options presented to the customer to select one option at a time.
@@ -84,7 +85,7 @@ export type MenuProps = CommonProps<'id' | 'owner'> & {
  * @name Menu
  * @phase UXReview
  */
-function Menu({
+export function Menu({
     //
     innerRef,
     id: idProp,
@@ -96,6 +97,7 @@ function Menu({
     onOutsideClick,
     owner,
     scroll = true,
+    container,
     ...props
 }: ElementProps<MenuProps, 'div'>) {
     const menuId = useId(idProp);
@@ -133,11 +135,8 @@ function Menu({
         </>
     );
 
-    return portal ? <Portal>{menu}</Portal> : menu;
+    return portal ? <Portal container={container}>{menu}</Portal> : menu;
 }
 
-Menu.bspkName = 'Menu';
-
-export { Menu };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
