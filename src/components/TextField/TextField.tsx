@@ -29,7 +29,7 @@ export type TextFieldProps = FormFieldWrapProps<TextInputProps>;
  * @name TextField
  * @phase UXReview
  */
-function TextField({
+export function TextField({
     label,
     errorMessage,
     helperText,
@@ -65,8 +65,5 @@ function TextField({
     );
 }
 
-TextField.bspkName = 'TextField';
-
-export { TextField };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

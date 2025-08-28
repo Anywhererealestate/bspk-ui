@@ -81,7 +81,7 @@ export type PopoverProps = CommonProps<'disabled'> &
  * @name Popover
  * @phase UXReview
  */
-function Popover({
+export function Popover({
     placement = 'top',
     header,
     content,
@@ -194,8 +194,5 @@ function Popover({
     );
 }
 
-Popover.bspkName = 'Popover';
-
-export { Popover };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

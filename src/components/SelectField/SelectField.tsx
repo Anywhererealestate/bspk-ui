@@ -33,7 +33,7 @@ export type SelectFieldProps = FormFieldWrapProps<SelectProps>;
  * @name SelectField
  * @phase Dev
  */
-function SelectField({
+export function SelectField({
     label,
     helperText,
     controlId,
@@ -68,8 +68,5 @@ function SelectField({
     );
 }
 
-SelectField.bspkName = 'SelectField';
-
-export { SelectField };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

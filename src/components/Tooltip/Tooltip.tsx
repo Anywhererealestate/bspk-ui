@@ -62,7 +62,7 @@ export type TooltipProps = {
  * @name Tooltip
  * @phase UXReview
  */
-function Tooltip({
+export function Tooltip({
     placement = DEFAULT.placement,
     label,
     children,
@@ -119,7 +119,7 @@ function Tooltip({
                                 arrowRef.current = node;
                             }}
                             style={{
-                                zIndex: 1000,
+                                zIndex: 'var(--z-index-tooltip-popover)',
                                 opacity: showTail ? 1 : 0,
                                 left: middlewareData.arrow?.x != null ? `${middlewareData.arrow?.x}px` : '',
                                 top: middlewareData.arrow?.y != null ? `${middlewareData.arrow?.y}px` : '',
@@ -132,8 +132,5 @@ function Tooltip({
     );
 }
 
-Tooltip.bspkName = 'Tooltip';
-
-export { Tooltip };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
