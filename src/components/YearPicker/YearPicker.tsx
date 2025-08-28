@@ -94,5 +94,3 @@ export function YearPicker({ onChange, value, variant = 'flat' }: YearPickerProp
         </div>
     );
 }
-
-YearPicker.bspkName = 'YearPicker';

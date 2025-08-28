@@ -176,5 +176,3 @@ export function DatePicker({ onChange, value, variant = 'flat' }: DatePickerProp
         </div>
     );
 }
-
-DatePicker.bspkName = 'DatePicker';

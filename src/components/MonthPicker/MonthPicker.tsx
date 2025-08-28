@@ -124,5 +124,3 @@ export function MonthPicker({ onChange, value, variant = 'flat' }: MonthPickerPr
         </div>
     );
 }
-
-MonthPicker.bspkName = 'MonthPicker';

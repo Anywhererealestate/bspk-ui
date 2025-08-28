@@ -48,7 +48,7 @@ export type CalendarInputProps = Pick<
  * @name CalendarInput
  * @phase Dev
  */
-function CalendarInput({
+export function CalendarInput({
     value,
     onChange,
     disabled,
@@ -132,9 +132,5 @@ function CalendarInput({
         </span>
     );
 }
-
-CalendarInput.bspkName = 'CalendarInput';
-
-export { CalendarInput };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
