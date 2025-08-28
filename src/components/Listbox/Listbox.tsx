@@ -4,7 +4,7 @@ import { Checkbox } from '-/components/Checkbox';
 import { ListItem, ListItemProps } from '-/components/ListItem';
 import { Menu, MenuProps } from '-/components/Menu';
 import { useId } from '-/hooks/useId';
-import { CommonProps, ElementAttributes, SetRef } from '-/types/common';
+import { CommonProps, SetRef } from '-/types/common';
 
 const DEFAULT = {
     selectAll: 'Select All',
@@ -19,79 +19,72 @@ export type ListboxItemProps = CommonProps<'disabled'> &
         value: string;
     };
 
-export type ListboxProps<Item extends ListboxItemProps = ListboxItemProps> = ElementAttributes<
-    typeof Menu,
-    CommonProps<'disabled' | 'id'> &
-        Pick<MenuProps, 'elementAttributes' | 'itemCount' | 'itemDisplayCount' | 'onOutsideClick' | 'owner'> & {
-            /**
-             * Content to display in the listbox.
-             *
-             * @example
-             *     [
-             *         { value: '1', label: 'Option 1' },
-             *         { value: '2', label: 'Option 2' },
-             *         { value: '3', label: 'Option 3' },
-             *         { value: '4', label: 'Option 4' },
-             *         { value: '5', label: 'Option 5' },
-             *         { value: '6', label: 'Option 6' },
-             *         { value: '7', label: 'Option 7' },
-             *         { value: '8', label: 'Option 8' },
-             *         { value: '9', label: 'Option 9' },
-             *         { value: '10', label: 'Option 10' },
-             *     ];
-             *
-             * @type Array<MenuItem>
-             */
-            items?: Item[];
-            /** A ref to the inner div element. */
-            innerRef?: SetRef<HTMLDivElement>;
-            /**
-             * The index of the currently highlighted item.
-             *
-             * @default undefined
-             */
-            activeIndex?: number;
-            /** The values of the selected items */
-            selectedValues?: string[];
-            /** A function which returns additional ListItem props to apply to each ListItem. */
-            listItemProps?: (props: {
-                index: number;
-                item: Item;
-                selected: boolean;
-            }) => Partial<ListItemProps<'button'>>;
-            /**
-             * Whether the listbox allows multiple selections.
-             *
-             * @default false
-             */
-            isMulti?: boolean;
-            /**
-             * The label for the "Select All" option.
-             *
-             * Ignored if `isMulti` is false.
-             *
-             * If `isMulti` is `true`, defaults to "Select All". If a string, it will be used as the label. If false the
-             * select all option will not be rendered.
-             *
-             * @default false
-             */
-            selectAll?: boolean | string;
-            /**
-             * The function to call when the selected values change.
-             *
-             * @example
-             *     (selectedValues, event) => setState({ selectedValues });
-             */
-            onChange?: (selectedValues: string[], event?: React.MouseEvent<HTMLElement, MouseEvent>) => void;
-            /**
-             * The children of the listbox added after the items.
-             *
-             * Usually only used for showing no items found.
-             */
-            children?: ReactNode;
-            includeAriaLabel?: boolean;
-        }
->;
+export type ListboxProps<Item extends ListboxItemProps = ListboxItemProps> = CommonProps<'disabled' | 'id'> &
+    Pick<MenuProps, 'elementAttributes' | 'itemCount' | 'itemDisplayCount' | 'onOutsideClick' | 'owner'> & {
+        /**
+         * Content to display in the listbox.
+         *
+         * @example
+         *     [
+         *         { value: '1', label: 'Option 1' },
+         *         { value: '2', label: 'Option 2' },
+         *         { value: '3', label: 'Option 3' },
+         *         { value: '4', label: 'Option 4' },
+         *         { value: '5', label: 'Option 5' },
+         *         { value: '6', label: 'Option 6' },
+         *         { value: '7', label: 'Option 7' },
+         *         { value: '8', label: 'Option 8' },
+         *         { value: '9', label: 'Option 9' },
+         *         { value: '10', label: 'Option 10' },
+         *     ];
+         *
+         * @type Array<MenuItem>
+         */
+        items?: Item[];
+        /** A ref to the inner div element. */
+        innerRef?: SetRef<HTMLDivElement>;
+        /**
+         * The index of the currently highlighted item.
+         *
+         * @default undefined
+         */
+        activeIndex?: number;
+        /** The values of the selected items */
+        selectedValues?: string[];
+        /** A function which returns additional ListItem props to apply to each ListItem. */
+        listItemProps?: (props: { index: number; item: Item; selected: boolean }) => Partial<ListItemProps<'button'>>;
+        /**
+         * Whether the listbox allows multiple selections.
+         *
+         * @default false
+         */
+        isMulti?: boolean;
+        /**
+         * The label for the "Select All" option.
+         *
+         * Ignored if `isMulti` is false.
+         *
+         * If `isMulti` is `true`, defaults to "Select All". If a string, it will be used as the label. If false the
+         * select all option will not be rendered.
+         *
+         * @default false
+         */
+        selectAll?: boolean | string;
+        /**
+         * The function to call when the selected values change.
+         *
+         * @example
+         *     (selectedValues, event) => setState({ selectedValues });
+         */
+        onChange?: (selectedValues: string[], event?: React.MouseEvent<HTMLElement, MouseEvent>) => void;
+        /**
+         * The children of the listbox added after the items.
+         *
+         * Usually only used for showing no items found.
+         */
+        children?: ReactNode;
+        includeAriaLabel?: boolean;
+    };
 
 /**
  * A utility widget that allows users to select one or more items from a list of choices.

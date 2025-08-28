@@ -27,8 +27,6 @@ export type TxtProps<As extends ElementType = 'span'> = ElementAttributes<
          * @default body-base
          */
         variant?: TxtVariant;
-        /** The id of the element. */
-        id?: string;
         /**
          * The number of lines to display for skeleton text.
          *
