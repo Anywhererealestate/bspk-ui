@@ -27,7 +27,7 @@ export type CalendarInputProps = Pick<
         /**
          * If the calendar should close when a date is selected.
          *
-         * @default false
+         * @default true
          */
         closeCalendarOnChange?: boolean;
     };
@@ -53,7 +53,7 @@ function CalendarInput({
     onChange,
     disabled,
     readOnly,
-    closeCalendarOnChange = false,
+    closeCalendarOnChange = true,
     ...restProps
 }: CalendarInputProps) {
     const [textValue, setTextValue] = useState(value ? format(value, 'MM/dd/yyyy') : '');
@@ -110,25 +110,21 @@ function CalendarInput({
                     {...restProps}
                     showClearButton={false}
                     trailing={
-                        <button
-                            aria-label="Toggle calendar"
-                            onClick={
-                                calendarVisible || disabled || readOnly ? undefined : () => setCalendarVisible(true)
-                            }
-                        >
-                            <SvgEvent />
-                        </button>
+                        calendarVisible || disabled || readOnly ? undefined : (
+                            <button aria-label="Toggle calendar" onClick={() => setCalendarVisible(true)}>
+                                <SvgEvent />
+                            </button>
+                        )
                     }
                 />
             </div>
             <Portal>
                 <div
-                    data-calendar-popup=""
                     data-placement="bottom"
                     ref={(node) => {
                         elements.setFloating(node);
                     }}
-                    style={{ ...floatingStyles, zIndex: 1000 }}
+                    style={{ ...floatingStyles, zIndex: 'var( --z-index-dropdown)' }}
                 >
                     <DatePicker onChange={handleChange} value={value} variant="elevated" />
                 </div>

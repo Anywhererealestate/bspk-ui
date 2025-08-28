@@ -4,13 +4,19 @@ import { useEffect, useState } from 'react';
 import '-/components/DatePicker/date-picker.scss';
 import './month-picker.scss';
 
+/** Represents the year and month of a date. */
 export type YearMonth = {
+    /** The year of the selected month */
     year: number;
+    /** The index of the selected month */
     monthIndex: number;
 };
-
 export type MonthPickerProps = {
-    /** The currently selected year and month */
+    /**
+     * The currently selected year and month
+     *
+     * @type YearMonth
+     */
     value?: YearMonth;
     /** Fires when the date changes with the new date */
     onChange?: (newValue: YearMonth) => void;

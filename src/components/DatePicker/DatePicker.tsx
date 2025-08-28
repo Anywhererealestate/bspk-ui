@@ -1,5 +1,5 @@
-import { SvgArrowLeft } from '@bspk/icons/ArrowLeft';
-import { SvgArrowRight } from '@bspk/icons/ArrowRight';
+import { SvgChevronLeft } from '@bspk/icons/ChevronLeft';
+import { SvgChevronRight } from '@bspk/icons/ChevronRight';
 import { SvgKeyboardDoubleArrowLeft } from '@bspk/icons/KeyboardDoubleArrowLeft';
 import { SvgKeyboardDoubleArrowRight } from '@bspk/icons/KeyboardDoubleArrowRight';
 import { startOfMonth, endOfMonth, startOfWeek, endOfWeek, addDays, format, isSameDay, isSameMonth } from 'date-fns';
@@ -68,7 +68,7 @@ export function DatePicker({ onChange, value, variant = 'flat' }: DatePickerProp
                     }))
                 }
             >
-                <SvgArrowLeft fontSize="24px" />
+                <SvgChevronLeft fontSize="24px" />
             </button>
 
             <div data-current-period="">{format(viewDate, 'MMMM yyyy')}</div>
@@ -83,7 +83,7 @@ export function DatePicker({ onChange, value, variant = 'flat' }: DatePickerProp
                     }))
                 }
             >
-                <SvgArrowRight fontSize="24px" />
+                <SvgChevronRight fontSize="24px" />
             </button>
 
             <button
