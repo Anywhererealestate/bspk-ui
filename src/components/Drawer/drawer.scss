@@ -1,59 +1,61 @@
 [data-bspk='drawer'] {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: fit-content;
-    background-color: var(--surface-spectrum-blue);
+    // display: flex;
+    // flex-direction: column;
+    // justify-content: center;
+    // width: 100%;
+    // background-color: var(--surface-spectrum-blue);
+    box-shadow: var(--drop-shadow-float);
+    background: var(--surface-neutral-t1-base);
+    color: var(--foreground-neutral-on-surface);
+    animation-name: var(--box-animation-name);
+    animation-duration: 0.5s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
 
-    &[data-placement='top'] {
-        position: fixed;
-        top: 0;
-        width: 100%;
-        height: 100px;
-
-        // box-shadow: var(--drop-shadow-east);
-        // z-index: 1000;
-        // transform: translateX(0);
-        // transition: transform 0.3s ease-in-out;
+    [data-responsive] {
+        // width: 100%;
+        // max-width: var(--width);
+        // margin: 0 auto;
     }
 
-    &[data-placement='right'] {
-        position: fixed;
+    &[data-persistent-placement='top'] {
+        --box-animation-name: placement-top;
+
+        position: absolute;
         top: 0;
+        width: 100%;
+        border-bottom-left-radius: var(--radius-lg);
+        border-bottom-right-radius: var(--radius-lg);
+    }
+
+    &[data-persistent-placement='right'] {
+        --box-animation-name: placement-right;
+
+        position: absolute;
         right: 0;
         height: 100%;
-        width: 300px;
-
-        // box-shadow: var(--drop-shadow-east);
-        // z-index: 1000;
-        // transform: translateX(0);
-        // transition: transform 0.3s ease-in-out;
+        border-top-left-radius: var(--radius-lg);
+        border-bottom-left-radius: var(--radius-lg);
     }
 
-    &[data-placement='bottom'] {
-        position: fixed;
+    &[data-persistent-placement='bottom'] {
+        --box-animation-name: placement-bottom;
+
+        position: absolute;
         bottom: 0;
-        right: 0;
-        height: 300px;
         width: 100%;
-
-        // box-shadow: var(--drop-shadow-east);
-        // z-index: 1000;
-        // transform: translateX(0);
-        // transition: transform 0.3s ease-in-out;
+        border-top-left-radius: var(--radius-lg);
+        border-top-right-radius: var(--radius-lg);
     }
 
-    &[data-placement='left'] {
-        position: fixed;
-        top: 0;
+    &[data-persistent-placement='left'] {
+        --box-animation-name: placement-left;
+
+        position: absolute;
         left: 0;
         height: 100%;
-        width: 300px;
-
-        // box-shadow: var(--drop-shadow-east);
-        // z-index: 1000;
-        // transform: translateX(0);
-        // transition: transform 0.3s ease-in-out;
+        border-top-right-radius: var(--radius-lg);
+        border-bottom-right-radius: var(--radius-lg);
     }
 }
 

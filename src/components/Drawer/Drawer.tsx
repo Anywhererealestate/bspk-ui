@@ -2,12 +2,7 @@ import { SvgClose } from '@bspk/icons/Close';
 import { ReactNode } from 'react';
 import './drawer.scss';
 import { Button } from '-/components/Button';
-
-const DEFAULT = {
-    variant: 'none',
-    open: false,
-    placement: 'right',
-} as const;
+import { Dialog } from '-/components/Dialog';
 
 export type DrawerProps = {
     /**
@@ -25,9 +20,9 @@ export type DrawerProps = {
     /**
      * The variant of the drawer.
      *
-     * @default none
+     * @default modal
      */
-    variant?: 'modal' | 'none' | 'persistent';
+    variant?: 'modal' | 'permanent' | 'temporary';
     /**
      * The placement of the drawer.
      *
@@ -55,45 +50,48 @@ export type DrawerProps = {
  * @phase Dev
  */
 
-function Drawer({
-    children,
-    open = DEFAULT.open,
-    variant = DEFAULT.variant,
-    placement = 'right',
-    onClose,
-}: DrawerProps) {
+export function Drawer({ children, open = false, variant = 'modal', placement = 'right', onClose }: DrawerProps) {
     if (!open) return null;
-
-    return (
-        <aside
+    const drawerContent = (
+        <section
             aria-modal={variant === 'modal' ? 'true' : undefined}
             data-bspk="drawer"
-            data-placement={placement}
+            data-persistent-placement={variant !== 'modal' ? placement : null}
             data-variant={variant}
             role={variant === 'modal' ? 'dialog' : 'complementary'}
         >
-            {/* <button
-                aria-label="Close drawer"
-                data-close
-                onClick={onClose}
-                style={{ position: 'absolute', top: 8, right: 8 }}
-                type="button"
-            >
-                ×
-            </button> */}
-            <Button
-                icon={<SvgClose />}
-                iconOnly
-                label="close"
-                // onClick={dialogProps.onClose}
-                onClick={onClose}
-                variant="tertiary"
-            />
-            <div data-content>{children}</div>
-        </aside>
+            {variant === 'temporary' && (
+                <Button icon={<SvgClose />} iconOnly label="close" onClick={onClose} variant="tertiary" />
+            )}
+            {/* <div data-content>{children}</div> */}
+            {children}
+        </section>
+    );
+
+    return variant === 'modal' ? (
+        <Dialog
+            onClose={onClose ?? (() => {})}
+            open={open}
+            placement={placement}
+            showScrim={variant === 'modal' ? true : false}
+            widthFull={placement === 'bottom' || placement === 'top'}
+        >
+            {drawerContent}
+
+            {/* <section
+                aria-modal={variant === 'modal' ? 'true' : undefined}
+                data-bspk="drawer"
+                data-variant={variant}
+                role={variant === 'modal' ? 'dialog' : 'complementary'}
+            > */}
+            {/* <Button icon={<SvgClose />} iconOnly label="close" onClick={onClose} variant="tertiary" /> */}
+            {/* <div data-content>{children}</div> */}
+            {/* {children} */}
+            {/* </section> */}
+        </Dialog>
+    ) : (
+        drawerContent
     );
 }
 
-Drawer.bspkName = 'Drawer';
-
-export { Drawer };
+/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

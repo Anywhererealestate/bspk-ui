@@ -39,6 +39,13 @@ export type DialogProps = CommonProps<'id' | 'owner'> &
          * @default true
          */
         showScrim?: boolean;
+        /**
+         * If the dialog should take the full width of the screen.
+         *
+         * @default false
+         */
+
+        widthFull?: boolean;
     };
 
 /**
@@ -74,6 +81,7 @@ export function Dialog({
     open = false,
     placement = 'center',
     showScrim = true,
+    widthFull = false,
     id: idProp,
     owner,
     container,
@@ -110,6 +118,7 @@ export function Dialog({
                     >
                         <div
                             data-dialog-box
+                            data-width-full={widthFull}
                             ref={(node) => {
                                 boxRef.current = node;
                             }}
@@ -130,6 +139,5 @@ export function Dialog({
         )
     );
 }
-
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
