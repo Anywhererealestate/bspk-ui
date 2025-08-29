@@ -56,6 +56,7 @@ export function Drawer({ children, open = false, variant = 'modal', placement = 
         <section
             aria-modal={variant === 'modal' ? 'true' : undefined}
             data-bspk="drawer"
+            data-no-portal={variant !== 'modal' ? true : null}
             data-persistent-placement={variant !== 'modal' ? placement : null}
             data-variant={variant}
             role={variant === 'modal' ? 'dialog' : 'complementary'}

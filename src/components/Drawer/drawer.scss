@@ -4,18 +4,15 @@
     // justify-content: center;
     // width: 100%;
     // background-color: var(--surface-spectrum-blue);
-    box-shadow: var(--drop-shadow-float);
-    background: var(--surface-neutral-t1-base);
     color: var(--foreground-neutral-on-surface);
-    animation-name: var(--box-animation-name);
-    animation-duration: 0.5s;
-    animation-iteration-count: 1;
-    animation-fill-mode: forwards;
+    background: var(--surface-neutral-t1-base);
 
-    [data-responsive] {
-        // width: 100%;
-        // max-width: var(--width);
-        // margin: 0 auto;
+    &[data-no-portal] {
+        box-shadow: var(--drop-shadow-float);
+        animation-name: var(--box-animation-name);
+        animation-duration: 0.5s;
+        animation-iteration-count: 1;
+        animation-fill-mode: forwards;
     }
 
     &[data-persistent-placement='top'] {
