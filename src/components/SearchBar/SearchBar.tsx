@@ -150,6 +150,18 @@ export function SearchBar({
                     }}
                     disabled={disabled}
                     id={id}
+                    inputAttr={{
+                        onClick,
+                        onKeyDownCapture: (event) => {
+                            const handled = onKeyDownCapture(event);
+                            if (handled) {
+                                inputRefLocal.current?.blur();
+                                containerRefLocal.current?.focus();
+                                return;
+                            }
+                            // inputRefLocal.current?.focus();
+                        },
+                    }}
                     inputRef={(node) => {
                         inputRef?.(node || null);
                         inputRefLocal.current = node;
@@ -160,21 +172,11 @@ export function SearchBar({
                         onChange(str);
                         if (str.length) openMenu();
                     }}
-                    onClick={onClick}
                     owner="search-bar"
-                    {...triggerProps}
-                    onKeyDownCapture={(event) => {
-                        const handled = onKeyDownCapture(event);
-                        if (handled) {
-                            inputRefLocal.current?.blur();
-                            containerRefLocal.current?.focus();
-                            return;
-                        }
-                        // inputRefLocal.current?.focus();
-                    }}
                     placeholder={placeholder}
                     size={size}
                     value={value}
+                    {...triggerProps}
                 />
             </div>
             {isOpen && (
@@ -209,6 +211,5 @@ export function SearchBar({
         </>
     );
 }
-
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

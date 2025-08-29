@@ -4,7 +4,7 @@ import { Checkbox } from '-/components/Checkbox';
 import { ListItem, ListItemProps } from '-/components/ListItem';
 import { Menu, MenuProps } from '-/components/Menu';
 import { useId } from '-/hooks/useId';
-import { CommonProps, ElementProps, SetRef } from '-/types/common';
+import { CommonProps, SetRef } from '-/types/common';
 
 const DEFAULT = {
     selectAll: 'Select All',
@@ -20,7 +20,7 @@ export type ListboxItemProps = CommonProps<'disabled'> &
     };
 
 export type ListboxProps<Item extends ListboxItemProps = ListboxItemProps> = CommonProps<'disabled' | 'id'> &
-    Pick<MenuProps, 'itemCount' | 'itemDisplayCount' | 'onOutsideClick' | 'owner'> & {
+    Pick<MenuProps, 'attr' | 'itemCount' | 'itemDisplayCount' | 'onOutsideClick' | 'owner'> & {
         /**
          * Content to display in the listbox.
          *
@@ -136,8 +136,9 @@ export function Listbox<Item extends ListboxItemProps>({
     selectAll: selectAllProp,
     children,
     owner,
-    ...props
-}: ElementProps<ListboxProps<Item>, 'div'>) {
+    onOutsideClick,
+    attr,
+}: ListboxProps<Item>) {
     const menuId = useId(idProp);
 
     const selectAll = useMemo(() => {
@@ -153,7 +154,7 @@ export function Listbox<Item extends ListboxItemProps>({
 
     return (
         <Menu
-            {...props}
+            {...attr}
             aria-multiselectable={isMulti || undefined}
             data-bspk="listbox"
             data-bspk-owner={owner || undefined}
@@ -163,6 +164,7 @@ export function Listbox<Item extends ListboxItemProps>({
             innerRef={innerRef}
             itemCount={itemCount || items.length}
             itemDisplayCount={itemDisplayCount || items.length}
+            onOutsideClick={onOutsideClick}
             role="listbox"
         >
             {isMulti && selectAll && (
@@ -253,6 +255,5 @@ export function Listbox<Item extends ListboxItemProps>({
         </Menu>
     );
 }
-
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

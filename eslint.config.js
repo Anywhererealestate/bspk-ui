@@ -86,7 +86,6 @@ export default [
                     prefer: 'no-type-imports',
                 },
             ],
-            '@typescript-eslint/member-ordering': 'error',
             '@typescript-eslint/sort-type-constituents': 'error',
             '@cspell/spellchecker': [
                 'error',
