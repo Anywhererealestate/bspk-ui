@@ -1,69 +1,68 @@
-import { useState } from 'react';
-import { TextField, TextFieldProps } from '-/components/TextField';
-import '-/components/PasswordInput/password-input.scss';
+import { FormField, FormFieldWrapProps } from '-/components/FormField';
+import { PasswordInputProps, PasswordInput } from '-/components/PasswordInput';
 
-export type PasswordFieldProps = Pick<
-    TextFieldProps,
-    | 'controlId'
-    | 'disabled'
-    | 'errorMessage'
-    | 'invalid'
-    | 'label'
-    | 'name'
-    | 'onChange'
-    | 'readOnly'
-    | 'size'
-    | 'value'
->;
+export type PasswordFieldProps = FormFieldWrapProps<PasswordInputProps>;
 
 /**
- * An input field that is specifically built with a show/hide toggle for entering security passwords.
+ * A text input that allows users to enter text, numbers or symbols in a singular line.
+ *
+ * This component takes properties from the FormField and PasswordInput components.
  *
  * @example
- *     import { Password } from '@bspk/ui/Password';
  *     import { useState } from 'react';
+ *     import { PasswordField } from '@bspk/ui/PasswordField';
  *
- *     function Example() {
- *         const [value, setValue] = useState('');
+ *     export function Example() {
+ *         const [value, setValue] = useState<string>('');
  *
- *         return <Password value={value} onChange={setValue} />;
+ *         return (
+ *             <PasswordField
+ *                 controlId="Example controlId"
+ *                 label="Example label"
+ *                 name="Example name"
+ *                 onChange={setValue}
+ *                 value={value}
+ *             />
+ *         );
  *     }
  *
  * @name PasswordField
- * @phase Dev
+ * @phase UXReview
  */
-function PasswordField({ disabled, readOnly, label, ...restTextFieldProps }: PasswordFieldProps) {
-    const [isShowingPassword, setIsShowingPassword] = useState(false);
-
-    const togglePasswordVisibility =
-        disabled || readOnly
-            ? undefined
-            : () => {
-                  setIsShowingPassword((prev) => !prev);
-              };
-
+export function PasswordField({
+    label,
+    errorMessage,
+    helperText,
+    controlId,
+    labelTrailing,
+    required,
+    invalid,
+    ...inputAttr
+}: PasswordFieldProps) {
     return (
-        <span data-bspk="password-field">
-            <TextField
-                aria-label={label}
-                disabled={disabled}
-                label={label}
-                readOnly={readOnly}
-                showClearButton={false}
-                trailing={
-                    <button data-toggle-visibility-button onClick={togglePasswordVisibility}>
-                        {isShowingPassword ? 'Hide' : 'Show'}
-                    </button>
-                }
-                type={isShowingPassword ? 'text' : 'password'}
-                {...restTextFieldProps}
-            />
-        </span>
+        <FormField
+            controlId={controlId}
+            data-bspk="text-field"
+            errorMessage={errorMessage}
+            helperText={helperText}
+            invalid={invalid}
+            label={label}
+            labelTrailing={labelTrailing}
+            required={required}
+        >
+            {(fieldProps) => (
+                <PasswordInput
+                    {...inputAttr}
+                    {...fieldProps}
+                    aria-label={label}
+                    id={controlId}
+                    invalid={invalid}
+                    required={required}
+                    value={inputAttr.value ?? ''}
+                />
+            )}
+        </FormField>
     );
 }
-
-PasswordField.bspkName = 'PasswordField';
-
-export { PasswordField };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

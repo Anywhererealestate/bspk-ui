@@ -1,28 +1,34 @@
 import { useState } from 'react';
 import './password-input.scss';
-import { Button, ButtonProps } from '-/components/Button';
+import { Button } from '-/components/Button';
 import { TextInput, TextInputProps } from '-/components/TextInput';
-
-const BUTTON_SIZE_MAP: Record<Exclude<TextInputProps['size'], undefined>, ButtonProps['size']> = {
-    small: 'small',
-    medium: 'medium',
-    large: 'large',
-};
 
 export type PasswordInputProps = Pick<
     TextInputProps,
     | 'aria-describedby'
     | 'aria-errormessage'
+    | 'aria-label'
+    | 'attr'
+    // | 'autoComplete' // The TextInputProps not used
+    | 'containerRef'
     | 'disabled'
+    | 'id'
+    | 'inputAttr'
+    | 'inputRef'
     | 'invalid'
+    // | 'leading'
     | 'name'
     | 'onChange'
+    // | 'owner'
+    // | 'placeholder'
     | 'readOnly'
+    | 'required'
+    //| 'showClearButton'
     | 'size'
+    // | 'trailing'
+    // | 'type'
     | 'value'
-> & {
-    ['aria-label']: string;
-};
+>;
 
 /**
  * An input field that is specifically built with a show/hide toggle for entering security passwords.
@@ -40,48 +46,79 @@ export type PasswordInputProps = Pick<
  * @name PasswordInput
  * @phase Dev
  */
-function PasswordInput({ disabled, readOnly, value, size = 'medium', ...restTextInputProps }: PasswordInputProps) {
+function PasswordInput({
+    disabled,
+    readOnly,
+    size = 'medium',
+    'aria-label': ariaLabel,
+    'aria-describedby': ariaDescribedBy,
+    'aria-errormessage': ariaErrorMessage,
+    inputAttr,
+    inputRef,
+    name,
+    onChange,
+    required,
+    value,
+    containerRef,
+    id,
+    invalid,
+    attr,
+}: PasswordInputProps) {
     const [isShowingPassword, setIsShowingPassword] = useState(false);
 
-    const togglePasswordVisibility =
-        disabled || readOnly
-            ? undefined
-            : () => {
-                  setIsShowingPassword((prev) => !prev);
-              };
+    const togglePasswordVisibility = () => {
+        if (disabled || readOnly) return;
+        setIsShowingPassword((prev) => !prev);
+    };
 
     return (
-        <span data-bspk="password-input">
+        <div {...attr} data-bspk="password-input">
             <TextInput
+                aria-describedby={ariaDescribedBy}
+                aria-errormessage={ariaErrorMessage}
+                aria-label={ariaLabel}
+                attr={{
+                    onClick: (e) => {
+                        (e.currentTarget as HTMLElement)?.querySelector('input')?.focus();
+                    },
+                }}
+                autoComplete="off"
+                containerRef={containerRef}
                 disabled={disabled}
+                id={id}
+                inputAttr={inputAttr}
+                inputRef={inputRef}
+                invalid={invalid}
                 leading={
                     !isShowingPassword && (
-                        <span data-password>
+                        <>
                             {Array.from({ length: value?.length || 0 }, (_, i) => (
-                                <span key={i}>o</span>
+                                <span key={i} />
                             ))}
-                        </span>
+                        </>
                     )
                 }
-                onClick={(e) => {
-                    e.currentTarget.querySelector('input')?.focus();
-                }}
+                name={name}
+                onChange={onChange}
+                owner="password-input"
                 readOnly={readOnly}
+                required={required}
                 showClearButton={false}
+                size={size}
                 trailing={
-                    <Button
-                        label={isShowingPassword ? 'Hide' : 'Show'}
-                        onClick={togglePasswordVisibility}
-                        size={BUTTON_SIZE_MAP[size]}
-                        variant="tertiary"
-                    />
+                    !disabled &&
+                    !readOnly && (
+                        <Button
+                            label={isShowingPassword ? 'Hide' : 'Show'}
+                            onClick={togglePasswordVisibility}
+                            variant="tertiary"
+                        />
+                    )
                 }
                 type={isShowingPassword ? 'text' : 'password'}
-                {...restTextInputProps}
-                size={size}
                 value={value}
             />
-        </span>
+        </div>
     );
 }
 

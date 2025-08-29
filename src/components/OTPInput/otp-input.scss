@@ -1,95 +1,85 @@
 [data-bspk='otp-input'] {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
-    width: fit-content;
     gap: var(--spacing-sizing-02);
+    font: var(--font);
+    width: fit-content;
 
-    [data-inputs-wrapper] {
-        display: flex;
-        gap: var(--spacing-sizing-02);
-    }
-
-    [data-input-wrapper] {
-        position: relative;
+    [data-digit] {
         display: flex;
         align-items: center;
         justify-content: center;
-    }
-
-    [data-input] {
-        text-align: center;
         border-radius: var(--radius-sm);
         border: 1px solid var(--stroke-neutral-base);
-        color: var(--foreground-neutral-on-surface);
-        width: 100%;
-        height: 100%;
+        flex-grow: 1;
+        aspect-ratio: 1;
+        width: var(--width);
+        position: relative;
         outline: none;
-        font-size: inherit;
-    }
 
-    [data-readonly-mask] {
-        position: absolute;
-        border-radius: 50%;
-        width: 16px;
-        height: 16px;
-        background: var(--foreground-neutral-on-surface);
+        &:hover:not(:focus)::after {
+            background: var(--interaction-hover-opacity);
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: var(--radius-sm);
+        }
+
+        &:active::after {
+            background: var(--interaction-press-opacity);
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: var(--radius-sm);
+        }
+
+        &:focus:not(:active) {
+            outline: solid 2px var(--stroke-neutral-focus);
+
+            &:empty::before {
+                // caret
+                content: '';
+                width: 2px;
+                height: calc(var(--caret-height) - 8px);
+                background: var(--stroke-neutral-high);
+                animation: blink-caret 1s step-end infinite;
+
+                @keyframes blink-caret {
+                    0%,
+                    100% {
+                        opacity: 0;
+                    }
+
+                    50% {
+                        opacity: 1;
+                    }
+                }
+            }
+        }
     }
 
     &[data-size='small'] {
-        [data-input-wrapper] {
-            width: var(--spacing-sizing-08);
-            height: var(--spacing-sizing-08);
-            font-size: var(--typography-size-md-mdp);
-        }
+        --width: var(--spacing-sizing-08);
+        --font: var(--subheader-medium);
+        --caret-height: var(--subheader-medium-line-height);
     }
 
     &[data-size='medium'] {
-        [data-input-wrapper] {
-            width: var(--spacing-sizing-10);
-            height: var(--spacing-sizing-10);
-            font-size: var(--typography-size-mdp-lg);
-        }
+        --width: var(--spacing-sizing-10);
+        --font: var(--subheader-large);
+        --caret-height: var(--subheader-large-line-height);
     }
 
     &[data-size='large'] {
-        [data-input-wrapper] {
-            width: var(--spacing-sizing-12);
-            height: var(--spacing-sizing-12);
-            font-size: var(--typography-size-lg-xlg);
-        }
+        --width: var(--spacing-sizing-12);
+        --font: var(--subheader-x-large);
+        --caret-height: var(--subheader-x-large-line-height);
     }
 
-    &[data-disabled],
-    &[data-readonly] {
-        [data-input] {
-            background:
-                linear-gradient(var(--interactions-disabled-opacity), var(--interactions-disabled-opacity)),
-                linear-gradient(var(--surface-neutral-t1-base), var(--surface-neutral-t1-base));
-            color: var(--foreground-neutral-disabled-on-surface);
-        }
-    }
-
-    &:not([data-disabled], [data-readonly]) {
-        [data-input] {
-            &:hover {
-                background-color: var(--interactions-hover-opacity);
-            }
-
-            &:active {
-                background-color: var(--interactions-press-opacity);
-            }
-
-            &:focus-within {
-                outline: solid 2px var(--stroke-neutral-focus);
-            }
-        }
-
-        &[data-invalid] {
-            [data-input] {
-                border-color: var(--status-error);
-                outline-color: var(--status-error);
-            }
+    &[data-invalid] {
+        [data-digit] {
+            border-color: var(--status-error);
         }
     }
 }

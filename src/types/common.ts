@@ -6,7 +6,8 @@
  * @bspk/ui/Txt".
  */
 
-import { JSXElementConstructor, ReactNode, ComponentPropsWithoutRef, AriaAttributes, HTMLAttributes } from 'react';
+import { JSXElementConstructor, ReactNode, AriaAttributes, HTMLAttributes, ComponentProps } from 'react';
+import { CSSWithVariables } from '-/utils/cwv';
 
 export type AlertVariant = 'error' | 'informational' | 'success' | 'warning';
 
@@ -29,7 +30,9 @@ export type ElementAttributes<
      *
      * @type ElementAttributes
      */
-    attr?: Omit<AriaAttributes & ComponentPropsWithoutRef<E> & DataProps & HTMLAttributes<E>, O | keyof P>;
+    attr?: Omit<AriaAttributes & ComponentProps<E> & DataProps & HTMLAttributes<E>, O | keyof P | 'style'> & {
+        style?: CSSWithVariables;
+    };
 };
 
 /** Properties that begin with "data-"" */

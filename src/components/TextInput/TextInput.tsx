@@ -1,5 +1,5 @@
 import { SvgCancel } from '@bspk/icons/Cancel';
-import { ChangeEvent, HTMLInputAutoCompleteAttribute, HTMLInputTypeAttribute, ReactNode } from 'react';
+import { ChangeEvent, HTMLInputTypeAttribute, ReactNode } from 'react';
 
 import { useId } from '-/hooks/useId';
 import { CommonProps, ElementAttributes, FormFieldControlProps, SetRef } from '-/types/common';
@@ -43,13 +43,13 @@ type TextInputBaseProps = {
      *
      * @default text
      */
-    type?: Extract<HTMLInputTypeAttribute, 'number' | 'text'>;
+    type?: Extract<HTMLInputTypeAttribute, 'number' | 'password' | 'text'>;
     /**
      * Specifies if user agent has any permission to provide automated assistance in filling out form field values
      *
      * @default off
      */
-    autoComplete?: HTMLInputAutoCompleteAttribute;
+    autoComplete?: '' | 'off' | 'on';
     /**
      * Specifies if the clear button should be shown. This should almost always be true, but can be set to false.
      *
