@@ -4,42 +4,45 @@ import { ReactNode, useCallback, useEffect, useRef } from 'react';
 import { Portal, PortalProps } from '-/components/Portal';
 import { Scrim } from '-/components/Scrim';
 import { useId } from '-/hooks/useId';
-import { CommonProps, ElementProps, SetRef } from '-/types/common';
+import { CommonProps, ElementAttributes, SetRef } from '-/types/common';
 
 import './dialog.scss';
 
-export type DialogProps = CommonProps<'id' | 'owner'> &
-    Pick<PortalProps, 'container'> & {
-        /** The content of the dialog. */
-        children?: ReactNode;
-        /** A ref to the dialog element. */
-        innerRef?: SetRef<HTMLDivElement>;
-        /**
-         * If the dialog should appear.
-         *
-         * @default false
-         */
-        open?: boolean;
-        /**
-         * Function to call when the dialog is closed.
-         *
-         * @type () => void
-         * @required
-         */
-        onClose: () => void;
-        /**
-         * The placement of the dialog on the screen.
-         *
-         * @default center
-         */
-        placement?: 'bottom' | 'center' | 'left' | 'right' | 'top';
-        /**
-         * Whether the dialog should have a scrim behind it.
-         *
-         * @default true
-         */
-        showScrim?: boolean;
-    };
+export type DialogProps = ElementAttributes<
+    'div',
+    CommonProps<'id' | 'owner'> &
+        Pick<PortalProps, 'container'> & {
+            /** The content of the dialog. */
+            children?: ReactNode;
+            /** A ref to the dialog element. */
+            innerRef?: SetRef<HTMLDivElement>;
+            /**
+             * If the dialog should appear.
+             *
+             * @default false
+             */
+            open?: boolean;
+            /**
+             * Function to call when the dialog is closed.
+             *
+             * @type () => void
+             * @required
+             */
+            onClose: () => void;
+            /**
+             * The placement of the dialog on the screen.
+             *
+             * @default center
+             */
+            placement?: 'bottom' | 'center' | 'left' | 'right' | 'top';
+            /**
+             * Whether the dialog should have a scrim behind it.
+             *
+             * @default true
+             */
+            showScrim?: boolean;
+        }
+>;
 
 /**
  * Dialogs display important information that users need to acknowledge. They appear over the interface and block
@@ -77,8 +80,8 @@ export function Dialog({
     id: idProp,
     owner,
     container,
-    ...containerProps
-}: ElementProps<DialogProps, 'div'>) {
+    attr,
+}: DialogProps) {
     const id = useId(idProp);
     const boxRef = useRef<HTMLDivElement | null>(null);
 
@@ -94,7 +97,7 @@ export function Dialog({
         open && (
             <Portal container={container}>
                 <div
-                    {...containerProps}
+                    {...attr}
                     data-bspk="dialog"
                     data-bspk-owner={owner || undefined}
                     data-placement={placement}
@@ -130,6 +133,5 @@ export function Dialog({
         )
     );
 }
-
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

@@ -1,34 +1,37 @@
 import { ChangeEvent, useEffect, useRef } from 'react';
 
-import { CommonProps, ElementProps, FormFieldControlProps, RequiredCommonProps } from '-/types/common';
+import { CommonProps, ElementAttributes, FormFieldControlProps, RequiredCommonProps } from '-/types/common';
 
 import './checkbox.scss';
 
-export type CheckboxProps = CommonProps<'aria-label' | 'disabled' | 'invalid' | 'name'> &
-    FormFieldControlProps &
-    RequiredCommonProps<'value'> & {
-        /**
-         * If the checkbox is partially checked or
-         * [indeterminate](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#indeterminate_state_checkboxes).
-         *
-         * This will override the `checked` prop.
-         *
-         * @default false
-         */
-        indeterminate?: boolean;
-        /**
-         * Marks the checkbox as checked.
-         *
-         * @default false
-         */
-        checked?: boolean;
-        /**
-         * The function to call when the checkbox is checked or unchecked.
-         *
-         * @required
-         */
-        onChange: (checked: boolean, event: ChangeEvent<HTMLInputElement>) => void;
-    };
+export type CheckboxProps = ElementAttributes<
+    'span',
+    CommonProps<'aria-label' | 'disabled' | 'invalid' | 'name' | 'readOnly'> &
+        FormFieldControlProps &
+        RequiredCommonProps<'value'> & {
+            /**
+             * If the checkbox is partially checked or
+             * [indeterminate](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#indeterminate_state_checkboxes).
+             *
+             * This will override the `checked` prop.
+             *
+             * @default false
+             */
+            indeterminate?: boolean;
+            /**
+             * Marks the checkbox as checked.
+             *
+             * @default false
+             */
+            checked?: boolean;
+            /**
+             * The function to call when the checkbox is checked or unchecked.
+             *
+             * @required
+             */
+            onChange: (checked: boolean, event: ChangeEvent<HTMLInputElement>) => void;
+        }
+>;
 
 /**
  * A control that allows users to choose one or more items from a list or turn an feature on or off. This is the base
@@ -66,8 +69,14 @@ export function Checkbox({
     indeterminate: indeterminateProp,
     invalid,
     disabled,
-    ...props
-}: ElementProps<CheckboxProps, 'input'>) {
+    'aria-label': ariaLabel,
+    name,
+    onChange,
+    'aria-describedby': ariaDescribedBy,
+    'aria-errormessage': ariaErrorMessage,
+    attr: attr,
+    value,
+}: CheckboxProps) {
     const indeterminate = !!indeterminateProp;
     const checked = !!checkedProp && !indeterminate;
 
@@ -79,24 +88,23 @@ export function Checkbox({
     }, [indeterminate]);
 
     return (
-        <span
-            //
-            data-bspk="checkbox"
-        >
+        <span {...attr} data-bspk="checkbox">
             <input
-                {...props}
-                aria-describedby={props['aria-describedby'] || undefined}
-                aria-errormessage={props['aria-errormessage'] || undefined}
+                aria-describedby={ariaDescribedBy || undefined}
+                aria-errormessage={ariaErrorMessage || undefined}
                 aria-invalid={invalid || undefined}
+                aria-label={ariaLabel || undefined}
                 checked={checked}
                 disabled={disabled || undefined}
-                onChange={(event) => props.onChange(!!event.target.checked, event)}
+                name={name}
+                onChange={(event) => onChange(!!event.target.checked, event)}
                 ref={(node) => {
                     if (!node) return;
                     inputRef.current = node;
                     node.indeterminate = indeterminate;
                 }}
                 type="checkbox"
+                value={value}
             />
             <span aria-hidden>
                 {checked && (
@@ -119,6 +127,5 @@ export function Checkbox({
         </span>
     );
 }
-
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

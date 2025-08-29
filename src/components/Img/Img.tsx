@@ -1,19 +1,22 @@
-import { ElementProps } from '-/types/common';
+import { ElementAttributes } from '-/types/common';
 
-export type ImgProps = {
-    /**
-     * The URL of the image.
-     *
-     * @required
-     */
-    src: string;
-    /**
-     * The alternative text for the image.
-     *
-     * @required
-     */
-    alt: string;
-};
+export type ImgProps = ElementAttributes<
+    'img',
+    {
+        /**
+         * The URL of the image.
+         *
+         * @required
+         */
+        src: string;
+        /**
+         * The alternative text for the image.
+         *
+         * @required
+         */
+        alt: string;
+    }
+>;
 
 /**
  * The Img component is used to display images on the page.
@@ -28,9 +31,8 @@ export type ImgProps = {
  * @name Img
  * @phase Backlog
  */
-export function Img({ alt, ...props }: ElementProps<ImgProps, 'img'>) {
-    return <img {...props} alt={alt} data-bspk="img" />;
+export function Img({ alt, src, attr }: ImgProps) {
+    return <img {...attr} alt={alt} data-bspk="img" src={src} />;
 }
-
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

@@ -7,47 +7,50 @@ import { Txt } from '-/components/Txt';
 import { Placement, useFloating, UseFloatingProps } from '-/hooks/useFloating';
 import { useId } from '-/hooks/useId';
 import { useOutsideClick } from '-/hooks/useOutsideClick';
-import { CallToActionButton, CommonProps, ElementProps } from '-/types/common';
+import { CallToActionButton, CommonProps, ElementAttributes } from '-/types/common';
 import { cssWithVars } from '-/utils/cwv';
 
 import './popover.scss';
 
-export type PopoverProps = CommonProps<'disabled'> &
-    Pick<UseFloatingProps, 'refWidth'> & {
-        /**
-         * The placement of the popover.
-         *
-         * @default top
-         */
-        placement?: Placement;
-        /** The popover header. */
-        header: string;
-        /**
-         * The content of the popover.
-         *
-         * @type multiline
-         */
-        content: string;
-        /**
-         * The call to action button properties.
-         *
-         * @type CallToActionButton
-         */
-        callToAction?: CallToActionButton;
-        /**
-         * The secondary call to action button properties.
-         *
-         * @type CallToActionButton
-         */
-        secondaryCallToAction?: CallToActionButton;
-        /**
-         * A single element that will trigger the popover when clicked.
-         *
-         * @type ReactElement
-         * @required
-         */
-        children: ReactElement;
-    };
+export type PopoverProps = ElementAttributes<
+    'div',
+    CommonProps<'disabled'> &
+        Pick<UseFloatingProps, 'refWidth'> & {
+            /**
+             * The placement of the popover.
+             *
+             * @default top
+             */
+            placement?: Placement;
+            /** The popover header. */
+            header: string;
+            /**
+             * The content of the popover.
+             *
+             * @type multiline
+             */
+            content: string;
+            /**
+             * The call to action button properties.
+             *
+             * @type CallToActionButton
+             */
+            callToAction?: CallToActionButton;
+            /**
+             * The secondary call to action button properties.
+             *
+             * @type CallToActionButton
+             */
+            secondaryCallToAction?: CallToActionButton;
+            /**
+             * A single element that will trigger the popover when clicked.
+             *
+             * @type ReactElement
+             * @required
+             */
+            children: ReactElement;
+        }
+>;
 
 /**
  * Brief message that provide additional guidance and helps users perform an action if needed.
@@ -90,8 +93,8 @@ export function Popover({
     children,
     disabled = false,
     refWidth = false,
-    ...props
-}: ElementProps<PopoverProps, 'div'>) {
+    attr,
+}: PopoverProps) {
     const id = useId();
     const [show, setShow] = useState(false);
     const arrowRef = useRef<HTMLElement | null>(null);
@@ -140,6 +143,7 @@ export function Popover({
             {child}
             <Portal>
                 <div
+                    {...attr}
                     data-bspk="popover"
                     data-placement={middlewareData?.offset?.placement}
                     id={id}
@@ -147,7 +151,7 @@ export function Popover({
                         elements.setFloating(node);
                         elements.setReference(document.querySelector<HTMLElement>(`[aria-describedby="${id}"]`));
                     }}
-                    style={{ ...floatingStyles, ...props.style }}
+                    style={{ ...floatingStyles, ...attr?.style }}
                 >
                     <header>
                         <Txt variant="heading-h6">{header}</Txt>
@@ -193,6 +197,5 @@ export function Popover({
         </>
     );
 }
-
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

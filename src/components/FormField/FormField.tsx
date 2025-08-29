@@ -1,6 +1,6 @@
 import { InlineAlert } from '-/components/InlineAlert';
 import { Txt } from '-/components/Txt';
-import { CommonProps, ElementProps, FormFieldControlProps } from '-/types/common';
+import { CommonProps, ElementAttributes, FormFieldControlProps } from '-/types/common';
 
 import './form-field.scss';
 
@@ -8,29 +8,33 @@ import './form-field.scss';
 export type FormFieldWrapProps<T extends Record<string, unknown>> = Omit<FormFieldProps, keyof T | 'children'> &
     Omit<T, 'aria-describedby' | 'aria-errormessage'>;
 
-export type FormFieldProps = CommonProps<'invalid' | 'required'> & {
-    /** The error message to display when the field is invalid. */
-    errorMessage?: string;
-    /**
-     * The label of the field.
-     *
-     * @required
-     */
-    label: string;
-    /** The id of the control. */
-    controlId: string;
-    /**
-     * The children of the form field. This should be a control such as TextInput, Select, DatePicker, or TimePicker.
-     *
-     * @type (childProps: FormFieldControlProps) => JSX.Element
-     * @required
-     */
-    children: (childProps: FormFieldControlProps) => JSX.Element;
-    /** The helperText of the field. */
-    helperText?: string;
-    /** The trailing element of the label. */
-    labelTrailing?: React.ReactNode;
-};
+export type FormFieldProps = ElementAttributes<
+    'div',
+    CommonProps<'invalid' | 'required'> & {
+        /** The error message to display when the field is invalid. */
+        errorMessage?: string;
+        /**
+         * The label of the field.
+         *
+         * @required
+         */
+        label: string;
+        /** The id of the control. */
+        controlId: string;
+        /**
+         * The children of the form field. This should be a control such as TextInput, Select, DatePicker, or
+         * TimePicker.
+         *
+         * @type (childProps: FormFieldControlProps) => JSX.Element
+         * @required
+         */
+        children: (childProps: FormFieldControlProps) => JSX.Element;
+        /** The helperText of the field. */
+        helperText?: string;
+        /** The trailing element of the label. */
+        labelTrailing?: React.ReactNode;
+    }
+>;
 
 /**
  * Wrapper component for form controls.
@@ -74,7 +78,8 @@ export function FormField({
     labelTrailing,
     controlId,
     required,
-}: ElementProps<FormFieldProps, 'div'>) {
+    attr,
+}: FormFieldProps) {
     const errorMessage = invalid && errorMessageProp ? errorMessageProp : undefined;
     const errorMessageId = errorMessage ? `${controlId}-error-message` : undefined;
     const helperText = !errorMessage && helperTextProp ? helperTextProp : undefined;
@@ -83,7 +88,7 @@ export function FormField({
     if (typeof children !== 'function') return null;
 
     return (
-        <div data-bspk="form-field" data-invalid={invalid || undefined}>
+        <div {...attr} data-bspk="form-field" data-invalid={invalid}>
             <header>
                 <label htmlFor={controlId}>
                     <Txt as="span" variant="labels-small">
@@ -114,6 +119,5 @@ export function FormField({
         </div>
     );
 }
-
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

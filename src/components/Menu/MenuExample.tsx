@@ -12,12 +12,9 @@ import { Avatar } from '-/components/Avatar';
 import { Divider } from '-/components/Divider';
 import { ListItem } from '-/components/ListItem';
 import { Switch } from '-/components/Switch';
-import { ElementProps } from '-/types/common';
 import { ComponentExampleFn } from '-/utils/demo';
 
-export const MenuExample: ComponentExampleFn<ElementProps<MenuProps, 'div'> & { 'data-dark-mode': boolean }> = ({
-    action,
-}) => ({
+export const MenuExample: ComponentExampleFn<MenuProps & { 'data-dark-mode': boolean }> = ({ action }) => ({
     render: ({ props, Component, setState }) => {
         return (
             <Component
