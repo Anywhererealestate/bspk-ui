@@ -182,8 +182,6 @@ export function PhoneNumberInput({
                             {countryCodeSelectOptions.map((option, index) => (
                                 <ListItem
                                     active={activeIndex === index || undefined}
-                                    aria-selected={countryCode === option.value}
-                                    data-bspk="country-code-select-option"
                                     id={`${option.value}-country-code-select-option`}
                                     includeAriaLabel={false}
                                     key={option.value}
@@ -193,6 +191,8 @@ export function PhoneNumberInput({
                                         setCountryCode(option.value as SupportedCountryCode);
                                         closeMenu();
                                     }}
+                                    owner="country-code-select-option"
+                                    selected={countryCode === option.value}
                                     trailing={option.trailing}
                                 />
                             ))}
@@ -223,6 +223,5 @@ export function PhoneNumberInput({
         </div>
     );
 }
-
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

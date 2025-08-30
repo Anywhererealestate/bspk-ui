@@ -170,7 +170,6 @@ export function Listbox<Item extends ListboxItemProps>({
             {isMulti && selectAll && (
                 <ListItem
                     as="label"
-                    data-selected={allSelected || undefined}
                     id={`${menuId}-select-all`}
                     key="select-all"
                     label={selectAll}
@@ -178,6 +177,7 @@ export function Listbox<Item extends ListboxItemProps>({
                         onChange?.(allSelected ? [] : items.map((item) => item.value), event);
                     }}
                     role="option"
+                    selected={allSelected || undefined}
                     trailing={
                         <Checkbox
                             aria-label={selectAll}
@@ -206,8 +206,6 @@ export function Listbox<Item extends ListboxItemProps>({
                         {...item}
                         {...renderProps}
                         active={activeIndex === index || undefined}
-                        aria-disabled={item.disabled || undefined}
-                        aria-selected={selected || undefined}
                         as={isMulti ? 'label' : 'button'}
                         disabled={item.disabled || undefined}
                         id={`${menuId}-item-${index}`}
@@ -229,6 +227,7 @@ export function Listbox<Item extends ListboxItemProps>({
                             }
                         }}
                         role="option"
+                        selected={selected || undefined}
                         trailing={
                             isMulti ? (
                                 <Checkbox

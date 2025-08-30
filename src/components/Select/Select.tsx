@@ -165,8 +165,10 @@ export function Select({
                         }}
                     >
                         <ListItem
+                            attr={{
+                                'data-placeholder': !selectedItem || undefined,
+                            }}
                             data-bspk-owner="select"
-                            data-placeholder={!selectedItem || undefined}
                             label={selectedItem?.label || placeholder}
                             owner="select"
                             readOnly

@@ -56,6 +56,8 @@ export type ListItemProps<As extends ElementType = 'div'> = ElementAttributes<
         includeAriaLabel?: boolean;
         /** The function to call when the list item is clicked. */
         onClick?: (event: React.MouseEvent<HTMLElement, MouseEvent>) => void;
+        /** Whether the list item is selected. */
+        selected?: boolean;
     }
 >;
 
@@ -109,6 +111,7 @@ function ListItem<As extends ElementType = 'div'>({
     onClick,
     id,
     tabIndex,
+    selected,
 }: ListItemProps<As>) {
     if (!label) return null;
 
@@ -128,13 +131,17 @@ function ListItem<As extends ElementType = 'div'>({
             aria-label={
                 As === 'label' || As === 'span' || As === 'div' || includeAriaLabel === false ? undefined : label
             }
+            aria-selected={selected || undefined}
             as={As}
             data-action={actionable || undefined}
             data-active={active || undefined}
             data-bspk="list-item"
             data-bspk-owner={owner || undefined}
             data-readonly={readOnly || undefined}
+            data-selected={selected || undefined}
+            href={href || undefined}
             id={id}
+            onClick={onClick || undefined}
             ref={innerRef}
             role={role || (As === 'button' ? 'option' : undefined)}
             tabIndex={tabIndex || (actionable ? 0 : undefined)}
@@ -145,7 +152,7 @@ function ListItem<As extends ElementType = 'div'>({
                 </span>
             )}
             <span data-item-label>
-                <Truncated data-text>{label}</Truncated>
+                <Truncated attr={{ 'data-text': '' }}>{label}</Truncated>
                 {subText && <span data-sub-text>{subText}</span>}
             </span>
             {trailing && <span data-trailing>{trailing}</span>}

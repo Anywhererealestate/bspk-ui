@@ -182,14 +182,14 @@ export function Combobox<Item extends ComboboxItemProps>({
                 </Modal>
             ) : (
                 <Menu
-                    aria-multiselectable={isMulti || undefined}
                     attr={{
                         ...attr,
                         tabIndex: -1,
+                        'aria-multiselectable': isMulti || undefined,
+                        'data-bspk': 'listbox',
+                        'data-disabled': disabled || undefined,
+                        'data-no-items': !items.length || undefined,
                     }}
-                    data-bspk="listbox"
-                    data-disabled={disabled || undefined}
-                    data-no-items={!items.length || undefined}
                     id={menuId}
                     innerRef={(node) => {
                         elements.setFloating(node);

@@ -46,12 +46,12 @@ export function ListItems<I extends Item>({
             {isMulti && selectAll && (
                 <ListItem
                     as="label"
-                    data-selected={allSelected || undefined}
                     key="select-all"
                     label={selectAll}
                     onClick={(event: React.MouseEvent<HTMLElement, MouseEvent>) => {
                         onChange?.(allSelected ? [] : items.map((item) => item.value), event);
                     }}
+                    selected={allSelected || undefined}
                     tabIndex={-1}
                     trailing={
                         <Checkbox
@@ -73,8 +73,6 @@ export function ListItems<I extends Item>({
                     <ListItem
                         {...item}
                         active={activeIndex === index || undefined}
-                        aria-disabled={item.disabled || undefined}
-                        aria-selected={selected || undefined}
                         as={isMulti ? 'label' : 'button'}
                         disabled={item.disabled || undefined}
                         id={`${menuId}-item-${index}`}
@@ -83,6 +81,7 @@ export function ListItems<I extends Item>({
                         onClick={(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
                             onChange?.(isMulti ? multiSelectValue(selected, item.value) : [item.value], event);
                         }}
+                        selected={selected || undefined}
                         tabIndex={-1}
                         trailing={
                             isMulti ? (
