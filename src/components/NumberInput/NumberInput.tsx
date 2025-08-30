@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { IncrementButton } from './IncrementButton';
 import { useId } from '-/hooks/useId';
 import { CommonProps, ElementAttributes, FormFieldControlProps } from '-/types/common';
@@ -26,7 +26,11 @@ export type NumberInputProps = ElementAttributes<
     'div',
     CommonProps<'aria-label' | 'disabled' | 'id' | 'invalid' | 'name' | 'readOnly' | 'size'> &
         FormFieldControlProps & {
-            /** The value of the control. */
+            /**
+             * The value of the control.
+             *
+             * @exampleType number
+             */
             value?: number | string;
             /**
              * Callback when the value changes.
@@ -83,7 +87,7 @@ export type NumberInputProps = ElementAttributes<
  *     }
  *
  * @name NumberInput
- * @phase Utility
+ * @phase UXReview
  */
 export function NumberInput({
     value,
@@ -110,6 +114,11 @@ export function NumberInput({
     const valueNumber = isNumber(value) || 0;
 
     const [inputElement, setInputElement] = useState<HTMLInputElement | null>(null);
+
+    useEffect(() => {
+        if (!inputElement) return;
+        inputElement.value = valueNumber.toString();
+    }, [inputElement, valueNumber]);
 
     const handleIncrement = (increment: -1 | 1) => {
         if (!inputElement) return;
