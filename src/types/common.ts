@@ -23,6 +23,10 @@ export type ElementConstructorProps<
     O extends string = '',
 > = Omit<ComponentPropsWithoutRef<E>, O>;
 
+export type DataProps = {
+    [key: `data-${string}`]: string;
+};
+
 export type ButtonSize = 'large' | 'medium' | 'small' | 'x-small';
 
 export type CallToActionButton = {

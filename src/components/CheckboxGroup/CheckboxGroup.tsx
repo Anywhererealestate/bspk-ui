@@ -107,6 +107,7 @@ export function CheckboxGroup({
                         <Checkbox
                             aria-label={selectAllProps?.label || 'All'}
                             checked={!!values.length && values.length === options.length}
+                            data-testid="selectAll-Checkbox"
                             disabled={disabledGroup}
                             indeterminate={!!values.length && values.length < options.length}
                             name={name}
@@ -135,6 +136,5 @@ export function CheckboxGroup({
         </div>
     );
 }
-
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

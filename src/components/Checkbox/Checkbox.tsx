@@ -89,6 +89,7 @@ export function Checkbox({
                 aria-errormessage={props['aria-errormessage'] || undefined}
                 aria-invalid={invalid || undefined}
                 checked={checked}
+                data-indeterminate={indeterminate || undefined}
                 disabled={disabled || undefined}
                 onChange={(event) => props.onChange(!!event.target.checked, event)}
                 ref={(node) => {
@@ -119,6 +120,5 @@ export function Checkbox({
         </span>
     );
 }
-
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
