@@ -13,13 +13,13 @@ export type PhoneNumberFieldProps = FormFieldWrapProps<PhoneNumberInputProps>;
  * @phase UXReview
  */
 export function PhoneNumberField({
-    label,
-    helperText,
     controlId,
+    errorMessage,
+    helperText,
+    invalid,
+    label,
     labelTrailing,
     required,
-    invalid,
-    errorMessage,
     ...inputProps
 }: PhoneNumberFieldProps) {
     return (
@@ -37,6 +37,5 @@ export function PhoneNumberField({
         </FormField>
     );
 }
-
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

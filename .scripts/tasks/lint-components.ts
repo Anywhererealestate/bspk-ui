@@ -8,7 +8,7 @@ import { getLocalMeta } from '../utils';
 
 const errors: string[] = [];
 
-const { componentsMeta, typesMeta } = await getLocalMeta();
+const { componentsMeta, typesMeta } = await getLocalMeta(true);
 
 const packageJsonData = JSON.parse(fs.readFileSync(path.resolve('./package.json'), 'utf-8'));
 
