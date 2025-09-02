@@ -1,21 +1,26 @@
 import { useState } from 'react';
 import './password-input.scss';
+import { Button } from '-/components/Button';
 import { TextInput, TextInputProps } from '-/components/TextInput';
 
 export type PasswordInputProps = Pick<
     TextInputProps,
     | 'aria-describedby'
     | 'aria-errormessage'
+    | 'aria-label'
+    | 'containerRef'
     | 'disabled'
+    | 'id'
+    | 'inputProps'
+    | 'inputRef'
     | 'invalid'
     | 'name'
     | 'onChange'
     | 'readOnly'
+    | 'required'
     | 'size'
     | 'value'
-> & {
-    ['aria-label']: string;
-};
+>;
 
 /**
  * An input field that is specifically built with a show/hide toggle for entering security passwords.
@@ -33,31 +38,77 @@ export type PasswordInputProps = Pick<
  * @name PasswordInput
  * @phase Dev
  */
-function PasswordInput({ disabled, readOnly, ...restTextInputProps }: PasswordInputProps) {
+function PasswordInput({
+    disabled,
+    readOnly,
+    size = 'medium',
+    'aria-label': ariaLabel,
+    'aria-describedby': ariaDescribedBy,
+    'aria-errormessage': ariaErrorMessage,
+    inputProps,
+    inputRef,
+    name,
+    onChange,
+    required,
+    value,
+    containerRef,
+    id,
+    invalid,
+    ...props
+}: PasswordInputProps) {
     const [isShowingPassword, setIsShowingPassword] = useState(false);
 
-    const togglePasswordVisibility =
-        disabled || readOnly
-            ? undefined
-            : () => {
-                  setIsShowingPassword((prev) => !prev);
-              };
+    const togglePasswordVisibility = () => {
+        if (disabled || readOnly) return;
+        setIsShowingPassword((prev) => !prev);
+    };
 
     return (
-        <span data-bspk="password-input">
+        <div {...props} data-bspk="password-input">
             <TextInput
+                aria-describedby={ariaDescribedBy}
+                aria-errormessage={ariaErrorMessage}
+                aria-label={ariaLabel}
+                autoComplete="off"
+                containerRef={containerRef}
                 disabled={disabled}
+                id={id}
+                inputProps={inputProps}
+                inputRef={inputRef}
+                invalid={invalid}
+                leading={
+                    !isShowingPassword && (
+                        <>
+                            {Array.from({ length: value?.length || 0 }, (_, i) => (
+                                <span key={i} />
+                            ))}
+                        </>
+                    )
+                }
+                name={name}
+                onChange={onChange}
+                onClick={(e) => {
+                    (e.currentTarget as HTMLElement)?.querySelector('input')?.focus();
+                }}
+                owner="password-input"
                 readOnly={readOnly}
+                required={required}
                 showClearButton={false}
+                size={size}
                 trailing={
-                    <button data-toggle-visibility-button onClick={togglePasswordVisibility}>
-                        {isShowingPassword ? 'Hide' : 'Show'}
-                    </button>
+                    !disabled &&
+                    !readOnly && (
+                        <Button
+                            label={isShowingPassword ? 'Hide' : 'Show'}
+                            onClick={togglePasswordVisibility}
+                            variant="tertiary"
+                        />
+                    )
                 }
                 type={isShowingPassword ? 'text' : 'password'}
-                {...restTextInputProps}
+                value={value}
             />
-        </span>
+        </div>
     );
 }
 

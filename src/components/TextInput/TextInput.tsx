@@ -1,8 +1,8 @@
 import { SvgCancel } from '@bspk/icons/Cancel';
-import { ChangeEvent, HTMLInputAutoCompleteAttribute, HTMLInputTypeAttribute, ReactNode } from 'react';
+import { ChangeEvent, HTMLInputTypeAttribute, ReactNode } from 'react';
 
 import { useId } from '-/hooks/useId';
-import { ElementProps, CommonProps, FormFieldControlProps, SetRef } from '-/types/common';
+import { CommonProps, ElementProps, FormFieldControlProps, SetRef } from '-/types/common';
 
 import './text-input.scss';
 
@@ -13,52 +13,57 @@ export const DEFAULT = {
     autoComplete: 'off',
 } as const;
 
+type TextInputBaseProps = {
+    /**
+     * Callback when the value of the field changes.
+     *
+     * @required
+     */
+    onChange: (next: string, event?: ChangeEvent<HTMLInputElement>) => void;
+    /** The ref of the container. */
+    containerRef?: SetRef<HTMLDivElement>;
+    /** The ref of the input. */
+    inputRef?: SetRef<HTMLInputElement>;
+    /**
+     * The trailing element to display in the field.
+     *
+     * @exampleType string
+     */
+    trailing?: ReactNode;
+    /**
+     * The leading element to display in the field.
+     *
+     * @exampleType string
+     */
+    leading?: ReactNode;
+    /** The placeholder of the field. */
+    placeholder?: string;
+    /**
+     * The type of the input.
+     *
+     * @default text
+     */
+    type?: Extract<HTMLInputTypeAttribute, 'number' | 'password' | 'text'>;
+    /**
+     * Specifies if user agent has any permission to provide automated assistance in filling out form field values
+     *
+     * @default off
+     */
+    autoComplete?: '' | 'off' | 'on';
+    /**
+     * Specifies if the clear button should be shown. This should almost always be true, but can be set to false.
+     *
+     * @default true
+     */
+    showClearButton?: boolean;
+};
+
 export type TextInputProps = CommonProps<
     'aria-label' | 'disabled' | 'id' | 'invalid' | 'name' | 'owner' | 'readOnly' | 'required' | 'size' | 'value'
 > &
-    FormFieldControlProps & {
-        /**
-         * Callback when the value of the field changes.
-         *
-         * @required
-         */
-        onChange: (next: string, event?: ChangeEvent<HTMLInputElement>) => void;
-        /** The ref of the container. */
-        containerRef?: SetRef<HTMLDivElement>;
-        /** The ref of the input. */
-        inputRef?: SetRef<HTMLInputElement>;
-        /**
-         * The trailing element to display in the field.
-         *
-         * @exampleType string
-         */
-        trailing?: ReactNode;
-        /**
-         * The leading element to display in the field.
-         *
-         * @exampleType string
-         */
-        leading?: ReactNode;
-        /** The placeholder of the field. */
-        placeholder?: string;
-        /**
-         * The type of the input.
-         *
-         * @default text
-         */
-        type?: Extract<HTMLInputTypeAttribute, 'number' | 'password' | 'text'>;
-        /**
-         * Specifies if user agent has any permission to provide automated assistance in filling out form field values
-         *
-         * @default off
-         */
-        autoComplete?: HTMLInputAutoCompleteAttribute;
-        /**
-         * Specifies if the clear button should be shown. This should almost always be true, but can be set to false.
-         *
-         * @default true
-         */
-        showClearButton?: boolean;
+    FormFieldControlProps &
+    TextInputBaseProps & {
+        inputProps?: Omit<React.InputHTMLAttributes<HTMLInputElement>, keyof TextInputBaseProps>;
     };
 
 /**
@@ -102,7 +107,9 @@ export function TextInput({
     owner,
     'aria-describedby': ariaDescribedBy,
     'aria-errormessage': ariaErrorMessage,
-    ...otherProps
+
+    inputProps,
+    ...props
 }: ElementProps<TextInputProps, 'div'>) {
     const id = useId(idProp);
 
@@ -110,6 +117,7 @@ export function TextInput({
 
     return (
         <div
+            {...props}
             data-bspk="text-input"
             data-bspk-owner={owner || undefined}
             data-clear-hidden={showClearButton === false || undefined}
@@ -119,11 +127,11 @@ export function TextInput({
             data-readonly={readOnly || undefined}
             data-size={size}
             ref={containerRef}
-            {...otherProps}
         >
             {leading && <span data-leading>{leading}</span>}
 
             <input
+                {...inputProps}
                 aria-describedby={ariaDescribedBy || undefined}
                 aria-errormessage={ariaErrorMessage || undefined}
                 aria-invalid={invalid || undefined}
@@ -142,9 +150,7 @@ export function TextInput({
                 type={type}
                 value={value || ''}
             />
-
             {trailing && <span data-trailing>{trailing}</span>}
-
             {showClearButton !== false && (
                 <button aria-label="clear" data-clear onClick={() => onChange('')}>
                     <SvgCancel />
@@ -153,6 +159,5 @@ export function TextInput({
         </div>
     );
 }
-
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
