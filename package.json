@@ -27,6 +27,7 @@
         "meta": "tsx meta.ts",
         "pretty": "npx prettier --write src/",
         "newc": "tsx .scripts/tasks/new-component.ts",
+        "clean": "tsx .scripts/clean.ts",
         "pr-check": "npx tsx .scripts/tasks/lint-components.ts && npm run lint && npm run lint:css && npx tsx .scripts/check-css-vars.ts && npm run build"
     },
     "static-exports": {
@@ -142,8 +143,6 @@
         "./RadioGroup/*": "./dist/components/RadioGroup/*.js",
         "./RadioOption": "./dist/components/RadioOption/index.js",
         "./RadioOption/*": "./dist/components/RadioOption/*.js",
-        "./RangeSlider": "./dist/components/RangeSlider/index.js",
-        "./RangeSlider/*": "./dist/components/RangeSlider/*.js",
         "./Rating": "./dist/components/Rating/index.js",
         "./Rating/*": "./dist/components/Rating/*.js",
         "./Scrim": "./dist/components/Scrim/index.js",
@@ -226,7 +225,6 @@
     "dependencies": {
         "@bspk/styles": "^1.0.2",
         "@floating-ui/dom": "^1.6.13",
-        "@tanstack/react-table": "^8.21.3",
         "focus-trap-react": "^11.0.1",
         "libphonenumber-js": "^1.12.9"
     },

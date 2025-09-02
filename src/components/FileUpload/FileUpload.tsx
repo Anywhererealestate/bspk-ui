@@ -91,9 +91,9 @@ export type FileUploadProps = Pick<FileUploadItemProps, 'cancelButtonLabel' | 'o
  *     }
  *
  * @name FileUpload
- * @phase QA
+ * @phase UXReview
  */
-function FileUpload({
+export function FileUpload({
     dragAndDrop = false,
     multipleFiles = false,
     uploadSubtitle,
@@ -237,9 +237,6 @@ function FileUpload({
     );
 }
 
-FileUpload.bspkName = 'FileUpload';
-
-export { FileUpload };
 
 function useMergedFileEntries({
     files,

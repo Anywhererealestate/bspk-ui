@@ -1,4 +1,4 @@
-import { ReactElement, cloneElement, useMemo, useRef, useState } from 'react';
+import { ReactElement, useRef, useState } from 'react';
 
 import { Portal } from '-/components/Portal';
 import { Placement, useFloating } from '-/hooks/useFloating';
@@ -12,6 +12,13 @@ const DEFAULT = {
     disabled: false,
 } as const;
 
+export type TooltipTriggerProps = {
+    onMouseOver?: () => void;
+    onMouseLeave?: () => void;
+    onFocus?: () => void;
+    'aria-describedby'?: string;
+};
+
 export type TooltipProps = {
     /**
      * The placement of the tooltip.
@@ -22,12 +29,11 @@ export type TooltipProps = {
     /** The tooltip content. */
     label: string;
     /**
-     * A single element that will trigger the tooltip when hovered over.
+     * A callback to render the trigger element.
      *
-     * @type ReactElement
      * @required
      */
-    children: ReactElement;
+    children: (triggerProps: TooltipTriggerProps) => ReactElement;
     /** Determines if the tooltip is disabled. */
     disabled?: boolean;
     /**
@@ -48,7 +54,7 @@ export type TooltipProps = {
  *     export function Example() {
  *         return (
  *             <Tooltip label="I explain what this button does" placement="top">
- *                 <Button>Click me</Button>
+ *                 {(triggerProps) => <Button {...triggerProps}>Click me</Button>}
  *             </Tooltip>
  *         );
  *     }
@@ -56,7 +62,7 @@ export type TooltipProps = {
  * @name Tooltip
  * @phase UXReview
  */
-function Tooltip({
+export function Tooltip({
     placement = DEFAULT.placement,
     label,
     children,
@@ -65,18 +71,6 @@ function Tooltip({
 }: TooltipProps) {
     const id = useId();
     const [show, setShow] = useState(false);
-
-    const child = useMemo(
-        () =>
-            !disabled &&
-            children &&
-            cloneElement(children, {
-                onMouseOver: () => setShow(true),
-                onMouseLeave: () => setShow(false),
-                'aria-describedby': id,
-            }),
-        [children, disabled, id],
-    );
 
     const arrowRef = useRef<HTMLElement | null>(null);
 
@@ -88,9 +82,20 @@ function Tooltip({
         hide: !show,
     });
 
-    return disabled ? (
-        children
-    ) : (
+    const child = children(
+        disabled
+            ? {}
+            : {
+                  onMouseOver: () => setShow(true),
+                  onMouseLeave: () => setShow(false),
+                  onFocus: () => setShow(true),
+                  'aria-describedby': id,
+              },
+    );
+
+    if (disabled) return child;
+
+    return (
         <>
             {child}
             {label && (
@@ -114,7 +119,7 @@ function Tooltip({
                                 arrowRef.current = node;
                             }}
                             style={{
-                                zIndex: 1000,
+                                zIndex: 'var(--z-index-tooltip-popover)',
                                 opacity: showTail ? 1 : 0,
                                 left: middlewareData.arrow?.x != null ? `${middlewareData.arrow?.x}px` : '',
                                 top: middlewareData.arrow?.y != null ? `${middlewareData.arrow?.y}px` : '',
@@ -127,8 +132,5 @@ function Tooltip({
     );
 }
 
-Tooltip.bspkName = 'Tooltip';
-
-export { Tooltip };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

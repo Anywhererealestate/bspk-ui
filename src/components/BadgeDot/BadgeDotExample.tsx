@@ -7,11 +7,10 @@ export const BadgeDotExample: ComponentExample<BadgeDotProps> = {
     containerStyle: { width: '100%' },
     defaultState: {},
     disableProps: [],
-    presets: [],
-    render: ({ props, Component, variant }) => {
+    render: ({ props, Component }) => {
         return (
             <Component {...props}>
-                {variant?.name === 'outline' ? (
+                {props.outline === true ? (
                     <Button label="Button" size="large" />
                 ) : (
                     <Avatar image="/profile.jpg" name="Andre Giant" />

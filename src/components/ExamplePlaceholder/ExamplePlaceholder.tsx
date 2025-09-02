@@ -40,7 +40,7 @@ export type ExamplePlaceholderProps = {
  * @name ExamplePlaceholder
  * @phase Utility
  */
-function ExamplePlaceholder({
+export function ExamplePlaceholder({
     hideSize = false,
     height = 100,
     width = '100%',
@@ -73,6 +73,3 @@ function ExamplePlaceholder({
     );
 }
 
-ExamplePlaceholder.bspkName = 'ExamplePlaceholder';
-
-export { ExamplePlaceholder };

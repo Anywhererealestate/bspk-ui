@@ -11,12 +11,9 @@ export type TopNavigationProps = {
  * @name TopNavigation
  * @phase Backlog
  */
-function TopNavigation({ children }: TopNavigationProps) {
+export function TopNavigation({ children }: TopNavigationProps) {
     return <div data-bspk="top-navigation">{children}</div>;
 }
 
-TopNavigation.bspkName = 'TopNavigation';
-
-export { TopNavigation };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

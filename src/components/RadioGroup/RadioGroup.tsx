@@ -93,7 +93,7 @@ export type RadioGroupProps = CommonProps<'disabled' | 'name'> &
  * @name RadioGroup
  * @phase UXReview
  */
-function RadioGroup({
+export function RadioGroup({
     onChange,
     options = [],
     name,
@@ -137,8 +137,5 @@ function RadioGroup({
     );
 }
 
-RadioGroup.bspkName = 'RadioGroup';
-
-export { RadioGroup };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

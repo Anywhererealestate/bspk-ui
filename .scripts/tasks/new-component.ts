@@ -79,17 +79,13 @@ export type ${componentName}Props = {
  * @phase Dev
  * 
  */
-function ${componentName}({ children, variant = DEFAULT.variant }: ${componentName}Props) {
+export function ${componentName}({ children, variant = DEFAULT.variant }: ${componentName}Props) {
     return (
         <span data-bspk="${slug}" data-variant={variant || undefined}>
             {children}
         </span>
     );
 }
-
-${componentName}.bspkName = '${componentName}';
-
-export { ${componentName} };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
 `,

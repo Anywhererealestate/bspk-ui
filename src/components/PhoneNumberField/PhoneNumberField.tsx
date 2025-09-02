@@ -10,9 +10,9 @@ export type PhoneNumberFieldProps = FormFieldWrapProps<PhoneNumberInputProps>;
  *     <PhoneNumberField label="Phone Number" initialCountryCode="US" value={value} onChange={onChange} />;
  *
  * @name PhoneNumberField
- * @phase QA
+ * @phase UXReview
  */
-function PhoneNumberField({
+export function PhoneNumberField({
     label,
     helperText,
     controlId,
@@ -38,8 +38,5 @@ function PhoneNumberField({
     );
 }
 
-PhoneNumberField.bspkName = 'PhoneNumberField';
-
-export { PhoneNumberField };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

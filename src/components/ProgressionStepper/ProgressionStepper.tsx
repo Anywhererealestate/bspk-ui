@@ -70,9 +70,9 @@ export type ProgressionStepperProps = {
  *     }
  *
  * @name ProgressionStepper
- * @phase Dev
+ * @phase UXReview
  */
-function ProgressionStepper({
+export function ProgressionStepper({
     steps = [],
     currentStep: currentStepProp = 0,
     variant = 'horizontal',
@@ -109,11 +109,14 @@ function ProgressionStepper({
                             data-step={stepNum}
                             key={`step-${index}`}
                         >
-                            <span aria-hidden data-line-circle>
+                            <span data-line-circle>
                                 <span data-line="before" />
                                 <span data-circle>
-                                    <span>{stepNum}</span>
-                                    {status === 'complete' && <SvgCheck />}
+                                    {status === 'complete' ? (
+                                        <SvgCheck aria-hidden={true} />
+                                    ) : (
+                                        (variant !== 'widget' || status === 'current') && <span>{stepNum}</span>
+                                    )}
                                 </span>
                                 <span data-line="after" />
                             </span>
@@ -131,8 +134,5 @@ function ProgressionStepper({
     );
 }
 
-ProgressionStepper.bspkName = 'ProgressionStepper';
-
-export { ProgressionStepper };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

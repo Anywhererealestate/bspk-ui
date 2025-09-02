@@ -1,47 +1,45 @@
 import { FocusTrap } from 'focus-trap-react';
-import { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
+import { ReactNode, useCallback, useEffect, useRef } from 'react';
 
-import { Portal } from '-/components/Portal';
+import { Portal, PortalProps } from '-/components/Portal';
 import { Scrim } from '-/components/Scrim';
 import { useId } from '-/hooks/useId';
 import { CommonProps, ElementProps, SetRef } from '-/types/common';
 
 import './dialog.scss';
 
-export type DialogProps = CommonProps<'id' | 'owner'> & {
-    /** The content of the dialog. */
-    children?: ReactNode;
-    /** A ref to the dialog element. */
-    innerRef?: SetRef<HTMLDivElement>;
-    /**
-     * If the dialog should appear.
-     *
-     * @example
-     *     false;
-     *
-     * @default false
-     */
-    open?: boolean;
-    /**
-     * Function to call when the dialog is closed.
-     *
-     * @type () => void
-     * @required
-     */
-    onClose: () => void;
-    /**
-     * The placement of the dialog on the screen.
-     *
-     * @default center
-     */
-    placement?: 'bottom' | 'center' | 'left' | 'right' | 'top';
-    /**
-     * Whether the dialog should have a scrim behind it.
-     *
-     * @default true
-     */
-    showScrim?: boolean;
-};
+export type DialogProps = CommonProps<'id' | 'owner'> &
+    Pick<PortalProps, 'container'> & {
+        /** The content of the dialog. */
+        children?: ReactNode;
+        /** A ref to the dialog element. */
+        innerRef?: SetRef<HTMLDivElement>;
+        /**
+         * If the dialog should appear.
+         *
+         * @default false
+         */
+        open?: boolean;
+        /**
+         * Function to call when the dialog is closed.
+         *
+         * @type () => void
+         * @required
+         */
+        onClose: () => void;
+        /**
+         * The placement of the dialog on the screen.
+         *
+         * @default center
+         */
+        placement?: 'bottom' | 'center' | 'left' | 'right' | 'top';
+        /**
+         * Whether the dialog should have a scrim behind it.
+         *
+         * @default true
+         */
+        showScrim?: boolean;
+    };
 
 /**
  * Dialogs display important information that users need to acknowledge. They appear over the interface and block
@@ -69,78 +67,37 @@ export type DialogProps = CommonProps<'id' | 'owner'> & {
  * @name Dialog
  * @phase Utility
  */
-function Dialog({
-    //
+export function Dialog({
     children,
     innerRef,
     onClose,
-    open,
+    open = false,
     placement = 'center',
     showScrim = true,
     id: idProp,
     owner,
+    container,
     ...containerProps
 }: ElementProps<DialogProps, 'div'>) {
     const id = useId(idProp);
     const boxRef = useRef<HTMLDivElement | null>(null);
-    const [visibility, setVisibilityState] = useState<'hidden' | 'hiding' | 'show' | 'showing'>(
-        open ? 'show' : 'hidden',
-    );
-
-    const prevVisibility = useRef(visibility);
-
-    const setVisibility = useCallback((next: typeof visibility) => {
-        setVisibilityState((prev) => {
-            prevVisibility.current = prev;
-            return next;
-        });
-    }, []);
 
     const handleKeyDown = useCallback((e: KeyboardEvent) => e.key === 'Escape' && onClose(), [onClose]);
 
     useEffect(() => {
-        if (open) {
-            if (prevVisibility.current.startsWith('show')) return;
-            setVisibility('showing');
-            return;
-        }
-
-        if (prevVisibility.current.startsWith('hid')) return;
-        setVisibility('hiding');
-    }, [open, setVisibility]);
-
-    useEffect(() => {
-        if (prevVisibility.current === visibility) return;
-
-        if (visibility === 'showing') {
-            document.body.style.overflow = 'hidden';
-            setTimeout(() => setVisibility('show'), 10);
-        }
-
-        if (visibility === 'hiding') {
-            document.body.style.overflow = '';
-            setTimeout(() => setVisibility('hidden'), 10);
-        }
-    }, [setVisibility, visibility]);
-
-    useEffect(() => {
-        if (visibility.startsWith('hid')) return;
-
-        document.addEventListener('keydown', handleKeyDown);
-        return () => {
-            document.removeEventListener('keydown', handleKeyDown);
-        };
-    }, [handleKeyDown, visibility]);
+        document.documentElement.style.overflow = open ? 'hidden' : '';
+        if (open) document.addEventListener('keydown', handleKeyDown);
+        return () => document.removeEventListener('keydown', handleKeyDown);
+    }, [handleKeyDown, open]);
 
     return (
-        visibility !== 'hidden' && (
-            <Portal>
+        open && (
+            <Portal container={container}>
                 <div
                     {...containerProps}
                     data-bspk="dialog"
                     data-bspk-owner={owner || undefined}
                     data-placement={placement}
-                    data-visibility={visibility}
                     id={id}
                     ref={innerRef}
                     role="presentation"
@@ -174,8 +131,5 @@ function Dialog({
     );
 }
 
-Dialog.bspkName = 'Dialog';
-
-export { Dialog };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
