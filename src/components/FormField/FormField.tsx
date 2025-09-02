@@ -74,6 +74,7 @@ export function FormField({
     labelTrailing,
     controlId,
     required,
+    ...props
 }: ElementProps<FormFieldProps, 'div'>) {
     const errorMessage = invalid && errorMessageProp ? errorMessageProp : undefined;
     const errorMessageId = errorMessage ? `${controlId}-error-message` : undefined;
@@ -83,7 +84,7 @@ export function FormField({
     if (typeof children !== 'function') return null;
 
     return (
-        <div data-bspk="form-field" data-invalid={invalid || undefined}>
+        <div {...props} data-bspk-utility="form-field" data-invalid={invalid || undefined}>
             <header>
                 <label htmlFor={controlId}>
                     <Txt as="span" variant="labels-small">
@@ -114,6 +115,5 @@ export function FormField({
         </div>
     );
 }
-
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

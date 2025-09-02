@@ -30,19 +30,19 @@ export type PasswordFieldProps = FormFieldWrapProps<PasswordInputProps>;
  * @phase UXReview
  */
 export function PasswordField({
-    label,
+    controlId,
     errorMessage,
     helperText,
-    controlId,
+    invalid,
+    label,
     labelTrailing,
     required,
-    invalid,
-    ...inputAttr
+    ...inputProps
 }: PasswordFieldProps) {
     return (
         <FormField
             controlId={controlId}
-            data-bspk="text-field"
+            data-bspk-owner="password-field"
             errorMessage={errorMessage}
             helperText={helperText}
             invalid={invalid}
@@ -52,13 +52,13 @@ export function PasswordField({
         >
             {(fieldProps) => (
                 <PasswordInput
-                    {...inputAttr}
+                    {...inputProps}
                     {...fieldProps}
                     aria-label={label}
                     id={controlId}
                     invalid={invalid}
                     required={required}
-                    value={inputAttr.value ?? ''}
+                    value={inputProps.value ?? ''}
                 />
             )}
         </FormField>

@@ -38,7 +38,7 @@ export type PasswordInputProps = Pick<
  * @name PasswordInput
  * @phase Dev
  */
-function PasswordInput({
+export function PasswordInput({
     disabled,
     readOnly,
     size = 'medium',
@@ -111,9 +111,5 @@ function PasswordInput({
         </div>
     );
 }
-
-PasswordInput.bspkName = 'PasswordInput';
-
-export { PasswordInput };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
