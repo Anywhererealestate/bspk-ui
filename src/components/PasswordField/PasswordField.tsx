@@ -27,7 +27,7 @@ export type PasswordFieldProps = FormFieldWrapProps<PasswordInputProps>;
  *     }
  *
  * @name PasswordField
- * @phase UXReview
+ * @phase QA
  */
 export function PasswordField({
     controlId,
