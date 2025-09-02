@@ -42,7 +42,7 @@ export function PasswordField({
     return (
         <FormField
             controlId={controlId}
-            data-bspk-owner="password-field"
+            data-bspk="password-field"
             errorMessage={errorMessage}
             helperText={helperText}
             invalid={invalid}
