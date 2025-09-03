@@ -27,7 +27,7 @@ export type PasswordFieldProps = FormFieldWrapProps<PasswordInputProps>;
  *     }
  *
  * @name PasswordField
- * @phase QA
+ * @phase UXReview
  */
 export function PasswordField({
     controlId,
@@ -37,7 +37,7 @@ export function PasswordField({
     label,
     labelTrailing,
     required,
-    ...inputProps
+    ...passwordInputProps
 }: PasswordFieldProps) {
     return (
         <FormField
@@ -52,13 +52,12 @@ export function PasswordField({
         >
             {(fieldProps) => (
                 <PasswordInput
-                    {...inputProps}
+                    {...passwordInputProps}
                     {...fieldProps}
-                    aria-label={label}
                     id={controlId}
                     invalid={invalid}
                     required={required}
-                    value={inputProps.value ?? ''}
+                    value={passwordInputProps.value ?? ''}
                 />
             )}
         </FormField>
