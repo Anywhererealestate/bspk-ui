@@ -2,7 +2,6 @@ import { CalendarInputProps } from '.';
 import { ComponentExample } from '-/utils/demo';
 
 export const CalendarInputExample: ComponentExample<CalendarInputProps> = {
-    containerStyle: { width: '100%' },
     defaultState: {},
     disableProps: [],
     presets: [],

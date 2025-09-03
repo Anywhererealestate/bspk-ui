@@ -1,10 +1,8 @@
-import { SvgChevronLeft } from '@bspk/icons/ChevronLeft';
-import { SvgChevronRight } from '@bspk/icons/ChevronRight';
-import { SvgKeyboardDoubleArrowLeft } from '@bspk/icons/KeyboardDoubleArrowLeft';
-import { SvgKeyboardDoubleArrowRight } from '@bspk/icons/KeyboardDoubleArrowRight';
-import { startOfMonth, endOfMonth, startOfWeek, endOfWeek, addDays, format, isSameDay, isSameMonth } from 'date-fns';
 import { useState } from 'react';
 import './date-picker.scss';
+import { DayPicker } from './DayPicker';
+import { MonthPicker, YearMonth } from './MonthPicker';
+import { YearPicker } from './YearPicker';
 
 export type DatePickerProps = {
     /** The currently selected date */
@@ -20,7 +18,7 @@ export type DatePickerProps = {
 };
 
 /**
- * A component or widget that allows customers to select a day,
+ * A component or widget that allows customers to select a date,
  *
  * @example
  *     import { DatePicker } from '@bspk/ui/DatePicker';
@@ -34,145 +32,47 @@ export type DatePickerProps = {
  * @name DatePicker
  * @phase Dev
  */
-export function DatePicker({ onChange, value, variant = 'flat' }: DatePickerProps) {
-    const [viewMonth, setViewMonth] = useState(() => {
+function DatePicker({ onChange, value, variant = 'flat' }: DatePickerProps) {
+    const [visiblePicker, setVisiblePicker] = useState<'day' | 'month' | 'year'>('day');
+    const [viewMonth, setViewMonth] = useState<YearMonth>(() => {
         const initial = value ? value : new Date();
 
-        return { year: initial.getFullYear(), month: initial.getMonth() };
+        return { year: initial.getFullYear(), monthIndex: initial.getMonth() };
     });
 
-    const viewDate = new Date(viewMonth.year, viewMonth.month, 1);
-
-    const controlRow = () => (
-        <div data-control-row="">
-            <button
-                aria-label="Previous Year"
-                data-month-button=""
-                onClick={() =>
-                    setViewMonth((prev) => ({
-                        year: prev.year - 1,
-                        month: prev.month,
-                    }))
-                }
-            >
-                <SvgKeyboardDoubleArrowLeft fontSize="24px" />
-            </button>
-
-            <button
-                aria-label="Previous Month"
-                data-month-button=""
-                onClick={() =>
-                    setViewMonth((prev) => ({
-                        year: prev.month === 0 ? prev.year - 1 : prev.year,
-                        month: (prev.month + 11) % 12,
-                    }))
-                }
-            >
-                <SvgChevronLeft fontSize="24px" />
-            </button>
-
-            <div data-current-period="">{format(viewDate, 'MMMM yyyy')}</div>
-
-            <button
-                aria-label="Next Month"
-                data-month-button=""
-                onClick={() =>
-                    setViewMonth((prev) => ({
-                        year: prev.month === 11 ? prev.year + 1 : prev.year,
-                        month: (prev.month + 1) % 12,
-                    }))
-                }
-            >
-                <SvgChevronRight fontSize="24px" />
-            </button>
-
-            <button
-                aria-label="Next Year"
-                data-month-button=""
-                onClick={() =>
-                    setViewMonth((prev) => ({
-                        year: prev.year + 1,
-                        month: prev.month,
-                    }))
-                }
-            >
-                <SvgKeyboardDoubleArrowRight fontSize="24px" />
-            </button>
-        </div>
-    );
-
-    const weekdayElements = () => {
-        const days = [];
-        const start = startOfWeek(viewDate);
-        for (let i = 0; i < 7; i++) {
-            days.push(
-                <div data-weekday="" key={i}>
-                    {format(addDays(start, i), 'EEE')}
-                </div>,
-            );
-        }
-        return <div data-weekdays="">{days}</div>;
+    const selectYearMonth = (newVal: YearMonth) => {
+        setViewMonth(newVal);
+        setVisiblePicker('day');
     };
 
-    const dayElements = () => {
-        const monthStart = startOfMonth(viewDate);
-        const monthEnd = endOfMonth(monthStart);
-        const startDate = startOfWeek(monthStart);
-        const endDate = endOfWeek(monthEnd);
-
-        const rows = [];
-        let days = [];
-        let day = startDate;
-
-        while (day <= endDate) {
-            for (let i = 0; i < 7; i++) {
-                const dayCopy = new Date(day);
-                const formattedDate = format(dayCopy, 'd');
-                const isOtherMonth = !isSameMonth(dayCopy, monthStart);
-
-                days.push(
-                    <span
-                        data-day=""
-                        data-other-month={isOtherMonth ? '' : undefined}
-                        data-selected={value && isSameDay(dayCopy, value) ? '' : undefined}
-                        data-today={isSameDay(dayCopy, new Date()) ? '' : undefined}
-                        key={dayCopy.getDate()}
-                    >
-                        <button
-                            disabled={isOtherMonth}
-                            key={dayCopy.getDate()}
-                            onClick={
-                                !isOtherMonth
-                                    ? () => {
-                                          if (onChange) {
-                                              onChange(dayCopy);
-                                          }
-                                      }
-                                    : undefined
-                            }
-                        >
-                            {formattedDate}
-                        </button>
-                    </span>,
+    const componentBody = () => {
+        switch (visiblePicker) {
+            case 'day':
+                return (
+                    <DayPicker
+                        onChange={onChange}
+                        onPickerChange={setVisiblePicker}
+                        setViewMonth={setViewMonth}
+                        value={value}
+                        variant={variant}
+                        viewMonth={viewMonth}
+                    />
                 );
-                day = addDays(day, 1);
-            }
-            rows.push(
-                <div data-period-row="" key={day.getDate()}>
-                    {days}
-                </div>,
-            );
-            days = [];
+            case 'month':
+                return <MonthPicker onChange={selectYearMonth} value={viewMonth} variant={variant} />;
+            case 'year':
+                return (
+                    <YearPicker
+                        onChange={(newVal) => selectYearMonth({ ...viewMonth, year: newVal })}
+                        value={viewMonth.year}
+                        variant={variant}
+                    />
+                );
         }
-
-        return <div data-days="">{rows}</div>;
     };
 
-    return (
-        <div data-bspk="date-picker" data-variant={variant}>
-            {controlRow()}
-            {weekdayElements()}
-            {dayElements()}
-        </div>
-    );
+    return <div data-bspk="date-picker">{componentBody()}</div>;
 }
+
+DatePicker.bspkName = 'DatePicker';
+export { DatePicker };

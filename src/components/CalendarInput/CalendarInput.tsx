@@ -4,24 +4,14 @@ import { useState } from 'react';
 import { parseAndFormatTypedDate } from './helpers';
 import { DatePicker, DatePickerProps } from '-/components/DatePicker';
 import { Portal } from '-/components/Portal';
-import { TextField, TextFieldProps } from '-/components/TextField';
+import { TextInput, TextInputProps } from '-/components/TextInput';
 import { useFloating } from '-/hooks/useFloating';
 import './calendar-input.scss';
 import { useOutsideClick } from '-/hooks/useOutsideClick';
 
 export type CalendarInputProps = Pick<
-    TextFieldProps,
-    | 'aria-label'
-    | 'controlId'
-    | 'disabled'
-    | 'errorMessage'
-    | 'helperText'
-    | 'invalid'
-    | 'label'
-    | 'name'
-    | 'readOnly'
-    | 'required'
-    | 'size'
+    TextInputProps,
+    'aria-label' | 'disabled' | 'invalid' | 'name' | 'readOnly' | 'required' | 'size'
 > &
     Pick<DatePickerProps, 'onChange' | 'value'> & {
         /**
@@ -38,17 +28,18 @@ export type CalendarInputProps = Pick<
  *
  * @example
  *     import { CalendarInput } from '@bspk/ui/CalendarInput';
+ *     import { useState } from 'react';
  *
  *     function Example() {
  *         const [date, setDate] = useState<Date | undefined>(new Date());
  *
- *         return <CalendarInput value={date} onChange={setDate} />;
+ *         return <CalendarInput name="calendar input" aria-label="calendar input" value={date} onChange={setDate} />;
  *     }
  *
  * @name CalendarInput
  * @phase Dev
  */
-export function CalendarInput({
+function CalendarInput({
     value,
     onChange,
     disabled,
@@ -84,9 +75,7 @@ export function CalendarInput({
     };
 
     const handleTextChange = (newValue: string) => {
-        const cleaned = newValue.replace('-', '/').replace(/[^\d/]/g, '');
-
-        const { formatted, date } = parseAndFormatTypedDate(cleaned);
+        const { formatted, date } = parseAndFormatTypedDate(newValue, newValue.length < textValue.length);
 
         setTextValue(formatted);
 
@@ -102,7 +91,7 @@ export function CalendarInput({
                     elements.setReference(node);
                 }}
             >
-                <TextField
+                <TextInput
                     disabled={disabled}
                     onChange={handleTextChange}
                     readOnly={readOnly}
@@ -132,5 +121,9 @@ export function CalendarInput({
         </span>
     );
 }
+
+CalendarInput.bspkName = 'CalendarInput';
+
+export { CalendarInput };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

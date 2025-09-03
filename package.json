@@ -50,6 +50,8 @@
         "./Breadcrumb/*": "./dist/components/Breadcrumb/*.js",
         "./Button": "./dist/components/Button/index.js",
         "./Button/*": "./dist/components/Button/*.js",
+        "./CalendarField": "./dist/components/CalendarField/index.js",
+        "./CalendarField/*": "./dist/components/CalendarField/*.js",
         "./CalendarInput": "./dist/components/CalendarInput/index.js",
         "./CalendarInput/*": "./dist/components/CalendarInput/*.js",
         "./Card": "./dist/components/Card/index.js",

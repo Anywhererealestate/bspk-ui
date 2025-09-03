@@ -1,4 +1,4 @@
-[data-bspk='date-picker'],
+[data-bspk='day-picker'],
 [data-bspk='month-picker'],
 [data-bspk='year-picker'] {
     display: flex;
@@ -86,6 +86,10 @@
             font: var(--labels-base);
             line-height: var(--typography-line-height-lh-2);
             font-size: var(--typography-size-base);
+
+            button:hover {
+                color: var(--status-information);
+            }
         }
 
         [data-month-button] {
@@ -95,6 +99,10 @@
             align-items: center;
             justify-content: center;
             color: var(--foreground-neutral-on-surface-variant-01);
+
+            &:hover {
+                color: var(--status-information);
+            }
         }
     }
 

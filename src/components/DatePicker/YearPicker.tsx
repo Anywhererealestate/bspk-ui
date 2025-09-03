@@ -35,7 +35,8 @@ export type YearPickerProps = {
  */
 export function YearPicker({ onChange, value, variant = 'flat' }: YearPickerProps) {
     const currentYear = new Date().getFullYear();
-    const endOfDecade = Math.ceil(value ?? currentYear / 10) * 10;
+    const val = value ? value : currentYear;
+    const endOfDecade = val + (10 - (val % 10));
 
     const [internalValue, setInternalValue] = useState<number | undefined>(value);
     const [viewDecade, setViewDecade] = useState<number>(endOfDecade);
