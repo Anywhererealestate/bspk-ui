@@ -30,7 +30,7 @@ export type OTPInputProps = CommonProps<'id' | 'invalid' | 'name' | 'size'> & {
 };
 
 /**
- * A row of numerical input fields that are used to input a temporary secure pin code sent to the customer.
+ * A row of input fields that are used to input a temporary secure pin code sent to the customer.
  *
  * @example
  *     import { OTPInput } from '@bspk/ui/OTPInput';
