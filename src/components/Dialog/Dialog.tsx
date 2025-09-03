@@ -92,12 +92,6 @@ export function Dialog({
 
     const handleKeyDown = useCallback((e: KeyboardEvent) => e.key === 'Escape' && onClose(), [onClose]);
 
-    // useEffect(() => {
-    //     document.documentElement.style.overflow = open ? 'hidden' : '';
-    //     if (open) document.addEventListener('keydown', handleKeyDown);
-    //     return () => document.removeEventListener('keydown', handleKeyDown);
-    // }, [handleKeyDown, open]);
-
     useEffect(() => {
         if (open) {
             document.documentElement.style.overflow = 'hidden';
