@@ -32,7 +32,7 @@ export type DatePickerProps = {
  * @name DatePicker
  * @phase Dev
  */
-function DatePicker({ onChange, value, variant = 'flat' }: DatePickerProps) {
+export function DatePicker({ onChange, value, variant = 'flat' }: DatePickerProps) {
     const [visiblePicker, setVisiblePicker] = useState<'day' | 'month' | 'year'>('day');
     const [viewMonth, setViewMonth] = useState<YearMonth>(() => {
         const initial = value ? value : new Date();
@@ -73,6 +73,3 @@ function DatePicker({ onChange, value, variant = 'flat' }: DatePickerProps) {
 
     return <div data-bspk="date-picker">{componentBody()}</div>;
 }
-
-DatePicker.bspkName = 'DatePicker';
-export { DatePicker };

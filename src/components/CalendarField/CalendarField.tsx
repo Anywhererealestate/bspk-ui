@@ -4,7 +4,8 @@ import './calendar-field.scss';
 
 export type CalendarFieldProps = FormFieldWrapProps<CalendarInputProps>;
 /**
- * Component description.
+ * An input field that allows a customer to manually type in a specific date or triggers a date picker combobox to
+ * select a date.
  *
  * @example
  *     import { CalendarField } from '@bspk/ui/CalendarField';
@@ -28,7 +29,7 @@ export type CalendarFieldProps = FormFieldWrapProps<CalendarInputProps>;
  * @name CalendarField
  * @phase Dev
  */
-function CalendarField({
+export function CalendarField({
     label,
     errorMessage,
     helperText,
@@ -53,9 +54,5 @@ function CalendarField({
         </FormField>
     );
 }
-
-CalendarField.bspkName = 'CalendarField';
-
-export { CalendarField };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

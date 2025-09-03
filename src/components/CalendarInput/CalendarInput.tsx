@@ -23,8 +23,8 @@ export type CalendarInputProps = Pick<
     };
 
 /**
- * An input field that allows a customer to manually type in a specific date or triggers a date picker combobox to
- * select a date.
+ * An input that allows a customer to manually type in a specific date or triggers a date picker combobox to select a
+ * date.
  *
  * @example
  *     import { CalendarInput } from '@bspk/ui/CalendarInput';
@@ -39,7 +39,7 @@ export type CalendarInputProps = Pick<
  * @name CalendarInput
  * @phase Dev
  */
-function CalendarInput({
+export function CalendarInput({
     value,
     onChange,
     disabled,
@@ -121,9 +121,5 @@ function CalendarInput({
         </span>
     );
 }
-
-CalendarInput.bspkName = 'CalendarInput';
-
-export { CalendarInput };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
