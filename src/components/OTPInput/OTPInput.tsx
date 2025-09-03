@@ -40,7 +40,7 @@ export type OTPInputProps = CommonProps<'id' | 'invalid' | 'name' | 'size'> & {
  *     }
  *
  * @name OTPInput
- * @phase QA
+ * @phase UXReview
  */
 export function OTPInput({
     value: valueProp,
