@@ -112,8 +112,6 @@
         "./MenuButton/*": "./dist/components/MenuButton/*.js",
         "./Modal": "./dist/components/Modal/index.js",
         "./Modal/*": "./dist/components/Modal/*.js",
-        "./MonthPicker": "./dist/components/MonthPicker/index.js",
-        "./MonthPicker/*": "./dist/components/MonthPicker/*.js",
         "./NumberField": "./dist/components/NumberField/index.js",
         "./NumberField/*": "./dist/components/NumberField/*.js",
         "./NumberInput": "./dist/components/NumberInput/index.js",
@@ -215,9 +213,7 @@
         "./Txt": "./dist/components/Txt/index.js",
         "./Txt/*": "./dist/components/Txt/*.js",
         "./UIProvider": "./dist/components/UIProvider/index.js",
-        "./UIProvider/*": "./dist/components/UIProvider/*.js",
-        "./YearPicker": "./dist/components/YearPicker/index.js",
-        "./YearPicker/*": "./dist/components/YearPicker/*.js"
+        "./UIProvider/*": "./dist/components/UIProvider/*.js"
     },
     "publishConfig": {
         "access": "public"
