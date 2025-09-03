@@ -92,10 +92,21 @@ export function Dialog({
 
     const handleKeyDown = useCallback((e: KeyboardEvent) => e.key === 'Escape' && onClose(), [onClose]);
 
+    // useEffect(() => {
+    //     document.documentElement.style.overflow = open ? 'hidden' : '';
+    //     if (open) document.addEventListener('keydown', handleKeyDown);
+    //     return () => document.removeEventListener('keydown', handleKeyDown);
+    // }, [handleKeyDown, open]);
+
     useEffect(() => {
-        document.documentElement.style.overflow = open ? 'hidden' : '';
-        if (open) document.addEventListener('keydown', handleKeyDown);
-        return () => document.removeEventListener('keydown', handleKeyDown);
+        if (open) {
+            document.documentElement.style.overflow = 'hidden';
+            document.addEventListener('keydown', handleKeyDown);
+        }
+        return () => {
+            document.documentElement.style.overflow = '';
+            document.removeEventListener('keydown', handleKeyDown);
+        };
     }, [handleKeyDown, open]);
 
     return (

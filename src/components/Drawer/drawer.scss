@@ -1,9 +1,5 @@
 [data-bspk='drawer'] {
-    // display: flex;
-    // flex-direction: column;
-    // justify-content: center;
-    // width: 100%;
-    // background-color: var(--surface-spectrum-blue);
+    padding: var(--spacing-sizing-03);
     color: var(--foreground-neutral-on-surface);
     background: var(--surface-neutral-t1-base);
 
@@ -53,6 +49,18 @@
         height: 100%;
         border-top-right-radius: var(--radius-lg);
         border-bottom-right-radius: var(--radius-lg);
+    }
+
+    [data-drawer-header] {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        align-items: center;
+        gap: var(--spacing-sizing-04);
+
+        &[data-drawer-close-only='true'] {
+            justify-content: flex-end;
+        }
     }
 }
 

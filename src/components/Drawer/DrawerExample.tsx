@@ -1,9 +1,9 @@
 import { Drawer, DrawerProps } from '.';
 import { Button } from '-/components/Button';
-import { ComponentExample } from '-/utils/demo';
+import { ComponentExampleFn } from '-/utils/demo';
 
-// export const DrawerExample: ComponentExampleFn<DrawerProps> = ({ action }) => ({
-export const DrawerExample: ComponentExample<DrawerProps> = {
+export const DrawerExample: ComponentExampleFn<DrawerProps> = ({ action }) => ({
+    // export const DrawerExample: ComponentExample<DrawerProps> = {
     containerStyle: {
         height: '300px',
         width: '100%',
@@ -16,33 +16,19 @@ export const DrawerExample: ComponentExample<DrawerProps> = {
     ],
 
     render: ({ props, preset, setState, Component }) => {
-        // const state = preset.open;
         if (!preset) return null;
         const label = 'Open Drawer';
-        // const handleOnClose = () => {
-        //     action('Drawer closed');
-        //     setState({ open: false });
-        // };
+        const handleOnClose = () => {
+            action('Drawer closed');
+            setState({ open: false });
+        };
 
         switch (preset.label) {
-            // case 'Default Modal':
-            //     return (
-            //         <>
-            //             <div style={{ display: 'flex', justifyContent: 'center', padding: 'var(--spacing-sizing-04)' }}>
-            //                 <Button label={label} onClick={() => setState({ open: true })} />
-            //             </div>
-            //             <Drawer {...props} onClose={() => setState({ open: false })}>
-            //                 <div style={{ padding: 'var(--spacing-sizing-04)' }}>
-            //                     Hello, I am a ({props.placement}) drawer!
-            //                 </div>
-            //             </Drawer>
-            //         </>
-            //     );
             case 'Left Responsive':
                 return (
                     <>
-                        <Drawer {...props} onClose={() => setState({ open: false })}>
-                            <div style={{ padding: 'var(--spacing-sizing-04)', width: '280px' }}>
+                        <Drawer {...props} onClose={handleOnClose}>
+                            <div style={{ width: '280px' }}>
                                 Hello, <br /> I am a {props.placement}, responsive drawer!
                             </div>
                         </Drawer>
@@ -68,24 +54,29 @@ export const DrawerExample: ComponentExample<DrawerProps> = {
                         >
                             <Button label={label} onClick={() => setState({ open: true })} />
                         </div>
-                        <Drawer {...props} onClose={() => setState({ open: false })}>
-                            <div style={{ padding: 'var(--spacing-sizing-04)', width: '280px' }}>
+                        <Drawer {...props} onClose={handleOnClose}>
+                            <div style={{ width: '280px' }}>
                                 Hello, <br /> I am a {props.placement}, responsive drawer!
                             </div>
                         </Drawer>
                     </>
                 );
             default:
-                // return null;
                 return (
                     <>
                         <div style={{ display: 'flex', justifyContent: 'center', padding: 'var(--spacing-sizing-04)' }}>
                             <Button label={label} onClick={() => setState({ open: true })} />
                         </div>
-                        <Component {...props} onClose={() => setState({ open: false })}>
-                            <div style={{ padding: 'var(--spacing-sizing-04)' }}>
-                                Hello, I am a ({props.placement}) drawer!
-                            </div>
+                        <Component
+                            data-example-component
+                            {...props}
+                            id="exampleId"
+                            onClose={handleOnClose}
+                            open={props.open ?? false}
+                            placement={props.placement ?? 'right'}
+                            variant={props.variant ?? 'modal'}
+                        >
+                            <div style={{}}>Hello, I am a ({props.placement}) drawer!</div>
                         </Component>
                     </>
                 );
@@ -95,4 +86,4 @@ export const DrawerExample: ComponentExample<DrawerProps> = {
     disableProps: [],
     sections: [],
     variants: false,
-};
+});

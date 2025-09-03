@@ -2,9 +2,12 @@ import { SvgClose } from '@bspk/icons/Close';
 import { ReactNode } from 'react';
 import './drawer.scss';
 import { Button } from '-/components/Button';
-import { Dialog } from '-/components/Dialog';
+import { Dialog, DialogProps } from '-/components/Dialog';
+import { Txt } from '-/components/Txt';
 
-export type DrawerProps = {
+export type DrawerProps = Pick<DialogProps, 'container' | 'id' | 'innerRef' | 'owner'> & {
+    /** Drawer header. */
+    header?: string;
     /**
      * The content of the drawer.
      *
@@ -37,20 +40,38 @@ export type DrawerProps = {
  * Drawer component displays a panel that slides in from the edge of the screen. It can be used to show additional
  * content or actions without navigating away from the current view.
  *
- * Supports modal, persistent, and none variants, and can be placed on any screen edge.
- *
  * @example
+ *     import React from 'react';
+ *
+ *     import { Button } from '@bspk/ui/Button';
  *     import { Drawer } from '@bspk/ui/Drawer';
  *
- *     function Example() {
- *         return <Drawer>Example Drawer</Drawer>;
+ *     export function Example() {
+ *         const [open, setOpen] = React.useState(false);
+ *
+ *         return (
+ *             <>
+ *                 <Button label="Open Drawer" onClick={() => setOpen(true)} />
+ *                 <Drawer id="exampleId" onClose={() => setOpen(false)} open={open} placement="right" variant="modal">
+ *                     Example Drawer
+ *                 </Drawer>
+ *             </>
+ *         );
  *     }
  *
  * @name Drawer
  * @phase Dev
  */
 
-export function Drawer({ children, open = false, variant = 'modal', placement = 'right', onClose }: DrawerProps) {
+export function Drawer({
+    header,
+    children,
+    open = false,
+    variant = 'modal',
+    placement = 'right',
+    onClose,
+    ...dialogProps
+}: DrawerProps) {
     if (!open) return null;
     const drawerContent = (
         <section
@@ -61,34 +82,33 @@ export function Drawer({ children, open = false, variant = 'modal', placement = 
             data-variant={variant}
             role={variant === 'modal' ? 'dialog' : 'complementary'}
         >
-            {variant === 'temporary' && (
-                <Button icon={<SvgClose />} iconOnly label="close" onClick={onClose} variant="tertiary" />
+            {(header || variant !== 'permanent') && (
+                <div data-drawer-close-only={!header} data-drawer-header>
+                    {header && (
+                        <Txt as="div" data-drawer-title variant="heading-h4">
+                            {header}
+                        </Txt>
+                    )}
+                    {variant !== 'permanent' && (
+                        <Button icon={<SvgClose />} iconOnly label="close" onClick={onClose} variant="tertiary" />
+                    )}
+                </div>
             )}
-            {/* <div data-content>{children}</div> */}
+
             {children}
         </section>
     );
 
     return variant === 'modal' ? (
         <Dialog
-            onClose={onClose ?? (() => {})}
+            {...dialogProps}
+            onClose={onClose || (() => {})}
             open={open}
             placement={placement}
-            showScrim={variant === 'modal' ? true : false}
+            showScrim={true}
             widthFull={placement === 'bottom' || placement === 'top'}
         >
             {drawerContent}
-
-            {/* <section
-                aria-modal={variant === 'modal' ? 'true' : undefined}
-                data-bspk="drawer"
-                data-variant={variant}
-                role={variant === 'modal' ? 'dialog' : 'complementary'}
-            > */}
-            {/* <Button icon={<SvgClose />} iconOnly label="close" onClick={onClose} variant="tertiary" /> */}
-            {/* <div data-content>{children}</div> */}
-            {/* {children} */}
-            {/* </section> */}
         </Dialog>
     ) : (
         drawerContent

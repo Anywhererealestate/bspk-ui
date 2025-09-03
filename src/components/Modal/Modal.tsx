@@ -118,7 +118,7 @@ export type ModalProps = Pick<DialogProps, 'container' | 'id' | 'innerRef' | 'on
  *
  *         return (
  *             <>
- *                 <Button label="Open Dialog" onClick={() => setOpen(true)} />
+ *                 <Button label="Open Modal" onClick={() => setOpen(true)} />
  *                 <Modal
  *                     description="Example description"
  *                     header="Example header"
