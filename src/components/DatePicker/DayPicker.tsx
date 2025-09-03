@@ -66,10 +66,10 @@ export function DayPicker({
     const setter = setViewMonth ? setViewMonth : setViewMonthInternal;
 
     const controlRow = () => (
-        <div data-control-row="">
+        <div data-control-row>
             <button
                 aria-label="Previous Year"
-                data-month-button=""
+                data-month-button
                 onClick={() =>
                     setter((prev) => ({
                         year: prev.year - 1,
@@ -82,7 +82,7 @@ export function DayPicker({
 
             <button
                 aria-label="Previous Month"
-                data-month-button=""
+                data-month-button
                 onClick={() =>
                     setter((prev) => ({
                         year: prev.monthIndex === 0 ? prev.year - 1 : prev.year,
@@ -93,7 +93,7 @@ export function DayPicker({
                 <SvgChevronLeft fontSize="24px" />
             </button>
 
-            <div data-current-period="">
+            <div data-current-period>
                 {onPickerChange ? (
                     <>
                         <button onClick={() => onPickerChange('month')}>{format(viewDate, 'MMMM')}</button>{' '}
@@ -106,7 +106,7 @@ export function DayPicker({
 
             <button
                 aria-label="Next Month"
-                data-month-button=""
+                data-month-button
                 onClick={() =>
                     setter((prev) => ({
                         year: prev.monthIndex === 11 ? prev.year + 1 : prev.year,
@@ -119,7 +119,7 @@ export function DayPicker({
 
             <button
                 aria-label="Next Year"
-                data-month-button=""
+                data-month-button
                 onClick={() =>
                     setter((prev) => ({
                         year: prev.year + 1,
@@ -137,12 +137,12 @@ export function DayPicker({
         const start = startOfWeek(viewDate);
         for (let i = 0; i < 7; i++) {
             days.push(
-                <div data-weekday="" key={i}>
+                <div data-weekday key={i}>
                     {format(addDays(start, i), 'EEE')}
                 </div>,
             );
         }
-        return <div data-weekdays="">{days}</div>;
+        return <div data-weekdays>{days}</div>;
     };
 
     const dayElements = () => {
@@ -163,7 +163,7 @@ export function DayPicker({
 
                 days.push(
                     <span
-                        data-day=""
+                        data-day
                         data-other-month={isOtherMonth ? '' : undefined}
                         data-selected={value && isSameDay(dayCopy, value) ? '' : undefined}
                         data-today={isSameDay(dayCopy, new Date()) ? '' : undefined}
@@ -189,14 +189,14 @@ export function DayPicker({
                 day = addDays(day, 1);
             }
             rows.push(
-                <div data-period-row="" key={day.getDate()}>
+                <div data-period-row key={day.getDate()}>
                     {days}
                 </div>,
             );
             days = [];
         }
 
-        return <div data-days="">{rows}</div>;
+        return <div data-days>{rows}</div>;
     };
 
     return (

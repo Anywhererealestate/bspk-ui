@@ -68,10 +68,10 @@ export function MonthPicker({ onChange, value, variant = 'flat' }: MonthPickerPr
 
     return (
         <div data-bspk="month-picker" data-variant={variant}>
-            <div data-control-row="">
+            <div data-control-row>
                 <button
                     aria-label="Previous Year"
-                    data-month-button=""
+                    data-month-button
                     onClick={() =>
                         setViewMonth((prev) => ({
                             year: prev.year - 1,
@@ -82,11 +82,11 @@ export function MonthPicker({ onChange, value, variant = 'flat' }: MonthPickerPr
                     <SvgChevronLeft fontSize="24px" />
                 </button>
 
-                <div data-current-period="">{viewMonth.year}</div>
+                <div data-current-period>{viewMonth.year}</div>
 
                 <button
                     aria-label="Next Year"
-                    data-month-button=""
+                    data-month-button
                     onClick={() =>
                         setViewMonth((prev) => ({
                             year: prev.year + 1,
@@ -98,7 +98,7 @@ export function MonthPicker({ onChange, value, variant = 'flat' }: MonthPickerPr
                 </button>
             </div>
 
-            <div data-month-grid="">
+            <div data-month-grid>
                 {[
                     'January',
                     'February',
@@ -115,7 +115,7 @@ export function MonthPicker({ onChange, value, variant = 'flat' }: MonthPickerPr
                 ].map((month, idx) => {
                     const isSelected = internalValue?.monthIndex === idx && internalValue.year === viewMonth.year;
                     return (
-                        <div data-month="" data-selected={isSelected ? '' : undefined} key={month}>
+                        <div data-month data-selected={isSelected ? '' : undefined} key={month}>
                             <button onClick={() => handleMonthClick(idx)}>{month}</button>
                         </div>
                     );

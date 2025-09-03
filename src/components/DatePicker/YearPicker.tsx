@@ -49,34 +49,26 @@ export function YearPicker({ onChange, value, variant = 'flat' }: YearPickerProp
 
     return (
         <div data-bspk="year-picker" data-variant={variant}>
-            <div data-control-row="">
-                <button
-                    aria-label="Earlier years"
-                    data-month-button=""
-                    onClick={() => setViewDecade((prev) => prev - 10)}
-                >
+            <div data-control-row>
+                <button aria-label="Earlier years" data-month-button onClick={() => setViewDecade((prev) => prev - 10)}>
                     <SvgChevronLeft fontSize="24px" />
                 </button>
 
-                <div data-current-period="">
+                <div data-current-period>
                     {viewDecade - 11} - {viewDecade}
                 </div>
 
-                <button
-                    aria-label="Later years"
-                    data-month-button=""
-                    onClick={() => setViewDecade((prev) => prev + 10)}
-                >
+                <button aria-label="Later years" data-month-button onClick={() => setViewDecade((prev) => prev + 10)}>
                     <SvgChevronRight fontSize="24px" />
                 </button>
             </div>
 
-            <div data-year-grid="">
+            <div data-year-grid>
                 {Array.from({ length: 12 }, (_, i) => {
                     const year = viewDecade - 11 + i;
 
                     return (
-                        <div data-selected={internalValue === year ? '' : undefined} data-year="" key={year}>
+                        <div data-selected={internalValue === year ? '' : undefined} data-year key={year}>
                             <button
                                 onClick={() => {
                                     setInternalValue(year);
