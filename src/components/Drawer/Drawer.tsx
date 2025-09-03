@@ -60,7 +60,7 @@ export type DrawerProps = Pick<DialogProps, 'container' | 'id' | 'innerRef' | 'o
  *     }
  *
  * @name Drawer
- * @phase Dev
+ * @phase QA
  */
 
 export function Drawer({

@@ -3,7 +3,6 @@ import { Button } from '-/components/Button';
 import { ComponentExampleFn } from '-/utils/demo';
 
 export const DrawerExample: ComponentExampleFn<DrawerProps> = ({ action }) => ({
-    // export const DrawerExample: ComponentExample<DrawerProps> = {
     containerStyle: {
         height: '300px',
         width: '100%',
@@ -82,8 +81,5 @@ export const DrawerExample: ComponentExampleFn<DrawerProps> = ({ action }) => ({
                 );
         }
     },
-    // defaultState: {},
-    disableProps: [],
-    sections: [],
     variants: false,
 });
