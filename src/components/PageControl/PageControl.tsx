@@ -70,7 +70,6 @@ export function PageControl({ value, numPages, variant = 'flat' }: PageControlPr
     );
 }
 
-
 function getDots(currentPage: number, totalPages: number) {
     if (totalPages <= MAX_DOT_COUNT) {
         return Array.from({ length: totalPages }, (_, i) => ({

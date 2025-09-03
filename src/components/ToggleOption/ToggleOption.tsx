@@ -40,5 +40,4 @@ export function ToggleOption({ label, description, children, disabled }: ToggleO
     );
 }
 
-
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

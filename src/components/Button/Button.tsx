@@ -175,5 +175,4 @@ export function Button<As extends ElementType = 'button'>(
     return button({});
 }
 
-
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

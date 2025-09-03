@@ -46,4 +46,3 @@ export function UIProvider({ children }: UIProviderProps) {
         </UIContext.Provider>
     );
 }
-

@@ -138,5 +138,4 @@ export function Menu({
     return portal ? <Portal container={container}>{menu}</Portal> : menu;
 }
 
-
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

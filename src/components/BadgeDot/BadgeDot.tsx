@@ -80,5 +80,4 @@ export function BadgeDot({ children, color = 'primary', size = 6, outline = fals
     return badgeDot;
 }
 
-
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

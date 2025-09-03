@@ -31,5 +31,4 @@ export function Scrim({ visible = true, ...props }: ScrimProps) {
     return <div {...props} aria-hidden="true" data-bspk="scrim" data-hidden={!visible || undefined} />;
 }
 
-
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

@@ -19,5 +19,4 @@ export function ChipSuggestion({ disabled, label, onClick }: ChipSuggestionProps
     return <ChipUtility data-bspk="chip-suggestion" disabled={disabled} label={label} onClick={onClick} />;
 }
 
-
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

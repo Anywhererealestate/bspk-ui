@@ -207,4 +207,3 @@ export function Table<R extends TableRow>({
         </div>
     );
 }
-

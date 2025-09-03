@@ -218,7 +218,6 @@ export function Combobox<Item extends ComboboxItemProps>({
     );
 }
 
-
 // ListItems component to render the items in the listbox or modal.
 // This is a separate component to keep the Combobox component clean and focused on its main functionality
 

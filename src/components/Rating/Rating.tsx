@@ -90,7 +90,6 @@ export function Rating({ size = 'medium', value, onChange }: RatingProps) {
     );
 }
 
-
 function getFill(num: number, value?: number): 'full' | 'half' | undefined {
     if (value === undefined) return undefined;
     if (value >= num) return 'full';
