@@ -52,7 +52,7 @@ export type EmptyStateProps = {
  * @name EmptyState
  * @phase UXReview
  */
-function EmptyState({ children, header, body, callToAction, bodyAlign = 'center' }: EmptyStateProps) {
+export function EmptyState({ children, header, body, callToAction, bodyAlign = 'center' }: EmptyStateProps) {
     return (
         <Layout
             align="center"
@@ -84,8 +84,5 @@ function EmptyState({ children, header, body, callToAction, bodyAlign = 'center'
     );
 }
 
-EmptyState.bspkName = 'EmptyState';
-
-export { EmptyState };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

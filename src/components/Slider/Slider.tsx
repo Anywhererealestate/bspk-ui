@@ -84,7 +84,7 @@ export type SliderProps<Value> = Pick<CommonPropsLibrary, 'disabled' | 'readOnly
  * @name Slider
  * @phase UXReview
  */
-function Slider<V = SliderValue>({
+export function Slider<V = SliderValue>({
     value: valueProp,
     onChange,
     min,
@@ -278,8 +278,5 @@ function Slider<V = SliderValue>({
     );
 }
 
-Slider.bspkName = 'Slider';
-
-export { Slider };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

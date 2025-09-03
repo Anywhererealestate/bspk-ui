@@ -3,8 +3,6 @@ import { AriaAttributes, ElementType, isValidElement } from 'react';
 import { ButtonProps } from '-/components/Button';
 import { Tooltip, TooltipTriggerProps } from '-/components/Tooltip';
 import { ElementProps } from '-/types/common';
-import { isValidIcon } from '-/utils/children';
-import { useErrorLogger } from '-/utils/errors';
 
 import './fab.scss';
 
@@ -56,7 +54,7 @@ export type FabProps<As extends ElementType = 'button'> = Pick<
  * @name Fab
  * @phase UXReview
  */
-function Fab<As extends ElementType = 'button'>(props: AriaAttributes & ElementProps<FabProps<As>, As>) {
+export function Fab<As extends ElementType = 'button'>(props: AriaAttributes & ElementProps<FabProps<As>, As>) {
     const {
         size = 'small',
         variant = 'primary',
@@ -72,9 +70,6 @@ function Fab<As extends ElementType = 'button'>(props: AriaAttributes & ElementP
 
     // ignore iconOnly=true if there is no icon
     const iconOnly = iconOnlyProp === true && !!icon;
-
-    const { logError } = useErrorLogger();
-    logError(!!icon && !isValidIcon(icon), 'Button - The icon prop must be a valid icon element.');
 
     const button = (triggerProps: TooltipTriggerProps) => (
         <As
@@ -119,8 +114,5 @@ function Fab<As extends ElementType = 'button'>(props: AriaAttributes & ElementP
     return button({});
 }
 
-Fab.bspkName = 'Fab';
-
-export { Fab };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

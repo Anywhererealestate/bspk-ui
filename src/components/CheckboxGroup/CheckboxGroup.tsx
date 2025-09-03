@@ -81,7 +81,7 @@ export type CheckboxGroupProps = CommonProps<'aria-label' | 'disabled' | 'readOn
  * @name CheckboxGroup
  * @phase UXReview
  */
-function CheckboxGroup({
+export function CheckboxGroup({
     onChange,
     options = [],
     name,
@@ -107,6 +107,7 @@ function CheckboxGroup({
                         <Checkbox
                             aria-label={selectAllProps?.label || 'All'}
                             checked={!!values.length && values.length === options.length}
+                            data-testid="selectAll-Checkbox"
                             disabled={disabledGroup}
                             indeterminate={!!values.length && values.length < options.length}
                             name={name}
@@ -135,9 +136,5 @@ function CheckboxGroup({
         </div>
     );
 }
-
-CheckboxGroup.bspkName = 'CheckboxGroup';
-
-export { CheckboxGroup };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

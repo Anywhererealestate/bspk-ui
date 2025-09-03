@@ -144,7 +144,6 @@ function ListItem<As extends ElementType = 'div', T = HTMLElement>({
         </As>
     );
 }
-ListItem.bspkName = 'ListItem';
 
 ListItem.Button = ListItemButton;
 

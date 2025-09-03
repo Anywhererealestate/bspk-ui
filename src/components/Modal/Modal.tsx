@@ -136,7 +136,7 @@ export type ModalProps = Pick<DialogProps, 'container' | 'id' | 'innerRef' | 'on
  * @name Modal
  * @phase UXReview
  */
-function Modal({
+export function Modal({
     header,
     description,
     children,
@@ -208,8 +208,5 @@ function Modal({
     );
 }
 
-Modal.bspkName = 'Modal';
-
-export { Modal };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

@@ -54,7 +54,7 @@ export type BadgeDotProps = {
  * @name BadgeDot
  * @phase UXReview
  */
-function BadgeDot({ children, color = 'primary', size = 6, outline = false }: BadgeDotProps) {
+export function BadgeDot({ children, color = 'primary', size = 6, outline = false }: BadgeDotProps) {
     const badgeDot = (
         <sup
             data-attachment={!!children || undefined}
@@ -80,8 +80,5 @@ function BadgeDot({ children, color = 'primary', size = 6, outline = false }: Ba
     return badgeDot;
 }
 
-BadgeDot.bspkName = 'BadgeDot';
-
-export { BadgeDot };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
