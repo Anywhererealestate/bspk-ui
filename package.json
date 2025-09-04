@@ -79,8 +79,6 @@
         "./ChipUtility/*": "./dist/components/ChipUtility/*.js",
         "./Combobox": "./dist/components/Combobox/index.js",
         "./Combobox/*": "./dist/components/Combobox/*.js",
-        "./DatePicker": "./dist/components/DatePicker/index.js",
-        "./DatePicker/*": "./dist/components/DatePicker/*.js",
         "./Dialog": "./dist/components/Dialog/index.js",
         "./Dialog/*": "./dist/components/Dialog/*.js",
         "./Divider": "./dist/components/Divider/index.js",

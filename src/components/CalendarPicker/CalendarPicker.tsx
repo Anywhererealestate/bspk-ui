@@ -63,7 +63,7 @@ export type CalendarPickerProps = {
     /** Fires when the date changes with the new date */
     onChange: (newDate: Date) => void;
     /**
-     * Determines how the DatePicker will appear.
+     * Determines how the CalendarPicker will appear.
      *
      * @default flat
      */
