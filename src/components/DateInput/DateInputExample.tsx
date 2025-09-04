@@ -1,8 +1,7 @@
-import { DatePickerProps } from '.';
+import { DateInputProps } from '.';
 import { ComponentExample } from '-/utils/demo';
 
-export const DatePickerExample: ComponentExample<DatePickerProps> = {
-    containerStyle: { width: '100%' },
+export const DateInputExample: ComponentExample<DateInputProps> = {
     defaultState: {},
     disableProps: [],
     presets: [],
@@ -12,5 +11,5 @@ export const DatePickerExample: ComponentExample<DatePickerProps> = {
         return <Component {...restProps} value={value?.getDate ? value : undefined} />;
     },
     sections: [],
-    variants: {},
+    variants: false,
 };
