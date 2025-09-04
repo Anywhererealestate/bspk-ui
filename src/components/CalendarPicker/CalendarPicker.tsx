@@ -71,7 +71,7 @@ export type CalendarPickerProps = {
 };
 
 /**
- * Component description.
+ * A component or widget that allows customers to select the date, month, and year.
  *
  * @example
  *     import { CalendarPicker } from '@bspk/ui/CalendarPicker';
