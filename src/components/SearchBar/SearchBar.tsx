@@ -132,6 +132,7 @@ export function SearchBar({
         elements,
     } = useCombobox({
         placement: 'bottom-start',
+        refWidth: true,
     });
 
     const inputRefLocal = useRef<HTMLInputElement | null>(null);

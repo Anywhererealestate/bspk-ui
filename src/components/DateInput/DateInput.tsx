@@ -71,6 +71,7 @@ export function DateInput({
         placement: 'bottom',
         strategy: 'absolute',
         offsetOptions: 4,
+        refWidth: true,
     });
 
     useOutsideClick({
