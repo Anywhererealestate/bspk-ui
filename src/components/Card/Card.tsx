@@ -53,5 +53,4 @@ export function Card({ children, showPadding, variant = 'elevated' }: CardProps)
     );
 }
 
-
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

@@ -69,5 +69,4 @@ export function SkeletonText({ lines = 3, variant, children = null }: SkeletonTe
     );
 }
 
-
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

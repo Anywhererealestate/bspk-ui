@@ -90,4 +90,3 @@ export function AvatarGroup({ items, size = 'small', max = 5, variant }: AvatarG
         </div>
     );
 }
-

@@ -24,5 +24,4 @@ export function SwitchOption({ label: labelProp, description, ...checkboxProps }
     );
 }
 
-
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

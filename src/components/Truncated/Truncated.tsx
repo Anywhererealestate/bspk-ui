@@ -63,4 +63,3 @@ export function Truncated<As extends ElementType = 'span'>({
 
     return isTruncated ? <Tooltip label={label || children}>{span}</Tooltip> : span({});
 }
-

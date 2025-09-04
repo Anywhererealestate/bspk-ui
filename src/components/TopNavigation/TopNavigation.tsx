@@ -15,5 +15,4 @@ export function TopNavigation({ children }: TopNavigationProps) {
     return <div data-bspk="top-navigation">{children}</div>;
 }
 
-
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

@@ -28,5 +28,4 @@ export function MenuButton(props: ElementProps<MenuButtonProps, 'button'>) {
     );
 }
 
-
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

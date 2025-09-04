@@ -32,5 +32,4 @@ export function Img({ alt, ...props }: ElementProps<ImgProps, 'img'>) {
     return <img {...props} alt={alt} data-bspk="img" />;
 }
 
-
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

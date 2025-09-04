@@ -71,5 +71,4 @@ export function Switch({ checked = false, disabled: disabledProp = false, readOn
     );
 }
 
-
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

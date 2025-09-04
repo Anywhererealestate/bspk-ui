@@ -49,7 +49,6 @@ export function InlineAlert({ children, variant = 'informational', id }: InlineA
     );
 }
 
-
 const VARIANT_ICON: Record<AlertVariant, ReactNode> = {
     error: <SvgErrorFill />,
     informational: <SvgInfoFill />,

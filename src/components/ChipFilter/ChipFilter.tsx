@@ -43,7 +43,14 @@ export type ChipFilterProps = Pick<ChipUtilityProps, 'disabled' | 'label' | 'lea
  * @name ChipFilter
  * @phase UXReview
  */
-export function ChipFilter({ disabled, label, leadingIcon, onClick, trailingIcon, trailingBadgeCount }: ChipFilterProps) {
+export function ChipFilter({
+    disabled,
+    label,
+    leadingIcon,
+    onClick,
+    trailingIcon,
+    trailingBadgeCount,
+}: ChipFilterProps) {
     const trailingIconComponent =
         trailingIcon === 'SvgChevronRight' ? (
             <SvgChevronRight />
@@ -64,6 +71,5 @@ export function ChipFilter({ disabled, label, leadingIcon, onClick, trailingIcon
         />
     );
 }
-
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

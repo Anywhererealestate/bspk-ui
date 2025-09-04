@@ -84,5 +84,4 @@ export function EmptyState({ children, header, body, callToAction, bodyAlign = '
     );
 }
 
-
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
