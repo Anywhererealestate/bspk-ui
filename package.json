@@ -51,6 +51,8 @@
         "./Breadcrumb/*": "./dist/components/Breadcrumb/*.js",
         "./Button": "./dist/components/Button/index.js",
         "./Button/*": "./dist/components/Button/*.js",
+        "./CalendarPicker": "./dist/components/CalendarPicker/index.js",
+        "./CalendarPicker/*": "./dist/components/CalendarPicker/*.js",
         "./Card": "./dist/components/Card/index.js",
         "./Card/*": "./dist/components/Card/*.js",
         "./Checkbox": "./dist/components/Checkbox/index.js",
@@ -73,6 +75,10 @@
         "./ChipUtility/*": "./dist/components/ChipUtility/*.js",
         "./Combobox": "./dist/components/Combobox/index.js",
         "./Combobox/*": "./dist/components/Combobox/*.js",
+        "./DateField": "./dist/components/DateField/index.js",
+        "./DateField/*": "./dist/components/DateField/*.js",
+        "./DateInput": "./dist/components/DateInput/index.js",
+        "./DateInput/*": "./dist/components/DateInput/*.js",
         "./Dialog": "./dist/components/Dialog/index.js",
         "./Dialog/*": "./dist/components/Dialog/*.js",
         "./Divider": "./dist/components/Divider/index.js",
@@ -225,6 +231,7 @@
     "dependencies": {
         "@bspk/styles": "^1.0.2",
         "@floating-ui/dom": "^1.6.13",
+        "date-fns": "^4.1.0",
         "focus-trap-react": "^11.0.1",
         "libphonenumber-js": "^1.12.9"
     },
