@@ -88,5 +88,4 @@ export function Badge({ count: countProp, size = 'small', surfaceBorder, childre
     return badge;
 }
 
-
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

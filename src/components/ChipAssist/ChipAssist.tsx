@@ -34,5 +34,4 @@ export function ChipAssist({ disabled, label, leadingIcon, onClick }: ChipAssist
     );
 }
 
-
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

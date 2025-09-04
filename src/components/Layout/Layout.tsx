@@ -84,5 +84,4 @@ export function Layout<As extends ElementType = 'div'>({
     );
 }
 
-
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

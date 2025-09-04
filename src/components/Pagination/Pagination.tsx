@@ -101,5 +101,4 @@ export function Pagination({ numPages, value, onChange, ...ariaProps }: AriaAttr
     );
 }
 
-
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

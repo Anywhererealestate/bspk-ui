@@ -44,5 +44,4 @@ export function ChipInput({ disabled, label, leadingIcon, onClick, removable = t
     );
 }
 
-
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

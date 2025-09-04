@@ -46,5 +46,4 @@ export function StylesProviderDemo({ brand = 'anywhere' }: StylesProviderDemoPro
     return null;
 }
 
-
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
