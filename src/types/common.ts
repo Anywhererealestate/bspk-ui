@@ -110,9 +110,7 @@ export type CommonPropsLibrary = {
      */
     'aria-label': string;
     /**
-     * This is a utility attribute used to identify the owning component of another component.
-     *
-     * This is used to identify the component in the UI library and is not intended for public use.
+     * Identifies the parent component. Helps with styling, debugging, and/or testing purposes.
      *
      * @utility
      */
