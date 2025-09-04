@@ -1,7 +1,7 @@
-import { CalendarFieldProps } from '.';
+import { DateFieldProps } from '.';
 import { ComponentExample } from '-/utils/demo';
 
-export const CalendarFieldExample: ComponentExample<CalendarFieldProps> = {
+export const DateFieldExample: ComponentExample<DateFieldProps> = {
     defaultState: {},
     disableProps: [],
     presets: [],

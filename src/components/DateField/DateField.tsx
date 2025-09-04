@@ -1,21 +1,21 @@
-import { CalendarInput, CalendarInputProps } from '-/components/CalendarInput';
+import { DateInput, DateInputProps } from '-/components/DateInput';
 import { FormField, FormFieldWrapProps } from '-/components/FormField';
-import './calendar-field.scss';
+import './date-field.scss';
 
-export type CalendarFieldProps = FormFieldWrapProps<CalendarInputProps>;
+export type DateFieldProps = FormFieldWrapProps<DateInputProps>;
 /**
  * An input field that allows a customer to manually type in a specific date or triggers a date picker combobox to
  * select a date.
  *
  * @example
- *     import { CalendarField } from '@bspk/ui/CalendarField';
+ *     import { DateField } from '@bspk/ui/DateField';
  *     import { useState } from 'react';
  *
  *     function Example() {
  *         const [date, setDate] = useState<Date | undefined>(new Date());
  *
  *         return (
- *             <CalendarField
+ *             <DateField
  *                 name="calendar input"
  *                 aria-label="calendar input"
  *                 label="calendar input"
@@ -26,10 +26,10 @@ export type CalendarFieldProps = FormFieldWrapProps<CalendarInputProps>;
  *         );
  *     }
  *
- * @name CalendarField
+ * @name DateField
  * @phase Dev
  */
-export function CalendarField({
+export function DateField({
     label,
     errorMessage,
     helperText,
@@ -38,11 +38,11 @@ export function CalendarField({
     required,
     controlId,
     ...inputProps
-}: CalendarFieldProps) {
+}: DateFieldProps) {
     return (
         <FormField
             controlId={controlId}
-            data-bspk="calendar-field"
+            data-bspk="date-field"
             errorMessage={errorMessage}
             helperText={helperText}
             invalid={invalid}
@@ -50,7 +50,7 @@ export function CalendarField({
             labelTrailing={labelTrailing}
             required={required}
         >
-            {(fieldProps) => <CalendarInput {...inputProps} {...fieldProps} aria-label={label} invalid={invalid} />}
+            {(fieldProps) => <DateInput {...inputProps} {...fieldProps} aria-label={label} invalid={invalid} />}
         </FormField>
     );
 }
