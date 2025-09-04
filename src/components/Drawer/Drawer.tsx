@@ -21,11 +21,17 @@ export type DrawerProps = Pick<DialogProps, 'container' | 'id' | 'innerRef' | 'o
      */
     open?: boolean;
     /**
-     * The variant of the drawer.
+     * If true, the drawer will render as a modal dialog. If false, the drawer will render as a persistent panel.
      *
-     * @default modal
+     * @default true
      */
-    variant?: 'modal' | 'permanent' | 'temporary';
+    modal?: boolean;
+    /**
+     * If true, a close button will be displayed in the drawer header.
+     *
+     * @default false
+     */
+    closeButton?: boolean;
     /**
      * The placement of the drawer.
      *
@@ -67,7 +73,8 @@ export function Drawer({
     header,
     children,
     open = false,
-    variant = 'modal',
+    modal = true,
+    closeButton = false,
     placement = 'right',
     onClose,
     ...dialogProps
@@ -75,21 +82,20 @@ export function Drawer({
     if (!open) return null;
     const drawerContent = (
         <section
-            aria-modal={variant === 'modal' ? 'true' : undefined}
+            aria-modal={modal ? 'true' : undefined}
             data-bspk="drawer"
-            data-no-portal={variant !== 'modal' ? true : null}
-            data-persistent-placement={variant !== 'modal' ? placement : null}
-            data-variant={variant}
-            role={variant === 'modal' ? 'dialog' : 'complementary'}
+            data-no-portal={modal ? null : true}
+            data-persistent-placement={modal ? null : placement}
+            role={modal ? 'dialog' : 'complementary'}
         >
-            {(header || variant !== 'permanent') && (
+            {(header || closeButton) && (
                 <div data-drawer-close-only={!header} data-drawer-header>
                     {header && (
                         <Txt as="div" data-drawer-title variant="heading-h4">
                             {header}
                         </Txt>
                     )}
-                    {variant !== 'permanent' && (
+                    {closeButton && (
                         <Button icon={<SvgClose />} iconOnly label="close" onClick={onClose} variant="tertiary" />
                     )}
                 </div>
@@ -99,7 +105,7 @@ export function Drawer({
         </section>
     );
 
-    return variant === 'modal' ? (
+    return modal ? (
         <Dialog
             {...dialogProps}
             onClose={onClose || (() => {})}

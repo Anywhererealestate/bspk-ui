@@ -2,6 +2,7 @@
     position: fixed;
     inset: 0;
     z-index: var(--z-index-dialog);
+    display: flex;
     pointer-events: none; // makes scrim clickable
 
     [data-dialog-box] {
@@ -48,12 +49,10 @@
     &[data-placement='center'] {
         --box-animation-name: fade-in;
 
-        display: flex;
         justify-content: center;
         align-items: center;
 
         [data-dialog-box] {
-            position: absolute;
             border-radius: var(--radius-lg);
         }
     }
@@ -61,51 +60,52 @@
     &[data-placement='bottom'] {
         --box-animation-name: placement-bottom;
 
+        justify-content: center;
+        align-items: end;
+
         [data-dialog-box] {
-            position: absolute;
             border-top-left-radius: var(--radius-lg);
             border-top-right-radius: var(--radius-lg);
-            transform: translateX(-50%);
-            bottom: 0;
         }
     }
 
     &[data-placement='top'] {
         --box-animation-name: placement-top;
 
+        justify-content: center;
+        align-items: start;
+
         [data-dialog-box] {
-            position: absolute;
             border-bottom-left-radius: var(--radius-lg);
             border-bottom-right-radius: var(--radius-lg);
-            top: 0;
         }
     }
 
     &[data-placement='left'] {
         --box-animation-name: placement-left;
 
+        justify-content: flex-start;
+
         [data-dialog-box] {
-            position: absolute;
             max-height: unset;
             width: 280px;
             height: 100vh;
             border-bottom-right-radius: var(--radius-lg);
             border-top-right-radius: var(--radius-lg);
-            left: 0;
         }
     }
 
     &[data-placement='right'] {
         --box-animation-name: placement-right;
 
+        justify-content: flex-end;
+
         [data-dialog-box] {
-            position: absolute;
             max-height: unset;
             width: 280px;
             height: 100vh;
             border-bottom-left-radius: var(--radius-lg);
             border-top-left-radius: var(--radius-lg);
-            right: 0;
         }
     }
 

@@ -10,8 +10,8 @@ export const DrawerExample: ComponentExampleFn<DrawerProps> = ({ action }) => ({
         overflow: 'hidden', // hides box-shadow of drawer
     },
     presets: [
-        { label: 'Left Responsive', propState: { placement: 'left', variant: 'temporary' } },
-        { label: 'Right Responsive', propState: { placement: 'right', variant: 'temporary' } },
+        { label: 'Left Responsive', propState: { closeButton: true, modal: false, placement: 'left' } },
+        { label: 'Right Responsive', propState: { closeButton: true, modal: false, placement: 'right' } },
     ],
 
     render: ({ props, preset, setState, Component }) => {
@@ -69,11 +69,12 @@ export const DrawerExample: ComponentExampleFn<DrawerProps> = ({ action }) => ({
                         <Component
                             data-example-component
                             {...props}
+                            closeButton={props.closeButton ?? false}
                             id="exampleId"
+                            modal={props.modal ?? true}
                             onClose={handleOnClose}
                             open={props.open ?? false}
                             placement={props.placement ?? 'right'}
-                            variant={props.variant ?? 'modal'}
                         >
                             <div style={{}}>Hello, I am a ({props.placement}) drawer!</div>
                         </Component>
