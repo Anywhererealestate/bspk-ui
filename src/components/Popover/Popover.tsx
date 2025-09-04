@@ -4,7 +4,7 @@ import { ReactElement, cloneElement, useMemo, useRef, useState } from 'react';
 import { Button } from '-/components/Button';
 import { Portal } from '-/components/Portal';
 import { Txt } from '-/components/Txt';
-import { Placement, useFloating, UseFloatingProps } from '-/hooks/useFloating';
+import { Placement, useFloating } from '-/hooks/useFloating';
 import { useId } from '-/hooks/useId';
 import { useOutsideClick } from '-/hooks/useOutsideClick';
 import { CallToActionButton, CommonProps, ElementProps } from '-/types/common';
@@ -12,42 +12,47 @@ import { cssWithVars } from '-/utils/cwv';
 
 import './popover.scss';
 
-export type PopoverProps = CommonProps<'disabled'> &
-    Pick<UseFloatingProps, 'refWidth'> & {
-        /**
-         * The placement of the popover.
-         *
-         * @default top
-         */
-        placement?: Placement;
-        /** The popover header. */
-        header: string;
-        /**
-         * The content of the popover.
-         *
-         * @type multiline
-         */
-        content: string;
-        /**
-         * The call to action button properties.
-         *
-         * @type CallToActionButton
-         */
-        callToAction?: CallToActionButton;
-        /**
-         * The secondary call to action button properties.
-         *
-         * @type CallToActionButton
-         */
-        secondaryCallToAction?: CallToActionButton;
-        /**
-         * A single element that will trigger the popover when clicked.
-         *
-         * @type ReactElement
-         * @required
-         */
-        children: ReactElement;
-    };
+export type PopoverProps = CommonProps<'disabled'> & {
+    /**
+     * The placement of the popover.
+     *
+     * @default top
+     */
+    placement?: Placement;
+    /** The popover header. */
+    header: string;
+    /**
+     * The content of the popover.
+     *
+     * @type multiline
+     */
+    content: string;
+    /**
+     * The call to action button properties.
+     *
+     * @type CallToActionButton
+     */
+    callToAction?: CallToActionButton;
+    /**
+     * The secondary call to action button properties.
+     *
+     * @type CallToActionButton
+     */
+    secondaryCallToAction?: CallToActionButton;
+    /**
+     * A single element that will trigger the popover when clicked.
+     *
+     * @type ReactElement
+     * @required
+     */
+    children: ReactElement;
+    /**
+     * Wether or not the popover will match the width of the trigger element.
+     *
+     * @default false
+     */
+    refWidth?: boolean;
+};
 
 /**
  * Brief message that provide additional guidance and helps users perform an action if needed.
