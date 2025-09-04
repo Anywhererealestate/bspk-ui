@@ -171,7 +171,7 @@ export function TimeInputSegment<T extends number | string>({
             aria-label={`${ariaLabel} ${name.charAt(0).toUpperCase() + name.slice(1)}`}
             aria-readonly={readOnly}
             contentEditable={!readOnly && !disabled}
-            data-input=""
+            data-input
             data-type={kind}
             data-value={defaultValue || undefined}
             id={`${name}`}
