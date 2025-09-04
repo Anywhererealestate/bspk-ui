@@ -54,7 +54,6 @@ export function TextField({
                 <TextInput
                     {...inputProps}
                     {...fieldProps}
-                    aria-label={label}
                     id={controlId}
                     invalid={invalid}
                     required={required}
