@@ -36,7 +36,7 @@ export type PasswordInputProps = Pick<
  *     }
  *
  * @name PasswordInput
- * @phase QA
+ * @phase UXReview
  */
 export function PasswordInput({
     disabled,
