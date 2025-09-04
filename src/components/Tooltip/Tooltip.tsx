@@ -80,6 +80,7 @@ export function Tooltip({
         offsetOptions: showTail ? 8 : 4,
         arrowRef,
         hide: !show,
+        refWidth: true,
     });
 
     const child = children(

@@ -93,9 +93,7 @@ export function Breadcrumb({ id: propId, items: itemsProp }: BreadcrumbProps) {
     const id = useId(propId);
     const items = Array.isArray(itemsProp) ? itemsProp : [];
 
-    const { elements, isOpen, menuProps, toggleProps, activeIndex } = useCombobox({
-        refWidth: false,
-    });
+    const { elements, isOpen, menuProps, toggleProps, activeIndex } = useCombobox();
 
     const middleItems = items.slice(1, items.length - 1);
 

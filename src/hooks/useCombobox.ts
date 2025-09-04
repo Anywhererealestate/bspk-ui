@@ -104,7 +104,7 @@ export function useCombobox({
     disabled,
     readOnly,
     offsetOptions,
-}: UseComboboxProps): {
+}: UseComboboxProps = {}): {
     activeIndex: number;
     menuProps: {
         'data-placement': string | undefined;
