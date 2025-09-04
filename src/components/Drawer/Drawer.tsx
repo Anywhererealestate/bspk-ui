@@ -21,7 +21,7 @@ export type DrawerProps = Pick<DialogProps, 'container' | 'id' | 'innerRef' | 'o
      */
     open?: boolean;
     /**
-     * If true, the drawer will render as a modal dialog. If false, the drawer will render as a persistent panel.
+     * When true the drawer is temporarily displayed above all other content until closed.
      *
      * @default true
      */
