@@ -1,68 +1,14 @@
 [data-bspk='dialog'] {
-    --width: 600px; // default width for dialog box
-
     position: fixed;
     inset: 0;
     z-index: var(--z-index-dialog);
-    pointer-events: none; // makes scrim clckable
-
-    @keyframes fade-in {
-        0% {
-            opacity: 0;
-            transform: translate(var(--spacing-sizing-01), var(--spacing-sizing-01));
-        }
-
-        100% {
-            opacity: 1;
-            transform: translate(0, 0);
-        }
-    }
-
-    @keyframes placement-left {
-        0% {
-            transform: translateX(-100vw);
-        }
-
-        100% {
-            transform: translateX(0);
-        }
-    }
-
-    @keyframes placement-right {
-        0% {
-            transform: translateX(100vw);
-        }
-
-        100% {
-            transform: translateX(0);
-        }
-    }
-
-    @keyframes placement-top {
-        0% {
-            transform: translateY(-100vh);
-        }
-
-        100% {
-            transform: translateY(0);
-        }
-    }
-
-    @keyframes placement-bottom {
-        0% {
-            transform: translateY(100vh);
-        }
-
-        100% {
-            transform: translateY(0);
-        }
-    }
+    display: flex;
+    pointer-events: none; // makes scrim clickable
 
     [data-dialog-box] {
         pointer-events: all; // allow pointer events on the dialog box
         text-align: start;
         position: relative;
-        border-radius: var(--radius-lg);
         box-shadow: var(--drop-shadow-float);
         background: var(--surface-neutral-t1-base);
         color: var(--foreground-neutral-on-surface);
@@ -103,68 +49,68 @@
     &[data-placement='center'] {
         --box-animation-name: fade-in;
 
-        display: flex;
         justify-content: center;
         align-items: center;
 
         [data-dialog-box] {
-            position: absolute;
+            border-radius: var(--radius-lg);
         }
     }
 
     &[data-placement='bottom'] {
         --box-animation-name: placement-bottom;
 
+        justify-content: center;
+        align-items: end;
+
         [data-dialog-box] {
-            position: absolute;
-            border-bottom-left-radius: 0;
-            border-bottom-right-radius: 0;
-            width: var(--width);
-            left: calc(50% - var(--width) / 2);
-            transform: translateX(-50%);
-            bottom: 0;
+            border-top-left-radius: var(--radius-lg);
+            border-top-right-radius: var(--radius-lg);
         }
     }
 
     &[data-placement='top'] {
         --box-animation-name: placement-top;
 
+        justify-content: center;
+        align-items: start;
+
         [data-dialog-box] {
-            position: absolute;
-            border-top-left-radius: 0;
-            border-top-right-radius: 0;
-            width: var(--width);
-            left: calc(50% - var(--width) / 2);
-            top: 0;
+            border-bottom-left-radius: var(--radius-lg);
+            border-bottom-right-radius: var(--radius-lg);
         }
     }
 
     &[data-placement='left'] {
         --box-animation-name: placement-left;
 
+        justify-content: flex-start;
+
         [data-dialog-box] {
-            position: absolute;
             max-height: unset;
             width: 280px;
             height: 100vh;
-            border-bottom-left-radius: 0;
-            border-top-left-radius: 0;
-            left: 0;
+            border-bottom-right-radius: var(--radius-lg);
+            border-top-right-radius: var(--radius-lg);
         }
     }
 
     &[data-placement='right'] {
         --box-animation-name: placement-right;
 
+        justify-content: flex-end;
+
         [data-dialog-box] {
-            position: absolute;
             max-height: unset;
             width: 280px;
             height: 100vh;
-            border-bottom-right-radius: 0;
-            border-top-right-radius: 0;
-            right: 0;
+            border-bottom-left-radius: var(--radius-lg);
+            border-top-left-radius: var(--radius-lg);
         }
+    }
+
+    [data-width-full='true'] {
+        width: 100%;
     }
 }
 
