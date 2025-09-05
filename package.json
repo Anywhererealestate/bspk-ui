@@ -171,6 +171,8 @@
         "./Slider/*": "./dist/components/Slider/*.js",
         "./Snackbar": "./dist/components/Snackbar/index.js",
         "./Snackbar/*": "./dist/components/Snackbar/*.js",
+        "./SnackbarProvider": "./dist/components/SnackbarProvider/index.js",
+        "./SnackbarProvider/*": "./dist/components/SnackbarProvider/*.js",
         "./StylesProviderAnywhere": "./dist/components/StylesProviderAnywhere/index.js",
         "./StylesProviderAnywhere/*": "./dist/components/StylesProviderAnywhere/*.js",
         "./StylesProviderBetterHomesGardens": "./dist/components/StylesProviderBetterHomesGardens/index.js",
