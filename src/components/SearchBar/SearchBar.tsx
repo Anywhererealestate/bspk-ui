@@ -105,7 +105,7 @@ export type SearchBarProps<T extends ListboxItemProps = ListboxItemProps> = Pick
  * @name SearchBar
  * @phase UXReview
  */
-function SearchBar({
+export function SearchBar({
     items,
     noResultsMessage,
     placeholder = 'Search',
@@ -209,9 +209,5 @@ function SearchBar({
         </>
     );
 }
-
-SearchBar.bspkName = 'SearchBar';
-
-export { SearchBar };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

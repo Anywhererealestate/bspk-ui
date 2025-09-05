@@ -28,12 +28,8 @@ export type ImgProps = {
  * @name Img
  * @phase Backlog
  */
-function Img({ alt, ...props }: ElementProps<ImgProps, 'img'>) {
+export function Img({ alt, ...props }: ElementProps<ImgProps, 'img'>) {
     return <img {...props} alt={alt} data-bspk="img" />;
 }
-
-Img.bspkName = 'Img';
-
-export { Img };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

@@ -14,7 +14,7 @@ export type UIProviderProps = {
  *
  * @name UIProvider
  */
-function UIProvider({ children }: UIProviderProps) {
+export function UIProvider({ children }: UIProviderProps) {
     const [theme, setTheme] = useState<ColorTheme>('light');
 
     const [deviceWidth, setDeviceWidth] = useDebounceState(() => {
@@ -46,7 +46,3 @@ function UIProvider({ children }: UIProviderProps) {
         </UIContext.Provider>
     );
 }
-
-UIProvider.bspkName = 'UIProvider';
-
-export { UIProvider };

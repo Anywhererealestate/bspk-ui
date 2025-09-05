@@ -63,7 +63,7 @@ export type AvatarGroupProps = {
  * @name AvatarGroup
  * @phase UXReview
  */
-function AvatarGroup({ items, size = 'small', max = 5, variant }: AvatarGroupProps) {
+export function AvatarGroup({ items, size = 'small', max = 5, variant }: AvatarGroupProps) {
     if (!Array.isArray(items) || !items?.length) return null;
 
     const overFlowCount = items.length - max;
@@ -90,7 +90,3 @@ function AvatarGroup({ items, size = 'small', max = 5, variant }: AvatarGroupPro
         </div>
     );
 }
-
-AvatarGroup.bspkName = 'AvatarGroup';
-
-export { AvatarGroup };

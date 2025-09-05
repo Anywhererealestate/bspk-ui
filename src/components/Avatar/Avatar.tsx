@@ -109,7 +109,7 @@ export type AvatarProps = CommonProps<'disabled'> & {
  * @name Avatar
  * @phase UXReview
  */
-function Avatar({
+export function Avatar({
     initials: initialsProp,
     color = DEFAULT.color,
     size = DEFAULT.size,
@@ -167,9 +167,5 @@ function Avatar({
 
     return showTooltip ? <Tooltip label={ariaLabel}>{avatar}</Tooltip> : avatar();
 }
-
-Avatar.bspkName = 'Avatar';
-
-export { Avatar };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

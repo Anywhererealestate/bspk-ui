@@ -89,7 +89,7 @@ export type BreadcrumbProps = CommonProps<'id'> & {
  * @name Breadcrumb
  * @phase UXReview
  */
-function Breadcrumb({ id: propId, items: itemsProp }: BreadcrumbProps) {
+export function Breadcrumb({ id: propId, items: itemsProp }: BreadcrumbProps) {
     const id = useId(propId);
     const items = Array.isArray(itemsProp) ? itemsProp : [];
 
@@ -159,9 +159,5 @@ function Breadcrumb({ id: propId, items: itemsProp }: BreadcrumbProps) {
         </nav>
     );
 }
-
-Breadcrumb.bspkName = 'Breadcrumb';
-
-export { Breadcrumb };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

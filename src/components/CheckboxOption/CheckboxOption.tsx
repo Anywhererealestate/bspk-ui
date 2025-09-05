@@ -31,7 +31,7 @@ export type CheckboxOptionProps = ToggleOptionControlProps<CheckboxProps>;
  * @name CheckboxOption
  * @phase UXReview
  */
-function CheckboxOption({ label: labelProp, description, disabled, ...checkboxProps }: CheckboxOptionProps) {
+export function CheckboxOption({ label: labelProp, description, disabled, ...checkboxProps }: CheckboxOptionProps) {
     const label = labelProp || description;
     const ariaLabel = description ? `${labelProp} - ${description}` : labelProp;
     return (
@@ -42,9 +42,5 @@ function CheckboxOption({ label: labelProp, description, disabled, ...checkboxPr
         )
     );
 }
-
-CheckboxOption.bspkName = 'CheckboxOption';
-
-export { CheckboxOption };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

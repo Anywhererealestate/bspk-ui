@@ -59,7 +59,7 @@ export type BadgeProps = {
  * @name Badge
  * @phase UXReview
  */
-function Badge({ count: countProp, size = 'small', surfaceBorder, children, color = 'primary' }: BadgeProps) {
+export function Badge({ count: countProp, size = 'small', surfaceBorder, children, color = 'primary' }: BadgeProps) {
     const count: number | null = tryIntParse(countProp);
 
     if (typeof count === 'undefined') return children || null;
@@ -87,9 +87,5 @@ function Badge({ count: countProp, size = 'small', surfaceBorder, children, colo
 
     return badge;
 }
-
-Badge.bspkName = 'Badge';
-
-export { Badge };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

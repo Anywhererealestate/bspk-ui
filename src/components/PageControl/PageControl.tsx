@@ -46,7 +46,7 @@ type DotSize = 'medium' | 'small' | 'x-small';
  * @name PageControl
  * @phase UXReview
  */
-function PageControl({ value, numPages, variant = 'flat' }: PageControlProps) {
+export function PageControl({ value, numPages, variant = 'flat' }: PageControlProps) {
     if (numPages < 2) return null;
 
     return (
@@ -69,10 +69,6 @@ function PageControl({ value, numPages, variant = 'flat' }: PageControlProps) {
         </span>
     );
 }
-
-PageControl.bspkName = 'PageControl';
-
-export { PageControl };
 
 function getDots(currentPage: number, totalPages: number) {
     if (totalPages <= MAX_DOT_COUNT) {

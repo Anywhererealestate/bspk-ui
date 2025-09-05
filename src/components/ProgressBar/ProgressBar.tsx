@@ -61,7 +61,7 @@ export type ProgressBarProps = {
  * @name ProgressBar
  * @phase UXReview
  */
-function ProgressBar({
+export function ProgressBar({
     size = 'large',
     completion: completionProp = 0,
     align = 'center',
@@ -98,9 +98,5 @@ function ProgressBar({
         </div>
     );
 }
-
-ProgressBar.bspkName = 'ProgressBar';
-
-export { ProgressBar };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

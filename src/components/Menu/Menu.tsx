@@ -85,7 +85,7 @@ export type MenuProps = CommonProps<'id' | 'owner'> &
  * @name Menu
  * @phase UXReview
  */
-function Menu({
+export function Menu({
     //
     innerRef,
     id: idProp,
@@ -137,9 +137,5 @@ function Menu({
 
     return portal ? <Portal container={container}>{menu}</Portal> : menu;
 }
-
-Menu.bspkName = 'Menu';
-
-export { Menu };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

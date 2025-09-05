@@ -49,7 +49,7 @@ export type RatingProps = {
  * @name Rating
  * @phase UXReview
  */
-function Rating({ size = 'medium', value, onChange }: RatingProps) {
+export function Rating({ size = 'medium', value, onChange }: RatingProps) {
     const As: ElementType = onChange ? 'button' : 'div';
 
     return (
@@ -89,10 +89,6 @@ function Rating({ size = 'medium', value, onChange }: RatingProps) {
         </div>
     );
 }
-
-Rating.bspkName = 'Rating';
-
-export { Rating };
 
 function getFill(num: number, value?: number): 'full' | 'half' | undefined {
     if (value === undefined) return undefined;

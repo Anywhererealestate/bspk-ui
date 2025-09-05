@@ -84,7 +84,7 @@ export type NumberInputProps = CommonProps<
  * @name NumberInput
  * @phase Utility
  */
-function NumberInput({
+export function NumberInput({
     value,
     onChange,
     align = DEFAULT.align,
@@ -183,9 +183,5 @@ function NumberInput({
         </div>
     );
 }
-
-NumberInput.bspkName = 'NumberInput';
-
-export { NumberInput };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

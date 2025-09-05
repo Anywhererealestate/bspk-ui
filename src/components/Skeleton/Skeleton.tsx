@@ -69,7 +69,7 @@ export type SkeletonProps = {
  * @name Skeleton
  * @phase UXReview
  */
-function Skeleton({ width = 100, height = 100, variant = 'rectangular', children = null }: SkeletonProps) {
+export function Skeleton({ width = 100, height = 100, variant = 'rectangular', children = null }: SkeletonProps) {
     return children !== null && children !== undefined && children !== false ? (
         children
     ) : (
@@ -86,9 +86,5 @@ function Skeleton({ width = 100, height = 100, variant = 'rectangular', children
         />
     );
 }
-
-Skeleton.bspkName = 'Skeleton';
-
-export { Skeleton };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

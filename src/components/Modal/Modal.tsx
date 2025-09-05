@@ -118,7 +118,7 @@ export type ModalProps = Pick<DialogProps, 'container' | 'id' | 'innerRef' | 'on
  *
  *         return (
  *             <>
- *                 <Button label="Open Dialog" onClick={() => setOpen(true)} />
+ *                 <Button label="Open Modal" onClick={() => setOpen(true)} />
  *                 <Modal
  *                     description="Example description"
  *                     header="Example header"
@@ -136,7 +136,7 @@ export type ModalProps = Pick<DialogProps, 'container' | 'id' | 'innerRef' | 'on
  * @name Modal
  * @phase UXReview
  */
-function Modal({
+export function Modal({
     header,
     description,
     children,
@@ -207,9 +207,5 @@ function Modal({
         </Dialog>
     );
 }
-
-Modal.bspkName = 'Modal';
-
-export { Modal };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

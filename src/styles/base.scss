@@ -23,6 +23,7 @@
 
 :root {
     --z-index-snackbar: 1200;
+    --z-index-focus: 9999;
     --z-index-tooltip-popover: 1100;
     --z-index-dialog: 1000;
     --z-index-dropdown: 1000;
@@ -286,6 +287,58 @@ body[data-bspk] {
         transform: scale(1) translate(50%, -50%);
         transform-origin: 100% 0%;
         z-index: 2;
+    }
+}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+        transform: translate(var(--spacing-sizing-01), var(--spacing-sizing-01));
+    }
+
+    100% {
+        opacity: 1;
+        transform: translate(0, 0);
+    }
+}
+
+@keyframes placement-left {
+    0% {
+        transform: translateX(-100vw);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes placement-right {
+    0% {
+        transform: translateX(100vw);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes placement-top {
+    0% {
+        transform: translateY(-100vh);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+@keyframes placement-bottom {
+    0% {
+        transform: translateY(100vh);
+    }
+
+    100% {
+        transform: translateY(0);
     }
 }
 

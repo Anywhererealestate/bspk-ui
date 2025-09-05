@@ -8,12 +8,8 @@ import '-/styles/base.scss';
  * @phase Utility
  * @generated
  */
-function StylesProviderEra(): JSX.Element | null {
+export function StylesProviderEra(): JSX.Element | null {
     return null;
 }
-
-StylesProviderEra.bspkName = 'StylesProviderEra';
-
-export { StylesProviderEra };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

@@ -29,7 +29,7 @@ export type RadioProps = CommonProps<'aria-label' | 'disabled' | 'invalid' | 'na
  * @name Radio
  * @phase Utility
  */
-function Radio(props: ElementProps<RadioProps, 'input'>) {
+export function Radio(props: ElementProps<RadioProps, 'input'>) {
     const { checked = false, invalid, disabled, onChange, ...otherProps } = props;
 
     return (
@@ -46,9 +46,5 @@ function Radio(props: ElementProps<RadioProps, 'input'>) {
         </span>
     );
 }
-
-Radio.bspkName = 'Radio';
-
-export { Radio };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

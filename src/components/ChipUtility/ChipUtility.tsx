@@ -1,7 +1,6 @@
 import { ReactNode, isValidElement } from 'react';
 
 import { Badge, BadgeProps } from '-/components/Badge';
-import { isValidIcon } from '-/utils/children';
 
 import './chip-utility.scss';
 
@@ -77,7 +76,7 @@ export type ChipUtilityProps = {
  * @name ChipUtility
  * @phase Utility
  */
-function ChipUtility({
+export function ChipUtility({
     flat = false,
     disabled = false,
     label,
@@ -98,13 +97,13 @@ function ChipUtility({
             onClick={disabled ? undefined : onClick}
         >
             <>
-                {isValidIcon(leadingIcon) && isValidElement(leadingIcon) && (
+                {isValidElement(leadingIcon) && (
                     <span aria-hidden="true" data-chip-icon>
                         {leadingIcon}
                     </span>
                 )}
                 <span>{label}</span>
-                {isValidIcon(trailingIcon) && isValidElement(trailingIcon) && (
+                {isValidElement(trailingIcon) && (
                     <span aria-hidden="true" data-chip-icon>
                         {trailingIcon}
                     </span>
@@ -121,9 +120,5 @@ function ChipUtility({
         </button>
     );
 }
-
-ChipUtility.bspkName = 'ChipUtility';
-
-export { ChipUtility };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

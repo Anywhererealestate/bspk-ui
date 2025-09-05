@@ -31,7 +31,7 @@ export type ChipInputProps = Pick<ChipUtilityProps, 'disabled' | 'label' | 'lead
  * @name ChipInput
  * @phase UXReview
  */
-function ChipInput({ disabled, label, leadingIcon, onClick, removable = true }: ChipInputProps) {
+export function ChipInput({ disabled, label, leadingIcon, onClick, removable = true }: ChipInputProps) {
     return (
         <ChipUtility
             data-bspk="chip-input"
@@ -43,9 +43,5 @@ function ChipInput({ disabled, label, leadingIcon, onClick, removable = true }: 
         />
     );
 }
-
-ChipInput.bspkName = 'ChipInput';
-
-export { ChipInput };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

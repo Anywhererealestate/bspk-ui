@@ -27,12 +27,8 @@ export type ScrimProps = CommonProps<'owner'> & {
  *
  * @phase Utility
  */
-function Scrim({ visible = true, ...props }: ScrimProps) {
+export function Scrim({ visible = true, ...props }: ScrimProps) {
     return <div {...props} aria-hidden="true" data-bspk="scrim" data-hidden={!visible || undefined} />;
 }
-
-Scrim.bspkName = 'Scrim';
-
-export { Scrim };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

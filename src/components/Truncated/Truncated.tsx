@@ -35,7 +35,7 @@ export type TruncatedProps<As extends ElementType = 'span'> = {
  * @name Truncated
  * @phase Utility
  */
-function Truncated<As extends ElementType = 'span'>({
+export function Truncated<As extends ElementType = 'span'>({
     children,
     label,
     ...props
@@ -63,7 +63,3 @@ function Truncated<As extends ElementType = 'span'>({
 
     return isTruncated ? <Tooltip label={label || children}>{span}</Tooltip> : span({});
 }
-
-Truncated.bspkName = 'Truncated';
-
-export { Truncated };

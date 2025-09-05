@@ -1,5 +1,4 @@
 import { TabList, TabListProps, TabOption } from '-/components/TabList';
-import { useOptionIconsInvalid } from '-/hooks/useOptionIconsInvalid';
 import { ElementProps } from '-/types/common';
 
 import './tab-group.scss';
@@ -42,20 +41,16 @@ export type TabGroupProps = Omit<TabListProps<TabOption>, 'iconsOnly'> & {
  * @name TabGroup
  * @phase UXReview
  */
-function TabGroup({
+export function TabGroup({
     onChange: onTabChange,
     value,
     size = 'medium',
-    options: optionsProp,
+    options,
     width = 'hug',
     showTrail = false,
     ...containerProps
 }: ElementProps<TabGroupProps, 'ul'>) {
-    const options = Array.isArray(optionsProp) ? optionsProp : [];
-    useOptionIconsInvalid(options);
-
-    if (options.length < 2) return <></>;
-
+    if (!Array.isArray(options) || options.length < 2) return <></>;
     return (
         <TabList
             data-bspk="tab-group"
@@ -69,9 +64,5 @@ function TabGroup({
         />
     );
 }
-
-TabGroup.bspkName = 'TabGroup';
-
-export { TabGroup };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

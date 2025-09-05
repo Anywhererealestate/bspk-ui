@@ -56,7 +56,7 @@ export type TxtProps<As extends ElementType = 'span'> = {
  * @name Txt
  * @phase UXReview
  */
-function Txt<As extends ElementType = 'span'>({
+export function Txt<As extends ElementType = 'span'>({
     children,
     as,
     variant = 'body-base',
@@ -84,9 +84,5 @@ function Txt<As extends ElementType = 'span'>({
         </As>
     );
 }
-
-Txt.bspkName = 'Txt';
-
-export { Txt };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

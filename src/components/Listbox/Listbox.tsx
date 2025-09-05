@@ -120,7 +120,7 @@ export type ListboxProps<Item extends ListboxItemProps = ListboxItemProps> = Com
  * @name Listbox
  * @phase Utility
  */
-function Listbox<Item extends ListboxItemProps>({
+export function Listbox<Item extends ListboxItemProps>({
     includeAriaLabel,
     itemDisplayCount,
     itemCount,
@@ -253,9 +253,5 @@ function Listbox<Item extends ListboxItemProps>({
         </Menu>
     );
 }
-
-Listbox.bspkName = 'Listbox';
-
-export { Listbox };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

@@ -101,7 +101,7 @@ export type ComboboxProps<Item extends ComboboxItemProps = ComboboxItemProps> = 
  * @name Combobox
  * @phase Utility
  */
-function Combobox<Item extends ComboboxItemProps>({
+export function Combobox<Item extends ComboboxItemProps>({
     itemDisplayCount,
     items = [],
     onChange,
@@ -217,10 +217,6 @@ function Combobox<Item extends ComboboxItemProps>({
         </>
     );
 }
-
-Combobox.bspkName = 'Combobox';
-
-export { Combobox };
 
 // ListItems component to render the items in the listbox or modal.
 // This is a separate component to keep the Combobox component clean and focused on its main functionality

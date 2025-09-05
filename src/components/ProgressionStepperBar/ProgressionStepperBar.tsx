@@ -38,7 +38,7 @@ export type ProgressionStepperBarProps = {
  * @name ProgressionStepperBar
  * @phase UXReview
  */
-function ProgressionStepperBar({
+export function ProgressionStepperBar({
     stepCount,
     stepCompleted: stepCompletedProp = 0,
     size = 'large',
@@ -58,9 +58,5 @@ function ProgressionStepperBar({
         </div>
     );
 }
-
-ProgressionStepperBar.bspkName = 'ProgressionStepperBar';
-
-export { ProgressionStepperBar };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

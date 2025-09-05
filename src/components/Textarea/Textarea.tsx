@@ -91,7 +91,7 @@ export type TextareaProps = CommonProps<'aria-label' | 'disabled' | 'id' | 'inva
  * @name Textarea
  * @phase Utility
  */
-function Textarea({
+export function Textarea({
     invalid: invalidProp,
     onChange,
     textSize = DEFAULT.textSize,
@@ -159,9 +159,5 @@ function Textarea({
         </div>
     );
 }
-
-Textarea.bspkName = 'Textarea';
-
-export { Textarea };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

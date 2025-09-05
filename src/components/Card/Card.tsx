@@ -45,16 +45,12 @@ export type CardProps = {
  * @name Card
  * @phase UXReview
  */
-function Card({ children, showPadding, variant = 'elevated' }: CardProps) {
+export function Card({ children, showPadding, variant = 'elevated' }: CardProps) {
     return (
         <div data-bspk="card" data-hide-padding={showPadding === false || undefined} data-variant={variant}>
             {children}
         </div>
     );
 }
-
-Card.bspkName = 'Card';
-
-export { Card };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

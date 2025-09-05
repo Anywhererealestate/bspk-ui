@@ -60,7 +60,7 @@ const insetToVariable = (insetProp: number | string) => {
  * @name Divider
  * @phase UXReview
  */
-function Divider({
+export function Divider({
     padding = true,
     orientation = 'horizontal',
     thickness = 'light',
@@ -84,9 +84,5 @@ function Divider({
         />
     );
 }
-
-Divider.bspkName = 'Divider';
-
-export { Divider };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

@@ -20,16 +20,12 @@ export type MenuButtonProps = Pick<ButtonProps, 'as' | 'onClick'>;
  * @name MenuButton
  * @phase Utility
  */
-function MenuButton(props: ElementProps<MenuButtonProps, 'button'>) {
+export function MenuButton(props: ElementProps<MenuButtonProps, 'button'>) {
     return (
         <button data-bspk="menu-button" {...props}>
             <SvgMenu />
         </button>
     );
 }
-
-MenuButton.bspkName = 'MenuButton';
-
-export { MenuButton };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

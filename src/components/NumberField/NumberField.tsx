@@ -31,7 +31,7 @@ export type NumberFieldProps = FormFieldWrapProps<NumberInputProps>;
  * @name NumberField
  * @phase UXReview
  */
-function NumberField({
+export function NumberField({
     label,
     errorMessage,
     disabled,
@@ -66,9 +66,5 @@ function NumberField({
         </FormField>
     );
 }
-
-NumberField.bspkName = 'NumberField';
-
-export { NumberField };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

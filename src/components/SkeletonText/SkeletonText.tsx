@@ -48,7 +48,7 @@ export type SkeletonTextProps = {
  * @name SkeletonText
  * @phase UXReview
  */
-function SkeletonText({ lines = 3, variant, children = null }: SkeletonTextProps) {
+export function SkeletonText({ lines = 3, variant, children = null }: SkeletonTextProps) {
     return children !== null && children !== undefined && children !== false ? (
         children
     ) : (
@@ -68,9 +68,5 @@ function SkeletonText({ lines = 3, variant, children = null }: SkeletonTextProps
         </div>
     );
 }
-
-SkeletonText.bspkName = 'SkeletonText';
-
-export { SkeletonText };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

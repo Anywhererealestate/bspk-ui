@@ -46,7 +46,7 @@ export type FileUploadItemProps = FileEntry & {
  * @name FileUploadItem
  * @phase UXReview
  */
-function FileUploadItem({
+export function FileUploadItem({
     fileName = '',
     status,
     fileSize,
@@ -92,10 +92,6 @@ function FileUploadItem({
         </div>
     );
 }
-
-FileUploadItem.bspkName = 'FileUploadItem';
-
-export { FileUploadItem };
 
 const KB = 1024;
 const MB = 1024 * KB;

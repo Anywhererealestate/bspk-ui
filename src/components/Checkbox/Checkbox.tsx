@@ -61,7 +61,7 @@ export type CheckboxProps = CommonProps<'aria-label' | 'disabled' | 'invalid' | 
  * @name Checkbox
  * @phase UXReview
  */
-function Checkbox({
+export function Checkbox({
     checked: checkedProp = false,
     indeterminate: indeterminateProp,
     invalid,
@@ -89,6 +89,7 @@ function Checkbox({
                 aria-errormessage={props['aria-errormessage'] || undefined}
                 aria-invalid={invalid || undefined}
                 checked={checked}
+                data-indeterminate={indeterminate || undefined}
                 disabled={disabled || undefined}
                 onChange={(event) => props.onChange(!!event.target.checked, event)}
                 ref={(node) => {
@@ -119,9 +120,5 @@ function Checkbox({
         </span>
     );
 }
-
-Checkbox.bspkName = 'Checkbox';
-
-export { Checkbox };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

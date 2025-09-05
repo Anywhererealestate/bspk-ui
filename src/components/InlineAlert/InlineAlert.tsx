@@ -40,7 +40,7 @@ export type InlineAlertProps = {
  * @name InlineAlert
  * @phase UXReview
  */
-function InlineAlert({ children, variant = 'informational', id }: InlineAlertProps) {
+export function InlineAlert({ children, variant = 'informational', id }: InlineAlertProps) {
     return (
         <div data-bspk="inline-alert" data-variant={variant} id={id} role="alert">
             {VARIANT_ICON[variant]}
@@ -48,10 +48,6 @@ function InlineAlert({ children, variant = 'informational', id }: InlineAlertPro
         </div>
     );
 }
-
-InlineAlert.bspkName = 'InlineAlert';
-
-export { InlineAlert };
 
 const VARIANT_ICON: Record<AlertVariant, ReactNode> = {
     error: <SvgErrorFill />,

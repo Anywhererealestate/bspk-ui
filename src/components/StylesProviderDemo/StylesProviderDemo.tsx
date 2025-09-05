@@ -25,7 +25,7 @@ export type StylesProviderDemoProps = {
  * @name StylesProviderDemo
  * @phase Utility
  */
-function StylesProviderDemo({ brand = 'anywhere' }: StylesProviderDemoProps): JSX.Element | null {
+export function StylesProviderDemo({ brand = 'anywhere' }: StylesProviderDemoProps): JSX.Element | null {
     const styleElement = useRef<HTMLStyleElement | null>(null);
 
     useEffect(() => {
@@ -45,9 +45,5 @@ function StylesProviderDemo({ brand = 'anywhere' }: StylesProviderDemoProps): JS
 
     return null;
 }
-
-StylesProviderDemo.bspkName = 'StylesProviderDemo';
-
-export { StylesProviderDemo };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

@@ -20,7 +20,7 @@ export type FormFieldProps = CommonProps<'invalid' | 'required'> & {
     /** The id of the control. */
     controlId: string;
     /**
-     * The children of the form field. This should be a control such as TextInput, Select, DatePicker, or TimePicker.
+     * The children of the form field. This should be a control such as TextInput, Select, DateInput, or TimeInput.
      *
      * @type (childProps: FormFieldControlProps) => JSX.Element
      * @required
@@ -35,7 +35,7 @@ export type FormFieldProps = CommonProps<'invalid' | 'required'> & {
 /**
  * Wrapper component for form controls.
  *
- * Children may be one of the following: TextInput, Select, DatePicker, or TimePicker.
+ * Children may be one of the following: TextInput, Select, DateInput or TimeInput.
  *
  * @example
  *     import { TextInput } from '@bspk/ui/TextInput';
@@ -65,7 +65,7 @@ export type FormFieldProps = CommonProps<'invalid' | 'required'> & {
  * @name FormField
  * @phase Utility
  */
-function FormField({
+export function FormField({
     label,
     invalid,
     errorMessage: errorMessageProp,
@@ -74,6 +74,7 @@ function FormField({
     labelTrailing,
     controlId,
     required,
+    ...props
 }: ElementProps<FormFieldProps, 'div'>) {
     const errorMessage = invalid && errorMessageProp ? errorMessageProp : undefined;
     const errorMessageId = errorMessage ? `${controlId}-error-message` : undefined;
@@ -83,7 +84,7 @@ function FormField({
     if (typeof children !== 'function') return null;
 
     return (
-        <div data-bspk="form-field" data-invalid={invalid || undefined}>
+        <div {...props} data-bspk-utility="form-field" data-invalid={invalid || undefined}>
             <header>
                 <label htmlFor={controlId}>
                     <Txt as="span" variant="labels-small">
@@ -114,9 +115,5 @@ function FormField({
         </div>
     );
 }
-
-FormField.bspkName = 'FormField';
-
-export { FormField };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

@@ -53,7 +53,7 @@ export type SwitchProps = CommonProps<'aria-label' | 'disabled' | 'name' | 'valu
  * @name Switch
  * @phase UXReview
  */
-function Switch({ checked = false, disabled: disabledProp = false, readOnly, ...props }: SwitchProps) {
+export function Switch({ checked = false, disabled: disabledProp = false, readOnly, ...props }: SwitchProps) {
     const disabled = readOnly || disabledProp;
 
     return (
@@ -70,9 +70,5 @@ function Switch({ checked = false, disabled: disabledProp = false, readOnly, ...
         </span>
     );
 }
-
-Switch.bspkName = 'Switch';
-
-export { Switch };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

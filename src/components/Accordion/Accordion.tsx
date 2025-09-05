@@ -34,7 +34,7 @@ export type AccordionProps = {
  * @name Accordion
  * @phase UXReview
  */
-function Accordion({ items, singleOpen = true }: AccordionProps) {
+export function Accordion({ items, singleOpen = true }: AccordionProps) {
     const [activeItems, setActiveItems] = useState<(number | string)[]>(() => {
         return items.filter((item) => item.isOpen).map((item) => item.id);
     });
@@ -73,9 +73,5 @@ function Accordion({ items, singleOpen = true }: AccordionProps) {
         </div>
     );
 }
-
-Accordion.bspkName = 'Accordion';
-
-export { Accordion };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

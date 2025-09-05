@@ -45,7 +45,7 @@ export type TimeInputProps = Pick<
  * @name TimeInput
  * @phase UXReview
  */
-function TimeInput({
+export function TimeInput({
     value,
     'aria-label': ariaLabel,
     disabled,
@@ -188,9 +188,5 @@ function TimeInput({
         </>
     );
 }
-
-TimeInput.bspkName = 'TimeInput';
-
-export { TimeInput };
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
