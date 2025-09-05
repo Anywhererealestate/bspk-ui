@@ -1,18 +1,3 @@
-[data-bspk='snackbar-container'] {
-    position: relative;
-
-    [data-snackbar-wrapper] {
-        position: fixed;
-        z-index: 9999;
-        display: flex;
-        flex-direction: column-reverse;
-        max-height: 100%;
-        overflow: hidden;
-        inset: 0;
-        align-items: center;
-    }
-}
-
 [data-bspk='snackbar'] {
     pointer-events: auto;
     display: flex;
@@ -27,26 +12,8 @@
     box-shadow:
         0 0 1px 0 var(--shadow-variant-05),
         0 0 12px 0 var(--shadow-variant-03);
-
-    &[data-variant='default'] {
-        background-color: var(--surface-neutral-inverse);
-        color: var(--foreground-neutral-on-inverse-surface);
-    }
-
-    &[data-variant='error'] {
-        background-color: var(--status-error);
-        color: var(--status-on-error);
-    }
-
-    &[data-variant='success'] {
-        background-color: var(--status-success);
-        color: var(--status-on-success);
-    }
-
-    &[data-variant='warning'] {
-        background-color: var(--status-warning);
-        color: var(--status-on-warning);
-    }
+    background-color: var(--surface-neutral-inverse);
+    color: var(--foreground-neutral-on-inverse-surface);
 
     button {
         margin-left: auto;
@@ -58,5 +25,3 @@
         color: inherit;
     }
 }
-
-/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
