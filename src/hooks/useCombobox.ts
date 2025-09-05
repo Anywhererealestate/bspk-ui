@@ -100,7 +100,7 @@ function useKeyDownNavigation(containerElement: HTMLElement, setShow: (show: boo
  */
 export function useCombobox({
     placement = 'bottom',
-    refWidth = true,
+    refWidth,
     disabled,
     readOnly,
     offsetOptions,

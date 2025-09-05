@@ -90,7 +90,7 @@ export function useFloating<ReferenceElementType extends HTMLElement = HTMLEleme
     arrowRef,
     strategy = 'fixed',
     offsetOptions = 0,
-    refWidth = true,
+    refWidth = false,
     hide = false,
 }: UseFloatingProps): {
     elements: UseFloatingElements<ReferenceElementType>;
@@ -160,7 +160,7 @@ export function useFloating<ReferenceElementType extends HTMLElement = HTMLEleme
                     size({
                         apply({ rects, elements }: MiddlewareState) {
                             Object.assign(elements.floating.style, {
-                                width: refWidth ? `${rects.reference.width}px` : 'auto',
+                                width: refWidth ? `${rects.reference.width}px` : undefined,
                             });
                         },
                     }),
