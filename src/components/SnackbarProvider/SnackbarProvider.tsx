@@ -3,6 +3,7 @@ import { useState, ReactNode } from 'react';
 import { SnackbarContext, SnackbarData, SnackbarInput } from './snackbarContext';
 import { Portal } from '-/components/Portal';
 import { Snackbar } from '-/components/Snackbar';
+import './snackbar-provider.scss';
 
 export type SnackbarProviderProps = {
     /** Content to be rendered inside the provider */
@@ -43,11 +44,8 @@ export type SnackbarProviderProps = {
  *             <button
  *                 onClick={() =>
  *                     sendSnackbar({
- *                         // Required text to show in the snackbar
  *                         text: 'Example snackbar',
- *                         // Optional button, can be used to dismiss or trigger a custom action
  *                         button: { text: 'Dismiss', onClick: 'close' },
- *                         // Override default timeout of 5000ms
  *                         timeout: 3000,
  *                     })
  *                 }
@@ -86,7 +84,7 @@ export type SnackbarProviderProps = {
  *         );
  *     }
  *
- * @name Snackbar
+ * @name SnackbarProvider
  * @phase Dev
  */
 export function SnackbarProvider({ children, timeout, countLimit }: SnackbarProviderProps) {
@@ -126,7 +124,7 @@ export function SnackbarProvider({ children, timeout, countLimit }: SnackbarProv
             }}
         >
             <Portal>
-                <div data-snackbar-wrapper="">
+                <div data-bspk="snackbar-provider">
                     {visibleSnackbars.map(({ button, text, id }) => (
                         <Snackbar button={button} key={id} onClose={() => clearSnackbar(id)} text={text} />
                     ))}

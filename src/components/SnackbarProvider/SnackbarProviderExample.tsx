@@ -8,13 +8,13 @@ import { Txt } from '-/components/Txt';
 import { useSnackbarContext } from '-/hooks/useSnackbarContext';
 import { ComponentExample } from '-/utils/demo';
 
-export const SnackbarExample: ComponentExample<SnackbarProviderProps> = {
+export const SnackbarProviderExample: ComponentExample<SnackbarProviderProps> = {
     containerStyle: { width: '100%' },
     defaultState: {},
     disableProps: [],
     presets: [],
-    render: () => (
-        <SnackbarProvider>
+    render: ({ props }) => (
+        <SnackbarProvider countLimit={props.countLimit} timeout={props.timeout || 5000}>
             <ExampleForm />
         </SnackbarProvider>
     ),
