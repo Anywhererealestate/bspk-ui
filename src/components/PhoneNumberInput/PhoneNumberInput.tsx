@@ -106,6 +106,7 @@ export function PhoneNumberInput({
         placement: 'bottom',
         disabled,
         readOnly,
+        refWidth: true,
     });
 
     const { countryCodeSelectOptions, defaultCountryCode } = useCountryCodeSelectOptions(initialCountryCode);
