@@ -1,5 +1,5 @@
 import { SvgClose } from '@bspk/icons/Close';
-import { ReactNode } from 'react';
+import { ReactNode, useRef, useEffect } from 'react';
 import './drawer.scss';
 import { Button } from '-/components/Button';
 import { Dialog, DialogProps } from '-/components/Dialog';
@@ -58,7 +58,15 @@ export type DrawerProps = Pick<DialogProps, 'container' | 'id' | 'innerRef' | 'o
  *         return (
  *             <>
  *                 <Button label="Open Drawer" onClick={() => setOpen(true)} />
- *                 <Drawer id="exampleId" onClose={() => setOpen(false)} open={open} placement="right" variant="modal">
+ *                 <Drawer
+ *                     id="exampleId"
+ *                     onClose={() => setOpen(false)}
+ *                     open={open}
+ *                     placement="right"
+ *                     modal={false}
+ *                     header="Example Drawer"
+ *                     closeButton={true}
+ *                 >
  *                     Example Drawer
  *                 </Drawer>
  *             </>
@@ -66,7 +74,7 @@ export type DrawerProps = Pick<DialogProps, 'container' | 'id' | 'innerRef' | 'o
  *     }
  *
  * @name Drawer
- * @phase QA
+ * @phase UXReview
  */
 
 export function Drawer({
@@ -79,6 +87,17 @@ export function Drawer({
     onClose,
     ...dialogProps
 }: DrawerProps) {
+    const closeButtonRef = useRef<HTMLButtonElement | null>(null);
+
+    const setCloseButtonRef = (instance: HTMLButtonElement | null) => {
+        closeButtonRef.current = instance;
+    };
+
+    useEffect(() => {
+        if (open && closeButtonRef.current) {
+            closeButtonRef.current.focus();
+        }
+    }, [open]);
     if (!open) return null;
     const drawerContent = (
         <section
@@ -96,7 +115,14 @@ export function Drawer({
                         </Txt>
                     )}
                     {closeButton && (
-                        <Button icon={<SvgClose />} iconOnly label="close" onClick={onClose} variant="tertiary" />
+                        <Button
+                            icon={<SvgClose />}
+                            iconOnly
+                            innerRef={setCloseButtonRef}
+                            label="close"
+                            onClick={onClose}
+                            variant="tertiary"
+                        />
                     )}
                 </div>
             )}
