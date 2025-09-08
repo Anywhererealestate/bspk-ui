@@ -1,5 +1,5 @@
 import { SvgClose } from '@bspk/icons/Close';
-import { ReactNode, useRef, useEffect } from 'react';
+import { ReactNode } from 'react';
 import './drawer.scss';
 import { Button } from '-/components/Button';
 import { Dialog, DialogProps } from '-/components/Dialog';
@@ -87,18 +87,8 @@ export function Drawer({
     onClose,
     ...dialogProps
 }: DrawerProps) {
-    const closeButtonRef = useRef<HTMLButtonElement | null>(null);
-
-    const setCloseButtonRef = (instance: HTMLButtonElement | null) => {
-        closeButtonRef.current = instance;
-    };
-
-    useEffect(() => {
-        if (open && closeButtonRef.current) {
-            closeButtonRef.current.focus();
-        }
-    }, [open]);
     if (!open) return null;
+
     const drawerContent = (
         <section
             aria-modal={modal ? 'true' : undefined}
@@ -118,7 +108,7 @@ export function Drawer({
                         <Button
                             icon={<SvgClose />}
                             iconOnly
-                            innerRef={setCloseButtonRef}
+                            innerRef={(node) => node?.focus({ preventScroll: true })}
                             label="close"
                             onClick={onClose}
                             variant="tertiary"
@@ -131,7 +121,9 @@ export function Drawer({
         </section>
     );
 
-    return modal ? (
+    if (!modal) return drawerContent;
+
+    return (
         <Dialog
             {...dialogProps}
             onClose={onClose || (() => {})}
@@ -142,8 +134,6 @@ export function Drawer({
         >
             {drawerContent}
         </Dialog>
-    ) : (
-        drawerContent
     );
 }
 
