@@ -35,9 +35,11 @@ export type CarouselProps = {
      * @required
      */
     children: React.ReactNode[];
-
+    /** The width of each item in the carousel without the unit of measure */
     itemWidth?: number;
+    /** The gap between each item in the carousel without the unit of measure */
     itemGap?: number;
+    /** The unit of measure for the item width and gap */
     unitOfMeasure?: 'em' | 'px' | 'rem';
 };
 
