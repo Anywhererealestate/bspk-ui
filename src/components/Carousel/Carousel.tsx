@@ -1,7 +1,7 @@
 import './carousel.scss';
 import { SvgChevronLeft } from '@bspk/icons/ChevronLeft';
 import { SvgChevronRight } from '@bspk/icons/ChevronRight';
-import { useRef, useState, useLayoutEffect } from 'react';
+import React, { ReactNode, useRef, useState, useLayoutEffect } from 'react';
 import { Button } from '-/components/Button';
 import { PageControl } from '-/components/PageControl';
 import { cssWithVars } from '-/utils/cwv';
@@ -34,12 +34,24 @@ export type CarouselProps = {
      *
      * @required
      */
-    children: React.ReactNode[];
-    /** The width of each item in the carousel without the unit of measure */
-    itemWidth?: number;
-    /** The gap between each item in the carousel without the unit of measure */
-    itemGap?: number;
-    /** The unit of measure for the item width and gap */
+    children: ReactNode;
+    /**
+     * The width of each item in the carousel without the unit of measure
+     *
+     * @required
+     */
+    itemWidth: number;
+    /**
+     * The gap between each item in the carousel without the unit of measure
+     *
+     * @required
+     */
+    itemGap: number;
+    /**
+     * The unit of measure for the item width and gap
+     *
+     * @default px
+     */
     unitOfMeasure?: 'em' | 'px' | 'rem';
 };
 
@@ -51,7 +63,7 @@ export type CarouselProps = {
  *
  *     function Example() {
  *         return (
- *             <Carousel>
+ *             <Carousel unitOfMeasure="px">
  *                 <div>child 1</div>
  *                 <div>child 2</div>
  *                 <div>child 3</div>
@@ -66,9 +78,10 @@ export type CarouselProps = {
  * @name Carousel
  * @phase Dev
  */
-export function Carousel({ children, itemWidth = 180, itemGap = 24, unitOfMeasure = 'px' }: CarouselProps) {
+export function Carousel({ children, itemWidth, itemGap, unitOfMeasure = 'px' }: CarouselProps) {
     const [current, setCurrent] = useState(0);
-    const total = children.length;
+    const childrenArray = React.Children.toArray(children);
+    const total = childrenArray.length;
     const containerRef = useRef<HTMLDivElement>(null);
     const containerWidth = useContainerWidth(containerRef);
 
@@ -98,7 +111,7 @@ export function Carousel({ children, itemWidth = 180, itemGap = 24, unitOfMeasur
         >
             <div data-items-container ref={containerRef}>
                 <div data-items-track>
-                    {children.map((child, idx) => (
+                    {childrenArray.map((child, idx) => (
                         <div data-item-wrapper key={idx}>
                             {child}
                         </div>
