@@ -1,7 +1,10 @@
 import './carousel.scss';
+import { SvgChevronLeft } from '@bspk/icons/ChevronLeft';
+import { SvgChevronRight } from '@bspk/icons/ChevronRight';
 import { useRef, useState, useLayoutEffect } from 'react';
 import { Button } from '-/components/Button';
 import { PageControl } from '-/components/PageControl';
+import { cssWithVars } from '-/utils/cwv';
 
 function useContainerWidth(ref: React.RefObject<HTMLDivElement>) {
     const [width, setWidth] = useState(0);
@@ -33,7 +36,9 @@ export type CarouselProps = {
      */
     children: React.ReactNode[];
 
-    className?: string;
+    itemWidth?: number;
+    itemGap?: number;
+    unitOfMeasure?: 'em' | 'px' | 'rem';
 };
 
 /**
@@ -59,7 +64,7 @@ export type CarouselProps = {
  * @name Carousel
  * @phase Dev
  */
-export function Carousel({ children, className }: CarouselProps) {
+export function Carousel({ children, itemWidth = 180, itemGap = 24, unitOfMeasure = 'px' }: CarouselProps) {
     const [current, setCurrent] = useState(0);
     const total = children.length;
     const containerRef = useRef<HTMLDivElement>(null);
@@ -68,16 +73,12 @@ export function Carousel({ children, className }: CarouselProps) {
     // or a loading spinner
     // if (!containerWidth) return null;
 
-    // Card and gap sizes
-    const CARD_WIDTH = 180;
-    const CARD_GAP = 32;
-
     // Calculate max translate so last card is fully visible
-    const maxTranslate = Math.max(0, (CARD_WIDTH + CARD_GAP) * (total - 1) - (containerWidth - CARD_WIDTH));
+    const maxTranslate = Math.max(0, (itemWidth + itemGap) * (total - 1) - (containerWidth - itemWidth));
     const safeCurrent = Math.min(current, total - 1);
 
     // Center the card if possible, otherwise keep last card fully visible
-    const idealTranslate = safeCurrent * (CARD_WIDTH + CARD_GAP) - (containerWidth - CARD_WIDTH) / 2;
+    const idealTranslate = safeCurrent * (itemWidth + itemGap) - (containerWidth - itemWidth) / 2;
     const translateX = Math.max(0, Math.min(idealTranslate, maxTranslate));
 
     const goTo = (idx: number) => setCurrent(Math.max(0, Math.min(idx, total - 1)));
@@ -86,58 +87,26 @@ export function Carousel({ children, className }: CarouselProps) {
 
     return (
         <div
-            className={className}
             data-bspk="carousel"
-            style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                width: '100%',
-                position: 'relative',
-                background: '#fff',
-            }}
+            style={cssWithVars({
+                '--item-width': `${itemWidth}${unitOfMeasure}`,
+                '--item-gap': `${itemGap}${unitOfMeasure}`,
+                '--translate-x': `-${translateX}${unitOfMeasure}`,
+            })}
         >
-            <div
-                ref={containerRef}
-                style={{
-                    width: '100%',
-                    overflow: 'hidden',
-                    minHeight: '200px',
-                    margin: '2rem 0',
-                }}
-            >
-                <div
-                    style={{
-                        display: 'flex',
-                        gap: `${CARD_GAP}px`,
-                        alignItems: 'center',
-                        transition: 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
-                        transform: `translateX(-${translateX}px)`,
-                    }}
-                >
+            <div data-items-container ref={containerRef}>
+                <div data-items-track>
                     {children.map((child, idx) => (
-                        <div
-                            key={idx}
-                            style={{
-                                minWidth: `${CARD_WIDTH}px`,
-                                minHeight: '180px',
-                                background: idx === 0 ? '#f5e3ea' : idx === 1 ? '#f2e6fa' : '#e6e6fa',
-                                opacity: idx === safeCurrent ? 1 : 0.5,
-                                transform: `scale(${idx === safeCurrent ? 1 : 0.9})`,
-                                transition: 'opacity 0.3s, transform 0.3s',
-                                borderRadius: '8px',
-                                boxShadow: idx === safeCurrent ? '0 2px 8px rgba(0,0,0,0.08)' : 'none',
-                            }}
-                        >
+                        <div data-item-wrapper key={idx}>
                             {child}
                         </div>
                     ))}
                 </div>
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
+            <div data-controls>
                 <Button
                     disabled={safeCurrent === 0}
-                    icon={<span aria-hidden>‹</span>}
+                    icon={<SvgChevronLeft aria-hidden />}
                     iconOnly
                     label="Previous"
                     onClick={prev}
@@ -146,7 +115,7 @@ export function Carousel({ children, className }: CarouselProps) {
                 <PageControl numPages={total} onChange={goTo} value={safeCurrent} />
                 <Button
                     disabled={safeCurrent === total - 1}
-                    icon={<span aria-hidden>›</span>}
+                    icon={<SvgChevronRight aria-hidden />}
                     iconOnly
                     label="Next"
                     onClick={next}
