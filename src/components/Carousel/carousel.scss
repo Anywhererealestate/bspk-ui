@@ -17,12 +17,12 @@
         display: flex;
         align-items: center;
         transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        gap: var(--item-gap);
-        transform: translateX(var(--translate-x));
+        gap: var(--item-gap, 8px);
+        transform: translateX(var(--translate-x, 0));
     }
 
     [data-item-wrapper] {
-        min-width: var(--item-width);
+        min-width: var(--item-width, 52px);
         overflow: hidden;
 
         // opacity: idx === safeCurrent ? 1 : 0.5;
