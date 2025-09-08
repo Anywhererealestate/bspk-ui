@@ -3,11 +3,13 @@ import { ComponentExample } from '-/utils/demo';
 
 export const CarouselExample: ComponentExample<CarouselProps> = {
     // containerStyle: { width: '100%' },
-    defaultState: {},
-    disableProps: [],
-    presets: [],
     render: ({ props, Component }) => (
-        <Component {...props}>
+        <Component
+            {...props}
+            itemGap={props.itemGap || 16}
+            itemWidth={props.itemWidth || 180}
+            unitOfMeasure={props.unitOfMeasure || 'px'}
+        >
             <div
                 style={{
                     background: '#F6DBFA',
@@ -66,5 +68,5 @@ export const CarouselExample: ComponentExample<CarouselProps> = {
         </Component>
     ),
     sections: [],
-    variants: {},
+    variants: false,
 };
