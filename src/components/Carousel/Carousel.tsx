@@ -1,7 +1,7 @@
 import './carousel.scss';
 import { SvgChevronLeft } from '@bspk/icons/ChevronLeft';
 import { SvgChevronRight } from '@bspk/icons/ChevronRight';
-import React, { ReactNode, useRef, useState, useLayoutEffect } from 'react';
+import React, { ReactNode, useEffect, useRef, useState, useLayoutEffect } from 'react';
 import { Button } from '-/components/Button';
 import { PageControl } from '-/components/PageControl';
 import { cssWithVars } from '-/utils/cwv';
@@ -100,9 +100,21 @@ export function Carousel({ children, itemWidth, itemGap, unitOfMeasure = 'px' }:
     const prev = () => goTo(safeCurrent - 1);
     const next = () => goTo(safeCurrent + 1);
 
+    // Create a ref map for tab elements
+    const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+    // Focus the active tab when activeElementId changes
+    useEffect(() => {
+        const node = slideRefs.current[safeCurrent];
+        if (node) node.focus();
+    }, [safeCurrent]);
+
     return (
         <div
+            aria-label="Carousel"
+            aria-roledescription="carousel"
             data-bspk="carousel"
+            role="region"
             style={cssWithVars({
                 '--item-width': `${itemWidth}${unitOfMeasure}`,
                 '--item-gap': `${itemGap}${unitOfMeasure}`,
@@ -110,9 +122,45 @@ export function Carousel({ children, itemWidth, itemGap, unitOfMeasure = 'px' }:
             })}
         >
             <div data-items-container ref={containerRef}>
-                <div data-items-track>
+                <div
+                    aria-label="carousel"
+                    data-items-track
+                    // onKeyDown={(e) => {
+                    //     if (e.key === 'ArrowLeft') prev();
+                    //     if (e.key === 'ArrowRight') next();
+                    // }}
+                    onKeyDown={(e) => {
+                        if (e.key === 'ArrowLeft') {
+                            e.preventDefault();
+                            prev();
+                        }
+                        if (e.key === 'ArrowRight') {
+                            e.preventDefault();
+                            next();
+                        }
+                    }}
+                    role="tablist"
+                    tabIndex={0} // Makes the track focusable for keyboard navigation
+                >
                     {childrenArray.map((child, idx) => (
-                        <div data-item-wrapper key={idx}>
+                        <div
+                            aria-hidden={safeCurrent !== idx}
+                            aria-label={`Slide ${idx + 1} of ${total}`}
+                            aria-roledescription="slide"
+                            data-item-wrapper
+                            key={idx}
+                            // onKeyDown={
+                            //     safeCurrent === idx
+                            //         ? (e) => {
+                            //               if (e.key === 'ArrowLeft') prev();
+                            //               if (e.key === 'ArrowRight') next();
+                            //           }
+                            //         : undefined
+                            // }
+                            ref={(el) => (slideRefs.current[idx] = el)}
+                            role="tab"
+                            tabIndex={safeCurrent === idx ? 0 : -1}
+                        >
                             {child}
                         </div>
                     ))}
@@ -120,6 +168,7 @@ export function Carousel({ children, itemWidth, itemGap, unitOfMeasure = 'px' }:
             </div>
             <div data-controls>
                 <Button
+                    aria-label="Previous Slide"
                     disabled={safeCurrent === 0}
                     icon={<SvgChevronLeft aria-hidden />}
                     iconOnly
@@ -129,6 +178,7 @@ export function Carousel({ children, itemWidth, itemGap, unitOfMeasure = 'px' }:
                 />
                 <PageControl numPages={total} onChange={goTo} value={safeCurrent} />
                 <Button
+                    aria-label="Next Slide"
                     disabled={safeCurrent === total - 1}
                     icon={<SvgChevronRight aria-hidden />}
                     iconOnly
@@ -137,6 +187,18 @@ export function Carousel({ children, itemWidth, itemGap, unitOfMeasure = 'px' }:
                     variant="tertiary"
                 />
             </div>
+            <span
+                aria-live="polite"
+                style={{
+                    position: 'absolute',
+                    left: '-9999px',
+                    width: '1px',
+                    height: '1px',
+                    overflow: 'hidden',
+                }}
+            >
+                {`Slide ${safeCurrent + 1} of ${total}`}
+            </span>
         </div>
     );
 }
