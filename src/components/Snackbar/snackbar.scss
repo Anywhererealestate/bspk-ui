@@ -1,0 +1,22 @@
+[data-bspk='snackbar'] {
+    pointer-events: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: var(--radius-md);
+    padding: var(--spacing-sizing-02) var(--spacing-sizing-02) var(--spacing-sizing-02) var(--spacing-sizing-04);
+    gap: var(--spacing-sizing-03);
+    width: 600px;
+    max-width: 100%;
+    box-shadow:
+        0 0 1px 0 var(--shadow-variant-05),
+        0 0 12px 0 var(--shadow-variant-03);
+    background-color: var(--surface-neutral-inverse);
+    color: var(--foreground-neutral-on-inverse-surface);
+    height: var(--spacing-sizing-14);
+
+    [data-bspk='button'][data-variant='tertiary'] {
+        color: inherit;
+    }
+}

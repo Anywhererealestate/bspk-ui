@@ -135,6 +135,10 @@ export function Button<As extends ElementType = 'button'>(
             data-variant={variant}
             data-width={width}
             disabled={disabled || undefined}
+            onBlur={(e) => {
+                triggerProps.onBlur?.();
+                containerProps.onBlur?.(e);
+            }}
             onFocus={(e) => {
                 triggerProps.onFocus?.();
                 containerProps.onFocus?.(e);

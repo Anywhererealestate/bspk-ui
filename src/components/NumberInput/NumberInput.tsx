@@ -5,9 +5,6 @@ import { CommonProps, FormFieldControlProps } from '-/types/common';
 
 import './number-input.scss';
 
-const MAX = 100;
-const MIN = 0;
-
 const DEFAULT = {
     align: 'center',
     size: 'medium',
@@ -43,8 +40,6 @@ export type NumberInputProps = CommonProps<
         /**
          * Defines the [maximum](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/max) value that is
          * accepted.
-         *
-         * @default 99
          */
         max?: number;
         /**
@@ -54,6 +49,12 @@ export type NumberInputProps = CommonProps<
          * @default 0
          */
         min?: number;
+        /**
+         * The amount to increment or decrement the value by when the (+) or (-) buttons are pressed.
+         *
+         * @default 1
+         */
+        step?: number;
     };
 
 /**
@@ -92,23 +93,23 @@ export function NumberInput({
     id: inputIdProp,
     'aria-label': ariaLabel,
     max: maxProp,
-    min: minProp,
+    min = 0,
     invalid,
     'aria-describedby': ariaDescribedBy,
     'aria-errormessage': ariaErrorMessage,
+    step = 1,
     ...inputElementProps
 }: NumberInputProps) {
+    const max = typeof maxProp === 'number' && maxProp >= min ? maxProp : Number.MAX_SAFE_INTEGER;
     const centered = align !== 'left';
     const inputId = useId(inputIdProp);
-    const max = Math.min(MAX, isNumber(maxProp) || MAX);
-    const min = Math.max(MIN, isNumber(minProp) || MIN);
     const valueNumber = isNumber(value) || 0;
 
     const [inputElement, setInputElement] = useState<HTMLInputElement | null>(null);
 
     const handleIncrement = (increment: -1 | 1) => {
         if (!inputElement) return;
-        const nextValue = (isNumber(inputElement.value) || 0) + increment;
+        const nextValue = (isNumber(inputElement.value) || 0) + increment * step;
         handleUpdate(nextValue);
     };
 
@@ -159,6 +160,7 @@ export function NumberInput({
                 }}
                 readOnly={readOnly}
                 ref={(node) => node && setInputElement(node)}
+                step={step}
                 type="number"
             />
             {!centered && (
