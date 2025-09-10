@@ -1,6 +1,6 @@
 import { SvgKeyboardArrowDown } from '@bspk/icons/KeyboardArrowDown';
 import { SvgKeyboardArrowUp } from '@bspk/icons/KeyboardArrowUp';
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useEffect, useMemo, useState } from 'react';
 import './accordion.scss';
 import { randomString } from '-/utils/random';
 
@@ -74,10 +74,14 @@ export type AccordionProps = {
  * @phase UXReview
  */
 export function Accordion({ items: itemsProp, singleOpen = true }: AccordionProps) {
-    const items = itemsProp.map((item) => ({
-        ...item,
-        id: item.id || `accordion-item-${randomString(8)}`,
-    }));
+    const items = useMemo(
+        () =>
+            itemsProp.map((item) => ({
+                ...item,
+                id: item.id || `accordion-item-${randomString(8)}`,
+            })),
+        [itemsProp],
+    );
 
     const [openSections, setOpenSections] = useState<string[]>(() => {
         return items.filter((item) => item.isOpen).map((item) => item.id);
