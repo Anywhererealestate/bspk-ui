@@ -14,14 +14,9 @@
         0 0 12px 0 var(--shadow-variant-03);
     background-color: var(--surface-neutral-inverse);
     color: var(--foreground-neutral-on-inverse-surface);
+    height: var(--spacing-sizing-14);
 
-    button {
-        margin-left: auto;
-        background: none;
-        border: none;
-        cursor: pointer;
-        padding: 0 var(--spacing-sizing-03);
-        font: var(--labels-small);
+    [data-bspk='button'][data-variant='tertiary'] {
         color: inherit;
     }
 }

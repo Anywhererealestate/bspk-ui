@@ -1,3 +1,4 @@
+import { Button } from '-/components/Button';
 import { Txt } from '-/components/Txt';
 import { SnackbarData } from '-/utils/snackbarContext';
 import './snackbar.scss';
@@ -32,14 +33,13 @@ export function Snackbar({ text, button, onClose }: SnackbarProps) {
             <Txt variant="body-small">{text}</Txt>
 
             {button && (
-                <button
-                    aria-label={button.label}
-                    data-bspk="snackbar-button"
+                <Button
+                    label={button.label}
                     onClick={button.onClick === 'close' ? onClose : button.onClick}
-                    type="button"
+                    variant="tertiary"
                 >
                     {button.label}
-                </button>
+                </Button>
             )}
         </span>
     );
