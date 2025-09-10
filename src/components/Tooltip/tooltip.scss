@@ -2,7 +2,6 @@
     position: fixed;
     pointer-events: none;
     z-index: var(--z-index-tooltip-popover);
-    width: max-content !important;
 
     [data-text] {
         display: block;
@@ -16,7 +15,6 @@
         padding: var(--spacing-sizing-01) var(--spacing-sizing-02);
         border: none;
         transition: opacity 0.2s ease-in-out;
-        width: max-content;
     }
 
     --arrow-size: var(--spacing-sizing-01);

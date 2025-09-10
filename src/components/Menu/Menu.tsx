@@ -30,17 +30,9 @@ export type MenuProps = CommonProps<'id' | 'owner'> &
          * @default true
          */
         portal?: boolean;
-        /**
-         * The number of items to show in the menu. This is used to determine the height of the menu.
-         *
-         * @default 1
-         */
+        /** The number of items to show in the menu. This is used to determine the height of the menu. */
         itemDisplayCount?: number;
-        /**
-         * The number of items in the menu.
-         *
-         * @default 1
-         */
+        /** The number of items in the menu. */
         itemCount?: number;
         /**
          * Whether the menu is rendered as a floating element.
@@ -59,7 +51,7 @@ export type MenuProps = CommonProps<'id' | 'owner'> &
          *
          * Setting to false will override itemDisplayCount.
          *
-         * @default true
+         * @default false
          */
         scroll?: boolean;
     };
@@ -91,12 +83,12 @@ export function Menu({
     id: idProp,
     children,
     portal = true,
-    itemDisplayCount = 1,
+    itemDisplayCount,
     itemCount = 1,
     floating = true,
     onOutsideClick,
     owner,
-    scroll = true,
+    scroll: scrollProp = false,
     container,
     ...props
 }: ElementProps<MenuProps, 'div'>) {
@@ -104,13 +96,14 @@ export function Menu({
 
     const menuElement = useRef(null as HTMLDivElement | null);
 
-    const scrollDefault = scroll === true && itemCount > itemDisplayCount;
-
     useOutsideClick({
         elements: [menuElement.current],
         callback: () => onOutsideClick?.(),
         disabled: !onOutsideClick,
     });
+
+    const overflows =
+        typeof itemDisplayCount === 'number' && typeof itemCount === 'number' && itemCount > itemDisplayCount;
 
     const menu = (
         <>
@@ -119,7 +112,7 @@ export function Menu({
                 data-bspk="menu"
                 data-bspk-owner={owner || undefined}
                 data-floating={floating || undefined}
-                data-scroll={scroll || scrollDefault || undefined}
+                data-scroll={scrollProp || overflows || undefined}
                 id={menuId}
                 ref={(node) => {
                     innerRef?.(node);
@@ -127,7 +120,7 @@ export function Menu({
                 }}
                 style={cssWithVars({
                     ...props.style,
-                    '--item-display-count': itemDisplayCount,
+                    '--item-display-count': overflows ? itemDisplayCount : undefined,
                 })}
             >
                 {children}

@@ -1,0 +1,17 @@
+[data-snackbar-provider-example] {
+    display: flex;
+    gap: var(--spacing-sizing-03);
+    flex-direction: column;
+    width: 300px;
+    flex: 1;
+
+    [data-warning] {
+        color: var(--status-error);
+    }
+
+    [data-button-wrapper] {
+        display: flex;
+        justify-content: center;
+        margin-top: var(--spacing-sizing-02);
+    }
+}

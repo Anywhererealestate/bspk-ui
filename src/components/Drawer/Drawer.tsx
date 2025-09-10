@@ -58,7 +58,15 @@ export type DrawerProps = Pick<DialogProps, 'container' | 'id' | 'innerRef' | 'o
  *         return (
  *             <>
  *                 <Button label="Open Drawer" onClick={() => setOpen(true)} />
- *                 <Drawer id="exampleId" onClose={() => setOpen(false)} open={open} placement="right" variant="modal">
+ *                 <Drawer
+ *                     id="exampleId"
+ *                     onClose={() => setOpen(false)}
+ *                     open={open}
+ *                     placement="right"
+ *                     modal={false}
+ *                     header="Example Drawer"
+ *                     closeButton={true}
+ *                 >
  *                     Example Drawer
  *                 </Drawer>
  *             </>
@@ -66,7 +74,7 @@ export type DrawerProps = Pick<DialogProps, 'container' | 'id' | 'innerRef' | 'o
  *     }
  *
  * @name Drawer
- * @phase QA
+ * @phase UXReview
  */
 
 export function Drawer({
@@ -80,6 +88,7 @@ export function Drawer({
     ...dialogProps
 }: DrawerProps) {
     if (!open) return null;
+
     const drawerContent = (
         <section
             aria-modal={modal ? 'true' : undefined}
@@ -96,7 +105,14 @@ export function Drawer({
                         </Txt>
                     )}
                     {closeButton && (
-                        <Button icon={<SvgClose />} iconOnly label="close" onClick={onClose} variant="tertiary" />
+                        <Button
+                            icon={<SvgClose />}
+                            iconOnly
+                            innerRef={(node) => node?.focus({ preventScroll: true })}
+                            label="close"
+                            onClick={onClose}
+                            variant="tertiary"
+                        />
                     )}
                 </div>
             )}
@@ -105,7 +121,9 @@ export function Drawer({
         </section>
     );
 
-    return modal ? (
+    if (!modal) return drawerContent;
+
+    return (
         <Dialog
             {...dialogProps}
             onClose={onClose || (() => {})}
@@ -116,8 +134,6 @@ export function Drawer({
         >
             {drawerContent}
         </Dialog>
-    ) : (
-        drawerContent
     );
 }
 

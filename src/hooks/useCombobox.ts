@@ -100,11 +100,11 @@ function useKeyDownNavigation(containerElement: HTMLElement, setShow: (show: boo
  */
 export function useCombobox({
     placement = 'bottom',
-    refWidth = true,
+    refWidth,
     disabled,
     readOnly,
     offsetOptions,
-}: UseComboboxProps): {
+}: UseComboboxProps = {}): {
     activeIndex: number;
     menuProps: {
         'data-placement': string | undefined;

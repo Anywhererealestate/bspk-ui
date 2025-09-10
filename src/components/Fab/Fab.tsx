@@ -82,6 +82,10 @@ export function Fab<As extends ElementType = 'button'>(props: AriaAttributes & E
             data-round={iconOnly || undefined}
             data-size={size}
             data-variant={variant}
+            onBlur={(e) => {
+                triggerProps.onBlur?.();
+                otherProps.onBlur?.(e);
+            }}
             onFocus={(e) => {
                 triggerProps.onFocus?.();
                 otherProps.onFocus?.(e);

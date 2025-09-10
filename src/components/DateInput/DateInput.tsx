@@ -26,6 +26,12 @@ export type DateInputProps = Pick<
      * @default true
      */
     closeCalendarOnChange?: boolean;
+    /**
+     * The placeholder text for the date input field.
+     *
+     * @default 'mm/dd/yyyy'
+     */
+    placeholder?: string;
 };
 
 /**
@@ -43,7 +49,7 @@ export type DateInputProps = Pick<
  *     }
  *
  * @name DateInput
- * @phase Dev
+ * @phase Utility
  */
 export function DateInput({
     value,
@@ -53,6 +59,7 @@ export function DateInput({
     closeCalendarOnChange = true,
     'aria-label': ariaLabel,
     name,
+    placeholder,
     invalid,
     required,
     size,
@@ -71,6 +78,7 @@ export function DateInput({
         placement: 'bottom',
         strategy: 'absolute',
         offsetOptions: 4,
+        refWidth: true,
     });
 
     useOutsideClick({
@@ -143,6 +151,7 @@ export function DateInput({
                             event.preventDefault();
                         }
                     }}
+                    placeholder={placeholder || 'mm/dd/yyyy'}
                     readOnly={readOnly}
                     required={required}
                     showClearButton={false}
