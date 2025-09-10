@@ -1,9 +1,10 @@
-import { useState, ReactNode } from 'react';
+import { useState, ReactNode, useRef, useEffect } from 'react';
 
-import { SnackbarContext, SnackbarData, SnackbarInput } from './snackbarContext';
 import { Portal } from '-/components/Portal';
 import { Snackbar } from '-/components/Snackbar';
 import './snackbar-provider.scss';
+import { randomString } from '-/utils/random';
+import { SnackbarContext, SnackbarData, SnackbarInput } from '-/utils/snackbarContext';
 
 export type SnackbarProviderProps = {
     /** Content to be rendered inside the provider */
@@ -13,7 +14,11 @@ export type SnackbarProviderProps = {
      * timeout or null will override this value
      */
     timeout?: number | null;
-    /** Maximum number of snackbars to show at once */
+    /**
+     * Maximum number of snackbars to show at once
+     *
+     * @default 10
+     */
     countLimit?: number;
 };
 
@@ -55,7 +60,7 @@ export type SnackbarProviderProps = {
  *         );
  *     }
  *
- *     // You can also programatically dismiss a Snackbar by calling clearSnackbar with the Snackbar's id returned from sendSnackbar.
+ *     // You can also programatically dismiss a Snackbar by calling clearSnackbar with the Snackbar's id.
  *     import { useSnackbarContext } from '@bspk/ui/hooks/useSnackbarContext';
  *     import { useState } from 'react';
  *
@@ -66,7 +71,7 @@ export type SnackbarProviderProps = {
  *
  *         const sendAndStoreId = () => {
  *             const id = sendSnackbar({
- *                 text: 'Without a button or timeout can only be closed programatically',
+ *                 text: 'Without a button or timeout I can only be closed programatically',
  *             });
  *         };
  *
@@ -87,30 +92,45 @@ export type SnackbarProviderProps = {
  * @name SnackbarProvider
  * @phase Dev
  */
-export function SnackbarProvider({ children, timeout, countLimit }: SnackbarProviderProps) {
+export function SnackbarProvider({ children, timeout, countLimit = 10 }: SnackbarProviderProps) {
     const [snackbars, setSnackbars] = useState<SnackbarData[]>([]);
+    const timeouts = useRef<Map<string, NodeJS.Timeout>>(new Map());
 
     const baseTimeout = timeout ?? 0;
 
     const sendSnackbar = (data: SnackbarInput): string => {
-        const id = window.crypto.randomUUID();
+        const id = randomString(8);
 
         setSnackbars((prevState) => prevState.concat([{ id, ...data }]));
 
-        if (data.timeout !== null && (data.timeout ?? baseTimeout)) {
-            setTimeout(() => clearSnackbar(id), data.timeout ?? baseTimeout);
+        const nextTimeout = data.timeout ?? baseTimeout;
+        if (data.timeout !== null && nextTimeout) {
+            timeouts.current.set(
+                id,
+                setTimeout(() => {
+                    clearSnackbar(id);
+                    timeouts.current.delete(id);
+                }, data.timeout ?? baseTimeout),
+            );
         }
 
         return id;
     };
 
-    const clearSnackbar = (key: string) => {
-        setSnackbars((prevState) => prevState.filter((snackbarData) => snackbarData.id !== key));
+    const clearSnackbar = (id: string) => {
+        setSnackbars((prevState) => prevState.filter((snackbarData) => snackbarData.id !== id));
     };
 
     const clearAll = () => {
         setSnackbars([]);
     };
+
+    useEffect(() => {
+        return () => {
+            // eslint-disable-next-line react-hooks/exhaustive-deps
+            timeouts.current.forEach((timeoutToClear) => clearTimeout(timeoutToClear));
+        };
+    }, []);
 
     const visibleSnackbars = countLimit ? snackbars.slice(0, countLimit) : snackbars;
 
@@ -123,13 +143,15 @@ export function SnackbarProvider({ children, timeout, countLimit }: SnackbarProv
                 clearAll,
             }}
         >
-            <Portal>
-                <div data-bspk="snackbar-provider">
-                    {visibleSnackbars.map(({ button, text, id }) => (
-                        <Snackbar button={button} key={id} onClose={() => clearSnackbar(id)} text={text} />
-                    ))}
-                </div>
-            </Portal>
+            {visibleSnackbars.length > 0 && (
+                <Portal>
+                    <div data-bspk="snackbar-provider">
+                        {visibleSnackbars.map(({ button, text, id }) => (
+                            <Snackbar button={button} key={id} onClose={() => clearSnackbar(id)} text={text} />
+                        ))}
+                    </div>
+                </Portal>
+            )}
 
             {children}
         </SnackbarContext.Provider>

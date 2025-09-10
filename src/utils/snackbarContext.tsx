@@ -20,7 +20,7 @@ export interface SnackbarData {
          *
          * @default 'dismiss'
          */
-        text: string;
+        label: string;
         /**
          * Either 'close' or a callback function that is called when the button is clicked. If 'close' is provided the
          * snackbar will close when the button is clicked.
