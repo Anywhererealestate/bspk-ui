@@ -20,7 +20,7 @@ export const MenuExample: ComponentExampleFn<MenuProps & { 'data-dark-mode': boo
 }) => ({
     render: ({ props, Component, setState }) => {
         return (
-            <Component {...props} inline style={{ padding: 'var(--spacing-sizing-02) var(--spacing-sizing-02)' }}>
+            <Component {...props} style={{ padding: 'var(--spacing-sizing-02) var(--spacing-sizing-02)' }}>
                 <ListItem
                     label="Michael Scott"
                     leading={<Avatar image="/profile2.jpg" name="Michael Scott" />}
@@ -61,6 +61,5 @@ export const MenuExample: ComponentExampleFn<MenuProps & { 'data-dark-mode': boo
             </Component>
         );
     },
-    disableProps: ['inline'],
     variants: false,
 });

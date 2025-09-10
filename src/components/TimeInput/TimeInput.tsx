@@ -5,6 +5,7 @@ import { TimeInputListbox } from './Listbox';
 import { TimeInputSegment } from './Segment';
 import { Button } from '-/components/Button';
 import { Menu } from '-/components/Menu';
+import { Portal } from '-/components/Portal';
 import { TextInputProps } from '-/components/TextInput';
 import { useFloating } from '-/hooks/useFloating';
 import { useId } from '-/hooks/useId';
@@ -144,42 +145,44 @@ export function TimeInput({
                 />
             </div>
             {!!open && (
-                <Menu
-                    innerRef={(node) => {
-                        if (!node) return;
-                        elements.setFloating(node as HTMLElement);
-                        node.querySelector<HTMLElement>('[data-scroll-column="hours"]')?.focus();
-                    }}
-                    owner="time-input"
-                    style={floatingStyles}
-                >
-                    <div data-scroll-values>
-                        <TimeInputListbox
-                            onSelect={setHours}
-                            options={HOUR_OPTIONS.map((h) => h)}
-                            selectedValue={hours}
-                            type="hours"
-                        />
-                        <TimeInputListbox
-                            onSelect={setMinutes}
-                            options={MINUTE_OPTIONS}
-                            selectedValue={minutes}
-                            type="minutes"
-                        />
-                        <TimeInputListbox<Meridiem>
-                            onSelect={setMeridiem}
-                            onTab={(e) => {
-                                e.preventDefault();
-                                setOpen(false);
-                                setTimeout(() => elements.reference?.focus(), 10);
-                                // Focus back on the input after closing
-                            }}
-                            options={MERIDIEM_OPTIONS}
-                            selectedValue={meridiem}
-                            type="meridiem"
-                        />
-                    </div>
-                </Menu>
+                <Portal>
+                    <Menu
+                        innerRef={(node) => {
+                            if (!node) return;
+                            elements.setFloating(node as HTMLElement);
+                            node.querySelector<HTMLElement>('[data-scroll-column="hours"]')?.focus();
+                        }}
+                        owner="time-input"
+                        style={floatingStyles}
+                    >
+                        <div data-scroll-values>
+                            <TimeInputListbox
+                                onSelect={setHours}
+                                options={HOUR_OPTIONS.map((h) => h)}
+                                selectedValue={hours}
+                                type="hours"
+                            />
+                            <TimeInputListbox
+                                onSelect={setMinutes}
+                                options={MINUTE_OPTIONS}
+                                selectedValue={minutes}
+                                type="minutes"
+                            />
+                            <TimeInputListbox<Meridiem>
+                                onSelect={setMeridiem}
+                                onTab={(e) => {
+                                    e.preventDefault();
+                                    setOpen(false);
+                                    setTimeout(() => elements.reference?.focus(), 10);
+                                    // Focus back on the input after closing
+                                }}
+                                options={MERIDIEM_OPTIONS}
+                                selectedValue={meridiem}
+                                type="meridiem"
+                            />
+                        </div>
+                    </Menu>
+                </Portal>
             )}
         </>
     );

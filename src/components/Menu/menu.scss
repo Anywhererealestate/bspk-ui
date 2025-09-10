@@ -13,10 +13,6 @@
     height: fit-content;
     z-index: var(--z-index-dropdown);
 
-    &[data-inline] {
-        z-index: unset;
-    }
-
     [data-bspk='list-item'] {
         &[data-selected] {
             background-color: var(--surface-brand-primary-highlight);

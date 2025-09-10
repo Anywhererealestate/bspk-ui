@@ -1,7 +1,5 @@
-// import { ReactNode, useMemo, useRef } from 'react';
 import { ReactNode } from 'react';
 
-import { Portal, PortalProps } from '-/components/Portal';
 import { useId } from '-/hooks/useId';
 import { CommonProps, ElementProps, SetRef } from '-/types/common';
 
@@ -11,23 +9,16 @@ export function menuItemId(menuId: string, index: number) {
     return `menu-${menuId}-item-${index}`;
 }
 
-export type MenuProps = CommonProps<'id' | 'owner'> &
-    Pick<PortalProps, 'container'> & {
-        /** A ref to the inner div element. */
-        innerRef?: SetRef<HTMLDivElement>;
-        /**
-         * The items to display in the menu. These should be ListItem and Divider components.
-         *
-         * @required
-         */
-        children: ReactNode;
-        /**
-         * Whether the menu is rendered as a floating element with a portal or inline.
-         *
-         * @default false
-         */
-        inline?: boolean;
-    };
+export type MenuProps = CommonProps<'id' | 'owner'> & {
+    /** A ref to the inner div element. */
+    innerRef?: SetRef<HTMLDivElement>;
+    /**
+     * The items to display in the menu. These should be ListItem and Divider components.
+     *
+     * @required
+     */
+    children: ReactNode;
+};
 
 /**
  * A container housing a simple list of options presented to the customer to select one option at a time.
@@ -55,31 +46,24 @@ export function Menu({
     innerRef,
     id: idProp,
     children,
-    inline = false,
     owner,
-    container,
     ...props
 }: ElementProps<MenuProps, 'div'>) {
     const menuId = useId(idProp);
 
-    const menu = (
-        <>
-            <div
-                {...props}
-                data-bspk-owner={owner || undefined}
-                data-bspk-utility="menu"
-                data-inline={inline === true || undefined}
-                id={menuId}
-                ref={(node) => {
-                    if (node) innerRef?.(node);
-                }}
-            >
-                {children}
-            </div>
-        </>
+    return (
+        <div
+            {...props}
+            data-bspk-owner={owner || undefined}
+            data-bspk-utility="menu"
+            id={menuId}
+            ref={(node) => {
+                if (node) innerRef?.(node);
+            }}
+        >
+            {children}
+        </div>
     );
-
-    return !inline ? <Portal container={container}>{menu}</Portal> : menu;
 }
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

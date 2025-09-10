@@ -29,7 +29,7 @@ export type SearchBarProps = Pick<ListItemMenuProps, 'scrollLimit'> &
         /*
          * Handler for item selection.
          *
-         * @type (item: MenuItem) => void
+         * @type (item: MenuListItem) => void
          * @required
          */
         onSelect: (item?: MenuListItem) => void;
@@ -50,7 +50,7 @@ export type SearchBarProps = Pick<ListItemMenuProps, 'scrollLimit'> &
          *         { value: '10', label: 'Jackfruit Pudding' },
          *     ];
          *
-         * @type Array<MenuItem>
+         * @type Array<MenuListItem>
          */
         items?: MenuListItem[];
         /**

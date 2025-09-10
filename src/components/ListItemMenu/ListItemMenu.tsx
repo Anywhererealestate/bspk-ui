@@ -2,6 +2,7 @@ import { AriaAttributes, CSSProperties, HTMLAttributes, ReactNode, useState, Key
 import { ListItemProps as ListItemPropsBase } from '-/components/ListItem';
 import { ListItemGroup, ListItemGroupProps } from '-/components/ListItemGroup';
 import { Menu } from '-/components/Menu';
+import { Portal } from '-/components/Portal';
 import { useFloating, UseFloatingProps } from '-/hooks/useFloating';
 import { useId } from '-/hooks/useId';
 import { useKeyNavigation } from '-/hooks/useKeyNavigation';
@@ -38,14 +39,21 @@ export type MenuListItemsFn = (props: { setShow: (show: boolean) => void }) => M
 
 export type ListItemMenuProps = CommonProps<'disabled' | 'owner' | 'readOnly'> &
     Pick<ListItemGroupProps, 'scrollLimit'> &
-    Pick<UseFloatingProps, 'offsetOptions' | 'placement' | 'refWidth'> & {
+    Pick<UseFloatingProps, 'offsetOptions' | 'placement'> & {
         /** He children to render inside the menu. */
         children: (toggleProps: ToggleProps, internal: InternalToggleProps) => ReactNode;
         /** The element that the menu is anchored to. */
         menuRole: HTMLAttributes<HTMLElement>['role'];
-        /** The css width. */
-        menuWidth?: CSSProperties['width'];
-        /** The ID of the menu element. */
+        /**
+         * The width of the menu. If 'reference' is provided, the menu will match the width of the useFloating reference
+         * element.
+         */
+        menuWidth?: CSSProperties['width'] | 'reference';
+        /**
+         * The ID of the menu element.
+         *
+         * If not provided, a unique ID will be generated.
+         */
         menuId?: string;
         /**
          * The items to display in the menu as ListItems.
@@ -94,7 +102,6 @@ export function ListItemMenu({
     menuId: menuIdProps,
     placement = 'bottom',
     offsetOptions,
-    refWidth,
     menuTrailing,
     menuLeading,
     activeElementId: activeElementIdProp = null,
@@ -107,7 +114,7 @@ export function ListItemMenu({
         hide: !show,
         offsetOptions,
         placement,
-        refWidth,
+        refWidth: menuWidth === 'reference',
         strategy: 'fixed',
     });
 
@@ -179,27 +186,29 @@ export function ListItemMenu({
                 },
             )}
             {show && (
-                <Menu
-                    data-placement={currentPlacement}
-                    id={menuId}
-                    innerRef={elements.setFloating}
-                    owner={owner}
-                    role={role}
-                    style={{
-                        width: menuWidth,
-                        ...floatingStyles,
-                    }}
-                    tabIndex={-1}
-                >
-                    {menuLeading}
-                    <ListItemGroup
-                        activeElementId={activeElementId}
-                        innerRefs={setElements}
-                        items={items}
-                        scrollLimit={!menuLeading && !menuTrailing && scrollLimit}
-                    />
-                    {menuTrailing}
-                </Menu>
+                <Portal>
+                    <Menu
+                        data-placement={currentPlacement}
+                        id={menuId}
+                        innerRef={elements.setFloating}
+                        owner={owner}
+                        role={role}
+                        style={{
+                            width: menuWidth !== 'reference' ? menuWidth : undefined,
+                            ...floatingStyles,
+                        }}
+                        tabIndex={-1}
+                    >
+                        {menuLeading}
+                        <ListItemGroup
+                            activeElementId={activeElementId}
+                            innerRefs={setElements}
+                            items={items}
+                            scrollLimit={!menuLeading && !menuTrailing && scrollLimit}
+                        />
+                        {menuTrailing}
+                    </Menu>
+                </Portal>
             )}
         </>
     );
