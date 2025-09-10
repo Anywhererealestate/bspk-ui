@@ -2,8 +2,9 @@ import { SvgKeyboardArrowDown } from '@bspk/icons/KeyboardArrowDown';
 import { SvgKeyboardArrowUp } from '@bspk/icons/KeyboardArrowUp';
 import { ReactNode, useEffect, useState } from 'react';
 import './accordion.scss';
+import { randomString } from '-/utils/random';
 
-export type AccordionItem = {
+export type AccordionSection = {
     /**
      * The content of the accordion.
      *
@@ -16,29 +17,16 @@ export type AccordionItem = {
      * @required
      */
     title: string;
-    /** The title of the accordion. */
+    /** The subtitle of the accordion. */
     subtitle?: string;
-    /**
-     * The leading element to display in the Accordion title.
-     *
-     * Leading elements may only be one of the following [Icon](/icons), Img, Avatar.
-     *
-     * @exampleType select
-     * @options Icon, Img, Avatar
-     */
+    /** The leading element to display in the accordion header. */
     leading?: ReactNode;
-    /**
-     * The trailing element to display in the accordion header.
-     *
-     * @exampleType select
-     * @options Tag
-     */
+    /** The trailing element to display in the accordion header. */
     trailing?: ReactNode;
     /**
-     * If the accordion is open.
+     * If the accordion is initially open.
      *
      * @default false
-     * @required
      */
     isOpen?: boolean;
     /**
@@ -50,19 +38,19 @@ export type AccordionItem = {
     /**
      * The unique identifier for the accordion item.
      *
-     * @required
+     * If not provided it will be generated automatically.
      */
-    id: string;
+    id?: string;
 };
 
 export type AccordionProps = {
     /**
      * Array of accordion sections
      *
-     * @type Array<AccordionItem>
+     * @type Array<AccordionSection>
      * @required
      */
-    items: AccordionItem[];
+    items: AccordionSection[];
     /**
      * If true only one accordion section can be opened at a time
      *
@@ -85,7 +73,12 @@ export type AccordionProps = {
  * @name Accordion
  * @phase UXReview
  */
-export function Accordion({ items, singleOpen = true }: AccordionProps) {
+export function Accordion({ items: itemsProp, singleOpen = true }: AccordionProps) {
+    const items = itemsProp.map((item) => ({
+        ...item,
+        id: item.id || `accordion-item-${randomString(8)}`,
+    }));
+
     const [openSections, setOpenSections] = useState<string[]>(() => {
         return items.filter((item) => item.isOpen).map((item) => item.id);
     });
