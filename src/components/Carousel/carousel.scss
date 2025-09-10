@@ -24,11 +24,6 @@
     [data-item-wrapper] {
         min-width: var(--item-width, 52px);
         overflow: hidden;
-
-        // opacity: idx === safeCurrent ? 1 : 0.5;
-        // transform: scale(idx === safeCurrent ? 1 : 0.9);
-        // transition: opacity 0.3s, transform 0.3s;
-        // box-shadow: idx === safeCurrent ? '0 2px 8px rgba(0,0,0,0.08)' : 'none';
     }
 
     [data-controls] {

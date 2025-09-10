@@ -28,8 +28,6 @@ export type PageControlProps = {
      * @default flat
      */
     variant?: 'flat' | 'floating';
-    /** Called when a dot is clicked. */
-    onChange?: (page: number) => void;
 };
 
 type DotSize = 'medium' | 'small' | 'x-small';
@@ -48,7 +46,7 @@ type DotSize = 'medium' | 'small' | 'x-small';
  * @name PageControl
  * @phase UXReview
  */
-export function PageControl({ value, numPages, variant = 'flat', onChange }: PageControlProps) {
+export function PageControl({ value, numPages, variant = 'flat' }: PageControlProps) {
     if (numPages < 2) return null;
 
     return (
@@ -65,19 +63,7 @@ export function PageControl({ value, numPages, variant = 'flat', onChange }: Pag
                     data-dot={pageIndex}
                     data-size={size}
                     key={index + 1}
-                    onClick={onChange ? () => onChange(pageIndex) : undefined}
-                    onKeyDown={
-                        onChange
-                            ? (e) => {
-                                  if (e.key === 'Enter' || e.key === ' ') {
-                                      e.preventDefault();
-                                      onChange(pageIndex);
-                                  }
-                              }
-                            : undefined
-                    }
                     role="presentation"
-                    style={{ cursor: onChange ? 'pointer' : undefined }}
                 />
             ))}
         </span>
@@ -103,22 +89,6 @@ function getDots(currentIndex: number, totalPages: number) {
 
         return { pageIndex, size };
     });
-
-    // const start = Math.max(1, Math.min(currentPage - 2, totalPages - 4));
-
-    // const dots = Array.from({ length: MAX_DOT_COUNT }, (_, i) => {
-    //     const page = start + i;
-    //     let size: DotSize = 'medium';
-
-    //     if (i === 0 && page > 0) size = page > 1 ? 'x-small' : 'small';
-    //     if (i === 1 && page > 1) size = 'small';
-    //     if (i === 3 && page < totalPages - 1) size = 'small';
-    //     if (i === 4 && page < totalPages) size = page < totalPages ? 'x-small' : 'small';
-
-    //     return { page, size };
-    // });
-
-    // return dots;
 }
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
