@@ -141,7 +141,12 @@ export function Avatar({
                 .join('')
                 .toUpperCase();
 
-        if (initials) return <span data-initials>{initials.slice(0, 2)}</span>;
+        if (initials)
+            return (
+                <span aria-hidden={true} data-initials>
+                    {initials.slice(0, 2)}
+                </span>
+            );
 
         return null;
     }, [ariaLabel, showIcon, image, initialsProp]);
