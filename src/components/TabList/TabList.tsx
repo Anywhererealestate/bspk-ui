@@ -167,11 +167,7 @@ export function TabList({
         return option ? option.value : options[0]?.value;
     }, [options, valueProp]);
 
-    const { handleKeyDown, activeElementId, setElements, setActiveElementId } = useKeyNavigation({
-        onSelect: (nextActiveId) => {
-            onChange(options.find((opt) => opt.id === nextActiveId)?.value || '');
-        },
-    });
+    const { handleKeyDown, activeElementId, setElements, setActiveElementId } = useKeyNavigation();
 
     // If all options have icons, we can hide the labels
     const iconsOnly = iconsOnlyProp === true && options.every((item) => item.icon && item.label);
@@ -191,6 +187,7 @@ export function TabList({
             data-size={size}
             data-width={width}
             id={id}
+            onKeyDownCapture={handleKeyDown}
             ref={(node) => {
                 if (node) {
                     const newElements = (Array.from(node.children) as HTMLElement[]).filter(
@@ -204,21 +201,27 @@ export function TabList({
             {options.map((item) => {
                 const isSelected = item.value === value;
                 const icon = isSelected ? item.iconSelected : item.icon;
+                const isActive = (activeElementId && activeElementId === item.id) || undefined;
+                const isFocusable = !activeElementId ? isSelected : isActive;
+
                 return (
                     <Fragment key={item.id}>
                         <Tooltip disabled={!iconsOnly} label={item.label} placement="top">
                             {(triggerProps) => (
+                                // eslint-disable-next-line jsx-a11y/click-events-have-key-events
                                 <li
                                     aria-controls={id}
                                     aria-disabled={item.disabled || undefined}
                                     aria-selected={isSelected || undefined}
-                                    data-active={activeElementId === item.id || undefined}
+                                    data-active={isActive}
                                     data-value={item.value}
                                     id={item.id}
                                     onClick={handleClick(item)}
-                                    onKeyDown={handleKeyDown}
+                                    ref={(node) => {
+                                        if (isActive) node?.focus();
+                                    }}
                                     role="tab"
-                                    tabIndex={isSelected ? 0 : -1}
+                                    tabIndex={isFocusable ? 0 : -1}
                                     {...triggerProps}
                                 >
                                     {icon && <span aria-hidden="true">{icon}</span>}
