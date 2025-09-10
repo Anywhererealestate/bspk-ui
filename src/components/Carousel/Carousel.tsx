@@ -30,6 +30,12 @@ function useContainerWidth(ref: React.RefObject<HTMLDivElement>) {
 
 export type CarouselProps = {
     /**
+     * A label for the carousel for screen readers.
+     *
+     * @default carousel
+     */
+    label?: string;
+    /**
      * The content of the carousel.
      *
      * @required
@@ -79,7 +85,7 @@ export type CarouselProps = {
  * @phase Dev
  */
 
-export function Carousel({ children, itemWidth, itemGap, unitOfMeasure = 'px' }: CarouselProps) {
+export function Carousel({ label = 'carousel', children, itemWidth, itemGap, unitOfMeasure = 'px' }: CarouselProps) {
     const [current, setCurrent] = useState(0);
     const childrenArray = React.Children.toArray(children);
     const total = childrenArray.length;
@@ -103,7 +109,7 @@ export function Carousel({ children, itemWidth, itemGap, unitOfMeasure = 'px' }:
 
     return (
         <div
-            aria-label="Carousel"
+            aria-label={label}
             aria-roledescription="carousel"
             data-bspk="carousel"
             role="region"
@@ -115,7 +121,6 @@ export function Carousel({ children, itemWidth, itemGap, unitOfMeasure = 'px' }:
         >
             <div data-items-container ref={containerRef}>
                 <div
-                    aria-label="carousel"
                     data-items-track
                     onKeyDown={(e) => {
                         if (e.key === 'ArrowLeft') {
