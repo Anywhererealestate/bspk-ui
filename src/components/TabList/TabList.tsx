@@ -202,7 +202,7 @@ export function TabList({
                 const isSelected = item.value === value;
                 const icon = isSelected ? item.iconSelected : item.icon;
                 const isActive = (activeElementId && activeElementId === item.id) || undefined;
-                const isTabbable = !activeElementId ? isSelected : isActive;
+                const isFocusable = !activeElementId ? isSelected : isActive;
 
                 return (
                     <Fragment key={item.id}>
@@ -221,7 +221,7 @@ export function TabList({
                                         if (isActive) node?.focus();
                                     }}
                                     role="tab"
-                                    tabIndex={isTabbable ? 0 : -1}
+                                    tabIndex={isFocusable ? 0 : -1}
                                     {...triggerProps}
                                 >
                                     {icon && <span aria-hidden="true">{icon}</span>}
