@@ -1,7 +1,7 @@
 import './carousel.scss';
 import { SvgChevronLeft } from '@bspk/icons/ChevronLeft';
 import { SvgChevronRight } from '@bspk/icons/ChevronRight';
-import React, { ReactNode, useEffect, useRef, useState, useLayoutEffect } from 'react';
+import React, { ReactNode, useRef, useState, useLayoutEffect } from 'react';
 import { Button } from '-/components/Button';
 import { PageControl } from '-/components/PageControl';
 import { cssWithVars } from '-/utils/cwv';
@@ -78,6 +78,7 @@ export type CarouselProps = {
  * @name Carousel
  * @phase Dev
  */
+
 export function Carousel({ children, itemWidth, itemGap, unitOfMeasure = 'px' }: CarouselProps) {
     const [current, setCurrent] = useState(0);
     const childrenArray = React.Children.toArray(children);
@@ -85,29 +86,20 @@ export function Carousel({ children, itemWidth, itemGap, unitOfMeasure = 'px' }:
     const containerRef = useRef<HTMLDivElement>(null);
     const containerWidth = useContainerWidth(containerRef);
 
-    // or a loading spinner
-    // if (!containerWidth) return null;
+    const slideLeft = Math.max(0, Math.min(current, total - 1)) * (itemWidth + itemGap);
+    const maxScroll = Math.max(0, (itemWidth + itemGap) * total - containerWidth);
+    const isLastSlide = current === total - 1;
+    const translateX = isLastSlide ? maxScroll : Math.max(0, Math.min(slideLeft, maxScroll));
 
-    // Calculate max translate so last card is fully visible
-    const maxTranslate = Math.max(0, (itemWidth + itemGap) * (total - 1) - (containerWidth - itemWidth));
-    const safeCurrent = Math.min(current, total - 1);
-
-    // Center the card if possible, otherwise keep last card fully visible
-    const idealTranslate = safeCurrent * (itemWidth + itemGap) - (containerWidth - itemWidth) / 2;
-    const translateX = Math.max(0, Math.min(idealTranslate, maxTranslate));
-
-    const goTo = (idx: number) => setCurrent(Math.max(0, Math.min(idx, total - 1)));
-    const prev = () => goTo(safeCurrent - 1);
-    const next = () => goTo(safeCurrent + 1);
+    const goTo = (idx: number) => {
+        const safeIdx = Math.max(0, Math.min(idx, total - 1));
+        setCurrent(safeIdx);
+    };
+    const prev = () => goTo(current - 1);
+    const next = () => goTo(current + 1);
 
     // Create a ref map for tab elements
     const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
-
-    // Focus the active tab when activeElementId changes
-    useEffect(() => {
-        const node = slideRefs.current[safeCurrent];
-        if (node) node.focus();
-    }, [safeCurrent]);
 
     return (
         <div
@@ -125,10 +117,6 @@ export function Carousel({ children, itemWidth, itemGap, unitOfMeasure = 'px' }:
                 <div
                     aria-label="carousel"
                     data-items-track
-                    // onKeyDown={(e) => {
-                    //     if (e.key === 'ArrowLeft') prev();
-                    //     if (e.key === 'ArrowRight') next();
-                    // }}
                     onKeyDown={(e) => {
                         if (e.key === 'ArrowLeft') {
                             e.preventDefault();
@@ -140,26 +128,19 @@ export function Carousel({ children, itemWidth, itemGap, unitOfMeasure = 'px' }:
                         }
                     }}
                     role="tablist"
-                    tabIndex={0} // Makes the track focusable for keyboard navigation
+                    tabIndex={0}
                 >
                     {childrenArray.map((child, idx) => (
                         <div
-                            aria-hidden={safeCurrent !== idx}
+                            aria-hidden={current !== idx}
                             aria-label={`Slide ${idx + 1} of ${total}`}
                             aria-roledescription="slide"
                             data-item-wrapper
                             key={idx}
-                            // onKeyDown={
-                            //     safeCurrent === idx
-                            //         ? (e) => {
-                            //               if (e.key === 'ArrowLeft') prev();
-                            //               if (e.key === 'ArrowRight') next();
-                            //           }
-                            //         : undefined
-                            // }
+                            onFocus={() => setCurrent(idx)}
                             ref={(el) => (slideRefs.current[idx] = el)}
                             role="tab"
-                            tabIndex={safeCurrent === idx ? 0 : -1}
+                            tabIndex={current === idx ? 0 : -1}
                         >
                             {child}
                         </div>
@@ -169,17 +150,17 @@ export function Carousel({ children, itemWidth, itemGap, unitOfMeasure = 'px' }:
             <div data-controls>
                 <Button
                     aria-label="Previous Slide"
-                    disabled={safeCurrent === 0}
+                    disabled={current === 0}
                     icon={<SvgChevronLeft aria-hidden />}
                     iconOnly
                     label="Previous"
                     onClick={prev}
                     variant="tertiary"
                 />
-                <PageControl numPages={total} onChange={goTo} value={safeCurrent} />
+                <PageControl numPages={total} onChange={goTo} value={current} />
                 <Button
                     aria-label="Next Slide"
-                    disabled={safeCurrent === total - 1}
+                    disabled={current === total - 1}
                     icon={<SvgChevronRight aria-hidden />}
                     iconOnly
                     label="Next"
@@ -197,7 +178,7 @@ export function Carousel({ children, itemWidth, itemGap, unitOfMeasure = 'px' }:
                     overflow: 'hidden',
                 }}
             >
-                {`Slide ${safeCurrent + 1} of ${total}`}
+                {`Slide ${current + 1} of ${total}`}
             </span>
         </div>
     );

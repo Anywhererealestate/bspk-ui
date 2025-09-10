@@ -65,6 +65,28 @@ export const CarouselExample: ComponentExample<CarouselProps> = {
             >
                 Slide 5
             </div>
+            <div
+                style={{
+                    background: '#FCE7D9',
+                    borderRadius: '8px',
+                    minHeight: '180px',
+                    padding: 20,
+                    textAlign: 'center',
+                }}
+            >
+                Slide 6
+            </div>
+            <div
+                style={{
+                    background: '#F9DEEC',
+                    borderRadius: '8px',
+                    minHeight: '180px',
+                    padding: 20,
+                    textAlign: 'center',
+                }}
+            >
+                Slide 7
+            </div>
         </Component>
     ),
     sections: [],

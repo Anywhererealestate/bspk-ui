@@ -65,8 +65,6 @@ export function PageControl({ value, numPages, variant = 'flat', onChange }: Pag
                     data-dot={pageIndex}
                     data-size={size}
                     key={index + 1}
-                    role="presentation"
-                    {...(onChange ? { tabIndex: 0 } : {})}
                     onClick={onChange ? () => onChange(pageIndex) : undefined}
                     onKeyDown={
                         onChange
@@ -78,6 +76,7 @@ export function PageControl({ value, numPages, variant = 'flat', onChange }: Pag
                               }
                             : undefined
                     }
+                    role="presentation"
                     style={{ cursor: onChange ? 'pointer' : undefined }}
                 />
             ))}
