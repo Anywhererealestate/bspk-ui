@@ -10,8 +10,9 @@ export type SnackbarProviderProps = {
     /** Content to be rendered inside the provider */
     children: ReactNode;
     /**
-     * Default time in milliseconds after which the snackbar will auto dismiss. Sending a snackbar with a specific
-     * timeout or null will override this value
+     * Default time in milliseconds after which the snackbar will auto dismiss. If a Snackbar is sent with a timeout
+     * property that value will be used instead. If you want to disable the timeout for a specific snackbar, set its
+     * timeout to null.
      */
     timeout?: number | null;
     /**
