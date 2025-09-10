@@ -187,6 +187,7 @@ export function TabList({
             data-size={size}
             data-width={width}
             id={id}
+            onKeyDownCapture={handleKeyDown}
             ref={(node) => {
                 if (node) {
                     const newElements = (Array.from(node.children) as HTMLElement[]).filter(
@@ -207,15 +208,17 @@ export function TabList({
                     <Fragment key={item.id}>
                         <Tooltip disabled={!iconsOnly} label={item.label} placement="top">
                             {(triggerProps) => (
+                                // eslint-disable-next-line jsx-a11y/click-events-have-key-events
                                 <li
                                     aria-controls={id}
                                     aria-disabled={item.disabled || undefined}
                                     aria-selected={isSelected || undefined}
+                                    className="bspk-tab-list__item"
                                     data-active={isActive}
+                                    data-disabled={item.disabled || undefined}
                                     data-value={item.value}
                                     id={item.id}
                                     onClick={handleClick(item)}
-                                    onKeyDown={handleKeyDown}
                                     ref={(node) => {
                                         if (isActive) node?.focus();
                                     }}
