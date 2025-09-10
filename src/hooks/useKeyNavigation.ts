@@ -1,11 +1,9 @@
-import { Dispatch, DOMAttributes, SetStateAction, useRef, useState } from 'react';
-import { useOutsideClick } from './useOutsideClick';
+import { Dispatch, SetStateAction, useRef, useState, KeyboardEvent, useEffect } from 'react';
+import { SetRef } from '-/types/common';
 import { handleKeyDown } from '-/utils/handleKeyDown';
+import { KeyboardEventCode } from '-/utils/keyboard';
 
-export type UseKeyNavigationProps = {
-    /** The callback function to call when a tab is selected (Enter or Space keys). */
-    onSelect: (activeId?: string) => void;
-};
+type SetActiveElementId = Dispatch<SetStateAction<string | null>>;
 
 /**
  * Custom hook to handle keyboard navigation for a list of elements.
@@ -13,53 +11,58 @@ export type UseKeyNavigationProps = {
  * This hook provides functionality to navigate through elements using arrow keys and select an element with the Enter
  * or Space key, or onClick.
  */
-export function useKeyNavigation<T extends HTMLElement>({
-    onSelect,
-}: UseKeyNavigationProps): {
-    handleKeyDown: DOMAttributes<T>['onKeyDown'];
+export function useKeyNavigation(
+    keysCallback: Partial<Record<KeyboardEventCode | '*', (event: KeyboardEvent) => void>> = {},
+): {
+    handleKeyDown: (event: KeyboardEvent) => KeyboardEventCode | '*' | null;
     activeElementId: string | null;
-    setElements: (newElements: HTMLElement[]) => void;
-    setActiveElementId: Dispatch<SetStateAction<string | null>>;
+    setElements: SetRef<HTMLElement[] | undefined>;
+    setActiveElementId: SetActiveElementId;
 } {
-    const elements = useRef<HTMLElement[]>([]);
-    const setElements = (newElements: HTMLElement[]) => {
-        elements.current = newElements;
-    };
+    const elementsRef = useRef<HTMLElement[]>([]);
+    const elements = elementsRef.current;
 
     const [activeElementId, setActiveElementId] = useState<string | null>(null);
 
-    useOutsideClick({
-        elements: elements.current,
-        callback: () => setActiveElementId(null),
-    });
+    useEffect(() => {
+        if (activeElementId) document.querySelector(`[id="${activeElementId}"]`)?.scrollIntoView({ block: 'nearest' });
+    }, [activeElementId, elements]);
 
-    const handleIncrement = (increment: -1 | 1) => (): void => {
-        let currentElement = elements.current[0];
-        if (activeElementId)
-            currentElement = elements.current.find((el) => el.id === activeElementId) || elements.current[0];
+    const handleArrow =
+        (increment: -1 | 1) =>
+        (event: KeyboardEvent): void => {
+            if (!elements.length) return;
+            event.preventDefault();
 
-        const activeIndex = elements.current.indexOf(currentElement);
-        const nextindex = (activeIndex + increment + elements.current.length) % elements.current.length;
-        setActiveElementId(elements.current[nextindex].id);
-    };
+            let currentElement = elements[0];
+            if (activeElementId) currentElement = elements.find((el) => el.id === activeElementId) || elements[0];
 
-    const handleSelect = () => () => {
-        if (activeElementId) onSelect(activeElementId);
+            const activeIndex = elements.indexOf(currentElement);
+            const nextindex = (activeIndex + increment + elements.length) % elements.length;
+            setActiveElementId(elements[nextindex]?.id);
+        };
+
+    const handleSelect = () => {
+        if (!elements.length) return;
+        if (activeElementId) elements.find((el) => el.id === activeElementId)?.click();
     };
 
     return {
-        setElements,
-        handleKeyDown: handleKeyDown(
-            {
-                ArrowRight: handleIncrement(1),
-                ArrowDown: handleIncrement(1),
-                ArrowUp: handleIncrement(-1),
-                ArrowLeft: handleIncrement(-1),
-                Enter: handleSelect(),
-                Space: handleSelect(),
+        setElements: (newElements: HTMLElement[] | undefined) => {
+            elementsRef.current = newElements ? (Array.from(newElements) as HTMLElement[]) : [];
+        },
+        handleKeyDown: handleKeyDown({
+            ...keysCallback,
+            ArrowRight: handleArrow(1),
+            ArrowDown: handleArrow(1),
+            ArrowUp: handleArrow(-1),
+            ArrowLeft: handleArrow(-1),
+            Enter: handleSelect,
+            Space: (event) => {
+                handleSelect();
+                if (activeElementId) event.preventDefault();
             },
-            { preventDefault: true, stopPropagation: true },
-        ),
+        }),
         activeElementId,
         setActiveElementId,
     };

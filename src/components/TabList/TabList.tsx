@@ -167,11 +167,7 @@ export function TabList({
         return option ? option.value : options[0]?.value;
     }, [options, valueProp]);
 
-    const { handleKeyDown, activeElementId, setElements, setActiveElementId } = useKeyNavigation({
-        onSelect: (nextActiveId) => {
-            onChange(options.find((opt) => opt.id === nextActiveId)?.value || '');
-        },
-    });
+    const { handleKeyDown, activeElementId, setElements, setActiveElementId } = useKeyNavigation();
 
     // If all options have icons, we can hide the labels
     const iconsOnly = iconsOnlyProp === true && options.every((item) => item.icon && item.label);
@@ -204,7 +200,9 @@ export function TabList({
             {options.map((item) => {
                 const isSelected = item.value === value;
                 const icon = isSelected ? item.iconSelected : item.icon;
-                const isActive = (activeElementId && activeElementId === item.id) || isSelected || undefined;
+                const isActive = (activeElementId && activeElementId === item.id) || undefined;
+                const isTabbable = !activeElementId ? isSelected : isActive;
+
                 return (
                     <Fragment key={item.id}>
                         <Tooltip disabled={!iconsOnly} label={item.label} placement="top">
@@ -222,7 +220,7 @@ export function TabList({
                                         if (isActive) node?.focus();
                                     }}
                                     role="tab"
-                                    tabIndex={isActive ? 0 : -1}
+                                    tabIndex={isTabbable ? 0 : -1}
                                     {...triggerProps}
                                 >
                                     {icon && <span aria-hidden="true">{icon}</span>}
