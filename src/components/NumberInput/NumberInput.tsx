@@ -40,8 +40,6 @@ export type NumberInputProps = CommonProps<
         /**
          * Defines the [maximum](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/max) value that is
          * accepted.
-         *
-         * @default 99
          */
         max?: number;
         /**
@@ -56,7 +54,7 @@ export type NumberInputProps = CommonProps<
          *
          * @default 1
          */
-        buttonIncrement?: number;
+        step?: number;
     };
 
 /**
@@ -94,14 +92,15 @@ export function NumberInput({
     name,
     id: inputIdProp,
     'aria-label': ariaLabel,
-    max = 100,
+    max: maxProp,
     min = 0,
     invalid,
     'aria-describedby': ariaDescribedBy,
     'aria-errormessage': ariaErrorMessage,
-    buttonIncrement = 1,
+    step = 1,
     ...inputElementProps
 }: NumberInputProps) {
+    const max = typeof maxProp === 'number' && maxProp >= min ? maxProp : Number.MAX_SAFE_INTEGER;
     const centered = align !== 'left';
     const inputId = useId(inputIdProp);
     const valueNumber = isNumber(value) || 0;
@@ -110,7 +109,7 @@ export function NumberInput({
 
     const handleIncrement = (increment: -1 | 1) => {
         if (!inputElement) return;
-        const nextValue = (isNumber(inputElement.value) || 0) + increment * buttonIncrement;
+        const nextValue = (isNumber(inputElement.value) || 0) + increment * step;
         handleUpdate(nextValue);
     };
 
@@ -161,6 +160,7 @@ export function NumberInput({
                 }}
                 readOnly={readOnly}
                 ref={(node) => node && setInputElement(node)}
+                step={step}
                 type="number"
             />
             {!centered && (
