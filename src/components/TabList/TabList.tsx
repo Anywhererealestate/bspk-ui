@@ -213,9 +213,7 @@ export function TabList({
                                     aria-controls={id}
                                     aria-disabled={item.disabled || undefined}
                                     aria-selected={isSelected || undefined}
-                                    className="bspk-tab-list__item"
                                     data-active={isActive}
-                                    data-disabled={item.disabled || undefined}
                                     data-value={item.value}
                                     id={item.id}
                                     onClick={handleClick(item)}
