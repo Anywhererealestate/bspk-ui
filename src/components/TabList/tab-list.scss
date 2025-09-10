@@ -7,6 +7,7 @@ ul[data-bspk-utility='tab-list'] {
     width: fit-content;
     height: var(--height);
     font: var(--font);
+    margin: var(--spacing-sizing-01);
 
     &[data-width='fill'] {
         align-items: stretch;
@@ -33,7 +34,9 @@ ul[data-bspk-utility='tab-list'] {
 
     &:has(:focus-visible) {
         outline: 2px solid var(--stroke-neutral-focus);
-        outline-offset: 2px;
+        outline-offset: 1px;
+        position: relative;
+        z-index: var(--z-index-focus);
     }
 
     li {

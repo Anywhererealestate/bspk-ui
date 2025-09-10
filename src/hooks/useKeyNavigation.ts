@@ -20,31 +20,31 @@ export function useKeyNavigation(
     setActiveElementId: SetActiveElementId;
 } {
     const elementsRef = useRef<HTMLElement[]>([]);
-    const elements = elementsRef.current;
 
     const [activeElementId, setActiveElementId] = useState<string | null>(null);
 
     useEffect(() => {
         if (activeElementId) document.querySelector(`[id="${activeElementId}"]`)?.scrollIntoView({ block: 'nearest' });
-    }, [activeElementId, elements]);
+    }, [activeElementId]);
 
     const handleArrow =
         (increment: -1 | 1) =>
         (event: KeyboardEvent): void => {
-            if (!elements.length) return;
+            if (!elementsRef.current.length) return;
             event.preventDefault();
 
-            let currentElement = elements[0];
-            if (activeElementId) currentElement = elements.find((el) => el.id === activeElementId) || elements[0];
+            let currentElement = elementsRef.current[0];
+            if (activeElementId)
+                currentElement = elementsRef.current.find((el) => el.id === activeElementId) || elementsRef.current[0];
 
-            const activeIndex = elements.indexOf(currentElement);
-            const nextindex = (activeIndex + increment + elements.length) % elements.length;
-            setActiveElementId(elements[nextindex]?.id);
+            const activeIndex = elementsRef.current.indexOf(currentElement);
+            const nextindex = (activeIndex + increment + elementsRef.current.length) % elementsRef.current.length;
+            setActiveElementId(elementsRef.current[nextindex]?.id);
         };
 
     const handleSelect = () => {
-        if (!elements.length) return;
-        if (activeElementId) elements.find((el) => el.id === activeElementId)?.click();
+        if (!elementsRef.current.length) return;
+        if (activeElementId) elementsRef.current.find((el) => el.id === activeElementId)?.click();
     };
 
     return {
