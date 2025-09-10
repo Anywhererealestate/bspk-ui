@@ -149,20 +149,21 @@ export function Avatar({
     if (!children) return null;
 
     const avatar = (triggerProps?: TooltipTriggerProps) => (
-        <button
+        <div
+            role={onClick ? 'button' : undefined}
             {...triggerProps}
             aria-describedby={triggerProps?.['aria-describedby'] || ariaLabel}
+            aria-disabled={disabled || undefined}
             aria-label={ariaLabel}
             data-bspk="avatar"
             data-color={color}
             data-size={size}
-            disabled={disabled || undefined}
-            onClick={disabled ? undefined : onClick}
-            tabIndex={0}
+            onClickCapture={disabled ? undefined : onClick}
+            tabIndex={onClick && !disabled ? 0 : undefined}
             {...props}
         >
             {children}
-        </button>
+        </div>
     );
 
     return showTooltip ? <Tooltip label={ariaLabel}>{avatar}</Tooltip> : avatar();
