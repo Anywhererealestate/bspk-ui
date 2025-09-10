@@ -157,7 +157,7 @@ export function Carousel({ children, itemWidth, itemGap, unitOfMeasure = 'px' }:
                     onClick={prev}
                     variant="tertiary"
                 />
-                <PageControl numPages={total} onChange={goTo} value={current} />
+                <PageControl numPages={total} value={current} />
                 <Button
                     aria-label="Next Slide"
                     disabled={current === total - 1}
@@ -168,16 +168,7 @@ export function Carousel({ children, itemWidth, itemGap, unitOfMeasure = 'px' }:
                     variant="tertiary"
                 />
             </div>
-            <span
-                aria-live="polite"
-                style={{
-                    position: 'absolute',
-                    left: '-9999px',
-                    width: '1px',
-                    height: '1px',
-                    overflow: 'hidden',
-                }}
-            >
+            <span aria-live="polite" data-sr-only>
                 {`Slide ${current + 1} of ${total}`}
             </span>
         </div>
