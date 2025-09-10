@@ -88,7 +88,6 @@ function ExampleForm() {
             {enableTimeout && (
                 <NumberField
                     aria-label="Timeout"
-                    buttonIncrement={1000}
                     controlId="timeout"
                     label="Timeout (ms)"
                     max={60000}
@@ -96,6 +95,7 @@ function ExampleForm() {
                     name="timeout"
                     onChange={(val) => setTimeout(parseInt(`${val}`) || 0)}
                     size="small"
+                    step={1000}
                     value={timeout}
                 />
             )}
