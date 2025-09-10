@@ -129,11 +129,10 @@ function ListItem<As extends ElementType = ElementType>({
     if (!label) return null;
 
     let As = as || 'div';
-    let role = roleProp;
-
     if (!as && props.href) As = 'a';
 
-    if (props.onClick && As !== 'button' && !props.href && !roleProp) role = 'button';
+    let role = roleProp;
+    if (!roleProp && props.onClick && As !== 'button' && !props.href && props.tabIndex === undefined) role = 'button';
 
     const actionable = (props.href || props.onClick) && !props.disabled && !props.readOnly;
 
