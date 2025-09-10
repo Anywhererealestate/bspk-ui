@@ -1,64 +1,65 @@
 import { SvgSearch } from '@bspk/icons/Search';
 
-import { ListItemMenu, MenuListItem } from '-/components/ListItemMenu';
+import { ListItemMenu, ListItemMenuProps, MenuListItem } from '-/components/ListItemMenu';
 import { TextInputProps, TextInput } from '-/components/TextInput';
 import { Txt } from '-/components/Txt';
 import { useId } from '-/hooks/useId';
 
 import './search-bar.scss';
 
-export type SearchBarProps = Pick<TextInputProps, 'aria-label' | 'disabled' | 'id' | 'inputRef' | 'name' | 'size'> & {
-    /** The current value of the search bar. */
-    value?: string;
-    /**
-     * The placeholder of the field.
-     *
-     * @default Search
-     *
-     * @required
-     */
-    placeholder: string;
-    /**
-     * Handler for state updates.
-     *
-     * @type (value: String) => void
-     * @required
-     */
-    onChange: (value: string) => void;
-    /*
-     * Handler for item selection.
-     *
-     * @type (item: MenuItem) => void
-     * @required
-     */
-    onSelect: (item?: MenuListItem) => void;
-    /**
-     * Content to display in the menu.
-     *
-     * @example
-     *     [
-     *         { value: '1', label: 'Apple Pie' },
-     *         { value: '2', label: 'Banana Split' },
-     *         { value: '3', label: 'Cherry Tart' },
-     *         { value: '4', label: 'Dragonfruit Sorbet' },
-     *         { value: '5', label: 'Elderberry Jam' },
-     *         { value: '6', label: 'Fig Newton' },
-     *         { value: '7', label: 'Grape Soda' },
-     *         { value: '8', label: 'Honeydew Smoothie' },
-     *         { value: '9', label: 'Ice Cream Sandwich' },
-     *         { value: '10', label: 'Jackfruit Pudding' },
-     *     ];
-     *
-     * @type Array<MenuItem>
-     */
-    items?: MenuListItem[];
-    /**
-     * Message to display when no results are found
-     *
-     * @type multiline
-     */
-    noResultsMessage?: string;
-};
+export type SearchBarProps = Pick<ListItemMenuProps, 'scrollLimit'> &
+    Pick<TextInputProps, 'aria-label' | 'disabled' | 'id' | 'inputRef' | 'name' | 'size'> & {
+        /** The current value of the search bar. */
+        value?: string;
+        /**
+         * The placeholder of the field.
+         *
+         * @default Search
+         *
+         * @required
+         */
+        placeholder: string;
+        /**
+         * Handler for state updates.
+         *
+         * @type (value: String) => void
+         * @required
+         */
+        onChange: (value: string) => void;
+        /*
+         * Handler for item selection.
+         *
+         * @type (item: MenuItem) => void
+         * @required
+         */
+        onSelect: (item?: MenuListItem) => void;
+        /**
+         * Content to display in the menu.
+         *
+         * @example
+         *     [
+         *         { value: '1', label: 'Apple Pie' },
+         *         { value: '2', label: 'Banana Split' },
+         *         { value: '3', label: 'Cherry Tart' },
+         *         { value: '4', label: 'Dragonfruit Sorbet' },
+         *         { value: '5', label: 'Elderberry Jam' },
+         *         { value: '6', label: 'Fig Newton' },
+         *         { value: '7', label: 'Grape Soda' },
+         *         { value: '8', label: 'Honeydew Smoothie' },
+         *         { value: '9', label: 'Ice Cream Sandwich' },
+         *         { value: '10', label: 'Jackfruit Pudding' },
+         *     ];
+         *
+         * @type Array<MenuItem>
+         */
+        items?: MenuListItem[];
+        /**
+         * Message to display when no results are found
+         *
+         * @type multiline
+         */
+        noResultsMessage?: string;
+    };
 
 /**
  * Component description coming soon.
@@ -112,6 +113,7 @@ export function SearchBar({
     value,
     onChange,
     disabled = false,
+    scrollLimit,
 }: SearchBarProps) {
     const id = useId(idProp);
 
@@ -148,6 +150,7 @@ export function SearchBar({
                     }
                     menuRole="listbox"
                     owner="search-bar"
+                    scrollLimit={scrollLimit}
                 >
                     {(toggleProps, { setRef, showMenu }) => (
                         <TextInput
