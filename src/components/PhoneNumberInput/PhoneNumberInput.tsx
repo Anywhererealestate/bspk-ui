@@ -3,38 +3,23 @@ import { AsYouType, getCountryCallingCode } from 'libphonenumber-js';
 import { useMemo, useState } from 'react';
 
 import { Divider } from '-/components/Divider';
-import { ListItem, ListItemProps } from '-/components/ListItem';
-import { Listbox } from '-/components/Listbox';
-import { Modal } from '-/components/Modal';
+import { ListItemMenu, MenuListItem } from '-/components/ListItemMenu';
 import { TextInput, TextInputProps } from '-/components/TextInput';
-import { useCombobox } from '-/hooks/useCombobox';
-import { useUIContext } from '-/hooks/useUIContext';
 import { FormFieldControlProps } from '-/types/common';
 import { countryCodeData, countryCodes, SupportedCountryCode } from '-/utils/countryCodes';
 import { guessUserCountryCode } from '-/utils/guessUserCountryCode';
 
 import './phone-number-input.scss';
 
-const useCountryCodeSelectOptions = (initialCountryCode?: SupportedCountryCode) => {
-    return useMemo(() => {
-        const selectOptions = countryCodes.map((code): ListItemProps & { value: string } => {
-            const countryCodeDetails = countryCodeData[code];
-            const callingCodeString = `(+${getCountryCallingCode(code)})`;
-
-            return {
-                value: code,
-                label: `${countryCodeDetails?.name}`,
-                leading: countryCodeDetails?.flagIconName ? <SvgIcon name={countryCodeDetails?.flagIconName} /> : null,
-                trailing: callingCodeString,
-            };
-        });
-
-        const defaultCode = initialCountryCode || guessUserCountryCode();
-
-        return { countryCodeSelectOptions: selectOptions, defaultCountryCode: defaultCode };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-};
+const SELECT_OPTIONS: MenuListItem[] = countryCodes.map((code) => {
+    const countryCodeDetails = countryCodeData[code];
+    return {
+        id: code,
+        label: `${countryCodeDetails?.name}`,
+        leading: countryCodeDetails?.flagIconName ? <SvgIcon name={countryCodeDetails?.flagIconName} /> : null,
+        trailing: `(+${getCountryCallingCode(code)})`,
+    };
+});
 
 export type PhoneNumberInputProps = FormFieldControlProps &
     Pick<
@@ -94,39 +79,11 @@ export function PhoneNumberInput({
     'aria-errormessage': ariaErrorMessage,
     ...inputProps
 }: PhoneNumberInputProps) {
-    const { isMobile } = useUIContext();
-    const {
-        toggleProps,
-        menuProps,
-        closeMenu,
-        elements,
-        isOpen: showCountryCodeSelectMenu,
-        activeIndex,
-    } = useCombobox({
-        placement: 'bottom',
-        disabled,
-        readOnly,
-        refWidth: true,
-    });
-
-    const { countryCodeSelectOptions, defaultCountryCode } = useCountryCodeSelectOptions(initialCountryCode);
-
-    const [countryCode, setCountryCode] = useState<SupportedCountryCode>(defaultCountryCode);
-
-    const formattedValue = useMemo(() => {
-        if (disableFormatting) {
-            return value;
-        }
-
-        const formatter = new AsYouType(countryCode);
-
-        return formatter.input(value || '');
-    }, [value, countryCode, disableFormatting]);
+    const [countryCode, setCountryCode] = useState<SupportedCountryCode>(initialCountryCode || guessUserCountryCode());
 
     const { callingCode, selectedCodeData } = useMemo(() => {
         const selectedValue = (countryCode || 'US') as SupportedCountryCode;
         const data = countryCodeData[selectedValue] ?? countryCodeData.US;
-
         return {
             callingCode: getCountryCallingCode(countryCode),
             selectedCodeData: data,
@@ -134,94 +91,67 @@ export function PhoneNumberInput({
     }, [countryCode]);
 
     const handleChange = (newValue: string) => {
-        const rawNumber = newValue.replace(/\D/g, '');
+        let rawNumber = newValue.replace(/\D/g, '');
         if (rawNumber === value) return;
+
+        if (!disableFormatting) {
+            const formatter = new AsYouType(countryCode);
+            rawNumber = formatter.input(`${rawNumber}`);
+        }
 
         onChange(rawNumber, countryCode);
     };
 
-    const setRef = (el: HTMLDivElement | null) => {
-        elements.setReference(el);
-    };
-
     return (
-        <div data-bspk="phone-number-input" ref={setRef}>
-            <TextInput
-                {...inputProps}
-                aria-describedby={ariaDescribedBy || undefined}
-                aria-errormessage={ariaErrorMessage || undefined}
-                disabled={disabled}
-                leading={
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <button
-                            {...(disabled ? {} : toggleProps)}
-                            aria-label="Open country code menu"
-                            data-bspk="country-code-select"
-                        >
-                            <SvgIcon name={selectedCodeData.flagIconName} />
-
-                            <SvgIcon name="KeyboardArrowDown" />
-                        </button>
-                        <Divider orientation="vertical" />
-                        <span style={{ cursor: 'default' }}>{`+${callingCode}`}</span>
-                    </div>
-                }
-                onChange={handleChange}
-                readOnly={readOnly}
-                value={formattedValue}
-            />
-            {showCountryCodeSelectMenu && (
-                <>
-                    {isMobile ? (
-                        <Modal
-                            description="select a country code for your phone number"
-                            header="Country Code"
-                            onClose={closeMenu}
-                            open={showCountryCodeSelectMenu}
-                            owner="phone-number-input"
-                        >
-                            {countryCodeSelectOptions.map((option, index) => (
-                                <ListItem
-                                    active={activeIndex === index || undefined}
-                                    aria-selected={countryCode === option.value}
-                                    data-bspk="country-code-select-option"
-                                    id={`${option.value}-country-code-select-option`}
-                                    includeAriaLabel={false}
-                                    key={option.value}
-                                    label={option.label}
-                                    leading={option.leading}
-                                    onClick={() => {
-                                        setCountryCode(option.value as SupportedCountryCode);
-                                        closeMenu();
-                                    }}
-                                    trailing={option.trailing}
-                                />
-                            ))}
-                        </Modal>
-                    ) : (
-                        <Listbox
-                            activeIndex={activeIndex}
-                            data-bspk-owner="phone-number-input"
-                            includeAriaLabel={false}
-                            innerRef={elements.setFloating}
-                            itemCount={countryCodeSelectOptions.length}
-                            itemDisplayCount={
-                                countryCodeSelectOptions.length <= 10 ? countryCodeSelectOptions.length : 10
+        <ListItemMenu
+            items={({ setShow }) =>
+                SELECT_OPTIONS.map((option) => {
+                    return {
+                        ...option,
+                        selected: option.id === countryCode,
+                        onClick: () => {
+                            setCountryCode(option.id as SupportedCountryCode);
+                            setShow(false);
+                        },
+                        includeAriaLabel: false,
+                    };
+                })
+            }
+            menuRole="listbox"
+            menuWidth={250}
+            scrollLimit={10}
+        >
+            {(toggleProps, { setRef }) => {
+                return (
+                    <div data-bspk="phone-number-input" ref={setRef}>
+                        <TextInput
+                            {...inputProps}
+                            aria-describedby={ariaDescribedBy}
+                            aria-errormessage={ariaErrorMessage}
+                            data-bskp-owner="phone-number-input"
+                            disabled={disabled}
+                            leading={
+                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                    <button
+                                        {...(disabled ? {} : toggleProps)}
+                                        aria-label="Open country code menu"
+                                        data-bspk="country-code-select"
+                                    >
+                                        <SvgIcon name={selectedCodeData.flagIconName} />
+                                        <SvgIcon name="KeyboardArrowDown" />
+                                    </button>
+                                    <Divider orientation="vertical" />
+                                    <span style={{ cursor: 'default' }}>{`+${callingCode}`}</span>
+                                </div>
                             }
-                            items={countryCodeSelectOptions}
-                            onChange={(next, event) => {
-                                event?.preventDefault();
-                                closeMenu();
-                                setCountryCode(next[0] as SupportedCountryCode);
-                            }}
-                            owner="phone-number-input"
-                            selectedValues={[countryCode]}
-                            {...menuProps}
+                            onChange={handleChange}
+                            readOnly={readOnly}
+                            value={value}
                         />
-                    )}
-                </>
-            )}
-        </div>
+                    </div>
+                );
+            }}
+        </ListItemMenu>
     );
 }
 

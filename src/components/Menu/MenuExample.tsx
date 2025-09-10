@@ -7,25 +7,20 @@ import { SvgLogout } from '@bspk/icons/Logout';
 import { SvgMenuBook } from '@bspk/icons/MenuBook';
 import { SvgSettings } from '@bspk/icons/Settings';
 
+import { CSSProperties } from 'react';
 import { MenuProps } from '.';
 import { Avatar } from '-/components/Avatar';
 import { Divider } from '-/components/Divider';
 import { ListItem } from '-/components/ListItem';
 import { Switch } from '-/components/Switch';
-import { ElementProps } from '-/types/common';
 import { ComponentExampleFn } from '-/utils/demo';
 
-export const MenuExample: ComponentExampleFn<ElementProps<MenuProps, 'div'> & { 'data-dark-mode': boolean }> = ({
+export const MenuExample: ComponentExampleFn<MenuProps & { 'data-dark-mode': boolean; style: CSSProperties }> = ({
     action,
 }) => ({
     render: ({ props, Component, setState }) => {
         return (
-            <Component
-                {...props}
-                floating={false}
-                portal={false}
-                style={{ padding: 'var(--spacing-sizing-02) var(--spacing-sizing-02)' }}
-            >
+            <Component {...props} inline style={{ padding: 'var(--spacing-sizing-02) var(--spacing-sizing-02)' }}>
                 <ListItem
                     label="Michael Scott"
                     leading={<Avatar image="/profile2.jpg" name="Michael Scott" />}
@@ -66,29 +61,6 @@ export const MenuExample: ComponentExampleFn<ElementProps<MenuProps, 'div'> & { 
             </Component>
         );
     },
-    presets: [
-        {
-            label: 'Scroll = False',
-            propState: {
-                floating: false,
-                portal: false,
-                itemDisplayCount: 5,
-                itemCount: 11,
-                scroll: false,
-            },
-        },
-        {
-            label: 'Item Display Count',
-            propState: {
-                floating: false,
-                portal: false,
-                itemDisplayCount: 5,
-                itemCount: 11,
-                scroll: true,
-            },
-        },
-    ],
-
-    disableProps: ['floating', 'portal'],
+    disableProps: ['inline'],
     variants: false,
 });

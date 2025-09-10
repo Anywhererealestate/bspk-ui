@@ -167,11 +167,7 @@ export function TabList({
         return option ? option.value : options[0]?.value;
     }, [options, valueProp]);
 
-    const { handleKeyDown, activeElementId, setElements, setActiveElementId } = useKeyNavigation({
-        onSelect: (nextActiveId) => {
-            onChange(options.find((opt) => opt.id === nextActiveId)?.value || '');
-        },
-    });
+    const { handleKeyDown, activeElementId, setElements, setActiveElementId } = useKeyNavigation();
 
     // If all options have icons, we can hide the labels
     const iconsOnly = iconsOnlyProp === true && options.every((item) => item.icon && item.label);

@@ -8,13 +8,13 @@ import { Menu } from '-/components/Menu';
 import { TextInputProps } from '-/components/TextInput';
 import { useFloating } from '-/hooks/useFloating';
 import { useId } from '-/hooks/useId';
+import { useOutsideClick } from '-/hooks/useOutsideClick';
 import { handleKeyDown } from '-/utils/handleKeyDown';
 
-export const MINUTE_OPTIONS = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55];
-export const HOUR_OPTIONS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-
-type Meridiem = 'AM' | 'PM';
+export const MINUTE_OPTIONS = ['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55'];
+export const HOUR_OPTIONS = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
 export const MERIDIEM_OPTIONS: Meridiem[] = ['AM', 'PM'];
+type Meridiem = 'AM' | 'PM';
 
 export type TimeInputProps = Pick<
     TextInputProps,
@@ -61,15 +61,15 @@ export function TimeInput({
 
     const [inputValue, setInputValue] = useState(value);
 
-    const [hours, setHours] = useState<number>();
-    const [minutes, setMinutes] = useState<number>();
+    const [hours, setHours] = useState<(typeof HOUR_OPTIONS)[number]>();
+    const [minutes, setMinutes] = useState<(typeof MINUTE_OPTIONS)[number]>();
     const [meridiem, setMeridiem] = useState<Meridiem>('AM');
 
     useEffect(() => {
         setInputValue(
             `${hours?.toString().padStart(2, '0')}:${minutes?.toString().padStart(2, '0')} ${meridiem || ''}`.trim(),
         );
-        if (hours !== undefined && minutes === undefined) setMinutes(0);
+        if (hours !== undefined && minutes === undefined) setMinutes('00');
     }, [hours, minutes, meridiem]);
 
     const [open, setOpen] = useState(false);
@@ -81,9 +81,10 @@ export function TimeInput({
         hide: !open,
     });
 
+    useOutsideClick({ elements: [elements.floating], callback: () => setOpen(false), disabled: !open });
+
     return (
         <>
-            {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
             <div
                 aria-describedby={ariaErrorMessage || ariaDescribedBy || undefined}
                 data-aria-label={ariaLabel || undefined}
@@ -96,10 +97,10 @@ export function TimeInput({
                 data-size={size || undefined}
                 data-value={inputValue || undefined}
                 id={id}
-                onClick={() => {
+                onClickCapture={() => {
                     elements.reference?.querySelector<HTMLElement>('[tabIndex]')?.focus();
                 }}
-                onKeyDown={handleKeyDown({ Escape: () => setOpen(false) })}
+                onKeyDownCapture={handleKeyDown({ Escape: () => setOpen(false) })}
                 ref={elements.setReference}
                 role="group"
             >
@@ -144,18 +145,13 @@ export function TimeInput({
             </div>
             {!!open && (
                 <Menu
-                    floating
                     innerRef={(node) => {
                         if (!node) return;
                         elements.setFloating(node as HTMLElement);
                         node.querySelector<HTMLElement>('[data-scroll-column="hours"]')?.focus();
                     }}
-                    onOutsideClick={() => {
-                        setOpen(false);
-                    }}
                     owner="time-input"
-                    scroll={false}
-                    style={{ ...floatingStyles }}
+                    style={floatingStyles}
                 >
                     <div data-scroll-values>
                         <TimeInputListbox
@@ -170,7 +166,7 @@ export function TimeInput({
                             selectedValue={minutes}
                             type="minutes"
                         />
-                        <TimeInputListbox
+                        <TimeInputListbox<Meridiem>
                             onSelect={setMeridiem}
                             onTab={(e) => {
                                 e.preventDefault();

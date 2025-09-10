@@ -27,6 +27,20 @@ if (!hasExports) {
     errors.push('❌ package.json does not have an "exports" field. Please add it.');
 }
 
+// check if package exports components that do not exist
+if (hasExports) {
+    const exportedComponentNames = Object.values<string>(packageJsonData.exports).flatMap((value) => {
+        const componentNameMatch = value.match(/\/components\/([^/]+)\//);
+        return componentNameMatch ? [componentNameMatch[1]] : [];
+    });
+
+    exportedComponentNames.forEach((exportedName) => {
+        if (exportedName && !componentsMeta.find((c) => c.name === exportedName)) {
+            errors.push(`❌ ${exportedName} is exported in package.json but does not exist in src/components.`);
+        }
+    });
+}
+
 componentsMeta.forEach(({ name, slug, phase }) => {
     if (hasExports) {
         const exports = [

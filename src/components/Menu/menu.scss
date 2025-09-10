@@ -1,4 +1,4 @@
-[data-bspk='menu'] {
+[data-bspk-utility='menu'] {
     --overflow-y: hidden;
 
     width: 332px;
@@ -9,14 +9,12 @@
     border-radius: var(--radius-lg);
     display: flex;
     flex-direction: column;
+    overflow: hidden auto;
+    height: fit-content;
+    z-index: var(--z-index-dropdown);
 
-    &[data-scroll='true'] {
-        overflow: hidden scroll;
-        max-height: calc(calc(var(--item-display-count, 1) * var(--list-item-height)) + 2px /* borders */);
-    }
-
-    &[data-floating] {
-        z-index: var(--z-index-dropdown);
+    &[data-inline] {
+        z-index: unset;
     }
 
     [data-bspk='list-item'] {

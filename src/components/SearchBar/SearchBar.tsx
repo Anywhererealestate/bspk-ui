@@ -1,70 +1,64 @@
 import { SvgSearch } from '@bspk/icons/Search';
-import { useRef } from 'react';
 
-import { Listbox, ListboxProps, ListboxItemProps } from '-/components/Listbox';
+import { ListItemMenu, MenuListItem } from '-/components/ListItemMenu';
 import { TextInputProps, TextInput } from '-/components/TextInput';
 import { Txt } from '-/components/Txt';
-import { useCombobox } from '-/hooks/useCombobox';
 import { useId } from '-/hooks/useId';
 
 import './search-bar.scss';
 
-export type SearchBarProps<T extends ListboxItemProps = ListboxItemProps> = Pick<
-    ListboxProps<T>,
-    'itemCount' | 'itemDisplayCount'
-> &
-    Pick<TextInputProps, 'aria-label' | 'disabled' | 'id' | 'inputRef' | 'name' | 'size'> & {
-        /** The current value of the search bar. */
-        value?: string;
-        /**
-         * The placeholder of the field.
-         *
-         * @default Search
-         *
-         * @required
-         */
-        placeholder: string;
-        /**
-         * Handler for state updates.
-         *
-         * @type (value: String) => void
-         * @required
-         */
-        onChange: (value: string) => void;
-        /*
-         * Handler for item selection.
-         *
-         * @type (item: MenuItem) => void
-         * @required
-         */
-        onSelect: (item?: ListboxItemProps) => void;
-        /**
-         * Content to display in the menu.
-         *
-         * @example
-         *     [
-         *         { value: '1', label: 'Apple Pie' },
-         *         { value: '2', label: 'Banana Split' },
-         *         { value: '3', label: 'Cherry Tart' },
-         *         { value: '4', label: 'Dragonfruit Sorbet' },
-         *         { value: '5', label: 'Elderberry Jam' },
-         *         { value: '6', label: 'Fig Newton' },
-         *         { value: '7', label: 'Grape Soda' },
-         *         { value: '8', label: 'Honeydew Smoothie' },
-         *         { value: '9', label: 'Ice Cream Sandwich' },
-         *         { value: '10', label: 'Jackfruit Pudding' },
-         *     ];
-         *
-         * @type Array<MenuItem>
-         */
-        items?: T[];
-        /**
-         * Message to display when no results are found
-         *
-         * @type multiline
-         */
-        noResultsMessage?: string;
-    };
+export type SearchBarProps = Pick<TextInputProps, 'aria-label' | 'disabled' | 'id' | 'inputRef' | 'name' | 'size'> & {
+    /** The current value of the search bar. */
+    value?: string;
+    /**
+     * The placeholder of the field.
+     *
+     * @default Search
+     *
+     * @required
+     */
+    placeholder: string;
+    /**
+     * Handler for state updates.
+     *
+     * @type (value: String) => void
+     * @required
+     */
+    onChange: (value: string) => void;
+    /*
+     * Handler for item selection.
+     *
+     * @type (item: MenuItem) => void
+     * @required
+     */
+    onSelect: (item?: MenuListItem) => void;
+    /**
+     * Content to display in the menu.
+     *
+     * @example
+     *     [
+     *         { value: '1', label: 'Apple Pie' },
+     *         { value: '2', label: 'Banana Split' },
+     *         { value: '3', label: 'Cherry Tart' },
+     *         { value: '4', label: 'Dragonfruit Sorbet' },
+     *         { value: '5', label: 'Elderberry Jam' },
+     *         { value: '6', label: 'Fig Newton' },
+     *         { value: '7', label: 'Grape Soda' },
+     *         { value: '8', label: 'Honeydew Smoothie' },
+     *         { value: '9', label: 'Ice Cream Sandwich' },
+     *         { value: '10', label: 'Jackfruit Pudding' },
+     *     ];
+     *
+     * @type Array<MenuItem>
+     */
+    items?: MenuListItem[];
+    /**
+     * Message to display when no results are found
+     *
+     * @type multiline
+     */
+    noResultsMessage?: string;
+};
 
 /**
  * Component description coming soon.
@@ -112,8 +106,6 @@ export function SearchBar({
     'aria-label': ariaLabel,
     id: idProp,
     inputRef,
-    itemCount,
-    itemDisplayCount,
     name,
     size = 'medium',
     onSelect,
@@ -123,90 +115,63 @@ export function SearchBar({
 }: SearchBarProps) {
     const id = useId(idProp);
 
-    const {
-        isOpen,
-        toggleProps: { onClick, onKeyDownCapture, ...triggerProps },
-        menuProps,
-        closeMenu,
-        openMenu,
-        elements,
-    } = useCombobox({
-        placement: 'bottom-start',
-        refWidth: true,
-    });
-
-    const inputRefLocal = useRef<HTMLInputElement | null>(null);
-    const containerRefLocal = useRef<HTMLDivElement | null>(null);
-
     return (
         <>
             <div data-bspk="search-bar">
-                <TextInput
-                    aria-label={ariaLabel}
-                    autoComplete="off"
-                    containerRef={(node) => {
-                        if (!node) return;
-                        containerRefLocal.current = node;
-                        elements.setReference(node);
-                    }}
+                <ListItemMenu
                     disabled={disabled}
-                    id={id}
-                    inputRef={(node) => {
-                        inputRef?.(node || null);
-                        inputRefLocal.current = node;
-                    }}
-                    leading={<SvgSearch />}
-                    name={name}
-                    onChange={(str) => {
-                        onChange(str);
-                        if (str.length) openMenu();
-                    }}
-                    onClick={onClick}
-                    owner="search-bar"
-                    {...triggerProps}
-                    onKeyDownCapture={(event) => {
-                        const handled = onKeyDownCapture(event);
-                        if (handled) {
-                            inputRefLocal.current?.blur();
-                            containerRefLocal.current?.focus();
-                            return;
-                        }
-                        // inputRefLocal.current?.focus();
-                    }}
-                    placeholder={placeholder}
-                    size={size}
-                    value={value}
-                />
-            </div>
-            {isOpen && (
-                <Listbox
-                    {...menuProps}
-                    innerRef={elements.setFloating}
-                    itemCount={itemCount}
-                    itemDisplayCount={itemDisplayCount}
-                    items={items}
-                    onChange={(selectedValues, event) => {
-                        event?.preventDefault();
-                        const item = items?.find((i) => i.value === selectedValues[0]);
-                        onSelect?.(item);
-                        onChange(item?.label || '');
-                        closeMenu();
-                    }}
-                >
-                    {!!value?.length && !items?.length && (
-                        <div data-bspk="no-items-found">
-                            <Txt as="div" variant="heading-h5">
-                                No results found
-                            </Txt>
-                            {noResultsMessage && (
-                                <Txt as="div" variant="body-base">
-                                    {noResultsMessage}
+                    items={({ setShow }) =>
+                        (items || []).map((item) => ({
+                            ...item,
+                            role: 'option',
+                            onClick: () => {
+                                onSelect(item);
+                                onChange(item.label);
+                                setShow(false);
+                            },
+                        }))
+                    }
+                    menuLeading={
+                        !!value?.length &&
+                        !items?.length && (
+                            <div data-bspk="no-items-found">
+                                <Txt as="div" variant="heading-h5">
+                                    No results found
                                 </Txt>
-                            )}
-                        </div>
+                                {noResultsMessage && (
+                                    <Txt as="div" variant="body-base">
+                                        {noResultsMessage}
+                                    </Txt>
+                                )}
+                            </div>
+                        )
+                    }
+                    menuRole="listbox"
+                    owner="search-bar"
+                >
+                    {(toggleProps, { setRef, showMenu }) => (
+                        <TextInput
+                            aria-label={ariaLabel}
+                            autoComplete="off"
+                            containerRef={setRef}
+                            disabled={disabled}
+                            id={id}
+                            inputRef={inputRef}
+                            leading={<SvgSearch />}
+                            name={name}
+                            onChange={(str) => {
+                                onChange(str);
+                                if (str.length) showMenu();
+                            }}
+                            owner="search-bar"
+                            {...toggleProps}
+                            placeholder={placeholder}
+                            size={size}
+                            value={value}
+                        />
                     )}
-                </Listbox>
-            )}
+                </ListItemMenu>
+            </div>
         </>
     );
 }

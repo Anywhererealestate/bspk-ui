@@ -1,11 +1,12 @@
-import { AnchorHTMLAttributes, ElementType, ReactNode } from 'react';
+import { AnchorHTMLAttributes, ElementType, ReactNode, MouseEvent } from 'react';
 import { ListItemButton } from './ListItemButton';
 import { Truncated } from '-/components/Truncated';
+import { useId } from '-/hooks/useId';
 import { CommonProps, ElementProps, SetRef } from '-/types/common';
 
 import './list-item.scss';
 
-export type ListItemProps<As extends ElementType = 'div', T = HTMLElement> = CommonProps<
+export type ListItemProps<As extends ElementType = ElementType> = CommonProps<
     'active' | 'disabled' | 'owner' | 'readOnly'
 > & {
     /**
@@ -49,11 +50,29 @@ export type ListItemProps<As extends ElementType = 'div', T = HTMLElement> = Com
      */
     href?: AnchorHTMLAttributes<unknown>['href'];
     /** A ref to the list item div element. */
-    innerRef?: SetRef<T>;
+    innerRef?: SetRef<HTMLElement>;
     /** The ARIA role of the list item. */
     role?: string;
-    /** Whether the aria-label should be included on the list item. */
+    /**
+     * Whether the aria-label should be included on the list item.
+     *
+     * @default true
+     */
     includeAriaLabel?: boolean;
+    /** Additional props to pass to the underlying element. */
+    onClick?: (event: MouseEvent<HTMLElement>) => void;
+    /**
+     * The unique ID of the list item.
+     *
+     * If not provided, a unique ID will be generated. This is useful for accessibility and testing purposes.
+     */
+    id?: string;
+    /**
+     * Whether the list item is currently active.
+     *
+     * Used to indicate the item is currently being interacted with, such as during a mouse click or keyboard selection.
+     */
+    selected?: boolean;
 };
 
 /**
@@ -88,7 +107,7 @@ export type ListItemProps<As extends ElementType = 'div', T = HTMLElement> = Com
  * @name ListItem
  * @phase UXReview
  */
-function ListItem<As extends ElementType = 'div', T = HTMLElement>({
+function ListItem<As extends ElementType = ElementType>({
     includeAriaLabel = true,
     active,
     as,
@@ -98,21 +117,25 @@ function ListItem<As extends ElementType = 'div', T = HTMLElement>({
     leading,
     readOnly,
     owner,
-    role,
+    role: roleProp,
     subText,
     trailing,
+    id: idProp,
+    selected,
     ...props
-}: ElementProps<ListItemProps<As, T>, As>) {
+}: ElementProps<ListItemProps<As>, As>) {
+    const id = useId(idProp);
+
     if (!label) return null;
 
     let As = as || 'div';
+    let role = roleProp;
 
-    if (!as) {
-        if (props.href) As = 'a';
-        else if (props.onClick) As = 'button';
-    }
+    if (!as && props.href) As = 'a';
 
-    const actionable = (As === 'a' || As === 'button') && !props.disabled && !props.readOnly;
+    if (props.onClick && As !== 'button' && !props.href && !roleProp) role = 'button';
+
+    const actionable = (props.href || props.onClick) && !props.disabled && !props.readOnly;
 
     return (
         <As
@@ -121,15 +144,17 @@ function ListItem<As extends ElementType = 'div', T = HTMLElement>({
             aria-label={
                 As === 'label' || As === 'span' || As === 'div' || includeAriaLabel === false ? undefined : label
             }
-            as={As}
+            aria-selected={selected || undefined}
             data-action={actionable || undefined}
             data-active={active || undefined}
             data-bspk="list-item"
             data-bspk-owner={owner || undefined}
             data-readonly={readOnly || undefined}
+            data-selected={selected || undefined}
+            id={id}
             ref={innerRef}
-            role={role || (As === 'button' ? 'option' : undefined)}
-            tabIndex={actionable ? 0 : undefined}
+            role={role}
+            tabIndex={props.tabIndex || (actionable ? 0 : undefined)}
         >
             {leading && (
                 <span aria-hidden data-leading>

@@ -3,10 +3,8 @@ import { SvgMoreHoriz } from '@bspk/icons/MoreHoriz';
 
 import { Button } from '-/components/Button';
 import { Link } from '-/components/Link';
-import { ListItem } from '-/components/ListItem';
-import { Menu } from '-/components/Menu';
+import { ListItemMenu } from '-/components/ListItemMenu';
 import { Txt } from '-/components/Txt';
-import { useCombobox } from '-/hooks/useCombobox';
 import { useId } from '-/hooks/useId';
 import { CommonProps } from '-/types/common';
 
@@ -93,9 +91,9 @@ export function Breadcrumb({ id: propId, items: itemsProp }: BreadcrumbProps) {
     const id = useId(propId);
     const items = Array.isArray(itemsProp) ? itemsProp : [];
 
-    const { elements, isOpen, menuProps, toggleProps, activeIndex } = useCombobox();
-
-    const middleItems = items.slice(1, items.length - 1);
+    const middleItems = items
+        .slice(1, items.length - 1)
+        .map((item, index) => ({ ...item, id: `breadcrumb-${id}-item-${index + 1}` }));
 
     if (items.length < 2) return null; // No items to render
 
@@ -108,38 +106,32 @@ export function Breadcrumb({ id: propId, items: itemsProp }: BreadcrumbProps) {
                 </li>
                 {items.length > 5 ? (
                     <li>
-                        <Button
-                            icon={<SvgMoreHoriz />}
-                            iconOnly
-                            innerRef={elements.setReference}
-                            label={`Access to ${middleItems.length} pages`}
-                            size="small"
-                            toolTip={`${middleItems.length} pages`}
-                            variant="tertiary"
-                            {...toggleProps}
-                        />
-                        {isOpen && (
-                            <Menu
-                                innerRef={elements.setFloating}
-                                itemCount={middleItems.length}
-                                itemDisplayCount={middleItems.length <= 10 ? middleItems.length : 10}
-                                {...menuProps}
-                                role="navigation"
-                                style={{
-                                    ...menuProps.style,
-                                    width: '200px',
-                                }}
-                            >
-                                {middleItems.map((item, idx) => (
-                                    <ListItem
-                                        key={`Breadcrumb-${idx}`}
-                                        {...item}
-                                        active={activeIndex === idx || undefined}
-                                        id={`${id}-item-${idx}`}
-                                    />
-                                ))}
-                            </Menu>
-                        )}
+                        <ListItemMenu
+                            items={({ setShow }) =>
+                                middleItems.map((item) => ({
+                                    ...item,
+                                    onClick: () => setShow(false),
+                                }))
+                            }
+                            menuRole="navigation"
+                            menuWidth="200px"
+                            owner="Breadcrumb"
+                            placement="bottom"
+                            scrollLimit={5}
+                        >
+                            {(triggerProps, { setRef }) => (
+                                <Button
+                                    {...triggerProps}
+                                    icon={<SvgMoreHoriz />}
+                                    iconOnly
+                                    innerRef={setRef}
+                                    label={`Access to ${middleItems.length} pages`}
+                                    size="small"
+                                    toolTip={`${middleItems.length} pages`}
+                                    variant="tertiary"
+                                />
+                            )}
+                        </ListItemMenu>
                         <SvgChevronRight aria-hidden />
                     </li>
                 ) : (
