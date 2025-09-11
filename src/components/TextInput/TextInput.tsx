@@ -1,5 +1,5 @@
 import { SvgCancel } from '@bspk/icons/Cancel';
-import { ChangeEvent, HTMLInputTypeAttribute, ReactNode } from 'react';
+import { ChangeEvent, HTMLInputTypeAttribute, ReactNode, useState } from 'react';
 
 import { useId } from '-/hooks/useId';
 import { CommonProps, ElementProps, FormFieldControlProps, SetRef } from '-/types/common';
@@ -103,7 +103,7 @@ export function TextInput({
     disabled,
     autoComplete = DEFAULT.autoComplete,
     containerRef,
-    showClearButton = true,
+    showClearButton: showClearButtonProp = true,
     owner,
     'aria-describedby': ariaDescribedBy,
     'aria-errormessage': ariaErrorMessage,
@@ -115,14 +115,24 @@ export function TextInput({
 
     const invalid = !readOnly && !disabled && invalidProp;
 
+    const [focused, setFocused] = useState(false);
+
+    const showClearButton = !!(
+        showClearButtonProp !== false &&
+        !readOnly &&
+        !disabled &&
+        value?.toString().length &&
+        focused
+    );
+
     return (
         <div
             {...props}
             data-bspk="text-input"
             data-bspk-owner={owner || undefined}
-            data-clear-hidden={showClearButton === false || undefined}
             data-disabled={disabled || undefined}
             data-empty={!value.toString().length || undefined}
+            data-hide-clear-button={!showClearButton}
             data-invalid={invalid || undefined}
             data-readonly={readOnly || undefined}
             data-size={size}
@@ -140,8 +150,16 @@ export function TextInput({
                 disabled={disabled || undefined}
                 id={id}
                 name={name}
+                onBlur={(event) => {
+                    setFocused(false);
+                    inputProps?.onBlur?.(event);
+                }}
                 onChange={(event) => {
                     onChange(event.target.value, event);
+                }}
+                onFocus={(event) => {
+                    setFocused(true);
+                    inputProps?.onFocus?.(event);
                 }}
                 placeholder={placeholder || ' '}
                 readOnly={readOnly || undefined}
@@ -151,8 +169,9 @@ export function TextInput({
                 value={value || ''}
             />
             {trailing && <span data-trailing>{trailing}</span>}
-            {showClearButton !== false && (
-                <button aria-label="clear" data-clear onClick={() => onChange('')}>
+            {showClearButton && (
+                <button data-clear onClick={() => onChange('')}>
+                    <span data-sr-only>Clear</span>
                     <SvgCancel />
                 </button>
             )}

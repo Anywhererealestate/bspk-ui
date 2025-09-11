@@ -32,7 +32,13 @@ export type ToggleProps = Pick<
 
 /** Props for internal toggle functionality provided to the children render prop. */
 export type InternalToggleProps = {
-    /** Sets a ref to the toggle element that opens the ListItemMenu. */
+    /**
+     * Sets a ref to the toggle element that opens the ListItemMenu.
+     *
+     * Used in determining the position of the floating menu.
+     *
+     * May also be used to set the menu width if `width="reference"` is provided in the ListItemMenu props.
+     */
     setRef: SetRef<HTMLElement | null>;
     /**
      * Function to toggle the menu open or closed.

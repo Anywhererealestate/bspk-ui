@@ -11,6 +11,10 @@
     gap: var(--spacing-sizing-01);
     width: 100%;
 
+    &[data-hide-clear-button] {
+        padding-right: var(--field-padding);
+    }
+
     & > * {
         display: flex;
         justify-content: center;
@@ -122,18 +126,6 @@
         svg {
             pointer-events: none;
             width: var(--field-clear-width);
-        }
-    }
-
-    &:not(:focus-within),
-    &[data-empty],
-    &[data-readonly],
-    &[data-disabled],
-    &[data-clear-hidden] {
-        padding-right: var(--field-padding);
-
-        button[data-clear] {
-            display: none;
         }
     }
 

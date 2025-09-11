@@ -113,7 +113,6 @@ export function PhoneNumberInput({
                             setCountryCode(option.id as SupportedCountryCode);
                             setShow(false);
                         },
-                        includeAriaLabel: false,
                     };
                 })
             }
@@ -133,15 +132,15 @@ export function PhoneNumberInput({
                             leading={
                                 <div style={{ display: 'flex', alignItems: 'center' }}>
                                     <button
-                                        {...(disabled ? {} : toggleProps)}
                                         aria-label="Open country code menu"
+                                        {...(disabled ? {} : toggleProps)}
                                         data-bspk="country-code-select"
                                     >
                                         <SvgIcon name={selectedCodeData.flagIconName} />
                                         <SvgIcon name="KeyboardArrowDown" />
                                     </button>
                                     <Divider orientation="vertical" />
-                                    <span style={{ cursor: 'default' }}>{`+${callingCode}`}</span>
+                                    <span aria-hidden="true" style={{ cursor: 'default' }}>{`+${callingCode}`}</span>
                                 </div>
                             }
                             onChange={handleChange}

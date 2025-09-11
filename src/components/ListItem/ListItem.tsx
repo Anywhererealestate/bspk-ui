@@ -1,4 +1,4 @@
-import { AnchorHTMLAttributes, ElementType, ReactNode, MouseEvent } from 'react';
+import { AnchorHTMLAttributes, ElementType, ReactNode, MouseEvent, AriaAttributes } from 'react';
 import { ListItemButton } from './ListItemButton';
 import { Truncated } from '-/components/Truncated';
 import { useId } from '-/hooks/useId';
@@ -8,80 +8,76 @@ import './list-item.scss';
 
 export type ListItemProps<As extends ElementType = ElementType> = CommonProps<
     'active' | 'disabled' | 'owner' | 'readOnly'
-> & {
-    /**
-     * The element type to render as.
-     *
-     * @default div
-     * @type ElementType
-     */
-    as?: As;
-    /**
-     * The leading element to display in the ListItem.
-     *
-     * Leading elements may only be one of the following [Icon](/icons), Img, Avatar.
-     *
-     * @exampleType select
-     * @options Icon, Img, Avatar
-     */
-    leading?: ReactNode;
-    /**
-     * The label to display in the ListItem.
-     *
-     * @required
-     */
-    label: string;
-    /** The subtext to display in the ListItem. */
-    subText?: string;
-    /**
-     * The trailing element to display in the ListItem.
-     *
-     * Trailing elements may only be one of the following [Icon](/icons), Checkbox, ListItemButton, Radio, Switch, Tag,
-     * Txt.
-     *
-     * @exampleType select
-     * @options Checkbox, Icon, ListItemButton, Radio, Switch, Tag, Txt
-     */
-    trailing?: ReactNode;
-    /**
-     * The [href](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/a#href) of the list item.
-     *
-     * If the href is provided, the ListItem will render as an anchor element (`<a>`).
-     */
-    href?: AnchorHTMLAttributes<unknown>['href'];
-    /** A ref to the list item div element. */
-    innerRef?: SetRef<HTMLElement>;
-    /**
-     * The ARIA role of the list item.
-     *
-     * The role will be set to 'button' automatically if the ListItem has an onClick prop and is not a button, label, or
-     * anchor element.
-     *
-     * If including other focusable elements (e.g. buttons, links) in the leading or trailing slots, the role should be
-     * set explicitly to something other than 'button'.
-     */
-    role?: string;
-    /**
-     * Whether the aria-label should be included on the list item.
-     *
-     * @default true
-     */
-    includeAriaLabel?: boolean;
-    /** Additional props to pass to the underlying element. */
-    onClick?: (event: MouseEvent<HTMLElement>) => void;
-    /**
-     * The unique ID of the list item.
-     *
-     * If not provided, a unique ID will be generated. This is useful for accessibility and testing purposes.
-     */
-    id?: string;
-    /**
-     * Whether the list item is currently active.
-     *
-     * Used to indicate the item is currently being interacted with, such as during a mouse click or keyboard selection.
-     */
-    selected?: boolean;
-};
+> &
+    Pick<AriaAttributes, 'aria-label'> & {
+        /**
+         * The element type to render as.
+         *
+         * @default div
+         * @type ElementType
+         */
+        as?: As;
+        /**
+         * The leading element to display in the ListItem.
+         *
+         * Leading elements may only be one of the following [Icon](/icons), Img, Avatar.
+         *
+         * @exampleType select
+         * @options Icon, Img, Avatar
+         */
+        leading?: ReactNode;
+        /**
+         * The label to display in the ListItem.
+         *
+         * @required
+         */
+        label: string;
+        /** The subtext to display in the ListItem. */
+        subText?: string;
+        /**
+         * The trailing element to display in the ListItem.
+         *
+         * Trailing elements may only be one of the following [Icon](/icons), Checkbox, ListItemButton, Radio, Switch,
+         * Tag, Txt.
+         *
+         * @exampleType select
+         * @options Checkbox, Icon, ListItemButton, Radio, Switch, Tag, Txt
+         */
+        trailing?: ReactNode;
+        /**
+         * The [href](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/a#href) of the list item.
+         *
+         * If the href is provided, the ListItem will render as an anchor element (`<a>`).
+         */
+        href?: AnchorHTMLAttributes<unknown>['href'];
+        /** A ref to the list item div element. */
+        innerRef?: SetRef<HTMLElement>;
+        /**
+         * The ARIA role of the list item.
+         *
+         * The role will be set to 'button' automatically if the ListItem has an onClick prop and is not a button,
+         * label, or anchor element.
+         *
+         * If including other focusable elements (e.g. buttons, links) in the leading or trailing slots, the role should
+         * be set explicitly to something other than 'button'.
+         */
+        role?: string;
+        /** Additional props to pass to the underlying element. */
+        onClick?: (event: MouseEvent<HTMLElement>) => void;
+        /**
+         * The unique ID of the list item.
+         *
+         * If not provided, a unique ID will be generated. This is useful for accessibility and testing purposes.
+         */
+        id?: string;
+        /**
+         * Whether the list item is currently active.
+         *
+         * Used to indicate the item is currently being interacted with, such as during a mouse click or keyboard
+         * selection.
+         */
+        selected?: boolean;
+    };
 
 /**
  * A hybrid interactive component that is used frequently to organize content and offers a wide range of control and
@@ -116,7 +112,6 @@ export type ListItemProps<As extends ElementType = ElementType> = CommonProps<
  * @phase UXReview
  */
 function ListItem<As extends ElementType = ElementType>({
-    includeAriaLabel = true,
     active,
     as,
     disabled,
@@ -130,6 +125,7 @@ function ListItem<As extends ElementType = ElementType>({
     trailing,
     id: idProp,
     selected,
+    'aria-label': ariaLabel,
     ...props
 }: ElementProps<ListItemProps<As>, As>) {
     const id = useId(idProp);
@@ -149,9 +145,7 @@ function ListItem<As extends ElementType = ElementType>({
         <As
             {...props}
             aria-disabled={disabled || undefined}
-            aria-label={
-                As === 'label' || As === 'span' || As === 'div' || includeAriaLabel === false ? undefined : label
-            }
+            aria-label={ariaLabel || undefined}
             aria-selected={selected || undefined}
             data-action={actionable || undefined}
             data-active={active || undefined}
