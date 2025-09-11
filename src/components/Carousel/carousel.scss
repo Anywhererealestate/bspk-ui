@@ -5,32 +5,30 @@
     width: 100%;
     position: relative;
     background: #fff;
+    gap: var(--spacing-sizing-02);
 
     [data-items-container] {
         width: 100%;
         overflow: hidden;
-        min-height: 200px;
-        margin: 2rem 0;
     }
 
     [data-items-track] {
         display: flex;
         align-items: center;
         transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        gap: var(--item-gap, 8px);
+        gap: var(--item-gap, var(--spacing-sizing-02));
         transform: translateX(var(--translate-x, 0));
     }
 
     [data-item-wrapper] {
-        min-width: var(--item-width, 52px);
+        min-width: var(--item-width, var(--spacing-sizing-14));
         overflow: hidden;
     }
 
     [data-controls] {
         display: flex;
         align-items: center;
-        gap: 1rem;
-        margin-bottom: 1rem;
+        gap: var(--spacing-sizing-02);
     }
 }
 
