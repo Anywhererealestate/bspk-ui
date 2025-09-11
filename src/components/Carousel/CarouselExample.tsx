@@ -1,8 +1,8 @@
 import { CarouselProps } from '.';
+
 import { ComponentExample } from '-/utils/demo';
 
 export const CarouselExample: ComponentExample<CarouselProps> = {
-    containerStyle: { width: '100%' },
     render: ({ props, Component }) => (
         <Component
             {...props}
