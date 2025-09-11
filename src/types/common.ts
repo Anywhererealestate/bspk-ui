@@ -10,6 +10,7 @@ import { JSXElementConstructor, ReactNode, ComponentPropsWithoutRef } from 'reac
 
 export type AlertVariant = 'error' | 'informational' | 'success' | 'warning';
 
+/** Sets a ref to the given element. */
 export type SetRef<T> = (instance: T | null) => void;
 
 export type ElementProps<

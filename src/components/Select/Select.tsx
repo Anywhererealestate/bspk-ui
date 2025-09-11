@@ -165,6 +165,7 @@ export function Select({
     return (
         <ListItemMenu
             activeElementId={isMulti ? undefined : selectedItem?.id}
+            id={`select-${id}-menu`}
             items={({ setShow }) => {
                 if (isMulti) return items;
                 return items.map((item) => ({
@@ -176,9 +177,8 @@ export function Select({
                     },
                 }));
             }}
-            menuId={`select-${id}-menu`}
-            menuRole="listbox"
             owner="select"
+            role="listbox"
             scrollLimit={scrollLimit || 5}
         >
             {(toggleProps, { setRef }) => {

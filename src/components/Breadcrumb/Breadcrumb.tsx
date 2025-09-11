@@ -113,11 +113,11 @@ export function Breadcrumb({ id: propId, items: itemsProp }: BreadcrumbProps) {
                                     onClick: () => setShow(false),
                                 }))
                             }
-                            menuRole="navigation"
-                            menuWidth="200px"
                             owner="Breadcrumb"
                             placement="bottom"
+                            role="navigation"
                             scrollLimit={5}
+                            width="200px"
                         >
                             {(triggerProps, { setRef }) => (
                                 <Button
@@ -126,6 +126,7 @@ export function Breadcrumb({ id: propId, items: itemsProp }: BreadcrumbProps) {
                                     iconOnly
                                     innerRef={setRef}
                                     label={`Access to ${middleItems.length} pages`}
+                                    onClick={triggerProps.onClick}
                                     size="small"
                                     toolTip={`${middleItems.length} pages`}
                                     variant="tertiary"

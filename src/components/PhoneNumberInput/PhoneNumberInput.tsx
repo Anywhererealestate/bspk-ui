@@ -117,9 +117,9 @@ export function PhoneNumberInput({
                     };
                 })
             }
-            menuRole="listbox"
-            menuWidth="reference"
+            role="listbox"
             scrollLimit={10}
+            width="reference"
         >
             {(toggleProps, { setRef }) => {
                 return (

@@ -16,7 +16,6 @@ export type KeyboardEventKey =
     | '{'
     | '}'
     | '@'
-    | '*'
     | '/'
     | '\\'
     | '&'

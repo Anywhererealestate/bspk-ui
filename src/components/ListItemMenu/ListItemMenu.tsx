@@ -1,4 +1,4 @@
-import { AriaAttributes, CSSProperties, HTMLAttributes, ReactNode, useState, KeyboardEvent } from 'react';
+import { AriaAttributes, CSSProperties, HTMLAttributes, ReactNode, useState, KeyboardEvent, useEffect } from 'react';
 import { ListItemProps as ListItemPropsBase } from '-/components/ListItem';
 import { ListItemGroup, ListItemGroupProps } from '-/components/ListItemGroup';
 import { Menu } from '-/components/Menu';
@@ -7,26 +7,41 @@ import { useFloating, UseFloatingProps } from '-/hooks/useFloating';
 import { useId } from '-/hooks/useId';
 import { useKeyNavigation } from '-/hooks/useKeyNavigation';
 import { useOutsideClick } from '-/hooks/useOutsideClick';
-import { CommonProps } from '-/types/common';
+import { CommonProps, SetRef } from '-/types/common';
+import { KeysCallback } from '-/utils/handleKeyDown';
 
 /** Props for the toggle element that opens the ListItemMenu. */
-export type ToggleProps = {
-    'aria-errormessage'?: string | undefined;
-    'aria-activedescendant'?: string | undefined;
-    'aria-controls': string;
-    'aria-disabled'?: boolean | undefined;
-    'aria-expanded': boolean;
-    'aria-haspopup': AriaAttributes['aria-haspopup'];
-    'aria-invalid'?: boolean | undefined;
-    'aria-owns': string;
-    'aria-readonly'?: boolean | undefined;
-    role: 'combobox';
-    tabIndex: number;
-    onClick: () => void;
-    onKeyDownCapture: (event: KeyboardEvent) => void;
-};
+export type ToggleProps = Pick<
+    AriaAttributes,
+    | 'aria-activedescendant'
+    | 'aria-controls'
+    | 'aria-disabled'
+    | 'aria-errormessage'
+    | 'aria-expanded'
+    | 'aria-haspopup'
+    | 'aria-invalid'
+    | 'aria-owns'
+    | 'aria-readonly'
+> &
+    Pick<HTMLAttributes<HTMLElement>, 'role' | 'tabIndex'> & {
+        /** Event handler for the toggle element that change the menu state. */
+        onClick: () => void;
+        /** Event handler for keydown events on the toggle element that change the menu state. */
+        onKeyDownCapture: (event: KeyboardEvent) => void;
+    };
 
-export type InternalToggleProps = { setRef: (element: HTMLElement | null) => void; showMenu: () => void };
+/** Props for internal toggle functionality provided to the children render prop. */
+export type InternalToggleProps = {
+    /** Sets a ref to the toggle element that opens the ListItemMenu. */
+    setRef: SetRef<HTMLElement | null>;
+    /**
+     * Function to toggle the menu open or closed.
+     *
+     * If `force` is provided as a boolean, it will set the menu to that state (true = open, false = closed). If `force`
+     * is not provided, it will toggle the current state.
+     */
+    toggleMenu: (force?: boolean) => void;
+};
 
 /**
  * The items to display in the ListItemMenu.
@@ -37,24 +52,18 @@ export type MenuListItem = Omit<ListItemPropsBase, 'id'> & Required<Pick<ListIte
 
 export type MenuListItemsFn = (props: { setShow: (show: boolean) => void }) => MenuListItem[];
 
-export type ListItemMenuProps = CommonProps<'disabled' | 'owner' | 'readOnly'> &
+export type ListItemMenuProps = CommonProps<'disabled' | 'id' | 'owner' | 'readOnly'> &
     Pick<ListItemGroupProps, 'scrollLimit'> &
     Pick<UseFloatingProps, 'offsetOptions' | 'placement'> & {
         /** He children to render inside the menu. */
         children: (toggleProps: ToggleProps, internal: InternalToggleProps) => ReactNode;
         /** The element that the menu is anchored to. */
-        menuRole: HTMLAttributes<HTMLElement>['role'];
+        role: HTMLAttributes<HTMLElement>['role'];
         /**
          * The width of the menu. If 'reference' is provided, the menu will match the width of the useFloating reference
          * element.
          */
-        menuWidth?: CSSProperties['width'] | 'reference';
-        /**
-         * The ID of the menu element.
-         *
-         * If not provided, a unique ID will be generated.
-         */
-        menuId?: string;
+        width?: CSSProperties['width'] | 'reference';
         /**
          * The items to display in the menu as ListItems.
          *
@@ -62,29 +71,37 @@ export type ListItemMenuProps = CommonProps<'disabled' | 'owner' | 'readOnly'> &
          */
         items: MenuListItem[] | MenuListItemsFn;
         /**
-         * Content to display in the floating menu element after the ListItemGroup.
-         *
-         * If provided scrollLimit will be ignored.
-         */
-        menuTrailing?: ReactNode;
-        /**
          * Content to display in the floating menu element before the ListItemGroup.
          *
-         * If provided scrollLimit will be ignored.
+         * If provided `scrollLimit` will be ignored.
          */
-        menuLeading?: ReactNode;
+        leading?: ReactNode;
+        /**
+         * Content to display in the floating menu element after the ListItemGroup.
+         *
+         * If provided `scrollLimit` will be ignored.
+         */
+        trailing?: ReactNode;
         /** The ID of the currently active element. */
         activeElementId?: string | null;
+        keyOverrides?: KeysCallback;
     };
 
 /**
  * A floating list Item menu for displaying additional actions or options presented as ListItems in a Menu.
  *
+ * Includes keyboard navigation and accessibility features.
+ *
+ * The menu is anchored to a reference element provided as a children function with params that include the necessary
+ * ARIA attributes and event handlers.
+ *
  * @example
  *     import { ListItemMenu } from '@bspk/ui/ListItemMenu';
  *
  *     function Example() {
- *         return <ListItemMenu>Example ListItemMenu</ListItemMenu>;
+ *     return <ListItemMenu items={[]}>({ toggleProps, {setRef, toggleMenu} }) => (
+ *     <button {...toggleProps} ref={setRef} onClick={() => toggleMenu()}>Toggle Menu</button>
+ *     )}</ListItemMenu>;
  *     }
  *
  * @name ListItemMenu
@@ -95,16 +112,17 @@ export function ListItemMenu({
     scrollLimit,
     children,
     owner,
-    menuRole: role,
+    role: role,
     disabled,
     readOnly,
-    menuWidth,
-    menuId: menuIdProps,
+    width: menuWidth,
+    id: menuIdProps,
     placement = 'bottom',
     offsetOptions,
-    menuTrailing,
-    menuLeading,
+    trailing: menuTrailing,
+    leading: menuLeading,
     activeElementId: activeElementIdProp = null,
+    keyOverrides,
 }: ListItemMenuProps) {
     const menuId = useId(menuIdProps);
 
@@ -127,7 +145,10 @@ export function ListItemMenu({
             setShow(false);
             setActiveElementId(null);
         },
+        ...keyOverrides,
     });
+
+    useEffect(() => setActiveElementId(null), [itemsProp, setActiveElementId]);
 
     useOutsideClick({
         elements: [elements.floating as HTMLElement],
@@ -137,7 +158,7 @@ export function ListItemMenu({
     });
 
     const items = (typeof itemsProp === 'function' ? itemsProp({ setShow }) : itemsProp).map((item, index) => {
-        const itemId = item.id || `list-item-menu-item-${index + 1}`;
+        const itemId = item.id || `list-item-menu-${menuId}-item-${index + 1}`;
         return {
             ...item,
             id: itemId,
@@ -150,18 +171,25 @@ export function ListItemMenu({
         } as MenuListItem;
     });
 
-    if (items.length === 0)
-        return children({} as ToggleProps, { setRef: elements.setReference, showMenu: () => setShow(true) });
+    if (items.length === 0 && !menuLeading && !menuTrailing)
+        return children({} as ToggleProps, {
+            setRef: elements.setReference,
+            toggleMenu: (force) =>
+                setShow((prev) => {
+                    if (typeof force === 'boolean') return force;
+                    return !prev;
+                }),
+        });
 
     return (
         <>
             {children(
                 {
                     'aria-activedescendant': activeElementId || undefined,
-                    'aria-controls': menuId,
+                    'aria-controls': (show && menuId) || undefined,
                     'aria-disabled': disabled || undefined,
                     'aria-expanded': show,
-                    'aria-haspopup': 'listbox' as AriaAttributes['aria-haspopup'],
+                    'aria-haspopup': true,
                     'aria-owns': menuId,
                     'aria-readonly': readOnly || undefined,
                     role: 'combobox',
@@ -182,7 +210,7 @@ export function ListItemMenu({
                 },
                 {
                     setRef: elements.setReference,
-                    showMenu: () => setShow(true),
+                    toggleMenu: () => setShow(true),
                 },
             )}
             {show && (

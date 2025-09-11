@@ -1,5 +1,6 @@
 import { SvgSearch } from '@bspk/icons/Search';
 
+import { useRef } from 'react';
 import { ListItemMenu, ListItemMenuProps, MenuListItem } from '-/components/ListItemMenu';
 import { TextInputProps, TextInput } from '-/components/TextInput';
 import { Txt } from '-/components/Txt';
@@ -117,6 +118,8 @@ export function SearchBar({
 }: SearchBarProps) {
     const id = useId(idProp);
 
+    const inputInternalRef = useRef<HTMLInputElement | null>(null);
+
     return (
         <>
             <div data-bspk="search-bar">
@@ -130,10 +133,20 @@ export function SearchBar({
                                 onSelect(item);
                                 onChange(item.label);
                                 setShow(false);
+                                setTimeout(() => {
+                                    const inputElement = inputInternalRef.current;
+                                    if (!inputElement) return;
+                                    inputElement.focus();
+                                    inputElement.setSelectionRange(item.label.length, item.label.length);
+                                }, 100);
                             },
                         }))
                     }
-                    menuLeading={
+                    keyOverrides={{
+                        ArrowLeft: null,
+                        ArrowRight: null,
+                    }}
+                    leading={
                         !!value?.length &&
                         !items?.length && (
                             <div data-bspk="no-items-found">
@@ -148,23 +161,27 @@ export function SearchBar({
                             </div>
                         )
                     }
-                    menuRole="listbox"
                     owner="search-bar"
+                    role="listbox"
                     scrollLimit={scrollLimit}
                 >
-                    {(toggleProps, { setRef, showMenu }) => (
+                    {(toggleProps, { setRef, toggleMenu }) => (
                         <TextInput
                             aria-label={ariaLabel}
                             autoComplete="off"
                             containerRef={setRef}
                             disabled={disabled}
                             id={id}
-                            inputRef={inputRef}
+                            inputRef={(node) => {
+                                if (!node) return;
+                                inputRef?.(node);
+                                inputInternalRef.current = node;
+                            }}
                             leading={<SvgSearch />}
                             name={name}
                             onChange={(str) => {
                                 onChange(str);
-                                if (str.length) showMenu();
+                                if (str.length) toggleMenu(true);
                             }}
                             owner="search-bar"
                             {...toggleProps}

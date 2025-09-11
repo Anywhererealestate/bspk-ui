@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, useRef, useState, KeyboardEvent, useEffect } from 'react';
 import { SetRef } from '-/types/common';
-import { handleKeyDown } from '-/utils/handleKeyDown';
+import { handleKeyDown, KeysCallback } from '-/utils/handleKeyDown';
 import { KeyboardEventCode } from '-/utils/keyboard';
 
 type SetActiveElementId = Dispatch<SetStateAction<string | null>>;
@@ -11,10 +11,8 @@ type SetActiveElementId = Dispatch<SetStateAction<string | null>>;
  * This hook provides functionality to navigate through elements using arrow keys and select an element with the Enter
  * or Space key, or onClick.
  */
-export function useKeyNavigation(
-    keysCallback: Partial<Record<KeyboardEventCode | '*', (event: KeyboardEvent) => void>> = {},
-): {
-    handleKeyDown: (event: KeyboardEvent) => KeyboardEventCode | '*' | null;
+export function useKeyNavigation(overrides: KeysCallback = {}): {
+    handleKeyDown: (event: KeyboardEvent) => KeyboardEventCode | null;
     activeElementId: string | null;
     setElements: SetRef<HTMLElement[] | undefined>;
     setActiveElementId: SetActiveElementId;
@@ -52,7 +50,6 @@ export function useKeyNavigation(
             elementsRef.current = newElements ? (Array.from(newElements) as HTMLElement[]) : [];
         },
         handleKeyDown: handleKeyDown({
-            ...keysCallback,
             ArrowRight: handleArrow(1),
             ArrowDown: handleArrow(1),
             ArrowUp: handleArrow(-1),
@@ -62,6 +59,7 @@ export function useKeyNavigation(
                 handleSelect();
                 if (activeElementId) event.preventDefault();
             },
+            ...overrides,
         }),
         activeElementId,
         setActiveElementId,
