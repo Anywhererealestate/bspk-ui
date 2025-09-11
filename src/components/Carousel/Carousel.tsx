@@ -1,32 +1,11 @@
 import './carousel.scss';
 import { SvgChevronLeft } from '@bspk/icons/ChevronLeft';
 import { SvgChevronRight } from '@bspk/icons/ChevronRight';
-import React, { ReactNode, useRef, useState, useLayoutEffect } from 'react';
+import React, { ReactNode, useRef, useState } from 'react';
 import { Button } from '-/components/Button';
 import { PageControl } from '-/components/PageControl';
+import { useContainerWidth } from '-/hooks/useContainerWidth';
 import { cssWithVars } from '-/utils/cwv';
-
-function useContainerWidth(ref: React.RefObject<HTMLDivElement>) {
-    const [width, setWidth] = useState(0);
-
-    useLayoutEffect(() => {
-        if (!ref.current) return;
-        setWidth(ref.current.offsetWidth);
-
-        const observer = new window.ResizeObserver((entries) => {
-            for (const entry of entries) {
-                if (entry.target === ref.current) {
-                    setWidth(entry.contentRect.width);
-                }
-            }
-        });
-        observer.observe(ref.current);
-
-        return () => observer.disconnect();
-    }, [ref]);
-
-    return width;
-}
 
 export type CarouselProps = {
     /**
