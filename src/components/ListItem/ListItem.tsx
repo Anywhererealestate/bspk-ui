@@ -51,7 +51,15 @@ export type ListItemProps<As extends ElementType = ElementType> = CommonProps<
     href?: AnchorHTMLAttributes<unknown>['href'];
     /** A ref to the list item div element. */
     innerRef?: SetRef<HTMLElement>;
-    /** The ARIA role of the list item. */
+    /**
+     * The ARIA role of the list item.
+     *
+     * The role will be set to 'button' automatically if the ListItem has an onClick prop and is not a button, label, or
+     * anchor element.
+     *
+     * If including other focusable elements (e.g. buttons, links) in the leading or trailing slots, the role should be
+     * set explicitly to something other than 'button'.
+     */
     role?: string;
     /**
      * Whether the aria-label should be included on the list item.
@@ -132,7 +140,8 @@ function ListItem<As extends ElementType = ElementType>({
     if (!as && props.href) As = 'a';
 
     let role = roleProp;
-    if (!roleProp && props.onClick && As !== 'button' && !props.href && props.tabIndex === undefined) role = 'button';
+    if (!roleProp && props.onClick && As !== 'button' && As !== 'label' && !props.href && props.tabIndex === undefined)
+        role = 'button';
 
     const actionable = (props.href || props.onClick) && !props.disabled && !props.readOnly;
 
