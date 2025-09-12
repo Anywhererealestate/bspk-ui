@@ -28,34 +28,36 @@ const PRESET_OPTIONS: SegmentedControlOption[] = [
     },
 ];
 
+export const presets = [
+    {
+        label: 'With icons',
+        propState: {
+            iconsOnly: undefined,
+        },
+    },
+    {
+        label: 'Icons only',
+        propState: {
+            iconsOnly: true,
+        },
+    },
+    {
+        label: 'Long label text',
+        propState: {
+            iconsOnly: undefined,
+            options: PRESET_OPTIONS.map((option) => ({
+                ...option,
+                label: `${option.label} with a very long label text that should be truncated if it exceeds the width of the control`,
+            })),
+        },
+    },
+];
+
 export const SegmentedControlExample: ComponentExample<SegmentedControlProps> = {
     containerStyle: { width: '100%', overflow: 'auto', alignItems: 'start' },
     defaultState: {
         options: PRESET_OPTIONS,
     },
-    presets: [
-        {
-            label: 'With icons',
-            propState: {
-                iconsOnly: undefined,
-            },
-        },
-        {
-            label: 'Icons only',
-            propState: {
-                iconsOnly: true,
-            },
-        },
-        {
-            label: 'Long label text',
-            propState: {
-                iconsOnly: undefined,
-                options: PRESET_OPTIONS.map((option) => ({
-                    ...option,
-                    label: `${option.label} with a very long label text that should be truncated if it exceeds the width of the control`,
-                })),
-            },
-        },
-    ],
+    presets,
     variants: false,
 };

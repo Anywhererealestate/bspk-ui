@@ -49,3 +49,23 @@ jobs:
 
             - name: Run build
               run: npm run build
+    run-tests:
+        name: Run RTL Tests
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Check out Git repository
+              uses: actions/checkout@v4
+
+            - name: Setup Node
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 20
+
+            - name: Install dependencies
+              env:
+                  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+              run: npm ci
+
+            - name: Lint Components
+              run: npm run test

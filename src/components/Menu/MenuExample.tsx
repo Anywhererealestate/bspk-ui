@@ -15,6 +15,29 @@ import { Switch } from '-/components/Switch';
 import { ElementProps } from '-/types/common';
 import { ComponentExampleFn } from '-/utils/demo';
 
+export const presets = [
+    {
+        label: 'Scroll = False',
+        propState: {
+            floating: false,
+            portal: false,
+            itemDisplayCount: 5,
+            itemCount: 11,
+            scroll: false,
+        },
+    },
+    {
+        label: 'Item Display Count',
+        propState: {
+            floating: false,
+            portal: false,
+            itemDisplayCount: 5,
+            itemCount: 11,
+            scroll: true,
+        },
+    },
+];
+
 export const MenuExample: ComponentExampleFn<ElementProps<MenuProps, 'div'> & { 'data-dark-mode': boolean }> = ({
     action,
 }) => ({
@@ -66,29 +89,7 @@ export const MenuExample: ComponentExampleFn<ElementProps<MenuProps, 'div'> & { 
             </Component>
         );
     },
-    presets: [
-        {
-            label: 'Scroll = False',
-            propState: {
-                floating: false,
-                portal: false,
-                itemDisplayCount: 5,
-                itemCount: 11,
-                scroll: false,
-            },
-        },
-        {
-            label: 'Item Display Count',
-            propState: {
-                floating: false,
-                portal: false,
-                itemDisplayCount: 5,
-                itemCount: 11,
-                scroll: true,
-            },
-        },
-    ],
-
+    presets,
     disableProps: ['floating', 'portal'],
     variants: false,
 });

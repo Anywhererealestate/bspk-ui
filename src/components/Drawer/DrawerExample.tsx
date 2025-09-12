@@ -2,6 +2,17 @@ import { Drawer, DrawerProps } from '.';
 import { Button } from '-/components/Button';
 import { ComponentExampleFn } from '-/utils/demo';
 
+export const presets = [
+    {
+        label: 'Left Responsive',
+        propState: { closeButton: true, modal: false, placement: 'left' as DrawerProps['placement'] },
+    },
+    {
+        label: 'Right Responsive',
+        propState: { closeButton: true, modal: false, placement: 'right' as DrawerProps['placement'] },
+    },
+];
+
 export const DrawerExample: ComponentExampleFn<DrawerProps> = ({ action }) => ({
     containerStyle: {
         height: '300px',
@@ -9,11 +20,7 @@ export const DrawerExample: ComponentExampleFn<DrawerProps> = ({ action }) => ({
         padding: 0,
         overflow: 'hidden', // hides box-shadow of drawer
     },
-    presets: [
-        { label: 'Left Responsive', propState: { closeButton: true, modal: false, placement: 'left' } },
-        { label: 'Right Responsive', propState: { closeButton: true, modal: false, placement: 'right' } },
-    ],
-
+    presets,
     render: ({ props, preset, setState, Component }) => {
         if (!preset) return null;
         const label = 'Open Drawer';

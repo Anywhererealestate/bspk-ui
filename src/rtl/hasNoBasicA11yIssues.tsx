@@ -1,6 +1,6 @@
 import { axe } from 'jest-axe';
 import { ReactElement } from 'react';
-import { render } from '-/rtl/util';
+import { render, waitFor } from '-/rtl/util';
 
 /**
  * A utility function to test for basic accessibility issues using jest-axe.
@@ -21,6 +21,7 @@ import { render } from '-/rtl/util';
 export const hasNoBasicA11yIssues = (TestBed: ReactElement) => {
     return async () => {
         const { container } = render(TestBed);
+        await waitFor(() => expect(container).toBeInTheDocument());
         expect(await axe(container)).toHaveNoViolations();
     };
 };
