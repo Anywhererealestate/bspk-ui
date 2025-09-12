@@ -29,7 +29,7 @@ const PRESET_OPTIONS: SegmentedControlOption[] = [
 ];
 
 export const SegmentedControlExample: ComponentExample<SegmentedControlProps> = {
-    containerStyle: { width: '100%' },
+    containerStyle: { width: '100%', overflow: 'auto', alignItems: 'start' },
     defaultState: {
         options: PRESET_OPTIONS,
     },

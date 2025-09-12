@@ -1,17 +1,56 @@
-import { useEffect, useState } from 'react';
-import { AccordionSectionProps, AccordionSection } from './AccordionSection';
+import { SvgKeyboardArrowDown } from '@bspk/icons/KeyboardArrowDown';
+import { SvgKeyboardArrowUp } from '@bspk/icons/KeyboardArrowUp';
+import { ReactNode, useEffect, useMemo, useState } from 'react';
 import './accordion.scss';
+import { randomString } from '-/utils/random';
 
-export type AccordionItem = Omit<AccordionSectionProps, 'toggleOpen'>;
+export type AccordionSection = {
+    /**
+     * The content of the accordion.
+     *
+     * @required
+     */
+    children: ReactNode;
+    /**
+     * The title of the accordion.
+     *
+     * @required
+     */
+    title: string;
+    /** The subtitle of the accordion. */
+    subtitle?: string;
+    /** The leading element to display in the accordion header. */
+    leading?: ReactNode;
+    /** The trailing element to display in the accordion header. */
+    trailing?: ReactNode;
+    /**
+     * If the accordion is initially open.
+     *
+     * @default false
+     */
+    isOpen?: boolean;
+    /**
+     * Indicates whether the accordion is disabled.
+     *
+     * @default false
+     */
+    disabled?: boolean;
+    /**
+     * The unique identifier for the accordion item.
+     *
+     * If not provided it will be generated automatically.
+     */
+    id?: string;
+};
 
 export type AccordionProps = {
     /**
      * Array of accordion sections
      *
-     * @type Array<AccordionItem>
+     * @type Array<AccordionSection>
      * @required
      */
-    items: AccordionItem[];
+    items: AccordionSection[];
     /**
      * If true only one accordion section can be opened at a time
      *
@@ -34,40 +73,64 @@ export type AccordionProps = {
  * @name Accordion
  * @phase UXReview
  */
-export function Accordion({ items, singleOpen = true }: AccordionProps) {
-    const [activeItems, setActiveItems] = useState<(number | string)[]>(() => {
+export function Accordion({ items: itemsProp, singleOpen = true }: AccordionProps) {
+    const items = useMemo(
+        () =>
+            itemsProp.map((item) => ({
+                ...item,
+                id: item.id || `accordion-item-${randomString(8)}`,
+            })),
+        [itemsProp],
+    );
+
+    const [openSections, setOpenSections] = useState<string[]>(() => {
         return items.filter((item) => item.isOpen).map((item) => item.id);
     });
 
     useEffect(() => {
-        // Update active items based on the items prop
-        setActiveItems(items.filter((item) => item.isOpen).map((item) => item.id));
+        // Update open sections based on the items prop
+        setOpenSections(items.filter((item) => item.isOpen).map((item) => item.id));
     }, [items]);
 
-    const toggleOpen = (itemId: number | string) => {
-        setActiveItems((prevItems) => {
-            const isItemActive = prevItems.includes(itemId);
+    const toggleOpen = (itemId: string) => () =>
+        setOpenSections((prev) => {
+            const isSectionOpen = prev.includes(itemId);
 
             // If singleOpen is true, reset activeItems to only include the clicked item or empty if it was already active
-            if (singleOpen) return isItemActive ? [] : [itemId];
+            if (singleOpen) return isSectionOpen ? [] : [itemId];
 
             // If singleOpen is false, toggle the clicked item and keep others active
-            return isItemActive ? prevItems.filter((activeItemId) => activeItemId !== itemId) : [...prevItems, itemId];
+            return isSectionOpen ? prev.filter((activeItemId) => activeItemId !== itemId) : [...prev, itemId];
         });
-    };
 
     return (
         <div data-bspk="accordion">
-            {items.map((item, index) => {
+            {items.map(({ children, title, subtitle: subtitle, leading, trailing, disabled, id }, index) => {
+                const isOpen = openSections.includes(id);
                 return (
-                    <AccordionSection
-                        {...item}
-                        isOpen={activeItems.includes(item.id)}
-                        key={`${item.id}-${index}`}
-                        toggleOpen={() => toggleOpen(item.id)}
-                    >
-                        {item.children}
-                    </AccordionSection>
+                    <section data-disabled={disabled || undefined} id={id} key={id || index}>
+                        <button
+                            aria-controls={`${id}-content`}
+                            aria-expanded={isOpen}
+                            data-header
+                            disabled={disabled || undefined}
+                            onClick={!disabled ? toggleOpen(id) : undefined}
+                        >
+                            {leading && <span data-leading>{leading}</span>}
+                            <span data-title-subtitle>
+                                <span data-title>{title}</span>
+                                {subtitle && <span data-subtitle>{subtitle}</span>}
+                            </span>
+                            {trailing && <span data-trailing>{trailing}</span>}
+                            <span data-arrow>{isOpen ? <SvgKeyboardArrowUp /> : <SvgKeyboardArrowDown />}</span>
+                        </button>
+                        {isOpen && (
+                            <div data-content data-hidden={!isOpen || undefined} id={`${id}-content`}>
+                                {children}
+                            </div>
+                        )}
+                        <span data-divider />
+                    </section>
                 );
             })}
         </div>
