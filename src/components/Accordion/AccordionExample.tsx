@@ -9,6 +9,44 @@ const AccordionContent = () => (
     </p>
 );
 
+export const presets = [
+    {
+        label: 'Multiple Sections',
+        propState: {
+            items: [
+                {
+                    id: '2',
+                    title: 'Section 2',
+                    children: <AccordionContent />,
+                },
+                {
+                    id: '3',
+                    title: 'Section 3',
+                    children: <AccordionContent />,
+                },
+            ],
+        },
+    },
+    {
+        label: 'Multiple Sections with 1 disabled',
+        propState: {
+            items: [
+                { id: '2', title: 'Section 2', disabled: true, children: <AccordionContent /> },
+                { id: '3', title: 'Section 3', children: <AccordionContent /> },
+            ],
+        },
+    },
+    {
+        label: 'Multiple Sections with 1 disabled and open',
+        propState: {
+            items: [
+                { id: '2', title: 'Section 2', disabled: true, isOpen: true, children: <AccordionContent /> },
+                { id: '3', title: 'Section 3', children: <AccordionContent /> },
+            ],
+        },
+    },
+];
+
 export const AccordionExample: ComponentExampleFn<AccordionProps> = ({ action, setState }) => ({
     containerStyle: { minHeight: 225 },
     render: ({ props, Component, id, preset }) => {
@@ -46,42 +84,6 @@ export const AccordionExample: ComponentExampleFn<AccordionProps> = ({ action, s
             </>
         );
     },
-    presets: [
-        {
-            label: 'Multiple Sections',
-            propState: {
-                items: [
-                    {
-                        id: '2',
-                        title: 'Section 2',
-                        children: <AccordionContent />,
-                    },
-                    {
-                        id: '3',
-                        title: 'Section 3',
-                        children: <AccordionContent />,
-                    },
-                ],
-            },
-        },
-        {
-            label: 'Multiple Sections with 1 disabled',
-            propState: {
-                items: [
-                    { id: '2', title: 'Section 2', disabled: true, children: <AccordionContent /> },
-                    { id: '3', title: 'Section 3', children: <AccordionContent /> },
-                ],
-            },
-        },
-        {
-            label: 'Multiple Sections with 1 disabled and open',
-            propState: {
-                items: [
-                    { id: '2', title: 'Section 2', disabled: true, isOpen: true, children: <AccordionContent /> },
-                    { id: '3', title: 'Section 3', children: <AccordionContent /> },
-                ],
-            },
-        },
-    ],
+    presets,
     variants: false,
 });

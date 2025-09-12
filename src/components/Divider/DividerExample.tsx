@@ -3,6 +3,8 @@ import { CSSProperties } from 'react';
 import { ExamplePlaceholder } from '-/components/ExamplePlaceholder';
 import { ComponentExample } from '-/utils/demo';
 
+export const presets = [];
+
 export const DividerExample: ComponentExample = {
     render: ({ props, Component }) => {
         const style: CSSProperties =
@@ -23,4 +25,5 @@ export const DividerExample: ComponentExample = {
             </div>
         );
     },
+    presets,
 };

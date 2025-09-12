@@ -48,56 +48,58 @@ const OPTION_ICONS = [
     },
 ];
 
+export const presets = [
+    {
+        label: 'With icons',
+        propState: {
+            value: '1',
+            options: PRESET_OPTIONS.map((option, index) => ({
+                ...option,
+                icon: OPTION_ICONS[index].icon,
+                iconSelected: OPTION_ICONS[index].iconSelected,
+            })),
+        },
+    },
+    {
+        label: 'With badges',
+        propState: {
+            value: '1',
+            options: PRESET_OPTIONS.map((option, index) => ({
+                ...option,
+                badge: Math.round((index + 1) * 2.6),
+            })),
+        },
+    },
+    {
+        label: 'With icons & badges',
+        propState: {
+            value: '1',
+            options: PRESET_OPTIONS.map((option, index) => ({
+                ...option,
+                icon: OPTION_ICONS[index].icon,
+                iconSelected: OPTION_ICONS[index].iconSelected,
+                badge: Math.round((index + 1) * 2.6),
+            })),
+        },
+    },
+    {
+        label: 'Long Text only',
+        propState: {
+            value: '1',
+            options: PRESET_OPTIONS.map((option) => ({
+                ...option,
+                label: `${option.label} with a very long label that never seems to end and goes on forever`,
+            })),
+        },
+    },
+];
+
 export const TabGroupExample: ComponentExample<TabGroupProps> = {
     containerStyle: { width: '100%' },
     defaultState: {
         options: PRESET_OPTIONS,
     },
-    presets: [
-        {
-            label: 'With icons',
-            propState: {
-                value: '1',
-                options: PRESET_OPTIONS.map((option, index) => ({
-                    ...option,
-                    icon: OPTION_ICONS[index].icon,
-                    iconSelected: OPTION_ICONS[index].iconSelected,
-                })),
-            },
-        },
-        {
-            label: 'With badges',
-            propState: {
-                value: '1',
-                options: PRESET_OPTIONS.map((option, index) => ({
-                    ...option,
-                    badge: Math.round((index + 1) * 2.6),
-                })),
-            },
-        },
-        {
-            label: 'With icons & badges',
-            propState: {
-                value: '1',
-                options: PRESET_OPTIONS.map((option, index) => ({
-                    ...option,
-                    icon: OPTION_ICONS[index].icon,
-                    iconSelected: OPTION_ICONS[index].iconSelected,
-                    badge: Math.round((index + 1) * 2.6),
-                })),
-            },
-        },
-        {
-            label: 'Long Text only',
-            propState: {
-                value: '1',
-                options: PRESET_OPTIONS.map((option) => ({
-                    ...option,
-                    label: `${option.label} with a very long label that never seems to end and goes on forever`,
-                })),
-            },
-        },
-    ],
+    presets,
 
     variants: {
         showTrail: {

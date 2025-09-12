@@ -5,6 +5,8 @@ import { Txt } from '-/components/Txt';
 import { useId } from '-/hooks/useId';
 import { ComponentExample } from '-/utils/demo';
 
+export const presets = [];
+
 export const LinkExample: ComponentExample<LinkProps> = {
     containerStyle: {
         width: '100%',
@@ -30,6 +32,7 @@ export const LinkExample: ComponentExample<LinkProps> = {
             content: ({ props }) => <LinkDemo props={props} />,
         },
     ],
+    presets,
 };
 
 /**

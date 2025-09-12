@@ -42,18 +42,24 @@ export function ProgressionStepperBar({
     stepCount,
     stepCompleted: stepCompletedProp = 0,
     size = 'large',
+    ...containerProps
 }: ProgressionStepperBarProps) {
     const stepCompleted = Math.min(stepCompletedProp, stepCount);
 
     return (
-        <div data-bspk="progression-stepper-bar" data-size={size} style={cssWithVars({ '--steps': stepCount })}>
+        <div
+            data-bspk="progression-stepper-bar"
+            data-size={size}
+            style={cssWithVars({ '--steps': stepCount })}
+            {...containerProps}
+        >
             <div data-steps>
                 {Array.from({ length: stepCount }, (_, i) => (
                     <div data-complete={i < stepCompleted || undefined} data-step={i} key={i} />
                 ))}
             </div>
             <span data-label>
-                {stepCompleted} of {stepCount} steps completed.
+                {String(stepCompleted)} of {String(stepCount)} steps completed.
             </span>
         </div>
     );

@@ -92,13 +92,13 @@ export type ListboxProps<Item extends ListboxItemProps = ListboxItemProps> = Com
  * @example
  *     import React from 'react';
  *
- *     import { ListBox } from '@bspk/ui/ListBox';
+ *     import { Listbox } from '@bspk/ui/Listbox';
  *
  *     export function Example() {
  *         const [selected, setSelected] = React.useState<string[]>([]);
  *
  *         return (
- *             <ListBox
+ *             <Listbox
  *                 items={[
  *                     { value: '1', label: 'Option 1' },
  *                     { value: '2', label: 'Option 2' },

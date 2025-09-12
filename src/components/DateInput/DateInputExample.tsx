@@ -1,10 +1,12 @@
 import { DateInputProps } from '.';
 import { ComponentExample } from '-/utils/demo';
 
+export const presets = [];
+
 export const DateInputExample: ComponentExample<DateInputProps> = {
     defaultState: {},
     disableProps: [],
-    presets: [],
+    presets,
     render: ({ props, Component }) => {
         const { value, ...restProps } = props;
 

@@ -1,63 +1,65 @@
-import { ChipUtilityProps } from '.';
+import { BadgeItem, ChipUtilityProps } from '.';
 import { ComponentExample } from '-/utils/demo';
+
+export const presets = [
+    {
+        label: 'Basic',
+        propState: {
+            label: 'chip',
+        },
+    },
+    {
+        label: 'Leading Icon',
+        propState: {
+            label: 'chip',
+            leadingIcon: 'Add',
+            trailingIcon: '',
+        },
+    },
+    {
+        label: 'Trailing Icon',
+        propState: {
+            label: 'chip',
+            leadingIcon: '',
+            trailingIcon: 'Add',
+        },
+    },
+    {
+        label: 'Both Icons',
+        propState: {
+            label: 'chip',
+            leadingIcon: 'Add',
+            trailingIcon: 'Add',
+        },
+    },
+    {
+        label: 'Invalid Icons',
+        propState: {
+            label: 'chip',
+            leadingIcon: 'Bumblebee',
+            trailingIcon: 'Rabbit',
+        },
+    },
+    {
+        label: 'Trailing Badge',
+        propState: {
+            label: 'chip',
+            leadingIcon: 'Add',
+            trailingIcon: '',
+            trailingBadge: { count: 2, size: 'x-small' as BadgeItem['size'] },
+        },
+    },
+    {
+        label: 'Trailing Badge Icon',
+        propState: {
+            label: 'chip',
+            trailingIcon: 'Cloud',
+            trailingBadge: { count: 2, size: 'x-small' as BadgeItem['size'] },
+        },
+    },
+];
 
 export const ChipUtilityExample: ComponentExample<ChipUtilityProps> = {
     render: ({ props, Component }) => <Component {...props} />,
-    presets: [
-        {
-            label: 'Basic',
-            propState: {
-                label: 'chip',
-            },
-        },
-        {
-            label: 'Leading Icon',
-            propState: {
-                label: 'chip',
-                leadingIcon: 'Add',
-                trailingIcon: '',
-            },
-        },
-        {
-            label: 'Trailing Icon',
-            propState: {
-                label: 'chip',
-                leadingIcon: '',
-                trailingIcon: 'Add',
-            },
-        },
-        {
-            label: 'Both Icons',
-            propState: {
-                label: 'chip',
-                leadingIcon: 'Add',
-                trailingIcon: 'Add',
-            },
-        },
-        {
-            label: 'Invalid Icons',
-            propState: {
-                label: 'chip',
-                leadingIcon: 'Bumblebee',
-                trailingIcon: 'Rabbit',
-            },
-        },
-        {
-            label: 'Trailing Badge',
-            propState: {
-                label: 'chip',
-                leadingIcon: 'Add',
-                trailingIcon: '',
-                trailingBadge: { count: 2, size: 'x-small' },
-            },
-        },
-        {
-            label: 'Trailing Badge Icon',
-            propState: {
-                label: 'chip',
-                trailingIcon: 'Cloud',
-                trailingBadge: { count: 2, size: 'x-small' },
-            },
-        },
-    ],
+    presets,
 };

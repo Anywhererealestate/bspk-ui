@@ -10,6 +10,7 @@ import fs from 'fs';
 import path from 'path';
 
 import { kebabCase } from '../utils';
+import { generateAndWriteTestFileForComponent } from './create-tests';
 
 const componentsDir = path.resolve(__dirname, '../src/components');
 
@@ -98,11 +99,13 @@ fs.writeFileSync(
     `import { ${componentName}Props } from '.';
 import { ComponentExample } from '-/utils/demo';
 
+export const presets = [];
+
 export const ${componentName}Example: ComponentExample<${componentName}Props> = {
     containerStyle: { width: '100%' },
     defaultState: {},
     disableProps: [],
-    presets: [],
+    presets,
     render: ({ props, Component }) => <Component {...props} />,
     sections: [],
     variants: {},
@@ -122,6 +125,9 @@ fs.writeFileSync(
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
 `,
 );
+
+const componentTestFilePath = path.join(componentDirectoryPath, `${componentName}.rtl.test.tsx`);
+generateAndWriteTestFileForComponent(componentName, componentTestFilePath);
 
 fs.writeFileSync(path.join(componentDirectoryPath, 'index.tsx'), `export * from './${componentName}';\n`);
 

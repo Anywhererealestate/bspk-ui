@@ -5,21 +5,23 @@ import { ExamplePlaceholder } from '-/components/ExamplePlaceholder';
 import { useTimeout } from '-/hooks/useTimeout';
 import { ComponentExample, ComponentExampleRenderProps } from '-/utils/demo';
 
+export const presets = [
+    {
+        label: 'Loading Transition',
+        propState: {
+            width: '100px',
+            height: '100px',
+        },
+    },
+];
+
 export const SkeletonExample: ComponentExample<SkeletonProps> = {
     render: ({ props, preset, Component }) => {
         if (preset?.label === 'Loading Transition') return <SkeletonTransition Component={Component} props={props} />;
 
         return <Component {...props} />;
     },
-    presets: [
-        {
-            label: 'Loading Transition',
-            propState: {
-                width: '100px',
-                height: '100px',
-            },
-        },
-    ],
+    presets,
 };
 
 function SkeletonTransition({
