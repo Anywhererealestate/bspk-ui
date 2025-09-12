@@ -119,9 +119,10 @@ export function Breadcrumb({ id: propId, items: itemsProp = [], scrollLimit }: B
                                     onClick: () => setShow(false),
                                 }))
                             }
+                            label="Expanded breadcrumb"
                             owner="Breadcrumb"
                             placement="bottom"
-                            role="navigation"
+                            role="tree"
                             scrollLimit={scrollLimit}
                             width="200px"
                         >

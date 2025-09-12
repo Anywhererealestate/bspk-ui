@@ -1,7 +1,7 @@
 import { AriaAttributes, CSSProperties, HTMLAttributes, ReactNode, useState, KeyboardEvent, useEffect } from 'react';
 import { ListItemProps as ListItemPropsBase } from '-/components/ListItem';
 import { ListItemGroup, ListItemGroupProps } from '-/components/ListItemGroup';
-import { Menu } from '-/components/Menu';
+import { Menu, MenuProps } from '-/components/Menu';
 import { Portal } from '-/components/Portal';
 import { useFloating, UseFloatingProps } from '-/hooks/useFloating';
 import { useId } from '-/hooks/useId';
@@ -47,6 +47,8 @@ export type InternalToggleProps = {
     toggleMenu: (force?: boolean) => void;
     /** The number of items in the menu. */
     itemCount: number;
+    /** Whether or not the menu is currently open. */
+    show?: boolean;
 };
 
 /**
@@ -58,22 +60,35 @@ export type MenuListItem = Omit<ListItemPropsBase, 'id'> & Required<Pick<ListIte
 
 export type MenuListItemsFn = (props: { setShow: (show: boolean) => void }) => MenuListItem[];
 
-export type ListItemMenuProps = CommonProps<'disabled' | 'id' | 'owner' | 'readOnly'> &
+export type ListItemMenuProps = CommonProps<'disabled' | 'readOnly'> &
     Pick<ListItemGroupProps, 'scrollLimit'> &
+    Pick<MenuProps, 'id' | 'label' | 'owner'> &
     Pick<UseFloatingProps, 'offsetOptions' | 'placement'> & {
-        /** He children to render inside the menu. */
+        /**
+         * He children to render inside the menu.
+         *
+         * @required
+         */
         children: (toggleProps: ToggleProps, internal: InternalToggleProps) => ReactNode;
-        /** The element that the menu is anchored to. */
+        /**
+         * The element that the menu is anchored to.
+         *
+         * @required
+         */
         role: HTMLAttributes<HTMLElement>['role'];
         /**
          * The width of the menu. If 'reference' is provided, the menu will match the width of the useFloating reference
          * element.
+         *
+         * @required
          */
         width?: CSSProperties['width'] | 'reference';
         /**
          * The items to display in the menu as ListItems.
          *
          * If an item does not have an `id` property, one will be generated automatically.
+         *
+         * @required
          */
         items: MenuListItem[] | MenuListItemsFn;
         /**
@@ -90,6 +105,7 @@ export type ListItemMenuProps = CommonProps<'disabled' | 'id' | 'owner' | 'readO
         trailing?: ReactNode;
         /** The ID of the currently active element. */
         activeElementId?: string | null;
+        /** Override or extend the keyboard navigation functionality. */
         keyOverrides?: KeysCallback;
     };
 
@@ -118,7 +134,7 @@ export function ListItemMenu({
     scrollLimit,
     children,
     owner,
-    role: role,
+    role: menuRole,
     disabled,
     readOnly,
     width: menuWidth,
@@ -129,6 +145,8 @@ export function ListItemMenu({
     leading: menuLeading,
     activeElementId: activeElementIdProp = null,
     keyOverrides,
+    label,
+    ...ariaProps
 }: ListItemMenuProps) {
     const menuId = useId(menuIdProps);
 
@@ -174,6 +192,7 @@ export function ListItemMenu({
                 setActiveElementId(itemId);
             },
             tabIndex: 0,
+            role: menuRole === 'listbox' ? 'option' : item.role || undefined,
         } as MenuListItem;
     });
 
@@ -244,17 +263,20 @@ export function ListItemMenu({
                         innerRef={(node) => {
                             elements.setFloating(node);
                         }}
+                        label={label}
                         owner={owner}
-                        role={role}
+                        role={menuRole}
                         style={{
                             width: menuWidth !== 'reference' ? menuWidth : undefined,
                             ...floatingStyles,
                         }}
                         tabIndex={-1}
+                        {...ariaProps}
                     >
                         {menuLeading}
                         <ListItemGroup
                             activeElementId={activeElementId}
+                            context={{ role: menuRole }}
                             innerRefs={setElements}
                             items={items}
                             scrollLimit={!menuLeading && !menuTrailing && scrollLimit}

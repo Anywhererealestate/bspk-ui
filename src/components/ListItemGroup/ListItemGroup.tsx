@@ -1,6 +1,7 @@
 import { ListItem, ListItemProps } from '-/components/ListItem';
 import { ElementProps, SetRef } from '-/types/common';
 import { cssWithVars } from '-/utils/cwv';
+import { ListItemContext, ListItemContextProps } from '-/utils/listItemContext';
 
 import './list-item-group.scss';
 
@@ -25,6 +26,12 @@ export type ListItemGroupProps = {
     activeElementId?: string | null;
     /** A ref callback to receive the list of item elements. */
     innerRefs?: SetRef<HTMLElement[] | undefined>;
+    /**
+     * The context in which the ListItem components are rendered.
+     *
+     * This sets the appropriate ARIA role on each ListItem.
+     */
+    context?: ListItemContextProps;
 };
 
 /**
@@ -47,27 +54,30 @@ export function ListItemGroup({
     innerRef,
     activeElementId,
     innerRefs,
+    context,
 }: ElementProps<ListItemGroupProps, 'div'>) {
     const maxCount =
         typeof scrollLimit === 'number' && items.length > scrollLimit && scrollLimit > 0 ? scrollLimit : undefined;
 
     return (
-        <div
-            data-bspk-utility="list-item-group"
-            data-scroll={!!maxCount}
-            ref={(node) => {
-                if (!node) return;
-                innerRef?.(node);
-                innerRefs?.(Array.from(node.children) as HTMLElement[]);
-            }}
-            style={cssWithVars({
-                '--max-display-count': maxCount,
-            })}
-        >
-            {items.map((item, index) => (
-                <ListItem key={index} {...item} selected={activeElementId === item.id} />
-            ))}
-        </div>
+        <ListItemContext.Provider value={{ ...context, selectable: true }}>
+            <div
+                data-bspk-utility="list-item-group"
+                data-scroll={!!maxCount}
+                ref={(node) => {
+                    if (!node) return;
+                    innerRef?.(node);
+                    innerRefs?.(Array.from(node.children) as HTMLElement[]);
+                }}
+                style={cssWithVars({
+                    '--max-display-count': maxCount,
+                })}
+            >
+                {items.map((item, index) => (
+                    <ListItem key={index} {...item} selected={activeElementId === item.id} />
+                ))}
+            </div>
+        </ListItemContext.Provider>
     );
 }
 

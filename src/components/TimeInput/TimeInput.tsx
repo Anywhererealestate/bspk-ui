@@ -152,6 +152,7 @@ export function TimeInput({
                             elements.setFloating(node as HTMLElement);
                             node.querySelector<HTMLElement>('[data-scroll-column="hours"]')?.focus();
                         }}
+                        label="Select time"
                         owner="time-input"
                         style={floatingStyles}
                     >

@@ -10,6 +10,7 @@
     --select-padding: var(--spacing-sizing-03);
     --select-icon-width: var(--spacing-sizing-05);
 
+    overflow: hidden;
     position: relative;
     width: 100%;
     outline: unset;
@@ -37,6 +38,10 @@
             transform: rotate(90deg);
             width: var(--select-icon-width);
         }
+    }
+
+    [data-bspk='list-item'][data-placeholder] {
+        background: transparent;
     }
 
     [data-bspk='list-item'][data-selected] {

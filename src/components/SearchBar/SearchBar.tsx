@@ -128,7 +128,6 @@ export function SearchBar({
                     items={({ setShow }) =>
                         (items || []).map((item) => ({
                             ...item,
-                            role: 'option',
                             onClick: () => {
                                 onSelect(item);
                                 onChange(item.label);
@@ -146,6 +145,7 @@ export function SearchBar({
                         ArrowLeft: null,
                         ArrowRight: null,
                     }}
+                    label="Search bar"
                     leading={
                         !!value?.length &&
                         !items?.length && (

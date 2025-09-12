@@ -1,8 +1,10 @@
-import { AnchorHTMLAttributes, ElementType, ReactNode, MouseEvent, AriaAttributes } from 'react';
+import { AnchorHTMLAttributes, ElementType, ReactNode, MouseEvent, AriaAttributes, HTMLAttributes } from 'react';
 import { ListItemButton } from './ListItemButton';
 import { Truncated } from '-/components/Truncated';
 import { useId } from '-/hooks/useId';
+import { useListItemContext } from '-/hooks/useListItemContext';
 import { CommonProps, ElementProps, SetRef } from '-/types/common';
+import { ListItemContextProps } from '-/utils/listItemContext';
 
 import './list-item.scss';
 
@@ -129,17 +131,16 @@ function ListItem<As extends ElementType = ElementType>({
     ...props
 }: ElementProps<ListItemProps<As>, As>) {
     const id = useId(idProp);
+    const context = useListItemContext();
+
+    const actionable = (props.href || props.onClick) && !props.disabled && !props.readOnly;
 
     if (!label) return null;
 
     let As = as || 'div';
     if (!as && props.href) As = 'a';
 
-    let role = roleProp;
-    if (!roleProp && props.onClick && As !== 'button' && As !== 'label' && !props.href && props.tabIndex === undefined)
-        role = 'button';
-
-    const actionable = (props.href || props.onClick) && !props.disabled && !props.readOnly;
+    const role = roleProp || roleLogic({ as: As, props, context });
 
     return (
         <As
@@ -175,5 +176,35 @@ function ListItem<As extends ElementType = ElementType>({
 ListItem.Button = ListItemButton;
 
 export { ListItem };
+
+function roleLogic({
+    as: As,
+    props,
+    context,
+}: {
+    as: unknown | 'a' | 'div';
+    props: {
+        href?: string;
+        onClick?: (event: MouseEvent<HTMLElement>) => void;
+        disabled?: boolean;
+        readOnly?: boolean;
+        tabIndex?: number;
+    };
+    context?: ListItemContextProps;
+}): HTMLAttributes<HTMLElement>['role'] | undefined {
+    if (context?.role) {
+        if (context.role === 'listbox') return 'option';
+        if (context.role === 'menu') return 'menuitem';
+        if (context.role === 'tree') return 'treeitem';
+        if (context.role === 'radiogroup') return 'radio';
+        if (context.role === 'navigation') return 'link';
+    }
+
+    if (props.href) return As !== 'a' ? 'link' : undefined;
+
+    if (props.onClick && As !== 'button' && As !== 'label') return 'button';
+
+    return undefined;
+}
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

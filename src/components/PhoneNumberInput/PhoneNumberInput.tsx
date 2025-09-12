@@ -16,7 +16,9 @@ const SELECT_OPTIONS: MenuListItem[] = countryCodes.map((code) => {
     return {
         id: code,
         label: `${countryCodeDetails?.name}`,
-        leading: countryCodeDetails?.flagIconName ? <SvgIcon name={countryCodeDetails?.flagIconName} /> : null,
+        leading: countryCodeDetails?.flagIconName ? (
+            <SvgIcon aria-hidden name={countryCodeDetails?.flagIconName} />
+        ) : null,
         trailing: `(+${getCountryCallingCode(code)})`,
     };
 });
@@ -116,6 +118,7 @@ export function PhoneNumberInput({
                     };
                 })
             }
+            label="Select country code"
             role="listbox"
             scrollLimit={10}
             width="reference"

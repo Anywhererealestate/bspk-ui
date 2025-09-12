@@ -141,8 +141,9 @@ export function Select({
     'aria-errormessage': ariaErrorMessage,
     scrollLimit,
     ...props
-}: ElementProps<SelectProps, 'button'>) {
+}: ElementProps<SelectProps, 'div'>) {
     const id = useId(propId);
+    const menuId = useMemo(() => `select-${id}-menu`, [id]);
 
     const items = useItems({
         value,
@@ -150,7 +151,7 @@ export function Select({
         isMulti,
         selectAll,
         onChange,
-        id,
+        id: menuId,
     });
 
     const selectedItem: MenuListItem | undefined = useMemo(() => {
@@ -165,7 +166,7 @@ export function Select({
     return (
         <ListItemMenu
             activeElementId={isMulti ? undefined : selectedItem?.id}
-            id={`select-${id}-menu`}
+            id={menuId}
             items={({ setShow }) => {
                 if (isMulti) return items;
                 return items.map((item) => ({
@@ -177,16 +178,17 @@ export function Select({
                     },
                 }));
             }}
+            label={label}
             owner="select"
             role="listbox"
             scrollLimit={scrollLimit || 5}
         >
-            {(toggleProps, { setRef }) => {
+            {(toggleProps, { setRef, show }) => {
                 return (
                     <>
                         <span style={{ display: 'none' }}>{description}</span>
                         <input defaultValue={value} name={name} type="hidden" />
-                        <span
+                        <div
                             {...props}
                             aria-describedby={ariaDescribedBy || undefined}
                             aria-disabled={disabled || readOnly}
@@ -198,6 +200,10 @@ export function Select({
                             id={id}
                             ref={setRef}
                             {...toggleProps}
+                            aria-controls={(show && menuId) || undefined}
+                            aria-expanded={toggleProps['aria-expanded']}
+                            aria-haspopup="listbox"
+                            role="combobox"
                         >
                             <ListItem
                                 data-bspk-owner="select"
@@ -211,7 +217,7 @@ export function Select({
                             <span data-icon>
                                 <SvgChevronRight />
                             </span>
-                        </span>
+                        </div>
                     </>
                 );
             }}

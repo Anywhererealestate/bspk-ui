@@ -18,6 +18,12 @@ export type MenuProps = CommonProps<'id' | 'owner'> & {
      * @required
      */
     children: ReactNode;
+    /**
+     * A label for the menu for screen readers.
+     *
+     * @required
+     */
+    label: string;
 };
 
 /**
@@ -30,7 +36,7 @@ export type MenuProps = CommonProps<'id' | 'owner'> & {
  *
  *     export function Example() {
  *         return (
- *             <Menu scroll={false}>
+ *             <Menu>
  *                 <ListItem label="List Item" />
  *                 <ListItem label="List Item" />
  *                 <ListItem label="List Item" />
@@ -47,6 +53,7 @@ export function Menu({
     id: idProp,
     children,
     owner,
+    label,
     ...props
 }: ElementProps<MenuProps, 'div'>) {
     const menuId = useId(idProp);
@@ -54,12 +61,11 @@ export function Menu({
     return (
         <div
             {...props}
+            aria-label={label}
             data-bspk-owner={owner || undefined}
             data-bspk-utility="menu"
             id={menuId}
-            ref={(node) => {
-                if (node) innerRef?.(node);
-            }}
+            ref={innerRef}
         >
             {children}
         </div>
