@@ -22,6 +22,7 @@
 }
 
 :root {
+    --z-index-snackbar: 1200;
     --z-index-focus: 9999;
     --z-index-tooltip-popover: 1100;
     --z-index-dialog: 1000;
@@ -339,6 +340,10 @@ body[data-bspk] {
     100% {
         transform: translateY(0);
     }
+}
+
+[data-hidden] {
+    display: none !important;
 }
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

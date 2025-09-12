@@ -1,5 +1,5 @@
 import { AccordionProps } from '.';
-import { createExampleChildElement } from '-/utils/createExampleChildElement';
+import { Avatar } from '-/components/Avatar';
 import { ComponentExampleFn } from '-/utils/demo';
 
 const AccordionContent = () => (
@@ -15,9 +15,17 @@ export const presets = [
         propState: {
             items: [
                 {
+                    id: '1',
+                    title: `Section 1`,
+                    subtitle: 'Subtitle',
+                    children: <AccordionContent />,
+                },
+                {
                     id: '2',
                     title: 'Section 2',
                     children: <AccordionContent />,
+                    leading: <Avatar name="Avatar" size="small" />,
+                    trailing: <span>Trailing</span>,
                 },
                 {
                     id: '3',
@@ -31,6 +39,11 @@ export const presets = [
         label: 'Multiple Sections with 1 disabled',
         propState: {
             items: [
+                {
+                    id: '1',
+                    title: `Section 1`,
+                    children: <AccordionContent />,
+                },
                 { id: '2', title: 'Section 2', disabled: true, children: <AccordionContent /> },
                 { id: '3', title: 'Section 3', children: <AccordionContent /> },
             ],
@@ -40,6 +53,11 @@ export const presets = [
         label: 'Multiple Sections with 1 disabled and open',
         propState: {
             items: [
+                {
+                    id: '1',
+                    title: `Section 1`,
+                    children: <AccordionContent />,
+                },
                 { id: '2', title: 'Section 2', disabled: true, isOpen: true, children: <AccordionContent /> },
                 { id: '3', title: 'Section 3', children: <AccordionContent /> },
             ],
@@ -47,42 +65,28 @@ export const presets = [
     },
 ];
 
-export const AccordionExample: ComponentExampleFn<AccordionProps> = ({ action, setState }) => ({
+export const AccordionExample: ComponentExampleFn<AccordionProps> = () => ({
     containerStyle: { minHeight: 225 },
-    render: ({ props, Component, id, preset }) => {
-        const trailing = createExampleChildElement({
-            exampleState: props,
-            name: 'trailing',
-            setState,
-            action,
-            id,
-        });
-        const leading = createExampleChildElement({
-            exampleState: props,
-            name: 'leading',
-            setState,
-            action,
-            id,
-        });
-
-        return (
-            <>
-                <Component
-                    {...props}
-                    items={[
-                        {
-                            id: '1',
-                            title: `Section 1`,
-                            leading: leading.element,
-                            trailing: trailing.element,
-                            children: <AccordionContent />,
-                        },
-                        ...(props.items ?? []),
-                    ]}
-                    key={preset?.label}
-                />
-            </>
-        );
+    defaultState: {
+        items: [
+            {
+                id: '1',
+                title: `Section 1`,
+                children: <AccordionContent />,
+            },
+            {
+                id: '2',
+                title: 'Section 2',
+                children: <AccordionContent />,
+                leading: <Avatar name="Avatar" size="small" />,
+                trailing: <span>Trailing</span>,
+            },
+            {
+                id: '3',
+                title: 'Section 3',
+                children: <AccordionContent />,
+            },
+        ],
     },
     presets,
     variants: false,

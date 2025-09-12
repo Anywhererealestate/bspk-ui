@@ -65,7 +65,7 @@ export type UseFloatingProps = {
     /**
      * When set to true, the width of the floating element will match the width of the reference element.
      *
-     * @default true
+     * @default false
      */
     refWidth?: boolean;
     /** Whether to hide the floating element. */
@@ -90,7 +90,7 @@ export function useFloating<ReferenceElementType extends HTMLElement = HTMLEleme
     arrowRef,
     strategy = 'fixed',
     offsetOptions = 0,
-    refWidth = true,
+    refWidth = false,
     hide = false,
 }: UseFloatingProps): {
     elements: UseFloatingElements<ReferenceElementType>;
@@ -157,15 +157,13 @@ export function useFloating<ReferenceElementType extends HTMLElement = HTMLEleme
                     arrowRef?.current && arrow({ element: arrowRef.current, padding: 8 }),
                     offset(offsetOptions),
                     flip(),
-                    refWidth &&
-                        size({
-                            apply({ rects, elements }: MiddlewareState) {
-                                if (refWidth)
-                                    Object.assign(elements.floating.style, {
-                                        width: `${rects.reference.width}px`,
-                                    });
-                            },
-                        }),
+                    size({
+                        apply({ rects, elements }: MiddlewareState) {
+                            Object.assign(elements.floating.style, {
+                                width: refWidth ? `${rects.reference.width}px` : undefined,
+                            });
+                        },
+                    }),
                 ],
             }).then((value: ComputePositionReturn) => {
                 setFloatingStyles(() => ({

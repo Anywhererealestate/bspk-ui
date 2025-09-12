@@ -16,6 +16,7 @@ export type TooltipTriggerProps = {
     onMouseOver?: () => void;
     onMouseLeave?: () => void;
     onFocus?: () => void;
+    onBlur?: () => void;
     'aria-describedby'?: string;
 };
 
@@ -80,6 +81,7 @@ export function Tooltip({
         offsetOptions: showTail ? 8 : 4,
         arrowRef,
         hide: !show,
+        refWidth: false,
     });
 
     const child = children(
@@ -89,6 +91,7 @@ export function Tooltip({
                   onMouseOver: () => setShow(true),
                   onMouseLeave: () => setShow(false),
                   onFocus: () => setShow(true),
+                  onBlur: () => setShow(false),
                   'aria-describedby': id,
               },
     );

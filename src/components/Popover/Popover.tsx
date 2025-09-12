@@ -89,7 +89,7 @@ export function Popover({
     secondaryCallToAction,
     children,
     disabled = false,
-    refWidth = false,
+    refWidth,
     ...props
 }: ElementProps<PopoverProps, 'div'>) {
     const id = useId();
@@ -102,7 +102,7 @@ export function Popover({
         offsetOptions: 22,
         arrowRef,
         hide: !show,
-        refWidth: refWidth,
+        refWidth,
     });
 
     useOutsideClick({
