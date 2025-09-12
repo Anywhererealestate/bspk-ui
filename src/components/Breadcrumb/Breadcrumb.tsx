@@ -1,8 +1,10 @@
 import { SvgChevronRight } from '@bspk/icons/ChevronRight';
 import { SvgMoreHoriz } from '@bspk/icons/MoreHoriz';
 
+import { useMemo } from 'react';
 import { Button } from '-/components/Button';
 import { Link } from '-/components/Link';
+import { ListItemGroupProps } from '-/components/ListItemGroup';
 import { ListItemMenu } from '-/components/ListItemMenu';
 import { Txt } from '-/components/Txt';
 import { useId } from '-/hooks/useId';
@@ -32,32 +34,33 @@ export type BreadcrumbItem = {
     href: string;
 };
 
-export type BreadcrumbProps = CommonProps<'id'> & {
-    /**
-     * The array of breadcrumb items.
-     *
-     * If **less than 2** items are provided, the component will not render.
-     *
-     * @example
-     *     [
-     *         { label: 'Level 1', href: '#level-1' },
-     *         { label: 'Level 2', href: '#level-2' },
-     *         { label: 'Level 3', href: '#level-3' },
-     *         { label: 'Level 4', href: '#level-4' },
-     *         { label: 'Level 5', href: '#level-5' },
-     *         { label: 'Level 6', href: '#level-6' },
-     *         { label: 'Level 7', href: '#level-7' },
-     *         { label: 'Level 8', href: '#level-8' },
-     *         { label: 'Level 9', href: '#level-9' },
-     *         { label: 'Level 10', href: '#level-10' },
-     *     ];
-     *
-     * @type Array<BreadcrumbItem>
-     * @required
-     */
+export type BreadcrumbProps = CommonProps<'id'> &
+    Pick<ListItemGroupProps, 'scrollLimit'> & {
+        /**
+         * The array of breadcrumb items.
+         *
+         * If **less than 2** items are provided, the component will not render.
+         *
+         * @example
+         *     [
+         *         { label: 'Level 1', href: '#level-1' },
+         *         { label: 'Level 2', href: '#level-2' },
+         *         { label: 'Level 3', href: '#level-3' },
+         *         { label: 'Level 4', href: '#level-4' },
+         *         { label: 'Level 5', href: '#level-5' },
+         *         { label: 'Level 6', href: '#level-6' },
+         *         { label: 'Level 7', href: '#level-7' },
+         *         { label: 'Level 8', href: '#level-8' },
+         *         { label: 'Level 9', href: '#level-9' },
+         *         { label: 'Level 10', href: '#level-10' },
+         *     ];
+         *
+         * @type Array<BreadcrumbItem>
+         * @required
+         */
 
-    items: BreadcrumbItem[];
-};
+        items: BreadcrumbItem[];
+    };
 
 /**
  * Used to indicate the current page's location within a navigational hierarchy.
@@ -87,15 +90,18 @@ export type BreadcrumbProps = CommonProps<'id'> & {
  * @name Breadcrumb
  * @phase UXReview
  */
-export function Breadcrumb({ id: propId, items: itemsProp }: BreadcrumbProps) {
+export function Breadcrumb({ id: propId, items: itemsProp = [], scrollLimit }: BreadcrumbProps) {
     const id = useId(propId);
-    const items = Array.isArray(itemsProp) ? itemsProp : [];
+    const items = useMemo(
+        () =>
+            (Array.isArray(itemsProp) ? itemsProp : []).map((item, index) => ({
+                ...item,
+                id: `breadcrumb-${id}-item-${index + 1}`,
+            })),
+        [id, itemsProp],
+    );
 
-    const middleItems = items
-        .slice(1, items.length - 1)
-        .map((item, index) => ({ ...item, id: `breadcrumb-${id}-item-${index + 1}` }));
-
-    if (items.length < 2) return null; // No items to render
+    if (items.length < 2) return null;
 
     return (
         <nav aria-label="Breadcrumb" data-bspk="breadcrumb" id={id}>
@@ -108,7 +114,7 @@ export function Breadcrumb({ id: propId, items: itemsProp }: BreadcrumbProps) {
                     <li>
                         <ListItemMenu
                             items={({ setShow }) =>
-                                middleItems.map((item) => ({
+                                items.slice(1, items.length - 1).map((item) => ({
                                     ...item,
                                     onClick: () => setShow(false),
                                 }))
@@ -116,19 +122,18 @@ export function Breadcrumb({ id: propId, items: itemsProp }: BreadcrumbProps) {
                             owner="Breadcrumb"
                             placement="bottom"
                             role="navigation"
-                            scrollLimit={5}
+                            scrollLimit={scrollLimit}
                             width="200px"
                         >
-                            {(triggerProps, { setRef }) => (
+                            {(triggerProps, { setRef, itemCount }) => (
                                 <Button
                                     {...triggerProps}
                                     icon={<SvgMoreHoriz />}
                                     iconOnly
                                     innerRef={setRef}
-                                    label={`Access to ${middleItems.length} pages`}
+                                    label={`Access to ${itemCount} pages`}
                                     onClick={triggerProps.onClick}
                                     size="small"
-                                    toolTip={`${middleItems.length} pages`}
                                     variant="tertiary"
                                 />
                             )}
@@ -136,7 +141,7 @@ export function Breadcrumb({ id: propId, items: itemsProp }: BreadcrumbProps) {
                         <SvgChevronRight aria-hidden />
                     </li>
                 ) : (
-                    middleItems.map((item, idx) => (
+                    items.slice(1, items.length - 1).map((item, idx) => (
                         <li key={`Breadcrumb-${idx}`}>
                             <Link {...item} />
                             <SvgChevronRight aria-hidden />

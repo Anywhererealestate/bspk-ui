@@ -13,8 +13,6 @@ import { KeysCallback } from '-/utils/handleKeyDown';
 /** Props for the toggle element that opens the ListItemMenu. */
 export type ToggleProps = Pick<
     AriaAttributes,
-    | 'aria-activedescendant'
-    | 'aria-controls'
     | 'aria-disabled'
     | 'aria-errormessage'
     | 'aria-expanded'
@@ -47,6 +45,8 @@ export type InternalToggleProps = {
      * is not provided, it will toggle the current state.
      */
     toggleMenu: (force?: boolean) => void;
+    /** The number of items in the menu. */
+    itemCount: number;
 };
 
 /**
@@ -177,6 +177,24 @@ export function ListItemMenu({
         } as MenuListItem;
     });
 
+    const [openAriaProps, setOpenAriaProps] = useState<Pick<ToggleProps, 'aria-haspopup' | 'aria-owns'>>(
+        {} as ToggleProps,
+    );
+
+    useEffect(() => {
+        setOpenAriaProps(
+            show
+                ? {
+                      'aria-owns': menuId,
+                      'aria-haspopup': 'true',
+                  }
+                : ({
+                      'aria-owns': undefined,
+                      'aria-haspopup': 'true',
+                  } as Pick<ToggleProps, 'aria-haspopup' | 'aria-owns'>),
+        );
+    }, [menuId, show]);
+
     if (items.length === 0 && !menuLeading && !menuTrailing)
         return children({} as ToggleProps, {
             setRef: elements.setReference,
@@ -185,20 +203,18 @@ export function ListItemMenu({
                     if (typeof force === 'boolean') return force;
                     return !prev;
                 }),
+            itemCount: 0,
         });
 
     return (
         <>
             {children(
                 {
-                    'aria-activedescendant': activeElementId || undefined,
-                    'aria-controls': (show && menuId) || undefined,
                     'aria-disabled': disabled || undefined,
                     'aria-expanded': show,
-                    'aria-haspopup': true,
-                    'aria-owns': menuId,
+                    'aria-haspopup': 'true',
                     'aria-readonly': readOnly || undefined,
-                    role: 'combobox',
+                    ...openAriaProps,
                     tabIndex: 0,
                     onClick: () => {
                         const nextShow = !show;
@@ -217,6 +233,7 @@ export function ListItemMenu({
                 {
                     setRef: elements.setReference,
                     toggleMenu: () => setShow(true),
+                    itemCount: items.length,
                 },
             )}
             {show && (
@@ -224,7 +241,9 @@ export function ListItemMenu({
                     <Menu
                         data-placement={currentPlacement}
                         id={menuId}
-                        innerRef={elements.setFloating}
+                        innerRef={(node) => {
+                            elements.setFloating(node);
+                        }}
                         owner={owner}
                         role={role}
                         style={{

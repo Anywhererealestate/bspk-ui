@@ -15,6 +15,8 @@ export type ListItemGroupProps = {
      * The maximum number of items to display before enabling scrolling.
      *
      * If false, max height will not be constrained and scrolling will be disabled.
+     *
+     * @default 10
      */
     scrollLimit?: number | false;
     /** A ref callback to receive the container element. */
@@ -41,7 +43,7 @@ export type ListItemGroupProps = {
  */
 export function ListItemGroup({
     items,
-    scrollLimit,
+    scrollLimit = 10,
     innerRef,
     activeElementId,
     innerRefs,
