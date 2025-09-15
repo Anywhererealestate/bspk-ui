@@ -21,7 +21,7 @@
         "lint": "eslint && tsc --noEmit && stylelint '**/*.scss'",
         "lint:fix": "eslint --fix",
         "semantic-release": "semantic-release",
-        "test": "NODE_NO_WARNINGS=1 node --experimental-vm-modules ./node_modules/.bin/jest",
+        "test": "NODE_NO_WARNINGS=1 NODE_OPTIONS=\"$NODE_OPTIONS --experimental-vm-modules\" npx jest",
         "prepare": "husky",
         "pre:commit": "tsx .scripts/pre-commit.ts",
         "meta": "tsx meta.ts",
