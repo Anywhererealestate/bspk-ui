@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { FileUpload, FileUploadProps } from '.';
-import { ComponentExampleFn } from '-/utils/demo';
+import { ComponentExampleFn, Preset } from '-/utils/demo';
 import { FileEntry } from '-/utils/fileUploads';
 import { randomNumber } from '-/utils/random';
 
-export const presets = [
+export const presets: Preset<FileUploadProps>[] = [
     {
         label: 'multiple files',
         propState: {

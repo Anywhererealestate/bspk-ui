@@ -1,6 +1,6 @@
 import { AccordionProps } from '.';
 import { Avatar } from '-/components/Avatar';
-import { ComponentExampleFn } from '-/utils/demo';
+import { ComponentExampleFn, Preset } from '-/utils/demo';
 
 const AccordionContent = () => (
     <p>
@@ -9,7 +9,7 @@ const AccordionContent = () => (
     </p>
 );
 
-export const presets = [
+export const presets: Preset<AccordionProps>[] = [
     {
         label: 'Multiple Sections',
         propState: {

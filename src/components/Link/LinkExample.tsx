@@ -3,9 +3,9 @@ import { Fragment } from 'react';
 import { LinkProps, Link } from '.';
 import { Txt } from '-/components/Txt';
 import { useId } from '-/hooks/useId';
-import { ComponentExample } from '-/utils/demo';
+import { ComponentExample, Preset } from '-/utils/demo';
 
-export const presets = [];
+export const presets: Preset<LinkProps>[] = [];
 
 export const LinkExample: ComponentExample<LinkProps> = {
     containerStyle: {

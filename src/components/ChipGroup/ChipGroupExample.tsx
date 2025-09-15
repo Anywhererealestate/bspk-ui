@@ -13,9 +13,9 @@ import { ChipGroup, ChipGroupProps } from '-/components/ChipGroup';
 import { ChipInput } from '-/components/ChipInput';
 import { ChipSuggestion } from '-/components/ChipSuggestion';
 import { ChipUtility } from '-/components/ChipUtility';
-import { ComponentExampleFn } from '-/utils/demo';
+import { ComponentExampleFn, Preset } from '-/utils/demo';
 
-export const presets = [
+export const presets: Preset<ChipGroupProps>[] = [
     { label: 'wrap', propState: { wrap: true } },
     { label: 'scroll', propState: { wrap: false } },
     { label: 'suggestion', propState: { wrap: true } },

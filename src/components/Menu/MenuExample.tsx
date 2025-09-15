@@ -12,10 +12,9 @@ import { Avatar } from '-/components/Avatar';
 import { Divider } from '-/components/Divider';
 import { ListItem } from '-/components/ListItem';
 import { Switch } from '-/components/Switch';
-import { ElementProps } from '-/types/common';
-import { ComponentExampleFn } from '-/utils/demo';
+import { ComponentExampleFn, Preset } from '-/utils/demo';
 
-export const presets = [
+export const presets: Preset<MenuProps>[] = [
     {
         label: 'Scroll = False',
         propState: {
@@ -38,7 +37,7 @@ export const presets = [
     },
 ];
 
-export const MenuExample: ComponentExampleFn<ElementProps<MenuProps, 'div'> & { 'data-dark-mode': boolean }> = ({
+export const MenuExample: ComponentExampleFn<MenuProps & { style?: unknown; 'data-dark-mode'?: boolean }> = ({
     action,
 }) => ({
     render: ({ props, Component, setState }) => {

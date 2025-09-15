@@ -1,7 +1,7 @@
 import { CheckboxGroupProps } from '.';
-import { ComponentExample } from '-/utils/demo';
+import { ComponentExample, Preset } from '-/utils/demo';
 
-export const presets = [
+export const presets: Preset<CheckboxGroupProps>[] = [
     {
         label: 'With Descriptions',
         propState: {

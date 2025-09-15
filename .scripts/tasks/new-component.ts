@@ -97,9 +97,9 @@ const componentExampleFilePath = path.join(componentDirectoryPath, `${componentN
 fs.writeFileSync(
     componentExampleFilePath,
     `import { ${componentName}Props } from '.';
-import { ComponentExample } from '-/utils/demo';
+import { ComponentExample, Preset } from '-/utils/demo';
 
-export const presets = [];
+export const presets: Preset<${componentName}Props>[] = [];
 
 export const ${componentName}Example: ComponentExample<${componentName}Props> = {
     containerStyle: { width: '100%' },
@@ -146,6 +146,6 @@ fs.writeFileSync(path.resolve('./package.json'), JSON.stringify(packageJsonData,
 
 console.info(`\n${componentName} component generated at ${componentFilePath}`);
 
-function capitalizeFirstLetter(val) {
+function capitalizeFirstLetter(val: string) {
     return String(val).charAt(0).toUpperCase() + String(val).slice(1);
 }

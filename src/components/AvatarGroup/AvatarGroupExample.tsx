@@ -1,13 +1,13 @@
 import { AvatarGroupProps } from '.';
 import { COLOR_VARIANTS } from '-/utils/colorVariants';
-import { ComponentExample } from '-/utils/demo';
+import { ComponentExample, Preset } from '-/utils/demo';
 
 const BLUE = COLOR_VARIANTS[4];
 const GREEN = COLOR_VARIANTS[5];
 const GREY = COLOR_VARIANTS[0];
 const PURPLE = COLOR_VARIANTS[10];
 
-export const presets = [
+export const presets: Preset<AvatarGroupProps>[] = [
     {
         label: 'Stacked',
         propState: {

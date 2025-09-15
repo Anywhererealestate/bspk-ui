@@ -7,14 +7,12 @@ describe('TabGroup (RTL)', () => {
     presets.forEach((preset) => {
         it(
             `has no basic a11y issues - ${preset.label}`,
-            hasNoBasicA11yIssues(<TabGroup label="Example label" onChange={() => {}} {...preset.propState} />),
+            hasNoBasicA11yIssues(<TabGroup onChange={() => {}} {...preset.propState} />),
         );
     });
 
     it('renders', () => {
-        const { getByLabelText } = render(
-            <TabGroup label="Example label" onChange={() => {}} {...presets[0].propState} />,
-        );
+        const { getByLabelText } = render(<TabGroup onChange={() => {}} {...presets[0].propState} />);
 
         expect(getByLabelText('Example label')).toBeInTheDocument();
     });

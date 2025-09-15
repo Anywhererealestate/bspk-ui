@@ -1,7 +1,7 @@
 import { ChipAssistProps } from '.';
-import { ComponentExampleFn } from '-/utils/demo';
+import { ComponentExampleFn, Preset } from '-/utils/demo';
 
-export const presets = [
+export const presets: Preset<ChipAssistProps>[] = [
     {
         label: 'Basic ChipAssist',
         propState: {

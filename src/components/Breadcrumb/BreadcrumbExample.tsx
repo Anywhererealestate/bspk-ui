@@ -1,7 +1,7 @@
 import { BreadcrumbProps } from '.';
-import { ComponentExample } from '-/utils/demo';
+import { ComponentExample, Preset } from '-/utils/demo';
 
-export const presets = [
+export const presets: Preset<BreadcrumbProps>[] = [
     {
         label: '1 Item (nothing visible)',
         propState: {

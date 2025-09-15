@@ -5,7 +5,7 @@ import { SvgSquare } from '@bspk/icons/Square';
 import { SvgSquareFill } from '@bspk/icons/SquareFill';
 
 import { TabGroupProps } from '.';
-import { ComponentExample } from '-/utils/demo';
+import { ComponentExample, Preset } from '-/utils/demo';
 
 const PRESET_OPTIONS: TabGroupProps['options'] = [
     {
@@ -48,7 +48,7 @@ const OPTION_ICONS = [
     },
 ];
 
-export const presets = [
+export const presets: Preset<TabGroupProps>[] = [
     {
         label: 'With icons',
         propState: {
@@ -58,6 +58,7 @@ export const presets = [
                 icon: OPTION_ICONS[index].icon,
                 iconSelected: OPTION_ICONS[index].iconSelected,
             })),
+            label: 'Tabs with icons',
         },
     },
     {
@@ -68,6 +69,7 @@ export const presets = [
                 ...option,
                 badge: Math.round((index + 1) * 2.6),
             })),
+            label: 'Tabs with badges',
         },
     },
     {
@@ -80,6 +82,7 @@ export const presets = [
                 iconSelected: OPTION_ICONS[index].iconSelected,
                 badge: Math.round((index + 1) * 2.6),
             })),
+            label: 'Tabs with icons & badges',
         },
     },
     {
@@ -90,6 +93,7 @@ export const presets = [
                 ...option,
                 label: `${option.label} with a very long label that never seems to end and goes on forever`,
             })),
+            label: 'Tabs with long text',
         },
     },
 ];

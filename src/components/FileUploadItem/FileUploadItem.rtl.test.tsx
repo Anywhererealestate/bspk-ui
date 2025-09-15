@@ -7,12 +7,12 @@ describe('FileUploadItem (RTL)', () => {
     presets.forEach((preset) => {
         it(
             `has no basic a11y issues - ${preset.label}`,
-            hasNoBasicA11yIssues(<FileUploadItem id="1" onCancel={() => {}} {...preset.propState} />),
+            hasNoBasicA11yIssues(<FileUploadItem onCancel={() => {}} {...preset.propState} />),
         );
     });
 
     it('renders', () => {
-        const { getByText } = render(<FileUploadItem id="1" onCancel={() => {}} {...presets[0].propState} />);
+        const { getByText } = render(<FileUploadItem onCancel={() => {}} {...presets[0].propState} />);
 
         expect(getByText('Close')).toBeInTheDocument();
     });

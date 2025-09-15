@@ -1,8 +1,8 @@
 import { SvgPerson } from '@bspk/icons/Person';
 import { ButtonProps } from '.';
-import { ComponentExample } from '-/utils/demo';
+import { ComponentExample, Preset } from '-/utils/demo';
 
-export const presets = [
+export const presets: Preset<ButtonProps>[] = [
     {
         label: 'Icon & Text',
         propState: {

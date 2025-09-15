@@ -1,7 +1,7 @@
 import { RatingProps } from './Rating';
-import { ComponentExampleFn } from '-/utils/demo';
+import { ComponentExampleFn, Preset } from '-/utils/demo';
 
-export const presets = [
+export const presets: Preset<RatingProps>[] = [
     {
         label: 'Non interactive',
         propState: {

@@ -1,7 +1,7 @@
 import { ChipInputProps } from '.';
-import { ComponentExampleFn } from '-/utils/demo';
+import { ComponentExampleFn, Preset } from '-/utils/demo';
 
-export const presets = [
+export const presets: Preset<ChipInputProps>[] = [
     {
         label: 'Basic ChipInput',
         propState: {

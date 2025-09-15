@@ -5,7 +5,7 @@ import { SvgSquare } from '@bspk/icons/Square';
 import { SvgSquareFill } from '@bspk/icons/SquareFill';
 
 import { SegmentedControlOption, SegmentedControlProps } from '.';
-import { ComponentExample } from '-/utils/demo';
+import { ComponentExample, Preset } from '-/utils/demo';
 
 const PRESET_OPTIONS: SegmentedControlOption[] = [
     {
@@ -28,22 +28,30 @@ const PRESET_OPTIONS: SegmentedControlOption[] = [
     },
 ];
 
-export const presets = [
+export const presets: Preset<SegmentedControlProps>[] = [
     {
         label: 'With icons',
         propState: {
+            options: PRESET_OPTIONS,
             iconsOnly: undefined,
+            label: 'With icons',
+            value: '1',
         },
     },
     {
         label: 'Icons only',
         propState: {
+            label: 'Icons only',
+            value: '1',
+            options: PRESET_OPTIONS,
             iconsOnly: true,
         },
     },
     {
         label: 'Long label text',
         propState: {
+            label: 'Long label text',
+            value: '1',
             iconsOnly: undefined,
             options: PRESET_OPTIONS.map((option) => ({
                 ...option,
