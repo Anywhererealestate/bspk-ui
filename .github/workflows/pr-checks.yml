@@ -47,5 +47,8 @@ jobs:
             - name: Check CSS variables
               run: npx tsx .scripts/check-css-vars.ts
 
+            - name: Tests
+              run: npm run test
+
             - name: Run build
               run: npm run build

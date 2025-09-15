@@ -28,7 +28,7 @@
         "pretty": "npx prettier --write src/",
         "newc": "tsx .scripts/tasks/new-component.ts",
         "clean": "tsx .scripts/clean.ts",
-        "pr-check": "npx tsx .scripts/tasks/lint-components.ts && npm run lint && npm run lint:css && npx tsx .scripts/check-css-vars.ts && npm run build"
+        "pr-check": "npx tsx .scripts/tasks/lint-components.ts && npm run lint && npm run lint:css && npm run test && npx tsx .scripts/check-css-vars.ts && npm run build"
     },
     "static-exports": {
         "./*": "./dist/*.js"
