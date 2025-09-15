@@ -1,7 +1,7 @@
 import { DateInputProps } from '.';
-import { ComponentExample } from '-/utils/demo';
+import { ComponentExample, Preset } from '-/utils/demo';
 
-export const presets = [];
+export const presets: Preset<DateInputProps>[] = [];
 
 export const DateInputExample: ComponentExample<DateInputProps> = {
     defaultState: {},

@@ -1,8 +1,8 @@
 import { EmptyStateProps } from '.';
 import { ExamplePlaceholder } from '-/components/ExamplePlaceholder';
-import { ComponentExampleFn } from '-/utils/demo';
+import { ComponentExampleFn, Preset } from '-/utils/demo';
 
-export const presets = [
+export const presets: Preset<EmptyStateProps>[] = [
     {
         label: 'With Custom Content',
         propState: {
@@ -29,11 +29,11 @@ export const EmptyStateExample: ComponentExampleFn<EmptyStateProps> = ({ action 
         {
             label: 'With CallToAction',
             propState: {
+                body: 'Example body',
+                header: 'Example header',
                 callToAction: {
                     label: 'Add payment method',
                     onClick: () => action('Add payment method clicked!'),
-                    body: 'Example body',
-                    header: 'Example header',
                 },
                 children: undefined,
             },

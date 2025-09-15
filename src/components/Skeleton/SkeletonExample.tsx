@@ -3,9 +3,9 @@ import { SkeletonProps, SkeletonVariant } from '.';
 import { Avatar } from '-/components/Avatar';
 import { ExamplePlaceholder } from '-/components/ExamplePlaceholder';
 import { useTimeout } from '-/hooks/useTimeout';
-import { ComponentExample, ComponentExampleRenderProps } from '-/utils/demo';
+import { ComponentExample, ComponentExampleRenderProps, Preset } from '-/utils/demo';
 
-export const presets = [
+export const presets: Preset<SkeletonProps>[] = [
     {
         label: 'Loading Transition',
         propState: {

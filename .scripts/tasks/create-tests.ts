@@ -1,3 +1,10 @@
+/* eslint-disable no-console */
+/**
+ * This script generates a new component test with all the expected boilerplate.
+ *
+ * $ npx tsx .scripts/tasks/.scripts/tasks/create-tests.ts
+ */
+
 import path from 'path';
 import fs from 'fs';
 

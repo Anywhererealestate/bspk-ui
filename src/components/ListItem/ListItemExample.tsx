@@ -1,11 +1,10 @@
 import { ElementType } from 'react';
 import { ListItem, ListItemProps } from './ListItem';
 import { createExampleChildElement } from '-/utils/createExampleChildElement';
-import { ComponentExampleFn } from '-/utils/demo';
+import { ComponentExampleFn, Preset } from '-/utils/demo';
 
-export const presets = [
+export const presets: Preset<ListItemProps>[] = [
     {
-        value: 'long-label',
         label: 'Long Label',
         propState: {
             label: 'This is a really long label that should be truncated if it exceeds the width of the ListItem',

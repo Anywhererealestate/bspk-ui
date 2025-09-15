@@ -2,9 +2,9 @@
 
 import { SkeletonTextProps } from '.';
 import { useTimeout } from '-/hooks/useTimeout';
-import { ComponentExample } from '-/utils/demo';
+import { ComponentExample, Preset } from '-/utils/demo';
 
-export const presets = [
+export const presets: Preset<SkeletonTextProps>[] = [
     {
         label: 'Loading Transition',
         propState: {

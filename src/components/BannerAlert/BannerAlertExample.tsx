@@ -17,6 +17,8 @@ export const BannerAlertExample: ComponentExampleFn<BannerAlertProps> = ({ actio
         {
             label: 'With CallToAction',
             propState: {
+                header: 'With CallToAction Header',
+                body: 'With CallToAction body',
                 callToAction: {
                     label: 'Click me',
                     onClick: () => action('Call to action clicked!'),
@@ -26,6 +28,8 @@ export const BannerAlertExample: ComponentExampleFn<BannerAlertProps> = ({ actio
         {
             label: 'Without OnClose',
             propState: {
+                header: 'Without OnClose Header',
+                body: 'Without OnClose body',
                 onClose: undefined,
             },
         },

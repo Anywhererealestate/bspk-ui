@@ -1,7 +1,7 @@
 import { ChipSuggestionProps } from '.';
-import { ComponentExampleFn } from '-/utils/demo';
+import { ComponentExampleFn, Preset } from '-/utils/demo';
 
-export const presets = [
+export const presets: Preset<ChipSuggestionProps>[] = [
     {
         label: 'ChipSuggestion example',
         propState: {

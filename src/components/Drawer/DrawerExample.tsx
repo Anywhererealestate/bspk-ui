@@ -1,8 +1,8 @@
 import { Drawer, DrawerProps } from '.';
 import { Button } from '-/components/Button';
-import { ComponentExampleFn } from '-/utils/demo';
+import { ComponentExampleFn, Preset } from '-/utils/demo';
 
-export const presets = [
+export const presets: Preset<DrawerProps>[] = [
     {
         label: 'Left Responsive',
         propState: { closeButton: true, modal: false, placement: 'left' as DrawerProps['placement'] },

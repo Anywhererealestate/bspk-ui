@@ -2,11 +2,11 @@ import { useState } from 'react';
 import { FileUploadItem } from './FileUploadItem';
 import { FileUploadItemProps } from '.';
 import { useTimeout } from '-/hooks/useTimeout';
-import { ComponentExampleFn } from '-/utils/demo';
+import { ComponentExampleFn, Preset } from '-/utils/demo';
 import { FileUploadStatus } from '-/utils/fileUploads';
 import { randomNumber } from '-/utils/random';
 
-export const presets = [
+export const presets: Preset<FileUploadItemProps>[] = [
     {
         label: 'long file name',
         propState: {
@@ -14,6 +14,7 @@ export const presets = [
             status: 'uploading' as FileUploadStatus,
             cancelButtonLabel: 'Close',
             fileSize: 10,
+            id: '10',
         },
     },
     {
@@ -23,6 +24,7 @@ export const presets = [
             status: 'uploading' as FileUploadStatus,
             fileSize: 1.2,
             cancelButtonLabel: 'Cancel',
+            id: '1.2',
         },
     },
     {
@@ -32,6 +34,7 @@ export const presets = [
             status: 'complete' as FileUploadStatus,
             cancelButtonLabel: 'Bye',
             fileSize: 42,
+            id: '42',
         },
     },
     {
@@ -42,6 +45,7 @@ export const presets = [
             errorMessage: 'File too large. Please upload a smaller file.',
             cancelButtonLabel: 'Escape',
             fileSize: 10000000,
+            id: '10000000',
         },
     },
 ];

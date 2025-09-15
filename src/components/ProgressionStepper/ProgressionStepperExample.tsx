@@ -1,11 +1,11 @@
 import { ProgressionStepperProps } from '.';
-import { ComponentExample } from '-/utils/demo';
+import { ComponentExample, Preset } from '-/utils/demo';
 
-export const presets = [
+export const presets: Preset<ProgressionStepperProps>[] = [
     {
         label: 'Horizontal',
         propState: {
-            variant: 'horizontal' as ProgressionStepperProps['variant'],
+            variant: 'horizontal',
             currentStep: 2,
             steps: [{ name: 'Name of step 1' }, { name: 'Name of step 2' }, { name: 'Name of step 3' }],
         },
@@ -13,7 +13,7 @@ export const presets = [
     {
         label: 'Vertical',
         propState: {
-            variant: 'vertical' as ProgressionStepperProps['variant'],
+            variant: 'vertical',
             currentStep: 2,
             steps: [
                 {
@@ -34,7 +34,7 @@ export const presets = [
     {
         label: 'Widget',
         propState: {
-            variant: 'widget' as ProgressionStepperProps['variant'],
+            variant: 'widget',
             currentStep: 3,
             steps: [
                 { name: 'Name of step 1' },

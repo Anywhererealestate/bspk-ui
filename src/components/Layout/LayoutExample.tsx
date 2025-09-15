@@ -1,7 +1,7 @@
 import { LayoutProps } from './Layout';
-import { ComponentExample } from '-/utils/demo';
+import { ComponentExample, Preset } from '-/utils/demo';
 
-export const presets = [];
+export const presets: Preset<LayoutProps>[] = [];
 
 export const LayoutExample: ComponentExample<LayoutProps> = {
     render: ({ props, Component }) => {

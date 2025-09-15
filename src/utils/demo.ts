@@ -111,13 +111,13 @@ export type ComponentExampleFn<Props = Record<string, unknown>> = (params: {
     componentsMeta: ComponentMeta[];
 }) => ComponentExample<Props>;
 
+export type OnHandlers = `on${string}`;
+
 export type Preset<Props> = {
     /** The name of the preset. This is used to display the preset in the UI. */
     label: string;
     /** The props of the component. This is used to set props of the component. These values can't be changed in the UI. */
-    propState?: Partial<Props>;
-    /** Determines if the preset is the default preset. This is used to set the initial propState of the component. */
-    isDefault?: boolean;
+    propState: Omit<Props, OnHandlers | 'children'> & Record<string, Record<string, unknown> | unknown>;
 };
 
 export type DemoPreset<P = Record<string, unknown>> = Preset<P> & {

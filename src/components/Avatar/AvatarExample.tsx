@@ -1,7 +1,7 @@
 import { AvatarProps } from '.';
-import { ComponentExample } from '-/utils/demo';
+import { ComponentExample, Preset } from '-/utils/demo';
 
-export const presets = [
+export const presets: Preset<AvatarProps>[] = [
     {
         label: 'Name Only',
         propState: {
