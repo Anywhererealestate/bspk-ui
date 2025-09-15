@@ -14,6 +14,6 @@ describe('TabGroup (RTL)', () => {
     it('renders', () => {
         const { getByLabelText } = render(<TabGroup onChange={() => {}} {...presets[0].propState} />);
 
-        expect(getByLabelText('Example label')).toBeInTheDocument();
+        expect(getByLabelText(presets[0].propState.label)).toBeInTheDocument();
     });
 });
