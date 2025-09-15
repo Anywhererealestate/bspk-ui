@@ -3,3 +3,5 @@ import jestAxe from 'jest-axe';
 
 const { toHaveNoViolations } = jestAxe;
 expect.extend(toHaveNoViolations);
+
+jest.useFakeTimers();

@@ -1,4 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */ import { SvgContentCopy } from '@bspk/icons/ContentCopy';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { SvgContentCopy } from '@bspk/icons/ContentCopy';
 import { SvgDiamond } from '@bspk/icons/Diamond';
 import { DemoAction, DemoSetState } from './demo';
 

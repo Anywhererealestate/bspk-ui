@@ -38,17 +38,17 @@ jobs:
             - name: Lint Components
               run: npx tsx .scripts/tasks/lint-components.ts
 
-            - name: Run eslint and prettier
+            - name: Run ESLint and Prettier
               run: npm run lint
 
-            - name: Run stylelint
+            - name: Run StyleLint
               run: npm run lint:css
 
-            - name: Check CSS variables
+            - name: Check CSS Variables
               run: npx tsx .scripts/check-css-vars.ts
 
             - name: Run Tests
               run: npm run test
 
-            - name: Run build
+            - name: Run Build
               run: npm run build
