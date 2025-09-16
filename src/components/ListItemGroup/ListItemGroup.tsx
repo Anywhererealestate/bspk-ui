@@ -15,11 +15,15 @@ export type ListItemGroupProps = {
     /**
      * The maximum number of items to display before enabling scrolling.
      *
+     * If the number of items is less than the scrollLimit, scrolling will be disabled.
+     *
      * If false, max height will not be constrained and scrolling will be disabled.
+     *
+     * If true, scrolling will be enabled after 10 items.
      *
      * @default 10
      */
-    scrollLimit?: number | false;
+    scrollLimit?: boolean | number;
     /** A ref callback to receive the container element. */
     innerRef?: SetRef<HTMLElement | undefined>;
     /** The ID of the currently highlighted item. */
@@ -55,6 +59,7 @@ export function ListItemGroup({
     activeElementId,
     innerRefs,
     context,
+    ...props
 }: ElementProps<ListItemGroupProps, 'div'>) {
     const maxCount =
         typeof scrollLimit === 'number' && items.length > scrollLimit && scrollLimit > 0 ? scrollLimit : undefined;
@@ -62,6 +67,7 @@ export function ListItemGroup({
     return (
         <ListItemContext.Provider value={{ ...context, selectable: true }}>
             <div
+                {...props}
                 data-bspk-utility="list-item-group"
                 data-scroll={!!maxCount}
                 ref={(node) => {
@@ -70,6 +76,7 @@ export function ListItemGroup({
                     innerRefs?.(Array.from(node.children) as HTMLElement[]);
                 }}
                 style={cssWithVars({
+                    ...props.style,
                     '--max-display-count': maxCount,
                 })}
             >

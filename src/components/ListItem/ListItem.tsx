@@ -1,4 +1,12 @@
-import { AnchorHTMLAttributes, ElementType, ReactNode, MouseEvent, AriaAttributes, HTMLAttributes } from 'react';
+import {
+    AnchorHTMLAttributes,
+    ElementType,
+    ReactNode,
+    MouseEvent,
+    AriaAttributes,
+    HTMLAttributes,
+    AriaRole,
+} from 'react';
 import { ListItemButton } from './ListItemButton';
 import { Truncated } from '-/components/Truncated';
 import { useId } from '-/hooks/useId';
@@ -22,7 +30,7 @@ export type ListItemProps<As extends ElementType = ElementType> = CommonProps<
         /**
          * The leading element to display in the ListItem.
          *
-         * Leading elements may only be one of the following [Icon](/icons), Img, Avatar.
+         * Leading elements should only be one of the following [Icon](/icons), Img, Avatar.
          *
          * @exampleType select
          * @options Icon, Img, Avatar
@@ -39,8 +47,8 @@ export type ListItemProps<As extends ElementType = ElementType> = CommonProps<
         /**
          * The trailing element to display in the ListItem.
          *
-         * Trailing elements may only be one of the following [Icon](/icons), Checkbox, ListItemButton, Radio, Switch,
-         * Tag, Txt.
+         * Trailing elements should only be one of the following [Icon](/icons), Checkbox, ListItemButton, Radio,
+         * Switch, Tag, Txt.
          *
          * @exampleType select
          * @options Checkbox, Icon, ListItemButton, Radio, Switch, Tag, Txt
@@ -63,7 +71,7 @@ export type ListItemProps<As extends ElementType = ElementType> = CommonProps<
          * If including other focusable elements (e.g. buttons, links) in the leading or trailing slots, the role should
          * be set explicitly to something other than 'button'.
          */
-        role?: string;
+        role?: AriaRole;
         /** Callback function that is called when the ListItem is clicked. */
         onClick?: (event: MouseEvent<HTMLElement>) => void;
         /**
@@ -89,9 +97,9 @@ export type ListItemProps<As extends ElementType = ElementType> = CommonProps<
  *
  * The ListItem has three main elements: leading element, label, and trailing element.
  *
- * Leading elements may be one of the following [Icon](/icons), Img, Avatar.
+ * Leading elements should be one of the following [Icon](/icons), Img, Avatar.
  *
- * Trailing elements may be one of the following [Icon](/icons), Checkbox, ListItemButton, Radio, Switch, Tag, Txt.
+ * Trailing elements should be one of the following [Icon](/icons), Checkbox, ListItemButton, Radio, Switch, Tag, Txt.
  *
  * The ListItemButton is a more limited Button with context specific options.
  *

@@ -23,10 +23,10 @@ export type SearchBarProps = Pick<ListItemMenuProps, 'scrollLimit'> &
         /**
          * Handler for state updates.
          *
-         * @type (value: String) => void
+         * @type (id: String) => void
          * @required
          */
-        onChange: (value: string) => void;
+        onChange: (id: string) => void;
         /*
          * Handler for item selection.
          *
@@ -39,16 +39,16 @@ export type SearchBarProps = Pick<ListItemMenuProps, 'scrollLimit'> &
          *
          * @example
          *     [
-         *         { value: '1', label: 'Apple Pie' },
-         *         { value: '2', label: 'Banana Split' },
-         *         { value: '3', label: 'Cherry Tart' },
-         *         { value: '4', label: 'Dragonfruit Sorbet' },
-         *         { value: '5', label: 'Elderberry Jam' },
-         *         { value: '6', label: 'Fig Newton' },
-         *         { value: '7', label: 'Grape Soda' },
-         *         { value: '8', label: 'Honeydew Smoothie' },
-         *         { value: '9', label: 'Ice Cream Sandwich' },
-         *         { value: '10', label: 'Jackfruit Pudding' },
+         *         { id: '1', label: 'Apple Pie' },
+         *         { id: '2', label: 'Banana Split' },
+         *         { id: '3', label: 'Cherry Tart' },
+         *         { id: '4', label: 'Dragonfruit Sorbet' },
+         *         { id: '5', label: 'Elderberry Jam' },
+         *         { id: '6', label: 'Fig Newton' },
+         *         { id: '7', label: 'Grape Soda' },
+         *         { id: '8', label: 'Honeydew Smoothie' },
+         *         { id: '9', label: 'Ice Cream Sandwich' },
+         *         { id: '10', label: 'Jackfruit Pudding' },
          *     ];
          *
          * @type Array<MenuListItem>
@@ -78,16 +78,16 @@ export type SearchBarProps = Pick<ListItemMenuProps, 'scrollLimit'> &
  *             <SearchBar
  *                 aria-label="Example aria-label"
  *                 items={[
- *                     { value: '1', label: 'Apple Pie' },
- *                     { value: '2', label: 'Banana Split' },
- *                     { value: '3', label: 'Cherry Tart' },
- *                     { value: '4', label: 'Dragonfruit Sorbet' },
- *                     { value: '5', label: 'Elderberry Jam' },
- *                     { value: '6', label: 'Fig Newton' },
- *                     { value: '7', label: 'Grape Soda' },
- *                     { value: '8', label: 'Honeydew Smoothie' },
- *                     { value: '9', label: 'Ice Cream Sandwich' },
- *                     { value: '10', label: 'Jackfruit Pudding' },
+ *                     { id: '1', label: 'Apple Pie' },
+ *                     { id: '2', label: 'Banana Split' },
+ *                     { id: '3', label: 'Cherry Tart' },
+ *                     { id: '4', label: 'Dragonfruit Sorbet' },
+ *                     { id: '5', label: 'Elderberry Jam' },
+ *                     { id: '6', label: 'Fig Newton' },
+ *                     { id: '7', label: 'Grape Soda' },
+ *                     { id: '8', label: 'Honeydew Smoothie' },
+ *                     { id: '9', label: 'Ice Cream Sandwich' },
+ *                     { id: '10', label: 'Jackfruit Pudding' },
  *                 ]}
  *                 name="Example name"
  *                 placeholder="Search"
@@ -126,7 +126,7 @@ export function SearchBar({
                 <ListItemMenu
                     disabled={disabled}
                     items={({ setShow }) =>
-                        (items || []).map((item) => ({
+                        (items || []).map(({ ...item }) => ({
                             ...item,
                             onClick: () => {
                                 onSelect(item);

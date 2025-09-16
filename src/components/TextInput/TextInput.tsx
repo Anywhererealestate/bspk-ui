@@ -182,7 +182,6 @@ export function TextInput({
                     label="Clear"
                     onClick={() => {
                         onChange('');
-                        //focusTimeout.clear();
                         inputRefInternal.current?.focus();
                     }}
                     size={size}

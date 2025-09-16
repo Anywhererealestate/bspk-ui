@@ -9,7 +9,7 @@ export function menuItemId(menuId: string, index: number) {
     return `menu-${menuId}-item-${index}`;
 }
 
-export type MenuProps = CommonProps<'id' | 'owner'> & {
+export type MenuProps = CommonProps<'id' | 'owner' | 'role'> & {
     /** A ref to the inner div element. */
     innerRef?: SetRef<HTMLDivElement>;
     /**
@@ -21,9 +21,9 @@ export type MenuProps = CommonProps<'id' | 'owner'> & {
     /**
      * A label for the menu for screen readers.
      *
-     * @required
+     * This is required if the role is set to "menu" or "listbox".
      */
-    label: string;
+    label?: string;
 };
 
 /**
@@ -61,7 +61,7 @@ export function Menu({
     return (
         <div
             {...props}
-            aria-label={label}
+            aria-label={label || undefined}
             data-bspk-owner={owner || undefined}
             data-bspk-utility="menu"
             id={menuId}

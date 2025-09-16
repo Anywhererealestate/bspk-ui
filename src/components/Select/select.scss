@@ -40,7 +40,7 @@
         }
     }
 
-    [data-bspk='list-item'][data-placeholder] {
+    [data-bspk='list-item'][data-bspk-owner='select'] {
         background: transparent;
     }
 

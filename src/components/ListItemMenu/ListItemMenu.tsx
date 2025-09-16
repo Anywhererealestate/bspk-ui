@@ -13,6 +13,7 @@ import { KeysCallback } from '-/utils/handleKeyDown';
 /** Props for the toggle element that opens the ListItemMenu. */
 export type ToggleProps = Pick<
     AriaAttributes,
+    | 'aria-activedescendant'
     | 'aria-disabled'
     | 'aria-errormessage'
     | 'aria-expanded'
@@ -73,14 +74,14 @@ export type ListItemMenuProps = CommonProps<'disabled' | 'readOnly'> &
         /**
          * The element that the menu is anchored to.
          *
-         * @required
+         * @default listbox
          */
-        role: HTMLAttributes<HTMLElement>['role'];
+        role?: HTMLAttributes<HTMLElement>['role'];
         /**
          * The width of the menu. If 'reference' is provided, the menu will match the width of the useFloating reference
          * element.
          *
-         * @required
+         * @default reference
          */
         width?: CSSProperties['width'] | 'reference';
         /**
@@ -98,7 +99,7 @@ export type ListItemMenuProps = CommonProps<'disabled' | 'readOnly'> &
          */
         leading?: ReactNode;
         /**
-         * Trailing content to display in the floating menu element after the ListItems.
+         * Content to display in the floating menu element after the ListItems.
          *
          * If provided `scrollLimit` will be ignored.
          */
@@ -146,13 +147,13 @@ export function ListItemMenu({
     scrollLimit,
     children,
     owner,
-    role: menuRole,
+    role: role = 'listbox',
     disabled,
     readOnly,
-    width: menuWidth,
+    width: menuWidth = 'reference',
     id: menuIdProps,
     placement = 'bottom',
-    offsetOptions,
+    offsetOptions = 4,
     trailing: menuTrailing,
     leading: menuLeading,
     activeElementId: activeElementIdProp = null,
@@ -194,37 +195,18 @@ export function ListItemMenu({
     });
 
     const items = (typeof itemsProp === 'function' ? itemsProp({ setShow }) : itemsProp).map((item, index) => {
-        const itemId = item.id || `list-item-menu-${menuId}-item-${index + 1}`;
+        const itemId = `list-item-menu-${menuId}-item-${item.id || index + 1}`;
         return {
-            ...item,
-            id: itemId,
-            onClick: (event) => {
-                item.onClick?.(event);
+            onClick: () => {
                 elements.reference?.focus();
                 setActiveElementId(itemId);
             },
+            ...item,
+            id: itemId,
             tabIndex: 0,
-            role: menuRole === 'listbox' ? 'option' : item.role || undefined,
+            role: role === 'listbox' ? 'option' : item.role || undefined,
         } as MenuListItem;
     });
-
-    const [openAriaProps, setOpenAriaProps] = useState<Pick<ToggleProps, 'aria-haspopup' | 'aria-owns'>>(
-        {} as ToggleProps,
-    );
-
-    useEffect(() => {
-        setOpenAriaProps(
-            show
-                ? {
-                      'aria-owns': menuId,
-                      'aria-haspopup': 'true',
-                  }
-                : ({
-                      'aria-owns': undefined,
-                      'aria-haspopup': 'true',
-                  } as Pick<ToggleProps, 'aria-haspopup' | 'aria-owns'>),
-        );
-    }, [menuId, show]);
 
     if (items.length === 0 && !menuLeading && !menuTrailing)
         return children({} as ToggleProps, {
@@ -243,9 +225,11 @@ export function ListItemMenu({
                 {
                     'aria-disabled': disabled || undefined,
                     'aria-expanded': show,
-                    'aria-haspopup': 'true',
+                    'aria-haspopup': 'listbox',
                     'aria-readonly': readOnly || undefined,
-                    ...openAriaProps,
+                    'aria-owns': menuId,
+                    'aria-activedescendant': show ? activeElementId || undefined : undefined,
+                    role: 'combobox',
                     tabIndex: 0,
                     onClick: () => {
                         const nextShow = !show;
@@ -275,22 +259,23 @@ export function ListItemMenu({
                         innerRef={(node) => {
                             elements.setFloating(node);
                         }}
-                        label={label}
                         owner={owner}
-                        role={menuRole}
                         style={{
                             width: menuWidth !== 'reference' ? menuWidth : undefined,
                             ...floatingStyles,
                         }}
                         tabIndex={-1}
                         {...ariaProps}
+                        role="presentation"
                     >
                         {menuLeading}
                         <ListItemGroup
                             activeElementId={activeElementId}
-                            context={{ role: menuRole }}
+                            aria-label={label}
+                            context={{ role }}
                             innerRefs={setElements}
                             items={items}
+                            role={role}
                             scrollLimit={!menuLeading && !menuTrailing && scrollLimit}
                         />
                         {menuTrailing}

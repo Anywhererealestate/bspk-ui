@@ -35,7 +35,7 @@ export type FormFieldProps = CommonProps<'invalid' | 'required'> & {
 /**
  * Wrapper component for form controls.
  *
- * Children may be one of the following: TextInput, Select, DateInput or TimeInput.
+ * Children should be one of the following: TextInput, Select, DateInput or TimeInput.
  *
  * @example
  *     import { TextInput } from '@bspk/ui/TextInput';
