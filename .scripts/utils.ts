@@ -3,10 +3,14 @@ import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { ComponentMeta, TypeMeta } from '../.tmp';
 
 globalThis.__dirname = globalThis.__dirname || path.dirname(fileURLToPath(import.meta.url));
 
-export async function getLocalMeta(force = false) {
+export async function getLocalMeta(force = false): Promise<{
+    componentsMeta: ComponentMeta[];
+    typesMeta: TypeMeta[];
+}> {
     const tempDir = path.resolve(process.cwd(), '.tmp');
 
     if (force || !fs.existsSync(`${tempDir}/index.ts`)) {

@@ -1,6 +1,8 @@
 import { DialogProps } from '.';
 import { Button } from '-/components/Button';
-import { ComponentExample } from '-/utils/demo';
+import { ComponentExample, Preset } from '-/utils/demo';
+
+export const presets: Preset<DialogProps>[] = [];
 
 export const DialogExample: ComponentExample<DialogProps> = {
     render: ({ props, setState, Component }) => {
@@ -15,4 +17,5 @@ export const DialogExample: ComponentExample<DialogProps> = {
         );
     },
     variants: false,
+    presets,
 };

@@ -13,17 +13,19 @@ import { ChipGroup, ChipGroupProps } from '-/components/ChipGroup';
 import { ChipInput } from '-/components/ChipInput';
 import { ChipSuggestion } from '-/components/ChipSuggestion';
 import { ChipUtility } from '-/components/ChipUtility';
-import { ComponentExampleFn } from '-/utils/demo';
+import { ComponentExampleFn, Preset } from '-/utils/demo';
+
+export const presets: Preset<ChipGroupProps>[] = [
+    { label: 'wrap', propState: { wrap: true } },
+    { label: 'scroll', propState: { wrap: false } },
+    { label: 'suggestion', propState: { wrap: true } },
+    { label: 'assist', propState: { wrap: true } },
+    { label: 'input', propState: { wrap: true } },
+    { label: 'filter', propState: { wrap: true } },
+];
 
 export const ChipGroupExample: ComponentExampleFn<ChipGroupProps> = ({ action }) => ({
-    presets: [
-        { label: 'wrap', propState: { wrap: true } },
-        { label: 'scroll', propState: { wrap: false } },
-        { label: 'suggestion', propState: { wrap: true } },
-        { label: 'assist', propState: { wrap: true } },
-        { label: 'input', propState: { wrap: true } },
-        { label: 'filter', propState: { wrap: true } },
-    ],
+    presets,
     // containerStyle: { width: '100%' },
     render: ({ props, preset }) => {
         if (!preset) return null;

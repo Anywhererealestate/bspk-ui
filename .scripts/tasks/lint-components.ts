@@ -102,8 +102,7 @@ componentsMeta.forEach(({ name, slug, phase }) => {
 
         // find duplicate property descriptions
         const duplicatePropertyDescriptions = props.properties.filter(
-            (prop: { description: string }, index: number, self: { description: string }[]) =>
-                self.findIndex((prop2) => prop2.description === prop.description) !== index,
+            (prop, index, self) => self.findIndex((prop2) => prop2.description === prop.description) !== index,
         );
 
         if (duplicatePropertyDescriptions.length > 0) {

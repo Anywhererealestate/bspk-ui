@@ -19,6 +19,8 @@ export const PopoverExample: ComponentExampleFn<PopoverProps> = ({ action }) => 
         {
             label: 'With CallToAction',
             propState: {
+                header: 'With CallToAction',
+                content: 'With CallToAction body',
                 callToAction: {
                     label: 'CTA Button',
                     onClick: () => action('Call to action clicked!'),
@@ -28,6 +30,8 @@ export const PopoverExample: ComponentExampleFn<PopoverProps> = ({ action }) => 
         {
             label: 'With both CallToActions',
             propState: {
+                header: 'With both CallToActions',
+                content: 'With both CallToActions body',
                 callToAction: {
                     label: 'Primary',
                     onClick: () => action('Primary call to action clicked!'),

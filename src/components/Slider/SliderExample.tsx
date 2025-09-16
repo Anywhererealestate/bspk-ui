@@ -30,6 +30,7 @@ export const SliderExample: ComponentExample<SliderProps<number | [number, numbe
                 step: 1,
                 value: 30,
                 formatNumber: (num) => `$${num}`,
+                name: 'basic-slider',
             },
         },
         {
@@ -43,6 +44,7 @@ export const SliderExample: ComponentExample<SliderProps<number | [number, numbe
                 formatNumber: (num) => {
                     return `${num}%`;
                 },
+                name: 'range-slider',
             },
         },
         {
@@ -57,6 +59,7 @@ export const SliderExample: ComponentExample<SliderProps<number | [number, numbe
                     if (context === 'max') return `${num}% Passing`;
                     return `${num}%`;
                 },
+                name: 'undefined-slider',
             },
         },
     ],
