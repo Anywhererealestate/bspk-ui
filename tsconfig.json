@@ -2,7 +2,10 @@
     "compilerOptions": {
         "module": "ES2020",
         "target": "ES2020",
-        "lib": ["es5", "dom"],
+        "lib": [
+            "es5",
+            "dom"
+        ],
         "jsx": "react-jsx",
         "moduleResolution": "node",
         "noImplicitReturns": true,
@@ -17,18 +20,46 @@
         "rootDir": "./src",
         "outDir": "./dist",
         "paths": {
-            "-/components/*": ["./src/components/*"],
-            "-/hooks/*": ["./src/hooks/*"],
-            "-/styles/*": ["./src/styles/*"],
-            "-/utils/*": ["./src/utils/*"],
-            "-/types/*": ["./src/types/*"],
-            "-/constants/*": ["./src/constants/*"],
-            "-/rtl/*": ["./src/rtl/*"]
+            "-/components/*": [
+                "./src/components/*"
+            ],
+            "-/hooks/*": [
+                "./src/hooks/*"
+            ],
+            "-/styles/*": [
+                "./src/styles/*"
+            ],
+            "-/utils/*": [
+                "./src/utils/*"
+            ],
+            "-/types/*": [
+                "./src/types/*"
+            ],
+            "-/constants/*": [
+                "./src/constants/*"
+            ],
+            "-/rtl/*": [
+                "./src/rtl/*"
+            ]
         },
         "moduleDetection": "auto",
-        "types": ["node", "jest", "@testing-library/jest-dom"]
+        "types": [
+            "node",
+            "jest",
+            "@testing-library/jest-dom"
+        ]
     },
-    "typeRoots": ["./node_modules/@types", "./types"],
-    "include": ["src/**/*"],
-    "exclude": ["node_modules", "dist", "acceptance-tests", "package", "src/**/*.spec.ts", "src/**/*.test.ts"]
+    "typeRoots": [
+        "./node_modules/@types",
+        "./types"
+    ],
+    "include": [
+        "src/**/*"
+    ],
+    "exclude": [
+        "node_modules",
+        "dist",
+        "src/**/*.spec.ts",
+        "src/**/*.test.ts"
+    ]
 }
