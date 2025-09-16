@@ -1,11 +1,7 @@
-// import { ReactNode, useMemo, useRef } from 'react';
-import { ReactNode, useRef } from 'react';
+import { ReactNode } from 'react';
 
-import { Portal, PortalProps } from '-/components/Portal';
 import { useId } from '-/hooks/useId';
-import { useOutsideClick } from '-/hooks/useOutsideClick';
 import { CommonProps, ElementProps, SetRef } from '-/types/common';
-import { cssWithVars } from '-/utils/cwv';
 
 import './menu.scss';
 
@@ -13,48 +9,22 @@ export function menuItemId(menuId: string, index: number) {
     return `menu-${menuId}-item-${index}`;
 }
 
-export type MenuProps = CommonProps<'id' | 'owner'> &
-    Pick<PortalProps, 'container'> & {
-        /** A ref to the inner div element. */
-        innerRef?: SetRef<HTMLDivElement>;
-        /**
-         * The items to display in the menu. These should be ListItem and Divider components.
-         *
-         * @required
-         */
-        children: ReactNode;
-        /**
-         * Should the menu be rendered in a portal? This is useful for menus that need to be rendered outside of the
-         * normal DOM flow, such as dropdowns or modals.
-         *
-         * @default true
-         */
-        portal?: boolean;
-        /** The number of items to show in the menu. This is used to determine the height of the menu. */
-        itemDisplayCount?: number;
-        /** The number of items in the menu. */
-        itemCount?: number;
-        /**
-         * Whether the menu is rendered as a floating element.
-         *
-         * @default true
-         */
-        floating?: boolean;
-        /**
-         * A function that is called when the user clicks outside of the menu.
-         *
-         * @required
-         */
-        onOutsideClick: () => void;
-        /**
-         * Whether or not the menu is scrollable.
-         *
-         * Setting to false will override itemDisplayCount.
-         *
-         * @default false
-         */
-        scroll?: boolean;
-    };
+export type MenuProps = CommonProps<'id' | 'owner' | 'role'> & {
+    /** A ref to the inner div element. */
+    innerRef?: SetRef<HTMLDivElement>;
+    /**
+     * The items to display in the menu. These should be ListItem and Divider components.
+     *
+     * @required
+     */
+    children: ReactNode;
+    /**
+     * A label for the menu for screen readers.
+     *
+     * This is required if the role is set to "menu" or "listbox".
+     */
+    label?: string;
+};
 
 /**
  * A container housing a simple list of options presented to the customer to select one option at a time.
@@ -66,7 +36,7 @@ export type MenuProps = CommonProps<'id' | 'owner'> &
  *
  *     export function Example() {
  *         return (
- *             <Menu scroll={false}>
+ *             <Menu>
  *                 <ListItem label="List Item" />
  *                 <ListItem label="List Item" />
  *                 <ListItem label="List Item" />
@@ -82,53 +52,24 @@ export function Menu({
     innerRef,
     id: idProp,
     children,
-    portal = true,
-    itemDisplayCount,
-    itemCount = 1,
-    floating = true,
-    onOutsideClick,
     owner,
-    scroll: scrollProp = false,
-    container,
+    label,
     ...props
 }: ElementProps<MenuProps, 'div'>) {
     const menuId = useId(idProp);
 
-    const menuElement = useRef(null as HTMLDivElement | null);
-
-    useOutsideClick({
-        elements: [menuElement.current],
-        callback: () => onOutsideClick?.(),
-        disabled: !onOutsideClick,
-    });
-
-    const overflows =
-        typeof itemDisplayCount === 'number' && typeof itemCount === 'number' && itemCount > itemDisplayCount;
-
-    const menu = (
-        <>
-            <div
-                {...props}
-                data-bspk="menu"
-                data-bspk-owner={owner || undefined}
-                data-floating={floating || undefined}
-                data-scroll={scrollProp || overflows || undefined}
-                id={menuId}
-                ref={(node) => {
-                    innerRef?.(node);
-                    menuElement.current = node;
-                }}
-                style={cssWithVars({
-                    ...props.style,
-                    '--item-display-count': overflows ? itemDisplayCount : undefined,
-                })}
-            >
-                {children}
-            </div>
-        </>
+    return (
+        <div
+            {...props}
+            aria-label={label || undefined}
+            data-bspk-owner={owner || undefined}
+            data-bspk-utility="menu"
+            id={menuId}
+            ref={innerRef}
+        >
+            {children}
+        </div>
     );
-
-    return portal ? <Portal container={container}>{menu}</Portal> : menu;
 }
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

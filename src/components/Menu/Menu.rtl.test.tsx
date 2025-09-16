@@ -7,20 +7,12 @@ describe('Menu (RTL)', () => {
     presets.forEach((preset) => {
         it(
             `has no basic a11y issues - ${preset.label}`,
-            hasNoBasicA11yIssues(
-                <Menu onOutsideClick={() => {}} {...preset.propState}>
-                    Menu Children
-                </Menu>,
-            ),
+            hasNoBasicA11yIssues(<Menu {...preset.propState}>Menu Children</Menu>),
         );
     });
 
     it('renders', () => {
-        const { getByText } = render(
-            <Menu onOutsideClick={() => {}} {...presets[0].propState}>
-                Menu Children
-            </Menu>,
-        );
+        const { getByText } = render(<Menu {...presets[0].propState}>Menu Children</Menu>);
 
         expect(getByText('Menu Children')).toBeInTheDocument();
     });

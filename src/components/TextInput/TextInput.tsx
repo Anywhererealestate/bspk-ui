@@ -1,7 +1,8 @@
 import { SvgCancel } from '@bspk/icons/Cancel';
-import { ChangeEvent, HTMLInputTypeAttribute, ReactNode } from 'react';
-
+import { ChangeEvent, HTMLInputTypeAttribute, ReactNode, useMemo, useRef, useState } from 'react';
+import { Button } from '-/components/Button';
 import { useId } from '-/hooks/useId';
+import { useTimeout } from '-/hooks/useTimeout';
 import { CommonProps, ElementProps, FormFieldControlProps, SetRef } from '-/types/common';
 
 import './text-input.scss';
@@ -103,7 +104,7 @@ export function TextInput({
     disabled,
     autoComplete = DEFAULT.autoComplete,
     containerRef,
-    showClearButton = true,
+    showClearButton: showClearButtonProp = true,
     owner,
     'aria-describedby': ariaDescribedBy,
     'aria-errormessage': ariaErrorMessage,
@@ -115,16 +116,27 @@ export function TextInput({
 
     const invalid = !readOnly && !disabled && invalidProp;
 
+    const [focused, setFocused] = useState(false);
+
+    const showClearButton = useMemo(
+        () => !!(showClearButtonProp !== false && !readOnly && !disabled && value?.toString().length && focused),
+        [showClearButtonProp, readOnly, disabled, value, focused],
+    );
+
+    const inputRefInternal = useRef<HTMLInputElement | null>(null);
+
+    const focusTimeout = useTimeout();
+
     return (
         <div
             {...props}
             data-bspk="text-input"
             data-bspk-owner={owner || undefined}
-            data-clear-hidden={showClearButton === false || undefined}
             data-disabled={disabled || undefined}
             data-empty={!value.toString().length || undefined}
             data-invalid={invalid || undefined}
             data-readonly={readOnly || undefined}
+            data-show-clear-button={showClearButton || undefined}
             data-size={size}
             ref={containerRef}
         >
@@ -140,21 +152,41 @@ export function TextInput({
                 disabled={disabled || undefined}
                 id={id}
                 name={name}
+                onBlur={(event) => {
+                    focusTimeout.set(() => setFocused(false), 750);
+                    inputProps?.onBlur?.(event);
+                }}
                 onChange={(event) => {
                     onChange(event.target.value, event);
                 }}
+                onFocus={(event) => {
+                    focusTimeout.set(() => setFocused(true), 0);
+                    inputProps?.onFocus?.(event);
+                }}
                 placeholder={placeholder || ' '}
                 readOnly={readOnly || undefined}
-                ref={inputRef}
+                ref={(node) => {
+                    if (!node) return;
+                    inputRef?.(node);
+                    inputRefInternal.current = node;
+                }}
                 required={required || undefined}
                 type={type}
                 value={value || ''}
             />
             {trailing && <span data-trailing>{trailing}</span>}
-            {showClearButton !== false && (
-                <button aria-label="clear" data-clear onClick={() => onChange('')}>
-                    <SvgCancel />
-                </button>
+            {showClearButton && (
+                <Button
+                    icon={<SvgCancel />}
+                    iconOnly
+                    label="Clear"
+                    onClick={() => {
+                        onChange('');
+                        inputRefInternal.current?.focus();
+                    }}
+                    size={size}
+                    variant="tertiary"
+                />
             )}
         </div>
     );

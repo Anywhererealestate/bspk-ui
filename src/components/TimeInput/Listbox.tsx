@@ -1,10 +1,9 @@
-import { useRef, useState } from 'react';
+import { useCallback, useEffect } from 'react';
 import { TimeInputType } from './Segment';
-import { bound } from '-/utils/bound';
-import { handleKeyDown } from '-/utils/handleKeyDown';
-import { scrollElementIntoView } from '-/utils/scrollElementIntoView';
+import { useId } from '-/hooks/useId';
+import { useKeyNavigation } from '-/hooks/useKeyNavigation';
 
-type TimeInputListboxProps<T> = {
+type TimeInputListboxProps<T extends string> = {
     options: T[];
     selectedValue?: T;
     type: TimeInputType;
@@ -12,25 +11,30 @@ type TimeInputListboxProps<T> = {
     onTab?: (e: React.KeyboardEvent) => void;
 };
 
-export function TimeInputListbox<T>({ options, selectedValue, type: kind, onSelect, onTab }: TimeInputListboxProps<T>) {
-    const [activeIndex, setActiveIndex] = useState<number>(-1);
-    const listRef = useRef<HTMLDivElement | null>(null);
+export function TimeInputListbox<T extends string>({
+    options: optionsProp,
+    selectedValue,
+    type: kind,
+    onSelect,
+    onTab,
+}: TimeInputListboxProps<T>) {
+    const id = useId();
 
-    const handleArrow = (dir: 'down' | 'up') => {
-        return (e: React.KeyboardEvent) => {
-            e.preventDefault();
-            setActiveIndex((prevIndex) => {
-                const next = bound({
-                    num: prevIndex + (dir === 'down' ? 1 : -1),
-                    min: 0,
-                    max: options.length - 1,
-                    rollover: true,
-                });
-                scrollElementIntoView(listRef.current?.children[next] as HTMLElement, listRef.current!);
-                return next;
-            });
-        };
-    };
+    const { handleKeyDown, setActiveElementId, activeElementId, setElements } = useKeyNavigation({
+        Tab: onTab,
+    });
+
+    const optionId = useCallback((value: T) => `${id}-${kind}-${value}`, [id, kind]);
+
+    const options = optionsProp.map((o) => ({
+        id: optionId(o),
+        value: o,
+        label: o.toString().padStart(2, '0'),
+    }));
+
+    useEffect(() => {
+        if (selectedValue) setActiveElementId(optionId(selectedValue));
+    }, [selectedValue, id, kind, setActiveElementId, optionId]);
 
     return (
         <div
@@ -40,54 +44,32 @@ export function TimeInputListbox<T>({ options, selectedValue, type: kind, onSele
                 const target = event.target as HTMLSpanElement;
                 if (target.dataset.value) onSelect?.(target.dataset.value as T);
             }}
-            onFocus={() => {
-                if (activeIndex < 0 && options.length > 0)
-                    scrollElementIntoView(listRef.current?.children[activeIndex], listRef.current!);
-            }}
-            onKeyDown={handleKeyDown({
-                ArrowDown: handleArrow('down'),
-                ArrowUp: handleArrow('up'),
-                ArrowLeft: (e) => {
-                    e.preventDefault();
-                    const previousSibling = e.currentTarget.previousElementSibling as HTMLSpanElement;
-                    if (previousSibling) previousSibling.focus();
-                    else (e.currentTarget.parentNode?.lastElementChild as HTMLSpanElement)?.focus();
-                },
-                ArrowRight: (e) => {
-                    e.preventDefault();
-                    const nextSibling = e.currentTarget.nextElementSibling as HTMLSpanElement;
-                    if (nextSibling) nextSibling.focus();
-                    else (e.currentTarget.parentNode?.firstElementChild as HTMLSpanElement)?.focus();
-                },
-                Enter: (e) => {
-                    e.preventDefault();
-                    if (activeIndex >= 0 && activeIndex < options.length) onSelect?.(options[activeIndex]);
-                },
-                Tab: onTab,
-            })}
+            onKeyDown={handleKeyDown}
             onMouseMove={(event) => {
                 const target = event.target as HTMLSpanElement;
-                setActiveIndex(Number(target.dataset.index));
+                setActiveElementId(target.id);
                 event.currentTarget.focus();
             }}
             ref={(node) => {
-                if (!node) return;
-                listRef.current = node;
+                if (node) {
+                    setElements(Array.from(node.children) as HTMLElement[]);
+                }
             }}
             role="listbox"
             tabIndex={0}
         >
-            {options.map((val, index) => (
+            {options.map((option, index) => (
                 <span
-                    aria-label={`${val}`.padStart(2, '0')}
-                    aria-selected={`${val}` === `${selectedValue}` || undefined}
-                    data-active={activeIndex === index || undefined}
+                    aria-label={option.label}
+                    aria-selected={option.value === selectedValue || undefined}
+                    data-active={activeElementId === option.id || undefined}
                     data-index={index}
-                    data-value={val}
-                    key={`${val}`}
+                    data-value={option.value}
+                    id={option.id}
+                    key={option.id}
                     role="option"
                 >
-                    {`${val}`.padStart(2, '0')}
+                    {`${option.label}`.padStart(2, '0')}
                 </span>
             ))}
         </div>

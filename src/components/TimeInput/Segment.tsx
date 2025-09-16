@@ -9,7 +9,7 @@ export const NUMBER_PLACEHOLDER = '--' as const;
 
 export type TimeInputType = 'hours' | 'meridiem' | 'minutes';
 
-type TimeInputSegmentProps<T extends number | string> = {
+type TimeInputSegmentProps<T extends string> = {
     ariaLabel?: string;
     disabled?: boolean;
     name: string;
@@ -19,7 +19,7 @@ type TimeInputSegmentProps<T extends number | string> = {
     onChange: (value: T | null) => void;
 };
 
-export function TimeInputSegment<T extends number | string>({
+export function TimeInputSegment<T extends string>({
     ariaLabel,
     disabled,
     name,
@@ -72,9 +72,12 @@ export function TimeInputSegment<T extends number | string>({
                 num: Number(currentValue) + increment,
                 rollover: true,
                 ...(kind === 'minutes' ? MINUTE_BOUNDS : HOUR_BOUNDS),
-            });
+            })
+                .toString()
+                .padStart(2, '0');
+
             onChange(nextValue as T);
-            if (ref.current) ref.current.textContent = nextValue.toString().padStart(2, '0');
+            if (ref.current) ref.current.textContent = nextValue;
         },
         [kind, onChange],
     );
@@ -130,7 +133,7 @@ export function TimeInputSegment<T extends number | string>({
                 return;
             }
 
-            // only handle digits from here
+            // only handle digits past this point, ignore everything else
             if (!/^\d$/.test(event.key)) return;
 
             let nextNumber = Number(event.key);
@@ -148,8 +151,10 @@ export function TimeInputSegment<T extends number | string>({
                 ...(kind === 'minutes' ? MINUTE_BOUNDS : HOUR_BOUNDS),
             });
 
-            onChange(nextNumber as T);
-            if (ref.current) ref.current.textContent = nextNumber.toString().padStart(2, '0');
+            const nextValue = nextNumber.toString().padStart(2, '0');
+
+            onChange(nextValue as T);
+            if (ref.current) ref.current.textContent = nextValue;
 
             const moveToNext = (kind === 'hours' && nextNumber > 2) || (kind === 'minutes' && nextNumber > 5);
 
