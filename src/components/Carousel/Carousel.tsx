@@ -35,14 +35,6 @@ export type CarouselProps = {
      */
     width?: number | '1/2' | '3/4' | 'full';
     /**
-     * Whether to show a peek of the next item in the carousel.
-     *
-     * Ignored if width is '3/4' as it will always show a peek.
-     *
-     * @default false
-     */
-    peek?: boolean;
-    /**
      * The gap between items in pixels.
      *
      * @default 16
@@ -58,7 +50,7 @@ export type CarouselProps = {
  *
  *     function Example() {
  *         return (
- *             <Carousel label="Example Carousel" width="1/2" peek>
+ *             <Carousel label="Example Carousel" width="1/2">
  *                 <div>child 1</div>
  *                 <div>child 2</div>
  *                 <div>child 3</div>
@@ -74,7 +66,7 @@ export type CarouselProps = {
  * @phase Dev
  */
 
-export function Carousel({ label = 'carousel', children, width = 'full', peek = false, gap }: CarouselProps) {
+export function Carousel({ label = 'carousel', children, width = 'full', gap }: CarouselProps) {
     const [current, setCurrentState] = useState(0);
 
     const { items, total } = useMemo(() => {
@@ -111,7 +103,6 @@ export function Carousel({ label = 'carousel', children, width = 'full', peek = 
             aria-label={label}
             aria-roledescription="carousel"
             data-bspk="carousel"
-            data-peek={peek || undefined}
             data-width={width || 'full'}
             role="region"
             style={cssWithVars({

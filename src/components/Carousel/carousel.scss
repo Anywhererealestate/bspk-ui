@@ -13,10 +13,6 @@
     background: #fff;
     padding: 0 var(--spacing-sizing-04);
 
-    &[data-peek] {
-        --item-width: calc(100% - calc(var(--gap) * 2));
-    }
-
     --translate-x: calc(calc(var(--current-slide) * calc(var(--item-width) + var(--gap)) * -1));
 
     [data-items-container] {
