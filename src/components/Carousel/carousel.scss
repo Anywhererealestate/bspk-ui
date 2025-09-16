@@ -1,4 +1,10 @@
 [data-bspk='carousel'] {
+    /*! 
+    --current-slide: is set via inline style 
+    --gap: is set via inline style
+    --item-width: is set via inline style
+    */
+
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -7,27 +13,8 @@
     background: #fff;
     padding: 0 var(--spacing-sizing-04);
 
-    --gap: var(--spacing-sizing-04);
-    --item-width: 100%;
-
-    &[data-peak] {
+    &[data-peek] {
         --item-width: calc(100% - calc(var(--gap) * 2));
-    }
-
-    &[data-width='3/4'] {
-        --item-width: 75%;
-
-        &[data-peak] {
-            --item-width: calc(75% - calc(var(--gap) * 2));
-        }
-    }
-
-    &[data-width='1/2'] {
-        --item-width: 50%;
-
-        &[data-peak] {
-            --item-width: calc(50% - calc(var(--gap) * 1.5));
-        }
     }
 
     --translate-x: calc(calc(var(--current-slide) * calc(var(--item-width) + var(--gap)) * -1));

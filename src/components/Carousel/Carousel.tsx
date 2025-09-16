@@ -25,17 +25,29 @@ export type CarouselProps = {
     /**
      * The width of each item relative to the carousel container's width.
      *
-     * @default full
-     */
-    width?: '1/2' | '3/4' | 'full';
-    /**
-     * Whether to show a peak of the next item in the carousel.
+     * Can be a number (pixels) or one of '1/2', '3/4', or 'full'.
      *
-     * Ignored if width is '3/4' as it will always show a peak.
+     * @default full
+     *
+     * @type number
+     * @maximum 1920
+     * @minimum 156
+     */
+    width?: number | '1/2' | '3/4' | 'full';
+    /**
+     * Whether to show a peek of the next item in the carousel.
+     *
+     * Ignored if width is '3/4' as it will always show a peek.
      *
      * @default false
      */
-    peak?: boolean;
+    peek?: boolean;
+    /**
+     * The gap between items in pixels.
+     *
+     * @default 16
+     */
+    gap?: number;
 };
 
 /**
@@ -46,7 +58,7 @@ export type CarouselProps = {
  *
  *     function Example() {
  *         return (
- *             <Carousel label="Example Carousel" width="1/2" peak>
+ *             <Carousel label="Example Carousel" width="1/2" peek>
  *                 <div>child 1</div>
  *                 <div>child 2</div>
  *                 <div>child 3</div>
@@ -62,7 +74,7 @@ export type CarouselProps = {
  * @phase Dev
  */
 
-export function Carousel({ label = 'carousel', children, width = 'full', peak = false }: CarouselProps) {
+export function Carousel({ label = 'carousel', children, width = 'full', peek = false, gap }: CarouselProps) {
     const [current, setCurrentState] = useState(0);
 
     const { items, total } = useMemo(() => {
@@ -85,15 +97,28 @@ export function Carousel({ label = 'carousel', children, width = 'full', peak = 
 
     const containerRef = React.useRef<HTMLDivElement | null>(null);
 
+    const widthValue =
+        typeof width === 'number'
+            ? `${width}px`
+            : {
+                  '1/2': '50%',
+                  '3/4': '75%',
+                  full: '100%',
+              }[width];
+
     return (
         <div
             aria-label={label}
             aria-roledescription="carousel"
             data-bspk="carousel"
-            data-peak={peak || undefined}
+            data-peek={peek || undefined}
             data-width={width || 'full'}
             role="region"
-            style={cssWithVars({ '--current-slide': current })}
+            style={cssWithVars({
+                '--current-slide': current,
+                '--gap': gap || 'var(--spacing-sizing-04)',
+                '--item-width': widthValue,
+            })}
         >
             <div data-items-container>
                 <div
