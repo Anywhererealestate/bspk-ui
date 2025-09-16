@@ -9,6 +9,8 @@ import { CommonProps, ElementProps, FormFieldControlProps } from '-/types/common
 
 import './select.scss';
 
+const DEFAULT_PLACEHOLDER = 'Select one';
+
 /**
  * An option in a Select component.
  *
@@ -127,7 +129,7 @@ export function Select({
     value = [],
     onChange,
     label,
-    placeholder = 'Select one',
+    placeholder: placeholderProp,
     size = 'medium',
     disabled,
     id: propId,
@@ -144,6 +146,7 @@ export function Select({
 }: ElementProps<SelectProps, 'div'>) {
     const id = useId(propId);
     const menuId = useMemo(() => `select-${id}-menu`, [id]);
+    const placeholder = placeholderProp || DEFAULT_PLACEHOLDER;
 
     const items = useItems({
         value,

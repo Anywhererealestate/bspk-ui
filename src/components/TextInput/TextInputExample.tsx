@@ -32,4 +32,7 @@ export const TextInputExample: ComponentExample<TextInputProps> = {
             },
         },
     ],
+    variants: {
+        type: false,
+    },
 };

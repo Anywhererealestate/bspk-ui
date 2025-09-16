@@ -7,12 +7,12 @@
     border: solid 1px var(--border-color);
     height: var(--field-height);
     border-radius: var(--radius-sm);
-    padding: 0 0 0 var(--field-padding);
+    padding: 0 var(--field-padding);
     gap: var(--spacing-sizing-01);
     width: 100%;
 
-    &[data-hide-clear-button] {
-        padding-right: var(--field-padding);
+    &[data-show-clear-button] {
+        padding-right: 0;
     }
 
     & > * {
@@ -110,22 +110,6 @@
         &[type='number']::-webkit-inner-spin-button,
         &[type='number']::-webkit-outer-spin-button {
             display: none;
-        }
-    }
-
-    button[data-clear] {
-        display: flex;
-        border: none;
-        background: none;
-        padding: 0;
-        cursor: pointer;
-        pointer-events: all;
-        margin-left: var(--spacing-sizing-02);
-        padding-right: var(--field-padding);
-
-        svg {
-            pointer-events: none;
-            width: var(--field-clear-width);
         }
     }
 

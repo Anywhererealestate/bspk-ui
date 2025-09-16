@@ -64,7 +64,7 @@ export type ListItemProps<As extends ElementType = ElementType> = CommonProps<
          * be set explicitly to something other than 'button'.
          */
         role?: string;
-        /** Additional props to pass to the underlying element. */
+        /** Callback function that is called when the ListItem is clicked. */
         onClick?: (event: MouseEvent<HTMLElement>) => void;
         /**
          * The unique ID of the list item.

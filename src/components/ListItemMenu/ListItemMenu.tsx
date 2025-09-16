@@ -65,7 +65,7 @@ export type ListItemMenuProps = CommonProps<'disabled' | 'readOnly'> &
     Pick<MenuProps, 'id' | 'label' | 'owner'> &
     Pick<UseFloatingProps, 'offsetOptions' | 'placement'> & {
         /**
-         * He children to render inside the menu.
+         * The children to render inside the menu.
          *
          * @required
          */
@@ -92,13 +92,13 @@ export type ListItemMenuProps = CommonProps<'disabled' | 'readOnly'> &
          */
         items: MenuListItem[] | MenuListItemsFn;
         /**
-         * Content to display in the floating menu element before the ListItemGroup.
+         * Content to display in the floating menu element before the ListItems.
          *
          * If provided `scrollLimit` will be ignored.
          */
         leading?: ReactNode;
         /**
-         * Content to display in the floating menu element after the ListItemGroup.
+         * Trailing content to display in the floating menu element after the ListItems.
          *
          * If provided `scrollLimit` will be ignored.
          */
@@ -121,9 +121,21 @@ export type ListItemMenuProps = CommonProps<'disabled' | 'readOnly'> &
  *     import { ListItemMenu } from '@bspk/ui/ListItemMenu';
  *
  *     function Example() {
- *     return <ListItemMenu items={[]}>({ toggleProps, {setRef, toggleMenu} }) => (
- *     <button {...toggleProps} ref={setRef} onClick={() => toggleMenu()}>Toggle Menu</button>
- *     )}</ListItemMenu>;
+ *         return (
+ *             <ListItemMenu
+ *                 items={[{ id: '1', label: 'Item 1' }]}
+ *                 label="Example Menu"
+ *                 role="menu"
+ *                 scrollLimit={5}
+ *                 width="200px"
+ *             >
+ *                 {(toggleProps, { setRef, toggleMenu }) => (
+ *                     <button {...toggleProps} onClick={() => toggleMenu()} ref={setRef}>
+ *                         Toggle Menu
+ *                     </button>
+ *                 )}
+ *             </ListItemMenu>
+ *         );
  *     }
  *
  * @name ListItemMenu

@@ -1,7 +1,8 @@
 import { SvgCancel } from '@bspk/icons/Cancel';
-import { ChangeEvent, HTMLInputTypeAttribute, ReactNode, useState } from 'react';
-
+import { ChangeEvent, HTMLInputTypeAttribute, ReactNode, useMemo, useRef, useState } from 'react';
+import { Button } from '-/components/Button';
 import { useId } from '-/hooks/useId';
+import { useTimeout } from '-/hooks/useTimeout';
 import { CommonProps, ElementProps, FormFieldControlProps, SetRef } from '-/types/common';
 
 import './text-input.scss';
@@ -117,13 +118,14 @@ export function TextInput({
 
     const [focused, setFocused] = useState(false);
 
-    const showClearButton = !!(
-        showClearButtonProp !== false &&
-        !readOnly &&
-        !disabled &&
-        value?.toString().length &&
-        focused
+    const showClearButton = useMemo(
+        () => !!(showClearButtonProp !== false && !readOnly && !disabled && value?.toString().length && focused),
+        [showClearButtonProp, readOnly, disabled, value, focused],
     );
+
+    const inputRefInternal = useRef<HTMLInputElement | null>(null);
+
+    const focusTimeout = useTimeout();
 
     return (
         <div
@@ -132,9 +134,9 @@ export function TextInput({
             data-bspk-owner={owner || undefined}
             data-disabled={disabled || undefined}
             data-empty={!value.toString().length || undefined}
-            data-hide-clear-button={!showClearButton}
             data-invalid={invalid || undefined}
             data-readonly={readOnly || undefined}
+            data-show-clear-button={showClearButton || undefined}
             data-size={size}
             ref={containerRef}
         >
@@ -151,29 +153,41 @@ export function TextInput({
                 id={id}
                 name={name}
                 onBlur={(event) => {
-                    setFocused(false);
+                    focusTimeout.set(() => setFocused(false), 750);
                     inputProps?.onBlur?.(event);
                 }}
                 onChange={(event) => {
                     onChange(event.target.value, event);
                 }}
                 onFocus={(event) => {
-                    setFocused(true);
+                    focusTimeout.set(() => setFocused(true), 0);
                     inputProps?.onFocus?.(event);
                 }}
                 placeholder={placeholder || ' '}
                 readOnly={readOnly || undefined}
-                ref={inputRef}
+                ref={(node) => {
+                    if (!node) return;
+                    inputRef?.(node);
+                    inputRefInternal.current = node;
+                }}
                 required={required || undefined}
                 type={type}
                 value={value || ''}
             />
             {trailing && <span data-trailing>{trailing}</span>}
             {showClearButton && (
-                <button data-clear onClick={() => onChange('')}>
-                    <span data-sr-only>Clear</span>
-                    <SvgCancel />
-                </button>
+                <Button
+                    icon={<SvgCancel />}
+                    iconOnly
+                    label="Clear"
+                    onClick={() => {
+                        onChange('');
+                        //focusTimeout.clear();
+                        inputRefInternal.current?.focus();
+                    }}
+                    size={size}
+                    variant="tertiary"
+                />
             )}
         </div>
     );
