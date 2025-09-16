@@ -1,94 +1,44 @@
 import { CarouselProps } from '.';
+import { Button } from '-/components/Button';
 
-import { ComponentExample } from '-/utils/demo';
+import { COLOR_VARIANTS } from '-/utils/colorVariants';
+import { ComponentExampleFn } from '-/utils/demo';
 
-export const CarouselExample: ComponentExample<CarouselProps> = {
-    render: ({ props, Component }) => (
-        <Component
-            {...props}
-            itemGap={props.itemGap || 16}
-            itemWidth={props.itemWidth || 180}
-            unitOfMeasure={props.unitOfMeasure || 'px'}
+export const CarouselExample: ComponentExampleFn<CarouselProps> = ({ action }) => {
+    const Slide = ({ number }: { number: number }) => (
+        <div
+            data-color={COLOR_VARIANTS[(number + 3) % COLOR_VARIANTS.length]}
+            style={{
+                backgroundColor: 'var(--background)',
+                color: 'var(--foreground)',
+                borderRadius: '8px',
+                minHeight: '180px',
+                padding: 20,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+            }}
         >
-            <div
-                style={{
-                    background: '#F6DBFA',
-                    borderRadius: '8px',
-                    minHeight: '180px',
-                    padding: 20,
-                    textAlign: 'center',
-                }}
-            >
-                Slide 1
-            </div>
-            <div
-                style={{
-                    background: '#E7D9FC',
-                    borderRadius: '8px',
-                    minHeight: '180px',
-                    padding: 20,
-                    textAlign: 'center',
-                }}
-            >
-                Slide 2
-            </div>
-            <div
-                style={{
-                    background: '#DFE9FD',
-                    borderRadius: '8px',
-                    minHeight: '180px',
-                    padding: 20,
-                    textAlign: 'center',
-                }}
-            >
-                Slide 3
-            </div>
-            <div
-                style={{
-                    background: '#D9ECEB',
-                    borderRadius: '8px',
-                    minHeight: '180px',
-                    padding: 20,
-                    textAlign: 'center',
-                }}
-            >
-                Slide 4
-            </div>
-            <div
-                style={{
-                    background: '#FEF5E0',
-                    borderRadius: '8px',
-                    minHeight: '180px',
-                    padding: 20,
-                    textAlign: 'center',
-                }}
-            >
-                Slide 5
-            </div>
-            <div
-                style={{
-                    background: '#FCE7D9',
-                    borderRadius: '8px',
-                    minHeight: '180px',
-                    padding: 20,
-                    textAlign: 'center',
-                }}
-            >
-                Slide 6
-            </div>
-            <div
-                style={{
-                    background: '#F9DEEC',
-                    borderRadius: '8px',
-                    minHeight: '180px',
-                    padding: 20,
-                    textAlign: 'center',
-                }}
-            >
-                Slide 7
-            </div>
-        </Component>
-    ),
-    sections: [],
-    variants: false,
+            Slide {number}
+            <Button label="Click me" onClick={() => action(`Slide ${number} clicked`)} variant="tertiary" />
+        </div>
+    );
+
+    return {
+        containerStyle: { width: '375px', padding: '16px 0' },
+        render: ({ props, Component }) => (
+            <Component {...props}>
+                <Slide number={1} />
+                <Slide number={2} />
+                <Slide number={3} />
+                <Slide number={4} />
+                <Slide number={5} />
+                <Slide number={6} />
+                <Slide number={7} />
+            </Component>
+        ),
+        sections: [],
+        variants: false,
+    };
 };

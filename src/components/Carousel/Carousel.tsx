@@ -1,19 +1,21 @@
-import './carousel.scss';
 import { SvgChevronLeft } from '@bspk/icons/ChevronLeft';
 import { SvgChevronRight } from '@bspk/icons/ChevronRight';
-import React, { ReactNode, useRef, useState } from 'react';
+import React, { ReactNode, useMemo, useState } from 'react';
 import { Button } from '-/components/Button';
 import { PageControl } from '-/components/PageControl';
-import { useContainerWidth } from '-/hooks/useContainerWidth';
+import { useSwipe } from '-/hooks/useSwipe';
 import { cssWithVars } from '-/utils/cwv';
+import { handleKeyDown } from '-/utils/handleKeyDown';
+
+import './carousel.scss';
 
 export type CarouselProps = {
     /**
      * A label for the carousel for screen readers.
      *
-     * @default carousel
+     * @required
      */
-    label?: string;
+    label: string;
     /**
      * The content of the carousel.
      *
@@ -21,23 +23,19 @@ export type CarouselProps = {
      */
     children: ReactNode;
     /**
-     * The width of each item in the carousel without the unit of measure
+     * The width of each item relative to the carousel container's width.
      *
-     * @required
+     * @default full
      */
-    itemWidth: number;
+    width?: '1/2' | '3/4' | 'full';
     /**
-     * The gap between each item in the carousel without the unit of measure
+     * Whether to show a peak of the next item in the carousel.
      *
-     * @required
-     */
-    itemGap: number;
-    /**
-     * The unit of measure for the item width and gap
+     * Ignored if width is '3/4' as it will always show a peak.
      *
-     * @default px
+     * @default false
      */
-    unitOfMeasure?: 'em' | 'px' | 'rem';
+    peak?: boolean;
 };
 
 /**
@@ -48,7 +46,7 @@ export type CarouselProps = {
  *
  *     function Example() {
  *         return (
- *             <Carousel unitOfMeasure="px">
+ *             <Carousel label="Example Carousel" width="1/2" peak>
  *                 <div>child 1</div>
  *                 <div>child 2</div>
  *                 <div>child 3</div>
@@ -64,67 +62,62 @@ export type CarouselProps = {
  * @phase Dev
  */
 
-export function Carousel({ label = 'carousel', children, itemWidth, itemGap, unitOfMeasure = 'px' }: CarouselProps) {
-    const [current, setCurrent] = useState(0);
-    const childrenArray = React.Children.toArray(children);
-    const total = childrenArray.length;
-    const containerRef = useRef<HTMLDivElement>(null);
-    const containerWidth = useContainerWidth(containerRef);
+export function Carousel({ label = 'carousel', children, width = 'full', peak = false }: CarouselProps) {
+    const [current, setCurrentState] = useState(0);
 
-    const slideLeft = Math.max(0, Math.min(current, total - 1)) * (itemWidth + itemGap);
-    const maxScroll = Math.max(0, (itemWidth + itemGap) * total - containerWidth);
-    const isLastSlide = current === total - 1;
-    const translateX = isLastSlide ? maxScroll : Math.max(0, Math.min(slideLeft, maxScroll));
+    const { items, total } = useMemo(() => {
+        const nextItems = React.Children.toArray(children);
+        return {
+            items: nextItems,
+            total: nextItems.length,
+        };
+    }, [children]);
 
-    const goTo = (idx: number) => {
-        const safeIdx = Math.max(0, Math.min(idx, total - 1));
-        setCurrent(safeIdx);
+    const setCurrent = (dir: 'next' | 'prev') => () => {
+        setCurrentState((prev) => {
+            const next = Math.max(0, Math.min(total - 1, dir === 'next' ? prev + 1 : prev - 1));
+            (containerRef.current?.children[next] as HTMLElement)?.focus();
+            return next;
+        });
     };
-    const prev = () => goTo(current - 1);
-    const next = () => goTo(current + 1);
 
-    // Create a ref map for tab elements
-    const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
+    const swipeProps = useSwipe(setCurrent('next'), setCurrent('prev'));
+
+    const containerRef = React.useRef<HTMLDivElement | null>(null);
 
     return (
         <div
             aria-label={label}
             aria-roledescription="carousel"
             data-bspk="carousel"
+            data-peak={peak || undefined}
+            data-width={width || 'full'}
             role="region"
-            style={cssWithVars({
-                '--item-width': `${itemWidth}${unitOfMeasure}`,
-                '--item-gap': `${itemGap}${unitOfMeasure}`,
-                '--translate-x': `-${translateX}${unitOfMeasure}`,
-            })}
+            style={cssWithVars({ '--current-slide': current })}
         >
-            <div data-items-container ref={containerRef}>
+            <div data-items-container>
                 <div
                     data-items-track
-                    onKeyDown={(e) => {
-                        if (e.key === 'ArrowLeft') {
-                            e.preventDefault();
-                            prev();
-                        }
-                        if (e.key === 'ArrowRight') {
-                            e.preventDefault();
-                            next();
-                        }
-                    }}
-                    role="tablist"
-                    tabIndex={0}
+                    {...swipeProps}
+                    onKeyDownCapture={handleKeyDown(
+                        {
+                            ArrowLeft: setCurrent('prev'),
+                            ArrowRight: setCurrent('next'),
+                        },
+                        {
+                            preventDefault: true,
+                        },
+                    )}
+                    ref={(node) => (containerRef.current = node)}
                 >
-                    {childrenArray.map((child, idx) => (
+                    {items.map((child, index) => (
                         <div
-                            aria-hidden={current !== idx}
-                            aria-label={`Slide ${idx + 1} of ${total}`}
+                            aria-label={`Slide ${index + 1} of ${total}`}
                             aria-roledescription="slide"
                             data-item-wrapper
-                            key={idx}
-                            onFocus={() => setCurrent(idx)}
-                            ref={(el) => (slideRefs.current[idx] = el)}
-                            role="tab"
-                            tabIndex={current === idx ? 0 : -1}
+                            key={index}
+                            role="tabpanel"
+                            tabIndex={current === index ? 0 : -1}
                         >
                             {child}
                         </div>
@@ -138,7 +131,7 @@ export function Carousel({ label = 'carousel', children, itemWidth, itemGap, uni
                     icon={<SvgChevronLeft aria-hidden />}
                     iconOnly
                     label="Previous"
-                    onClick={prev}
+                    onClick={setCurrent('prev')}
                     variant="tertiary"
                 />
                 <PageControl numPages={total} value={current} />
@@ -148,7 +141,7 @@ export function Carousel({ label = 'carousel', children, itemWidth, itemGap, uni
                     icon={<SvgChevronRight aria-hidden />}
                     iconOnly
                     label="Next"
-                    onClick={next}
+                    onClick={setCurrent('next')}
                     variant="tertiary"
                 />
             </div>
@@ -158,4 +151,5 @@ export function Carousel({ label = 'carousel', children, itemWidth, itemGap, uni
         </div>
     );
 }
+
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
