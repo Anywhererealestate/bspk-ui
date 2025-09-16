@@ -1,6 +1,6 @@
 import { SvgChevronLeft } from '@bspk/icons/ChevronLeft';
 import { SvgChevronRight } from '@bspk/icons/ChevronRight';
-import React, { ReactNode, useMemo, useState } from 'react';
+import { Children, ReactNode, useEffect, useMemo, useRef, useState } from 'react';
 import { Button } from '-/components/Button';
 import { PageControl } from '-/components/PageControl';
 import { useSwipe } from '-/hooks/useSwipe';
@@ -66,28 +66,35 @@ export type CarouselProps = {
  * @phase Dev
  */
 
-export function Carousel({ label = 'carousel', children, width = 'full', gap }: CarouselProps) {
+export function Carousel({ label = 'carousel', children, width = 'full', gap: gapProp = 16 }: CarouselProps) {
+    const gap = Math.max(0, Math.min(192, gapProp || 16));
+
+    const containerRef = useRef<HTMLDivElement | null>(null);
+
     const [current, setCurrentState] = useState(0);
 
+    const focusScroll = () => {
+        const nextElement = containerRef.current?.querySelector<HTMLElement>('[data-active]');
+        if (!nextElement) return;
+        nextElement.focus();
+        nextElement.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    };
+
     const { items, total } = useMemo(() => {
-        const nextItems = React.Children.toArray(children);
+        const nextItems = Children.toArray(children);
         return {
             items: nextItems,
             total: nextItems.length,
         };
     }, [children]);
 
-    const setCurrent = (dir: 'next' | 'prev') => () => {
+    const setCurrent = (dir: 'next' | 'prev') => () =>
         setCurrentState((prev) => {
             const next = Math.max(0, Math.min(total - 1, dir === 'next' ? prev + 1 : prev - 1));
-            (containerRef.current?.children[next] as HTMLElement)?.focus();
             return next;
         });
-    };
 
     const swipeProps = useSwipe(setCurrent('next'), setCurrent('prev'));
-
-    const containerRef = React.useRef<HTMLDivElement | null>(null);
 
     const widthValue =
         typeof width === 'number'
@@ -98,6 +105,21 @@ export function Carousel({ label = 'carousel', children, width = 'full', gap }: 
                   full: '100%',
               }[width];
 
+    // scroll to the current item when:
+    // - initial mount
+    // - the container resizes
+
+    useEffect(() => {
+        focusScroll();
+
+        const observer = new ResizeObserver(focusScroll);
+        if (containerRef.current) observer.observe(containerRef.current);
+        return () => observer.disconnect();
+    }, []);
+
+    // - current item, items, or gap changes
+    useEffect(focusScroll, [current, items, gap]);
+
     return (
         <div
             aria-label={label}
@@ -106,8 +128,7 @@ export function Carousel({ label = 'carousel', children, width = 'full', gap }: 
             data-width={width || 'full'}
             role="region"
             style={cssWithVars({
-                '--current-slide': current,
-                '--gap': gap || 'var(--spacing-sizing-04)',
+                '--gap': gap ? `${gap}px` : 'var(--spacing-sizing-04)',
                 '--item-width': widthValue,
             })}
         >
@@ -130,6 +151,7 @@ export function Carousel({ label = 'carousel', children, width = 'full', gap }: 
                         <div
                             aria-label={`Slide ${index + 1} of ${total}`}
                             aria-roledescription="slide"
+                            data-active={current === index || undefined}
                             data-item-wrapper
                             key={index}
                             role="tabpanel"

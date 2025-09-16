@@ -1,6 +1,5 @@
 [data-bspk='carousel'] {
     /*! 
-    --current-slide: is set via inline style 
     --gap: is set via inline style
     --item-width: is set via inline style
     */
@@ -13,8 +12,6 @@
     background: #fff;
     padding: 0 var(--spacing-sizing-04);
 
-    --translate-x: calc(calc(var(--current-slide) * calc(var(--item-width) + var(--gap)) * -1));
-
     [data-items-container] {
         width: 100%;
         overflow: hidden;
@@ -23,8 +20,6 @@
     [data-items-track] {
         display: flex;
         align-items: center;
-        transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        transform: translateX(var(--translate-x, 0));
         gap: var(--gap);
     }
 
