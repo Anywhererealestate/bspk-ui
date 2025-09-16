@@ -1,3 +1,4 @@
+import { FocusTrap } from 'focus-trap-react';
 import { Button } from '-/components/Button';
 import { Txt } from '-/components/Txt';
 import { SnackbarData } from '-/utils/snackbarContext';
@@ -28,7 +29,7 @@ export type SnackbarProps = {
  * @phase Utility
  */
 export function Snackbar({ text, button, onClose }: SnackbarProps) {
-    return (
+    const snackbar = (
         <span data-bspk="snackbar">
             <Txt variant="body-small">{text}</Txt>
 
@@ -42,6 +43,19 @@ export function Snackbar({ text, button, onClose }: SnackbarProps) {
                 </Button>
             )}
         </span>
+    );
+
+    return button ? (
+        <FocusTrap
+            focusTrapOptions={{
+                fallbackFocus: '[data-bspk="snackbar"]',
+                clickOutsideDeactivates: true,
+            }}
+        >
+            {snackbar}
+        </FocusTrap>
+    ) : (
+        snackbar
     );
 }
 

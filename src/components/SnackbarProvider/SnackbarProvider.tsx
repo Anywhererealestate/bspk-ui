@@ -146,7 +146,7 @@ export function SnackbarProvider({ children, timeout, countLimit = 10 }: Snackba
         >
             {visibleSnackbars.length > 0 && (
                 <Portal>
-                    <div data-bspk="snackbar-provider">
+                    <div aria-live="polite" data-bspk="snackbar-provider" role="status">
                         {visibleSnackbars.map(({ button, text, id }) => (
                             <Snackbar button={button} key={id} onClose={() => clearSnackbar(id)} text={text} />
                         ))}
