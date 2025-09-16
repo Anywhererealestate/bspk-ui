@@ -10,6 +10,7 @@ import fs from 'fs';
 import path from 'path';
 
 import { kebabCase } from '../utils';
+import { generateAndWriteTestFileForComponent } from '../lib/generateTestFile';
 
 const componentsDir = path.resolve(__dirname, '../src/components');
 
@@ -96,13 +97,15 @@ const componentExampleFilePath = path.join(componentDirectoryPath, `${componentN
 fs.writeFileSync(
     componentExampleFilePath,
     `import { ${componentName}Props } from '.';
-import { ComponentExample } from '-/utils/demo';
+import { ComponentExample, Preset } from '-/utils/demo';
+
+export const presets: Preset<${componentName}Props>[] = [];
 
 export const ${componentName}Example: ComponentExample<${componentName}Props> = {
     containerStyle: { width: '100%' },
     defaultState: {},
     disableProps: [],
-    presets: [],
+    presets,
     render: ({ props, Component }) => <Component {...props} />,
     sections: [],
     variants: {},
@@ -123,6 +126,9 @@ fs.writeFileSync(
 `,
 );
 
+const componentTestFilePath = path.join(componentDirectoryPath, `${componentName}.rtl.test.tsx`);
+generateAndWriteTestFileForComponent(componentName, componentTestFilePath);
+
 fs.writeFileSync(path.join(componentDirectoryPath, 'index.tsx'), `export * from './${componentName}';\n`);
 
 const packageJsonData = JSON.parse(fs.readFileSync(path.resolve('./package.json'), 'utf-8'));
@@ -140,6 +146,6 @@ fs.writeFileSync(path.resolve('./package.json'), JSON.stringify(packageJsonData,
 
 console.info(`\n${componentName} component generated at ${componentFilePath}`);
 
-function capitalizeFirstLetter(val) {
+function capitalizeFirstLetter(val: string) {
     return String(val).charAt(0).toUpperCase() + String(val).slice(1);
 }

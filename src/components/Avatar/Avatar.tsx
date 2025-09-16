@@ -155,11 +155,12 @@ export function Avatar({
 
     const avatar = (triggerProps?: TooltipTriggerProps) => (
         <div
-            role={onClick ? 'button' : undefined}
+            role={onClick ? 'button' : ''}
             {...triggerProps}
             aria-describedby={triggerProps?.['aria-describedby'] || ariaLabel}
             aria-disabled={disabled || undefined}
-            aria-label={ariaLabel}
+            aria-label={onClick ? ariaLabel : undefined}
+            aria-roledescription="person"
             data-bspk="avatar"
             data-color={color}
             data-size={size}

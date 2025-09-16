@@ -40,11 +40,7 @@ export type PaginationProps = {
  *
  *         const { currentPage, setCurrentPage } = usePaginationState(numPages);
  *
- *         return (
- *             <Pagination value={currentPage} onChange={setCurrentPage} numPages={numPages}>
- *                 Example Pagination
- *             </Pagination>
- *         );
+ *         return <Pagination value={currentPage} onChange={setCurrentPage} numPages={numPages} />;
  *     }
  *
  * @name Pagination

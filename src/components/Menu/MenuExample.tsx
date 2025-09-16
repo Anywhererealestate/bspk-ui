@@ -7,25 +7,42 @@ import { SvgLogout } from '@bspk/icons/Logout';
 import { SvgMenuBook } from '@bspk/icons/MenuBook';
 import { SvgSettings } from '@bspk/icons/Settings';
 
-import { CSSProperties } from 'react';
 import { MenuProps } from '.';
 import { Avatar } from '-/components/Avatar';
 import { Divider } from '-/components/Divider';
 import { ListItem } from '-/components/ListItem';
 import { Switch } from '-/components/Switch';
-import { ComponentExampleFn } from '-/utils/demo';
+import { ComponentExampleFn, Preset } from '-/utils/demo';
 
-export const MenuExample: ComponentExampleFn<MenuProps & { 'data-dark-mode': boolean; style: CSSProperties }> = ({
+export const presets: Preset<MenuProps>[] = [
+    {
+        label: 'Scroll = False',
+        propState: {
+            floating: false,
+            portal: false,
+            itemDisplayCount: 5,
+            itemCount: 11,
+            scroll: false,
+        },
+    },
+    {
+        label: 'Item Display Count',
+        propState: {
+            floating: false,
+            portal: false,
+            itemDisplayCount: 5,
+            itemCount: 11,
+            scroll: true,
+        },
+    },
+];
+
+export const MenuExample: ComponentExampleFn<MenuProps & { style?: unknown; 'data-dark-mode'?: boolean }> = ({
     action,
 }) => ({
     render: ({ props, Component, setState }) => {
         return (
-            <Component
-                {...props}
-                label={undefined}
-                role={undefined}
-                style={{ padding: 'var(--spacing-sizing-02) var(--spacing-sizing-02)' }}
-            >
+            <Component {...props} style={{ padding: 'var(--spacing-sizing-02) var(--spacing-sizing-02)' }}>
                 <ListItem
                     label="Michael Scott"
                     leading={<Avatar image="/profile2.jpg" name="Michael Scott" />}
@@ -66,6 +83,6 @@ export const MenuExample: ComponentExampleFn<MenuProps & { 'data-dark-mode': boo
             </Component>
         );
     },
+    presets,
     variants: false,
-    disableProps: ['label', 'role'],
 });

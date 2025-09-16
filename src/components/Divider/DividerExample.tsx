@@ -1,9 +1,12 @@
 import { CSSProperties } from 'react';
 
+import { DividerProps } from './Divider';
 import { ExamplePlaceholder } from '-/components/ExamplePlaceholder';
-import { ComponentExample } from '-/utils/demo';
+import { ComponentExample, Preset } from '-/utils/demo';
 
-export const DividerExample: ComponentExample = {
+export const presets: Preset<DividerProps>[] = [];
+
+export const DividerExample: ComponentExample<DividerProps> = {
     render: ({ props, Component }) => {
         const style: CSSProperties =
             props.orientation === 'vertical' ? { height: 300, width: 100 } : { height: 100, width: '300px' };
@@ -23,4 +26,5 @@ export const DividerExample: ComponentExample = {
             </div>
         );
     },
+    presets,
 };

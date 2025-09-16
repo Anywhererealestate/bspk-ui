@@ -1,29 +1,31 @@
 import { useEffect, useState } from 'react';
 import { FileUpload, FileUploadProps } from '.';
-import { ComponentExampleFn } from '-/utils/demo';
+import { ComponentExampleFn, Preset } from '-/utils/demo';
 import { FileEntry } from '-/utils/fileUploads';
 import { randomNumber } from '-/utils/random';
+
+export const presets: Preset<FileUploadProps>[] = [
+    {
+        label: 'multiple files',
+        propState: {
+            dragAndDrop: false,
+            multipleFiles: true,
+        },
+    },
+    {
+        label: 'Drag and Drop Multiple Files',
+        propState: {
+            dragAndDrop: true,
+            multipleFiles: true,
+        },
+    },
+];
 
 export const FileUploadExample: ComponentExampleFn<FileUploadProps> = ({ action }) => ({
     render: ({ props, preset }) => {
         return <FileUploadExampleMockUpload key={preset?.label} {...props} action={action} />;
     },
-    presets: [
-        {
-            label: 'multiple files',
-            propState: {
-                dragAndDrop: false,
-                multipleFiles: true,
-            },
-        },
-        {
-            label: 'Drag and Drop Multiple Files',
-            propState: {
-                dragAndDrop: true,
-                multipleFiles: true,
-            },
-        },
-    ],
+    presets,
     variants: false,
 });
 

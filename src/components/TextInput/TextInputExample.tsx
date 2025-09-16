@@ -11,6 +11,8 @@ export const TextInputExample: ComponentExample<TextInputProps> = {
                 leading: '$',
                 trailing: undefined,
                 placeholder: 'currency',
+                name: 'currency',
+                'aria-label': 'Currency input',
             },
         },
         {
@@ -20,6 +22,8 @@ export const TextInputExample: ComponentExample<TextInputProps> = {
                 leading: undefined,
                 trailing: '%',
                 placeholder: 'percent',
+                name: 'percent',
+                'aria-label': 'Percent input',
             },
         },
         {
@@ -29,6 +33,8 @@ export const TextInputExample: ComponentExample<TextInputProps> = {
                 leading: undefined,
                 placeholder: 'dimensions',
                 trailing: 'ft',
+                name: 'dimension',
+                'aria-label': 'Dimension input',
             },
         },
     ],

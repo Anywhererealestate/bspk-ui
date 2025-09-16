@@ -2,22 +2,24 @@
 
 import { SkeletonTextProps } from '.';
 import { useTimeout } from '-/hooks/useTimeout';
-import { ComponentExample } from '-/utils/demo';
+import { ComponentExample, Preset } from '-/utils/demo';
+
+export const presets: Preset<SkeletonTextProps>[] = [
+    {
+        label: 'Loading Transition',
+        propState: {
+            variant: 'body-base' as SkeletonTextProps['variant'],
+            lines: 3,
+        },
+    },
+];
 
 export const SkeletonTextExample: ComponentExample<SkeletonTextProps> = {
     render: ({ props, preset, Component }) => {
         if (preset?.label === 'Loading Transition') return <SkeletonTextTransition {...props} Component={Component} />;
         return <Component {...props} />;
     },
-    presets: [
-        {
-            label: 'Loading Transition',
-            propState: {
-                variant: 'body-base',
-                lines: 3,
-            },
-        },
-    ],
+    presets,
 };
 
 function SkeletonTextTransition({
