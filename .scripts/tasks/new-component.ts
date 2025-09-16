@@ -10,7 +10,7 @@ import fs from 'fs';
 import path from 'path';
 
 import { kebabCase } from '../utils';
-import { generateAndWriteTestFileForComponent } from './create-tests';
+import { generateAndWriteTestFileForComponent } from '../lib/generateTestFile';
 
 const componentsDir = path.resolve(__dirname, '../src/components');
 

@@ -7,8 +7,10 @@
 
 import path from 'path';
 import fs from 'fs';
+import { generateAndWriteTestFileForComponent } from '../lib/generateTestFile';
 
 const componentsDir = path.resolve('src', 'components');
+const blackList: { [key: string]: true } = {};
 
 function getComponentFiles(): { name: string; filePath: string }[] {
     return fs
@@ -29,35 +31,18 @@ function getComponentFiles(): { name: string; filePath: string }[] {
         .filter((item): item is { name: string; filePath: string } => item !== null);
 }
 
-export const generateAndWriteTestFileForComponent = (componentName: string, filePath: string) => {
-    const testFileContent = generateTestFile(componentName);
-    fs.writeFileSync(filePath, testFileContent, 'utf-8');
+const filterNonPertinentComponents = ({ name }: { name: string }) => {
+    if (name.startsWith('StylesProvider')) {
+        return false;
+    }
+
+    if (blackList[name]) return false;
+
+    return true;
 };
 
-export function generateTestFile(componentName: string) {
-    return `import { ${componentName} } from './${componentName}';
-import { presets } from './${componentName}Example';
-import { hasNoBasicA11yIssues } from '-/rtl/hasNoBasicA11yIssues';
-import { render } from '-/rtl/util';
-
-describe('${componentName} (RTL)', () => {
-    presets.forEach((preset) => {
-        it(\`has no basic a11y issues - \${preset.label}\`, hasNoBasicA11yIssues(<${componentName} {...preset.propState} />));
-    });
-
-    it('renders', () => {
-        const { getByText } = render(<${componentName} {...presets[0].propState} />);
-
-        expect(getByText('whoop there it is')).toBeInTheDocument();
-\    });
-});
-
-/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
-`;
-}
-
 function main() {
-    const components = getComponentFiles();
+    const components = getComponentFiles().filter(filterNonPertinentComponents);
     components.forEach(({ name }) => {
         const testFilePath = path.join(componentsDir, name, `${name}.rtl.test.tsx`);
         if (fs.existsSync(testFilePath)) {
