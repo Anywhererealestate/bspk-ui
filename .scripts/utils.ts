@@ -48,6 +48,10 @@ export function kebabCase(str: string): string {
     ); // Convert to lowercase
 }
 
+export function capitalizeFirstLetter(val: string) {
+    return String(val).charAt(0).toUpperCase() + String(val).slice(1);
+}
+
 export function titleCase(toTransform: string) {
     return toTransform.replace(/\b([a-z])/g, function (_, initial) {
         return initial.toUpperCase();
