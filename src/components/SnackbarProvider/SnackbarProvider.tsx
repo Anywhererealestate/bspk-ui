@@ -1,4 +1,4 @@
-import { useState, ReactNode, useRef, useEffect } from 'react';
+import { useState, ReactNode, useRef } from 'react';
 
 import { Portal } from '-/components/Portal';
 import { Snackbar } from '-/components/Snackbar';
@@ -74,6 +74,7 @@ export type SnackbarProviderProps = {
  *             const id = sendSnackbar({
  *                 text: 'Without a button or timeout I can only be closed programatically',
  *             });
+ *             setSnackbarId(id);
  *         };
  *
  *         const clear = () => {
@@ -96,7 +97,6 @@ export type SnackbarProviderProps = {
 export function SnackbarProvider({ children, timeout, countLimit = 10 }: SnackbarProviderProps) {
     const [snackbars, setSnackbars] = useState<SnackbarData[]>([]);
     const timeouts = useRef<Map<string, NodeJS.Timeout>>(new Map());
-    const [liveText, setLiveText] = useState<string | null>(null);
 
     const baseTimeout = timeout ?? 0;
 
@@ -127,71 +127,28 @@ export function SnackbarProvider({ children, timeout, countLimit = 10 }: Snackba
         setSnackbars([]);
     };
 
-    // useEffect(() => {
-    //     return () => {
-    //         // eslint-disable-next-line react-hooks/exhaustive-deps
-    //         timeouts.current.forEach((timeoutToClear) => clearTimeout(timeoutToClear));
-    //     };
-    // }, []);
-
     const visibleSnackbars = countLimit ? snackbars.slice(0, countLimit) : snackbars;
-    // console.log('visibleSnackbars COUNT', visibleSnackbars.length);
-    // console.log('visibleSnackbars', visibleSnackbars);
-    // console.log('liveText', liveText);
-    // console.log('setLiveText', setLiveText);
-
-    useEffect(() => {
-        if (visibleSnackbars.length > 0) {
-            setLiveText(null);
-            const timer = setTimeout(() => {
-                setLiveText(visibleSnackbars[0].text);
-            }, 100);
-            return () => clearTimeout(timer);
-        } else {
-            setLiveText(null);
-            return undefined;
-        }
-    }, [visibleSnackbars]);
 
     return (
-        <>
-            {/* Visually hidden live region for screen readers */}
-            {liveText && (
-                <div
-                    aria-atomic="true"
-                    aria-live="polite"
-                    role="status"
-                    style={{
-                        position: 'absolute',
-                        left: '-9999px',
-                        width: '1px',
-                        height: '1px',
-                        overflow: 'hidden',
-                    }}
-                >
-                    {liveText}
-                </div>
+        <SnackbarContext.Provider
+            value={{
+                snackbars,
+                sendSnackbar,
+                clearSnackbar,
+                clearAll,
+            }}
+        >
+            {visibleSnackbars.length > 0 && (
+                <Portal>
+                    <div aria-live="off" data-bspk="snackbar-provider">
+                        {visibleSnackbars.map(({ button, text, id }) => (
+                            <Snackbar button={button} key={id} onClose={() => clearSnackbar(id)} text={text} />
+                        ))}
+                    </div>
+                </Portal>
             )}
-            <SnackbarContext.Provider
-                value={{
-                    snackbars,
-                    sendSnackbar,
-                    clearSnackbar,
-                    clearAll,
-                }}
-            >
-                {visibleSnackbars.length > 0 && (
-                    <Portal>
-                        <div aria-live="off" data-bspk="snackbar-provider">
-                            {visibleSnackbars.map(({ button, text, id }) => (
-                                <Snackbar button={button} key={id} onClose={() => clearSnackbar(id)} text={text} />
-                            ))}
-                        </div>
-                    </Portal>
-                )}
 
-                {children}
-            </SnackbarContext.Provider>
-        </>
+            {children}
+        </SnackbarContext.Provider>
     );
 }
