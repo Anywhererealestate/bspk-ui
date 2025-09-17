@@ -1,4 +1,4 @@
-import { useState, ReactNode, useRef } from 'react';
+import { useState, ReactNode, useRef, useEffect } from 'react';
 
 import { Portal } from '-/components/Portal';
 import { Snackbar } from '-/components/Snackbar';
@@ -126,6 +126,13 @@ export function SnackbarProvider({ children, timeout, countLimit = 10 }: Snackba
     const clearAll = () => {
         setSnackbars([]);
     };
+
+    useEffect(() => {
+        return () => {
+            // eslint-disable-next-line react-hooks/exhaustive-deps -- we only want to run this on dismount
+            timeouts.current.forEach((timeoutToClear) => clearTimeout(timeoutToClear));
+        };
+    }, []);
 
     const visibleSnackbars = countLimit ? snackbars.slice(0, countLimit) : snackbars;
 
