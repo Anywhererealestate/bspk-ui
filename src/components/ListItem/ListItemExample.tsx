@@ -1,7 +1,19 @@
 import { ElementType } from 'react';
 import { ListItem, ListItemProps } from './ListItem';
 import { createExampleChildElement } from '-/utils/createExampleChildElement';
-import { ComponentExampleFn } from '-/utils/demo';
+import { ComponentExampleFn, Preset } from '-/utils/demo';
+
+export const presets: Preset<ListItemProps>[] = [
+    {
+        label: 'Long Label',
+        propState: {
+            label: 'This is a really long label that should be truncated if it exceeds the width of the ListItem',
+            subText: 'See below for other leading and trailing examples',
+            trailing: 'Checkbox',
+            leading: 'Avatar',
+        },
+    },
+];
 
 export const ListItemExample: ComponentExampleFn<ListItemProps> = ({ action, setState }) => ({
     render: ({ props, id }) => {
@@ -26,16 +38,5 @@ export const ListItemExample: ComponentExampleFn<ListItemProps> = ({ action, set
 
         return <ListItem {...props} as={as} leading={leading.element} trailing={trailing.element} />;
     },
-    presets: [
-        {
-            value: 'long-label',
-            label: 'Long Label',
-            propState: {
-                label: 'This is a really long label that should be truncated if it exceeds the width of the ListItem',
-                subText: 'See below for other leading and trailing examples',
-                trailing: 'Checkbox',
-                leading: 'Avatar',
-            },
-        },
-    ],
+    presets,
 });

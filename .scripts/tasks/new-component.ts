@@ -6,140 +6,97 @@
  */
 
 import { execSync } from 'child_process';
-import fs from 'fs';
+import fs from 'fs/promises';
 import path from 'path';
 
-import { kebabCase } from '../utils';
+import { generateAndWriteTestFile } from '../lib/generateTestFile';
+import { getComponentsDir } from '../lib/getComponentsDir';
+import { generateAndWriteComponentFile } from '../lib/generateComponentFile';
+import { kebabCase, capitalizeFirstLetter } from '../utils';
+import { generateAndWriteExampleFile } from '../lib/generateExampleFile';
+import { generateAndWriteStylesFile } from '../lib/generateStylesFile';
 
-const componentsDir = path.resolve(__dirname, '../src/components');
+(async () => {
+    const [_, __, nameArg, modeArg] = process.argv;
+    const force = modeArg === 'force';
 
-if (!process.argv[2]?.trim()) {
-    console.error('Please provide a component name.');
-    process.exit(1);
-}
+    const componentName = getComponentNameOrExit(nameArg);
+    const componentDirectoryPath = await createComponentDirectoryOrExit(componentName, force);
 
-const componentName = capitalizeFirstLetter(process.argv[2]);
+    const componentFilePath = path.join(componentDirectoryPath, `${componentName}.tsx`);
 
-if (!componentName) {
-    console.error('Please provide a component name.');
-    process.exit(1);
-}
+    await writeComponentFiles(componentName, componentDirectoryPath, componentFilePath);
+    await updatePackageJson(componentName);
 
-const componentDirectoryPath = path.resolve(componentsDir, componentName);
+    console.info(`\n${componentName} component generated at ${componentFilePath}`);
+})();
 
-const componentFilePath = path.join(componentDirectoryPath, `${componentName}.tsx`);
-
-if (fs.existsSync(componentFilePath)) {
-    if (process.argv[3] !== 'force') {
-        console.error(`Component ${componentName} already exists at ${componentFilePath}.`);
+function getComponentNameOrExit(nameArg: string) {
+    if (!nameArg?.trim()) {
+        console.error('Please provide a component name.');
         process.exit(1);
     }
-    execSync(`rm -rf ${componentDirectoryPath}`, { stdio: 'inherit' });
+
+    const componentName = capitalizeFirstLetter(nameArg);
+
+    if (!componentName) {
+        console.error('Please provide a component name.');
+        process.exit(1);
+    }
+
+    return componentName;
 }
 
-execSync(`mkdir -p ${componentDirectoryPath}`, { stdio: 'inherit' });
+async function createComponentDirectoryOrExit(componentName: string, force: boolean) {
+    const componentsDir = getComponentsDir();
 
-const slug = kebabCase(componentName);
+    const componentDirectoryPath = path.resolve(componentsDir, componentName);
 
-fs.writeFileSync(
-    componentFilePath,
+    const componentFilePath = path.join(componentDirectoryPath, `${componentName}.tsx`);
 
-    `import './${slug}.scss';
+    try {
+        await fs.access(componentFilePath);
+        if (!force) {
+            console.error(`Component ${componentName} already exists at ${componentFilePath}.`);
 
-const DEFAULT = {
-    variant: 'none',
-} as const;
+            process.exit(1);
+        }
+        execSync(`rm -rf ${componentDirectoryPath}`, { stdio: 'inherit' });
+        return componentDirectoryPath;
+    } catch (error) {
+        execSync(`mkdir -p ${componentDirectoryPath}`, { stdio: 'inherit' });
 
-export type ${componentName}Props = {
-    /**
-     * The content of the ${slug}.
-     *
-     * @required
-     */
-    children: string;
-    /**
-     * The variant of the ${slug}.
-     *
-     * @default none
-     */
-    variant?: 'none';
-};
+        return componentDirectoryPath;
+    }
+}
 
-/**
- * Component description.
- *
- * @example
- *     import { ${componentName} } from '@bspk/ui/${componentName}';
- *
- *     function Example() {
- *         return <${componentName}>Example ${componentName}</${componentName}>;
- *     }
- *
- * @name ${componentName}
- * @phase Dev
- * 
- */
-export function ${componentName}({ children, variant = DEFAULT.variant }: ${componentName}Props) {
-    return (
-        <span data-bspk="${slug}" data-variant={variant || undefined}>
-            {children}
-        </span>
+async function writeComponentFiles(componentName: string, componentDirectoryPath: string, componentFilePath: string) {
+    await generateAndWriteComponentFile(componentName, componentFilePath);
+
+    const componentExampleFilePath = path.join(componentDirectoryPath, `${componentName}Example.tsx`);
+    await generateAndWriteExampleFile(componentName, componentExampleFilePath);
+
+    const slug = kebabCase(componentName);
+    const componentStyleFilePath = path.join(componentDirectoryPath, `${slug}.scss`);
+    await generateAndWriteStylesFile(componentName, componentStyleFilePath);
+
+    const componentTestFilePath = path.join(componentDirectoryPath, `${componentName}.rtl.test.tsx`);
+    await generateAndWriteTestFile(componentName, componentTestFilePath);
+
+    await fs.writeFile(path.join(componentDirectoryPath, 'index.tsx'), `export * from './${componentName}';\n`);
+}
+
+async function updatePackageJson(componentName: string) {
+    const packageJsonData = JSON.parse(await fs.readFile(path.resolve('./package.json'), 'utf-8'));
+
+    // add the component export to package.json
+    packageJsonData.exports[`./${componentName}`] = `./dist/components/${componentName}/index.js`;
+    packageJsonData.exports[`./${componentName}/*`] = `./dist/components/${componentName}/*.js`;
+
+    // sort the object by keys alphabetically
+    packageJsonData.exports = Object.fromEntries(
+        Object.entries(packageJsonData.exports).sort(([keyA], [keyB]) => keyA.localeCompare(keyB)),
     );
-}
 
-/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
-`,
-);
-
-const componentExampleFilePath = path.join(componentDirectoryPath, `${componentName}Example.tsx`);
-
-fs.writeFileSync(
-    componentExampleFilePath,
-    `import { ${componentName}Props } from '.';
-import { ComponentExample } from '-/utils/demo';
-
-export const ${componentName}Example: ComponentExample<${componentName}Props> = {
-    containerStyle: { width: '100%' },
-    defaultState: {},
-    disableProps: [],
-    presets: [],
-    render: ({ props, Component }) => <Component {...props} />,
-    sections: [],
-    variants: {},
-};
-`,
-);
-
-fs.writeFileSync(
-    path.join(componentDirectoryPath, `${slug}.scss`),
-    `[data-bspk='${slug}'] {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: fit-content;
-}
-
-/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
-`,
-);
-
-fs.writeFileSync(path.join(componentDirectoryPath, 'index.tsx'), `export * from './${componentName}';\n`);
-
-const packageJsonData = JSON.parse(fs.readFileSync(path.resolve('./package.json'), 'utf-8'));
-
-// add the component export to package.json
-packageJsonData.exports[`./${componentName}`] = `./dist/components/${componentName}/index.js`;
-packageJsonData.exports[`./${componentName}/*`] = `./dist/components/${componentName}/*.js`;
-
-// sort the object by keys alphabetically
-packageJsonData.exports = Object.fromEntries(
-    Object.entries(packageJsonData.exports).sort(([keyA], [keyB]) => keyA.localeCompare(keyB)),
-);
-
-fs.writeFileSync(path.resolve('./package.json'), JSON.stringify(packageJsonData, null, 4) + '\n');
-
-console.info(`\n${componentName} component generated at ${componentFilePath}`);
-
-function capitalizeFirstLetter(val) {
-    return String(val).charAt(0).toUpperCase() + String(val).slice(1);
+    await fs.writeFile(path.resolve('./package.json'), JSON.stringify(packageJsonData, null, 4) + '\n');
 }

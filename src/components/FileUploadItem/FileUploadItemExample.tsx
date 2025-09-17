@@ -2,8 +2,53 @@ import { useState } from 'react';
 import { FileUploadItem } from './FileUploadItem';
 import { FileUploadItemProps } from '.';
 import { useTimeout } from '-/hooks/useTimeout';
-import { ComponentExampleFn } from '-/utils/demo';
+import { ComponentExampleFn, Preset } from '-/utils/demo';
+import { FileUploadStatus } from '-/utils/fileUploads';
 import { randomNumber } from '-/utils/random';
+
+export const presets: Preset<FileUploadItemProps>[] = [
+    {
+        label: 'long file name',
+        propState: {
+            fileName: 'I-think-this-is-a-long-file-name.txt',
+            status: 'uploading' as FileUploadStatus,
+            cancelButtonLabel: 'Close',
+            fileSize: 10,
+            id: '10',
+        },
+    },
+    {
+        label: 'state: uploading',
+        propState: {
+            fileName: 'basic-file.png',
+            status: 'uploading' as FileUploadStatus,
+            fileSize: 1.2,
+            cancelButtonLabel: 'Cancel',
+            id: '1.2',
+        },
+    },
+    {
+        label: 'state: success',
+        propState: {
+            fileName: 'success-story.pdf',
+            status: 'complete' as FileUploadStatus,
+            cancelButtonLabel: 'Bye',
+            fileSize: 42,
+            id: '42',
+        },
+    },
+    {
+        label: 'state: failed',
+        propState: {
+            fileName: 'file-name.txt',
+            status: 'error' as FileUploadStatus,
+            errorMessage: 'File too large. Please upload a smaller file.',
+            cancelButtonLabel: 'Escape',
+            fileSize: 10000000,
+            id: '10000000',
+        },
+    },
+];
 
 export const FileUploadItemExample: ComponentExampleFn<FileUploadItemProps> = ({ action }) => ({
     render: ({ props, preset }) => {
@@ -20,45 +65,7 @@ export const FileUploadItemExample: ComponentExampleFn<FileUploadItemProps> = ({
             />
         );
     },
-    presets: [
-        {
-            label: 'long file name',
-            propState: {
-                fileName: 'I-think-this-is-a-long-file-name.txt',
-                status: 'uploading',
-                cancelButtonLabel: 'Close',
-                fileSize: 10,
-            },
-        },
-        {
-            label: 'state: uploading',
-            propState: {
-                fileName: 'basic-file.png',
-                status: 'uploading',
-                fileSize: 1.2,
-                cancelButtonLabel: 'Cancel',
-            },
-        },
-        {
-            label: 'state: success',
-            propState: {
-                fileName: 'success-story.pdf',
-                status: 'complete',
-                cancelButtonLabel: 'Bye',
-                fileSize: 42,
-            },
-        },
-        {
-            label: 'state: failed',
-            propState: {
-                fileName: 'file-name.txt',
-                status: 'error',
-                errorMessage: 'File too large. Please upload a smaller file.',
-                cancelButtonLabel: 'Escape',
-                fileSize: 10000000,
-            },
-        },
-    ],
+    presets,
     variants: false,
 });
 

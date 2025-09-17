@@ -12,20 +12,37 @@ import { Avatar } from '-/components/Avatar';
 import { Divider } from '-/components/Divider';
 import { ListItem } from '-/components/ListItem';
 import { Switch } from '-/components/Switch';
-import { ElementProps } from '-/types/common';
-import { ComponentExampleFn } from '-/utils/demo';
+import { ComponentExampleFn, Preset } from '-/utils/demo';
 
-export const MenuExample: ComponentExampleFn<ElementProps<MenuProps, 'div'> & { 'data-dark-mode': boolean }> = ({
+export const presets: Preset<MenuProps>[] = [
+    {
+        label: 'Scroll = False',
+        propState: {
+            floating: false,
+            portal: false,
+            itemDisplayCount: 5,
+            itemCount: 11,
+            scroll: false,
+        },
+    },
+    {
+        label: 'Item Display Count',
+        propState: {
+            floating: false,
+            portal: false,
+            itemDisplayCount: 5,
+            itemCount: 11,
+            scroll: true,
+        },
+    },
+];
+
+export const MenuExample: ComponentExampleFn<MenuProps & { style?: unknown; 'data-dark-mode'?: boolean }> = ({
     action,
 }) => ({
     render: ({ props, Component, setState }) => {
         return (
-            <Component
-                {...props}
-                floating={false}
-                portal={false}
-                style={{ padding: 'var(--spacing-sizing-02) var(--spacing-sizing-02)' }}
-            >
+            <Component {...props} style={{ padding: 'var(--spacing-sizing-02) var(--spacing-sizing-02)' }}>
                 <ListItem
                     label="Michael Scott"
                     leading={<Avatar image="/profile2.jpg" name="Michael Scott" />}
@@ -66,29 +83,6 @@ export const MenuExample: ComponentExampleFn<ElementProps<MenuProps, 'div'> & { 
             </Component>
         );
     },
-    presets: [
-        {
-            label: 'Scroll = False',
-            propState: {
-                floating: false,
-                portal: false,
-                itemDisplayCount: 5,
-                itemCount: 11,
-                scroll: false,
-            },
-        },
-        {
-            label: 'Item Display Count',
-            propState: {
-                floating: false,
-                portal: false,
-                itemDisplayCount: 5,
-                itemCount: 11,
-                scroll: true,
-            },
-        },
-    ],
-
-    disableProps: ['floating', 'portal'],
+    presets,
     variants: false,
 });

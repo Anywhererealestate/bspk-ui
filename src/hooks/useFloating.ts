@@ -96,6 +96,7 @@ export function useFloating<ReferenceElementType extends HTMLElement = HTMLEleme
     elements: UseFloatingElements<ReferenceElementType>;
     floatingStyles: React.CSSProperties;
     middlewareData: MiddlewareData;
+    currentPlacement: Placement | undefined;
 } {
     const [floatingStyles, setFloatingStylesState] = useState<React.CSSProperties>({
         opacity: 0,
@@ -202,6 +203,7 @@ export function useFloating<ReferenceElementType extends HTMLElement = HTMLEleme
 
     useEffect(() => {
         compute();
+
         return () => {
             computeDebounce.clear();
             transitionDelay.clear();
@@ -227,6 +229,7 @@ export function useFloating<ReferenceElementType extends HTMLElement = HTMLEleme
         },
         floatingStyles,
         middlewareData,
+        currentPlacement: middlewareData?.offset?.placement,
     };
 }
 

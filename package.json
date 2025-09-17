@@ -9,9 +9,9 @@
         "README.md",
         "LICENSE",
         "meta.ts",
-        "meta-types.ts",
         "build.ts",
-        "tsconfig.json"
+        "tsconfig.json",
+        "tsconfig.build.json"
     ],
     "scripts": {
         "sass": "npx sass --no-source-map --silence-deprecation=mixed-decls src:dist",
@@ -27,6 +27,7 @@
         "meta": "tsx meta.ts",
         "pretty": "npx prettier --write src/",
         "newc": "tsx .scripts/tasks/new-component.ts",
+        "create:tests": "tsx .scripts/tasks/create-tests.ts",
         "clean": "tsx .scripts/clean.ts",
         "pr-check": "npx tsx .scripts/tasks/lint-components.ts && npm run lint && npm run lint:css && npx tsx .scripts/check-css-vars.ts && npm run build"
     },
@@ -73,8 +74,6 @@
         "./ChipSuggestion/*": "./dist/components/ChipSuggestion/*.js",
         "./ChipUtility": "./dist/components/ChipUtility/index.js",
         "./ChipUtility/*": "./dist/components/ChipUtility/*.js",
-        "./Combobox": "./dist/components/Combobox/index.js",
-        "./Combobox/*": "./dist/components/Combobox/*.js",
         "./DateField": "./dist/components/DateField/index.js",
         "./DateField/*": "./dist/components/DateField/*.js",
         "./DateInput": "./dist/components/DateInput/index.js",
@@ -105,10 +104,12 @@
         "./Layout/*": "./dist/components/Layout/*.js",
         "./Link": "./dist/components/Link/index.js",
         "./Link/*": "./dist/components/Link/*.js",
-        "./Listbox": "./dist/components/Listbox/index.js",
-        "./Listbox/*": "./dist/components/Listbox/*.js",
         "./ListItem": "./dist/components/ListItem/index.js",
         "./ListItem/*": "./dist/components/ListItem/*.js",
+        "./ListItemGroup": "./dist/components/ListItemGroup/index.js",
+        "./ListItemGroup/*": "./dist/components/ListItemGroup/*.js",
+        "./ListItemMenu": "./dist/components/ListItemMenu/index.js",
+        "./ListItemMenu/*": "./dist/components/ListItemMenu/*.js",
         "./Menu": "./dist/components/Menu/index.js",
         "./Menu/*": "./dist/components/Menu/*.js",
         "./MenuButton": "./dist/components/MenuButton/index.js",

@@ -3,7 +3,17 @@ import { SkeletonProps, SkeletonVariant } from '.';
 import { Avatar } from '-/components/Avatar';
 import { ExamplePlaceholder } from '-/components/ExamplePlaceholder';
 import { useTimeout } from '-/hooks/useTimeout';
-import { ComponentExample, ComponentExampleRenderProps } from '-/utils/demo';
+import { ComponentExample, ComponentExampleRenderProps, Preset } from '-/utils/demo';
+
+export const presets: Preset<SkeletonProps>[] = [
+    {
+        label: 'Loading Transition',
+        propState: {
+            width: '100px',
+            height: '100px',
+        },
+    },
+];
 
 export const SkeletonExample: ComponentExample<SkeletonProps> = {
     render: ({ props, preset, Component }) => {
@@ -11,15 +21,7 @@ export const SkeletonExample: ComponentExample<SkeletonProps> = {
 
         return <Component {...props} />;
     },
-    presets: [
-        {
-            label: 'Loading Transition',
-            propState: {
-                width: '100px',
-                height: '100px',
-            },
-        },
-    ],
+    presets,
 };
 
 function SkeletonTransition({

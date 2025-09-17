@@ -27,6 +27,20 @@ if (!hasExports) {
     errors.push('❌ package.json does not have an "exports" field. Please add it.');
 }
 
+// check if package exports components that do not exist
+if (hasExports) {
+    const exportedComponentNames = Object.values<string>(packageJsonData.exports).flatMap((value) => {
+        const componentNameMatch = value.match(/\/components\/([^/]+)\//);
+        return componentNameMatch ? [componentNameMatch[1]] : [];
+    });
+
+    exportedComponentNames.forEach((exportedName) => {
+        if (exportedName && !componentsMeta.find((c) => c.name === exportedName)) {
+            errors.push(`❌ ${exportedName} is exported in package.json but does not exist in src/components.`);
+        }
+    });
+}
+
 componentsMeta.forEach(({ name, slug, phase }) => {
     if (hasExports) {
         const exports = [
@@ -102,8 +116,7 @@ componentsMeta.forEach(({ name, slug, phase }) => {
 
         // find duplicate property descriptions
         const duplicatePropertyDescriptions = props.properties.filter(
-            (prop: { description: string }, index: number, self: { description: string }[]) =>
-                self.findIndex((prop2) => prop2.description === prop.description) !== index,
+            (prop, index, self) => self.findIndex((prop2) => prop2.description === prop.description) !== index,
         );
 
         if (duplicatePropertyDescriptions.length > 0) {
