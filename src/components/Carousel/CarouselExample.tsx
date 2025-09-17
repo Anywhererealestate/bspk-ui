@@ -5,7 +5,7 @@ import { COLOR_VARIANTS } from '-/utils/colorVariants';
 import { ComponentExampleFn } from '-/utils/demo';
 
 export const CarouselExample: ComponentExampleFn<CarouselProps> = ({ action }) => {
-    const Slide = ({ number }: { number: number }) => (
+    const Slide = ({ number, noButton }: { number: number; noButton?: boolean }) => (
         <div
             data-color={COLOR_VARIANTS[(number + 3) % COLOR_VARIANTS.length]}
             style={{
@@ -21,7 +21,9 @@ export const CarouselExample: ComponentExampleFn<CarouselProps> = ({ action }) =
             }}
         >
             Slide {number}
-            <Button label="Click me" onClick={() => action(`Slide ${number} clicked`)} variant="tertiary" />
+            {!noButton && (
+                <Button label="Click me" onClick={() => action(`Slide ${number} clicked`)} variant="tertiary" />
+            )}
         </div>
     );
 
@@ -30,7 +32,7 @@ export const CarouselExample: ComponentExampleFn<CarouselProps> = ({ action }) =
         render: ({ props, Component }) => (
             <Component {...props}>
                 <Slide number={1} />
-                <Slide number={2} />
+                <Slide noButton number={2} />
                 <Slide number={3} />
                 <Slide number={4} />
                 <Slide number={5} />

@@ -1,6 +1,6 @@
 import { SvgChevronLeft } from '@bspk/icons/ChevronLeft';
 import { SvgChevronRight } from '@bspk/icons/ChevronRight';
-import { Children, ReactNode, useEffect, useMemo, useRef, useState } from 'react';
+import { Children, ReactNode, useMemo, useRef, useState } from 'react';
 import { Button } from '-/components/Button';
 import { PageControl } from '-/components/PageControl';
 import { useSwipe } from '-/hooks/useSwipe';
@@ -73,13 +73,6 @@ export function Carousel({ label = 'carousel', children, width = 'full', gap: ga
 
     const [current, setCurrentState] = useState(0);
 
-    const focusScroll = () => {
-        const nextElement = containerRef.current?.querySelector<HTMLElement>('[data-active]');
-        if (!nextElement) return;
-        nextElement.focus();
-        nextElement.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-    };
-
     const { items, total } = useMemo(() => {
         const nextItems = Children.toArray(children);
         return {
@@ -91,6 +84,9 @@ export function Carousel({ label = 'carousel', children, width = 'full', gap: ga
     const setCurrent = (dir: 'next' | 'prev') => () =>
         setCurrentState((prev) => {
             const next = Math.max(0, Math.min(total - 1, dir === 'next' ? prev + 1 : prev - 1));
+            const nextElement = containerRef.current?.children[next] as HTMLElement | undefined;
+            nextElement?.focus();
+            nextElement?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
             return next;
         });
 
@@ -104,21 +100,6 @@ export function Carousel({ label = 'carousel', children, width = 'full', gap: ga
                   '3/4': '75%',
                   full: '100%',
               }[width];
-
-    // scroll to the current item when:
-    // - initial mount
-    // - the container resizes
-
-    useEffect(() => {
-        focusScroll();
-
-        const observer = new ResizeObserver(focusScroll);
-        if (containerRef.current) observer.observe(containerRef.current);
-        return () => observer.disconnect();
-    }, []);
-
-    // - current item, items, or gap changes
-    useEffect(focusScroll, [current, items, gap]);
 
     return (
         <div
