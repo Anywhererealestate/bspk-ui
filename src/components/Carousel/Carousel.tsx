@@ -23,10 +23,13 @@ export type CarouselProps = {
      */
     children: ReactNode;
     /**
-     * The width of each item relative to the carousel container's width.
+     * The width of each item/child.
      *
-     * If number is provided, it is treated as pixels. If string is provided, it is treated as a CSS width value (%, px,
-     * em, rem, etc).
+     * If number is provided, it is treated as pixels.
+     *
+     * If string is provided, it is treated as a CSS width value (%, px, em, rem, etc).
+     *
+     * If a percentage (%) is provided, the item is sized based on the carousel container's width
      *
      * @default 80%
      *
@@ -64,7 +67,7 @@ export type CarouselProps = {
  *     }
  *
  * @name Carousel
- * @phase Dev
+ * @phase UXReview
  */
 
 export function Carousel({
