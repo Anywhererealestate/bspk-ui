@@ -9,9 +9,9 @@
         "README.md",
         "LICENSE",
         "meta.ts",
-        "meta-types.ts",
         "build.ts",
-        "tsconfig.json"
+        "tsconfig.json",
+        "tsconfig.build.json"
     ],
     "scripts": {
         "sass": "npx sass --no-source-map --silence-deprecation=mixed-decls src:dist",
