@@ -1,6 +1,6 @@
 import { SvgChevronLeft } from '@bspk/icons/ChevronLeft';
 import { SvgChevronRight } from '@bspk/icons/ChevronRight';
-import { Children, CSSProperties, ReactNode, useEffect, useMemo, useRef, useState } from 'react';
+import { Children, CSSProperties, ReactNode, useMemo, useRef, useState } from 'react';
 import { Button } from '-/components/Button';
 import { PageControl } from '-/components/PageControl';
 import { useSwipe } from '-/hooks/useSwipe';
@@ -94,14 +94,10 @@ export function Carousel({
             const nextVal = Math.max(0, Math.min(total - 1, dir === 'next' ? prev + 1 : prev - 1));
             const nextElement = containerRef.current?.children[nextVal] as HTMLElement | undefined;
             nextElement?.focus();
+            nextElement?.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
             return nextVal;
         });
     };
-
-    useEffect(() => {
-        const nextElement = containerRef.current?.children[current] as HTMLElement | undefined;
-        setTimeout(() => nextElement?.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' }), 100);
-    }, [current, widthValue, gap, containerRef.current?.scrollWidth]);
 
     const swipeProps = useSwipe(setCurrent('next'), setCurrent('prev'));
 
