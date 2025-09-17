@@ -94,7 +94,7 @@ export function Carousel({
             const nextVal = Math.max(0, Math.min(total - 1, dir === 'next' ? prev + 1 : prev - 1));
             const nextElement = containerRef.current?.children[nextVal] as HTMLElement | undefined;
             nextElement?.focus();
-            nextElement?.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+            nextElement?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
             return nextVal;
         });
     };
