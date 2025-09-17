@@ -6,10 +6,11 @@
  * @bspk/ui/Txt".
  */
 
-import { JSXElementConstructor, ReactNode, ComponentPropsWithoutRef } from 'react';
+import { JSXElementConstructor, ReactNode, ComponentPropsWithoutRef, AriaRole } from 'react';
 
 export type AlertVariant = 'error' | 'informational' | 'success' | 'warning';
 
+/** Sets a ref to the given element. */
 export type SetRef<T> = (instance: T | null) => void;
 
 export type ElementProps<
@@ -115,6 +116,12 @@ export type CommonPropsLibrary = {
      * @utility
      */
     owner?: string;
+    /**
+     * The ARIA role of the element.
+     *
+     * @type string
+     */
+    role?: AriaRole;
 };
 
 export type CommonProps<K extends keyof CommonPropsLibrary> = Pick<CommonPropsLibrary, K>;

@@ -1,0 +1,15 @@
+[data-bspk-utility='list-item-group'] {
+    /*! 
+    --max-display-count: is set via inline style 
+    */
+
+    display: flex;
+    flex-direction: column;
+
+    &[data-scroll] {
+        max-height: calc(var(--list-item-height) * var(--max-display-count));
+        overflow: hidden auto;
+    }
+}
+
+/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

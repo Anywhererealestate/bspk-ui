@@ -49,7 +49,7 @@ async function main() {
 
     await exec(`rm -rf ${distPath} && mkdir -p ${distStylesPath}`);
 
-    await exec('npx tsc && npm run sass');
+    await exec('tsc --project ./tsconfig.build.json && npm run sass');
 
     // copy the styles from @bspk/styles to the temp styles directory
     await Promise.all(
@@ -146,7 +146,7 @@ function cssImportsInjected(fileContent: string) {
 }
 
 async function componentExports() {
-    const nextExports = { ...packageData['static-exports'] };
+    const nextExports: Record<string, string> = { ...packageData['static-exports'] };
 
     (await readDir(path.resolve('./dist/components'), { withFileTypes: true }))
         .filter((dirent) => dirent.isDirectory() && !dirent.name.startsWith('.'))

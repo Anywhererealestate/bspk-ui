@@ -1,6 +1,6 @@
 import { KeyboardEventCode } from './keyboard';
 
-export type KeysCallback = Partial<Record<KeyboardEventCode | '*', (event: React.KeyboardEvent) => void>>;
+export type KeysCallback = Partial<Record<KeyboardEventCode, ((event: React.KeyboardEvent) => void) | null>>;
 
 /**
  * Handles multiple keydown events with specific callbacks for each key.
@@ -9,16 +9,16 @@ export type KeysCallback = Partial<Record<KeyboardEventCode | '*', (event: React
  * @returns A function that can be used as an event handler for keydown events.
  */
 export function handleKeyDown(
-    keysCallback: KeysCallback,
+    keysCallback: KeysCallback = {},
     { stopPropagation = false, preventDefault = false }: { stopPropagation?: boolean; preventDefault?: boolean } = {},
 ) {
     return (event: React.KeyboardEvent) => {
-        const callback = keysCallback[event.code as KeyboardEventCode] || keysCallback['*'];
+        const callback = keysCallback[event.code as KeyboardEventCode];
         if (callback) {
             callback(event);
             if (stopPropagation) event.stopPropagation();
             if (preventDefault) event.preventDefault();
         }
-        return callback ? (event.code as KeyboardEventCode | '*') : null;
+        return callback ? (event.code as KeyboardEventCode) : null;
     };
 }
