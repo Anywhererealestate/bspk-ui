@@ -56,6 +56,8 @@
         "./CalendarPicker/*": "./dist/components/CalendarPicker/*.js",
         "./Card": "./dist/components/Card/index.js",
         "./Card/*": "./dist/components/Card/*.js",
+        "./Carousel": "./dist/components/Carousel/index.js",
+        "./Carousel/*": "./dist/components/Carousel/*.js",
         "./Checkbox": "./dist/components/Checkbox/index.js",
         "./Checkbox/*": "./dist/components/Checkbox/*.js",
         "./CheckboxGroup": "./dist/components/CheckboxGroup/index.js",
