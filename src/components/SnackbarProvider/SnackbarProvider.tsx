@@ -92,7 +92,7 @@ export type SnackbarProviderProps = {
  *     }
  *
  * @name SnackbarProvider
- * @phase Dev
+ * @phase UXReview
  */
 export function SnackbarProvider({ children, timeout, countLimit = 10 }: SnackbarProviderProps) {
     const [snackbars, setSnackbars] = useState<SnackbarData[]>([]);
