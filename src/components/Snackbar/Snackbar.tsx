@@ -29,7 +29,7 @@ export type SnackbarProps = {
  */
 export function Snackbar({ text, button, onClose }: SnackbarProps) {
     return (
-        <span data-bspk="snackbar">
+        <span data-bspk="snackbar" role="alert">
             <Txt variant="body-small">{text}</Txt>
 
             {button && (

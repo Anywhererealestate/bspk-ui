@@ -218,6 +218,8 @@
         "./TextInput/*": "./dist/components/TextInput/*.js",
         "./TimeInput": "./dist/components/TimeInput/index.js",
         "./TimeInput/*": "./dist/components/TimeInput/*.js",
+        "./Toast": "./dist/components/Toast/index.js",
+        "./Toast/*": "./dist/components/Toast/*.js",
         "./ToggleOption": "./dist/components/ToggleOption/index.js",
         "./ToggleOption/*": "./dist/components/ToggleOption/*.js",
         "./Tooltip": "./dist/components/Tooltip/index.js",
