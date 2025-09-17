@@ -1,23 +1,26 @@
+/* eslint-disable @cspell/spellchecker */
 /* eslint-disable no-console */
 /**
  * This script generates a new component with all the expected boilerplate.
  *
  * $ npx tsx .scripts/tasks/new-component.ts ${componentName}
+ *
+ * UI: newc - Create a new component with all the expected boilerplate
  */
 
 import { execSync } from 'child_process';
 import fs from 'fs/promises';
 import path from 'path';
 
-import { generateAndWriteTestFile } from '../lib/generateTestFile';
-import { getComponentsDir } from '../lib/getComponentsDir';
-import { generateAndWriteComponentFile } from '../lib/generateComponentFile';
-import { kebabCase, capitalizeFirstLetter } from '../utils';
-import { generateAndWriteExampleFile } from '../lib/generateExampleFile';
-import { generateAndWriteStylesFile } from '../lib/generateStylesFile';
+import { generateAndWriteComponentFile } from '.scripts/lib/generateComponentFile';
+import { generateAndWriteExampleFile } from '.scripts/lib/generateExampleFile';
+import { generateAndWriteStylesFile } from '.scripts/lib/generateStylesFile';
+import { generateAndWriteTestFile } from '.scripts/lib/generateTestFile';
+import { getComponentsDir } from '.scripts/lib/getComponentsDir';
+import { kebabCase, capitalizeFirstLetter } from '.scripts/utils';
 
 (async () => {
-    const [_, __, nameArg, modeArg] = process.argv;
+    const [nameArg, modeArg] = process.argv.slice(2);
     const force = modeArg === 'force';
 
     const componentName = getComponentNameOrExit(nameArg);
@@ -63,7 +66,7 @@ async function createComponentDirectoryOrExit(componentName: string, force: bool
         }
         execSync(`rm -rf ${componentDirectoryPath}`, { stdio: 'inherit' });
         return componentDirectoryPath;
-    } catch (error) {
+    } catch {
         execSync(`mkdir -p ${componentDirectoryPath}`, { stdio: 'inherit' });
 
         return componentDirectoryPath;
@@ -98,5 +101,5 @@ async function updatePackageJson(componentName: string) {
         Object.entries(packageJsonData.exports).sort(([keyA], [keyB]) => keyA.localeCompare(keyB)),
     );
 
-    await fs.writeFile(path.resolve('./package.json'), JSON.stringify(packageJsonData, null, 4) + '\n');
+    await fs.writeFile(path.resolve('./package.json'), `${JSON.stringify(packageJsonData, null, 4)}\n`);
 }

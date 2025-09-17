@@ -2,12 +2,14 @@
 /**
  * This script generates a new component test with all the expected boilerplate.
  *
- * $ npx tsx .scripts/tasks/.scripts/tasks/create-tests.ts
+ * $ npx tsx .scripts/tasks/create-tests.ts
+ *
+ * UI: newt - Create new tests for components that don't have them yet
  */
 
 import fs from 'fs';
-import { generateAndWriteTestFile } from '../lib/generateTestFile';
-import { getComponentFiles } from '../lib/getComponentFiles';
+import { generateAndWriteTestFile } from '.scripts/lib/generateTestFile';
+import { getComponentFiles } from '.scripts/lib/getComponentFiles';
 
 const blackList: { [key: string]: true } = {};
 

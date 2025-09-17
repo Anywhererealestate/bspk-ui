@@ -7,14 +7,15 @@
  *
  * Generates styles provider components for each brand.
  *
- * @cliName gsp
+ * UI: gsp - Generate styles providers for each brand
  */
 
 import { execSync } from 'child_process';
 import fs from 'fs';
 
+// eslint-disable-next-line no-restricted-imports
 import packageData from '../../package.json';
-import { camelCase } from '../utils';
+import { camelCase } from '.scripts/utils';
 
 const BRANDS = packageData.brands;
 

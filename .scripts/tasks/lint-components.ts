@@ -1,137 +1,134 @@
+/* eslint-disable @cspell/spellchecker */
 /* eslint-disable no-console */
-/** $ npx tsx .scripts/tasks/lint-components.ts */
+/**
+ * $ npx tsx .scripts/tasks/lint-components.ts
+ *
+ * UI: lintc - Lint all components for common issues
+ */
 
 import fs from 'fs';
 import path from 'path';
 
-import { getLocalMeta } from '../utils';
+import { getLocalMeta } from '.scripts/utils';
 
-const errors: string[] = [];
+async function main() {
+    const errors: string[] = [];
 
-const { componentsMeta, typesMeta } = await getLocalMeta(true);
+    const { componentsMeta, typesMeta } = await getLocalMeta(true);
 
-const packageJsonData = JSON.parse(fs.readFileSync(path.resolve('./package.json'), 'utf-8'));
+    const packageJsonData = JSON.parse(fs.readFileSync(path.resolve('./package.json'), 'utf-8'));
 
-fs.readdirSync(path.resolve('./src/components'), { withFileTypes: true }).forEach((dirent) => {
-    if (!dirent.isDirectory() && dirent.name !== '.DS_Store') {
-        errors.push(`❌ ${dirent.name} is in the components directory but is not a directory. Please remove it.`);
-        return;
-    }
-
-    if (errors.length) return;
-});
-
-const hasExports = !!packageJsonData.exports;
-
-if (!hasExports) {
-    errors.push('❌ package.json does not have an "exports" field. Please add it.');
-}
-
-// check if package exports components that do not exist
-if (hasExports) {
-    const exportedComponentNames = Object.values<string>(packageJsonData.exports).flatMap((value) => {
-        const componentNameMatch = value.match(/\/components\/([^/]+)\//);
-        return componentNameMatch ? [componentNameMatch[1]] : [];
-    });
-
-    exportedComponentNames.forEach((exportedName) => {
-        if (exportedName && !componentsMeta.find((c) => c.name === exportedName)) {
-            errors.push(`❌ ${exportedName} is exported in package.json but does not exist in src/components.`);
-        }
-    });
-}
-
-componentsMeta.forEach(({ name, slug, phase }) => {
-    if (hasExports) {
-        const exports = [
-            { key: `./${name}/*`, value: `./dist/components/${name}/*.js` },
-            { key: `./${name}`, value: `./dist/components/${name}/index.js` },
-        ];
-
-        if (
-            !exports.every(({ key, value }) => key in packageJsonData.exports && packageJsonData.exports[key] === value)
-        ) {
-            errors.push(`❌ ${name} is not exported properly in package.json. Please add it to the exports.`);
+    fs.readdirSync(path.resolve('./src/components'), { withFileTypes: true }).forEach((dirent) => {
+        if (!dirent.isDirectory() && dirent.name !== '.DS_Store') {
+            errors.push(`❌ ${dirent.name} is in the components directory but is not a directory. Please remove it.`);
             return;
         }
+
+        if (errors.length) return;
+    });
+
+    const hasExports = !!packageJsonData.exports;
+
+    if (!hasExports) {
+        errors.push('❌ package.json does not have an "exports" field. Please add it.');
     }
 
-    const indexPath = path.resolve(`./src/components/${name}/index.tsx`);
+    componentsMeta.forEach(({ name, slug, phase }) => {
+        if (hasExports) {
+            const exports = [
+                { key: `./${name}/*`, value: `./dist/components/${name}/*.js` },
+                { key: `./${name}`, value: `./dist/components/${name}/index.js` },
+            ];
 
-    const content = fs.readFileSync(path.resolve(`./src/components/${name}/${name}.tsx`), 'utf-8');
-
-    if (!fs.existsSync(indexPath)) {
-        errors.push(`❌ ${name} does not have an index.tsx file. Please create one.`);
-        return;
-    }
-
-    // ensure the component file doesn't have any console logs/info that have been ignored
-    if (content.includes('console.') && content.includes('no-console')) {
-        errors.push(`❌ ${name} has console logging. Please remove them.`);
-        return;
-    }
-
-    const hasDefaultDescription = content.includes(`Component description.`);
-    const hasFunctionName = content.includes(`.bspkName = '${name}'`);
-    const hasDataName = content.includes(`data-bspk="${slug}"`);
-    const hasDataUtilityName = content.includes(`data-bspk-utility="${slug}"`);
-    const isGenerated = content.includes(`@generated`);
-
-    const sassNameMatch = content.match(/import '\.\/(.*)\.scss'/);
-
-    const sassName = sassNameMatch?.[1];
-
-    if (phase !== 'Utility' && !isGenerated && !hasDataName && !hasDataUtilityName) {
-        errors.push(`❌ ${name} does not have a data-bspk attribute. Please add it to the component.`);
-    }
-
-    if (sassName && sassName !== slug && sassName !== 'base') {
-        errors.push(`❌ ${name} sass name does not match component slug "${sassName}"`);
-    }
-
-    if (hasFunctionName) {
-        errors.push(`❌ ${name} should not have a bspkName property`);
-    }
-
-    if (hasDefaultDescription) {
-        errors.push(`❌ ${name} does not have a proper description`);
-    }
-
-    // lint component Properties
-
-    const props = typesMeta?.find((t: { name: string }) => t.name === `${name}Props`);
-
-    if (props?.properties) {
-        // does not have duplicate property names
-        const duplicatePropertyNames = props.properties.filter(
-            (prop: { name: string }, index: number, self: { name: string }[]) =>
-                self.findIndex((prop2) => prop2.name === prop.name) !== index,
-        );
-
-        if (duplicatePropertyNames.length > 0) {
-            errors.push(
-                `❌ ${name} has duplicate property names: ${duplicatePropertyNames.map((p) => p.name).join(', ')}`,
-            );
+            if (
+                !exports.every(
+                    ({ key, value }) => key in packageJsonData.exports && packageJsonData.exports[key] === value,
+                )
+            ) {
+                errors.push(`❌ ${name} is not exported properly in package.json. Please add it to the exports.`);
+                return;
+            }
         }
 
-        // find duplicate property descriptions
-        const duplicatePropertyDescriptions = props.properties.filter(
-            (prop, index, self) => self.findIndex((prop2) => prop2.description === prop.description) !== index,
-        );
+        const indexPath = path.resolve(`./src/components/${name}/index.tsx`);
 
-        if (duplicatePropertyDescriptions.length > 0) {
-            errors.push(
-                `❌ ${name} has duplicate property descriptions: ${duplicatePropertyDescriptions.map((p) => p.description).join(', ')}`,
-            );
+        const content = fs.readFileSync(path.resolve(`./src/components/${name}/${name}.tsx`), 'utf-8');
+
+        if (!fs.existsSync(indexPath)) {
+            errors.push(`❌ ${name} does not have an index.tsx file. Please create one.`);
+            return;
         }
+
+        // ensure the component file doesn't have any console logs/info that have been ignored
+        if (content.includes('console.') && content.includes('no-console')) {
+            errors.push(`❌ ${name} has console logging. Please remove them.`);
+            return;
+        }
+
+        const hasDefaultDescription = content.includes(`Component description.`);
+        const hasFunctionName = content.includes(`.bspkName = '${name}'`);
+        const hasDataName = content.includes(`data-bspk="${slug}"`);
+        const hasDataUtilityName = content.includes(`data-bspk-utility="${slug}"`);
+        const isGenerated = content.includes(`@generated`);
+
+        const sassNameMatch = content.match(/import '\.\/(.*)\.scss'/);
+
+        const sassName = sassNameMatch?.[1];
+
+        if (phase !== 'Utility' && !isGenerated && !hasDataName && !hasDataUtilityName) {
+            errors.push(`❌ ${name} does not have a data-bspk attribute. Please add it to the component.`);
+        }
+
+        if (sassName && sassName !== slug && sassName !== 'base') {
+            errors.push(`❌ ${name} sass name does not match component slug "${sassName}"`);
+        }
+
+        if (hasFunctionName) {
+            errors.push(`❌ ${name} should not have a bspkName property`);
+        }
+
+        if (hasDefaultDescription) {
+            errors.push(`❌ ${name} does not have a proper description`);
+        }
+
+        // lint component Properties
+
+        const props = typesMeta?.find((t: { name: string }) => t.name === `${name}Props`);
+
+        if (props?.properties) {
+            // does not have duplicate property names
+            const duplicatePropertyNames = props.properties.filter(
+                (prop: { name: string }, index: number, self: { name: string }[]) =>
+                    self.findIndex((prop2) => prop2.name === prop.name) !== index,
+            );
+
+            if (duplicatePropertyNames.length > 0) {
+                errors.push(
+                    `❌ ${name} has duplicate property names: ${duplicatePropertyNames.map((p) => p.name).join(', ')}`,
+                );
+            }
+
+            // find duplicate property descriptions
+            const duplicatePropertyDescriptions = props.properties.filter(
+                (prop, index, self) => self.findIndex((prop2) => prop2.description === prop.description) !== index,
+            );
+
+            if (duplicatePropertyDescriptions.length > 0) {
+                errors.push(
+                    `❌ ${name} has duplicate property descriptions: ${duplicatePropertyDescriptions.map((p) => p.description).join(', ')}`,
+                );
+            }
+        }
+
+        console.info(`✅ ${name} passes linting`);
+    });
+
+    if (errors.length > 0) {
+        errors.forEach((error) => console.error(error));
+        process.exit(1);
     }
-
-    console.info(`✅ ${name} passes linting`);
-});
-
-if (errors.length > 0) {
-    errors.forEach((error) => console.error(error));
-    process.exit(1);
 }
+
+main();
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

@@ -1,8 +1,9 @@
+/** UI: copyright - Ensure all source files have the copyright notice */
 import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 
-import { prettyLint } from '../utils';
+import { prettyLint } from '.scripts/utils';
 
 // get all files in src that end wth .tsx, .ts, .scss
 
@@ -37,7 +38,7 @@ files.forEach((file) => {
         execSync(
             //
             `npx prettier --write '${file}' && npx stylelint '${file}' --fix`,
-            { stdio: 'inherit' }
+            { stdio: 'inherit' },
         );
 
     // eslint-disable-next-line no-console
