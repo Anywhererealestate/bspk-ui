@@ -10,7 +10,7 @@
     width: 100%;
     position: relative;
     background: #fff;
-    padding: 0 var(--spacing-sizing-04);
+    gap: var(--spacing-sizing-02);
 
     [data-items-container] {
         width: 100%;
@@ -21,6 +21,7 @@
         display: flex;
         align-items: center;
         gap: var(--gap);
+        min-width: 0;
     }
 
     [data-item-wrapper] {

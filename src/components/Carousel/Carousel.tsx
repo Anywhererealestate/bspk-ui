@@ -1,6 +1,6 @@
 import { SvgChevronLeft } from '@bspk/icons/ChevronLeft';
 import { SvgChevronRight } from '@bspk/icons/ChevronRight';
-import { Children, ReactNode, useMemo, useRef, useState } from 'react';
+import { Children, CSSProperties, ReactNode, useEffect, useMemo, useRef, useState } from 'react';
 import { Button } from '-/components/Button';
 import { PageControl } from '-/components/PageControl';
 import { useSwipe } from '-/hooks/useSwipe';
@@ -25,21 +25,22 @@ export type CarouselProps = {
     /**
      * The width of each item relative to the carousel container's width.
      *
-     * Can be a number (pixels) or one of '1/2', '3/4', or 'full'.
+     * If number is provided, it is treated as pixels. If string is provided, it is treated as a CSS width value (%, px,
+     * em, rem, etc).
      *
-     * @default full
+     * @default 80%
      *
-     * @type number
-     * @maximum 1920
-     * @minimum 156
+     * @type string
      */
-    width?: number | '1/2' | '3/4' | 'full';
+    itemWidth?: number | string;
     /**
      * The gap between items in pixels.
      *
      * @default 16
      */
     gap?: number;
+    /** Additional styles to apply to the carousel container. */
+    style?: CSSProperties;
 };
 
 /**
@@ -66,8 +67,15 @@ export type CarouselProps = {
  * @phase Dev
  */
 
-export function Carousel({ label = 'carousel', children, width = 'full', gap: gapProp = 16 }: CarouselProps) {
-    const gap = Math.max(0, Math.min(192, gapProp || 16));
+export function Carousel({
+    label = 'carousel',
+    children,
+    itemWidth: widthProp = '80%',
+    gap: gapProp,
+    style,
+}: CarouselProps) {
+    const gap = gapProp || 16;
+    const widthValue = typeof widthProp === 'number' ? `${widthProp}px` : widthProp;
 
     const containerRef = useRef<HTMLDivElement | null>(null);
 
@@ -81,34 +89,30 @@ export function Carousel({ label = 'carousel', children, width = 'full', gap: ga
         };
     }, [children]);
 
-    const setCurrent = (dir: 'next' | 'prev') => () =>
+    const setCurrent = (dir: 'next' | 'prev') => () => {
         setCurrentState((prev) => {
-            const next = Math.max(0, Math.min(total - 1, dir === 'next' ? prev + 1 : prev - 1));
-            const nextElement = containerRef.current?.children[next] as HTMLElement | undefined;
+            const nextVal = Math.max(0, Math.min(total - 1, dir === 'next' ? prev + 1 : prev - 1));
+            const nextElement = containerRef.current?.children[nextVal] as HTMLElement | undefined;
             nextElement?.focus();
-            nextElement?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-            return next;
+            return nextVal;
         });
+    };
+
+    useEffect(() => {
+        const nextElement = containerRef.current?.children[current] as HTMLElement | undefined;
+        setTimeout(() => nextElement?.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' }), 100);
+    }, [current, widthValue, gap, containerRef.current?.scrollWidth]);
 
     const swipeProps = useSwipe(setCurrent('next'), setCurrent('prev'));
-
-    const widthValue =
-        typeof width === 'number'
-            ? `${width}px`
-            : {
-                  '1/2': '50%',
-                  '3/4': '75%',
-                  full: '100%',
-              }[width];
 
     return (
         <div
             aria-label={label}
             aria-roledescription="carousel"
             data-bspk="carousel"
-            data-width={width || 'full'}
             role="region"
             style={cssWithVars({
+                ...style,
                 '--gap': gap ? `${gap}px` : 'var(--spacing-sizing-04)',
                 '--item-width': widthValue,
             })}
@@ -124,6 +128,7 @@ export function Carousel({ label = 'carousel', children, width = 'full', gap: ga
                         },
                         {
                             preventDefault: true,
+                            stopPropagation: true,
                         },
                     )}
                     ref={(node) => (containerRef.current = node)}
