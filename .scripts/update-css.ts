@@ -10,9 +10,8 @@
 import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
-import { Brand } from '../src/types/common';
-
 import { getCssVariables, getStylesRoot, prettyLint, reportMissingVariables } from './utils';
+import { Brand } from 'src/types/common';
 
 function main() {
     const variables = getCssVariables();

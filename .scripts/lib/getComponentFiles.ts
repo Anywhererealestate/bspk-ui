@@ -1,5 +1,5 @@
-import path from 'path';
 import fs from 'fs/promises';
+import path from 'path';
 import { getComponentsDir } from './getComponentsDir';
 
 interface ComponentFileData {
@@ -31,13 +31,17 @@ export const getComponentFiles = async (componentsDirectory?: string): Promise<C
             componentFiles.push({ name, filePath });
 
             continue;
-        } catch (error) {}
+        } catch {
+            // continue regardless of error
+        }
 
         try {
             const indexPath = path.join(componentsDir, name, 'index.tsx');
             await fs.access(indexPath);
             componentFiles.push({ name, filePath: indexPath });
-        } catch (error) {}
+        } catch {
+            // continue regardless of error
+        }
     }
 
     return componentFiles;

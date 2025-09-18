@@ -1,5 +1,5 @@
-import { kebabCase } from '../utils';
 import fs from 'fs/promises';
+import { kebabCase } from '.scripts/utils';
 
 /** Generates and writes a boilerplate component file for a component name and destination file path. */
 export const generateAndWriteComponentFile = async (componentName: string, filePath: string) => {
