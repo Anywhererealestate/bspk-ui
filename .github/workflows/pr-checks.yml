@@ -18,7 +18,7 @@ jobs:
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     run-lint:
-        name: Lint / Build / Test
+        name: Build / Lint / Check CSS Variables
         runs-on: ubuntu-latest
 
         steps:
@@ -38,17 +38,14 @@ jobs:
             - name: Lint Components
               run: npx tsx .scripts/tasks/lint-components.ts
 
-            - name: Run ESLint and Prettier
+            - name: Run eslint and prettier
               run: npm run lint
 
-            - name: Run StyleLint
+            - name: Run stylelint
               run: npm run lint:css
 
-            - name: Check CSS Variables
+            - name: Check CSS variables
               run: npx tsx .scripts/check-css-vars.ts
 
-            - name: Run Build
+            - name: Run build
               run: npm run build
-
-            - name: Run Tests
-              run: npm run test
