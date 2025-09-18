@@ -3,7 +3,7 @@ import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { ComponentMeta, TypeMeta } from '../.tmp';
+import { ComponentMeta, TypeMeta } from 'src/types/meta';
 
 globalThis.__dirname = globalThis.__dirname || path.dirname(fileURLToPath(import.meta.url));
 

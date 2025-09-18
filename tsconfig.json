@@ -58,6 +58,10 @@
     ],
     "exclude": [
         "node_modules",
-        "dist"
+        "dist",
+        "acceptance-tests",
+        "package",
+        "src/**/*.spec.ts",
+        "src/**/*.test.ts"
     ]
 }

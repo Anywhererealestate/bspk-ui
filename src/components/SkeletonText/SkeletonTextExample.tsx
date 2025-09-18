@@ -1,5 +1,4 @@
-/* eslint-disable @cspell/spellchecker */ import { useState, useEffect } from 'react';
-
+import { useState, useEffect } from 'react';
 import { SkeletonTextProps } from '.';
 import { useTimeout } from '-/hooks/useTimeout';
 import { ComponentExample, Preset } from '-/utils/demo';
@@ -37,7 +36,7 @@ function SkeletonTextTransition({
         <Component {...props}>
             {loaded && (
                 <p>
-                    Synergestic actionables turn the ship, or vertical integration, offerings locked and loaded, so get
+                    Synergetic actionables turn the ship, or vertical integration, offerings locked and loaded, so get
                     buy-in.
                 </p>
             )}
