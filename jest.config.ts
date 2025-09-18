@@ -1,7 +1,7 @@
 import { Config } from 'jest';
 import { TS_EXT_TO_TREAT_AS_ESM, ESM_TS_TRANSFORM_PATTERN } from 'ts-jest';
 
-export default {
+const config: Config = {
     testEnvironment: 'jsdom',
     extensionsToTreatAsEsm: [...TS_EXT_TO_TREAT_AS_ESM],
     transform: {
@@ -22,5 +22,7 @@ export default {
     },
     testPathIgnorePatterns: ['<rootDir>/node_modules/', '<rootDir>/dist/', 'tests'],
     setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
-    transformIgnorePatterns: ['/node_modules/jest-axe'],
-} satisfies Config;
+    transformIgnorePatterns: ['/node_modules/jest-axe', '/node_modules/@bspk-ui'],
+};
+
+export default config;

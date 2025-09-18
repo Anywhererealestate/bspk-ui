@@ -82,7 +82,7 @@ export function Carousel({
 
     const containerRef = useRef<HTMLDivElement | null>(null);
 
-    const [current, setCurrentState] = useState(0);
+    const [currentIndex, setCurrentIndex] = useState(0);
 
     const { items, total } = useMemo(() => {
         const nextItems = Children.toArray(children);
@@ -93,7 +93,7 @@ export function Carousel({
     }, [children]);
 
     const setCurrent = (dir: 'next' | 'prev') => () => {
-        setCurrentState((prev) => {
+        setCurrentIndex((prev) => {
             const nextVal = Math.max(0, Math.min(total - 1, dir === 'next' ? prev + 1 : prev - 1));
             const nextElement = containerRef.current?.children[nextVal] as HTMLElement | undefined;
             nextElement?.focus();
@@ -136,11 +136,11 @@ export function Carousel({
                         <div
                             aria-label={`Slide ${index + 1} of ${total}`}
                             aria-roledescription="slide"
-                            data-active={current === index || undefined}
+                            data-active={currentIndex === index || undefined}
                             data-item-wrapper
                             key={index}
                             role="tabpanel"
-                            tabIndex={current === index ? 0 : -1}
+                            tabIndex={currentIndex === index ? 0 : -1}
                         >
                             {child}
                         </div>
@@ -150,17 +150,17 @@ export function Carousel({
             <div data-controls>
                 <Button
                     aria-label="Previous Slide"
-                    disabled={current === 0}
+                    disabled={currentIndex === 0}
                     icon={<SvgChevronLeft aria-hidden />}
                     iconOnly
                     label="Previous"
                     onClick={setCurrent('prev')}
                     variant="tertiary"
                 />
-                <PageControl numPages={total} value={current} />
+                <PageControl currentPage={currentIndex + 1} numPages={total} />
                 <Button
                     aria-label="Next Slide"
-                    disabled={current === total - 1}
+                    disabled={currentIndex === total - 1}
                     icon={<SvgChevronRight aria-hidden />}
                     iconOnly
                     label="Next"
@@ -169,7 +169,7 @@ export function Carousel({
                 />
             </div>
             <span aria-live="polite" data-sr-only>
-                {`Slide ${current + 1} of ${total}`}
+                {`Slide ${currentIndex + 1} of ${total}`}
             </span>
         </div>
     );
