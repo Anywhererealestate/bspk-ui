@@ -6,7 +6,7 @@
  *
  * $ npx tsx .scripts/tasks/validate-css-vars.ts
  *
- * UI: valcss - Validate that all CSS variables used in the library are defined in the brand CSS files
+ * UI: val-css - Validate that all CSS variables used in the library are defined in the brand CSS files
  */
 import fs from 'fs';
 

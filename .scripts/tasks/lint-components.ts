@@ -1,9 +1,8 @@
-/* eslint-disable @cspell/spellchecker */
 /* eslint-disable no-console */
 /**
  * $ npx tsx .scripts/tasks/lint-components.ts
  *
- * UI: lintc - Lint all components for common issues
+ * UI: lint-comp - Lint all components for common issues
  */
 
 import fs from 'fs';

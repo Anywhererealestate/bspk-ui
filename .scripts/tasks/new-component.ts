@@ -1,11 +1,10 @@
-/* eslint-disable @cspell/spellchecker */
 /* eslint-disable no-console */
 /**
  * This script generates a new component with all the expected boilerplate.
  *
  * $ npx tsx .scripts/tasks/new-component.ts ${componentName}
  *
- * UI: newc - Create a new component with all the expected boilerplate
+ * UI: new-comp - Create a new component with all the expected boilerplate
  */
 
 import { execSync } from 'child_process';

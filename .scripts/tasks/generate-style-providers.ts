@@ -5,8 +5,6 @@
  *
  * $ npx tsx .scripts/tasks/generate-style-providers.ts
  *
- * Generates styles provider components for each brand.
- *
  * UI: gsp - Generate styles providers for each brand
  */
 

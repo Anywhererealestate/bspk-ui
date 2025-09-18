@@ -1,4 +1,3 @@
-/* eslint-disable @cspell/spellchecker */
 /* eslint-disable no-console */
 /**
  * Example validation script.
@@ -8,7 +7,7 @@
  *
  * $ npx tsx .scripts/tasks/validate-examples.ts
  *
- * UI: valex - Validate that all components have examples and that the examples pass linting
+ * UI: val-ex - Validate that all components have examples and that the examples pass linting
  */
 
 import { execSync } from 'child_process';

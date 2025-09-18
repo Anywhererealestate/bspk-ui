@@ -1,4 +1,10 @@
-/** UI: copyright - Ensure all source files have the copyright notice */
+/**
+ * Ensures all source files have the copyright notice at the bottom of the file.
+ *
+ * $ npx tsx .scripts/tasks/ensure-copyright.ts
+ *
+ * UI: copyright - Ensures all source files have the copyright notice
+ */
 import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
