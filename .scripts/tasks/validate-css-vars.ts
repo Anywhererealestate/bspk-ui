@@ -3,6 +3,10 @@
  * This script ensures all CSS variables are defined in all the brand css files.
  *
  * This should be run after the @bspk/styles is updated.
+ *
+ * $ npx tsx .scripts/tasks/validate-css-vars.ts
+ *
+ * UI: val-css - Validate that all CSS variables used in the library are defined in the brand CSS files
  */
 import fs from 'fs';
 

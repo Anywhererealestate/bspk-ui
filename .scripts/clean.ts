@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import fs from 'fs/promises';
 
 const itemsToRemove = ['/.tmp', '/dist', '.scripts/symbols.json', 'component-files.json', 'types.json'];

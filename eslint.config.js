@@ -11,7 +11,7 @@ import tsEslint from 'typescript-eslint';
 /** @type {import('eslint').Linter.Config[]} */
 export default [
     {
-        files: ['src/**/*.ts', 'src/**/*.tsx', 'src/*.ts', 'src/*.tsx', 'build.ts'],
+        files: ['src/**/*.ts', 'src/**/*.tsx', 'src/*.ts', 'src/*.tsx', 'build.ts', '.scripts/**/*'],
     },
     {
         settings: {
@@ -36,16 +36,7 @@ export default [
         plugins: { 'react-hooks': reactHooks },
     },
     {
-        ignores: [
-            '*.js',
-            '**/*.js',
-            '*.d.ts',
-            '**/*.d.ts',
-            'node_modules/**/*',
-            '.github',
-            'dist/**/*',
-            '.scripts/**/*',
-        ],
+        ignores: ['*.js', '**/*.js', '*.d.ts', '**/*.d.ts', 'node_modules/**/*', '.github', 'dist/**/*', '*/.tmp/**/*'],
     },
     {
         rules: {
