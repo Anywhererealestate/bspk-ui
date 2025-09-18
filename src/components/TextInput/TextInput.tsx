@@ -184,6 +184,9 @@ export function TextInput({
                         onChange('');
                         inputRefInternal.current?.focus();
                     }}
+                    onFocus={() => {
+                        focusTimeout.clear();
+                    }}
                     size={size}
                     variant="tertiary"
                 />

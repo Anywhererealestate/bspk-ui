@@ -47,15 +47,7 @@ export type MenuProps = CommonProps<'id' | 'owner' | 'role'> & {
  * @name Menu
  * @phase UXReview
  */
-export function Menu({
-    //
-    innerRef,
-    id: idProp,
-    children,
-    owner,
-    label,
-    ...props
-}: ElementProps<MenuProps, 'div'>) {
+export function Menu({ innerRef, id: idProp, children, owner, label, ...props }: ElementProps<MenuProps, 'div'>) {
     const menuId = useId(idProp);
 
     return (

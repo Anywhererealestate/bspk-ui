@@ -1,12 +1,12 @@
-import fs from 'fs';
+import fs from 'fs/promises';
 
 /** Generates and writes a boilerplate test for a component name and destination file path. */
-export const generateAndWriteTestFileForComponent = (componentName: string, filePath: string) => {
+export const generateAndWriteTestFile = async (componentName: string, filePath: string) => {
     const testFileContent = generateTestFile(componentName);
-    fs.writeFileSync(filePath, testFileContent, 'utf-8');
+    await fs.writeFile(filePath, testFileContent, 'utf-8');
 };
 
-export function generateTestFile(componentName: string) {
+export const generateTestFile = (componentName: string) => {
     return `import { ${componentName} } from './${componentName}';
 import { presets } from './${componentName}Example';
 import { hasNoBasicA11yIssues } from '-/rtl/hasNoBasicA11yIssues';
@@ -26,4 +26,4 @@ describe('${componentName} (RTL)', () => {
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
 `;
-}
+};

@@ -27,6 +27,7 @@
         "meta": "tsx meta.ts",
         "pretty": "npx prettier --write src/",
         "newc": "tsx .scripts/tasks/new-component.ts",
+        "create:tests": "tsx .scripts/tasks/create-tests.ts",
         "clean": "tsx .scripts/clean.ts",
         "pr-check": "npx tsx .scripts/tasks/lint-components.ts && npm run lint && npm run lint:css && npx tsx .scripts/check-css-vars.ts && npm run build"
     },
@@ -55,6 +56,8 @@
         "./CalendarPicker/*": "./dist/components/CalendarPicker/*.js",
         "./Card": "./dist/components/Card/index.js",
         "./Card/*": "./dist/components/Card/*.js",
+        "./Carousel": "./dist/components/Carousel/index.js",
+        "./Carousel/*": "./dist/components/Carousel/*.js",
         "./Checkbox": "./dist/components/Checkbox/index.js",
         "./Checkbox/*": "./dist/components/Checkbox/*.js",
         "./CheckboxGroup": "./dist/components/CheckboxGroup/index.js",
