@@ -63,7 +63,7 @@ export function PageControl({ currentPage: currentProp, numPages: numPagesProp, 
             {getDots(current, numPages).map(({ pageIndex, size }, index) => (
                 <span
                     aria-hidden="true"
-                    data-active={pageIndex === current || undefined}
+                    data-active={pageIndex + 1 === current || undefined}
                     data-dot={pageIndex}
                     data-size={size}
                     key={index + 1}

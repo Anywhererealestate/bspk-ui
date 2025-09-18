@@ -5,11 +5,11 @@ import { ComponentExampleFn, Preset } from '-/utils/demo';
 export const presets: Preset<DrawerProps>[] = [
     {
         label: 'Left Responsive',
-        propState: { closeButton: true, modal: false, placement: 'left' as DrawerProps['placement'] },
+        propState: { closeButton: true, modal: false, placement: 'left', children: <></> },
     },
     {
         label: 'Right Responsive',
-        propState: { closeButton: true, modal: false, placement: 'right' as DrawerProps['placement'] },
+        propState: { closeButton: true, modal: false, placement: 'right', children: <></> },
     },
 ];
 

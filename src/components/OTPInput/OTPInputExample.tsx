@@ -8,7 +8,6 @@ export const presets: Preset<OTPInputProps>[] = [
             value: '',
             length: 4,
             name: 'OTP Input',
-            label: 'Example label',
         },
     },
     {
@@ -17,7 +16,6 @@ export const presets: Preset<OTPInputProps>[] = [
             value: '',
             length: 6,
             name: 'OTP Input',
-            label: 'Example label',
         },
     },
 ];

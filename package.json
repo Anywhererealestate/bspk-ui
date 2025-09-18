@@ -29,7 +29,7 @@
         "newc": "tsx .scripts/tasks/new-component.ts",
         "create:tests": "tsx .scripts/tasks/create-tests.ts",
         "clean": "tsx .scripts/clean.ts",
-        "pr-check": "npx tsx .scripts/tasks/lint-components.ts && npm run lint && npm run lint:css && npx tsx .scripts/check-css-vars.ts && npm run build"
+        "pr-check": "npx tsx .scripts/tasks/lint-components.ts && npm run lint && npm run lint:css && npx tsx .scripts/check-css-vars.ts && npm run build && npm run test"
     },
     "static-exports": {
         "./*": "./dist/*.js"
