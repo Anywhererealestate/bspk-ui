@@ -84,6 +84,14 @@ export function TimeInput({
 
     useOutsideClick({ elements: [elements.floating], callback: () => setOpen(false), disabled: !open });
 
+    useEffect(() => {
+        if (!open) return;
+        const timeoutId = setTimeout(() => {
+            elements.floating?.querySelector<HTMLElement>('[data-scroll-column="hours"]')?.focus();
+        }, 100);
+        return () => clearTimeout(timeoutId);
+    }, [elements.floating, open]);
+
     return (
         <>
             <div
@@ -150,7 +158,6 @@ export function TimeInput({
                         innerRef={(node) => {
                             if (!node) return;
                             elements.setFloating(node as HTMLElement);
-                            node.querySelector<HTMLElement>('[data-scroll-column="hours"]')?.focus();
                         }}
                         label="Select time"
                         owner="time-input"

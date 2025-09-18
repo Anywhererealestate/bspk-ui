@@ -11,7 +11,13 @@ type SetActiveElementId = Dispatch<SetStateAction<string | null>>;
  * This hook provides functionality to navigate through elements using arrow keys and select an element with the Enter
  * or Space key, or onClick.
  */
-export function useKeyNavigation(overrides: KeysCallback = {}): {
+export function useKeyNavigation({
+    overrides = {},
+    defaultActiveElementId,
+}: {
+    overrides?: KeysCallback;
+    defaultActiveElementId?: string | null;
+}): {
     handleKeyDown: (event: KeyboardEvent) => KeyboardEventCode | null;
     activeElementId: string | null;
     setElements: SetRef<HTMLElement[] | undefined>;
@@ -19,7 +25,7 @@ export function useKeyNavigation(overrides: KeysCallback = {}): {
 } {
     const elementsRef = useRef<HTMLElement[]>([]);
 
-    const [activeElementId, setActiveElementId] = useState<string | null>(null);
+    const [activeElementId, setActiveElementId] = useState<string | null>(defaultActiveElementId || null);
 
     useEffect(() => {
         if (activeElementId) document.querySelector(`[id="${activeElementId}"]`)?.scrollIntoView({ block: 'nearest' });

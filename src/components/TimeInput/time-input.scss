@@ -12,7 +12,7 @@
     justify-content: flex-start;
     align-items: center;
 
-    &:hover:not(:focus-within) {
+    &:hover:not(:focus-within, &[data-open]) {
         background:
             linear-gradient(var(--interactions-hover-opacity), var(--interactions-hover-opacity)),
             linear-gradient(var(--surface-neutral-t1-base), var(--surface-neutral-t1-base));

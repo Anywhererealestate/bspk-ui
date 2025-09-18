@@ -173,27 +173,6 @@ export function ListItemMenu({
         strategy: 'fixed',
     });
 
-    const { handleKeyDown, setActiveElementId, setElements, activeElementId } = useKeyNavigation({
-        Tab: () => {
-            setShow(false);
-            setActiveElementId(null);
-        },
-        Escape: () => {
-            setShow(false);
-            setActiveElementId(null);
-        },
-        ...keyOverrides,
-    });
-
-    useEffect(() => setActiveElementId(null), [itemsProp, setActiveElementId]);
-
-    useOutsideClick({
-        elements: [elements.floating as HTMLElement],
-        callback: () => {
-            setShow(false);
-        },
-    });
-
     const items = (typeof itemsProp === 'function' ? itemsProp({ setShow }) : itemsProp).map((item, index) => {
         const itemId = `list-item-menu-${menuId}-item-${item.id || index + 1}`;
         return {
@@ -206,6 +185,30 @@ export function ListItemMenu({
             tabIndex: 0,
             role: role === 'listbox' ? 'option' : item.role || undefined,
         } as MenuListItem;
+    });
+
+    const { handleKeyDown, setActiveElementId, setElements, activeElementId } = useKeyNavigation({
+        defaultActiveElementId: activeElementIdProp || items[0]?.id,
+        overrides: {
+            Tab: () => {
+                setShow(false);
+                setActiveElementId(null);
+            },
+            Escape: () => {
+                setShow(false);
+                setActiveElementId(null);
+            },
+            ...keyOverrides,
+        },
+    });
+
+    useEffect(() => setActiveElementId(null), [itemsProp, setActiveElementId]);
+
+    useOutsideClick({
+        elements: [elements.floating as HTMLElement],
+        callback: () => {
+            setShow(false);
+        },
     });
 
     if (items.length === 0 && !menuLeading && !menuTrailing)

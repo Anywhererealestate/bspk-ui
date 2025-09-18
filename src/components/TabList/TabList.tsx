@@ -217,9 +217,6 @@ export function TabList({
                                     data-value={item.value}
                                     id={item.id}
                                     onClick={handleClick(item)}
-                                    ref={(node) => {
-                                        if (isActive) node?.focus();
-                                    }}
                                     role="tab"
                                     tabIndex={isFocusable ? 0 : -1}
                                     {...triggerProps}

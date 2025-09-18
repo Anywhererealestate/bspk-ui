@@ -33,6 +33,11 @@ export function TimeInputListbox<T extends string>({
     }));
 
     useEffect(() => {
+        setActiveElementId(selectedValue ? optionId(selectedValue) : options[0]?.id);
+        // eslint-disable-next-line react-hooks/exhaustive-deps -- only run on mount
+    }, []);
+
+    useEffect(() => {
         if (selectedValue) setActiveElementId(optionId(selectedValue));
     }, [selectedValue, id, kind, setActiveElementId, optionId]);
 
