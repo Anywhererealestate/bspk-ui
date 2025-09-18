@@ -60,7 +60,7 @@ export function PageControl({ currentPage: currentProp, numPages: numPagesProp, 
             data-variant={variant || undefined}
             role="img"
         >
-            {getDots(current, numPages).map(({ pageIndex, size }, index) => (
+            {getDots(current - 1, numPages).map(({ pageIndex, size }, index) => (
                 <span
                     aria-hidden="true"
                     data-active={pageIndex + 1 === current || undefined}
@@ -74,14 +74,14 @@ export function PageControl({ currentPage: currentProp, numPages: numPagesProp, 
     );
 }
 
-function getDots(currentPage: number, totalPages: number) {
+function getDots(currentIndex: number, totalPages: number) {
     if (totalPages <= MAX_DOT_COUNT) {
         return Array.from({ length: totalPages }, (_, i) => ({
             size: 'medium' as DotSize,
             pageIndex: i,
         }));
     }
-    const start = Math.max(0, Math.min(currentPage - 1, totalPages - MAX_DOT_COUNT));
+    const start = Math.max(0, Math.min(currentIndex - 2, totalPages - MAX_DOT_COUNT));
     return Array.from({ length: MAX_DOT_COUNT }, (_, i) => {
         const pageIndex = start + i;
         let size: DotSize = 'medium';
