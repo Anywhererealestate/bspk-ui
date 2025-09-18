@@ -14,18 +14,6 @@
         box-shadow: var(--drop-shadow-float);
     }
 
-    [data-bspk='button'] {
-        font: inherit;
-
-        &[data-month] {
-            padding-right: var(--spacing-sizing-01);
-        }
-
-        &[data-year] {
-            padding-left: var(--spacing-sizing-01);
-        }
-    }
-
     [data-header] {
         display: flex;
         justify-content: space-between;
@@ -40,6 +28,8 @@
             justify-content: center;
 
             [data-bspk='button'] {
+                font: inherit;
+
                 &[data-month] {
                     padding-right: var(--spacing-sizing-01);
                 }

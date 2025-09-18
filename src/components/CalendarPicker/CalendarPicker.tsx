@@ -20,8 +20,8 @@ import {
     endOfDecade,
 } from 'date-fns';
 import { FocusTrap } from 'focus-trap-react';
-import { useCallback, useMemo, useState, KeyboardEvent, ReactNode, useEffect } from 'react';
-import { Button, ButtonVariant } from '-/components/Button';
+import { useMemo, useState, KeyboardEvent, ReactNode, useEffect } from 'react';
+import { Button, ButtonProps } from '-/components/Button';
 import { ListItemProps } from '-/components/ListItem';
 import { useId } from '-/hooks/useId';
 import { handleKeyDown } from '-/utils/handleKeyDown';
@@ -31,52 +31,72 @@ import './calendar-picker.scss';
 type Direction = '<' | '<<' | '>' | '>>';
 type Kind = 'day' | 'month' | 'year';
 
-const HEADER_BTNS: ('label' | { direction: Direction; svg: ReactNode; label: string })[] = [
-    { direction: '<<', svg: <SvgKeyboardDoubleArrowLeft />, label: 'Previous Year' },
-    { direction: '<', svg: <SvgChevronLeft />, label: 'Previous Month' },
-    'label',
-    { direction: '>', svg: <SvgChevronRight />, label: 'Next Month' },
-    { direction: '>>', svg: <SvgKeyboardDoubleArrowRight />, label: 'Next Year' },
-];
-
 type ConfigKind = {
-    headerBtns: Partial<
-        Record<
-            Direction,
-            {
-                label: string;
-                fn: (date: Date, amount: number) => Date;
-            }
-        >
-    >;
+    header: Record<
+        Direction,
+        {
+            label: string;
+            incrementFn: (date: Date, amount: number) => Date;
+        } | null
+    > & {
+        label: (baseDate: Date, setKind: (next: Kind) => void) => ReactNode;
+    };
     columns: number;
     range: {
         start: (date: Date) => Date;
         end: (date: Date) => Date;
     };
     compare: (dateLeft: Date, dateRight: Date) => boolean;
-    nextKind?: Kind;
     incrementFn: (date: Date, amount: number) => Date;
-    formatStr: string;
-    rows?: number;
-    label: string;
-    ariaFormatStr: string;
-    headerLabel: (baseDate: Date, setKind: (next: Kind) => void) => ReactNode;
+    optionFormatStr: string;
+    listboxLabel: string;
     listBoxHeader?: ReactNode;
+    ariaFormatStr: string;
+    optionProps?: (params: {
+        baseDate: Date;
+        date: Date;
+        isActive: boolean;
+        isSelected: boolean;
+        onChange: (next: Date) => void;
+        setBaseDate: (next: Date) => void;
+        setKind: (next: Kind) => void;
+    }) => Partial<ButtonProps>;
 };
 
 /**
- * Mappings for all kinds of calendar values
+ * Configuration for each of the calendar picker modes (day, month, year)
  *
- * Prevents repeating the same data in multiple places and a lot of if/else statements
+ * This helps keep the main component cleaner and easier to read and avoid lots of conditionals.
  */
 const CONFIG: Record<Kind, ConfigKind> = {
     day: {
-        headerBtns: {
-            '<<': { label: 'Previous Year', fn: addYears },
-            '<': { label: 'Previous Month', fn: addMonths },
-            '>': { label: 'Next Month', fn: addMonths },
-            '>>': { label: 'Next Year', fn: addYears },
+        header: {
+            '<<': { label: 'Previous Year', incrementFn: addYears },
+            '<': { label: 'Previous Month', incrementFn: addMonths },
+            label: (baseDate, setKind) => (
+                <>
+                    <Button
+                        aria-label={`Change Month, currently ${format(baseDate, 'MMMM')}`}
+                        data-month
+                        iconOnly
+                        label={format(baseDate, 'MMMM')}
+                        onClick={() => setKind('month')}
+                        size="large"
+                        variant="tertiary"
+                    />
+                    <Button
+                        aria-label={`Change Year, currently ${baseDate.getFullYear()}`}
+                        data-year
+                        iconOnly
+                        label={`${baseDate.getFullYear()}`}
+                        onClick={() => setKind('year')}
+                        size="large"
+                        variant="tertiary"
+                    />
+                </>
+            ),
+            '>': { label: 'Next Month', incrementFn: addMonths },
+            '>>': { label: 'Next Year', incrementFn: addYears },
         },
         columns: 7,
         range: {
@@ -85,31 +105,9 @@ const CONFIG: Record<Kind, ConfigKind> = {
         },
         compare: isSameDay,
         incrementFn: addDays,
-        formatStr: 'd',
-        label: 'Select Date',
+        optionFormatStr: 'd',
+        listboxLabel: 'Select Date',
         ariaFormatStr: 'do MMMM yyyy',
-        headerLabel: (baseDate, setKind) => (
-            <>
-                <Button
-                    aria-label={`Change Month, currently ${format(baseDate, 'MMMM')}`}
-                    data-month
-                    iconOnly
-                    label={format(baseDate, 'MMMM')}
-                    onClick={() => setKind('month')}
-                    size="large"
-                    variant="tertiary"
-                />
-                <Button
-                    aria-label={`Change Year, currently ${baseDate.getFullYear()}`}
-                    data-year
-                    iconOnly
-                    label={`${baseDate.getFullYear()}`}
-                    onClick={() => setKind('year')}
-                    size="large"
-                    variant="tertiary"
-                />
-            </>
-        ),
         listBoxHeader: (
             <div data-day-headers>
                 <span>Sun</span>
@@ -121,64 +119,86 @@ const CONFIG: Record<Kind, ConfigKind> = {
                 <span>Sat</span>
             </div>
         ),
+        optionProps: ({ date, baseDate, isSelected, setBaseDate, onChange, isActive }) => ({
+            'data-non-month-day': date.getMonth() !== baseDate.getMonth() ? true : undefined,
+            onClick: () => {
+                setBaseDate(date);
+                onChange(date);
+            },
+            variant: isSelected ? 'primary' : isActive ? 'secondary' : 'tertiary',
+        }),
     },
     month: {
-        headerBtns: {
-            '<': { label: 'Previous Year', fn: addYears },
-            '>': { label: 'Next Year', fn: addYears },
+        header: {
+            '<': { label: 'Previous Year', incrementFn: addYears },
+            '<<': null,
+            label: (baseDate, setKind) => (
+                <Button
+                    aria-label={`Change Year, currently ${baseDate.getFullYear()}`}
+                    iconOnly
+                    label={`${baseDate.getFullYear()}`}
+                    onClick={() => setKind('year')}
+                    size="large"
+                    variant="tertiary"
+                />
+            ),
+            '>>': null,
+            '>': { label: 'Next Year', incrementFn: addYears },
         },
         columns: 3,
-        rows: 4,
         range: {
             start: (date: Date) => setMonth(date, 0),
             end: (date: Date) => setMonth(date, 11),
         },
         incrementFn: addMonths,
         compare: isSameMonth,
-        nextKind: 'day',
-        formatStr: 'MMM',
-        label: 'Select Month',
+        optionFormatStr: 'MMM',
+        listboxLabel: 'Select Month',
         ariaFormatStr: 'MMMM yyyy',
-        headerLabel: (baseDate, setKind) => (
-            <Button
-                aria-label={`Change Year, currently ${baseDate.getFullYear()}`}
-                iconOnly
-                label={`${baseDate.getFullYear()}`}
-                onClick={() => setKind('year')}
-                size="large"
-                variant="tertiary"
-            />
-        ),
+        optionProps: ({ date, setBaseDate, setKind, isActive }) => ({
+            onClick: () => {
+                setBaseDate(date);
+                setKind('day');
+            },
+            variant: isActive ? 'secondary' : 'tertiary',
+        }),
     },
     year: {
-        headerBtns: {
-            '<': { label: 'Earlier Years', fn: (d) => addYears(d, -10) },
-            '>': { label: 'Later Years', fn: (d) => addYears(d, 10) },
+        header: {
+            '<': { label: 'Earlier Years', incrementFn: (d) => addYears(d, -10) },
+            '<<': null,
+            label: (baseDate, setKind) => (
+                <Button
+                    aria-label={`Change Decade, currently ${startOfDecade(baseDate).getFullYear()} to ${endOfDecade(
+                        baseDate,
+                    ).getFullYear()}`}
+                    iconOnly
+                    label={`${startOfDecade(baseDate).getFullYear() - 1} - ${startOfDecade(baseDate).getFullYear() + 10}`}
+                    onClick={() => setKind('year')}
+                    size="large"
+                    variant="tertiary"
+                />
+            ),
+            '>>': null,
+            '>': { label: 'Later Years', incrementFn: (d) => addYears(d, 10) },
         },
         columns: 4,
-        rows: 3,
         range: {
             start: (date: Date) => addYears(startOfDecade(date), -1),
             end: (date: Date) => addYears(endOfDecade(date), 1),
         },
         compare: isSameYear,
-        nextKind: 'month',
         incrementFn: addYears,
-        formatStr: 'yyyy',
-        label: 'Select Year',
+        optionFormatStr: 'yyyy',
+        listboxLabel: 'Select Year',
         ariaFormatStr: 'yyyy',
-        headerLabel: (baseDate, setKind) => (
-            <Button
-                aria-label={`Change Decade, currently ${startOfDecade(baseDate).getFullYear()} to ${endOfDecade(
-                    baseDate,
-                ).getFullYear()}`}
-                iconOnly
-                label={`${startOfDecade(baseDate).getFullYear() - 1} - ${startOfDecade(baseDate).getFullYear() + 10}`}
-                onClick={() => setKind('year')}
-                size="large"
-                variant="tertiary"
-            />
-        ),
+        optionProps: ({ date, setBaseDate, setKind, isActive }) => ({
+            onClick: () => {
+                setBaseDate(date);
+                setKind('month');
+            },
+            variant: isActive ? 'secondary' : 'tertiary',
+        }),
     },
 };
 
@@ -223,26 +243,7 @@ export function CalendarPicker({ value: valueProp, onChange, variant = 'flat' }:
 
     const { items } = useItemsAndRange(config, baseDate, baseId);
 
-    const handleItemArrows = useCallback(
-        (direction: 'down' | 'left' | 'right' | 'up') => (event: KeyboardEvent) => {
-            event.preventDefault();
-
-            const multiplier = direction === 'down' || direction === 'right' ? 1 : -1;
-
-            const amount = direction === 'left' || direction === 'right' ? 1 : config.columns;
-
-            const next = config.incrementFn(baseDate, amount * multiplier);
-
-            setBaseDate(next);
-        },
-        [config, baseDate],
-    );
-
-    const handleItemClick = (next: Date) => {
-        setBaseDate(next);
-        if (config.nextKind) setKind(config.nextKind);
-        if (kind === 'day') onChange(next);
-    };
+    const { handleKeyDownCapture } = useKeyDownCaptures({ config, baseDate, setBaseDate });
 
     return (
         <FocusTrap
@@ -258,45 +259,37 @@ export function CalendarPicker({ value: valueProp, onChange, variant = 'flat' }:
         >
             <div data-bspk="calendar-picker" data-kind={kind} data-variant={variant || 'flat'}>
                 <div data-header>
-                    {HEADER_BTNS.map((btn) => {
-                        if (btn === 'label')
-                            return (
-                                <div data-title key="label">
-                                    {config.headerLabel(baseDate, setKind)}
-                                </div>
-                            );
-
-                        const kindButton = config.headerBtns[btn.direction];
-
-                        if (kindButton)
-                            return (
-                                <Button
-                                    icon={btn.svg}
-                                    iconOnly={true}
-                                    key={btn.direction}
-                                    label={kindButton.label}
-                                    onClick={() =>
-                                        setBaseDate(kindButton.fn(baseDate, btn.direction.startsWith('<') ? -1 : 1))
-                                    }
-                                    size="large"
-                                    variant="tertiary"
-                                />
-                            );
-
-                        return null;
-                    })}
+                    <HeaderButton
+                        baseDate={baseDate}
+                        config={config.header['<<']}
+                        direction="<<"
+                        setBaseDate={setBaseDate}
+                    />
+                    <HeaderButton
+                        baseDate={baseDate}
+                        config={config.header['<']}
+                        direction="<"
+                        setBaseDate={setBaseDate}
+                    />
+                    <span data-title>{config.header.label(baseDate, setKind)}</span>
+                    <HeaderButton
+                        baseDate={baseDate}
+                        config={config.header['>']}
+                        direction=">"
+                        setBaseDate={setBaseDate}
+                    />
+                    <HeaderButton
+                        baseDate={baseDate}
+                        config={config.header['>>']}
+                        direction=">>"
+                        setBaseDate={setBaseDate}
+                    />
                 </div>
                 {config.listBoxHeader}
-
                 <div
-                    aria-label={config.label}
+                    aria-label={config.listboxLabel}
                     data-body
-                    onKeyDownCapture={handleKeyDown({
-                        ArrowDown: handleItemArrows('down'),
-                        ArrowUp: handleItemArrows('up'),
-                        ArrowLeft: handleItemArrows('left'),
-                        ArrowRight: handleItemArrows('right'),
-                    })}
+                    onKeyDownCapture={handleKeyDownCapture}
                     ref={(node) => {
                         const idToFocus = items.find(({ value: date }) => config.compare(date, baseDate))?.id;
                         node?.querySelector<HTMLElement>(`[id="${idToFocus}"]`)?.focus();
@@ -307,30 +300,30 @@ export function CalendarPicker({ value: valueProp, onChange, variant = 'flat' }:
                         const isSelected = config.compare(date, value);
                         const isActive = config.compare(date, baseDate);
                         const isFocusable = isActive || (!baseDate && isSelected);
-
-                        let btnVariant: ButtonVariant = isActive ? 'secondary' : 'tertiary';
-                        if (!config.nextKind && isSelected) btnVariant = 'primary';
-
                         return (
                             <Button
                                 aria-label={ariaLabel}
                                 aria-selected={isSelected || undefined}
                                 data-active={isActive || undefined}
-                                data-non-month-day={
-                                    kind === 'day' && date.getMonth() !== baseDate.getMonth() ? true : undefined
-                                }
                                 id={id}
                                 innerRef={(node) => {
                                     if (isFocusable) node?.focus();
                                 }}
                                 key={date.toString()}
                                 label={label}
-                                onClick={() => handleItemClick(date)}
                                 role="option"
                                 size="large"
                                 tabIndex={isFocusable ? 0 : -1}
-                                variant={btnVariant}
                                 width="hug"
+                                {...config.optionProps?.({
+                                    date,
+                                    baseDate,
+                                    isSelected,
+                                    isActive,
+                                    setBaseDate,
+                                    onChange,
+                                    setKind,
+                                })}
                             />
                         );
                     })}
@@ -348,7 +341,7 @@ function useItemsAndRange(config: ConfigKind, value: Date, baseId: string) {
         const nextItems: (ListItemProps & { value: Date })[] = [];
 
         for (let date = start; date <= end; date = config.incrementFn(date, 1)) {
-            const label = format(date, config.formatStr);
+            const label = format(date, config.optionFormatStr);
             nextItems.push({
                 value: date,
                 label,
@@ -359,6 +352,75 @@ function useItemsAndRange(config: ConfigKind, value: Date, baseId: string) {
 
         return { items: nextItems, range: { start, end } };
     }, [config, value, baseId]);
+}
+
+const useKeyDownCaptures = ({
+    config,
+    baseDate,
+    setBaseDate,
+}: {
+    config: ConfigKind;
+    baseDate: Date;
+    setBaseDate: (date: Date) => void;
+}) => {
+    const handleItemArrows = (direction: 'down' | 'left' | 'right' | 'up') => (event: KeyboardEvent) => {
+        event.preventDefault();
+        event.stopPropagation();
+        // Determine the direction and amount to move the base date
+        // down/right is positive, up/left is negative
+        const multiplier = direction === 'down' || direction === 'right' ? 1 : -1;
+        // Moving left/right moves one increment, moving up/down moves the number of columns
+        // (e.g. in day mode, left/right moves one day, up/down moves 7 days)
+        // In month mode, left/right moves one month, up/down moves 3 months
+        // In year mode, left/right moves one year, up/down moves 4 years
+        // This is determined by the number of columns in the grid for each mode
+        const amount = direction === 'left' || direction === 'right' ? 1 : config.columns;
+        const next = config.incrementFn(baseDate, amount * multiplier);
+        setBaseDate(next);
+    };
+
+    return {
+        handleKeyDownCapture: handleKeyDown({
+            ArrowDown: handleItemArrows('down'),
+            ArrowUp: handleItemArrows('up'),
+            ArrowLeft: handleItemArrows('left'),
+            ArrowRight: handleItemArrows('right'),
+        }),
+    };
+};
+
+const HEADER_DIRECTION_ICONS: Record<Direction, ReactNode> = {
+    '<': <SvgChevronLeft />,
+    '<<': <SvgKeyboardDoubleArrowLeft />,
+    '>': <SvgChevronRight />,
+    '>>': <SvgKeyboardDoubleArrowRight />,
+};
+
+// eslint-disable-next-line react/no-multi-comp
+function HeaderButton({
+    direction,
+    config,
+    setBaseDate,
+    baseDate,
+}: {
+    direction: Direction;
+    config: ConfigKind['header'][Direction];
+    setBaseDate: (date: Date) => void;
+    baseDate: Date;
+}) {
+    return (
+        config && (
+            <Button
+                icon={HEADER_DIRECTION_ICONS[direction]}
+                iconOnly={true}
+                key={direction}
+                label={config.label}
+                onClick={() => setBaseDate(config.incrementFn(baseDate, direction.startsWith('<') ? -1 : 1))}
+                size="large"
+                variant="tertiary"
+            />
+        )
+    );
 }
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
