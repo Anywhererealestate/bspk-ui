@@ -18,7 +18,7 @@ jobs:
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     run-lint:
-        name: Lint / Build
+        name: Lint / Build / Test
         runs-on: ubuntu-latest
 
         steps:
@@ -49,3 +49,6 @@ jobs:
 
             - name: Run Build
               run: npm run build
+
+            - name: Run Tests
+              run: npm run test --maxWorkers=2
