@@ -1,9 +1,8 @@
+import './number-input.scss';
 import { useCallback, useState } from 'react';
 import { IncrementButton } from './IncrementButton';
 import { useId } from '-/hooks/useId';
 import { CommonProps, FormFieldControlProps } from '-/types/common';
-
-import './number-input.scss';
 
 const DEFAULT = {
     align: 'center',

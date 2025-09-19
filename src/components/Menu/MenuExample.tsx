@@ -12,30 +12,7 @@ import { Avatar } from '-/components/Avatar';
 import { Divider } from '-/components/Divider';
 import { ListItem } from '-/components/ListItem';
 import { Switch } from '-/components/Switch';
-import { ComponentExampleFn, Preset } from '-/utils/demo';
-
-export const presets: Preset<MenuProps>[] = [
-    {
-        label: 'Scroll = False',
-        propState: {
-            floating: false,
-            portal: false,
-            itemDisplayCount: 5,
-            itemCount: 11,
-            scroll: false,
-        },
-    },
-    {
-        label: 'Item Display Count',
-        propState: {
-            floating: false,
-            portal: false,
-            itemDisplayCount: 5,
-            itemCount: 11,
-            scroll: true,
-        },
-    },
-];
+import { ComponentExampleFn } from '-/utils/demo';
 
 export const MenuExample: ComponentExampleFn<MenuProps & { style?: unknown; 'data-dark-mode'?: boolean }> = ({
     action,
@@ -83,6 +60,5 @@ export const MenuExample: ComponentExampleFn<MenuProps & { style?: unknown; 'dat
             </Component>
         );
     },
-    presets,
     variants: false,
 });

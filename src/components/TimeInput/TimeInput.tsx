@@ -1,6 +1,6 @@
+import './time-input.scss';
 import { SvgSchedule } from '@bspk/icons/Schedule';
 import { useEffect, useState } from 'react';
-import './time-input.scss';
 import { TimeInputListbox } from './Listbox';
 import { TimeInputSegment } from './Segment';
 import { Button } from '-/components/Button';
@@ -15,6 +15,7 @@ import { handleKeyDown } from '-/utils/handleKeyDown';
 export const MINUTE_OPTIONS = ['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55'];
 export const HOUR_OPTIONS = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
 export const MERIDIEM_OPTIONS: Meridiem[] = ['AM', 'PM'];
+
 type Meridiem = 'AM' | 'PM';
 
 export type TimeInputProps = Pick<

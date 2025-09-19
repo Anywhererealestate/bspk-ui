@@ -1,12 +1,10 @@
+import './search-bar.scss';
 import { SvgSearch } from '@bspk/icons/Search';
-
 import { useRef } from 'react';
 import { ListItemMenu, ListItemMenuProps, MenuListItem } from '-/components/ListItemMenu';
 import { TextInputProps, TextInput } from '-/components/TextInput';
 import { Txt } from '-/components/Txt';
 import { useId } from '-/hooks/useId';
-
-import './search-bar.scss';
 
 export type SearchBarProps = Pick<ListItemMenuProps, 'scrollLimit'> &
     Pick<TextInputProps, 'aria-label' | 'disabled' | 'id' | 'inputRef' | 'name' | 'size'> & {

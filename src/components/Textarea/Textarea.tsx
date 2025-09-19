@@ -1,10 +1,8 @@
+import './textarea.scss';
 import { ChangeEvent, useRef } from 'react';
-
 import { useId } from '-/hooks/useId';
 import { CommonProps, FormFieldControlProps, SetRef } from '-/types/common';
 import { cssWithVars } from '-/utils/cwv';
-
-import './textarea.scss';
 
 const DEFAULT = {
     minRows: 3,

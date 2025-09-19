@@ -1,9 +1,7 @@
+import './menu.scss';
 import { ReactNode } from 'react';
-
 import { useId } from '-/hooks/useId';
 import { CommonProps, ElementProps, SetRef } from '-/types/common';
-
-import './menu.scss';
 
 export function menuItemId(menuId: string, index: number) {
     return `menu-${menuId}-item-${index}`;

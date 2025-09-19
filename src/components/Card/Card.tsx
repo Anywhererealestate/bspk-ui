@@ -1,6 +1,5 @@
-import { ReactNode } from 'react';
-
 import './card.scss';
+import { ReactNode } from 'react';
 
 export type CardProps = {
     /**

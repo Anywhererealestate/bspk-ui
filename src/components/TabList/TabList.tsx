@@ -1,13 +1,11 @@
+import './tab-list.scss';
 import { Fragment, ReactNode, useMemo } from 'react';
-
 import { Badge, BadgeProps } from '-/components/Badge';
 import { Tooltip } from '-/components/Tooltip';
 import { Truncated } from '-/components/Truncated';
 import { useId } from '-/hooks/useId';
 import { useKeyNavigation } from '-/hooks/useKeyNavigation';
 import { ElementProps } from '-/types/common';
-
-import './tab-list.scss';
 
 const TAB_BADGE_SIZES: Record<TabSize, BadgeProps['size']> = {
     large: 'small',

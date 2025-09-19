@@ -1,6 +1,5 @@
-import { CommonProps } from '-/types/common';
-
 import './scrim.scss';
+import { CommonProps } from '-/types/common';
 
 export type ScrimProps = CommonProps<'owner'> & {
     /**

@@ -1,10 +1,8 @@
+import './tooltip.scss';
 import { ReactElement, useRef, useState } from 'react';
-
 import { Portal } from '-/components/Portal';
 import { Placement, useFloating } from '-/hooks/useFloating';
 import { useId } from '-/hooks/useId';
-
-import './tooltip.scss';
 
 const DEFAULT = {
     placement: 'top',

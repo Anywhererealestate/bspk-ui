@@ -1,6 +1,6 @@
+import './drawer.scss';
 import { SvgClose } from '@bspk/icons/Close';
 import { ReactNode } from 'react';
-import './drawer.scss';
 import { Button } from '-/components/Button';
 import { Dialog, DialogProps } from '-/components/Dialog';
 import { Txt } from '-/components/Txt';
