@@ -28,7 +28,7 @@ export type DateInputProps = Pick<
     /**
      * The placeholder text for the date input field.
      *
-     * @default 'mm/dd/yyyy'
+     * @default mm/dd/yyyy
      */
     placeholder?: string;
 };
