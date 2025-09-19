@@ -70,8 +70,6 @@ export type ButtonProps<As extends ElementType = 'button'> = CommonProps<'disabl
     onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
     /** A ref to the Button element. */
     innerRef?: SetRef<HTMLButtonElement>;
-    /** The label used for accessibility purposes when the button has no visible label (i.e. `iconOnly` is true). */
-    'aria-label'?: string;
 };
 
 /**
@@ -113,8 +111,6 @@ export function Button<As extends ElementType = 'button'>(
         children,
         innerRef,
         owner,
-        'aria-label': ariaLabel,
-        'aria-describedby': ariaDescribedbyProp,
         ...containerProps
     } = props;
     const label = typeof children === 'string' ? children : labelProp || '';
@@ -124,56 +120,52 @@ export function Button<As extends ElementType = 'button'>(
     // if toolTip label is not provided and iconOnly is true, toolTip should be label
     const toolTip = toolTipProp || (iconOnly ? label : undefined);
 
-    const button = ({ 'aria-describedby': tooltipAriaDescribedby, ...triggerProps }: TooltipTriggerProps) => {
-        const ariaDescribedby = tooltipAriaDescribedby || ariaDescribedbyProp;
-        return (
-            <As
-                {...containerProps}
-                aria-describedby={ariaDescribedby}
-                aria-label={ariaDescribedby ? undefined : ariaLabel || label}
-                aria-labelledby={ariaDescribedby || undefined}
-                data-bspk="button"
-                data-bspk-owner={owner || undefined}
-                data-destructive={destructive || undefined}
-                data-size={size}
-                data-touch-target-parent
-                data-variant={variant}
-                data-width={width}
-                disabled={disabled || undefined}
-                onBlur={(e) => {
-                    triggerProps.onBlur?.();
-                    containerProps.onBlur?.(e);
-                }}
-                onFocus={(e) => {
-                    triggerProps.onFocus?.();
-                    containerProps.onFocus?.(e);
-                }}
-                onMouseLeave={(e) => {
-                    triggerProps.onMouseLeave?.();
-                    containerProps.onMouseLeave?.(e);
-                }}
-                onMouseOver={(e) => {
-                    triggerProps.onMouseOver?.();
-                    containerProps.onMouseOver?.(e);
-                }}
-                ref={innerRef}
-            >
-                {children && typeof children !== 'string' ? (
-                    children
-                ) : (
-                    <>
-                        {!!icon && isValidElement(icon) && (
-                            <span aria-hidden={true} data-button-icon>
-                                {icon}
-                            </span>
-                        )}
-                        {!iconOnly && <span data-button-label>{label}</span>}
-                    </>
-                )}
-                <span data-touch-target />
-            </As>
-        );
-    };
+    const button = (triggerProps: TooltipTriggerProps) => (
+        <As
+            {...containerProps}
+            aria-describedby={triggerProps['aria-describedby'] || containerProps['aria-describedby']}
+            aria-label={label}
+            data-bspk="button"
+            data-bspk-owner={owner || undefined}
+            data-destructive={destructive || undefined}
+            data-size={size}
+            data-touch-target-parent
+            data-variant={variant}
+            data-width={width}
+            disabled={disabled || undefined}
+            onBlur={(e) => {
+                triggerProps.onBlur?.();
+                containerProps.onBlur?.(e);
+            }}
+            onFocus={(e) => {
+                triggerProps.onFocus?.();
+                containerProps.onFocus?.(e);
+            }}
+            onMouseLeave={(e) => {
+                triggerProps.onMouseLeave?.();
+                containerProps.onMouseLeave?.(e);
+            }}
+            onMouseOver={(e) => {
+                triggerProps.onMouseOver?.();
+                containerProps.onMouseOver?.(e);
+            }}
+            ref={innerRef}
+        >
+            {children && typeof children !== 'string' ? (
+                children
+            ) : (
+                <>
+                    {!!icon && isValidElement(icon) && (
+                        <span aria-hidden={true} data-button-icon>
+                            {icon}
+                        </span>
+                    )}
+                    {!iconOnly && <span data-button-label>{label}</span>}
+                </>
+            )}
+            <span data-touch-target />
+        </As>
+    );
 
     if (toolTip)
         return (
