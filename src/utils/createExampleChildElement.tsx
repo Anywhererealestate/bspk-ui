@@ -69,7 +69,7 @@ export function createExampleChildElement({ exampleState, name, setState, action
 
     if (componentName === 'Img') return { element: <Img alt="placeholder" src="/placeholder.svg" /> };
 
-    if (componentName === 'Avatar') return { element: <Avatar name="List Item" showTooltip={false} /> };
+    if (componentName === 'Avatar') return { element: <Avatar hideTooltip={false} name="List Item" /> };
 
     if (componentName === 'Tag') {
         return { element: <Tag label="Tag" /> };

@@ -4,18 +4,12 @@ import { Portal } from '-/components/Portal';
 import { Placement, useFloating } from '-/hooks/useFloating';
 import { useId } from '-/hooks/useId';
 
-const DEFAULT = {
-    placement: 'top',
-    showTail: true,
-    disabled: false,
-} as const;
-
 export type TooltipTriggerProps = {
     onMouseOver?: () => void;
     onMouseLeave?: () => void;
     onFocus?: () => void;
     onBlur?: () => void;
-    'aria-describedby'?: string;
+    'aria-labelledby'?: string;
 };
 
 export type TooltipProps = {
@@ -61,13 +55,7 @@ export type TooltipProps = {
  * @name Tooltip
  * @phase UXReview
  */
-export function Tooltip({
-    placement = DEFAULT.placement,
-    label,
-    children,
-    disabled = DEFAULT.disabled,
-    showTail = DEFAULT.showTail,
-}: TooltipProps) {
+export function Tooltip({ placement = 'top', label, children, disabled = false, showTail = true }: TooltipProps) {
     const id = useId();
     const [show, setShow] = useState(false);
 
@@ -90,7 +78,7 @@ export function Tooltip({
                   onMouseLeave: () => setShow(false),
                   onFocus: () => setShow(true),
                   onBlur: () => setShow(false),
-                  'aria-describedby': id,
+                  'aria-labelledby': id,
               },
     );
 

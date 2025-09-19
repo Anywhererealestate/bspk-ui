@@ -11,11 +11,7 @@ export const generateComponentFile = (componentName: string) => {
     const slug = kebabCase(componentName);
 
     return `import './${slug}.scss';
-    
-    const DEFAULT = {
-        variant: 'none',
-    } as const;
-    
+
     export type ${componentName}Props = {
         /**
          * The content of the ${slug}.
@@ -23,12 +19,6 @@ export const generateComponentFile = (componentName: string) => {
          * @required
          */
         children: string;
-        /**
-         * The variant of the ${slug}.
-         *
-         * @default none
-         */
-        variant?: 'none';
     };
     
     /**

@@ -72,7 +72,7 @@ export function Fab<As extends ElementType = 'button'>(props: AriaAttributes & E
     const button = (triggerProps: TooltipTriggerProps) => (
         <As
             {...otherProps}
-            aria-describedby={triggerProps['aria-describedby'] || otherProps['aria-describedby']}
+            {...triggerProps}
             aria-label={label}
             data-bspk="fab"
             data-container={container}
