@@ -1,8 +1,7 @@
+import './badge.scss';
 import { ReactNode } from 'react';
 
 import { tryIntParse } from '-/utils/tryIntPsrse';
-
-import './badge.scss';
 
 export type BadgeProps = {
     /**

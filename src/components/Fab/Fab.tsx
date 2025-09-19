@@ -1,10 +1,8 @@
+import './fab.scss';
 import { AriaAttributes, ElementType, isValidElement } from 'react';
-
 import { ButtonProps } from '-/components/Button';
 import { Tooltip, TooltipTriggerProps } from '-/components/Tooltip';
 import { ElementProps } from '-/types/common';
-
-import './fab.scss';
 
 export type FabVariant = 'neutral' | 'primary' | 'secondary';
 

@@ -1,3 +1,4 @@
+import './file-upload.scss';
 import { SvgCloudUpload } from '@bspk/icons/CloudUpload';
 import { useRef, ChangeEvent, useState, useEffect } from 'react';
 import { Button } from '-/components/Button';
@@ -6,8 +7,6 @@ import { InlineAlert } from '-/components/InlineAlert';
 import { Txt } from '-/components/Txt';
 import { DEFAULT_ERROR_MESSAGE, FileEntry, FileUploadStatus, MimeType } from '-/utils/fileUploads';
 import { randomString } from '-/utils/random';
-
-import './file-upload.scss';
 
 const MB = 1048576 as const;
 

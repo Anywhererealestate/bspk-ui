@@ -1,3 +1,4 @@
+import './inline-alert.scss';
 import { SvgCheckCircleFill } from '@bspk/icons/CheckCircleFill';
 import { SvgErrorFill } from '@bspk/icons/ErrorFill';
 import { SvgInfoFill } from '@bspk/icons/InfoFill';
@@ -5,8 +6,6 @@ import { ReactNode } from 'react';
 import { SvgWarningTwoTone } from './SvgWarningTwoTone';
 import { Txt } from '-/components/Txt';
 import { AlertVariant } from '-/types/common';
-
-import './inline-alert.scss';
 
 export type InlineAlertProps = {
     /**

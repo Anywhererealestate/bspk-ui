@@ -1,8 +1,6 @@
-import { ReactNode, isValidElement } from 'react';
-
-import { Badge, BadgeProps } from '-/components/Badge';
-
 import './chip-utility.scss';
+import { ReactNode, isValidElement } from 'react';
+import { Badge, BadgeProps } from '-/components/Badge';
 
 export type BadgeItem = Pick<BadgeProps, 'count' | 'size' | 'surfaceBorder'>;
 

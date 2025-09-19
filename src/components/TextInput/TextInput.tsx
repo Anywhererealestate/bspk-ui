@@ -1,3 +1,4 @@
+import './text-input.scss';
 import { SvgCancel } from '@bspk/icons/Cancel';
 import { ChangeEvent, HTMLInputTypeAttribute, ReactNode, useMemo, useRef, useState } from 'react';
 import { Button } from '-/components/Button';
@@ -5,7 +6,6 @@ import { useId } from '-/hooks/useId';
 import { useTimeout } from '-/hooks/useTimeout';
 import { CommonProps, ElementProps, FormFieldControlProps, SetRef } from '-/types/common';
 
-import './text-input.scss';
 
 export const DEFAULT = {
     size: 'medium',

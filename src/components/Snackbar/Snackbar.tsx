@@ -1,7 +1,7 @@
+import './snackbar.scss';
 import { Button } from '-/components/Button';
 import { Txt } from '-/components/Txt';
 import { SnackbarData } from '-/utils/snackbarContext';
-import './snackbar.scss';
 
 export type SnackbarProps = {
     /** Text to be shown in the snackbar */

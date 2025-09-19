@@ -1,6 +1,6 @@
+import './popover.scss';
 import { SvgClose } from '@bspk/icons/Close';
 import { ReactElement, cloneElement, useMemo, useRef, useState } from 'react';
-
 import { Button } from '-/components/Button';
 import { Portal } from '-/components/Portal';
 import { Txt } from '-/components/Txt';
@@ -9,8 +9,6 @@ import { useId } from '-/hooks/useId';
 import { useOutsideClick } from '-/hooks/useOutsideClick';
 import { CallToActionButton, CommonProps, ElementProps } from '-/types/common';
 import { cssWithVars } from '-/utils/cwv';
-
-import './popover.scss';
 
 export type PopoverProps = CommonProps<'disabled'> &
     Pick<UseFloatingProps, 'refWidth'> & {

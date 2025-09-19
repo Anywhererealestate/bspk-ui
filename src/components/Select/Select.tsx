@@ -1,13 +1,11 @@
+import './select.scss';
 import { SvgChevronRight } from '@bspk/icons/ChevronRight';
 import { useMemo } from 'react';
-
 import { Checkbox } from '-/components/Checkbox';
 import { ListItem } from '-/components/ListItem';
 import { ListItemMenu, ListItemMenuProps, MenuListItem } from '-/components/ListItemMenu';
 import { useId } from '-/hooks/useId';
 import { CommonProps, ElementProps, FormFieldControlProps } from '-/types/common';
-
-import './select.scss';
 
 const DEFAULT_PLACEHOLDER = 'Select one';
 

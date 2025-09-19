@@ -1,8 +1,6 @@
-import { ChangeEvent } from 'react';
-
-import { ElementProps, CommonProps } from '-/types/common';
-
 import './radio.scss';
+import { ChangeEvent } from 'react';
+import { ElementProps, CommonProps } from '-/types/common';
 
 export type RadioProps = CommonProps<'aria-label' | 'disabled' | 'invalid' | 'name'> &
     Required<CommonProps<'value'>> & {

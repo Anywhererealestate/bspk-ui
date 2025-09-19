@@ -1,3 +1,4 @@
+import './carousel.scss';
 import { SvgChevronLeft } from '@bspk/icons/ChevronLeft';
 import { SvgChevronRight } from '@bspk/icons/ChevronRight';
 import { Children, CSSProperties, ReactNode, useMemo, useRef, useState } from 'react';
@@ -6,8 +7,6 @@ import { PageControl } from '-/components/PageControl';
 import { useSwipe } from '-/hooks/useSwipe';
 import { cssWithVars } from '-/utils/cwv';
 import { handleKeyDown } from '-/utils/handleKeyDown';
-
-import './carousel.scss';
 
 export type CarouselProps = {
     /**

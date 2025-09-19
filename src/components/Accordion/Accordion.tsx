@@ -1,7 +1,7 @@
+import './accordion.scss';
 import { SvgKeyboardArrowDown } from '@bspk/icons/KeyboardArrowDown';
 import { SvgKeyboardArrowUp } from '@bspk/icons/KeyboardArrowUp';
 import { ReactNode, useEffect, useMemo, useState } from 'react';
-import './accordion.scss';
 import { randomString } from '-/utils/random';
 
 export type AccordionSection = {

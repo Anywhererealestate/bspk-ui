@@ -1,11 +1,10 @@
+import './avatar.scss';
 import { SvgPerson } from '@bspk/icons/Person';
 import { useMemo } from 'react';
 
 import { Tooltip, TooltipTriggerProps } from '-/components/Tooltip';
 import { CommonProps } from '-/types/common';
 import { ColorVariant } from '-/utils/colorVariants';
-
-import './avatar.scss';
 
 const DEFAULT = {
     size: 'small',

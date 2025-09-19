@@ -1,8 +1,7 @@
+import './radio-group.scss';
 import { RadioOption, RadioOptionProps } from '-/components/RadioOption';
 import { useId } from '-/hooks/useId';
 import { ElementProps, CommonProps, FormFieldControlProps } from '-/types/common';
-
-import './radio-group.scss';
 
 export type RadioGroupOption = Pick<RadioOptionProps, 'checked' | 'description' | 'disabled' | 'label' | 'name'> &
     Required<CommonProps<'value'>>;

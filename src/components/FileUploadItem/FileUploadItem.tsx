@@ -1,13 +1,11 @@
+import './file-upload-item.scss';
 import { SvgDelete } from '@bspk/icons/Delete';
 import { SvgDraft } from '@bspk/icons/Draft';
-
 import { Button } from '-/components/Button';
 import { InlineAlert } from '-/components/InlineAlert';
 import { ProgressBar } from '-/components/ProgressBar';
 import { Truncated } from '-/components/Truncated';
 import { DEFAULT_ERROR_MESSAGE, FileEntry } from '-/utils/fileUploads';
-
-import './file-upload-item.scss';
 
 export type FileUploadItemProps = FileEntry & {
     /**

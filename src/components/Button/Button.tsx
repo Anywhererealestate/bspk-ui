@@ -1,9 +1,7 @@
+import './button.scss';
 import { AriaAttributes, ElementType, ReactNode, isValidElement } from 'react';
-
 import { Tooltip, TooltipTriggerProps } from '-/components/Tooltip';
 import { ButtonSize, CommonProps, ElementProps, SetRef } from '-/types/common';
-
-import './button.scss';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'tertiary';
 
