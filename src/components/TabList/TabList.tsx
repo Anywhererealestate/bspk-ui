@@ -114,6 +114,8 @@ export type TabListProps<O extends TabOption = TabOption> = {
      * @default false
      */
     iconsOnly?: boolean;
+    /** If provided will be rendered in the active option button */
+    activeIndicator?: ReactNode;
 };
 
 /**
@@ -154,6 +156,7 @@ export function TabList({
     label,
     id: idProp,
     iconsOnly: iconsOnlyProp = false,
+    activeIndicator,
     ...containerProps
 }: ElementProps<TabListProps, 'ul'>) {
     const id = useId(idProp);
@@ -229,6 +232,7 @@ export function TabList({
                                     {item.badge && !item.disabled && (
                                         <Badge count={item.badge} size={TAB_BADGE_SIZES[size]} />
                                     )}
+                                    {isActive && activeIndicator}
                                 </li>
                             )}
                         </Tooltip>

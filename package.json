@@ -48,6 +48,8 @@
         "./BadgeDot/*": "./dist/components/BadgeDot/*.js",
         "./BannerAlert": "./dist/components/BannerAlert/index.js",
         "./BannerAlert/*": "./dist/components/BannerAlert/*.js",
+        "./BottomNavigation": "./dist/components/BottomNavigation/index.js",
+        "./BottomNavigation/*": "./dist/components/BottomNavigation/*.js",
         "./Breadcrumb": "./dist/components/Breadcrumb/index.js",
         "./Breadcrumb/*": "./dist/components/Breadcrumb/*.js",
         "./Button": "./dist/components/Button/index.js",
