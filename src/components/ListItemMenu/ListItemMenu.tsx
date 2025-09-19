@@ -187,8 +187,8 @@ export function ListItemMenu({
         } as MenuListItem;
     });
 
-    const { handleKeyDown, setActiveElementId, setElements, activeElementId } = useKeyNavigation({
-        defaultActiveElementId: activeElementIdProp || items[0]?.id,
+    const { handleKeyDown, setActiveElementId, activeElementId } = useKeyNavigation({
+        ids: items.map(({ id }) => id),
         overrides: {
             Tab: () => {
                 setShow(false);
@@ -276,7 +276,6 @@ export function ListItemMenu({
                             activeElementId={activeElementId}
                             aria-label={label}
                             context={{ role }}
-                            innerRefs={setElements}
                             items={items}
                             role={role}
                             scrollLimit={!menuLeading && !menuTrailing && scrollLimit}

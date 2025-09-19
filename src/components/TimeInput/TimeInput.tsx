@@ -1,16 +1,16 @@
 import { SvgSchedule } from '@bspk/icons/Schedule';
 import { useEffect, useState } from 'react';
-import './time-input.scss';
-import { TimeInputListbox } from './Listbox';
 import { TimeInputSegment } from './Segment';
+import { TimeInputListbox } from './TimeInputListbox';
 import { Button } from '-/components/Button';
 import { Menu } from '-/components/Menu';
-import { Portal } from '-/components/Portal';
 import { TextInputProps } from '-/components/TextInput';
 import { useFloating } from '-/hooks/useFloating';
 import { useId } from '-/hooks/useId';
 import { useOutsideClick } from '-/hooks/useOutsideClick';
 import { handleKeyDown } from '-/utils/handleKeyDown';
+
+import './time-input.scss';
 
 export const MINUTE_OPTIONS = ['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55'];
 export const HOUR_OPTIONS = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
@@ -153,44 +153,42 @@ export function TimeInput({
                 />
             </div>
             {!!open && (
-                <Portal>
-                    <Menu
-                        innerRef={(node) => {
-                            if (!node) return;
-                            elements.setFloating(node as HTMLElement);
-                        }}
-                        label="Select time"
-                        owner="time-input"
-                        style={floatingStyles}
-                    >
-                        <div data-scroll-values>
-                            <TimeInputListbox
-                                onSelect={setHours}
-                                options={HOUR_OPTIONS.map((h) => h)}
-                                selectedValue={hours}
-                                type="hours"
-                            />
-                            <TimeInputListbox
-                                onSelect={setMinutes}
-                                options={MINUTE_OPTIONS}
-                                selectedValue={minutes}
-                                type="minutes"
-                            />
-                            <TimeInputListbox<Meridiem>
-                                onSelect={setMeridiem}
-                                onTab={(e) => {
-                                    e.preventDefault();
-                                    setOpen(false);
-                                    setTimeout(() => elements.reference?.focus(), 10);
-                                    // Focus back on the input after closing
-                                }}
-                                options={MERIDIEM_OPTIONS}
-                                selectedValue={meridiem}
-                                type="meridiem"
-                            />
-                        </div>
-                    </Menu>
-                </Portal>
+                <Menu
+                    innerRef={(node) => {
+                        if (!node) return;
+                        elements.setFloating(node as HTMLElement);
+                    }}
+                    label="Select time"
+                    owner="time-input"
+                    style={floatingStyles}
+                >
+                    <div data-scroll-values>
+                        <TimeInputListbox
+                            onSelect={setHours}
+                            options={HOUR_OPTIONS.map((h) => h)}
+                            selectedValue={hours}
+                            type="hours"
+                        />
+                        <TimeInputListbox
+                            onSelect={setMinutes}
+                            options={MINUTE_OPTIONS}
+                            selectedValue={minutes}
+                            type="minutes"
+                        />
+                        <TimeInputListbox<Meridiem>
+                            onSelect={setMeridiem}
+                            onTab={(e) => {
+                                e.preventDefault();
+                                setOpen(false);
+                                setTimeout(() => elements.reference?.focus(), 10);
+                                // Focus back on the input after closing
+                            }}
+                            options={MERIDIEM_OPTIONS}
+                            selectedValue={meridiem}
+                            type="meridiem"
+                        />
+                    </div>
+                </Menu>
             )}
         </>
     );

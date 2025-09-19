@@ -1,9 +1,12 @@
-import { Dispatch, SetStateAction, useRef, useState, KeyboardEvent, useEffect } from 'react';
-import { SetRef } from '-/types/common';
+import { useState, KeyboardEvent, useEffect } from 'react';
 import { handleKeyDown, KeysCallback } from '-/utils/handleKeyDown';
 import { KeyboardEventCode } from '-/utils/keyboard';
 
-type SetActiveElementId = Dispatch<SetStateAction<string | null>>;
+type UseKeyNavigationProps = {
+    overrides?: KeysCallback;
+    defaultActiveElementId?: string | null;
+    ids: string[];
+};
 
 /**
  * Custom hook to handle keyboard navigation for a list of elements.
@@ -11,50 +14,40 @@ type SetActiveElementId = Dispatch<SetStateAction<string | null>>;
  * This hook provides functionality to navigate through elements using arrow keys and select an element with the Enter
  * or Space key, or onClick.
  */
-export function useKeyNavigation({
-    overrides = {},
-    defaultActiveElementId,
-}: {
-    overrides?: KeysCallback;
-    defaultActiveElementId?: string | null;
-}): {
+export function useKeyNavigation({ overrides = {}, defaultActiveElementId, ids }: UseKeyNavigationProps): {
     handleKeyDown: (event: KeyboardEvent) => KeyboardEventCode | null;
     activeElementId: string | null;
-    setElements: SetRef<HTMLElement[] | undefined>;
-    setActiveElementId: SetActiveElementId;
+    setActiveElementId: (nextId: string | null) => void;
 } {
-    const elementsRef = useRef<HTMLElement[]>([]);
-
-    const [activeElementId, setActiveElementId] = useState<string | null>(defaultActiveElementId || null);
+    const [activeElementId, setActiveElementId] = useState<string | null>(defaultActiveElementId || ids?.[0] || null);
 
     useEffect(() => {
-        if (activeElementId) document.querySelector(`[id="${activeElementId}"]`)?.scrollIntoView({ block: 'nearest' });
-    }, [activeElementId]);
+        if (defaultActiveElementId) setActiveElementId(defaultActiveElementId);
+    }, [defaultActiveElementId]);
 
     const handleArrow =
         (increment: -1 | 1) =>
         (event: KeyboardEvent): void => {
-            if (!elementsRef.current.length) return;
+            if (!ids.length) return;
             event.preventDefault();
+            const activeIndex = activeElementId ? ids.indexOf(activeElementId) : 0;
+            const nextindex = (activeIndex + increment + ids.length) % ids.length;
+            setActiveElementId(ids[nextindex]);
 
-            let currentElement = elementsRef.current[0];
-            if (activeElementId)
-                currentElement = elementsRef.current.find((el) => el.id === activeElementId) || elementsRef.current[0];
-
-            const activeIndex = elementsRef.current.indexOf(currentElement);
-            const nextindex = (activeIndex + increment + elementsRef.current.length) % elementsRef.current.length;
-            setActiveElementId(elementsRef.current[nextindex]?.id);
+            const nextElement = document.querySelector<HTMLElement>(`[id="${activeElementId}"]`);
+            if (nextElement)
+                setTimeout(() => {
+                    nextElement?.focus();
+                    nextElement?.scrollIntoView({ block: 'nearest', behavior: 'smooth', inline: 'nearest' });
+                }, 100);
         };
 
     const handleSelect = () => {
-        if (!elementsRef.current.length) return;
-        if (activeElementId) elementsRef.current.find((el) => el.id === activeElementId)?.click();
+        if (!ids.length) return;
+        if (activeElementId) document.querySelector<HTMLElement>(`[id="${activeElementId}"]`)?.click();
     };
 
     return {
-        setElements: (newElements: HTMLElement[] | undefined) => {
-            elementsRef.current = newElements ? (Array.from(newElements) as HTMLElement[]) : [];
-        },
         handleKeyDown: handleKeyDown({
             ArrowRight: handleArrow(1),
             ArrowDown: handleArrow(1),

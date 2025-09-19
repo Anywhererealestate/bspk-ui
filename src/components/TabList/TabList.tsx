@@ -1,10 +1,11 @@
-import { Fragment, ReactNode, useMemo } from 'react';
+import { Fragment, ReactNode, useMemo, useRef } from 'react';
 
 import { Badge, BadgeProps } from '-/components/Badge';
 import { Tooltip } from '-/components/Tooltip';
 import { Truncated } from '-/components/Truncated';
 import { useId } from '-/hooks/useId';
 import { useKeyNavigation } from '-/hooks/useKeyNavigation';
+import { useOutsideClick } from '-/hooks/useOutsideClick';
 import { ElementProps } from '-/types/common';
 
 import './tab-list.scss';
@@ -167,7 +168,9 @@ export function TabList({
         return option ? option.value : options[0]?.value;
     }, [options, valueProp]);
 
-    const { handleKeyDown, activeElementId, setElements, setActiveElementId } = useKeyNavigation();
+    const { handleKeyDown, activeElementId, setActiveElementId } = useKeyNavigation({
+        ids: options.flatMap((o) => (o.disabled ? [] : o.id)),
+    });
 
     // If all options have icons, we can hide the labels
     const iconsOnly = iconsOnlyProp === true && options.every((item) => item.icon && item.label);
@@ -177,6 +180,10 @@ export function TabList({
         setActiveElementId(item.id);
         if (!item.disabled) onChange(item.value);
     };
+
+    const containerRef = useRef<HTMLUListElement | null>(null);
+
+    useOutsideClick({ elements: [containerRef.current], callback: () => setActiveElementId(null), disabled: !open });
 
     return (
         <ul
@@ -189,12 +196,7 @@ export function TabList({
             id={id}
             onKeyDownCapture={handleKeyDown}
             ref={(node) => {
-                if (node) {
-                    const newElements = (Array.from(node.children) as HTMLElement[]).filter(
-                        (el) => !el.hasAttribute('aria-disabled'),
-                    );
-                    setElements(newElements);
-                }
+                containerRef.current = node;
             }}
             role="tablist"
         >

@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 import { TimeInputType } from './Segment';
 import { useId } from '-/hooks/useId';
 import { useKeyNavigation } from '-/hooks/useKeyNavigation';
@@ -20,10 +20,6 @@ export function TimeInputListbox<T extends string>({
 }: TimeInputListboxProps<T>) {
     const id = useId();
 
-    const { handleKeyDown, setActiveElementId, activeElementId, setElements } = useKeyNavigation({
-        Tab: onTab,
-    });
-
     const optionId = useCallback((value: T) => `${id}-${kind}-${value}`, [id, kind]);
 
     const options = optionsProp.map((o) => ({
@@ -32,14 +28,13 @@ export function TimeInputListbox<T extends string>({
         label: o.toString().padStart(2, '0'),
     }));
 
-    useEffect(() => {
-        setActiveElementId(selectedValue ? optionId(selectedValue) : options[0]?.id);
-        // eslint-disable-next-line react-hooks/exhaustive-deps -- only run on mount
-    }, []);
-
-    useEffect(() => {
-        if (selectedValue) setActiveElementId(optionId(selectedValue));
-    }, [selectedValue, id, kind, setActiveElementId, optionId]);
+    const { handleKeyDown, activeElementId } = useKeyNavigation({
+        ids: options.map((o) => o.id),
+        overrides: {
+            Tab: onTab,
+        },
+        defaultActiveElementId: selectedValue ? optionId(selectedValue) : options[0]?.id,
+    });
 
     return (
         <div
@@ -50,16 +45,6 @@ export function TimeInputListbox<T extends string>({
                 if (target.dataset.value) onSelect?.(target.dataset.value as T);
             }}
             onKeyDown={handleKeyDown}
-            onMouseMove={(event) => {
-                const target = event.target as HTMLSpanElement;
-                setActiveElementId(target.id);
-                event.currentTarget.focus();
-            }}
-            ref={(node) => {
-                if (node) {
-                    setElements(Array.from(node.children) as HTMLElement[]);
-                }
-            }}
             role="listbox"
             tabIndex={0}
         >

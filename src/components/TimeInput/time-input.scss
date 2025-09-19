@@ -151,12 +151,24 @@
                     background: var(--surface-brand-primary);
                     color: var(--foreground-brand-on-primary);
                 }
+
+                &:hover {
+                    background: var(--interactions-neutral-hover-opacity);
+                    outline: 2px solid var(--interactions-neutral-hover-opacity);
+                    outline-offset: -2px;
+
+                    &[aria-selected] {
+                        background: var(--surface-brand-primary);
+                        color: var(--foreground-brand-on-primary);
+                    }
+                }
             }
 
             &:focus {
                 outline: none;
 
-                span[data-active] {
+                span[data-active],
+                span:hover {
                     background: var(--interactions-neutral-hover-opacity);
                     outline: 2px solid var(--interactions-neutral-hover-opacity);
                     outline-offset: -2px;
