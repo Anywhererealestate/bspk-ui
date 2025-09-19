@@ -1,7 +1,6 @@
+import './badge-dot.scss';
 import { ReactNode } from 'react';
 import { cssWithVars } from '-/utils/cwv';
-
-import './badge-dot.scss';
 
 type BadgeDotSize = 6 | 8 | 10 | 12;
 

@@ -1,10 +1,8 @@
+import './truncated.scss';
 import { ElementType } from 'react';
-
 import { Tooltip, TooltipTriggerProps } from '-/components/Tooltip';
 import { useTruncatedText } from '-/hooks/useTruncatedText';
 import { ElementConstructorProps } from '-/types/common';
-
-import './truncated.scss';
 
 export type TruncatedProps<As extends ElementType = 'span'> = {
     /**

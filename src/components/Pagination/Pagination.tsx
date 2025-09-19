@@ -1,6 +1,5 @@
-import { SvgIcon } from '@bspk/icons/SvgIcon';
-
 import './pagination.scss';
+import { SvgIcon } from '@bspk/icons/SvgIcon';
 import { AriaAttributes } from 'react';
 import { PageInput } from './PageInput';
 import { PageList } from './PageList';

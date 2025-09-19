@@ -1,3 +1,4 @@
+import './calendar-picker.scss';
 import { SvgChevronLeft } from '@bspk/icons/ChevronLeft';
 import { SvgChevronRight } from '@bspk/icons/ChevronRight';
 import { SvgKeyboardDoubleArrowLeft } from '@bspk/icons/KeyboardDoubleArrowLeft';
@@ -19,8 +20,6 @@ import {
 } from 'date-fns';
 import { useMemo, useState } from 'react';
 import { Button, ButtonProps } from '-/components/Button';
-
-import './calendar-picker.scss';
 
 type Direction = '<' | '<<' | '>' | '>>';
 type Kind = 'day' | 'month' | 'year';

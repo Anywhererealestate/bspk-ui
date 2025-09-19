@@ -1,6 +1,6 @@
+import './date-field.scss';
 import { DateInput, DateInputProps } from '-/components/DateInput';
 import { FormField, FormFieldWrapProps } from '-/components/FormField';
-import './date-field.scss';
 
 export type DateFieldProps = FormFieldWrapProps<DateInputProps>;
 /**

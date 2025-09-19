@@ -1,8 +1,6 @@
-import { ChangeEvent } from 'react';
-
-import { CommonProps } from '-/types/common';
-
 import './switch.scss';
+import { ChangeEvent } from 'react';
+import { CommonProps } from '-/types/common';
 
 export type SwitchProps = CommonProps<'aria-label' | 'disabled' | 'name' | 'value'> & {
     /**

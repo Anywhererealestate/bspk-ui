@@ -1,9 +1,8 @@
+import './list-item-group.scss';
 import { ListItem, ListItemProps } from '-/components/ListItem';
 import { ElementProps, SetRef } from '-/types/common';
 import { cssWithVars } from '-/utils/cwv';
 import { ListItemContext, ListItemContextProps } from '-/utils/listItemContext';
-
-import './list-item-group.scss';
 
 export type ListItemGroupProps = {
     /**

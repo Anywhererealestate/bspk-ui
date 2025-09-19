@@ -1,8 +1,7 @@
+import './otp-input.scss';
 import { useRef } from 'react';
 import { useId } from '-/hooks/useId';
 import { CommonProps } from '-/types/common';
-
-import './otp-input.scss';
 
 export type OTPInputProps = CommonProps<'id' | 'invalid' | 'name' | 'size'> & {
     /**

@@ -1,8 +1,7 @@
+import './form-field.scss';
 import { InlineAlert } from '-/components/InlineAlert';
 import { Txt } from '-/components/Txt';
 import { CommonProps, ElementProps, FormFieldControlProps } from '-/types/common';
-
-import './form-field.scss';
 
 // omits are usually a code smell, but in this case, we need to ensure we get all the props from child components
 export type FormFieldWrapProps<T extends Record<string, unknown>> = Omit<FormFieldProps, keyof T | 'children'> &

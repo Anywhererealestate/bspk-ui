@@ -1,8 +1,7 @@
+import './snackbar-provider.scss';
 import { useState, ReactNode, useRef, useEffect } from 'react';
-
 import { Portal } from '-/components/Portal';
 import { Snackbar } from '-/components/Snackbar';
-import './snackbar-provider.scss';
 import { randomString } from '-/utils/random';
 import { SnackbarContext, SnackbarData, SnackbarInput } from '-/utils/snackbarContext';
 

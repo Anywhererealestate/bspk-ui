@@ -1,8 +1,6 @@
-import { Truncated } from '-/components/Truncated';
-
-import { ColorVariant } from '-/utils/colorVariants';
-
 import './tag.scss';
+import { Truncated } from '-/components/Truncated';
+import { ColorVariant } from '-/utils/colorVariants';
 
 export type TagProps = {
     /**
