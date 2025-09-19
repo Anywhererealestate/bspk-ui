@@ -29,19 +29,13 @@ export type BottomNavigationProps = Pick<TabListProps, 'label' | 'onChange' | 'o
  *                         value: '1',
  *                         label: 'Item 1',
  *                         icon: <SvgSettings />,
- *                         iconSelected: <SvgSettings />,
+ *                         iconSelected: <SvgSettingsFill />,
  *                     },
  *                     {
  *                         value: '2',
  *                         label: 'Item 2',
- *                         icon: <SvgSearch />,
- *                         iconSelected: <SvgSearch />,
- *                     },
- *                     {
- *                         value: '3',
- *                         label: 'Item 3',
  *                         icon: <SvgCloud />,
- *                         iconSelected: <SvgCloud />,
+ *                         iconSelected: <SvgCloudFill />,
  *                     },
  *                 ]}
  *             />
@@ -52,15 +46,7 @@ export type BottomNavigationProps = Pick<TabListProps, 'label' | 'onChange' | 'o
  * @phase Dev
  */
 export function BottomNavigation({ variant = 'flat', ...tabListProps }: BottomNavigationProps) {
-    return (
-        <TabList
-            activeIndicator={<div data-active-indicator="" />}
-            data-bspk="bottom-navigation"
-            data-variant={variant}
-            size="large"
-            {...tabListProps}
-        />
-    );
+    return <TabList data-bspk="bottom-navigation" data-variant={variant} size="large" {...tabListProps} />;
 }
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
