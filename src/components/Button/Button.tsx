@@ -133,6 +133,7 @@ export function Button<As extends ElementType = 'button'>(
                 {...containerProps}
                 aria-describedby={ariaDescribedby}
                 aria-label={ariaDescribedby ? undefined : ariaLabel || label}
+                aria-labelledby={ariaDescribedby || undefined}
                 data-bspk="button"
                 data-bspk-owner={owner || undefined}
                 data-destructive={destructive || undefined}
