@@ -3,19 +3,32 @@ import { useState, ReactNode } from 'react';
 import { useEventListener } from '-/hooks/useAddEventListener';
 import { useDebounceState } from '-/hooks/useDebounceState';
 import { useIsomorphicEffect } from '-/hooks/useIsomorphicEffect';
-import { UIContext, ColorTheme } from '-/utils/uiContext';
+import { UIContext, ColorTheme, AriaLiveMessage } from '-/utils/uiContext';
 
 export type UIProviderProps = {
+    /**
+     * The children elements that will have access to the UI context.
+     *
+     * @required
+     */
     children: ReactNode;
 };
 
 /**
- * UIProvider is a React context provider that manages the UI state, including theme and responsive state.
+ * UIProvider is a React context provider that manages the UI state.
+ *
+ * UI state includes, theme, setTheme, responsive state, aria live messages
+ *
+ * This provider should wrap the root of your application to ensure that all components have access to the UI context.
  *
  * @name UIProvider
+ *
+ * @phase Utility
  */
 export function UIProvider({ children }: UIProviderProps) {
     const [theme, setTheme] = useState<ColorTheme>('light');
+    const [ariaLiveMessage, setAriaLiveMessage] = useState<AriaLiveMessage | null>(null);
+    // Keep track of device width to determine if we are in mobile, tablet, or desktop mode
 
     const [deviceWidth, setDeviceWidth] = useDebounceState(() => {
         return typeof window !== 'undefined' ? window.innerWidth : 0;
@@ -40,9 +53,17 @@ export function UIProvider({ children }: UIProviderProps) {
                 isMobile: deviceWidth < 640,
                 isTablet: deviceWidth > 640 && deviceWidth < 1024,
                 isDesktop: deviceWidth >= 1024,
+                sendAriaLiveMessage: (message, live) => {
+                    setAriaLiveMessage({ message, live });
+                },
             }}
         >
             {children}
+            {ariaLiveMessage && (
+                <div aria-live={ariaLiveMessage.live || 'polite'} data-sr-only role="alert">
+                    {ariaLiveMessage.message}
+                </div>
+            )}
         </UIContext.Provider>
     );
 }
