@@ -16,19 +16,9 @@
         margin-bottom: var(--spacing-sizing-02);
         gap: var(--spacing-sizing-04);
 
-        button {
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 0;
-            color: var(--foreground-neutral-on-surface-variant-01);
-            height: var(--spacing-sizing-06);
-            width: var(--spacing-sizing-06);
-
-            svg {
-                width: var(--spacing-sizing-06);
-                height: var(--spacing-sizing-06);
-            }
+        [data-bspk='button'][data-close] {
+            margin-right: calc(var(--spacing-sizing-02) * -1);
+            margin-top: calc(var(--spacing-sizing-02) * -1);
         }
     }
 

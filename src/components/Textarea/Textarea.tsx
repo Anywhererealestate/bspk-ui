@@ -4,9 +4,6 @@ import { useId } from '-/hooks/useId';
 import { CommonProps, FormFieldControlProps, SetRef } from '-/types/common';
 import { cssWithVars } from '-/utils/cwv';
 
-const DEFAULT_MIN_ROWS = 3 as const;
-const DEFAULT_MAX_ROWS = 10 as const;
-
 export type TextareaProps = CommonProps<'aria-label' | 'disabled' | 'id' | 'invalid' | 'readOnly'> &
     FormFieldControlProps & {
         /**
@@ -57,7 +54,7 @@ export type TextareaProps = CommonProps<'aria-label' | 'disabled' | 'id' | 'inva
          *
          * When set the textarea will automatically adjust its height to fit the content up to this limit.
          *
-         * @default 3
+         * @default 10
          * @minimum 3
          * @maximum 10
          */
@@ -96,17 +93,14 @@ export function Textarea({
     innerRef,
     placeholder,
     id: idProp,
-    minRows: minRowsProp = DEFAULT_MIN_ROWS,
-    maxRows: maxRowsProp = DEFAULT_MAX_ROWS,
+    minRows = 4,
+    maxRows = 10,
     'aria-describedby': ariaDescribedBy,
     'aria-errormessage': ariaErrorMessage,
     ...otherProps
 }: TextareaProps) {
     const id = useId(idProp);
     const invalid = !otherProps.readOnly && !otherProps.disabled && invalidProp;
-    // ensure minRows and maxRows are within bounds
-    const minRows = Math.min(DEFAULT_MAX_ROWS, Math.max(minRowsProp, DEFAULT_MIN_ROWS));
-    const maxRows = Math.max(DEFAULT_MIN_ROWS, Math.min(maxRowsProp, DEFAULT_MAX_ROWS));
 
     const onInput = () => {
         const target = textareaElement.current;

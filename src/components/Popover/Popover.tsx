@@ -1,5 +1,6 @@
 import './popover.scss';
 import { SvgClose } from '@bspk/icons/Close';
+import { FocusTrap } from 'focus-trap-react';
 import { ReactElement, useRef, useState } from 'react';
 import { Button } from '-/components/Button';
 import { Portal } from '-/components/Portal';
@@ -133,56 +134,69 @@ export function Popover({
             })}
             {show && (
                 <Portal>
-                    <div
-                        data-bspk="popover"
-                        data-placement={middlewareData?.offset?.placement}
-                        id={id}
-                        ref={(node) => {
-                            elements.setFloating(node);
-                            elements.setReference(document.querySelector<HTMLElement>(`[aria-describedby="${id}"]`));
+                    <FocusTrap
+                        focusTrapOptions={{
+                            fallbackFocus: () => elements.floating || document.body,
                         }}
-                        style={{ ...floatingStyles, ...props.style }}
                     >
-                        <header>
-                            <Txt variant="heading-h6">{header}</Txt>
-                            <button aria-label="Close" onClick={() => setShow(false)}>
-                                <SvgClose />
-                            </button>
-                        </header>
-                        <div data-content>
-                            <Txt as="div" variant="body-small">
-                                {content}
-                            </Txt>
-                            <div data-cta-row>
-                                {secondaryCallToAction?.label && secondaryCallToAction?.onClick && (
-                                    <Button
-                                        label={secondaryCallToAction.label}
-                                        onClick={secondaryCallToAction.onClick}
-                                        size="small"
-                                        variant="secondary"
-                                    />
-                                )}
-                                {callToAction?.label && callToAction?.onClick && (
-                                    <Button
-                                        label={callToAction.label}
-                                        onClick={callToAction.onClick}
-                                        size="small"
-                                        variant="primary"
-                                    />
-                                )}
-                            </div>
-                        </div>
                         <div
-                            data-arrow
+                            data-bspk="popover"
+                            data-placement={middlewareData?.offset?.placement}
+                            id={id}
                             ref={(node) => {
-                                arrowRef.current = node;
+                                elements.setFloating(node);
+                                elements.setReference(
+                                    document.querySelector<HTMLElement>(`[aria-describedby="${id}"]`),
+                                );
                             }}
-                            style={cssWithVars({
-                                '--position-left': refWidth ? getArrowX() : basicArrowX,
-                                '--position-top': `${middlewareData?.arrow?.y || 0}px`,
-                            })}
-                        />
-                    </div>
+                            style={{ ...floatingStyles, ...props.style }}
+                        >
+                            <header>
+                                <Txt variant="heading-h6">{header}</Txt>
+                                <Button
+                                    data-close
+                                    icon={<SvgClose />}
+                                    iconOnly
+                                    label="Close"
+                                    onClick={() => setShow(false)}
+                                    variant="tertiary"
+                                />
+                            </header>
+                            <div data-content>
+                                <Txt as="div" variant="body-small">
+                                    {content}
+                                </Txt>
+                                <div data-cta-row>
+                                    {secondaryCallToAction?.label && secondaryCallToAction?.onClick && (
+                                        <Button
+                                            label={secondaryCallToAction.label}
+                                            onClick={secondaryCallToAction.onClick}
+                                            size="small"
+                                            variant="secondary"
+                                        />
+                                    )}
+                                    {callToAction?.label && callToAction?.onClick && (
+                                        <Button
+                                            label={callToAction.label}
+                                            onClick={callToAction.onClick}
+                                            size="small"
+                                            variant="primary"
+                                        />
+                                    )}
+                                </div>
+                            </div>
+                            <div
+                                data-arrow
+                                ref={(node) => {
+                                    arrowRef.current = node;
+                                }}
+                                style={cssWithVars({
+                                    '--position-left': refWidth ? getArrowX() : basicArrowX,
+                                    '--position-top': `${middlewareData?.arrow?.y || 0}px`,
+                                })}
+                            />
+                        </div>
+                    </FocusTrap>
                 </Portal>
             )}
         </>
