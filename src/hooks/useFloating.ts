@@ -72,10 +72,10 @@ export type UseFloatingProps = {
     hide?: boolean;
 };
 
-export type UseFloatingElements<ReferenceElementType extends HTMLElement = HTMLElement> = {
-    reference: ReferenceElementType | null;
+export type UseFloatingElements = {
+    reference: HTMLElement | null;
     floating: HTMLElement | null;
-    setReference: (element: ReferenceElementType | null) => void;
+    setReference: (element: HTMLElement | null) => void;
     setFloating: (element: HTMLElement | null) => void;
 };
 
@@ -85,7 +85,7 @@ export type UseFloatingElements<ReferenceElementType extends HTMLElement = HTMLE
  * @param param0
  * @returns
  */
-export function useFloating<ReferenceElementType extends HTMLElement = HTMLElement>({
+export function useFloating({
     placement = 'bottom-start',
     arrowRef,
     strategy = 'fixed',
@@ -93,7 +93,7 @@ export function useFloating<ReferenceElementType extends HTMLElement = HTMLEleme
     refWidth = false,
     hide = false,
 }: UseFloatingProps): {
-    elements: UseFloatingElements<ReferenceElementType>;
+    elements: UseFloatingElements;
     floatingStyles: React.CSSProperties;
     middlewareData: MiddlewareData;
     currentPlacement: Placement | undefined;
@@ -113,7 +113,7 @@ export function useFloating<ReferenceElementType extends HTMLElement = HTMLEleme
 
     const [middlewareData, setMiddlewareData] = useState<MiddlewareData>({});
 
-    const [referenceElement, setReferenceElement] = useState<ReferenceElementType | null>(null);
+    const [referenceElement, setReferenceElement] = useState<HTMLElement | null>(null);
 
     const [floatingElement, setFloatingElement] = useState<HTMLElement | null>(null);
 
@@ -123,6 +123,8 @@ export function useFloating<ReferenceElementType extends HTMLElement = HTMLEleme
     const compute = useCallback(() => {
         computeDebounce.clear();
         transitionDelay.clear();
+
+        // console.log('compute', { referenceElement, floatingElement });
 
         // check if the reference or floating element is null
         if (referenceElement === null || floatingElement === null) return;

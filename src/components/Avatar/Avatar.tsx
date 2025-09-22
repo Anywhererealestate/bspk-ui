@@ -6,12 +6,6 @@ import { Tooltip, TooltipTriggerProps } from '-/components/Tooltip';
 import { CommonProps } from '-/types/common';
 import { ColorVariant } from '-/utils/colorVariants';
 
-const DEFAULT = {
-    size: 'small',
-    color: 'grey',
-    showTooltip: true,
-} as const;
-
 export type SizeVariant =
     | 'large'
     | 'medium'
@@ -69,11 +63,11 @@ export type AvatarProps = CommonProps<'disabled'> & {
      */
     image?: string;
     /**
-     * Whether to show the represented user's name as a tooltip.
+     * Whether to hide the represented user's name as a tooltip.
      *
-     * @default true
+     * @default false
      */
-    showTooltip?: boolean;
+    hideTooltip?: boolean;
     /**
      * The function to call when the avatar is clicked.
      *
@@ -110,12 +104,12 @@ export type AvatarProps = CommonProps<'disabled'> & {
  */
 export function Avatar({
     initials: initialsProp,
-    color = DEFAULT.color,
-    size = DEFAULT.size,
+    color = 'grey',
+    size = 'small',
     showIcon,
     image,
     name: ariaLabel,
-    showTooltip = DEFAULT.showTooltip,
+    hideTooltip = false,
     onClick,
     disabled,
     ...props
@@ -152,26 +146,26 @@ export function Avatar({
 
     if (!children) return null;
 
-    const avatar = (triggerProps?: TooltipTriggerProps) => (
+    const avatar = (triggerProps: TooltipTriggerProps) => (
         <div
-            role={onClick ? 'button' : ''}
+            {...props}
             {...triggerProps}
-            aria-describedby={triggerProps?.['aria-describedby'] || ariaLabel}
             aria-disabled={disabled || undefined}
             aria-label={onClick ? ariaLabel : undefined}
+            aria-labelledby={onClick ? triggerProps['aria-labelledby'] : undefined}
             aria-roledescription="person"
             data-bspk="avatar"
             data-color={color}
             data-size={size}
             onClickCapture={disabled ? undefined : onClick}
+            role={onClick ? 'button' : ''}
             tabIndex={onClick && !disabled ? 0 : undefined}
-            {...props}
         >
             {children}
         </div>
     );
 
-    return showTooltip ? <Tooltip label={ariaLabel}>{avatar}</Tooltip> : avatar();
+    return !hideTooltip ? <Tooltip label={ariaLabel}>{avatar}</Tooltip> : avatar({});
 }
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
