@@ -164,6 +164,8 @@ export function Select({
         return items.find((o) => o.id === value?.[0]);
     }, [isMulti, items, value]);
 
+    const descriptionId = useMemo(() => (description ? `${id}-description` : undefined), [description, id]);
+
     return (
         <ListItemMenu
             activeElementId={isMulti ? undefined : selectedItem?.id}
@@ -187,11 +189,13 @@ export function Select({
             {(toggleProps, { setRef, show }) => {
                 return (
                     <>
-                        <span style={{ display: 'none' }}>{description}</span>
+                        <span data-sr-only id={descriptionId}>
+                            {description}
+                        </span>
                         <input defaultValue={value} name={name} type="hidden" />
                         <div
                             {...props}
-                            aria-describedby={ariaDescribedBy || undefined}
+                            aria-describedby={descriptionId || ariaDescribedBy || undefined}
                             aria-disabled={disabled || readOnly}
                             aria-errormessage={ariaErrorMessage || undefined}
                             aria-label={label || selectedItem?.label || placeholder}

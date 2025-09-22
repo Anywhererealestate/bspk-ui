@@ -189,19 +189,19 @@ export function ListItemMenu({
 
     useOutsideClick({
         elements: [elements.floating as HTMLElement],
-        callback: () => {
-            setShow(false);
-        },
+        callback: () => setShow(false),
+        disabled: !show,
     });
 
     const items = (typeof itemsProp === 'function' ? itemsProp({ setShow }) : itemsProp).map((item, index) => {
         const itemId = `list-item-menu-${menuId}-item-${item.id || index + 1}`;
         return {
-            onClick: () => {
+            ...item,
+            onClick: (event) => {
                 elements.reference?.focus();
                 setActiveElementId(itemId);
+                item?.onClick?.(event);
             },
-            ...item,
             id: itemId,
             tabIndex: 0,
             role: role === 'listbox' ? 'option' : item.role || undefined,
