@@ -124,9 +124,8 @@ export function Popover({
         return '0px';
     };
 
-    return disabled ? (
-        children({})
-    ) : (
+    if (disabled) return children({});
+    return (
         <>
             {children({
                 onClick: () => setShow(!show),

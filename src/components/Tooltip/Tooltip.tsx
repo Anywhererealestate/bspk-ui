@@ -70,23 +70,17 @@ export function Tooltip({ placement = 'top', label, children, disabled = false, 
         refWidth: false,
     });
 
-    const child = children(
-        disabled
-            ? {}
-            : {
-                  onMouseOver: () => setShow(true),
-                  onMouseLeave: () => setShow(false),
-                  onFocus: () => setShow(true),
-                  onBlur: () => setShow(false),
-                  'aria-labelledby': id,
-              },
-    );
-
-    if (disabled) return child;
+    if (disabled) return children({});
 
     return (
         <>
-            {child}
+            {children({
+                onMouseOver: () => setShow(true),
+                onMouseLeave: () => setShow(false),
+                onFocus: () => setShow(true),
+                onBlur: () => setShow(false),
+                'aria-labelledby': id,
+            })}
             {label && (
                 <Portal>
                     <div
@@ -95,7 +89,7 @@ export function Tooltip({ placement = 'top', label, children, disabled = false, 
                         id={id}
                         ref={(node) => {
                             elements.setFloating(node);
-                            elements.setReference(document.querySelector<HTMLElement>(`[aria-describedby="${id}"]`));
+                            elements.setReference(document.querySelector<HTMLElement>(`[aria-labelledby="${id}"]`));
                         }}
                         role="tooltip"
                         style={floatingStyles}
