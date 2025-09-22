@@ -13,7 +13,7 @@ const TestBed = () => (
         header="Popover Header"
         placement="bottom"
     >
-        <Button label="Toggle popover" onClick={() => {}} />
+        {(triggerProps) => <Button label="Toggle popover" {...triggerProps} />}
     </Popover>
 );
 

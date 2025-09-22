@@ -10,7 +10,7 @@ export const PopoverExample: ComponentExampleFn<PopoverProps> = ({ action }) => 
             <>
                 <Txt style={{ marginBottom: `var(--spacing-sizing-02)` }}>Click button for a Popover</Txt>
                 <Component {...props}>
-                    <Button label={`${props.placement}`} variant="secondary" />
+                    {(triggerProps) => <Button label={`${props.placement}`} variant="secondary" {...triggerProps} />}
                 </Component>
             </>
         );
@@ -25,7 +25,7 @@ export const PopoverExample: ComponentExampleFn<PopoverProps> = ({ action }) => 
                     label: 'CTA Button',
                     onClick: () => action('Call to action clicked!'),
                 },
-                children: <></>,
+                children: () => <></>,
             },
         },
         {
@@ -41,7 +41,7 @@ export const PopoverExample: ComponentExampleFn<PopoverProps> = ({ action }) => 
                     label: 'Secondary',
                     onClick: () => action('Secondary call to action clicked!'),
                 },
-                children: <></>,
+                children: () => <></>,
             },
         },
     ],

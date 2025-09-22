@@ -208,6 +208,7 @@ export function TabList({
                             {(triggerProps) => (
                                 // eslint-disable-next-line jsx-a11y/click-events-have-key-events
                                 <li
+                                    {...triggerProps}
                                     aria-controls={id}
                                     aria-disabled={item.disabled || undefined}
                                     aria-selected={isSelected || undefined}
@@ -220,7 +221,6 @@ export function TabList({
                                     }}
                                     role="tab"
                                     tabIndex={isFocusable ? 0 : -1}
-                                    {...triggerProps}
                                 >
                                     {icon && <span aria-hidden="true">{icon}</span>}
                                     {!iconsOnly && <Truncated data-label>{item.label}</Truncated>}
