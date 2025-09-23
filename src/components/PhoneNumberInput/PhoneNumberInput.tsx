@@ -135,6 +135,7 @@ export function PhoneNumberInput({
             {(toggleProps, { setRef }) => {
                 return (
                     <TextInput
+                        data-bspk="phone-number-input"
                         {...inputProps}
                         aria-describedby={ariaDescribedBy}
                         aria-errormessage={ariaErrorMessage}
