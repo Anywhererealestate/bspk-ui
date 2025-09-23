@@ -7,7 +7,6 @@ ul[data-bspk-utility='tab-list'] {
     width: fit-content;
     height: var(--height);
     font: var(--font);
-    margin: var(--spacing-sizing-01);
 
     &[data-width='fill'] {
         align-items: stretch;
