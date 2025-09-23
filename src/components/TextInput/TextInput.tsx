@@ -6,7 +6,6 @@ import { useId } from '-/hooks/useId';
 import { useTimeout } from '-/hooks/useTimeout';
 import { CommonProps, ElementProps, FormFieldControlProps, SetRef } from '-/types/common';
 
-
 export const DEFAULT = {
     size: 'medium',
     value: '',
@@ -108,7 +107,6 @@ export function TextInput({
     owner,
     'aria-describedby': ariaDescribedBy,
     'aria-errormessage': ariaErrorMessage,
-
     inputProps,
     ...props
 }: ElementProps<TextInputProps, 'div'>) {
