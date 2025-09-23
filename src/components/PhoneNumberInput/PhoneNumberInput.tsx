@@ -26,6 +26,7 @@ const SELECT_OPTIONS: MenuListItem[] = countryCodes.map((code) => {
 export type PhoneNumberInputProps = FormFieldControlProps &
     Pick<
         TextInputProps,
+        | 'aria-label'
         | 'autoComplete'
         | 'disabled'
         | 'inputRef'
@@ -76,6 +77,7 @@ export function PhoneNumberInput({
     initialCountryCode,
     disabled,
     readOnly,
+    'aria-label': ariaLabel,
     'aria-describedby': ariaDescribedBy,
     'aria-errormessage': ariaErrorMessage,
     ...inputProps
@@ -136,7 +138,7 @@ export function PhoneNumberInput({
                         {...inputProps}
                         aria-describedby={ariaDescribedBy}
                         aria-errormessage={ariaErrorMessage}
-                        aria-label={`Phone number input for country code ${countryCode}`}
+                        aria-label={ariaLabel}
                         containerRef={setRef}
                         disabled={disabled}
                         inputRef={setInputRef}
