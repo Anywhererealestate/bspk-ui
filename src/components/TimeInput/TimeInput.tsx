@@ -107,32 +107,29 @@ export function TimeInput({
                 role="group"
             >
                 <TimeInputSegment
-                    ariaLabel={ariaLabel}
-                    defaultValue={hours}
                     disabled={disabled}
                     name={`${name}-hours`}
                     onChange={(next) => setHours(next || undefined)}
                     readOnly={readOnly}
                     type="hours"
+                    value={hours}
                 />
                 <span aria-hidden="true">:</span>
                 <TimeInputSegment
-                    ariaLabel={ariaLabel}
-                    defaultValue={minutes}
                     disabled={disabled}
                     name={`${name}-minutes`}
                     onChange={(next) => setMinutes(next || undefined)}
                     readOnly={readOnly}
                     type="minutes"
+                    value={minutes}
                 />
                 <TimeInputSegment
-                    ariaLabel={ariaLabel}
-                    defaultValue={meridiem}
                     disabled={disabled}
                     name={`${name}-meridiem`}
                     onChange={(next) => setMeridiem(next || 'AM')}
                     readOnly={readOnly}
                     type="meridiem"
+                    value={meridiem}
                 />
                 <Button
                     icon={<SvgSchedule />}
