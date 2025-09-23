@@ -5,10 +5,8 @@
 
 export const COMPONENT_PHASE_ORDER: ComponentPhase[] = [
     'Utility', // Utility components are not tracked in the progress
-    //
     'Backlog', // components that are not actively being worked on
     'Dev', // components that are actively being developed
-    'QA', // components that are undergoing QA
     'UXReview', // components that are in UX Review
     'Stable', // production ready
 ];
@@ -32,12 +30,6 @@ export const COMPONENT_PHASES: Record<
         id: 'Dev',
         description:
             'The component is actively under development. This phase includes the creation of visual elements and integration tests to ensure comprehensive functionality.',
-    },
-    QA: {
-        title: 'Quality Assurance',
-        id: 'QA',
-        description:
-            'The component is being carefully evaluated by our Bespoke Engineering team. They are ensuring that it aligns with our high standards of functionality and performance.',
     },
     UXReview: {
         title: 'UX Review',
@@ -104,6 +96,6 @@ export type UtilityMeta = BaseMeta & {
     returns?: string;
 };
 
-export type ComponentPhase = 'Backlog' | 'Dev' | 'QA' | 'Stable' | 'Utility' | 'UXReview';
+export type ComponentPhase = 'Backlog' | 'Dev' | 'Stable' | 'Utility' | 'UXReview';
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
