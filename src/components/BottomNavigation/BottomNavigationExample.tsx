@@ -62,16 +62,16 @@ export const presets: Preset<BottomNavigationProps>[] = [
                     iconSelected: <SvgSmartphoneFill />,
                 },
                 {
-                    value: '2',
-                    label: 'Item 2',
-                    icon: <SvgPerson />,
-                    iconSelected: <SvgPersonFill />,
-                },
-                {
                     value: '4',
                     label: 'Item 4',
                     icon: <SvgEvent />,
                     iconSelected: <SvgEventFill />,
+                },
+                {
+                    value: '5',
+                    label: 'Item 5',
+                    icon: <SvgPerson />,
+                    iconSelected: <SvgPersonFill />,
                 },
             ],
             value: '1',
@@ -103,7 +103,12 @@ export const presets: Preset<BottomNavigationProps>[] = [
 ];
 
 export const BottomNavigationExample: ComponentExample<BottomNavigationProps> = {
-    containerStyle: { width: '100%' },
+    containerStyle: {
+        height: '200px',
+        width: '100%',
+        padding: 0,
+        justifyContent: 'end',
+    },
     defaultState: {
         value: '1',
         options: presets[0].propState.options,

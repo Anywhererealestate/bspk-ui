@@ -1,12 +1,10 @@
 ul[data-bspk-utility='tab-list'][data-bspk='bottom-navigation'] {
     width: 100%;
     border-top: solid 1px var(--stroke-neutral-low);
-    margin-bottom: var(--spacing-sizing-06);
+    box-sizing: border-box;
 
     &[data-variant='elevated'] {
-        box-shadow:
-            0 -2px 8px -2px var(--shadow-variant-01),
-            0 -2px 4px -2px var(--shadow-variant-02);
+        box-shadow: var(--drop-shadow-north);
     }
 
     &:has(:focus-visible) {
@@ -16,7 +14,7 @@ ul[data-bspk-utility='tab-list'][data-bspk='bottom-navigation'] {
     li {
         flex: 1;
         position: relative;
-        height: var(--spacing-sizing-14);
+        height: var(--spacing-sizing-13);
         color: var(--foreground-neutral-on-surface-variant-02);
         font: var(--labels-x-small);
         flex-direction: column;
@@ -28,11 +26,11 @@ ul[data-bspk-utility='tab-list'][data-bspk='bottom-navigation'] {
             outline: solid 2px var(--stroke-neutral-focus);
         }
 
-        &[data-active='true'] {
+        &[aria-selected='true'] {
             color: var(--foreground-brand-primary);
         }
 
-        &[data-active='true']::after {
+        &[aria-selected='true']::after {
             content: '';
             position: absolute;
             top: 0;
@@ -46,27 +44,14 @@ ul[data-bspk-utility='tab-list'][data-bspk='bottom-navigation'] {
             color: var(--foreground-neutral-disabled-on-surface);
         }
 
-        &:active::before,
-        &[aria-pressed='true']::before {
-            content: '';
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            width: 88px;
-            height: 88px;
-            background: var(--interactions-neutral-press-opacity);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 0;
-            opacity: 1;
-            pointer-events: none;
-            transition: opacity 0.2s;
+        [data-pseudo='hover'] &,
+        &:hover {
+            background-color: var(--interactions-neutral-hover-opacity);
         }
 
-        &::before {
-            content: '';
-            opacity: 0;
-            transition: opacity 0.2s;
+        [data-pseudo='active'] &,
+        &:active {
+            background-color: var(--interactions-neutral-press-opacity);
         }
     }
 }
