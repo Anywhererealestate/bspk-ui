@@ -11,7 +11,7 @@ describe('ButtonDock (RTL)', () => {
     it('renders', () => {
         const { getByText } = render(<ButtonDock {...presets[0].propState} />);
 
-        expect(getByText('whoop there it is')).toBeInTheDocument();
+        expect(getByText('Send')).toBeInTheDocument();
     });
 });
 
