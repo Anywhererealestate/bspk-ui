@@ -38,6 +38,7 @@ export function TimeInputListbox<T extends string>({
 
     return (
         <div
+            aria-activedescendant={activeElementId || undefined}
             aria-label={`Select ${kind}`}
             data-scroll-column={kind}
             onClick={(event) => {
