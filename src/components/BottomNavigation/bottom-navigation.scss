@@ -21,50 +21,43 @@ ul[data-bspk-utility='tab-list'][data-bspk='bottom-navigation'] {
         gap: 0;
         overflow: hidden;
 
-        &[data-pseudo='focus'] > &,
-        &:focus-visible {
-            outline: solid 2px var(--stroke-neutral-focus);
+        [data-label] {
+            display: inline-block;
+            max-width: calc(100% - var(--spacing-sizing-10));
         }
 
-        &[aria-selected='true'] {
+        &[aria-selected] {
             color: var(--foreground-brand-primary);
+
+            &::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                width: var(--spacing-sizing-06);
+                height: 2px;
+                border-radius: 0 0 2px 2px;
+                background-color: var(--foreground-brand-primary);
+            }
         }
 
-        &[aria-selected='true']::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            width: var(--spacing-sizing-06);
-            height: 2px;
-            border-radius: 0 0 2px 2px;
-            background-color: var(--foreground-brand-primary);
-        }
-
-        &[aria-disabled='true'] {
+        &[aria-disabled] {
             color: var(--foreground-neutral-disabled-on-surface);
         }
 
-        [data-pseudo='hover'] &,
-        &:hover {
-            background-color: var(--interactions-neutral-hover-opacity);
-        }
+        &:not([aria-disabled]) {
+            &[data-pseudo='focus'] > &,
+            &:focus-visible {
+                outline: solid 2px var(--stroke-neutral-focus);
+            }
 
-        [data-pseudo='active'] &,
-        &:active {
-            background-color: var(--interactions-neutral-press-opacity);
-        }
-    }
-}
+            [data-pseudo='hover'] &,
+            &:hover {
+                background-color: var(--interactions-neutral-hover-opacity);
+            }
 
-@media (width >= 640px) {
-    ul[data-bspk-utility='tab-list'][data-bspk='bottom-navigation'] {
-        li {
-            flex-direction: row;
-            align-items: center;
-            gap: var(--spacing-sizing-02);
-
-            &[data-active='true']::after {
-                width: var(--spacing-sizing-12);
+            [data-pseudo='active'] &,
+            &:active {
+                background-color: var(--interactions-neutral-press-opacity);
             }
         }
     }

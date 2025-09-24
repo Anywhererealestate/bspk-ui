@@ -27,6 +27,7 @@ export const presets: Preset<BottomNavigationProps>[] = [
                     label: 'Item 2',
                     icon: <SvgCloud />,
                     iconSelected: <SvgCloudFill />,
+                    disabled: true,
                 },
                 {
                     value: '3',
@@ -60,6 +61,7 @@ export const presets: Preset<BottomNavigationProps>[] = [
                     label: 'Item 3',
                     icon: <SvgSmartphone />,
                     iconSelected: <SvgSmartphoneFill />,
+                    disabled: true,
                 },
                 {
                     value: '4',
@@ -79,25 +81,30 @@ export const presets: Preset<BottomNavigationProps>[] = [
         },
     },
     {
-        label: 'Disabled option',
+        label: 'Long labels',
         propState: {
+            value: '1',
+            label: 'Single Icon',
             options: [
                 {
                     value: '1',
-                    label: 'Item 1',
+                    label: 'Item 1 with a very long label that should probably truncate',
                     icon: <SvgSettings />,
                     iconSelected: <SvgSettingsFill />,
                 },
                 {
                     value: '2',
-                    label: 'Item 2',
+                    label: 'Item 2 with a very long label that should probably truncate',
                     icon: <SvgCloud />,
                     iconSelected: <SvgCloudFill />,
-                    disabled: true,
+                },
+                {
+                    value: '3',
+                    label: 'Item 3 with a very long label that should probably truncate',
+                    icon: <SvgSmartphone />,
+                    iconSelected: <SvgSmartphoneFill />,
                 },
             ],
-            value: '1',
-            label: 'Single Icon',
         },
     },
 ];
