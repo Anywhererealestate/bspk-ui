@@ -1,9 +1,9 @@
 import './select.scss';
 import { SvgChevronRight } from '@bspk/icons/ChevronRight';
-import { useMemo } from 'react';
+import { ElementType, useMemo } from 'react';
 import { Checkbox } from '-/components/Checkbox';
-import { ListItem } from '-/components/ListItem';
-import { ListItemMenu, ListItemMenuProps, MenuListItem } from '-/components/ListItemMenu';
+import { ListItem, ListItemProps } from '-/components/ListItem';
+import { ListItemMenu, ListItemMenuProps, MenuListItem, useMenuItems } from '-/components/ListItemMenu';
 import { useId } from '-/hooks/useId';
 import { CommonProps, ElementProps, FormFieldControlProps } from '-/types/common';
 
@@ -38,7 +38,7 @@ export type SelectProps = CommonProps<'disabled' | 'id' | 'invalid' | 'name' | '
          * @type Array<SelectOption>
          * @required
          */
-        options: MenuListItem[];
+        options: ListItemProps[];
         /**
          * Array of selected values
          *
@@ -148,14 +148,14 @@ export function Select({
 
     const items = useItems({
         value,
-        options: optionsProp,
+        options: useMenuItems(`select-${id}`, optionsProp),
         isMulti,
         selectAll,
         onChange,
         id: menuId,
     });
 
-    const selectedItem: MenuListItem | undefined = useMemo(() => {
+    const selectedItem = useMemo(() => {
         if (isMulti)
             return {
                 label: `${value?.length || 0} option${value?.length !== 1 ? 's' : ''} selected`,
@@ -247,6 +247,8 @@ function useItems({
     id: string;
 }) {
     return useMemo(() => {
+        if (!isMulti) return options;
+
         const allSelected = isMulti ? selectedValues?.length === options.length : false;
 
         const multiSelectValue = (selected: boolean, itemValue: string) => {
@@ -254,52 +256,42 @@ function useItems({
             return selected ? [...next, itemValue] : next;
         };
 
-        const nextItems: MenuListItem[] = [];
+        options.unshift({
+            as: 'label' as ElementType,
+            id: `select-${id}-select-all`,
+            label: selectAll || 'Select All',
+            trailing: (
+                <Checkbox
+                    aria-label={selectAll}
+                    checked={!!allSelected}
+                    indeterminate={!allSelected && selectedValues.length > 0}
+                    name=""
+                    onChange={(checked) => {
+                        onChange?.(checked ? options.map((item) => item.id) : []);
+                    }}
+                    value="select-all"
+                />
+            ),
+        });
 
-        if (isMulti)
-            nextItems.push({
-                as: 'label',
-                id: `${id}-select-all`,
-                label: selectAll || 'Select All',
+        return options.map((item) => {
+            const selected = selectedValues.includes(item.id);
+            return {
+                ...item,
+                as: 'label' as ElementType,
                 trailing: (
                     <Checkbox
-                        aria-label={selectAll}
-                        checked={!!allSelected}
-                        indeterminate={!allSelected && selectedValues.length > 0}
-                        name=""
+                        aria-label={item.label}
+                        checked={selected}
+                        name={item.id}
                         onChange={(checked) => {
-                            onChange?.(checked ? options.map((item) => item.id) : []);
+                            onChange?.(multiSelectValue(checked, item.id));
                         }}
-                        value="select-all"
+                        value={item.id}
                     />
                 ),
-            });
-
-        nextItems.push(
-            ...options.map((item) => {
-                const selected = selectedValues.includes(item.id);
-                return {
-                    ...item,
-                    as: isMulti ? 'label' : item.as,
-                    disabled: item.disabled || undefined,
-                    trailing: isMulti ? (
-                        <Checkbox
-                            aria-label={item.label}
-                            checked={selected}
-                            name={item.id}
-                            onChange={(checked) => {
-                                onChange?.(multiSelectValue(checked, item.id));
-                            }}
-                            value={item.id}
-                        />
-                    ) : (
-                        item.trailing || undefined
-                    ),
-                };
-            }),
-        );
-
-        return nextItems;
+            };
+        });
     }, [id, isMulti, onChange, options, selectAll, selectedValues]);
 }
 

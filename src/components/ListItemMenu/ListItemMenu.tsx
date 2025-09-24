@@ -1,14 +1,31 @@
-import { AriaAttributes, CSSProperties, HTMLAttributes, ReactNode, useState, KeyboardEvent, useEffect } from 'react';
-import { ListItemProps as ListItemPropsBase } from '-/components/ListItem';
+import { AriaAttributes, CSSProperties, HTMLAttributes, ReactNode, useState, KeyboardEvent, useMemo } from 'react';
+import { ListItemProps } from '-/components/ListItem';
 import { ListItemGroup, ListItemGroupProps } from '-/components/ListItemGroup';
 import { Menu, MenuProps } from '-/components/Menu';
 import { Portal } from '-/components/Portal';
+import { useArrowNavigation } from '-/hooks/useArrowNavigation';
 import { useFloating, UseFloatingProps } from '-/hooks/useFloating';
 import { useId } from '-/hooks/useId';
-import { useKeyNavigation } from '-/hooks/useKeyNavigation';
 import { useOutsideClick } from '-/hooks/useOutsideClick';
 import { CommonProps, SetRef } from '-/types/common';
-import { KeysCallback } from '-/utils/handleKeyDown';
+import { getElementById } from '-/utils/dom';
+import { handleKeyDown } from '-/utils/handleKeyDown';
+import { randomString } from '-/utils/random';
+
+export function useMenuItems<T extends ListItemProps>(menuId: string, items: T[]): (MenuListItem & T)[] {
+    return useMemo(
+        () =>
+            items.map((item) => ({
+                ...item,
+                id: `${menuId}-item-${randomString(8)}`,
+            })),
+        [items, menuId],
+    );
+}
+
+export type MenuListItem = ListItemProps & { id: string };
+
+export type MenuListItemsFn = (props: { setShow: (show: boolean) => void }) => MenuListItem[];
 
 /** Props for the toggle element that opens the ListItemMenu. */
 export type ToggleProps = Pick<
@@ -51,15 +68,6 @@ export type InternalToggleProps = {
     /** Whether or not the menu is currently open. */
     show?: boolean;
 };
-
-/**
- * The items to display in the ListItemMenu.
- *
- * Id is optional, if not provided it will be auto-generated.
- */
-export type MenuListItem = Omit<ListItemPropsBase, 'id'> & Required<Pick<ListItemPropsBase, 'id'>>;
-
-export type MenuListItemsFn = (props: { setShow: (show: boolean) => void }) => MenuListItem[];
 
 export type ListItemMenuProps = CommonProps<'disabled' | 'readOnly'> &
     Pick<ListItemGroupProps, 'scrollLimit'> &
@@ -106,8 +114,6 @@ export type ListItemMenuProps = CommonProps<'disabled' | 'readOnly'> &
         trailing?: ReactNode;
         /** The ID of the currently active element. */
         activeElementId?: string | null;
-        /** Override or extend the keyboard navigation functionality. */
-        keyOverrides?: KeysCallback;
     };
 
 /**
@@ -157,7 +163,6 @@ export function ListItemMenu({
     trailing: menuTrailing,
     leading: menuLeading,
     activeElementId: activeElementIdProp = null,
-    keyOverrides,
     label,
     ...ariaProps
 }: ListItemMenuProps) {
@@ -173,39 +178,33 @@ export function ListItemMenu({
         strategy: 'fixed',
     });
 
-    const { handleKeyDown, setActiveElementId, setElements, activeElementId } = useKeyNavigation({
-        Tab: () => {
-            setShow(false);
-            setActiveElementId(null);
-        },
-        Escape: () => {
-            setShow(false);
-            setActiveElementId(null);
-        },
-        ...keyOverrides,
-    });
-
-    useEffect(() => setActiveElementId(null), [itemsProp, setActiveElementId]);
-
     useOutsideClick({
         elements: [elements.floating as HTMLElement],
         callback: () => setShow(false),
         disabled: !show,
     });
 
-    const items = (typeof itemsProp === 'function' ? itemsProp({ setShow }) : itemsProp).map((item, index) => {
-        const itemId = `list-item-menu-${menuId}-item-${item.id || index + 1}`;
+    const { items, itemIds } = useMemo(() => {
+        const itemsWithIds = (typeof itemsProp === 'function' ? itemsProp({ setShow }) : itemsProp).map((item) => {
+            return {
+                ...item,
+                tabIndex: 0,
+                role: role === 'listbox' ? 'option' : item.role || undefined,
+            };
+        });
+
         return {
-            ...item,
-            onClick: (event) => {
-                elements.reference?.focus();
-                setActiveElementId(itemId);
-                item?.onClick?.(event);
-            },
-            id: itemId,
-            tabIndex: 0,
-            role: role === 'listbox' ? 'option' : item.role || undefined,
-        } as MenuListItem;
+            items: itemsWithIds,
+            itemIds: itemsWithIds.flatMap((item) => (item.disabled ? [] : item.id)),
+        };
+    }, [itemsProp, role]);
+
+    const { activeElementId, setActiveElementId, arrowKeyCallbacks } = useArrowNavigation({
+        ids: itemIds,
+        callback: () => {
+            if (!show) setShow(true);
+            return true;
+        },
     });
 
     if (items.length === 0 && !menuLeading && !menuTrailing)
@@ -218,6 +217,22 @@ export function ListItemMenu({
                 }),
             itemCount: 0,
         });
+
+    const enterSpaceClick = (event: KeyboardEvent) => {
+        if (show && activeElementId) {
+            getElementById(activeElementId)?.click();
+            return;
+        }
+
+        if (event.target instanceof HTMLButtonElement) return;
+        event.preventDefault();
+        (event.target as HTMLElement)?.click();
+    };
+
+    const tabEscape = () => {
+        setShow(false);
+        setActiveElementId(null);
+    };
 
     return (
         <>
@@ -234,16 +249,23 @@ export function ListItemMenu({
                     onClick: () => {
                         const nextShow = !show;
                         setShow(nextShow);
-                        const nextActiveId = activeElementIdProp || items[0]?.id || null;
-                        setActiveElementId(nextShow ? nextActiveId : null);
+                        setActiveElementId(nextShow ? activeElementIdProp || items[0]?.id || null : null);
                     },
-                    onKeyDownCapture: (event: KeyboardEvent) => {
-                        const code = handleKeyDown(event);
-                        if (code?.startsWith('Arrow') && !show) {
-                            setShow(true);
-                            event.preventDefault();
-                        }
-                    },
+                    onKeyDownCapture: handleKeyDown({
+                        ...arrowKeyCallbacks,
+                        Enter: enterSpaceClick,
+                        Space: enterSpaceClick,
+                        Tab: tabEscape,
+                        Escape: tabEscape,
+                    }),
+
+                    // (event: KeyboardEvent) => {
+                    //     const code = handleKeyDown(event);
+                    //     if (code?.startsWith('Arrow') && !show) {
+                    //         setShow(true);
+                    //         event.preventDefault();
+                    //     }
+                    // },
                 },
                 {
                     setRef: elements.setReference,
@@ -273,8 +295,14 @@ export function ListItemMenu({
                             activeElementId={activeElementId}
                             aria-label={label}
                             context={{ role }}
-                            innerRefs={setElements}
-                            items={items}
+                            items={items.map((item) => ({
+                                ...item,
+                                onClick: (event) => {
+                                    elements.reference?.focus();
+                                    setActiveElementId(item.id);
+                                    item?.onClick?.(event);
+                                },
+                            }))}
                             role={role}
                             scrollLimit={!menuLeading && !menuTrailing && scrollLimit}
                         />

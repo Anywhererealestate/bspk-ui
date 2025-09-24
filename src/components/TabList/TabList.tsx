@@ -3,9 +3,11 @@ import { Fragment, ReactNode, useMemo } from 'react';
 import { Badge, BadgeProps } from '-/components/Badge';
 import { Tooltip } from '-/components/Tooltip';
 import { Truncated } from '-/components/Truncated';
+import { useArrowNavigation } from '-/hooks/useArrowNavigation';
 import { useId } from '-/hooks/useId';
-import { useKeyNavigation } from '-/hooks/useKeyNavigation';
 import { ElementProps } from '-/types/common';
+import { getElementById } from '-/utils/dom';
+import { handleKeyDown } from '-/utils/handleKeyDown';
 
 const TAB_BADGE_SIZES: Record<TabSize, BadgeProps['size']> = {
     large: 'small',
@@ -155,23 +157,31 @@ export function TabList({
     ...containerProps
 }: ElementProps<TabListProps, 'ul'>) {
     const id = useId(idProp);
-    const options = useMemo(() => {
-        if (!Array.isArray(optionsProp)) return [];
-        return optionsProp.map((opt, index) => ({ ...opt, id: optionId(id, index) }));
+
+    const { options, optionIds } = useMemo(() => {
+        if (!Array.isArray(optionsProp))
+            return {
+                options: [],
+                optionIds: [],
+            };
+        const optionsWithIds = optionsProp.map((opt, index) => ({ ...opt, id: optionId(id, index) }));
+        return {
+            options: optionsWithIds,
+            optionIds: optionsWithIds.flatMap((opt) => (opt.disabled ? [] : opt.id)),
+        };
     }, [id, optionsProp]);
+
+    const { activeElementId, setActiveElementId, arrowKeyCallbacks } = useArrowNavigation({ ids: optionIds });
 
     const value = useMemo(() => {
         const option = options.find((opt) => opt.value === valueProp);
         return option ? option.value : options[0]?.value;
     }, [options, valueProp]);
 
-    const { handleKeyDown, activeElementId, setElements, setActiveElementId } = useKeyNavigation();
-
     // If all options have icons, we can hide the labels
     const iconsOnly = iconsOnlyProp === true && options.every((item) => item.icon && item.label);
 
-    const handleClick = (item: (typeof options)[number]) => (e: React.MouseEvent<HTMLLIElement>) => {
-        setTimeout(() => (e.target as HTMLElement).focus(), 100);
+    const handleClick = (item: (typeof options)[number]) => () => {
         setActiveElementId(item.id);
         if (!item.disabled) onChange(item.value);
     };
@@ -185,22 +195,28 @@ export function TabList({
             data-size={size}
             data-width={width}
             id={id}
-            onKeyDownCapture={handleKeyDown}
-            ref={(node) => {
-                if (node) {
-                    const newElements = (Array.from(node.children) as HTMLElement[]).filter(
-                        (el) => !el.hasAttribute('aria-disabled'),
-                    );
-                    setElements(newElements);
-                }
+            onFocusCapture={() => {
+                getElementById(activeElementId)?.focus();
             }}
+            onKeyDownCapture={handleKeyDown({
+                ...arrowKeyCallbacks,
+                Enter: (event) => {
+                    event.preventDefault();
+                    const activeOption = options.find((opt) => opt.id === activeElementId);
+                    if (activeOption && !activeOption.disabled) onChange(activeOption.value);
+                },
+                Space: (event) => {
+                    event.preventDefault();
+                    const activeOption = options.find((opt) => opt.id === activeElementId);
+                    if (activeOption && !activeOption.disabled) onChange(activeOption.value);
+                },
+            })}
             role="tablist"
         >
             {options.map((item) => {
                 const isSelected = item.value === value;
                 const icon = isSelected ? item.iconSelected : item.icon;
                 const isActive = (activeElementId && activeElementId === item.id) || undefined;
-                const isFocusable = !activeElementId ? isSelected : isActive;
 
                 return (
                     <Fragment key={item.id}>
@@ -216,11 +232,8 @@ export function TabList({
                                     data-value={item.value}
                                     id={item.id}
                                     onClick={handleClick(item)}
-                                    ref={(node) => {
-                                        if (isActive) node?.focus();
-                                    }}
                                     role="tab"
-                                    tabIndex={isFocusable ? 0 : -1}
+                                    tabIndex={isActive ? 0 : -1}
                                 >
                                     {icon && <span aria-hidden="true">{icon}</span>}
                                     {!iconsOnly && <Truncated data-label>{item.label}</Truncated>}

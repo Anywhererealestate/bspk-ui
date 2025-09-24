@@ -25,6 +25,7 @@ import { useMemo, useState, KeyboardEvent, ReactNode, useEffect } from 'react';
 import { Button, ButtonProps } from '-/components/Button';
 import { ListItemProps } from '-/components/ListItem';
 import { useId } from '-/hooks/useId';
+import { getElementById } from '-/utils/dom';
 import { handleKeyDown } from '-/utils/handleKeyDown';
 
 type Direction = '<' | '<<' | '>' | '>>';
@@ -252,7 +253,7 @@ export function CalendarPicker({ value: valueProp, onChange, variant = 'flat' }:
                 clickOutsideDeactivates: true,
                 fallbackFocus: () => {
                     const idToFocus = items.find(({ value: date }) => config.compare(date, baseDate))?.id;
-                    return document.querySelector<HTMLElement>(`[id="${idToFocus}"]`)!;
+                    return getElementById(idToFocus)!;
                 },
             }}
         >

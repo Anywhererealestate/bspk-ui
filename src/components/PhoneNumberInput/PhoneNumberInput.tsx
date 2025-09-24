@@ -3,18 +3,18 @@ import { SvgIcon } from '@bspk/icons/SvgIcon';
 import { AsYouType, getCountryCallingCode } from 'libphonenumber-js';
 import { useMemo, useState } from 'react';
 import { Button } from '-/components/Button';
-import { Divider } from '-/components/Divider';
-import { ListItemMenu, MenuListItem } from '-/components/ListItemMenu';
+import { ListItemMenu, useMenuItems } from '-/components/ListItemMenu';
 import { TextInput, TextInputProps } from '-/components/TextInput';
+import { useId } from '-/hooks/useId';
 import { useUIContext } from '-/hooks/useUIContext';
 import { FormFieldControlProps } from '-/types/common';
 import { countryCodeData, countryCodes, SupportedCountryCode } from '-/utils/countryCodes';
 import { guessUserCountryCode } from '-/utils/guessUserCountryCode';
 
-const SELECT_OPTIONS: MenuListItem[] = countryCodes.map((code) => {
+const SELECT_OPTIONS = countryCodes.map((code) => {
     const countryCodeDetails = countryCodeData[code];
     return {
-        id: code,
+        value: code,
         label: `${countryCodeDetails?.name}`,
         leading: countryCodeDetails?.flagIconName ? (
             <SvgIcon aria-hidden name={countryCodeDetails?.flagIconName} />
@@ -26,18 +26,7 @@ const SELECT_OPTIONS: MenuListItem[] = countryCodes.map((code) => {
 export type PhoneNumberInputProps = FormFieldControlProps &
     Pick<
         TextInputProps,
-        | 'aria-label'
-        | 'autoComplete'
-        | 'disabled'
-        | 'inputRef'
-        | 'invalid'
-        | 'name'
-        | 'placeholder'
-        | 'readOnly'
-        | 'required'
-        | 'size'
-        | 'type'
-        | 'value'
+        'aria-label' | 'disabled' | 'inputRef' | 'invalid' | 'name' | 'readOnly' | 'required' | 'size' | 'value'
     > & {
         /**
          * The default country code to select when the component is rendered. If not provided, it will attempt to guess
@@ -82,6 +71,10 @@ export function PhoneNumberInput({
     'aria-errormessage': ariaErrorMessage,
     ...inputProps
 }: PhoneNumberInputProps) {
+    const id = useId();
+
+    const items = useMenuItems(`phone-number-input-${id}`, SELECT_OPTIONS);
+
     const [countryCode, setCountryCode] = useState<SupportedCountryCode>(initialCountryCode || guessUserCountryCode());
 
     const [inputRef, setInputRef] = useState<HTMLInputElement | null>(null);
@@ -113,12 +106,12 @@ export function PhoneNumberInput({
         <ListItemMenu
             disabled={disabled || readOnly}
             items={({ setShow }) =>
-                SELECT_OPTIONS.map((option) => {
+                items.map((option) => {
                     return {
                         ...option,
-                        selected: option.id === countryCode,
+                        selected: option.value === countryCode,
                         onClick: () => {
-                            setCountryCode(option.id as SupportedCountryCode);
+                            setCountryCode(option.value as SupportedCountryCode);
                             setShow(false);
                             sendAriaLiveMessage(`Selected country code ${option.label}`);
                             inputRef?.focus();
@@ -140,22 +133,21 @@ export function PhoneNumberInput({
                         aria-describedby={ariaDescribedBy}
                         aria-errormessage={ariaErrorMessage}
                         aria-label={ariaLabel}
+                        autoComplete="off"
                         containerRef={setRef}
                         disabled={disabled}
                         inputRef={setInputRef}
                         leading={
                             <>
                                 <Button
+                                    disabled={disabled || readOnly}
                                     label="Open country code menu"
                                     variant="tertiary"
                                     {...toggleProps}
-                                    data-bspk="country-code-select"
-                                    disabled={disabled || readOnly}
                                 >
                                     <SvgIcon name={selectedCodeData.flagIconName} />
                                     <SvgIcon name="KeyboardArrowDown" />
                                 </Button>
-                                <Divider orientation="vertical" />
                                 <span aria-hidden="true" style={{ cursor: 'default' }}>{`+${callingCode}`}</span>
                             </>
                         }

@@ -1,7 +1,8 @@
 import './search-bar.scss';
 import { SvgSearch } from '@bspk/icons/Search';
 import { useRef } from 'react';
-import { ListItemMenu, ListItemMenuProps, MenuListItem } from '-/components/ListItemMenu';
+import { ListItemProps } from '-/components/ListItem';
+import { ListItemMenu, ListItemMenuProps, MenuListItem, useMenuItems } from '-/components/ListItemMenu';
 import { TextInputProps, TextInput } from '-/components/TextInput';
 import { Txt } from '-/components/Txt';
 import { useId } from '-/hooks/useId';
@@ -49,9 +50,9 @@ export type SearchBarProps = Pick<ListItemMenuProps, 'scrollLimit'> &
          *         { id: '10', label: 'Jackfruit Pudding' },
          *     ];
          *
-         * @type Array<MenuListItem>
+         * @type Array<ListItemProps>
          */
-        items?: MenuListItem[];
+        items?: ListItemProps[];
         /**
          * Message to display when no results are found
          *
@@ -61,7 +62,7 @@ export type SearchBarProps = Pick<ListItemMenuProps, 'scrollLimit'> &
     };
 
 /**
- * Component description coming soon.
+ * An input field that allows customers to input search queries and retrieve results.
  *
  * @example
  *     import { useState } from 'react';
@@ -100,7 +101,7 @@ export type SearchBarProps = Pick<ListItemMenuProps, 'scrollLimit'> &
  * @phase UXReview
  */
 export function SearchBar({
-    items,
+    items: itemsProp,
     noResultsMessage,
     placeholder = 'Search',
     'aria-label': ariaLabel,
@@ -116,6 +117,8 @@ export function SearchBar({
 }: SearchBarProps) {
     const id = useId(idProp);
 
+    const items = useMenuItems(`search-bar-${id}`, itemsProp || []);
+
     const inputInternalRef = useRef<HTMLInputElement | null>(null);
 
     return (
@@ -124,7 +127,7 @@ export function SearchBar({
                 <ListItemMenu
                     disabled={disabled}
                     items={({ setShow }) =>
-                        (items || []).map(({ ...item }) => ({
+                        items.map(({ ...item }) => ({
                             ...item,
                             onClick: () => {
                                 onSelect(item);
@@ -139,10 +142,6 @@ export function SearchBar({
                             },
                         }))
                     }
-                    keyOverrides={{
-                        ArrowLeft: null,
-                        ArrowRight: null,
-                    }}
                     label="Search bar"
                     leading={
                         !!value?.length &&

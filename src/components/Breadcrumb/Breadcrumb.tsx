@@ -1,11 +1,10 @@
 import './breadcrumb.scss';
 import { SvgChevronRight } from '@bspk/icons/ChevronRight';
 import { SvgMoreHoriz } from '@bspk/icons/MoreHoriz';
-import { useMemo } from 'react';
 import { Button } from '-/components/Button';
 import { Link } from '-/components/Link';
 import { ListItemGroupProps } from '-/components/ListItemGroup';
-import { ListItemMenu } from '-/components/ListItemMenu';
+import { ListItemMenu, useMenuItems } from '-/components/ListItemMenu';
 import { Txt } from '-/components/Txt';
 import { useId } from '-/hooks/useId';
 import { CommonProps } from '-/types/common';
@@ -89,14 +88,8 @@ export type BreadcrumbProps = CommonProps<'id'> &
  */
 export function Breadcrumb({ id: propId, items: itemsProp = [], scrollLimit }: BreadcrumbProps) {
     const id = useId(propId);
-    const items = useMemo(
-        () =>
-            (Array.isArray(itemsProp) ? itemsProp : []).map((item, index) => ({
-                ...item,
-                id: `breadcrumb-${id}-item-${index + 1}`,
-            })),
-        [id, itemsProp],
-    );
+
+    const items = useMenuItems(`breadcrumb-${id}`, itemsProp);
 
     if (items.length < 2) return null;
 

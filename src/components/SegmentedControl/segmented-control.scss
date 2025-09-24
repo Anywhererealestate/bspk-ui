@@ -17,6 +17,16 @@ ul[data-bspk='segmented-control'] {
         --padding: var(--spacing-sizing-05);
     }
 
+    %active {
+        background: var(--interactions-neutral-hover-opacity);
+
+        &[aria-selected] {
+            background:
+                linear-gradient(var(--interactions-neutral-hover-opacity), var(--interactions-neutral-hover-opacity)),
+                linear-gradient(var(--surface-neutral-t1-base), var(--surface-neutral-t1-base));
+        }
+    }
+
     li {
         color: var(--foreground-neutral-on-surface);
         padding: 0 var(--padding);
@@ -39,19 +49,8 @@ ul[data-bspk='segmented-control'] {
                     0 1px 1px 0 var(--shadow-variant-05);
             }
 
-            &[data-active],
-            // only show hover effect if no sibling is active
-            &:hover:not(:has(~ [data-active])) {
-                background: var(--interactions-neutral-hover-opacity);
-
-                &[aria-selected] {
-                    background:
-                        linear-gradient(
-                            var(--interactions-neutral-hover-opacity),
-                            var(--interactions-neutral-hover-opacity)
-                        ),
-                        linear-gradient(var(--surface-neutral-t1-base), var(--surface-neutral-t1-base));
-                }
+            &:hover {
+                @extend %active;
             }
 
             &:active {
@@ -62,6 +61,12 @@ ul[data-bspk='segmented-control'] {
         &[aria-disabled] {
             color: var(--foreground-neutral-disabled-on-surface);
             cursor: not-allowed;
+        }
+    }
+
+    &:focus-within {
+        li:not([aria-disabled])[data-active] {
+            @extend %active;
         }
     }
 }

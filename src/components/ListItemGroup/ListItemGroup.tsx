@@ -21,6 +21,7 @@ export type ListItemGroupProps = {
      * If true, scrolling will be enabled after 10 items.
      *
      * @default 10
+     * @type number
      */
     scrollLimit?: boolean | number;
     /** A ref callback to receive the container element. */
