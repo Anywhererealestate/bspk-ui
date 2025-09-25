@@ -1,10 +1,9 @@
-import { useState, ReactNode, useEffect } from 'react';
-
+import { useState, ReactNode } from 'react';
+import { AriaLiveMessageHandler, sendAriaLiveMessage } from './AriaLiveMessageHandler';
 import { useEventListener } from '-/hooks/useAddEventListener';
 import { useDebounceState } from '-/hooks/useDebounceState';
 import { useIsomorphicEffect } from '-/hooks/useIsomorphicEffect';
-import { useTimeout } from '-/hooks/useTimeout';
-import { UIContext, ColorTheme, AriaLiveMessage } from '-/utils/uiContext';
+import { UIContext, ColorTheme } from '-/utils/uiContext';
 
 export type UIProviderProps = {
     /**
@@ -53,61 +52,11 @@ export function UIProvider({ children }: UIProviderProps) {
                 isMobile: deviceWidth < 640,
                 isTablet: deviceWidth > 640 && deviceWidth < 1024,
                 isDesktop: deviceWidth >= 1024,
-                sendAriaLiveMessage: (message, live) => {
-                    document.dispatchEvent(new CustomEvent('aria-live', { detail: { message, live } }));
-                },
+                sendAriaLiveMessage,
             }}
         >
             {children}
             <AriaLiveMessageHandler />
         </UIContext.Provider>
-    );
-}
-
-/**
- * AriaLiveMessageHandler is a single use component that listens for aria-live messages and displays them to the user.
- *
- * We use a custom event to communicate between components and this handler.
- *
- * We don't store the message in context to avoid unnecessary re-renders of all components that consume the context. :)
- *
- * We queue messages to ensure that they are read by screen readers.
- *
- * After the message is read, we clear it after a short delay to allow for subsequent messages to be read.
- */
-// eslint-disable-next-line react/no-multi-comp
-function AriaLiveMessageHandler() {
-    const [ariaLiveMessage, setAriaLiveMessage] = useState<AriaLiveMessage | undefined>(undefined);
-
-    const timeout = useTimeout();
-
-    useEffect(() => {
-        // eslint-disable-next-line no-console
-        console.info('ARIA Live Message:', ariaLiveMessage);
-    }, [ariaLiveMessage]);
-
-    useEffect(() => {
-        document.addEventListener('aria-live', (event: CustomEvent) => {
-            const { message, live } = event.detail;
-            // Clear any existing message to ensure that screen readers read the new message
-            setAriaLiveMessage(undefined);
-            timeout.set(() => setAriaLiveMessage({ message, live: live || 'polite' }), 100);
-        });
-
-        return () => {
-            timeout.clear();
-            document.removeEventListener('aria-live', (event: CustomEvent) => {
-                const { message, live } = event.detail;
-                setAriaLiveMessage({ message, live: live || 'polite' });
-            });
-        };
-    }, [setAriaLiveMessage, timeout]);
-
-    return (
-        ariaLiveMessage && (
-            <div aria-live={ariaLiveMessage?.live || 'polite'} data-sr-only role="alert">
-                {ariaLiveMessage?.message}
-            </div>
-        )
     );
 }
