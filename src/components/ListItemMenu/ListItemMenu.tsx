@@ -34,7 +34,9 @@ export function useMenuItems<T extends ListItemProps>(menuId: string, items: T[]
     );
 }
 
-export type MenuListItem = Omit<ListItemProps, 'id' | 'onClick'> & { id: string };
+export type MenuListItem = Omit<ListItemProps, 'id' | 'onClick'> & {
+    id: string;
+};
 
 /** Props for the toggle element that opens the ListItemMenu. */
 export type ToggleProps = Pick<
@@ -217,14 +219,13 @@ export function ListItemMenu({
                           {
                               ...item,
                               tabIndex: 0,
-                              role: role === 'listbox' ? 'option' : item.role || undefined,
                               onClick: (event) => {
                                   onClick?.({ event, currentId: item.id, show, setShow });
                               },
                           },
                       ];
             }),
-        [itemsProp, onClick, role, show],
+        [itemsProp, onClick, show],
     );
 
     const { activeElementId, setActiveElementId, arrowKeyCallbacks } = useArrowNavigation({

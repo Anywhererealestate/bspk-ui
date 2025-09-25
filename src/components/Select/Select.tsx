@@ -251,7 +251,7 @@ export function Select({
                 setShow(false);
             }}
             owner="select"
-            role="listbox"
+            role={isMulti ? 'group' : 'listbox'}
             scrollLimit={scrollLimit || 5}
         >
             {(toggleProps, { setRef, show }) => {

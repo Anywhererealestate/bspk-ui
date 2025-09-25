@@ -215,6 +215,7 @@ function roleLogic({
         if (context.role === 'tree') return 'treeitem';
         if (context.role === 'radiogroup') return 'radio';
         if (context.role === 'navigation') return 'link';
+        if (context.role === 'group') return undefined;
     }
 
     if (props.href) return As !== 'a' ? 'link' : undefined;
