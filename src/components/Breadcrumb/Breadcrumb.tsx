@@ -103,13 +103,11 @@ export function Breadcrumb({ id: propId, items: itemsProp = [], scrollLimit }: B
                 {items.length > 5 ? (
                     <li>
                         <ListItemMenu
-                            items={({ setShow }) =>
-                                items.slice(1, items.length - 1).map((item) => ({
-                                    ...item,
-                                    onClick: () => setShow(false),
-                                }))
-                            }
+                            items={items.slice(1, items.length - 1).map((item) => ({
+                                ...item,
+                            }))}
                             label="Expanded breadcrumb"
+                            onClick={({ setShow }) => setShow(false)}
                             owner="Breadcrumb"
                             placement="bottom"
                             role="tree"

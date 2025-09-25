@@ -1,8 +1,9 @@
-import { useState, ReactNode } from 'react';
+import { useState, ReactNode, useEffect } from 'react';
 
 import { useEventListener } from '-/hooks/useAddEventListener';
 import { useDebounceState } from '-/hooks/useDebounceState';
 import { useIsomorphicEffect } from '-/hooks/useIsomorphicEffect';
+import { useTimeout } from '-/hooks/useTimeout';
 import { UIContext, ColorTheme, AriaLiveMessage } from '-/utils/uiContext';
 
 export type UIProviderProps = {
@@ -27,7 +28,6 @@ export type UIProviderProps = {
  */
 export function UIProvider({ children }: UIProviderProps) {
     const [theme, setTheme] = useState<ColorTheme>('light');
-    const [ariaLiveMessage, setAriaLiveMessage] = useState<AriaLiveMessage | null>(null);
     // Keep track of device width to determine if we are in mobile, tablet, or desktop mode
 
     const [deviceWidth, setDeviceWidth] = useDebounceState(() => {
@@ -54,16 +54,60 @@ export function UIProvider({ children }: UIProviderProps) {
                 isTablet: deviceWidth > 640 && deviceWidth < 1024,
                 isDesktop: deviceWidth >= 1024,
                 sendAriaLiveMessage: (message, live) => {
-                    setAriaLiveMessage({ message, live });
+                    document.dispatchEvent(new CustomEvent('aria-live', { detail: { message, live } }));
                 },
             }}
         >
             {children}
-            {ariaLiveMessage && (
-                <div aria-live={ariaLiveMessage.live || 'polite'} data-sr-only role="alert">
-                    {ariaLiveMessage.message}
-                </div>
-            )}
+            <AriaLiveMessageHandler />
         </UIContext.Provider>
+    );
+}
+
+/**
+ * AriaLiveMessageHandler is a single use component that listens for aria-live messages and displays them to the user.
+ *
+ * We use a custom event to communicate between components and this handler.
+ *
+ * We don't store the message in context to avoid unnecessary re-renders of all components that consume the context. :)
+ *
+ * We queue messages to ensure that they are read by screen readers.
+ *
+ * After the message is read, we clear it after a short delay to allow for subsequent messages to be read.
+ */
+// eslint-disable-next-line react/no-multi-comp
+function AriaLiveMessageHandler() {
+    const [ariaLiveMessage, setAriaLiveMessage] = useState<AriaLiveMessage | undefined>(undefined);
+
+    const timeout = useTimeout();
+
+    useEffect(() => {
+        // eslint-disable-next-line no-console
+        console.info('ARIA Live Message:', ariaLiveMessage);
+    }, [ariaLiveMessage]);
+
+    useEffect(() => {
+        document.addEventListener('aria-live', (event: CustomEvent) => {
+            const { message, live } = event.detail;
+            // Clear any existing message to ensure that screen readers read the new message
+            setAriaLiveMessage(undefined);
+            timeout.set(() => setAriaLiveMessage({ message, live: live || 'polite' }), 100);
+        });
+
+        return () => {
+            timeout.clear();
+            document.removeEventListener('aria-live', (event: CustomEvent) => {
+                const { message, live } = event.detail;
+                setAriaLiveMessage({ message, live: live || 'polite' });
+            });
+        };
+    }, [setAriaLiveMessage, timeout]);
+
+    return (
+        ariaLiveMessage && (
+            <div aria-live={ariaLiveMessage?.live || 'polite'} data-sr-only role="alert">
+                {ariaLiveMessage?.message}
+            </div>
+        )
     );
 }

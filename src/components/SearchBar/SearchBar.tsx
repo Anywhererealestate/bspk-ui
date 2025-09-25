@@ -1,11 +1,12 @@
 import './search-bar.scss';
 import { SvgSearch } from '@bspk/icons/Search';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { ListItemProps } from '-/components/ListItem';
 import { ListItemMenu, ListItemMenuProps, MenuListItem, useMenuItems } from '-/components/ListItemMenu';
 import { TextInputProps, TextInput } from '-/components/TextInput';
 import { Txt } from '-/components/Txt';
 import { useId } from '-/hooks/useId';
+import { useUIContext } from '-/hooks/useUIContext';
 
 export type SearchBarProps = Pick<ListItemMenuProps, 'scrollLimit'> &
     Pick<TextInputProps, 'aria-label' | 'disabled' | 'id' | 'inputRef' | 'name' | 'size'> & {
@@ -119,29 +120,24 @@ export function SearchBar({
 
     const items = useMenuItems(`search-bar-${id}`, itemsProp || []);
 
-    const inputInternalRef = useRef<HTMLInputElement | null>(null);
+    const inputElementRef = useRef<HTMLInputElement | null>(null);
+
+    const { sendAriaLiveMessage } = useUIContext();
+
+    useEffect(() => {
+        if (!items.length) sendAriaLiveMessage('No results found', 'assertive');
+    }, [items.length, sendAriaLiveMessage, value]);
 
     return (
         <>
             <div data-bspk="search-bar">
                 <ListItemMenu
+                    arrowKeyNavigationCallback={(params) => {
+                        // maintain default behavior for arrow keys left/right
+                        return params.key !== 'ArrowLeft' && params.key !== 'ArrowRight';
+                    }}
                     disabled={disabled}
-                    items={({ setShow }) =>
-                        items.map(({ ...item }) => ({
-                            ...item,
-                            onClick: () => {
-                                onSelect(item);
-                                onChange(item.label);
-                                setShow(false);
-                                setTimeout(() => {
-                                    const inputElement = inputInternalRef.current;
-                                    if (!inputElement) return;
-                                    inputElement.focus();
-                                    inputElement.setSelectionRange(item.label.length, item.label.length);
-                                }, 100);
-                            },
-                        }))
-                    }
+                    items={items}
                     label="Search bar"
                     leading={
                         !!value?.length &&
@@ -158,21 +154,34 @@ export function SearchBar({
                             </div>
                         )
                     }
+                    onClick={({ currentId, setShow }) => {
+                        const item = items.find((i) => i.id === currentId)!;
+                        onSelect(item);
+                        onChange(item.label);
+                        setShow(false);
+                        setTimeout(() => {
+                            const inputElement = inputElementRef.current;
+                            if (!inputElement) return;
+                            inputElement.focus();
+                            inputElement.setSelectionRange(item.label.length, item.label.length);
+                        }, 100);
+                    }}
                     owner="search-bar"
                     role="listbox"
                     scrollLimit={scrollLimit}
                 >
                     {(toggleProps, { setRef, toggleMenu }) => (
                         <TextInput
-                            aria-label={ariaLabel}
+                            aria-label={(items.length === 0 ? 'No results found' : '') + ariaLabel}
                             autoComplete="off"
                             containerRef={setRef}
                             disabled={disabled}
                             id={id}
+                            inputProps={{ ...toggleProps }}
                             inputRef={(node) => {
                                 if (!node) return;
                                 inputRef?.(node);
-                                inputInternalRef.current = node;
+                                inputElementRef.current = node;
                             }}
                             leading={<SvgSearch />}
                             name={name}
@@ -181,7 +190,6 @@ export function SearchBar({
                                 if (str.length) toggleMenu(true);
                             }}
                             owner="search-bar"
-                            {...toggleProps}
                             placeholder={placeholder}
                             size={size}
                             value={value}

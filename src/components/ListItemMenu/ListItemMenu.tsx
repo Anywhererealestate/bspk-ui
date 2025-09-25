@@ -1,9 +1,20 @@
-import { AriaAttributes, CSSProperties, HTMLAttributes, ReactNode, useState, KeyboardEvent, useMemo } from 'react';
+import {
+    AriaAttributes,
+    CSSProperties,
+    HTMLAttributes,
+    ReactNode,
+    useState,
+    KeyboardEvent,
+    useMemo,
+    MouseEvent,
+    Dispatch,
+    SetStateAction,
+} from 'react';
 import { ListItemProps } from '-/components/ListItem';
 import { ListItemGroup, ListItemGroupProps } from '-/components/ListItemGroup';
 import { Menu, MenuProps } from '-/components/Menu';
 import { Portal } from '-/components/Portal';
-import { useArrowNavigation } from '-/hooks/useArrowNavigation';
+import { ArrowKeyNavigationCallbackParams, useArrowNavigation } from '-/hooks/useArrowNavigation';
 import { useFloating, UseFloatingProps } from '-/hooks/useFloating';
 import { useId } from '-/hooks/useId';
 import { useOutsideClick } from '-/hooks/useOutsideClick';
@@ -23,9 +34,7 @@ export function useMenuItems<T extends ListItemProps>(menuId: string, items: T[]
     );
 }
 
-export type MenuListItem = Omit<ListItemProps, 'id'> & { id: string };
-
-export type MenuListItemsFn = (props: { setShow: (show: boolean) => void }) => MenuListItem[];
+export type MenuListItem = Omit<ListItemProps, 'id' | 'onClick'> & { id: string };
 
 /** Props for the toggle element that opens the ListItemMenu. */
 export type ToggleProps = Pick<
@@ -41,7 +50,7 @@ export type ToggleProps = Pick<
 > &
     Pick<HTMLAttributes<HTMLElement>, 'role' | 'tabIndex'> & {
         /** Event handler for the toggle element that change the menu state. */
-        onClick: () => void;
+        onClick: (event: MouseEvent<HTMLElement>) => void;
         /** Event handler for keydown events on the toggle element that change the menu state. */
         onKeyDownCapture: (event: KeyboardEvent) => void;
     };
@@ -99,7 +108,7 @@ export type ListItemMenuProps = CommonProps<'disabled' | 'readOnly'> &
          *
          * @required
          */
-        items: MenuListItem[] | MenuListItemsFn;
+        items: (MenuListItem | false)[];
         /**
          * Content to display in the floating menu element before the ListItems.
          *
@@ -114,8 +123,19 @@ export type ListItemMenuProps = CommonProps<'disabled' | 'readOnly'> &
         trailing?: ReactNode;
         /** The ID of the currently active element. */
         activeElementId?: string | null;
-        /** Optional callback fired when an item is selected. */
-        onSelect?: (event: KeyboardEvent, activeElementId: string, show: boolean) => void;
+        /** Optional callback fired when an item is clicked/selected. */
+        onClick?: (params: {
+            event: MouseEvent;
+            currentId: string;
+            show: boolean;
+            setShow: Dispatch<SetStateAction<boolean>>;
+        }) => void;
+        /**
+         * Optional callback fired when the arrow keys are used for navigation.
+         *
+         * If the callback returns `true`, the change is accepted; if it returns `false`, the change is ignored.
+         */
+        arrowKeyNavigationCallback?: (params: ArrowKeyNavigationCallbackParams) => boolean;
     };
 
 /**
@@ -151,22 +171,23 @@ export type ListItemMenuProps = CommonProps<'disabled' | 'readOnly'> &
  * @phase Utility
  */
 export function ListItemMenu({
-    items: itemsProp,
-    scrollLimit,
-    children,
-    owner,
-    role: role = 'listbox',
-    disabled,
-    readOnly,
-    width: menuWidth = 'reference',
-    id: menuIdProps,
-    placement = 'bottom',
-    offsetOptions = 4,
-    trailing: menuTrailing,
-    leading: menuLeading,
     activeElementId: activeElementIdProp = null,
+    children,
+    disabled,
+    id: menuIdProps,
+    items: itemsProp,
     label,
-    onSelect,
+    leading: menuLeading,
+    offsetOptions = 4,
+    arrowKeyNavigationCallback,
+    onClick,
+    owner,
+    placement = 'bottom',
+    readOnly,
+    role: role = 'listbox',
+    scrollLimit,
+    trailing: menuTrailing,
+    width: menuWidth = 'reference',
     ...ariaProps
 }: ListItemMenuProps) {
     const menuId = useId(menuIdProps);
@@ -182,29 +203,37 @@ export function ListItemMenu({
     });
 
     useOutsideClick({
-        elements: [elements.floating as HTMLElement],
+        elements: [elements.floating as HTMLElement, elements.reference as HTMLElement],
         callback: () => setShow(false),
         disabled: !show,
     });
 
-    const { items } = useMemo(() => {
-        const itemsWithIds = (typeof itemsProp === 'function' ? itemsProp({ setShow }) : itemsProp).map((item) => {
-            return {
-                ...item,
-                tabIndex: 0,
-                role: role === 'listbox' ? 'option' : item.role || undefined,
-            };
-        });
-
-        return {
-            items: itemsWithIds,
-        };
-    }, [itemsProp, role]);
+    const items = useMemo(
+        () =>
+            itemsProp.flatMap((item): (MenuListItem & { tabIndex: number; onClick: (event: MouseEvent) => void })[] => {
+                return !item
+                    ? []
+                    : [
+                          {
+                              ...item,
+                              tabIndex: 0,
+                              role: role === 'listbox' ? 'option' : item.role || undefined,
+                              onClick: (event) => {
+                                  onClick?.({ event, currentId: item.id, show, setShow });
+                              },
+                          },
+                      ];
+            }),
+        [itemsProp, onClick, role, show],
+    );
 
     const { activeElementId, setActiveElementId, arrowKeyCallbacks } = useArrowNavigation({
         ids: items.flatMap((item) => (item.disabled ? [] : item.id)),
-        callback: () => {
+        callback: (params) => {
             if (!show) setShow(true);
+
+            if (typeof arrowKeyNavigationCallback === 'function' && arrowKeyNavigationCallback)
+                return arrowKeyNavigationCallback(params);
             return true;
         },
     });
@@ -219,23 +248,6 @@ export function ListItemMenu({
                 }),
             itemCount: 0,
         });
-
-    const enterSpace = (event: KeyboardEvent) => {
-        if (typeof onSelect === 'function' && show && activeElementId) {
-            onSelect(event, activeElementId, show);
-            return;
-        }
-
-        if (event.target instanceof HTMLButtonElement) return;
-
-        if (show && activeElementId) {
-            event.preventDefault();
-            getElementById(activeElementId)?.click();
-            return;
-        }
-
-        (event.target as HTMLElement)?.click();
-    };
 
     const tabEscape = () => {
         setShow(false);
@@ -254,15 +266,30 @@ export function ListItemMenu({
                     'aria-activedescendant': show ? activeElementId || undefined : undefined,
                     role: 'combobox',
                     tabIndex: 0,
-                    onClick: () => {
+                    onClick: (event) => {
                         const nextShow = !show;
                         setShow(nextShow);
                         setActiveElementId(nextShow ? activeElementIdProp || items[0]?.id || null : null);
+                        event.preventDefault();
                     },
                     onKeyDownCapture: handleKeyDown({
                         ...arrowKeyCallbacks,
-                        Enter: enterSpace,
-                        Space: enterSpace,
+                        Enter: (event) => {
+                            event.preventDefault();
+                            if (!show) {
+                                setShow(true);
+                                return;
+                            }
+                            getElementById(activeElementId)?.click();
+                        },
+                        Space: (event) => {
+                            event.preventDefault();
+                            if (!show) {
+                                setShow(true);
+                                return;
+                            }
+                            getElementById(activeElementId)?.click();
+                        },
                         Tab: tabEscape,
                         Escape: tabEscape,
                     }),

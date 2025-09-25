@@ -105,21 +105,22 @@ export function PhoneNumberInput({
     return (
         <ListItemMenu
             disabled={disabled || readOnly}
-            items={({ setShow }) =>
-                items.map((option) => {
-                    return {
-                        ...option,
-                        selected: option.value === countryCode,
-                        onClick: () => {
-                            setCountryCode(option.value as SupportedCountryCode);
-                            setShow(false);
-                            sendAriaLiveMessage(`Selected country code ${option.label}`);
-                            inputRef?.focus();
-                        },
-                    };
-                })
-            }
+            items={items.map((option) => {
+                return {
+                    ...option,
+                    selected: option.value === countryCode,
+                };
+            })}
             label="Select country code"
+            onClick={({ currentId, setShow }) => {
+                if (currentId) {
+                    const item = items.find((i) => i.id === currentId)!;
+                    setCountryCode(item.value as SupportedCountryCode);
+                    sendAriaLiveMessage(`Selected country code ${item.label}`);
+                    inputRef?.focus();
+                    setShow(false);
+                }
+            }}
             owner="phone-number-input"
             role="listbox"
             scrollLimit={10}

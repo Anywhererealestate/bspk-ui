@@ -1,20 +1,58 @@
 import './select.scss';
 import { SvgChevronRight } from '@bspk/icons/ChevronRight';
-import { ElementType, useMemo } from 'react';
+import { ElementType, useMemo, KeyboardEvent, MouseEvent } from 'react';
 import { Checkbox } from '-/components/Checkbox';
 import { ListItem, ListItemProps } from '-/components/ListItem';
-import { ListItemMenu, ListItemMenuProps, useMenuItems } from '-/components/ListItemMenu';
+import { ListItemMenu, ListItemMenuProps, MenuListItem } from '-/components/ListItemMenu';
 import { useId } from '-/hooks/useId';
 import { CommonProps, ElementProps, FormFieldControlProps } from '-/types/common';
+import { getElementById } from '-/utils/dom';
 
 const DEFAULT_PLACEHOLDER = 'Select one';
+
+const multiSelectValue = (values: string[], selected: boolean, currentValue: string) => {
+    const next = values.filter((val) => val !== currentValue);
+    return selected ? [...next, currentValue] : next;
+};
+
+const getSelectAllProps = (
+    menuId: string,
+    value: string[],
+    items: (MenuListItem & { value: string })[],
+    onChange: SelectProps['onChange'],
+    selectAll?: string,
+): MenuListItem => {
+    const enabledItems = items.filter((item) => !item.disabled);
+
+    const allSelected = value?.length === enabledItems.length;
+
+    const selectAllLabel = selectAll || 'Select All';
+
+    return {
+        as: 'label' as ElementType,
+        id: `select-${menuId}-select-all`,
+        label: selectAllLabel,
+        trailing: (
+            <Checkbox
+                aria-label={selectAllLabel}
+                checked={!!allSelected}
+                indeterminate={!allSelected && value.length > 0}
+                name=""
+                onChange={(checked) => {
+                    onChange?.(checked ? items.map((item) => item.value) : []);
+                }}
+                value="select-all"
+            />
+        ),
+    };
+};
 
 /**
  * An option in a Select component.
  *
  * Essentially the props of ListItemProps. Except for `value` which is required.
  */
-export type SelectOption = Omit<ListItemProps, 'id' | 'value'> & { value: string };
+export type SelectOption = Omit<ListItemProps, 'id' | 'onClick' | 'value'> & { value: string };
 
 export type SelectProps = CommonProps<'disabled' | 'id' | 'invalid' | 'name' | 'readOnly' | 'size'> &
     FormFieldControlProps &
@@ -66,7 +104,7 @@ export type SelectProps = CommonProps<'disabled' | 'id' | 'invalid' | 'name' | '
          *
          * @required
          */
-        onChange: (value: string[], event?: React.MouseEvent<HTMLElement, MouseEvent>) => void;
+        onChange: (value: string[], event?: KeyboardEvent | MouseEvent) => void;
         /**
          * The label for the select element, used for accessibility, and the dropdown modal header.
          *
@@ -147,7 +185,33 @@ export function Select({
     const menuId = useMemo(() => `select-${id}-menu`, [id]);
     const placeholder = placeholderProp || DEFAULT_PLACEHOLDER;
 
-    const items = useMenuItems(`select-${id}`, optionsProp);
+    const items = useMemo(() => {
+        const nextItems = optionsProp.map((item, index): MenuListItem & { value: string } => ({
+            ...item,
+            id: `${menuId}-item-${index}`,
+        }));
+
+        if (isMulti) {
+            return nextItems.map((item) => ({
+                ...item,
+                as: 'label' as ElementType,
+                ariaHideLabel: true,
+                trailing: (
+                    <Checkbox
+                        aria-label={item.label}
+                        checked={value.includes(item.value)}
+                        name={item.id}
+                        onChange={(checked) => {
+                            onChange?.(multiSelectValue(value, checked, item.value));
+                        }}
+                        value={item.value}
+                    />
+                ),
+            }));
+        }
+
+        return nextItems;
+    }, [optionsProp, isMulti, menuId, value, onChange]);
 
     const selectedItem = useMemo(() => {
         if (isMulti)
@@ -164,67 +228,27 @@ export function Select({
         <ListItemMenu
             activeElementId={isMulti ? undefined : selectedItem?.id}
             id={menuId}
-            items={({ setShow }) => {
-                if (isMulti) {
-                    const allSelected = isMulti ? value?.length === items.length : false;
-
-                    const multiSelectValue = (selected: boolean, itemValue: string) => {
-                        const next = value.filter((val) => val !== itemValue);
-                        return selected ? [...next, itemValue] : next;
-                    };
-
-                    const selectAllLabel = selectAll || 'Select All';
-
-                    return [
-                        {
-                            as: 'label' as ElementType,
-                            id: `select-${id}-select-all`,
-                            label: selectAllLabel,
-                            trailing: (
-                                <Checkbox
-                                    aria-label={selectAllLabel}
-                                    checked={!!allSelected}
-                                    indeterminate={!allSelected && value.length > 0}
-                                    name=""
-                                    onChange={(checked) => {
-                                        onChange?.(checked ? items.map((item) => item.id) : []);
-                                    }}
-                                    value="select-all"
-                                />
-                            ),
-                        },
-                        ...items.map((item) => ({
-                            ...item,
-                            as: 'label' as ElementType,
-                            trailing: (
-                                <Checkbox
-                                    aria-label={item.label}
-                                    checked={value.includes(item.id)}
-                                    name={item.id}
-                                    onChange={(checked) => {
-                                        onChange?.(multiSelectValue(checked, item.value));
-                                    }}
-                                    value={item.value}
-                                />
-                            ),
-                        })),
-                    ];
-                }
-
-                return items.map((item) => ({
-                    ...item,
-                    onClick: (event) => {
-                        item.onClick?.(event);
-                        console.log('selecting', item);
-
-                        onChange([item.value], event);
-                        setShow(false);
-                    },
-                }));
-            }}
+            items={[
+                isMulti &&
+                    getSelectAllProps(
+                        menuId,
+                        value,
+                        items as (MenuListItem & { value: string })[],
+                        onChange,
+                        selectAll,
+                    ),
+                ...items,
+            ]}
             label={label}
-            onSelect={() => {
-                console.log();
+            onClick={({ event, currentId, setShow }) => {
+                if (isMulti) {
+                    getElementById(currentId)?.click();
+                    // noop, onChange is handled in the item onClick or by label's default behavior
+                    return;
+                }
+                event.preventDefault();
+                onChange?.([items.find((i) => i.id === currentId)?.value || ''], event);
+                setShow(false);
             }}
             owner="select"
             role="listbox"

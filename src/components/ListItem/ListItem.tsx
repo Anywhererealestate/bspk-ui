@@ -84,8 +84,17 @@ export type ListItemProps<As extends ElementType = ElementType> = CommonProps<
          *
          * Used to indicate the item is currently being interacted with, such as during a mouse click or keyboard
          * selection.
+         *
+         * @default false
          */
         selected?: boolean;
+        /**
+         * Whether to hide the label from screen readers. Use this when the label is redundant with other context, such
+         * as within a ListItemMenu or Label.
+         *
+         * @default false
+         */
+        ariaHideLabel?: boolean;
     };
 
 /**
@@ -135,6 +144,7 @@ function ListItem<As extends ElementType = ElementType>({
     id: idProp,
     selected,
     'aria-label': ariaLabel,
+    ariaHideLabel,
     ...props
 }: ElementProps<ListItemProps<As>, As>) {
     const id = useId(idProp);
@@ -171,7 +181,7 @@ function ListItem<As extends ElementType = ElementType>({
                     {leading}
                 </span>
             )}
-            <span data-item-label>
+            <span aria-hidden={ariaHideLabel ? true : undefined} data-item-label>
                 <Truncated data-text>{label}</Truncated>
                 {subText && <span data-sub-text>{subText}</span>}
             </span>

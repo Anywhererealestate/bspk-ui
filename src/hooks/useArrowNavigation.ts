@@ -7,6 +7,13 @@ type ArrowKeyNames = Extract<KeyboardEventCode, `Arrow${string}`>;
 
 const ARROW_KEYS: ArrowKeyNames[] = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'];
 
+export type ArrowKeyNavigationCallbackParams = {
+    key: ArrowKeyNames;
+    event: KeyboardEvent;
+    activeElementId: string | null;
+    increment: number;
+};
+
 type UseArrowNavigationProps = {
     /**
      * An array of string IDs representing the navigable elements. These IDs should correspond to the `id` attributes of
@@ -18,7 +25,7 @@ type UseArrowNavigationProps = {
      * the keyboard event, and the next active element ID. If the function returns `true`, the default navigation
      * behavior is prevented; if it returns `false` or is not provided, the default behavior proceeds.
      */
-    callback?: (key: ArrowKeyNames, event: KeyboardEvent, activeElementId: string | null, increment: number) => boolean;
+    callback?: (params: ArrowKeyNavigationCallbackParams) => boolean;
     /** Optional configuration to set navigation direction increments. */
     increments?: Record<ArrowKeyNames, number>;
     /**
@@ -86,7 +93,11 @@ export function useArrowNavigation({
                         nextId = ids[nextIndex];
                     }
 
-                    if (typeof callback === 'function' && callback(key, event, nextId, increment) === false) return;
+                    if (
+                        typeof callback === 'function' &&
+                        callback({ key, event, activeElementId: nextId, increment }) === false
+                    )
+                        return;
                     event.preventDefault();
                     setActiveElementId(nextId);
                 },
