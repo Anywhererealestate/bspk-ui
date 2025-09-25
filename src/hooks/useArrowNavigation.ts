@@ -43,7 +43,7 @@ type UseArrowNavigationProps = {
  *   - `arrowKeyCallbacks`: An object with callback functions for arrow key navigation.
  */
 export function useArrowNavigation({
-    ids,
+    ids = [],
     callback,
     increments = {
         ArrowLeft: -1,
@@ -76,13 +76,17 @@ export function useArrowNavigation({
                 key,
                 (event: KeyboardEvent) => {
                     let nextIndex = 0;
-                    if (activeElementId) {
-                        const currentIndex = ids.indexOf(activeElementId);
-                        nextIndex = (currentIndex + increments[key] + ids.length) % ids.length;
-                    }
-                    const nextId = ids[nextIndex];
+                    let currentIndex = 0;
+                    let nextId = ids[nextIndex];
+                    const increment = increments[key];
 
-                    if (callback && callback(key, event, nextId, increments[key])) return;
+                    if (activeElementId) {
+                        currentIndex = ids.indexOf(activeElementId);
+                        nextIndex = (currentIndex + increment + ids.length) % ids.length;
+                        nextId = ids[nextIndex];
+                    }
+
+                    if (typeof callback === 'function' && callback(key, event, nextId, increment) === false) return;
                     event.preventDefault();
                     setActiveElementId(nextId);
                 },

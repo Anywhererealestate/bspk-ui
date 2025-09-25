@@ -3,7 +3,7 @@ import { SvgChevronRight } from '@bspk/icons/ChevronRight';
 import { ElementType, useMemo } from 'react';
 import { Checkbox } from '-/components/Checkbox';
 import { ListItem, ListItemProps } from '-/components/ListItem';
-import { ListItemMenu, ListItemMenuProps, MenuListItem, useMenuItems } from '-/components/ListItemMenu';
+import { ListItemMenu, ListItemMenuProps, useMenuItems } from '-/components/ListItemMenu';
 import { useId } from '-/hooks/useId';
 import { CommonProps, ElementProps, FormFieldControlProps } from '-/types/common';
 
@@ -12,8 +12,9 @@ const DEFAULT_PLACEHOLDER = 'Select one';
 /**
  * An option in a Select component.
  *
- * Essentially the props of ListItem, but 'id' is required as it's used as the value.
+ * Essentially the props of ListItemProps. Except for `value` which is required.
  */
+export type SelectOption = Omit<ListItemProps, 'id' | 'value'> & { value: string };
 
 export type SelectProps = CommonProps<'disabled' | 'id' | 'invalid' | 'name' | 'readOnly' | 'size'> &
     FormFieldControlProps &
@@ -38,7 +39,7 @@ export type SelectProps = CommonProps<'disabled' | 'id' | 'invalid' | 'name' | '
          * @type Array<SelectOption>
          * @required
          */
-        options: ListItemProps[];
+        options: SelectOption[];
         /**
          * Array of selected values
          *
@@ -146,14 +147,7 @@ export function Select({
     const menuId = useMemo(() => `select-${id}-menu`, [id]);
     const placeholder = placeholderProp || DEFAULT_PLACEHOLDER;
 
-    const items = useItems({
-        value,
-        options: useMenuItems(`select-${id}`, optionsProp),
-        isMulti,
-        selectAll,
-        onChange,
-        id: menuId,
-    });
+    const items = useMenuItems(`select-${id}`, optionsProp);
 
     const selectedItem = useMemo(() => {
         if (isMulti)
@@ -161,7 +155,7 @@ export function Select({
                 label: `${value?.length || 0} option${value?.length !== 1 ? 's' : ''} selected`,
                 id: value?.join(', ') || '',
             };
-        return items.find((o) => o.id === value?.[0]);
+        return items.find((o) => o.value === value?.[0]);
     }, [isMulti, items, value]);
 
     const descriptionId = useMemo(() => (description ? `${id}-description` : undefined), [description, id]);
@@ -171,17 +165,67 @@ export function Select({
             activeElementId={isMulti ? undefined : selectedItem?.id}
             id={menuId}
             items={({ setShow }) => {
-                if (isMulti) return items;
+                if (isMulti) {
+                    const allSelected = isMulti ? value?.length === items.length : false;
+
+                    const multiSelectValue = (selected: boolean, itemValue: string) => {
+                        const next = value.filter((val) => val !== itemValue);
+                        return selected ? [...next, itemValue] : next;
+                    };
+
+                    const selectAllLabel = selectAll || 'Select All';
+
+                    return [
+                        {
+                            as: 'label' as ElementType,
+                            id: `select-${id}-select-all`,
+                            label: selectAllLabel,
+                            trailing: (
+                                <Checkbox
+                                    aria-label={selectAllLabel}
+                                    checked={!!allSelected}
+                                    indeterminate={!allSelected && value.length > 0}
+                                    name=""
+                                    onChange={(checked) => {
+                                        onChange?.(checked ? items.map((item) => item.id) : []);
+                                    }}
+                                    value="select-all"
+                                />
+                            ),
+                        },
+                        ...items.map((item) => ({
+                            ...item,
+                            as: 'label' as ElementType,
+                            trailing: (
+                                <Checkbox
+                                    aria-label={item.label}
+                                    checked={value.includes(item.id)}
+                                    name={item.id}
+                                    onChange={(checked) => {
+                                        onChange?.(multiSelectValue(checked, item.value));
+                                    }}
+                                    value={item.value}
+                                />
+                            ),
+                        })),
+                    ];
+                }
+
                 return items.map((item) => ({
                     ...item,
                     onClick: (event) => {
                         item.onClick?.(event);
-                        onChange([item.id], event);
+                        console.log('selecting', item);
+
+                        onChange([item.value], event);
                         setShow(false);
                     },
                 }));
             }}
             label={label}
+            onSelect={() => {
+                console.log();
+            }}
             owner="select"
             role="listbox"
             scrollLimit={scrollLimit || 5}
@@ -228,71 +272,6 @@ export function Select({
             }}
         </ListItemMenu>
     );
-}
-
-/** A hook to generate the items for the select listbox. */
-function useItems({
-    value: selectedValues = [],
-    options,
-    isMulti,
-    selectAll,
-    onChange,
-    id,
-}: {
-    value: string[];
-    options: MenuListItem[];
-    isMulti: boolean;
-    selectAll: string;
-    onChange: (value: string[], event?: React.MouseEvent<HTMLElement, MouseEvent>) => void;
-    id: string;
-}) {
-    return useMemo(() => {
-        if (!isMulti) return options;
-
-        const allSelected = isMulti ? selectedValues?.length === options.length : false;
-
-        const multiSelectValue = (selected: boolean, itemValue: string) => {
-            const next = selectedValues.filter((value) => value !== itemValue);
-            return selected ? [...next, itemValue] : next;
-        };
-
-        options.unshift({
-            as: 'label' as ElementType,
-            id: `select-${id}-select-all`,
-            label: selectAll || 'Select All',
-            trailing: (
-                <Checkbox
-                    aria-label={selectAll}
-                    checked={!!allSelected}
-                    indeterminate={!allSelected && selectedValues.length > 0}
-                    name=""
-                    onChange={(checked) => {
-                        onChange?.(checked ? options.map((item) => item.id) : []);
-                    }}
-                    value="select-all"
-                />
-            ),
-        });
-
-        return options.map((item) => {
-            const selected = selectedValues.includes(item.id);
-            return {
-                ...item,
-                as: 'label' as ElementType,
-                trailing: (
-                    <Checkbox
-                        aria-label={item.label}
-                        checked={selected}
-                        name={item.id}
-                        onChange={(checked) => {
-                            onChange?.(multiSelectValue(checked, item.id));
-                        }}
-                        value={item.id}
-                    />
-                ),
-            };
-        });
-    }, [id, isMulti, onChange, options, selectAll, selectedValues]);
 }
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

@@ -20,7 +20,7 @@ type TimeInputListboxProps = {
 export function TimeInputListbox({ options, selectedValue, type: kind, onSelect, onTab }: TimeInputListboxProps) {
     const { activeElementId, arrowKeyCallbacks } = useArrowNavigation({
         ids: options.map((option) => option.id),
-        defaultActiveId: options.find((option) => option.value === selectedValue)?.id || options[0]?.id || null,
+        defaultActiveId: (options.find((option) => option.value === selectedValue) || options[0])?.id || null,
     });
 
     const enterSpaceClick = () => {

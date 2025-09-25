@@ -23,7 +23,7 @@ export function useMenuItems<T extends ListItemProps>(menuId: string, items: T[]
     );
 }
 
-export type MenuListItem = ListItemProps & { id: string };
+export type MenuListItem = Omit<ListItemProps, 'id'> & { id: string };
 
 export type MenuListItemsFn = (props: { setShow: (show: boolean) => void }) => MenuListItem[];
 
@@ -114,6 +114,8 @@ export type ListItemMenuProps = CommonProps<'disabled' | 'readOnly'> &
         trailing?: ReactNode;
         /** The ID of the currently active element. */
         activeElementId?: string | null;
+        /** Optional callback fired when an item is selected. */
+        onSelect?: (event: KeyboardEvent, activeElementId: string, show: boolean) => void;
     };
 
 /**
@@ -164,6 +166,7 @@ export function ListItemMenu({
     leading: menuLeading,
     activeElementId: activeElementIdProp = null,
     label,
+    onSelect,
     ...ariaProps
 }: ListItemMenuProps) {
     const menuId = useId(menuIdProps);
@@ -184,7 +187,7 @@ export function ListItemMenu({
         disabled: !show,
     });
 
-    const { items, itemIds } = useMemo(() => {
+    const { items } = useMemo(() => {
         const itemsWithIds = (typeof itemsProp === 'function' ? itemsProp({ setShow }) : itemsProp).map((item) => {
             return {
                 ...item,
@@ -195,12 +198,11 @@ export function ListItemMenu({
 
         return {
             items: itemsWithIds,
-            itemIds: itemsWithIds.flatMap((item) => (item.disabled ? [] : item.id)),
         };
     }, [itemsProp, role]);
 
     const { activeElementId, setActiveElementId, arrowKeyCallbacks } = useArrowNavigation({
-        ids: itemIds,
+        ids: items.flatMap((item) => (item.disabled ? [] : item.id)),
         callback: () => {
             if (!show) setShow(true);
             return true;
@@ -218,14 +220,20 @@ export function ListItemMenu({
             itemCount: 0,
         });
 
-    const enterSpaceClick = (event: KeyboardEvent) => {
-        if (show && activeElementId) {
-            getElementById(activeElementId)?.click();
+    const enterSpace = (event: KeyboardEvent) => {
+        if (typeof onSelect === 'function' && show && activeElementId) {
+            onSelect(event, activeElementId, show);
             return;
         }
 
         if (event.target instanceof HTMLButtonElement) return;
-        event.preventDefault();
+
+        if (show && activeElementId) {
+            event.preventDefault();
+            getElementById(activeElementId)?.click();
+            return;
+        }
+
         (event.target as HTMLElement)?.click();
     };
 
@@ -253,19 +261,11 @@ export function ListItemMenu({
                     },
                     onKeyDownCapture: handleKeyDown({
                         ...arrowKeyCallbacks,
-                        Enter: enterSpaceClick,
-                        Space: enterSpaceClick,
+                        Enter: enterSpace,
+                        Space: enterSpace,
                         Tab: tabEscape,
                         Escape: tabEscape,
                     }),
-
-                    // (event: KeyboardEvent) => {
-                    //     const code = handleKeyDown(event);
-                    //     if (code?.startsWith('Arrow') && !show) {
-                    //         setShow(true);
-                    //         event.preventDefault();
-                    //     }
-                    // },
                 },
                 {
                     setRef: elements.setReference,
