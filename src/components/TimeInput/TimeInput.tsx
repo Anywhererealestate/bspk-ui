@@ -1,7 +1,7 @@
 import './time-input.scss';
 import { SvgSchedule } from '@bspk/icons/Schedule';
 import { FocusTrap } from 'focus-trap-react';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { TimeInputListbox } from './Listbox';
 import { TimeInputSegment } from './Segment';
 import { Button } from '-/components/Button';
@@ -79,22 +79,28 @@ export function TimeInput({
 
     const [open, setOpenState] = useState(false);
 
-    const setOpen = (nextOpen: boolean) => {
-        setOpenState(nextOpen);
-
-        if (!elements.reference) return;
-
-        if (!nextOpen && open) elements.reference.focus();
-
-        if (nextOpen && !open) elements.reference.querySelector<HTMLElement>('[data-scroll-column="hours"]')?.focus();
-    };
-
     const { floatingStyles, elements } = useFloating({
         strategy: 'fixed',
         refWidth: true,
         offsetOptions: 4,
         hide: !open,
     });
+
+    const setOpen = useCallback(
+        (nextOpen: boolean) => {
+            setOpenState(nextOpen);
+
+            if (!elements.reference || !buttonRef.current) return;
+
+            // Focus the button when closing the menu
+            if (!nextOpen && open) buttonRef.current.focus();
+
+            // Focus the hours listbox when opening the menu
+            if (nextOpen && !open)
+                elements.reference.querySelector<HTMLElement>('[data-scroll-column="hours"]')?.focus();
+        },
+        [elements?.reference, open],
+    );
 
     useOutsideClick({ elements: [elements.floating], callback: () => setOpen(false), disabled: !open });
 
