@@ -1,9 +1,7 @@
+import './menu.scss';
 import { ReactNode } from 'react';
-
 import { useId } from '-/hooks/useId';
 import { CommonProps, ElementProps, SetRef } from '-/types/common';
-
-import './menu.scss';
 
 export function menuItemId(menuId: string, index: number) {
     return `menu-${menuId}-item-${index}`;
@@ -47,15 +45,7 @@ export type MenuProps = CommonProps<'id' | 'owner' | 'role'> & {
  * @name Menu
  * @phase UXReview
  */
-export function Menu({
-    //
-    innerRef,
-    id: idProp,
-    children,
-    owner,
-    label,
-    ...props
-}: ElementProps<MenuProps, 'div'>) {
+export function Menu({ innerRef, id: idProp, children, owner, label, ...props }: ElementProps<MenuProps, 'div'>) {
     const menuId = useId(idProp);
 
     return (

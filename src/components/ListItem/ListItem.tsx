@@ -1,3 +1,4 @@
+import './list-item.scss';
 import {
     AnchorHTMLAttributes,
     ElementType,
@@ -13,8 +14,6 @@ import { useId } from '-/hooks/useId';
 import { useListItemContext } from '-/hooks/useListItemContext';
 import { CommonProps, ElementProps, SetRef } from '-/types/common';
 import { ListItemContextProps } from '-/utils/listItemContext';
-
-import './list-item.scss';
 
 export type ListItemProps<As extends ElementType = ElementType> = CommonProps<
     'active' | 'disabled' | 'owner' | 'readOnly'

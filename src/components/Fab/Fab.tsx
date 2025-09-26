@@ -1,10 +1,8 @@
+import './fab.scss';
 import { AriaAttributes, ElementType, isValidElement } from 'react';
-
 import { ButtonProps } from '-/components/Button';
 import { Tooltip, TooltipTriggerProps } from '-/components/Tooltip';
 import { ElementProps } from '-/types/common';
-
-import './fab.scss';
 
 export type FabVariant = 'neutral' | 'primary' | 'secondary';
 
@@ -74,7 +72,7 @@ export function Fab<As extends ElementType = 'button'>(props: AriaAttributes & E
     const button = (triggerProps: TooltipTriggerProps) => (
         <As
             {...otherProps}
-            aria-describedby={triggerProps['aria-describedby'] || otherProps['aria-describedby']}
+            {...triggerProps}
             aria-label={label}
             data-bspk="fab"
             data-container={container}

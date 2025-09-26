@@ -1,6 +1,7 @@
+import './popover.scss';
 import { SvgClose } from '@bspk/icons/Close';
-import { ReactElement, cloneElement, useMemo, useRef, useState } from 'react';
-
+import { FocusTrap } from 'focus-trap-react';
+import { ReactElement, useRef, useState } from 'react';
 import { Button } from '-/components/Button';
 import { Portal } from '-/components/Portal';
 import { Txt } from '-/components/Txt';
@@ -10,7 +11,10 @@ import { useOutsideClick } from '-/hooks/useOutsideClick';
 import { CallToActionButton, CommonProps, ElementProps } from '-/types/common';
 import { cssWithVars } from '-/utils/cwv';
 
-import './popover.scss';
+export type PopoverTriggerProps = {
+    onClick?: () => void;
+    'aria-describedby'?: string;
+};
 
 export type PopoverProps = CommonProps<'disabled'> &
     Pick<UseFloatingProps, 'refWidth'> & {
@@ -41,12 +45,11 @@ export type PopoverProps = CommonProps<'disabled'> &
          */
         secondaryCallToAction?: CallToActionButton;
         /**
-         * A single element that will trigger the popover when clicked.
+         * A callback to render the trigger element.
          *
-         * @type ReactElement
          * @required
          */
-        children: ReactElement;
+        children: (triggerProps: PopoverTriggerProps) => ReactElement;
     };
 
 /**
@@ -110,17 +113,6 @@ export function Popover({
         callback: () => setShow(false),
     });
 
-    const child = useMemo(
-        () =>
-            !disabled &&
-            children &&
-            cloneElement(children, {
-                onClick: () => setShow((prev) => !prev),
-                'aria-describedby': id,
-            }),
-        [children, disabled, id],
-    );
-
     const basicArrowX = middlewareData?.arrow?.x ? `${middlewareData.arrow.x}px` : '0px';
 
     const getArrowX = () => {
@@ -133,63 +125,80 @@ export function Popover({
         return '0px';
     };
 
-    return disabled ? (
-        children
-    ) : (
+    if (disabled) return children({});
+    return (
         <>
-            {child}
-            <Portal>
-                <div
-                    data-bspk="popover"
-                    data-placement={middlewareData?.offset?.placement}
-                    id={id}
-                    ref={(node) => {
-                        elements.setFloating(node);
-                        elements.setReference(document.querySelector<HTMLElement>(`[aria-describedby="${id}"]`));
-                    }}
-                    style={{ ...floatingStyles, ...props.style }}
-                >
-                    <header>
-                        <Txt variant="heading-h6">{header}</Txt>
-                        <button aria-label="Close" onClick={() => setShow(false)}>
-                            <SvgClose />
-                        </button>
-                    </header>
-                    <div data-content>
-                        <Txt as="div" variant="body-small">
-                            {content}
-                        </Txt>
-                        <div data-cta-row>
-                            {secondaryCallToAction?.label && secondaryCallToAction?.onClick && (
-                                <Button
-                                    label={secondaryCallToAction.label}
-                                    onClick={secondaryCallToAction.onClick}
-                                    size="small"
-                                    variant="secondary"
-                                />
-                            )}
-                            {callToAction?.label && callToAction?.onClick && (
-                                <Button
-                                    label={callToAction.label}
-                                    onClick={callToAction.onClick}
-                                    size="small"
-                                    variant="primary"
-                                />
-                            )}
-                        </div>
-                    </div>
-                    <div
-                        data-arrow
-                        ref={(node) => {
-                            arrowRef.current = node;
+            {children({
+                onClick: () => setShow(!show),
+                'aria-describedby': id,
+            })}
+            {show && (
+                <Portal>
+                    <FocusTrap
+                        focusTrapOptions={{
+                            fallbackFocus: () => elements.floating || document.body,
                         }}
-                        style={cssWithVars({
-                            '--position-left': refWidth ? getArrowX() : basicArrowX,
-                            '--position-top': `${middlewareData?.arrow?.y || 0}px`,
-                        })}
-                    />
-                </div>
-            </Portal>
+                    >
+                        <div
+                            data-bspk="popover"
+                            data-placement={middlewareData?.offset?.placement}
+                            id={id}
+                            ref={(node) => {
+                                elements.setFloating(node);
+                                elements.setReference(
+                                    document.querySelector<HTMLElement>(`[aria-describedby="${id}"]`),
+                                );
+                            }}
+                            style={{ ...floatingStyles, ...props.style }}
+                        >
+                            <header>
+                                <Txt variant="heading-h6">{header}</Txt>
+                                <Button
+                                    data-close
+                                    icon={<SvgClose />}
+                                    iconOnly
+                                    label="Close"
+                                    onClick={() => setShow(false)}
+                                    variant="tertiary"
+                                />
+                            </header>
+                            <div data-content>
+                                <Txt as="div" variant="body-small">
+                                    {content}
+                                </Txt>
+                                <div data-cta-row>
+                                    {secondaryCallToAction?.label && secondaryCallToAction?.onClick && (
+                                        <Button
+                                            label={secondaryCallToAction.label}
+                                            onClick={secondaryCallToAction.onClick}
+                                            size="small"
+                                            variant="secondary"
+                                        />
+                                    )}
+                                    {callToAction?.label && callToAction?.onClick && (
+                                        <Button
+                                            label={callToAction.label}
+                                            onClick={callToAction.onClick}
+                                            size="small"
+                                            variant="primary"
+                                        />
+                                    )}
+                                </div>
+                            </div>
+                            <div
+                                data-arrow
+                                ref={(node) => {
+                                    arrowRef.current = node;
+                                }}
+                                style={cssWithVars({
+                                    '--position-left': refWidth ? getArrowX() : basicArrowX,
+                                    '--position-top': `${middlewareData?.arrow?.y || 0}px`,
+                                })}
+                            />
+                        </div>
+                    </FocusTrap>
+                </Portal>
+            )}
         </>
     );
 }

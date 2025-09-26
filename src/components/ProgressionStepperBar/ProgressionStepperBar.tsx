@@ -1,6 +1,6 @@
+import './progression-stepper-bar.scss';
 import { cssWithVars } from '-/utils/cwv';
 
-import './progression-stepper-bar.scss';
 
 export type ProgressionStepperBarProps = {
     /**

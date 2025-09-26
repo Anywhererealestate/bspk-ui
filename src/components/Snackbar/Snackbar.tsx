@@ -1,7 +1,7 @@
+import './snackbar.scss';
 import { Button } from '-/components/Button';
 import { Txt } from '-/components/Txt';
 import { SnackbarData } from '-/utils/snackbarContext';
-import './snackbar.scss';
 
 export type SnackbarProps = {
     /** Text to be shown in the snackbar */
@@ -29,7 +29,7 @@ export type SnackbarProps = {
  */
 export function Snackbar({ text, button, onClose }: SnackbarProps) {
     return (
-        <span data-bspk="snackbar">
+        <span data-bspk="snackbar" role="alert">
             <Txt variant="body-small">{text}</Txt>
 
             {button && (

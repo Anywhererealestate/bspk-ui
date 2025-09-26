@@ -1,7 +1,6 @@
+import './progress-bar.scss';
 import { useId } from '-/hooks/useId';
 import { cssWithVars } from '-/utils/cwv';
-
-import './progress-bar.scss';
 
 export type ProgressBarProps = {
     /**

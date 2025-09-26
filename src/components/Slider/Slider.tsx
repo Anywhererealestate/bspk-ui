@@ -1,6 +1,5 @@
-import { useEffect, useRef } from 'react';
-
 import './slider.scss';
+import { useEffect, useRef } from 'react';
 import { SliderIntervalDots } from './SliderIntervalDots';
 import { useNormalizeSliderValue } from './useNormalizeSliderValue';
 import { Txt } from '-/components/Txt';

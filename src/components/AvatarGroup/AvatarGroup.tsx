@@ -1,6 +1,5 @@
-import { Avatar, AvatarProps, SizeVariant } from '-/components/Avatar';
-
 import './avatar-group.scss';
+import { Avatar, AvatarProps, SizeVariant } from '-/components/Avatar';
 
 export type AvatarItem = Pick<AvatarProps, 'color' | 'image' | 'initials' | 'name' | 'showIcon'>;
 

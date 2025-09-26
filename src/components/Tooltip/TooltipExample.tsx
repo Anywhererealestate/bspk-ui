@@ -9,9 +9,9 @@ export const TooltipExample: ComponentExample<TooltipProps> = {
                 <Component {...state} placement={[state.placement].flat()[0] || 'top'}>
                     {(triggerProps) => (
                         <Button
+                            {...triggerProps}
                             label={`Hover over me ${'data-variant-value' in state ? `(${state['data-variant-value']})` : ''}`}
                             variant="secondary"
-                            {...triggerProps}
                         />
                     )}
                 </Component>

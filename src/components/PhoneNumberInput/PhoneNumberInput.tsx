@@ -1,15 +1,13 @@
+import './phone-number-input.scss';
 import { SvgIcon } from '@bspk/icons/SvgIcon';
 import { AsYouType, getCountryCallingCode } from 'libphonenumber-js';
 import { useMemo, useState } from 'react';
-
 import { Divider } from '-/components/Divider';
 import { ListItemMenu, MenuListItem } from '-/components/ListItemMenu';
 import { TextInput, TextInputProps } from '-/components/TextInput';
 import { FormFieldControlProps } from '-/types/common';
 import { countryCodeData, countryCodes, SupportedCountryCode } from '-/utils/countryCodes';
 import { guessUserCountryCode } from '-/utils/guessUserCountryCode';
-
-import './phone-number-input.scss';
 
 const SELECT_OPTIONS: MenuListItem[] = countryCodes.map((code) => {
     const countryCodeDetails = countryCodeData[code];

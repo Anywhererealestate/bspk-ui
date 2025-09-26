@@ -1,13 +1,11 @@
+import './tab-list.scss';
 import { Fragment, ReactNode, useMemo } from 'react';
-
 import { Badge, BadgeProps } from '-/components/Badge';
 import { Tooltip } from '-/components/Tooltip';
 import { Truncated } from '-/components/Truncated';
 import { useId } from '-/hooks/useId';
 import { useKeyNavigation } from '-/hooks/useKeyNavigation';
 import { ElementProps } from '-/types/common';
-
-import './tab-list.scss';
 
 const TAB_BADGE_SIZES: Record<TabSize, BadgeProps['size']> = {
     large: 'small',
@@ -210,6 +208,7 @@ export function TabList({
                             {(triggerProps) => (
                                 // eslint-disable-next-line jsx-a11y/click-events-have-key-events
                                 <li
+                                    {...triggerProps}
                                     aria-controls={id}
                                     aria-disabled={item.disabled || undefined}
                                     aria-selected={isSelected || undefined}
@@ -222,7 +221,6 @@ export function TabList({
                                     }}
                                     role="tab"
                                     tabIndex={isFocusable ? 0 : -1}
-                                    {...triggerProps}
                                 >
                                     {icon && <span aria-hidden="true">{icon}</span>}
                                     {!iconsOnly && <Truncated data-label>{item.label}</Truncated>}

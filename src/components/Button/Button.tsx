@@ -1,9 +1,7 @@
+import './button.scss';
 import { AriaAttributes, ElementType, ReactNode, isValidElement } from 'react';
-
 import { Tooltip, TooltipTriggerProps } from '-/components/Tooltip';
 import { ButtonSize, CommonProps, ElementProps, SetRef } from '-/types/common';
-
-import './button.scss';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'tertiary';
 
@@ -119,13 +117,14 @@ export function Button<As extends ElementType = 'button'>(
 
     // ignore iconOnly if there is no icon
     const iconOnly = iconOnlyProp === true && !!icon;
-    // if toolTip label is not provided and iconOnly is true, toolTip should be label
+
+    // if toolTip text is not provided and iconOnly is true, toolTip text should be label
     const toolTip = toolTipProp || (iconOnly ? label : undefined);
 
     const button = (triggerProps: TooltipTriggerProps) => (
         <As
             {...containerProps}
-            aria-describedby={triggerProps['aria-describedby'] || containerProps['aria-describedby']}
+            {...triggerProps}
             aria-label={label}
             data-bspk="button"
             data-bspk-owner={owner || undefined}

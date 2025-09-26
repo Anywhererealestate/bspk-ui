@@ -1,16 +1,8 @@
+import './number-input.scss';
 import { useCallback, useState } from 'react';
 import { IncrementButton } from './IncrementButton';
 import { useId } from '-/hooks/useId';
 import { CommonProps, FormFieldControlProps } from '-/types/common';
-
-import './number-input.scss';
-
-const DEFAULT = {
-    align: 'center',
-    size: 'medium',
-    disabled: false,
-    readOnly: false,
-} as const;
 
 function isNumber(value: unknown, fallbackValue: number | undefined = undefined): number | undefined {
     if (typeof value === 'number') return value;
@@ -85,10 +77,10 @@ export type NumberInputProps = CommonProps<
 export function NumberInput({
     value,
     onChange,
-    align = DEFAULT.align,
-    size = DEFAULT.size,
-    disabled = DEFAULT.disabled,
-    readOnly = DEFAULT.readOnly,
+    align = 'center',
+    size = 'medium',
+    disabled = false,
+    readOnly = false,
     name,
     id: inputIdProp,
     'aria-label': ariaLabel,

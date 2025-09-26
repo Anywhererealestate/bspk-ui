@@ -1,23 +1,15 @@
+import './tooltip.scss';
 import { ReactElement, useRef, useState } from 'react';
-
 import { Portal } from '-/components/Portal';
 import { Placement, useFloating } from '-/hooks/useFloating';
 import { useId } from '-/hooks/useId';
-
-import './tooltip.scss';
-
-const DEFAULT = {
-    placement: 'top',
-    showTail: true,
-    disabled: false,
-} as const;
 
 export type TooltipTriggerProps = {
     onMouseOver?: () => void;
     onMouseLeave?: () => void;
     onFocus?: () => void;
     onBlur?: () => void;
-    'aria-describedby'?: string;
+    'aria-labelledby'?: string;
 };
 
 export type TooltipProps = {
@@ -63,13 +55,7 @@ export type TooltipProps = {
  * @name Tooltip
  * @phase UXReview
  */
-export function Tooltip({
-    placement = DEFAULT.placement,
-    label,
-    children,
-    disabled = DEFAULT.disabled,
-    showTail = DEFAULT.showTail,
-}: TooltipProps) {
+export function Tooltip({ placement = 'top', label, children, disabled = false, showTail = true }: TooltipProps) {
     const id = useId();
     const [show, setShow] = useState(false);
 
@@ -84,23 +70,17 @@ export function Tooltip({
         refWidth: false,
     });
 
-    const child = children(
-        disabled
-            ? {}
-            : {
-                  onMouseOver: () => setShow(true),
-                  onMouseLeave: () => setShow(false),
-                  onFocus: () => setShow(true),
-                  onBlur: () => setShow(false),
-                  'aria-describedby': id,
-              },
-    );
-
-    if (disabled) return child;
+    if (disabled) return children({});
 
     return (
         <>
-            {child}
+            {children({
+                onMouseOver: () => setShow(true),
+                onMouseLeave: () => setShow(false),
+                onFocus: () => setShow(true),
+                onBlur: () => setShow(false),
+                'aria-labelledby': id,
+            })}
             {label && (
                 <Portal>
                     <div
@@ -109,7 +89,7 @@ export function Tooltip({
                         id={id}
                         ref={(node) => {
                             elements.setFloating(node);
-                            elements.setReference(document.querySelector<HTMLElement>(`[aria-describedby="${id}"]`));
+                            elements.setReference(document.querySelector<HTMLElement>(`[aria-labelledby="${id}"]`));
                         }}
                         role="tooltip"
                         style={floatingStyles}

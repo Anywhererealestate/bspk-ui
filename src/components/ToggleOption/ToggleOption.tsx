@@ -1,6 +1,5 @@
-import { ReactElement } from 'react';
-
 import './toggle-option.scss';
+import { ReactElement } from 'react';
 import { CommonProps } from '-/types/common';
 
 export type ToggleOptionControlProps<T extends { 'aria-label'?: string }> = Omit<T, 'aria-label'> &

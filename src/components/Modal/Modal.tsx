@@ -1,6 +1,6 @@
+import './modal.scss';
 import { SvgClose } from '@bspk/icons/Close';
 import { ReactNode, useMemo, useRef } from 'react';
-
 import { Button, ButtonProps } from '-/components/Button';
 import { DialogProps, Dialog } from '-/components/Dialog';
 import { Txt } from '-/components/Txt';
@@ -8,8 +8,6 @@ import { useEventListener } from '-/hooks/useAddEventListener';
 import { useDebounceCallback } from '-/hooks/useDebounceCallback';
 import { useUIContext } from '-/hooks/useUIContext';
 import { CallToActionButton } from '-/types/common';
-
-import './modal.scss';
 
 // This hook is used to set the height of the modal based on the dialog box height.
 // It listens to the resize event and updates the modal height accordingly.

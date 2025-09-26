@@ -21,7 +21,7 @@ describe('${componentName} (RTL)', () => {
         const { getByText } = render(<${componentName} {...presets[0].propState} />);
 
         expect(getByText('whoop there it is')).toBeInTheDocument();
-\    });
+    });
 });
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

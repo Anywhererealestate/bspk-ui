@@ -1,18 +1,8 @@
+import './rating.scss';
 import { SvgStarFill } from '@bspk/icons/StarFill';
 import { ElementType } from 'react';
 
-import './rating.scss';
-
-const MAX_STARS = 5;
-
 export type RatingSize = 'large' | 'medium' | 'small';
-
-const iconWidths: Record<RatingSize, number> = {
-    large: 32,
-    medium: 24,
-    small: 16,
-};
-
 export type RatingProps = {
     /**
      * The value of the rating between 0 and 5.
@@ -33,6 +23,13 @@ export type RatingProps = {
      * @default medium
      */
     size?: RatingSize;
+};
+
+const MAX_STARS = 5;
+const iconWidths: Record<RatingSize, number> = {
+    large: 32,
+    medium: 24,
+    small: 16,
 };
 
 /**

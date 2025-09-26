@@ -1,5 +1,5 @@
-import { kebabCase } from '../utils';
 import fs from 'fs/promises';
+import { kebabCase } from '.scripts/utils';
 
 /** Generates and writes a boilerplate component file for a component name and destination file path. */
 export const generateAndWriteComponentFile = async (componentName: string, filePath: string) => {
@@ -11,11 +11,7 @@ export const generateComponentFile = (componentName: string) => {
     const slug = kebabCase(componentName);
 
     return `import './${slug}.scss';
-    
-    const DEFAULT = {
-        variant: 'none',
-    } as const;
-    
+
     export type ${componentName}Props = {
         /**
          * The content of the ${slug}.
@@ -23,12 +19,6 @@ export const generateComponentFile = (componentName: string) => {
          * @required
          */
         children: string;
-        /**
-         * The variant of the ${slug}.
-         *
-         * @default none
-         */
-        variant?: 'none';
     };
     
     /**

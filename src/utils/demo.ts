@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { AlertVariant } from '-/types/common';
+import { CSSProperties, ReactNode } from 'react';
+import { AlertVariant, DataProps } from '-/types/common';
 import { ComponentMeta } from '-/types/meta';
 
 export type TypeProperty = {
@@ -101,9 +102,35 @@ export type ComponentExample<Props = Record<string, unknown>, PropName extends k
     /** The sections of the example. */
     sections?: {
         title: string;
-        content: (params: { Component: React.ComponentType<Props>; props: Props }) => React.ReactNode;
+        content: (params: {
+            Component: React.ComponentType<Props>;
+            props: Props;
+            CodeExample: CodeExample;
+            Syntax: Syntax;
+        }) => React.ReactNode;
     }[];
 };
+
+export type Syntax = (params: {
+    code: string;
+    language?: PrettyParser;
+    style?: CSSProperties;
+    pretty?: boolean;
+}) => React.ReactNode;
+
+export type CodeExample = (
+    params: DataProps & {
+        containerStyle?: CSSProperties;
+        children: ReactNode;
+        accessibility?: boolean;
+        code?: {
+            language?: PrettyParser | undefined;
+            str: string;
+        };
+    },
+) => React.ReactNode;
+
+export type PrettyParser = 'css' | 'estree' | 'html' | 'scss' | 'typescript';
 
 export type ComponentExampleFn<Props = Record<string, unknown>> = (params: {
     setState: DemoSetState<Props>;
@@ -117,7 +144,8 @@ export type Preset<Props> = {
     /** The name of the preset. This is used to display the preset in the UI. */
     label: string;
     /** The props of the component. This is used to set props of the component. These values can't be changed in the UI. */
-    propState: Omit<Props, OnHandlers | 'children'> & Record<string, Record<string, unknown> | unknown>;
+    propState: Omit<Props, OnHandlers> & Record<OnHandlers, unknown>;
+    otherState?: Record<string, Record<string, unknown> | unknown> & Record<string, unknown>;
 };
 
 export type DemoPreset<P = Record<string, unknown>> = Preset<P> & {

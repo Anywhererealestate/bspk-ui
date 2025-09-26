@@ -1,8 +1,7 @@
+import './snackbar-provider.scss';
 import { useState, ReactNode, useRef, useEffect } from 'react';
-
 import { Portal } from '-/components/Portal';
 import { Snackbar } from '-/components/Snackbar';
-import './snackbar-provider.scss';
 import { randomString } from '-/utils/random';
 import { SnackbarContext, SnackbarData, SnackbarInput } from '-/utils/snackbarContext';
 
@@ -74,6 +73,7 @@ export type SnackbarProviderProps = {
  *             const id = sendSnackbar({
  *                 text: 'Without a button or timeout I can only be closed programatically',
  *             });
+ *             setSnackbarId(id);
  *         };
  *
  *         const clear = () => {
@@ -91,7 +91,7 @@ export type SnackbarProviderProps = {
  *     }
  *
  * @name SnackbarProvider
- * @phase Dev
+ * @phase UXReview
  */
 export function SnackbarProvider({ children, timeout, countLimit = 10 }: SnackbarProviderProps) {
     const [snackbars, setSnackbars] = useState<SnackbarData[]>([]);
@@ -128,7 +128,7 @@ export function SnackbarProvider({ children, timeout, countLimit = 10 }: Snackba
 
     useEffect(() => {
         return () => {
-            // eslint-disable-next-line react-hooks/exhaustive-deps
+            // eslint-disable-next-line react-hooks/exhaustive-deps -- we only want to run this on dismount
             timeouts.current.forEach((timeoutToClear) => clearTimeout(timeoutToClear));
         };
     }, []);
@@ -146,7 +146,7 @@ export function SnackbarProvider({ children, timeout, countLimit = 10 }: Snackba
         >
             {visibleSnackbars.length > 0 && (
                 <Portal>
-                    <div data-bspk="snackbar-provider">
+                    <div aria-live="off" data-bspk="snackbar-provider">
                         {visibleSnackbars.map(({ button, text, id }) => (
                             <Snackbar button={button} key={id} onClose={() => clearSnackbar(id)} text={text} />
                         ))}

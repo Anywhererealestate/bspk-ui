@@ -1,7 +1,7 @@
+import './tab-group.scss';
 import { TabList, TabListProps, TabOption } from '-/components/TabList';
 import { ElementProps } from '-/types/common';
 
-import './tab-group.scss';
 
 export type TabGroupSize = 'large' | 'medium' | 'small';
 

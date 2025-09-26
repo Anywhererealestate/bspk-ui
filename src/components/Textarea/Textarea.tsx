@@ -1,16 +1,8 @@
+import './textarea.scss';
 import { ChangeEvent, useRef } from 'react';
-
 import { useId } from '-/hooks/useId';
 import { CommonProps, FormFieldControlProps, SetRef } from '-/types/common';
 import { cssWithVars } from '-/utils/cwv';
-
-import './textarea.scss';
-
-const DEFAULT = {
-    minRows: 3,
-    maxRows: 10,
-    textSize: 'medium',
-} as const;
 
 export type TextareaProps = CommonProps<'aria-label' | 'disabled' | 'id' | 'invalid' | 'readOnly'> &
     FormFieldControlProps & {
@@ -62,7 +54,7 @@ export type TextareaProps = CommonProps<'aria-label' | 'disabled' | 'id' | 'inva
          *
          * When set the textarea will automatically adjust its height to fit the content up to this limit.
          *
-         * @default 3
+         * @default 10
          * @minimum 3
          * @maximum 10
          */
@@ -94,24 +86,21 @@ export type TextareaProps = CommonProps<'aria-label' | 'disabled' | 'id' | 'inva
 export function Textarea({
     invalid: invalidProp,
     onChange,
-    textSize = DEFAULT.textSize,
+    textSize = 'medium',
     value = '',
     name,
     'aria-label': ariaLabel,
     innerRef,
     placeholder,
     id: idProp,
-    minRows: minRowsProp = DEFAULT.minRows,
-    maxRows: maxRowsProp = DEFAULT.maxRows,
+    minRows = 4,
+    maxRows = 10,
     'aria-describedby': ariaDescribedBy,
     'aria-errormessage': ariaErrorMessage,
     ...otherProps
 }: TextareaProps) {
     const id = useId(idProp);
     const invalid = !otherProps.readOnly && !otherProps.disabled && invalidProp;
-    // ensure minRows and maxRows are within bounds
-    const minRows = Math.min(DEFAULT.maxRows, Math.max(minRowsProp, DEFAULT.minRows));
-    const maxRows = Math.max(DEFAULT.minRows, Math.min(maxRowsProp, DEFAULT.maxRows));
 
     const onInput = () => {
         const target = textareaElement.current;

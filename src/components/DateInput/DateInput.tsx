@@ -1,3 +1,4 @@
+import './date-input.scss';
 import { SvgEvent } from '@bspk/icons/Event';
 import { format, isValid, parse } from 'date-fns';
 import { useEffect, useRef, useState } from 'react';
@@ -7,8 +8,6 @@ import { Portal } from '-/components/Portal';
 import { TextInput, TextInputProps } from '-/components/TextInput';
 import { useFloating } from '-/hooks/useFloating';
 import { useOutsideClick } from '-/hooks/useOutsideClick';
-
-import './date-input.scss';
 
 const parsableDate = (dateString: string) => /^\d{1,2}\/\d{1,2}\/\d{4}$/.test(dateString);
 
@@ -29,7 +28,7 @@ export type DateInputProps = Pick<
     /**
      * The placeholder text for the date input field.
      *
-     * @default 'mm/dd/yyyy'
+     * @default mm/dd/yyyy
      */
     placeholder?: string;
 };

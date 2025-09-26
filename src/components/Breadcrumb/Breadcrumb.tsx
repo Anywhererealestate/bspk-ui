@@ -1,6 +1,6 @@
+import './breadcrumb.scss';
 import { SvgChevronRight } from '@bspk/icons/ChevronRight';
 import { SvgMoreHoriz } from '@bspk/icons/MoreHoriz';
-
 import { useMemo } from 'react';
 import { Button } from '-/components/Button';
 import { Link } from '-/components/Link';
@@ -9,9 +9,6 @@ import { ListItemMenu } from '-/components/ListItemMenu';
 import { Txt } from '-/components/Txt';
 import { useId } from '-/hooks/useId';
 import { CommonProps } from '-/types/common';
-
-import './breadcrumb.scss';
-import '-/components/ListItem/list-item.scss';
 
 export type BreadcrumbItem = {
     /**
