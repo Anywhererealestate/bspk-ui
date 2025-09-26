@@ -44,14 +44,16 @@ ul[data-bspk-utility='tab-list'][data-bspk='bottom-navigation'] {
             color: var(--foreground-neutral-disabled-on-surface);
         }
 
-        [data-pseudo='hover'] &,
-        &:hover {
-            background-color: var(--interactions-neutral-hover-opacity);
-        }
+        &:not([aria-disabled='true']) {
+            [data-pseudo='hover'] &,
+            &:hover {
+                background-color: var(--interactions-neutral-hover-opacity);
+            }
 
-        [data-pseudo='active'] &,
-        &:active {
-            background-color: var(--interactions-neutral-press-opacity);
+            [data-pseudo='active'] &,
+            &:active {
+                background-color: var(--interactions-neutral-press-opacity);
+            }
         }
     }
 }
