@@ -194,8 +194,6 @@ export function TimeInput({
                         <FocusTrap
                             focusTrapOptions={{
                                 fallbackFocus: () => listBoxRefs.current!.hours!,
-                                clickOutsideDeactivates: true,
-                                escapeDeactivates: true,
                             }}
                         >
                             <div

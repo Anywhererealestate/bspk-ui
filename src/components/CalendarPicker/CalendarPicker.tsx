@@ -248,9 +248,6 @@ export function CalendarPicker({ value: valueProp, onChange, variant = 'flat' }:
     return (
         <FocusTrap
             focusTrapOptions={{
-                initialFocus: false,
-                escapeDeactivates: true,
-                clickOutsideDeactivates: true,
                 fallbackFocus: () => {
                     const idToFocus = items.find(({ value: date }) => config.compare(date, baseDate))?.id;
                     return getElementById(idToFocus)!;
