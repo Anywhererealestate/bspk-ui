@@ -3,21 +3,27 @@ import { Button, ButtonProps } from '-/components/Button/Button';
 
 export type ButtonDockProps = {
     /**
-     * The buttons in the dock. NOTE: only for use with two or fewer buttons.
+     * The primary button in the dock. If a secondary button is provided the primary will render on the right side.
      *
      * @required
      */
-    buttonData: { id: string; props: ButtonProps }[];
+    primaryButton: ButtonProps;
+    /**
+     * Secondary button. If provided will render on the left side.
+     *
+     * @required
+     */
+    secondaryButton?: ButtonProps;
     /**
      * If more than one button is provided defines how the buttons should be arranged.
      *
-     * @default: fill
+     * @default fill
      */
     arrangement?: 'fill' | 'spread';
     /**
-     * If the dock should be render inline or fixed to the bottom of the viewport.
+     * If the dock should render inline or fixed to the bottom of the viewport.
      *
-     * @default: inline
+     * @default inline
      */
     mode?: 'fixed' | 'inline';
 };
@@ -56,15 +62,15 @@ export type ButtonDockProps = {
  * @name ButtonDock
  * @phase Dev
  */
-export function ButtonDock({ buttonData, arrangement = 'fill', mode = 'inline' }: ButtonDockProps) {
-    const finalArrangement = buttonData.length > 1 ? arrangement : 'fill';
+export function ButtonDock({ primaryButton, secondaryButton, arrangement = 'fill', mode = 'inline' }: ButtonDockProps) {
+    const finalArrangement = secondaryButton ? arrangement : 'fill';
 
     return (
-        <span data-arrangement={finalArrangement} data-bspk="button-dock" data-mode={mode}>
-            {buttonData.map(({ id, props }) => (
-                <Button key={id} {...props} />
-            ))}
-        </span>
+        <div data-arrangement={finalArrangement} data-bspk="button-dock" data-mode={mode}>
+            {secondaryButton && <Button {...secondaryButton} />}
+
+            <Button {...primaryButton} />
+        </div>
     );
 }
 

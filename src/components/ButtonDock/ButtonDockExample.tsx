@@ -8,15 +8,11 @@ export const presets: Preset<ButtonDockProps>[] = [
         label: 'One Button',
         propState: {
             mode: 'inline',
-            buttonData: [
-                {
-                    id: '1',
-                    props: {
-                        children: 'Send',
-                        label: 'send',
-                    },
-                },
-            ],
+            primaryButton: {
+                children: 'Send',
+                label: 'send',
+            },
+            secondaryButton: undefined,
         },
     },
     {
@@ -24,23 +20,15 @@ export const presets: Preset<ButtonDockProps>[] = [
         propState: {
             mode: 'inline',
             arrangement: 'fill',
-            buttonData: [
-                {
-                    id: '1',
-                    props: {
-                        children: 'Cancel',
-                        label: 'cancel',
-                        variant: 'secondary',
-                    },
-                },
-                {
-                    id: '2',
-                    props: {
-                        children: 'Send',
-                        label: 'send',
-                    },
-                },
-            ],
+            secondaryButton: {
+                children: 'Cancel',
+                label: 'cancel',
+                variant: 'secondary',
+            },
+            primaryButton: {
+                children: 'Send',
+                label: 'send',
+            },
         },
     },
     {
@@ -48,23 +36,15 @@ export const presets: Preset<ButtonDockProps>[] = [
         propState: {
             mode: 'inline',
             arrangement: 'spread',
-            buttonData: [
-                {
-                    id: '1',
-                    props: {
-                        children: 'Cancel',
-                        label: 'cancel',
-                        variant: 'secondary',
-                    },
-                },
-                {
-                    id: '2',
-                    props: {
-                        children: 'Send',
-                        label: 'send',
-                    },
-                },
-            ],
+            secondaryButton: {
+                children: 'Cancel',
+                label: 'cancel',
+                variant: 'secondary',
+            },
+            primaryButton: {
+                children: 'Send',
+                label: 'send',
+            },
         },
     },
 ];
@@ -73,6 +53,7 @@ export const ButtonDockExample: ComponentExample<ButtonDockProps> = {
     containerStyle: {
         height: '200px',
         width: '100%',
+        maxWidth: 375,
         padding: '0 0 16px 0',
         justifyContent: 'end',
         overflow: 'hidden',
@@ -94,19 +75,21 @@ export const ButtonDockExample: ComponentExample<ButtonDockProps> = {
 const Example = (exampleProps: ButtonDockProps) => {
     const { sendSnackbar } = useSnackbarContext();
 
-    const { buttonData, ...restProps } = exampleProps;
+    const { primaryButton, secondaryButton, ...restProps } = exampleProps;
 
-    const buttonDataWithOnClick = buttonData.map(({ props, ...restData }) => ({
-        ...restData,
-        props: {
-            ...props,
-            onClick: () => {
-                sendSnackbar({
-                    text: `Clicked ${props.children}`,
-                });
-            },
-        },
-    }));
+    if (primaryButton) {
+        primaryButton.onClick = () =>
+            sendSnackbar({
+                text: `Clicked primaryButton with text "${primaryButton.children}"`,
+            });
+    }
 
-    return <ButtonDock {...restProps} buttonData={buttonDataWithOnClick} />;
+    if (secondaryButton) {
+        secondaryButton.onClick = () =>
+            sendSnackbar({
+                text: `Clicked secondaryButton with text "${secondaryButton.children}"`,
+            });
+    }
+
+    return <ButtonDock {...restProps} primaryButton={primaryButton} secondaryButton={secondaryButton ?? undefined} />;
 };
