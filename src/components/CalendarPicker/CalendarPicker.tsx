@@ -252,6 +252,7 @@ export function CalendarPicker({ value: valueProp, onChange, variant = 'flat' }:
                     const idToFocus = items.find(({ value: date }) => config.compare(date, baseDate))?.id;
                     return getElementById(idToFocus)!;
                 },
+                clickOutsideDeactivates: true,
             }}
         >
             <div data-bspk="calendar-picker" data-kind={kind} data-variant={variant || 'flat'}>

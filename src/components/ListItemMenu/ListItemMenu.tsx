@@ -316,7 +316,7 @@ export function ListItemMenu({
                                 active: activeElementId === item.id || undefined,
                             }))}
                             role={role}
-                            scrollLimit={!menuLeading && !menuTrailing && scrollLimit}
+                            scrollLimit={!menuLeading && !menuTrailing ? scrollLimit : undefined}
                         />
                         {menuTrailing}
                     </Menu>

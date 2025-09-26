@@ -27,14 +27,13 @@ export type ListItemGroupProps = {
      *
      * If the number of items is less than the scrollLimit, scrolling will be disabled.
      *
-     * If false, max height will not be constrained and scrolling will be disabled.
+     * If not provided, the scrolling will be enabled when there are more than 10 items.
      *
-     * If true, scrolling will be enabled after 10 items.
+     * To disable scrolling, set to `0`.
      *
      * @default 10
-     * @type number
      */
-    scrollLimit?: boolean | number;
+    scrollLimit?: number;
     /** A ref callback to receive the container element. */
     innerRef?: SetRef<HTMLElement | undefined>;
     /** A ref callback to receive the list of item elements. */
@@ -65,8 +64,7 @@ export function ListItemGroup({
     role,
     ...props
 }: ElementProps<ListItemGroupProps, 'div'>) {
-    const maxCount =
-        typeof scrollLimit === 'number' && items.length > scrollLimit && scrollLimit > 0 ? scrollLimit : undefined;
+    const maxDisplayCount = scrollLimitLogic(scrollLimit, items?.length);
 
     const itemRole = role ? LIST_ITEM_ROLES[role] : undefined;
 
@@ -74,7 +72,7 @@ export function ListItemGroup({
         <div
             {...props}
             data-bspk-utility="list-item-group"
-            data-scroll={!!maxCount}
+            data-scroll={!!maxDisplayCount}
             ref={(node) => {
                 if (!node) return;
                 innerRef?.(node);
@@ -82,7 +80,7 @@ export function ListItemGroup({
             }}
             style={cssWithVars({
                 ...props.style,
-                '--max-display-count': maxCount,
+                '--max-display-count': maxDisplayCount,
             })}
         >
             {items.map((item, index) => (
@@ -91,5 +89,19 @@ export function ListItemGroup({
         </div>
     );
 }
+
+const scrollLimitLogic = (scrollLimitProp: unknown, itemCount: unknown) => {
+    const scrollLimit = Number(scrollLimitProp);
+
+    // Check:
+    // 1. scrollLimit is valid
+    // 2. itemCount is a number
+    // 3. scrollLimit is less than itemCount
+    // If any of these fail, return undefined (no scrolling)
+    if (Number.isNaN(scrollLimit) || scrollLimit <= 0 || typeof itemCount !== 'number' || scrollLimit > itemCount)
+        return undefined;
+
+    return scrollLimit;
+};
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
