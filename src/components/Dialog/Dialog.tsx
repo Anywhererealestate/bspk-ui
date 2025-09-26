@@ -1,9 +1,8 @@
 import './dialog.scss';
 import { FocusTrap } from 'focus-trap-react';
-import { ReactNode, useRef } from 'react';
+import { ReactNode, useCallback, useEffect, useRef } from 'react';
 import { Portal, PortalProps } from '-/components/Portal';
 import { Scrim } from '-/components/Scrim';
-import { useEventListener } from '-/hooks/useAddEventListener';
 import { useId } from '-/hooks/useId';
 import { CommonProps, ElementProps, SetRef } from '-/types/common';
 
@@ -89,14 +88,16 @@ export function Dialog({
     const id = useId(idProp);
     const boxRef = useRef<HTMLDivElement | null>(null);
 
-    useEventListener(
-        'keydown',
-        (e: KeyboardEvent) => {
-            if (e.key === 'Escape') onClose();
-            document.documentElement.style.overflow = open ? 'hidden' : '';
-        },
-        document,
-    );
+    const handleKeyDown = useCallback((e: KeyboardEvent) => open && e.key === 'Escape' && onClose(), [onClose, open]);
+
+    useEffect(() => {
+        document.documentElement.style.overflow = open ? 'hidden' : '';
+        document.addEventListener('keydown', handleKeyDown);
+        return () => {
+            document.documentElement.style.overflow = '';
+            document.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [handleKeyDown, open]);
 
     return (
         open && (
