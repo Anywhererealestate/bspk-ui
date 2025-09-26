@@ -1,8 +1,19 @@
 import './list-item-group.scss';
+import { AriaRole } from 'react';
 import { ListItem, ListItemProps } from '-/components/ListItem';
 import { ElementProps, SetRef } from '-/types/common';
 import { cssWithVars } from '-/utils/cwv';
-import { ListItemContext, ListItemContextProps } from '-/utils/listItemContext';
+
+export const SUPPORTED_ROLES = ['listbox', 'menu', 'tree', 'group'] as const;
+
+export type ListItemGroupRole = Extract<AriaRole, (typeof SUPPORTED_ROLES)[number]>;
+
+const LIST_ITEM_ROLES: Record<ListItemGroupRole, AriaRole | undefined> = {
+    group: undefined,
+    listbox: 'option',
+    menu: 'menuitem',
+    tree: 'treeitem',
+};
 
 export type ListItemGroupProps = {
     /**
@@ -26,16 +37,10 @@ export type ListItemGroupProps = {
     scrollLimit?: boolean | number;
     /** A ref callback to receive the container element. */
     innerRef?: SetRef<HTMLElement | undefined>;
-    /** The ID of the currently highlighted item. */
-    activeElementId?: string | null;
     /** A ref callback to receive the list of item elements. */
     innerRefs?: SetRef<HTMLElement[] | undefined>;
-    /**
-     * The context in which the ListItem components are rendered.
-     *
-     * This sets the appropriate ARIA role on each ListItem.
-     */
-    context?: ListItemContextProps;
+    /** The ARIA role of the list item group. */
+    role?: ListItemGroupRole;
 };
 
 /**
@@ -56,35 +61,34 @@ export function ListItemGroup({
     items,
     scrollLimit = 10,
     innerRef,
-    activeElementId,
     innerRefs,
-    context,
+    role,
     ...props
 }: ElementProps<ListItemGroupProps, 'div'>) {
     const maxCount =
         typeof scrollLimit === 'number' && items.length > scrollLimit && scrollLimit > 0 ? scrollLimit : undefined;
 
+    const itemRole = role ? LIST_ITEM_ROLES[role] : undefined;
+
     return (
-        <ListItemContext.Provider value={{ ...context, selectable: true }}>
-            <div
-                {...props}
-                data-bspk-utility="list-item-group"
-                data-scroll={!!maxCount}
-                ref={(node) => {
-                    if (!node) return;
-                    innerRef?.(node);
-                    innerRefs?.(Array.from(node.children) as HTMLElement[]);
-                }}
-                style={cssWithVars({
-                    ...props.style,
-                    '--max-display-count': maxCount,
-                })}
-            >
-                {items.map((item, index) => (
-                    <ListItem key={index} {...item} selected={activeElementId === item.id} />
-                ))}
-            </div>
-        </ListItemContext.Provider>
+        <div
+            {...props}
+            data-bspk-utility="list-item-group"
+            data-scroll={!!maxCount}
+            ref={(node) => {
+                if (!node) return;
+                innerRef?.(node);
+                innerRefs?.(Array.from(node.children) as HTMLElement[]);
+            }}
+            style={cssWithVars({
+                ...props.style,
+                '--max-display-count': maxCount,
+            })}
+        >
+            {items.map((item, index) => (
+                <ListItem key={index} {...item} role={item.role || itemRole} />
+            ))}
+        </div>
     );
 }
 

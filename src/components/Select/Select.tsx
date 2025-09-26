@@ -15,36 +15,41 @@ const multiSelectValue = (values: string[], selected: boolean, currentValue: str
     return selected ? [...next, currentValue] : next;
 };
 
-const getSelectAllProps = (
+const multiSelectAllItem = (
+    isMulti: boolean,
     menuId: string,
     value: string[],
     items: (MenuListItem & { value: string })[],
     onChange: SelectProps['onChange'],
     selectAll?: string,
-): MenuListItem => {
+): MenuListItem[] => {
+    if (!isMulti) return [];
+
     const enabledItems = items.filter((item) => !item.disabled);
 
     const allSelected = value?.length === enabledItems.length;
 
     const selectAllLabel = selectAll || 'Select All';
 
-    return {
-        as: 'label' as ElementType,
-        id: `select-${menuId}-select-all`,
-        label: selectAllLabel,
-        trailing: (
-            <Checkbox
-                aria-label={selectAllLabel}
-                checked={!!allSelected}
-                indeterminate={!allSelected && value.length > 0}
-                name=""
-                onChange={(checked) => {
-                    onChange?.(checked ? items.map((item) => item.value) : []);
-                }}
-                value="select-all"
-            />
-        ),
-    };
+    return [
+        {
+            as: 'label' as ElementType,
+            id: `select-${menuId}-select-all`,
+            label: selectAllLabel,
+            trailing: (
+                <Checkbox
+                    aria-label={selectAllLabel}
+                    checked={!!allSelected}
+                    indeterminate={!allSelected && value.length > 0}
+                    name=""
+                    onChange={(checked) => {
+                        onChange?.(checked ? items.map((item) => item.value) : []);
+                    }}
+                    value="select-all"
+                />
+            ),
+        },
+    ];
 };
 
 /**
@@ -229,14 +234,14 @@ export function Select({
             activeElementId={isMulti ? undefined : selectedItem?.id}
             id={menuId}
             items={[
-                isMulti &&
-                    getSelectAllProps(
-                        menuId,
-                        value,
-                        items as (MenuListItem & { value: string })[],
-                        onChange,
-                        selectAll,
-                    ),
+                ...multiSelectAllItem(
+                    isMulti,
+                    menuId,
+                    value,
+                    items as (MenuListItem & { value: string })[],
+                    onChange,
+                    selectAll,
+                ),
                 ...items,
             ]}
             label={label}
@@ -279,6 +284,7 @@ export function Select({
                             role="combobox"
                         >
                             <ListItem
+                                aria-hidden={show || undefined}
                                 data-bspk-owner="select"
                                 data-placeholder={!selectedItem || undefined}
                                 owner="select"

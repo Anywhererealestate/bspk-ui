@@ -11,7 +11,7 @@ import {
     SetStateAction,
 } from 'react';
 import { ListItemProps } from '-/components/ListItem';
-import { ListItemGroup, ListItemGroupProps } from '-/components/ListItemGroup';
+import { ListItemGroup, ListItemGroupProps, ListItemGroupRole } from '-/components/ListItemGroup';
 import { Menu, MenuProps } from '-/components/Menu';
 import { Portal } from '-/components/Portal';
 import { ArrowKeyNavigationCallbackParams, useArrowNavigation } from '-/hooks/useArrowNavigation';
@@ -34,7 +34,7 @@ export function useMenuItems<T extends ListItemProps>(menuId: string, items: T[]
     );
 }
 
-export type MenuListItem = Omit<ListItemProps, 'id' | 'onClick'> & {
+export type MenuListItem = Omit<ListItemProps, 'id'> & {
     id: string;
 };
 
@@ -42,6 +42,7 @@ export type MenuListItem = Omit<ListItemProps, 'id' | 'onClick'> & {
 export type ToggleProps = Pick<
     AriaAttributes,
     | 'aria-activedescendant'
+    | 'aria-controls'
     | 'aria-disabled'
     | 'aria-errormessage'
     | 'aria-expanded'
@@ -95,7 +96,7 @@ export type ListItemMenuProps = CommonProps<'disabled' | 'readOnly'> &
          *
          * @default listbox
          */
-        role?: HTMLAttributes<HTMLElement>['role'];
+        role?: ListItemGroupRole;
         /**
          * The width of the menu. If 'reference' is provided, the menu will match the width of the useFloating reference
          * element.
@@ -110,7 +111,7 @@ export type ListItemMenuProps = CommonProps<'disabled' | 'readOnly'> &
          *
          * @required
          */
-        items: (MenuListItem | false)[];
+        items: MenuListItem[];
         /**
          * Content to display in the floating menu element before the ListItems.
          *
@@ -176,8 +177,8 @@ export function ListItemMenu({
     activeElementId: activeElementIdProp = null,
     children,
     disabled,
-    id: menuIdProps,
-    items: itemsProp,
+    id: idProp,
+    items,
     label,
     leading: menuLeading,
     offsetOptions = 4,
@@ -186,13 +187,13 @@ export function ListItemMenu({
     owner,
     placement = 'bottom',
     readOnly,
-    role: role = 'listbox',
+    role = 'listbox',
     scrollLimit,
     trailing: menuTrailing,
     width: menuWidth = 'reference',
     ...ariaProps
 }: ListItemMenuProps) {
-    const menuId = useId(menuIdProps);
+    const containerId = useId(idProp);
 
     const [show, setShow] = useState(false);
 
@@ -209,24 +210,6 @@ export function ListItemMenu({
         callback: () => setShow(false),
         disabled: !show,
     });
-
-    const items = useMemo(
-        () =>
-            itemsProp.flatMap((item): (MenuListItem & { tabIndex: number; onClick: (event: MouseEvent) => void })[] => {
-                return !item
-                    ? []
-                    : [
-                          {
-                              ...item,
-                              tabIndex: 0,
-                              onClick: (event) => {
-                                  onClick?.({ event, currentId: item.id, show, setShow });
-                              },
-                          },
-                      ];
-            }),
-        [itemsProp, onClick, show],
-    );
 
     const { activeElementId, setActiveElementId, arrowKeyCallbacks } = useArrowNavigation({
         ids: items.flatMap((item) => (item.disabled ? [] : item.id)),
@@ -261,9 +244,10 @@ export function ListItemMenu({
                 {
                     'aria-disabled': disabled || undefined,
                     'aria-expanded': show,
-                    'aria-haspopup': 'listbox',
+                    'aria-haspopup': show && role !== 'group' ? role : undefined,
+                    'aria-controls': show ? containerId : undefined,
                     'aria-readonly': readOnly || undefined,
-                    'aria-owns': menuId,
+                    'aria-owns': containerId,
                     'aria-activedescendant': show ? activeElementId || undefined : undefined,
                     role: 'combobox',
                     tabIndex: 0,
@@ -305,7 +289,6 @@ export function ListItemMenu({
                 <Portal>
                     <Menu
                         data-placement={currentPlacement}
-                        id={menuId}
                         innerRef={(node) => {
                             elements.setFloating(node);
                         }}
@@ -314,22 +297,23 @@ export function ListItemMenu({
                             width: menuWidth !== 'reference' ? menuWidth : undefined,
                             ...floatingStyles,
                         }}
-                        tabIndex={-1}
                         {...ariaProps}
                         role="presentation"
                     >
                         {menuLeading}
                         <ListItemGroup
-                            activeElementId={activeElementId}
                             aria-label={label}
-                            context={{ role }}
+                            id={containerId}
                             items={items.map((item) => ({
                                 ...item,
+                                tabIndex: 0,
                                 onClick: (event) => {
                                     elements.reference?.focus();
                                     setActiveElementId(item.id);
                                     item?.onClick?.(event);
+                                    onClick?.({ event, currentId: item.id, show, setShow });
                                 },
+                                active: activeElementId === item.id || undefined,
                             }))}
                             role={role}
                             scrollLimit={!menuLeading && !menuTrailing && scrollLimit}

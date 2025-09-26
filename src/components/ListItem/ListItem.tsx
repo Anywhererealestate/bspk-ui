@@ -11,9 +11,7 @@ import {
 import { ListItemButton } from './ListItemButton';
 import { Truncated } from '-/components/Truncated';
 import { useId } from '-/hooks/useId';
-import { useListItemContext } from '-/hooks/useListItemContext';
 import { CommonProps, ElementProps, SetRef } from '-/types/common';
-import { ListItemContextProps } from '-/utils/listItemContext';
 
 export type ListItemProps<As extends ElementType = ElementType> = CommonProps<
     'active' | 'disabled' | 'owner' | 'readOnly'
@@ -142,22 +140,17 @@ function ListItem<As extends ElementType = ElementType>({
     subText,
     trailing,
     id: idProp,
-    selected,
+    selected = false,
     'aria-label': ariaLabel,
     ariaHideLabel,
     ...props
 }: ElementProps<ListItemProps<As>, As>) {
+    const As = asLogic(as, props);
     const id = useId(idProp);
-    const context = useListItemContext();
-
+    const role = roleLogic(roleProp, { as: As, props });
     const actionable = (props.href || props.onClick) && !props.disabled && !props.readOnly;
 
     if (!label) return null;
-
-    let As = as || 'div';
-    if (!as && props.href) As = 'a';
-
-    const role = roleProp || roleLogic({ as: As, props, context });
 
     return (
         <As
@@ -194,29 +187,23 @@ ListItem.Button = ListItemButton;
 
 export { ListItem };
 
-function roleLogic({
-    as: As,
-    props,
-    context,
-}: {
-    as: unknown | 'a' | 'div';
-    props: {
-        href?: string;
-        onClick?: (event: MouseEvent<HTMLElement>) => void;
-        disabled?: boolean;
-        readOnly?: boolean;
-        tabIndex?: number;
-    };
-    context?: ListItemContextProps;
-}): HTMLAttributes<HTMLElement>['role'] | undefined {
-    if (context?.role) {
-        if (context.role === 'listbox') return 'option';
-        if (context.role === 'menu') return 'menuitem';
-        if (context.role === 'tree') return 'treeitem';
-        if (context.role === 'radiogroup') return 'radio';
-        if (context.role === 'navigation') return 'link';
-        if (context.role === 'group') return undefined;
-    }
+function asLogic<As extends ElementType>(as: As | undefined, props: Partial<ListItemProps>): ElementType {
+    if (as) return as;
+    if (props.href) return 'a';
+    return 'div';
+}
+
+function roleLogic(
+    existingRole: AriaRole | undefined,
+    {
+        as: As,
+        props,
+    }: {
+        as: ElementType;
+        props: Partial<ListItemProps>;
+    },
+): HTMLAttributes<HTMLElement>['role'] | undefined {
+    if (existingRole) return existingRole;
 
     if (props.href) return As !== 'a' ? 'link' : undefined;
 

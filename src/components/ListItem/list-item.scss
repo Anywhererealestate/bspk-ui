@@ -26,13 +26,14 @@
     }
 
     &[data-action] {
+        &[data-active],
         [data-pseudo='hover'] &,
         &:hover {
             background-color: var(--interactions-neutral-hover-opacity);
         }
 
         [data-pseudo='active'] &,
-        &[data-active],
+        // pressed state
         &:active {
             background-color: var(--interactions-neutral-press-opacity);
         }
