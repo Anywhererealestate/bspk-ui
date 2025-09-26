@@ -77,7 +77,17 @@ export function TimeInput({
         if (hours !== undefined && minutes === undefined) setMinutes('00');
     }, [hours, minutes, meridiem]);
 
-    const [open, setOpen] = useState(false);
+    const [open, setOpenState] = useState(false);
+
+    const setOpen = (nextOpen: boolean) => {
+        setOpenState(nextOpen);
+
+        if (!elements.reference) return;
+
+        if (!nextOpen && open) elements.reference.focus();
+
+        if (nextOpen && !open) elements.reference.querySelector<HTMLElement>('[data-scroll-column="hours"]')?.focus();
+    };
 
     const { floatingStyles, elements } = useFloating({
         strategy: 'fixed',
@@ -85,10 +95,6 @@ export function TimeInput({
         offsetOptions: 4,
         hide: !open,
     });
-
-    useEffect(() => {
-        if (open) elements.reference?.querySelector<HTMLElement>('[data-scroll-column="hours"]')?.focus();
-    }, [elements.reference, open]);
 
     useOutsideClick({ elements: [elements.floating], callback: () => setOpen(false), disabled: !open });
 
@@ -138,7 +144,9 @@ export function TimeInput({
                     elements.reference?.querySelector<HTMLElement>('[tabIndex]')?.focus();
                 }}
                 onKeyDownCapture={handleKeyDown({ Escape: () => setOpen(false) })}
-                ref={elements.setReference}
+                ref={(node) => {
+                    elements.setReference(node);
+                }}
                 role="group"
             >
                 <TimeInputSegment
@@ -173,10 +181,7 @@ export function TimeInput({
                         buttonRef.current = node;
                     }}
                     label={`${open ? 'Close' : 'Open'} Time Picker`}
-                    onClick={() => {
-                        setOpen(!open);
-                        elements.reference?.focus();
-                    }}
+                    onClick={() => setOpen(!open)}
                     variant="tertiary"
                 />
             </div>

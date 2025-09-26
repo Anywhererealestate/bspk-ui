@@ -2,11 +2,12 @@ import './search-bar.scss';
 import { SvgSearch } from '@bspk/icons/Search';
 import { useEffect, useRef } from 'react';
 import { ListItemProps } from '-/components/ListItem';
-import { ListItemMenu, ListItemMenuProps, MenuListItem, useMenuItems } from '-/components/ListItemMenu';
+import { ListItemMenu, ListItemMenuProps, MenuListItem } from '-/components/ListItemMenu';
 import { TextInputProps, TextInput } from '-/components/TextInput';
 import { Txt } from '-/components/Txt';
 import { useId } from '-/hooks/useId';
 import { useUIContext } from '-/hooks/useUIContext';
+import { useIds } from '-/utils/useIds';
 
 export type SearchBarProps = Pick<ListItemMenuProps, 'scrollLimit'> &
     Pick<TextInputProps, 'aria-label' | 'disabled' | 'id' | 'inputRef' | 'name' | 'size'> & {
@@ -118,7 +119,7 @@ export function SearchBar({
 }: SearchBarProps) {
     const id = useId(idProp);
 
-    const items = useMenuItems(`search-bar-${id}`, itemsProp || []);
+    const items = useIds(`search-bar-${id}`, itemsProp || []);
 
     const inputElementRef = useRef<HTMLInputElement | null>(null);
 
@@ -137,6 +138,12 @@ export function SearchBar({
                         return params.key !== 'ArrowLeft' && params.key !== 'ArrowRight';
                     }}
                     disabled={disabled}
+                    itemOnClick={({ currentId, setShow }) => {
+                        const item = items.find((i) => i.id === currentId)!;
+                        onSelect(item);
+                        onChange(item.label);
+                        setShow(false);
+                    }}
                     items={items}
                     label="Search bar"
                     leading={
@@ -154,16 +161,11 @@ export function SearchBar({
                             </div>
                         )
                     }
-                    onClick={({ currentId, setShow }) => {
-                        const item = items.find((i) => i.id === currentId)!;
-                        onSelect(item);
-                        onChange(item.label);
-                        setShow(false);
+                    onClose={() => {
                         setTimeout(() => {
-                            const inputElement = inputElementRef.current;
-                            if (!inputElement) return;
-                            inputElement.focus();
-                            inputElement.setSelectionRange(item.label.length, item.label.length);
+                            if (!inputElementRef.current) return;
+                            inputElementRef.current.focus();
+                            inputElementRef.current.setSelectionRange(0, inputElementRef.current.value.length);
                         }, 100);
                     }}
                     owner="search-bar"

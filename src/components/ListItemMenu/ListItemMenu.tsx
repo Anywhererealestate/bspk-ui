@@ -5,10 +5,10 @@ import {
     ReactNode,
     useState,
     KeyboardEvent,
-    useMemo,
     MouseEvent,
     Dispatch,
     SetStateAction,
+    useEffect,
 } from 'react';
 import { ListItemProps } from '-/components/ListItem';
 import { ListItemGroup, ListItemGroupProps, ListItemGroupRole } from '-/components/ListItemGroup';
@@ -21,18 +21,6 @@ import { useOutsideClick } from '-/hooks/useOutsideClick';
 import { CommonProps, SetRef } from '-/types/common';
 import { getElementById } from '-/utils/dom';
 import { handleKeyDown } from '-/utils/handleKeyDown';
-import { randomString } from '-/utils/random';
-
-export function useMenuItems<T extends ListItemProps>(menuId: string, items: T[]): (MenuListItem & T)[] {
-    return useMemo(
-        () =>
-            items.map((item) => ({
-                ...item,
-                id: `${menuId}-item-${randomString(8)}`,
-            })),
-        [items, menuId],
-    );
-}
 
 export type MenuListItem = Omit<ListItemProps, 'id'> & {
     id: string;
@@ -127,7 +115,7 @@ export type ListItemMenuProps = CommonProps<'disabled' | 'readOnly'> &
         /** The ID of the currently active element. */
         activeElementId?: string | null;
         /** Optional callback fired when an item is clicked/selected. */
-        onClick?: (params: {
+        itemOnClick?: (params: {
             event: MouseEvent;
             currentId: string;
             show: boolean;
@@ -139,6 +127,8 @@ export type ListItemMenuProps = CommonProps<'disabled' | 'readOnly'> &
          * If the callback returns `true`, the change is accepted; if it returns `false`, the change is ignored.
          */
         arrowKeyNavigationCallback?: (params: ArrowKeyNavigationCallbackParams) => boolean;
+        /** Optional callback fired when the menu is closed. */
+        onClose?: () => void;
     };
 
 /**
@@ -183,7 +173,7 @@ export function ListItemMenu({
     leading: menuLeading,
     offsetOptions = 4,
     arrowKeyNavigationCallback,
-    onClick,
+    itemOnClick,
     owner,
     placement = 'bottom',
     readOnly,
@@ -191,11 +181,16 @@ export function ListItemMenu({
     scrollLimit,
     trailing: menuTrailing,
     width: menuWidth = 'reference',
+    onClose,
     ...ariaProps
 }: ListItemMenuProps) {
     const containerId = useId(idProp);
 
     const [show, setShow] = useState(false);
+
+    useEffect(() => {
+        if (!show && typeof onClose === 'function') onClose();
+    }, [onClose, show]);
 
     const { floatingStyles, elements, currentPlacement } = useFloating({
         hide: !show,
@@ -238,6 +233,15 @@ export function ListItemMenu({
         setActiveElementId(null);
     };
 
+    const enterSpace = (event: KeyboardEvent) => {
+        event.preventDefault();
+        if (!show) {
+            setShow(true);
+            return;
+        }
+        getElementById(activeElementId)?.click();
+    };
+
     return (
         <>
             {children(
@@ -259,22 +263,8 @@ export function ListItemMenu({
                     },
                     onKeyDownCapture: handleKeyDown({
                         ...arrowKeyCallbacks,
-                        Enter: (event) => {
-                            event.preventDefault();
-                            if (!show) {
-                                setShow(true);
-                                return;
-                            }
-                            getElementById(activeElementId)?.click();
-                        },
-                        Space: (event) => {
-                            event.preventDefault();
-                            if (!show) {
-                                setShow(true);
-                                return;
-                            }
-                            getElementById(activeElementId)?.click();
-                        },
+                        Enter: enterSpace,
+                        Space: enterSpace,
                         Tab: tabEscape,
                         Escape: tabEscape,
                     }),
@@ -311,7 +301,7 @@ export function ListItemMenu({
                                     elements.reference?.focus();
                                     setActiveElementId(item.id);
                                     item?.onClick?.(event);
-                                    onClick?.({ event, currentId: item.id, show, setShow });
+                                    itemOnClick?.({ event, currentId: item.id, show, setShow });
                                 },
                                 active: activeElementId === item.id || undefined,
                             }))}

@@ -1,19 +1,16 @@
 import './list-item-group.scss';
-import { AriaRole } from 'react';
 import { ListItem, ListItemProps } from '-/components/ListItem';
 import { ElementProps, SetRef } from '-/types/common';
 import { cssWithVars } from '-/utils/cwv';
 
-export const SUPPORTED_ROLES = ['listbox', 'menu', 'tree', 'group'] as const;
+export type ListItemGroupRole = keyof typeof LIST_ITEM_ROLES;
 
-export type ListItemGroupRole = Extract<AriaRole, (typeof SUPPORTED_ROLES)[number]>;
-
-const LIST_ITEM_ROLES: Record<ListItemGroupRole, AriaRole | undefined> = {
+const LIST_ITEM_ROLES = {
     group: undefined,
     listbox: 'option',
     menu: 'menuitem',
     tree: 'treeitem',
-};
+} as const;
 
 export type ListItemGroupProps = {
     /**

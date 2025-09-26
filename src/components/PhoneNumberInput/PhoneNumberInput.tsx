@@ -3,13 +3,14 @@ import { SvgIcon } from '@bspk/icons/SvgIcon';
 import { AsYouType, getCountryCallingCode } from 'libphonenumber-js';
 import { useMemo, useState } from 'react';
 import { Button } from '-/components/Button';
-import { ListItemMenu, useMenuItems } from '-/components/ListItemMenu';
+import { ListItemMenu } from '-/components/ListItemMenu';
 import { TextInput, TextInputProps } from '-/components/TextInput';
 import { useId } from '-/hooks/useId';
 import { useUIContext } from '-/hooks/useUIContext';
 import { FormFieldControlProps } from '-/types/common';
 import { countryCodeData, countryCodes, SupportedCountryCode } from '-/utils/countryCodes';
 import { guessUserCountryCode } from '-/utils/guessUserCountryCode';
+import { useIds } from '-/utils/useIds';
 
 const SELECT_OPTIONS = countryCodes.map((code) => {
     const countryCodeDetails = countryCodeData[code];
@@ -73,7 +74,7 @@ export function PhoneNumberInput({
 }: PhoneNumberInputProps) {
     const id = useId();
 
-    const items = useMenuItems(`phone-number-input-${id}`, SELECT_OPTIONS);
+    const items = useIds(`phone-number-input-${id}`, SELECT_OPTIONS);
 
     const [countryCode, setCountryCode] = useState<SupportedCountryCode>(initialCountryCode || guessUserCountryCode());
 
@@ -105,6 +106,14 @@ export function PhoneNumberInput({
     return (
         <ListItemMenu
             disabled={disabled || readOnly}
+            itemOnClick={({ currentId, setShow }) => {
+                if (currentId) {
+                    const item = items.find((i) => i.id === currentId)!;
+                    setCountryCode(item.value as SupportedCountryCode);
+                    sendAriaLiveMessage(`Selected country code ${item.label}`);
+                    setShow(false);
+                }
+            }}
             items={items.map((option) => {
                 return {
                     ...option,
@@ -112,14 +121,8 @@ export function PhoneNumberInput({
                 };
             })}
             label="Select country code"
-            onClick={({ currentId, setShow }) => {
-                if (currentId) {
-                    const item = items.find((i) => i.id === currentId)!;
-                    setCountryCode(item.value as SupportedCountryCode);
-                    sendAriaLiveMessage(`Selected country code ${item.label}`);
-                    inputRef?.focus();
-                    setShow(false);
-                }
+            onClose={() => {
+                inputRef?.focus();
             }}
             owner="phone-number-input"
             role="listbox"

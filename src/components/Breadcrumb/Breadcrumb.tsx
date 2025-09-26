@@ -4,10 +4,11 @@ import { SvgMoreHoriz } from '@bspk/icons/MoreHoriz';
 import { Button } from '-/components/Button';
 import { Link } from '-/components/Link';
 import { ListItemGroupProps } from '-/components/ListItemGroup';
-import { ListItemMenu, useMenuItems } from '-/components/ListItemMenu';
+import { ListItemMenu } from '-/components/ListItemMenu';
 import { Txt } from '-/components/Txt';
 import { useId } from '-/hooks/useId';
 import { CommonProps } from '-/types/common';
+import { useIds } from '-/utils/useIds';
 
 export type BreadcrumbItem = {
     /**
@@ -89,7 +90,7 @@ export type BreadcrumbProps = CommonProps<'id'> &
 export function Breadcrumb({ id: propId, items: itemsProp = [], scrollLimit }: BreadcrumbProps) {
     const id = useId(propId);
 
-    const items = useMenuItems(`breadcrumb-${id}`, itemsProp);
+    const items = useIds(`breadcrumb-${id}`, itemsProp);
 
     if (items.length < 2) return null;
 
@@ -103,9 +104,9 @@ export function Breadcrumb({ id: propId, items: itemsProp = [], scrollLimit }: B
                 {items.length > 5 ? (
                     <li>
                         <ListItemMenu
+                            itemOnClick={({ setShow }) => setShow(false)}
                             items={items.slice(1, items.length - 1)}
                             label="Expanded breadcrumb"
-                            onClick={({ setShow }) => setShow(false)}
                             owner="Breadcrumb"
                             placement="bottom"
                             role="menu"

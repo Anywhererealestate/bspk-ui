@@ -233,6 +233,16 @@ export function Select({
         <ListItemMenu
             activeElementId={isMulti ? undefined : selectedItem?.id}
             id={menuId}
+            itemOnClick={({ event, currentId, setShow }) => {
+                if (isMulti) {
+                    getElementById(currentId)?.click();
+                    // noop, onChange is handled in the item onClick or by label's default behavior
+                    return;
+                }
+                event.preventDefault();
+                onChange?.([items.find((i) => i.id === currentId)?.value || ''], event);
+                setShow(false);
+            }}
             items={[
                 ...multiSelectAllItem(
                     isMulti,
@@ -245,16 +255,6 @@ export function Select({
                 ...items,
             ]}
             label={label}
-            onClick={({ event, currentId, setShow }) => {
-                if (isMulti) {
-                    getElementById(currentId)?.click();
-                    // noop, onChange is handled in the item onClick or by label's default behavior
-                    return;
-                }
-                event.preventDefault();
-                onChange?.([items.find((i) => i.id === currentId)?.value || ''], event);
-                setShow(false);
-            }}
             owner="select"
             role={isMulti ? 'group' : 'listbox'}
             scrollLimit={scrollLimit || 5}

@@ -108,7 +108,9 @@ export function Drawer({
                         <Button
                             icon={<SvgClose />}
                             iconOnly
-                            innerRef={(node) => node?.focus({ preventScroll: true })}
+                            innerRef={(node) => {
+                                setTimeout(() => node?.focus({ preventScroll: true }), 100);
+                            }}
                             label="close"
                             onClick={onClose}
                             variant="tertiary"

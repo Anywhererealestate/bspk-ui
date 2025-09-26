@@ -145,12 +145,13 @@ function ListItem<As extends ElementType = ElementType>({
     ariaHideLabel,
     ...props
 }: ElementProps<ListItemProps<As>, As>) {
-    const As = asLogic(as, props);
     const id = useId(idProp);
-    const role = roleLogic(roleProp, { as: As, props });
-    const actionable = (props.href || props.onClick) && !props.disabled && !props.readOnly;
 
     if (!label) return null;
+
+    const As = asLogic(as, props);
+    const role = roleLogic(roleProp, { as: As, props });
+    const actionable = (props.href || props.onClick) && !props.disabled && !props.readOnly;
 
     return (
         <As
