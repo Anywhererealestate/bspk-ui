@@ -23,7 +23,6 @@ export const presets: Preset<ButtonDockProps>[] = [
             secondaryButton: {
                 children: 'Cancel',
                 label: 'cancel',
-                variant: 'secondary',
             },
             primaryButton: {
                 children: 'Send',
@@ -39,7 +38,6 @@ export const presets: Preset<ButtonDockProps>[] = [
             secondaryButton: {
                 children: 'Cancel',
                 label: 'cancel',
-                variant: 'secondary',
             },
             primaryButton: {
                 children: 'Send',
