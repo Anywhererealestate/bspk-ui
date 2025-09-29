@@ -1,0 +1,75 @@
+ul[data-bspk-utility='tab-list'][data-bspk='bottom-navigation'] {
+    width: 100%;
+    border-top: solid 1px var(--stroke-neutral-low);
+    box-sizing: border-box;
+
+    &[data-variant='elevated'] {
+        box-shadow: var(--drop-shadow-north);
+    }
+
+    &:has(:focus-visible) {
+        outline: none;
+    }
+
+    li {
+        flex: 1;
+        position: relative;
+        height: var(--spacing-sizing-13);
+        color: var(--foreground-neutral-on-surface-variant-02);
+        font: var(--labels-x-small);
+        flex-direction: column;
+        gap: 0;
+        overflow: hidden;
+
+        &[data-pseudo='focus'] > &,
+        &:focus-visible {
+            outline: solid 2px var(--stroke-neutral-focus);
+        }
+
+        &[aria-selected='true'] {
+            color: var(--foreground-brand-primary);
+        }
+
+        &[aria-selected='true']::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            width: var(--spacing-sizing-06);
+            height: 2px;
+            border-radius: 0 0 2px 2px;
+            background-color: var(--foreground-brand-primary);
+        }
+
+        &[aria-disabled='true'] {
+            color: var(--foreground-neutral-disabled-on-surface);
+        }
+
+        &:not([aria-disabled='true']) {
+            [data-pseudo='hover'] &,
+            &:hover {
+                background-color: var(--interactions-neutral-hover-opacity);
+            }
+
+            [data-pseudo='active'] &,
+            &:active {
+                background-color: var(--interactions-neutral-press-opacity);
+            }
+        }
+    }
+}
+
+@media (width >= 640px) {
+    ul[data-bspk-utility='tab-list'][data-bspk='bottom-navigation'] {
+        li {
+            flex-direction: row;
+            align-items: center;
+            gap: var(--spacing-sizing-02);
+
+            &[data-active='true']::after {
+                width: var(--spacing-sizing-12);
+            }
+        }
+    }
+}
+
+/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
