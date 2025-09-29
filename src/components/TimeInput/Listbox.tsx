@@ -52,7 +52,7 @@ export function TimeInputListbox({ options, selectedValue, type: kind, onSelect,
             {options.map((option, index) => (
                 <span
                     aria-label={option.label}
-                    aria-selected={option.value === selectedValue || undefined}
+                    aria-selected={option.value === selectedValue}
                     data-active={activeElementId === option.id || undefined}
                     data-index={index}
                     data-value={option.value}

@@ -8,12 +8,10 @@ import {
     MouseEvent,
     Dispatch,
     SetStateAction,
-    useEffect,
+    useMemo,
 } from 'react';
-import { ListItemProps } from '-/components/ListItem';
-import { ListItemGroup, ListItemGroupProps, ListItemGroupRole } from '-/components/ListItemGroup';
+import { ListItem, ListItemProps } from '-/components/ListItem';
 import { Menu, MenuProps } from '-/components/Menu';
-import { Portal } from '-/components/Portal';
 import { ArrowKeyNavigationCallbackParams, useArrowNavigation } from '-/hooks/useArrowNavigation';
 import { useFloating, UseFloatingProps } from '-/hooks/useFloating';
 import { useId } from '-/hooks/useId';
@@ -25,6 +23,15 @@ import { handleKeyDown } from '-/utils/handleKeyDown';
 export type MenuListItem = Omit<ListItemProps, 'id'> & {
     id: string;
 };
+
+export type ListItemMenuRole = keyof typeof LIST_ITEM_ROLES;
+
+const LIST_ITEM_ROLES = {
+    group: undefined,
+    listbox: 'option',
+    menu: 'menuitem',
+    tree: 'treeitem',
+} as const;
 
 /** Props for the toggle element that opens the ListItemMenu. */
 export type ToggleProps = Pick<
@@ -67,10 +74,11 @@ export type InternalToggleProps = {
     itemCount: number;
     /** Whether or not the menu is currently open. */
     show?: boolean;
+    /** The reference element the menu is anchored to. */
+    reference: HTMLElement | null;
 };
 
 export type ListItemMenuProps = CommonProps<'disabled' | 'readOnly'> &
-    Pick<ListItemGroupProps, 'scrollLimit'> &
     Pick<MenuProps, 'id' | 'label' | 'owner'> &
     Pick<UseFloatingProps, 'offsetOptions' | 'placement'> & {
         /**
@@ -84,7 +92,7 @@ export type ListItemMenuProps = CommonProps<'disabled' | 'readOnly'> &
          *
          * @default listbox
          */
-        role?: ListItemGroupRole;
+        role?: ListItemMenuRole;
         /**
          * The width of the menu. If 'reference' is provided, the menu will match the width of the useFloating reference
          * element.
@@ -99,7 +107,7 @@ export type ListItemMenuProps = CommonProps<'disabled' | 'readOnly'> &
          *
          * @required
          */
-        items: MenuListItem[];
+        items: MenuListItem[] | ((params: { show?: boolean }) => MenuListItem[]);
         /**
          * Content to display in the floating menu element before the ListItems.
          *
@@ -129,6 +137,10 @@ export type ListItemMenuProps = CommonProps<'disabled' | 'readOnly'> &
         arrowKeyNavigationCallback?: (params: ArrowKeyNavigationCallbackParams) => boolean;
         /** Optional callback fired when the menu is closed. */
         onClose?: () => void;
+        /** The maximum number of items to show before scrolling is enabled. */
+        scrollLimit?: number;
+        /** Remove menu from dom when closed for performance and to prevent tabbing to hidden menu items. */
+        hideWhenClosed?: boolean;
     };
 
 /**
@@ -168,7 +180,7 @@ export function ListItemMenu({
     children,
     disabled,
     id: idProp,
-    items,
+    items: itemsProp,
     label,
     leading: menuLeading,
     offsetOptions = 4,
@@ -177,20 +189,33 @@ export function ListItemMenu({
     owner,
     placement = 'bottom',
     readOnly,
-    role = 'listbox',
+    role: containerRole = 'listbox',
     scrollLimit,
     trailing: menuTrailing,
     width: menuWidth = 'reference',
     onClose,
+    hideWhenClosed = false,
     ...ariaProps
 }: ListItemMenuProps) {
     const containerId = useId(idProp);
 
-    const [show, setShow] = useState(false);
+    const [show, setShowBase] = useState(false);
 
-    useEffect(() => {
-        if (!show && typeof onClose === 'function') onClose();
-    }, [onClose, show]);
+    const items = useMemo(() => (typeof itemsProp === 'function' ? itemsProp({ show }) : itemsProp), [itemsProp, show]);
+
+    const setShow = (next: boolean | ((prev: boolean) => boolean)) => {
+        if (disabled || readOnly) return;
+
+        setShowBase((prev) => {
+            if (prev && !next) {
+                // closing
+                onClose?.();
+            }
+
+            if (typeof next === 'function') return next(prev);
+            return next;
+        });
+    };
 
     const { floatingStyles, elements, currentPlacement } = useFloating({
         hide: !show,
@@ -217,17 +242,6 @@ export function ListItemMenu({
         },
     });
 
-    if (items.length === 0 && !menuLeading && !menuTrailing)
-        return children({} as ToggleProps, {
-            setRef: elements.setReference,
-            toggleMenu: (force) =>
-                setShow((prev) => {
-                    if (typeof force === 'boolean') return force;
-                    return !prev;
-                }),
-            itemCount: 0,
-        });
-
     const tabEscape = () => {
         setShow(false);
         setActiveElementId(null);
@@ -248,10 +262,11 @@ export function ListItemMenu({
                 {
                     'aria-disabled': disabled || undefined,
                     'aria-expanded': show,
-                    'aria-haspopup': show && role !== 'group' ? role : undefined,
-                    'aria-controls': show ? containerId : undefined,
+                    'aria-haspopup': show && containerRole !== 'group' ? containerRole : undefined,
+                    'aria-controls': containerId,
                     'aria-readonly': readOnly || undefined,
                     'aria-owns': containerId,
+
                     'aria-activedescendant': show ? activeElementId || undefined : undefined,
                     role: 'combobox',
                     tabIndex: 0,
@@ -273,47 +288,71 @@ export function ListItemMenu({
                     setRef: elements.setReference,
                     toggleMenu: () => setShow(true),
                     itemCount: items.length,
+                    reference: elements.reference as HTMLElement | null,
                 },
             )}
-            {show && (
-                <Portal>
-                    <Menu
-                        data-placement={currentPlacement}
-                        innerRef={(node) => {
-                            elements.setFloating(node);
-                        }}
-                        owner={owner}
-                        style={{
-                            width: menuWidth !== 'reference' ? menuWidth : undefined,
-                            ...floatingStyles,
-                        }}
-                        {...ariaProps}
-                        role="presentation"
-                    >
-                        {menuLeading}
-                        <ListItemGroup
-                            aria-label={label}
-                            id={containerId}
-                            items={items.map((item) => ({
-                                ...item,
-                                tabIndex: 0,
-                                onClick: (event) => {
+            {(!hideWhenClosed || show) && (
+                <Menu
+                    {...ariaProps}
+                    aria-label={label}
+                    as="ul"
+                    data-placement={currentPlacement}
+                    data-scroll={!!scrollLimit && items.length > scrollLimit}
+                    id={containerId}
+                    innerRef={(node) => {
+                        elements.setFloating(node);
+                    }}
+                    owner={owner}
+                    role={containerRole}
+                    style={{
+                        width: menuWidth !== 'reference' ? menuWidth : undefined,
+                        ...floatingStyles,
+                        ...scrollLimitStyle(scrollLimit, items.length),
+                    }}
+                >
+                    {menuLeading}
+                    {items.map((item, index) => {
+                        return (
+                            <ListItem
+                                as="li"
+                                key={index}
+                                {...item}
+                                active={activeElementId === item.id || undefined}
+                                onClick={(event) => {
                                     elements.reference?.focus();
                                     setActiveElementId(item.id);
                                     item?.onClick?.(event);
                                     itemOnClick?.({ event, currentId: item.id, show, setShow });
-                                },
-                                active: activeElementId === item.id || undefined,
-                            }))}
-                            role={role}
-                            scrollLimit={!menuLeading && !menuTrailing ? scrollLimit : undefined}
-                        />
-                        {menuTrailing}
-                    </Menu>
-                </Portal>
+                                }}
+                                role={item.role || LIST_ITEM_ROLES[containerRole] || undefined}
+                                tabIndex={0}
+                            />
+                        );
+                    })}
+                    {menuTrailing}
+                </Menu>
             )}
         </>
     );
 }
+
+const scrollLimitStyle = (scrollLimitProp: unknown, itemCount: unknown): CSSProperties => {
+    const scrollLimit = Number(scrollLimitProp);
+
+    // Check:
+    // 1. scrollLimit is valid
+    // 2. itemCount is a number
+    // 3. scrollLimit is less than itemCount
+    // If any of these fail, return undefined (no scrolling)
+    if (Number.isNaN(scrollLimit) || scrollLimit <= 0 || typeof itemCount !== 'number' || scrollLimit > itemCount)
+        return {};
+
+    return {
+        display: 'flex',
+        flexDirection: 'column',
+        maxHeight: `calc(var(--list-item-height) * ${scrollLimit})`,
+        overflow: 'hidden auto',
+    };
+};
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

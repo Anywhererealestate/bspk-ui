@@ -1,7 +1,7 @@
 import './phone-number-input.scss';
 import { SvgIcon } from '@bspk/icons/SvgIcon';
 import { AsYouType, getCountryCallingCode } from 'libphonenumber-js';
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { Button } from '-/components/Button';
 import { ListItemMenu } from '-/components/ListItemMenu';
 import { TextInput, TextInputProps } from '-/components/TextInput';
@@ -70,6 +70,7 @@ export function PhoneNumberInput({
     'aria-label': ariaLabel,
     'aria-describedby': ariaDescribedBy,
     'aria-errormessage': ariaErrorMessage,
+    name,
     ...inputProps
 }: PhoneNumberInputProps) {
     const id = useId();
@@ -103,6 +104,8 @@ export function PhoneNumberInput({
 
     const { sendAriaLiveMessage } = useUIContext();
 
+    const fauxInputRef = useRef<HTMLInputElement | null>(null);
+
     return (
         <ListItemMenu
             disabled={disabled || readOnly}
@@ -114,12 +117,14 @@ export function PhoneNumberInput({
                     setShow(false);
                 }
             }}
-            items={items.map((option) => {
-                return {
-                    ...option,
-                    selected: option.value === countryCode,
-                };
-            })}
+            items={({ show }) => {
+                if (!show) return items.filter((item) => countryCode.includes(item.value));
+
+                return items.map((item) => ({
+                    ...item,
+                    'aria-selected': item.value === countryCode,
+                }));
+            }}
             label="Select country code"
             onClose={() => {
                 inputRef?.focus();
@@ -131,35 +136,46 @@ export function PhoneNumberInput({
         >
             {(toggleProps, { setRef }) => {
                 return (
-                    <TextInput
-                        data-bspk="phone-number-input"
-                        {...inputProps}
-                        aria-describedby={ariaDescribedBy}
-                        aria-errormessage={ariaErrorMessage}
-                        aria-label={ariaLabel}
-                        autoComplete="off"
-                        containerRef={setRef}
-                        disabled={disabled}
-                        inputRef={setInputRef}
-                        leading={
-                            <>
-                                <Button
-                                    disabled={disabled || readOnly}
-                                    label="Open country code menu"
-                                    variant="tertiary"
-                                    {...toggleProps}
-                                >
-                                    <SvgIcon name={selectedCodeData.flagIconName} />
-                                    <SvgIcon name="KeyboardArrowDown" />
-                                </Button>
-                                <span aria-hidden="true" style={{ cursor: 'default' }}>{`+${callingCode}`}</span>
-                            </>
-                        }
-                        onChange={handleChange}
-                        owner="phone-number-input"
-                        readOnly={readOnly}
-                        value={value}
-                    />
+                    <div data-bspk="phone-number-input">
+                        <TextInput
+                            {...inputProps}
+                            aria-describedby={ariaDescribedBy}
+                            aria-errormessage={ariaErrorMessage}
+                            aria-label={ariaLabel}
+                            autoComplete="off"
+                            containerRef={setRef}
+                            disabled={disabled}
+                            inputRef={setInputRef}
+                            leading={
+                                <>
+                                    <input
+                                        contentEditable
+                                        name={`${name}-country-code`}
+                                        {...toggleProps}
+                                        ref={fauxInputRef}
+                                    />
+                                    <Button
+                                        disabled={disabled || readOnly}
+                                        label="Open country code menu"
+                                        onClick={() => {
+                                            fauxInputRef.current?.focus();
+                                            fauxInputRef.current?.click();
+                                        }}
+                                        variant="tertiary"
+                                    >
+                                        <SvgIcon name={selectedCodeData.flagIconName} />
+                                        <SvgIcon name="KeyboardArrowDown" />
+                                    </Button>
+                                    <span aria-hidden="true" style={{ cursor: 'default' }}>{`+${callingCode}`}</span>
+                                </>
+                            }
+                            name={name}
+                            onChange={handleChange}
+                            owner="phone-number-input"
+                            readOnly={readOnly}
+                            value={value}
+                        />
+                    </div>
                 );
             }}
         </ListItemMenu>

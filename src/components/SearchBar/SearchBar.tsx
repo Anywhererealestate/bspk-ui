@@ -1,13 +1,14 @@
 import './search-bar.scss';
 import { SvgSearch } from '@bspk/icons/Search';
-import { useEffect, useRef } from 'react';
-import { ListItemProps } from '-/components/ListItem';
+import { useEffect, useRef, useState } from 'react';
 import { ListItemMenu, ListItemMenuProps, MenuListItem } from '-/components/ListItemMenu';
 import { TextInputProps, TextInput } from '-/components/TextInput';
 import { Txt } from '-/components/Txt';
 import { useId } from '-/hooks/useId';
 import { useUIContext } from '-/hooks/useUIContext';
 import { useIds } from '-/utils/useIds';
+
+export type SearchOption = MenuListItem & { value: string };
 
 export type SearchBarProps = Pick<ListItemMenuProps, 'scrollLimit'> &
     Pick<TextInputProps, 'aria-label' | 'disabled' | 'id' | 'inputRef' | 'name' | 'size'> & {
@@ -24,10 +25,10 @@ export type SearchBarProps = Pick<ListItemMenuProps, 'scrollLimit'> &
         /**
          * Handler for state updates.
          *
-         * @type (id: String) => void
+         * @type (value: String) => void
          * @required
          */
-        onChange: (id: string) => void;
+        onChange: (value: string) => void;
         /*
          * Handler for item selection.
          *
@@ -40,21 +41,21 @@ export type SearchBarProps = Pick<ListItemMenuProps, 'scrollLimit'> &
          *
          * @example
          *     [
-         *         { id: '1', label: 'Apple Pie' },
-         *         { id: '2', label: 'Banana Split' },
-         *         { id: '3', label: 'Cherry Tart' },
-         *         { id: '4', label: 'Dragonfruit Sorbet' },
-         *         { id: '5', label: 'Elderberry Jam' },
-         *         { id: '6', label: 'Fig Newton' },
-         *         { id: '7', label: 'Grape Soda' },
-         *         { id: '8', label: 'Honeydew Smoothie' },
-         *         { id: '9', label: 'Ice Cream Sandwich' },
-         *         { id: '10', label: 'Jackfruit Pudding' },
+         *         { value: '1', label: 'Apple Pie' },
+         *         { value: '2', label: 'Banana Split' },
+         *         { value: '3', label: 'Cherry Tart' },
+         *         { value: '4', label: 'Dragonfruit Sorbet' },
+         *         { value: '5', label: 'Elderberry Jam' },
+         *         { value: '6', label: 'Fig Newton' },
+         *         { value: '7', label: 'Grape Soda' },
+         *         { value: '8', label: 'Honeydew Smoothie' },
+         *         { value: '9', label: 'Ice Cream Sandwich' },
+         *         { value: '10', label: 'Jackfruit Pudding' },
          *     ];
          *
-         * @type Array<ListItemProps>
+         * @type Array<SearchOption>
          */
-        items?: ListItemProps[];
+        items?: SearchOption[];
         /**
          * Message to display when no results are found
          *
@@ -79,16 +80,16 @@ export type SearchBarProps = Pick<ListItemMenuProps, 'scrollLimit'> &
  *             <SearchBar
  *                 aria-label="Example aria-label"
  *                 items={[
- *                     { id: '1', label: 'Apple Pie' },
- *                     { id: '2', label: 'Banana Split' },
- *                     { id: '3', label: 'Cherry Tart' },
- *                     { id: '4', label: 'Dragonfruit Sorbet' },
- *                     { id: '5', label: 'Elderberry Jam' },
- *                     { id: '6', label: 'Fig Newton' },
- *                     { id: '7', label: 'Grape Soda' },
- *                     { id: '8', label: 'Honeydew Smoothie' },
- *                     { id: '9', label: 'Ice Cream Sandwich' },
- *                     { id: '10', label: 'Jackfruit Pudding' },
+ *                     { value: '1', label: 'Apple Pie' },
+ *                     { value: '2', label: 'Banana Split' },
+ *                     { value: '3', label: 'Cherry Tart' },
+ *                     { value: '4', label: 'Dragonfruit Sorbet' },
+ *                     { value: '5', label: 'Elderberry Jam' },
+ *                     { value: '6', label: 'Fig Newton' },
+ *                     { value: '7', label: 'Grape Soda' },
+ *                     { value: '8', label: 'Honeydew Smoothie' },
+ *                     { value: '9', label: 'Ice Cream Sandwich' },
+ *                     { value: '10', label: 'Jackfruit Pudding' },
  *                 ]}
  *                 name="Example name"
  *                 placeholder="Search"
@@ -107,7 +108,7 @@ export function SearchBar({
     noResultsMessage,
     placeholder = 'Search',
     'aria-label': ariaLabel,
-    id: idProp,
+    value: idProp,
     inputRef,
     name,
     size = 'medium',
@@ -129,6 +130,12 @@ export function SearchBar({
         if (!items.length) sendAriaLiveMessage('No results found', 'assertive');
     }, [items.length, sendAriaLiveMessage, value]);
 
+    const [textValue, setTextValue] = useState(value || '');
+
+    useEffect(() => {
+        setTextValue(items.find((item) => item.value === value)?.label || '');
+    }, [items, value]);
+
     return (
         <>
             <div data-bspk="search-bar">
@@ -141,10 +148,16 @@ export function SearchBar({
                     itemOnClick={({ currentId, setShow }) => {
                         const item = items.find((i) => i.id === currentId)!;
                         onSelect(item);
-                        onChange(item.label);
+                        onChange(item.value);
+                        setTextValue(item.label);
                         setShow(false);
                     }}
-                    items={items}
+                    items={items.map((item) => {
+                        return {
+                            ...item,
+                            'aria-selected': item.value === value,
+                        };
+                    })}
                     label="Search bar"
                     leading={
                         !!value?.length &&
@@ -188,13 +201,13 @@ export function SearchBar({
                             leading={<SvgSearch />}
                             name={name}
                             onChange={(str) => {
-                                onChange(str);
+                                setTextValue(str);
                                 if (str.length) toggleMenu(true);
                             }}
                             owner="search-bar"
                             placeholder={placeholder}
                             size={size}
-                            value={value}
+                            value={textValue}
                         />
                     )}
                 </ListItemMenu>

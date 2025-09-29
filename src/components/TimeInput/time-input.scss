@@ -147,7 +147,7 @@
                 font: var(--labels-base);
                 line-height: var(--spacing-sizing-10);
 
-                &[aria-selected] {
+                &[aria-selected='true'] {
                     background: var(--surface-brand-primary);
                     color: var(--foreground-brand-on-primary);
                 }
@@ -162,7 +162,7 @@
                     outline: 2px solid var(--interactions-neutral-hover-opacity);
                     outline-offset: -2px;
 
-                    &[aria-selected] {
+                    &[aria-selected='true'] {
                         background: var(--surface-brand-primary);
                         color: var(--foreground-brand-on-primary);
                     }

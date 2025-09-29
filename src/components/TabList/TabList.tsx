@@ -227,7 +227,7 @@ export function TabList({
                                     {...triggerProps}
                                     aria-controls={id}
                                     aria-disabled={item.disabled || undefined}
-                                    aria-selected={isSelected || undefined}
+                                    aria-selected={isSelected}
                                     data-active={isActive}
                                     data-value={item.value}
                                     id={item.id}

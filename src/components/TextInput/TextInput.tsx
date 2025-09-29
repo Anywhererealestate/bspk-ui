@@ -147,6 +147,7 @@ export function TextInput({
                 aria-invalid={invalid || undefined}
                 aria-label={ariaLabel}
                 autoComplete={autoComplete}
+                data-main-input
                 disabled={disabled || undefined}
                 id={id}
                 name={name}

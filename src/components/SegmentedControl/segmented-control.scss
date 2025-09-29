@@ -20,7 +20,7 @@ ul[data-bspk='segmented-control'] {
     %active {
         background: var(--interactions-neutral-hover-opacity);
 
-        &[aria-selected] {
+        &[aria-selected='true'] {
             background:
                 linear-gradient(var(--interactions-neutral-hover-opacity), var(--interactions-neutral-hover-opacity)),
                 linear-gradient(var(--surface-neutral-t1-base), var(--surface-neutral-t1-base));
@@ -42,7 +42,7 @@ ul[data-bspk='segmented-control'] {
         }
 
         &:not([aria-disabled]) {
-            &[aria-selected] {
+            &[aria-selected='true'] {
                 background: var(--surface-neutral-t1-base);
                 box-shadow:
                     0 0 1px 0 var(--shadow-variant-03),

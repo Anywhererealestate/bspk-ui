@@ -100,6 +100,10 @@
             gap: var(--spacing-sizing-02);
         }
     }
+
+    &[aria-selected='true'] {
+        background-color: var(--surface-brand-primary-highlight);
+    }
 }
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

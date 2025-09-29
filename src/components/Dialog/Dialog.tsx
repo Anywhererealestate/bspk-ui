@@ -113,7 +113,6 @@ export function Dialog({
                 >
                     <FocusTrap
                         focusTrapOptions={{
-                            fallbackFocus: () => boxRef.current!,
                             clickOutsideDeactivates: true,
                         }}
                     >

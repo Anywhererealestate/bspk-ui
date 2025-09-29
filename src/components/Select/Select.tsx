@@ -194,6 +194,7 @@ export function Select({
         const nextItems = optionsProp.map((item, index): MenuListItem & { value: string } => ({
             ...item,
             id: `${menuId}-item-${index}`,
+            'aria-selected': isMulti ? undefined : value.includes(item.value),
         }));
 
         if (isMulti) {
@@ -243,29 +244,32 @@ export function Select({
                 onChange?.([items.find((i) => i.id === currentId)?.value || ''], event);
                 setShow(false);
             }}
-            items={[
-                ...multiSelectAllItem(
-                    isMulti,
-                    menuId,
-                    value,
-                    items as (MenuListItem & { value: string })[],
-                    onChange,
-                    selectAll,
-                ),
-                ...items,
-            ]}
+            items={({ show }) => {
+                if (!show) return items.filter((item) => (isMulti ? undefined : value.includes(item.value)));
+
+                return [
+                    ...multiSelectAllItem(
+                        isMulti,
+                        menuId,
+                        value,
+                        items as (MenuListItem & { value: string })[],
+                        onChange,
+                        selectAll,
+                    ),
+                    ...items,
+                ];
+            }}
             label={label}
             owner="select"
             role={isMulti ? 'group' : 'listbox'}
             scrollLimit={scrollLimit || 5}
         >
-            {(toggleProps, { setRef, show }) => {
+            {(toggleProps, { setRef, show, reference }) => {
                 return (
                     <>
                         <span data-sr-only id={descriptionId}>
                             {description}
                         </span>
-                        <input defaultValue={value} name={name} type="hidden" />
                         <div
                             {...props}
                             aria-describedby={descriptionId || ariaDescribedBy || undefined}
@@ -274,25 +278,41 @@ export function Select({
                             aria-label={label || selectedItem?.label || placeholder}
                             data-bspk="select"
                             data-invalid={invalid || undefined}
+                            data-open={show || undefined}
                             data-size={size}
                             id={id}
-                            ref={setRef}
-                            {...toggleProps}
-                            aria-controls={(show && menuId) || undefined}
-                            aria-expanded={toggleProps['aria-expanded']}
-                            aria-haspopup="listbox"
-                            role="combobox"
+                            onClickCapture={() => {
+                                reference?.focus();
+                            }}
                         >
-                            <ListItem
-                                aria-hidden={show || undefined}
-                                data-bspk-owner="select"
-                                data-placeholder={!selectedItem || undefined}
-                                owner="select"
+                            <input
+                                data-input
+                                ref={(node) => {
+                                    setRef(node);
+                                }}
+                                type="text"
+                                {...toggleProps}
+                                aria-controls={(show && menuId) || undefined}
+                                aria-expanded={toggleProps['aria-expanded']}
+                                aria-haspopup="listbox"
+                                autoComplete="off"
+                                name={name}
                                 readOnly
-                                {...(selectedItem || { label: placeholder })}
-                                id={`${id}-selected-value`}
-                                onClick={undefined}
+                                role="combobox"
+                                value={value}
                             />
+                            {!show && (
+                                <ListItem
+                                    aria-hidden={show || undefined}
+                                    data-bspk-owner="select"
+                                    data-placeholder={!selectedItem || undefined}
+                                    owner="select"
+                                    readOnly
+                                    {...(selectedItem || { label: placeholder })}
+                                    id={`${id}-selected-value`}
+                                    onClick={undefined}
+                                />
+                            )}
                             <span data-icon>
                                 <SvgChevronRight />
                             </span>

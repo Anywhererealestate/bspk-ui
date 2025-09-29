@@ -19,7 +19,7 @@ ul[data-bspk='tab-group'] {
             color: var(--foreground-neutral-disabled-on-surface);
         }
 
-        &[aria-selected] {
+        &[aria-selected='true'] {
             color: var(--foreground-brand-primary);
 
             &::after {

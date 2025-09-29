@@ -78,21 +78,17 @@ export type ListItemProps<As extends ElementType = ElementType> = CommonProps<
          */
         id?: string;
         /**
-         * Whether the list item is currently active.
-         *
-         * Used to indicate the item is currently being interacted with, such as during a mouse click or keyboard
-         * selection.
-         *
-         * @default false
-         */
-        selected?: boolean;
-        /**
          * Whether to hide the label from screen readers. Use this when the label is redundant with other context, such
          * as within a ListItemMenu or Label.
          *
          * @default false
          */
-        ariaHideLabel?: boolean;
+        hideAriaLabel?: boolean;
+        /**
+         * Indicates the current "selected" state of the list item when used in a selectable context, such as within a
+         * ListItemMenu.
+         */
+        'aria-selected'?: boolean;
     };
 
 /**
@@ -140,9 +136,9 @@ function ListItem<As extends ElementType = ElementType>({
     subText,
     trailing,
     id: idProp,
-    selected = false,
     'aria-label': ariaLabel,
-    ariaHideLabel,
+    'aria-selected': ariaSelected,
+    hideAriaLabel,
     ...props
 }: ElementProps<ListItemProps<As>, As>) {
     const id = useId(idProp);
@@ -158,13 +154,12 @@ function ListItem<As extends ElementType = ElementType>({
             {...props}
             aria-disabled={disabled || undefined}
             aria-label={ariaLabel || undefined}
-            aria-selected={selected || undefined}
+            aria-selected={ariaSelected}
             data-action={actionable || undefined}
             data-active={active || undefined}
             data-bspk="list-item"
             data-bspk-owner={owner || undefined}
             data-readonly={readOnly || undefined}
-            data-selected={selected || undefined}
             id={id}
             ref={innerRef}
             role={role}
@@ -175,7 +170,7 @@ function ListItem<As extends ElementType = ElementType>({
                     {leading}
                 </span>
             )}
-            <span aria-hidden={ariaHideLabel ? true : undefined} data-item-label>
+            <span aria-hidden={hideAriaLabel ? true : undefined} data-item-label>
                 <Truncated data-text>{label}</Truncated>
                 {subText && <span data-sub-text>{subText}</span>}
             </span>
