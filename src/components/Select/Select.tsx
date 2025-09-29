@@ -272,18 +272,12 @@ export function Select({
                         </span>
                         <div
                             {...props}
-                            aria-describedby={descriptionId || ariaDescribedBy || undefined}
-                            aria-disabled={disabled || readOnly}
-                            aria-errormessage={ariaErrorMessage || undefined}
-                            aria-label={label || selectedItem?.label || placeholder}
                             data-bspk="select"
                             data-invalid={invalid || undefined}
                             data-open={show || undefined}
                             data-size={size}
                             id={id}
-                            onClickCapture={() => {
-                                reference?.focus();
-                            }}
+                            onClickCapture={() => reference?.focus()}
                         >
                             <input
                                 data-input
@@ -293,8 +287,12 @@ export function Select({
                                 type="text"
                                 {...toggleProps}
                                 aria-controls={(show && menuId) || undefined}
+                                aria-describedby={descriptionId || ariaDescribedBy || undefined}
+                                aria-disabled={disabled || readOnly}
+                                aria-errormessage={ariaErrorMessage || undefined}
                                 aria-expanded={toggleProps['aria-expanded']}
                                 aria-haspopup="listbox"
+                                aria-label={label || selectedItem?.label || placeholder}
                                 autoComplete="off"
                                 name={name}
                                 readOnly
@@ -309,6 +307,7 @@ export function Select({
                                     owner="select"
                                     readOnly
                                     {...(selectedItem || { label: placeholder })}
+                                    aria-selected={undefined}
                                     id={`${id}-selected-value`}
                                     onClick={undefined}
                                 />

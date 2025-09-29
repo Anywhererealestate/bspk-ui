@@ -44,6 +44,13 @@ export type DialogProps = CommonProps<'id' | 'owner'> &
          */
 
         widthFull?: boolean;
+        /**
+         * If focus trapping should be disabled. Generally this should not be disabled as dialogs should always trap
+         * focus.
+         *
+         * @default false
+         */
+        disableFocusTrap?: boolean;
     };
 
 /**
@@ -83,6 +90,7 @@ export function Dialog({
     id: idProp,
     owner,
     container,
+    disableFocusTrap,
     ...containerProps
 }: ElementProps<DialogProps, 'div'>) {
     const id = useId(idProp);
@@ -112,6 +120,7 @@ export function Dialog({
                     role="presentation"
                 >
                     <FocusTrap
+                        active={!disableFocusTrap}
                         focusTrapOptions={{
                             clickOutsideDeactivates: true,
                         }}

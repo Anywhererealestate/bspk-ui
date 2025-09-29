@@ -8,6 +8,7 @@ import { useId } from '-/hooks/useId';
 import { ElementProps } from '-/types/common';
 import { getElementById } from '-/utils/dom';
 import { handleKeyDown } from '-/utils/handleKeyDown';
+import { useIds } from '-/utils/useIds';
 
 const TAB_BADGE_SIZES: Record<TabSize, BadgeProps['size']> = {
     large: 'small',
@@ -51,8 +52,6 @@ export type TabOption = {
     /** The badge count to display on the tab */
     badge?: number;
 };
-
-const optionId = (id: string, index: number) => `${id}-item-${index + 1}`;
 
 export type TabListProps<O extends TabOption = TabOption> = {
     /**
@@ -158,20 +157,11 @@ export function TabList({
 }: ElementProps<TabListProps, 'ul'>) {
     const id = useId(idProp);
 
-    const { options, optionIds } = useMemo(() => {
-        if (!Array.isArray(optionsProp))
-            return {
-                options: [],
-                optionIds: [],
-            };
-        const optionsWithIds = optionsProp.map((opt, index) => ({ ...opt, id: optionId(id, index) }));
-        return {
-            options: optionsWithIds,
-            optionIds: optionsWithIds.flatMap((opt) => (opt.disabled ? [] : opt.id)),
-        };
-    }, [id, optionsProp]);
+    const options = useIds(`tab-list-${id}`, optionsProp);
 
-    const { activeElementId, setActiveElementId, arrowKeyCallbacks } = useArrowNavigation({ ids: optionIds });
+    const { activeElementId, setActiveElementId, arrowKeyCallbacks } = useArrowNavigation({
+        ids: options.map((opt) => opt.id),
+    });
 
     const value = useMemo(() => {
         const option = options.find((opt) => opt.value === valueProp);

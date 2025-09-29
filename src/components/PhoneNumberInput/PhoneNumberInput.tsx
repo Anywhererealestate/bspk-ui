@@ -152,6 +152,7 @@ export function PhoneNumberInput({
                                         contentEditable
                                         name={`${name}-country-code`}
                                         {...toggleProps}
+                                        aria-label="select country code"
                                         ref={fauxInputRef}
                                     />
                                     <Button
