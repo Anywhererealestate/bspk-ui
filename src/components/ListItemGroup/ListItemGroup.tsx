@@ -75,6 +75,7 @@ export function ListItemGroup({
                 innerRef?.(node);
                 innerRefs?.(Array.from(node.children) as HTMLElement[]);
             }}
+            role={role}
             style={cssWithVars({
                 ...props.style,
                 '--max-display-count': maxDisplayCount,
