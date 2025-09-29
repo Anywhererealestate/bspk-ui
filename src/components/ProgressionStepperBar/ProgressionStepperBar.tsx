@@ -1,7 +1,6 @@
 import './progression-stepper-bar.scss';
 import { cssWithVars } from '-/utils/cwv';
 
-
 export type ProgressionStepperBarProps = {
     /**
      * The number of steps in the progress bar.

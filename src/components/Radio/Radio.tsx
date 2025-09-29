@@ -40,7 +40,14 @@ export function Radio(props: ElementProps<RadioProps, 'input'>) {
                 onChange={(event) => onChange(!!event.target.checked, event)}
                 type="radio"
             />
-            <span aria-hidden />
+            {checked && (
+                <span
+                    aria-hidden
+                    data-checked
+                    data-checked-disabled={disabled || undefined}
+                    data-checked-invalid={invalid || undefined}
+                />
+            )}
         </span>
     );
 }

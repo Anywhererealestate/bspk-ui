@@ -2,7 +2,6 @@ import './tab-group.scss';
 import { TabList, TabListProps, TabOption } from '-/components/TabList';
 import { ElementProps } from '-/types/common';
 
-
 export type TabGroupSize = 'large' | 'medium' | 'small';
 
 export type TabGroupProps = Omit<TabListProps<TabOption>, 'iconsOnly'> & {
