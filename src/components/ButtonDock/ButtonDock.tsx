@@ -7,7 +7,7 @@ export type ButtonDockProps = {
      *
      * @required
      */
-    primaryButton: ButtonProps;
+    primaryButton: Pick<ButtonProps, 'as' | 'children' | 'icon' | 'label' | 'onClick' | 'toolTip' | 'variant'>;
     /**
      * Secondary button. If provided will render on the left side.
      *
@@ -67,9 +67,11 @@ export function ButtonDock({ primaryButton, secondaryButton, arrangement = 'fill
 
     return (
         <div data-arrangement={finalArrangement} data-bspk="button-dock" data-mode={mode}>
-            {secondaryButton && <Button {...secondaryButton} />}
+            {secondaryButton && (
+                <Button {...{ size: 'medium', variant: 'secondary', ...secondaryButton }} size="medium" />
+            )}
 
-            <Button {...primaryButton} />
+            <Button {...{ size: 'medium', variant: 'primary', ...primaryButton }} size="medium" />
         </div>
     );
 }
