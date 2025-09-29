@@ -57,6 +57,8 @@
         "./Breadcrumb/*": "./dist/components/Breadcrumb/*.js",
         "./Button": "./dist/components/Button/index.js",
         "./Button/*": "./dist/components/Button/*.js",
+        "./ButtonDock": "./dist/components/ButtonDock/index.js",
+        "./ButtonDock/*": "./dist/components/ButtonDock/*.js",
         "./CalendarPicker": "./dist/components/CalendarPicker/index.js",
         "./CalendarPicker/*": "./dist/components/CalendarPicker/*.js",
         "./Card": "./dist/components/Card/index.js",

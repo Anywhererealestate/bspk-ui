@@ -6,7 +6,6 @@ import { useId } from '-/hooks/useId';
 import { useTimeout } from '-/hooks/useTimeout';
 import { CommonProps, ElementProps, FormFieldControlProps, SetRef } from '-/types/common';
 
-
 export const DEFAULT = {
     size: 'medium',
     value: '',
