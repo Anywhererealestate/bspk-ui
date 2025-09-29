@@ -221,7 +221,7 @@ export function TabList({
                                     data-active={isActive}
                                     data-value={item.value}
                                     id={item.id}
-                                    onClick={handleClick(item)}
+                                    onClick={item.disabled ? undefined : handleClick(item)}
                                     role="tab"
                                     tabIndex={isActive ? 0 : -1}
                                 >
