@@ -38,23 +38,14 @@ export type ButtonDockProps = {
  *     function Example() {
  *         return (
  *             <ButtonDock
- *                 buttonData={[
- *                     {
- *                         id: '1',
- *                         props: {
- *                             children: 'Cancel',
- *                             label: 'cancel',
- *                             variant: 'secondary',
- *                         },
- *                     },
- *                     {
- *                         id: '2',
- *                         props: {
- *                             children: 'Send',
- *                             label: 'send',
- *                         },
- *                     },
- *                 ]}
+ *                 primaryButton={{
+ *                     children: 'Send',
+ *                     label: 'send',
+ *                 }}
+ *                 secondaryButton={{
+ *                     children: 'Cancel',
+ *                     label: 'cancel',
+ *                 }}
  *             />
  *         );
  *     }
