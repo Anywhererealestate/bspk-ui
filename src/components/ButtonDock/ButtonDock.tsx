@@ -58,11 +58,9 @@ export function ButtonDock({ primaryButton, secondaryButton, arrangement = 'fill
 
     return (
         <div data-arrangement={finalArrangement} data-bspk="button-dock" data-mode={mode}>
-            {secondaryButton && (
-                <Button {...{ size: 'medium', variant: 'secondary', ...secondaryButton }} size="medium" />
-            )}
+            {secondaryButton && <Button {...{ size: 'medium', variant: 'secondary', ...secondaryButton }} />}
 
-            <Button {...{ size: 'medium', variant: 'primary', ...primaryButton }} size="medium" />
+            <Button {...{ size: 'medium', variant: 'primary', ...primaryButton }} />
         </div>
     );
 }
