@@ -2,13 +2,15 @@ import { useRef } from 'react';
 
 import { useIsomorphicEffect } from './useIsomorphicEffect';
 
+export type CustomEventName = 'aria-live';
+
 export function useEventListener<
     KW extends keyof WindowEventMap,
     KH extends keyof HTMLElementEventMap & keyof SVGElementEventMap,
     KM extends keyof MediaQueryListEventMap,
     T extends Document | HTMLElement | MediaQueryList | SVGAElement | Window = HTMLElement,
 >(
-    eventName: KH | KM | KW,
+    eventName: CustomEventName | KH | KM | KW,
     handler: (
         event:
             | Event

@@ -116,7 +116,7 @@ export function RadioGroup({
             role="radiogroup"
         >
             {!hideLabelProp && <label id={`${id}-label`}>{groupLabel}</label>}
-            <div role="radiogroup">
+            <div role="presentation">
                 {options.map(({ label, description, disabled, value }, index) => {
                     return (
                         <RadioOption

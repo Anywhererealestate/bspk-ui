@@ -147,21 +147,22 @@
                 font: var(--labels-base);
                 line-height: var(--spacing-sizing-10);
 
-                &[aria-selected] {
+                &[aria-selected='true'] {
                     background: var(--surface-brand-primary);
                     color: var(--foreground-brand-on-primary);
                 }
             }
 
             &:focus {
-                outline: none;
+                outline: 2px solid var(--stroke-neutral-focus);
+                border-radius: var(--radius-sm);
 
                 span[data-active] {
                     background: var(--interactions-neutral-hover-opacity);
                     outline: 2px solid var(--interactions-neutral-hover-opacity);
                     outline-offset: -2px;
 
-                    &[aria-selected] {
+                    &[aria-selected='true'] {
                         background: var(--surface-brand-primary);
                         color: var(--foreground-brand-on-primary);
                     }

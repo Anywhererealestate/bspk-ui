@@ -26,8 +26,16 @@ export type ScrimProps = CommonProps<'owner'> & {
  *
  * @phase Utility
  */
-export function Scrim({ visible = true, ...props }: ScrimProps) {
-    return <div {...props} aria-hidden="true" data-bspk="scrim" data-hidden={!visible || undefined} />;
+export function Scrim({ visible = true, owner, ...props }: ScrimProps) {
+    return (
+        <div
+            {...props}
+            aria-hidden="true"
+            data-bspk="scrim"
+            data-bspk-owner={owner || undefined}
+            data-hidden={!visible || undefined}
+        />
+    );
 }
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

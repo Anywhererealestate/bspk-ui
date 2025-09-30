@@ -1,5 +1,5 @@
 import './menu.scss';
-import { ReactNode } from 'react';
+import { ElementType, ReactNode } from 'react';
 import { useId } from '-/hooks/useId';
 import { CommonProps, ElementProps, SetRef } from '-/types/common';
 
@@ -7,7 +7,7 @@ export function menuItemId(menuId: string, index: number) {
     return `menu-${menuId}-item-${index}`;
 }
 
-export type MenuProps = CommonProps<'id' | 'owner' | 'role'> & {
+export type MenuProps<As extends ElementType = ElementType> = CommonProps<'id' | 'owner' | 'role'> & {
     /** A ref to the inner div element. */
     innerRef?: SetRef<HTMLDivElement>;
     /**
@@ -22,6 +22,13 @@ export type MenuProps = CommonProps<'id' | 'owner' | 'role'> & {
      * This is required if the role is set to "menu" or "listbox".
      */
     label?: string;
+    /**
+     * The element type to render as.
+     *
+     * @default div
+     * @type ElementType
+     */
+    as?: As;
 };
 
 /**
@@ -45,11 +52,13 @@ export type MenuProps = CommonProps<'id' | 'owner' | 'role'> & {
  * @name Menu
  * @phase UXReview
  */
-export function Menu({ innerRef, id: idProp, children, owner, label, ...props }: ElementProps<MenuProps, 'div'>) {
+export function Menu({ as, innerRef, id: idProp, children, owner, label, ...props }: ElementProps<MenuProps, 'div'>) {
     const menuId = useId(idProp);
 
+    const As = as || 'div';
+
     return (
-        <div
+        <As
             {...props}
             aria-label={label || undefined}
             data-bspk-owner={owner || undefined}
@@ -58,7 +67,7 @@ export function Menu({ innerRef, id: idProp, children, owner, label, ...props }:
             ref={innerRef}
         >
             {children}
-        </div>
+        </As>
     );
 }
 

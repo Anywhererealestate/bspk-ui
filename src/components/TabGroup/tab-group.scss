@@ -10,10 +10,6 @@ ul[data-bspk='tab-group'] {
         padding: 0 var(--spacing-sizing-04);
 
         &:not([aria-disabled]) {
-            &[data-active] {
-                background: var(--interactions-neutral-hover-opacity);
-            }
-
             &:active {
                 background: var(--interactions-neutral-press-opacity);
             }
@@ -23,7 +19,7 @@ ul[data-bspk='tab-group'] {
             color: var(--foreground-neutral-disabled-on-surface);
         }
 
-        &[aria-selected] {
+        &[aria-selected='true'] {
             color: var(--foreground-brand-primary);
 
             &::after {
@@ -50,6 +46,12 @@ ul[data-bspk='tab-group'] {
 
         li {
             border-bottom: none;
+        }
+    }
+
+    &:focus-within {
+        li:not([aria-disabled])[data-active] {
+            background: var(--interactions-neutral-hover-opacity);
         }
     }
 }

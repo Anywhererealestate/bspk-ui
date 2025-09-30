@@ -44,6 +44,13 @@ export type DialogProps = CommonProps<'id' | 'owner'> &
          */
 
         widthFull?: boolean;
+        /**
+         * If focus trapping should be disabled. Generally this should not be disabled as dialogs should always trap
+         * focus.
+         *
+         * @default false
+         */
+        disableFocusTrap?: boolean;
     };
 
 /**
@@ -83,18 +90,17 @@ export function Dialog({
     id: idProp,
     owner,
     container,
+    disableFocusTrap,
     ...containerProps
 }: ElementProps<DialogProps, 'div'>) {
     const id = useId(idProp);
     const boxRef = useRef<HTMLDivElement | null>(null);
 
-    const handleKeyDown = useCallback((e: KeyboardEvent) => e.key === 'Escape' && onClose(), [onClose]);
+    const handleKeyDown = useCallback((e: KeyboardEvent) => open && e.key === 'Escape' && onClose(), [onClose, open]);
 
     useEffect(() => {
-        if (open) {
-            document.documentElement.style.overflow = 'hidden';
-            document.addEventListener('keydown', handleKeyDown);
-        }
+        document.documentElement.style.overflow = open ? 'hidden' : '';
+        document.addEventListener('keydown', handleKeyDown);
         return () => {
             document.documentElement.style.overflow = '';
             document.removeEventListener('keydown', handleKeyDown);
@@ -114,9 +120,10 @@ export function Dialog({
                     role="presentation"
                 >
                     <FocusTrap
+                        active={!disableFocusTrap}
                         focusTrapOptions={{
-                            fallbackFocus: () => boxRef.current!,
                             clickOutsideDeactivates: true,
+                            fallbackFocus: () => boxRef.current!,
                         }}
                     >
                         <div

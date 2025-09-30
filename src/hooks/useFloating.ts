@@ -133,7 +133,6 @@ export function useFloating({
             if (floatingElement?.style.top)
                 setFloatingStyles((prev) => ({
                     ...prev,
-                    display: undefined,
                     opacity: 0,
                     pointerEvents: 'none',
                 }));
@@ -141,7 +140,6 @@ export function useFloating({
             transitionDelay.set(() => {
                 setFloatingStyles((prev) => ({
                     ...prev,
-                    display: 'none',
                 }));
             }, TRANSITION_DELAY);
             return;

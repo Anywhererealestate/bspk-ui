@@ -29,6 +29,12 @@
     background: var(--select-background);
     padding: 0 var(--select-padding);
 
+    [data-input] {
+        position: absolute;
+        opacity: 0;
+        inset: 0;
+    }
+
     [data-icon] {
         display: flex;
         flex-direction: column;
@@ -76,7 +82,7 @@
     }
 
     &:not(:disabled) {
-        &:focus {
+        &:focus-within {
             --select-border-color: var(--stroke-neutral-focus);
 
             border-width: 1px;

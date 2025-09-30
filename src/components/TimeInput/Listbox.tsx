@@ -1,67 +1,58 @@
-import { useCallback, useEffect } from 'react';
 import { TimeInputType } from './Segment';
-import { useId } from '-/hooks/useId';
-import { useKeyNavigation } from '-/hooks/useKeyNavigation';
+import { useArrowNavigation } from '-/hooks/useArrowNavigation';
+import { getElementById } from '-/utils/dom';
+import { handleKeyDown } from '-/utils/handleKeyDown';
 
-type TimeInputListboxProps<T extends string> = {
-    options: T[];
-    selectedValue?: T;
+type Option = {
+    id: string;
+    value: string;
+    label: string;
+};
+
+type TimeInputListboxProps = {
+    options: Option[];
+    selectedValue?: string;
     type: TimeInputType;
-    onSelect?: (value: T) => void;
+    onSelect?: (value: string) => void;
     onTab?: (e: React.KeyboardEvent) => void;
 };
 
-export function TimeInputListbox<T extends string>({
-    options: optionsProp,
-    selectedValue,
-    type: kind,
-    onSelect,
-    onTab,
-}: TimeInputListboxProps<T>) {
-    const id = useId();
-
-    const { handleKeyDown, setActiveElementId, activeElementId, setElements } = useKeyNavigation({
-        Tab: onTab,
+export function TimeInputListbox({ options, selectedValue, type: kind, onSelect, onTab }: TimeInputListboxProps) {
+    const { activeElementId, arrowKeyCallbacks } = useArrowNavigation({
+        ids: options.map((option) => option.id),
+        defaultActiveId: (options.find((option) => option.value === selectedValue) || options[0])?.id || null,
     });
 
-    const optionId = useCallback((value: T) => `${id}-${kind}-${value}`, [id, kind]);
-
-    const options = optionsProp.map((o) => ({
-        id: optionId(o),
-        value: o,
-        label: o.toString().padStart(2, '0'),
-    }));
-
-    useEffect(() => {
-        if (selectedValue) setActiveElementId(optionId(selectedValue));
-    }, [selectedValue, id, kind, setActiveElementId, optionId]);
+    const enterSpaceClick = () => {
+        if (activeElementId) getElementById(activeElementId)?.click();
+    };
 
     return (
         <div
+            //aria-activedescendant={activeElementId || undefined}
             aria-label={`Select ${kind}`}
+            data-bspk="time-input-listbox"
             data-scroll-column={kind}
-            onClick={(event) => {
+            data-type={kind}
+            data-visible={true}
+            id={`${kind}-listbox`}
+            onClickCapture={(event) => {
                 const target = event.target as HTMLSpanElement;
-                if (target.dataset.value) onSelect?.(target.dataset.value as T);
+                if (target.dataset.value) onSelect?.(target.dataset.value);
             }}
-            onKeyDown={handleKeyDown}
-            onMouseMove={(event) => {
-                const target = event.target as HTMLSpanElement;
-                setActiveElementId(target.id);
-                event.currentTarget.focus();
-            }}
-            ref={(node) => {
-                if (node) {
-                    setElements(Array.from(node.children) as HTMLElement[]);
-                }
-            }}
+            onKeyDown={handleKeyDown({
+                ...arrowKeyCallbacks,
+                Enter: enterSpaceClick,
+                Space: enterSpaceClick,
+                Tab: onTab,
+            })}
             role="listbox"
             tabIndex={0}
         >
             {options.map((option, index) => (
                 <span
                     aria-label={option.label}
-                    aria-selected={option.value === selectedValue || undefined}
+                    aria-selected={option.value === selectedValue}
                     data-active={activeElementId === option.id || undefined}
                     data-index={index}
                     data-value={option.value}

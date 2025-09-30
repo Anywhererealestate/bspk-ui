@@ -1,4 +1,5 @@
 import { UIProviderProps } from '.';
+import { Button } from '-/components/Button';
 import { useUIContext } from '-/hooks/useUIContext';
 import { ComponentExample, Preset } from '-/utils/demo';
 
@@ -101,12 +102,14 @@ export function AriaLiveExample() {
 
     return (
         <p>
-            Try it out by clicking{' '}
-            <button
+            <Button
                 data-bspk="link"
-                onClick={(event) => {
-                    event.preventDefault();
-                    sendAriaLiveMessage?.('Action completed successfully', 'polite');
+                label="Send a polite ARIA Live Message "
+                onClick={() => {
+                    sendAriaLiveMessage?.(
+                        `Action completed successfully at ${new Date().toLocaleTimeString()}`,
+                        'polite',
+                    );
                 }}
                 style={{
                     padding: 0,
@@ -116,10 +119,28 @@ export function AriaLiveExample() {
                     color: 'inherit',
                     cursor: 'pointer',
                 }}
-            >
-                send ARIA Live Message
-            </button>
-            .
+                variant="tertiary"
+            />
+
+            <Button
+                data-bspk="link"
+                label="Send an assertive ARIA Live Message "
+                onClick={() => {
+                    sendAriaLiveMessage?.(
+                        `Critical update occurred at ${new Date().toLocaleTimeString()}`,
+                        'assertive',
+                    );
+                }}
+                style={{
+                    padding: 0,
+                    margin: 0,
+                    border: 'none',
+                    background: 'none',
+                    color: 'inherit',
+                    cursor: 'pointer',
+                }}
+                variant="tertiary"
+            />
         </p>
     );
 }
