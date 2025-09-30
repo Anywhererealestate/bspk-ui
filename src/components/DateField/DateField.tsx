@@ -50,7 +50,9 @@ export function DateField({
             labelTrailing={labelTrailing}
             required={required}
         >
-            {(fieldProps) => <DateInput {...inputProps} {...fieldProps} aria-label={label} invalid={invalid} />}
+            {(fieldProps) => (
+                <DateInput id={controlId} {...inputProps} {...fieldProps} aria-label={label} invalid={invalid} />
+            )}
         </FormField>
     );
 }

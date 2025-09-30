@@ -77,6 +77,7 @@ export function TextareaField({
                     //
                     {...inputProps}
                     {...fieldProps}
+                    id={controlId}
                     invalid={invalid}
                 />
             )}

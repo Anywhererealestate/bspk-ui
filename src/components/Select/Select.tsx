@@ -174,7 +174,7 @@ export function Select({
     placeholder: placeholderProp,
     size = 'medium',
     disabled,
-    id: propId,
+    id: idProp,
     invalid,
     readOnly,
     name,
@@ -186,7 +186,7 @@ export function Select({
     scrollLimit,
     ...props
 }: ElementProps<SelectProps, 'div'>) {
-    const id = useId(propId);
+    const id = useId(idProp);
     const menuId = useMemo(() => `select-${id}-menu`, [id]);
     const placeholder = placeholderProp || DEFAULT_PLACEHOLDER;
 
@@ -276,7 +276,6 @@ export function Select({
                             data-invalid={invalid || undefined}
                             data-open={show || undefined}
                             data-size={size}
-                            id={id}
                             onClickCapture={() => reference?.focus()}
                         >
                             <input
@@ -294,6 +293,7 @@ export function Select({
                                 aria-haspopup="listbox"
                                 aria-label={label || selectedItem?.label || placeholder}
                                 autoComplete="off"
+                                id={id}
                                 name={name}
                                 readOnly
                                 role="combobox"

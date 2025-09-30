@@ -27,6 +27,15 @@ export const presets: Preset<ButtonProps>[] = [
             label: 'Add',
         },
     },
+    {
+        label: 'With aria-label',
+        propState: {
+            iconOnly: false,
+            icon: 'Add',
+            label: 'Add',
+            'aria-label': 'Custom aria-label',
+        },
+    },
 ];
 
 export const ButtonExample: ComponentExample<ButtonProps> = {

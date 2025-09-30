@@ -27,7 +27,7 @@ const SELECT_OPTIONS = countryCodes.map((code) => {
 export type PhoneNumberInputProps = FormFieldControlProps &
     Pick<
         TextInputProps,
-        'aria-label' | 'disabled' | 'inputRef' | 'invalid' | 'name' | 'readOnly' | 'required' | 'size' | 'value'
+        'aria-label' | 'disabled' | 'id' | 'inputRef' | 'invalid' | 'name' | 'readOnly' | 'required' | 'size' | 'value'
     > & {
         /**
          * The default country code to select when the component is rendered. If not provided, it will attempt to guess
@@ -70,10 +70,11 @@ export function PhoneNumberInput({
     'aria-label': ariaLabel,
     'aria-describedby': ariaDescribedBy,
     'aria-errormessage': ariaErrorMessage,
+    id: idProp,
     name,
     ...inputProps
 }: PhoneNumberInputProps) {
-    const id = useId();
+    const id = useId(idProp);
 
     const items = useIds(`phone-number-input-${id}`, SELECT_OPTIONS);
 
@@ -145,6 +146,7 @@ export function PhoneNumberInput({
                             autoComplete="off"
                             containerRef={setRef}
                             disabled={disabled}
+                            id={id}
                             inputRef={setInputRef}
                             leading={
                                 <>

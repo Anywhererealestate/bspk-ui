@@ -21,10 +21,11 @@ import {
     endOfDecade,
 } from 'date-fns';
 import { FocusTrap } from 'focus-trap-react';
-import { useMemo, useState, KeyboardEvent, ReactNode, useEffect } from 'react';
+import { useMemo, useState, KeyboardEvent, ReactNode, useEffect, useRef } from 'react';
 import { Button, ButtonProps } from '-/components/Button';
 import { ListItemProps } from '-/components/ListItem';
 import { useId } from '-/hooks/useId';
+import { CommonProps } from '-/types/common';
 import { getElementById } from '-/utils/dom';
 import { handleKeyDown } from '-/utils/handleKeyDown';
 
@@ -55,8 +56,6 @@ type ConfigKind = {
     optionProps?: (params: {
         baseDate: Date;
         date: Date;
-        isActive: boolean;
-        isSelected: boolean;
         onChange: (next: Date) => void;
         setBaseDate: (next: Date) => void;
         setKind: (next: Kind) => void;
@@ -119,13 +118,12 @@ const CONFIG: Record<Kind, ConfigKind> = {
                 <span>Sat</span>
             </div>
         ),
-        optionProps: ({ date, baseDate, isSelected, setBaseDate, onChange, isActive }) => ({
+        optionProps: ({ date, baseDate, setBaseDate, onChange }) => ({
             'data-non-month-day': date.getMonth() !== baseDate.getMonth() ? true : undefined,
             onClick: () => {
                 setBaseDate(date);
                 onChange(date);
             },
-            variant: isSelected ? 'primary' : isActive ? 'secondary' : 'tertiary',
         }),
     },
     month: {
@@ -155,12 +153,11 @@ const CONFIG: Record<Kind, ConfigKind> = {
         optionFormatStr: 'MMM',
         listboxLabel: 'Select Month',
         ariaFormatStr: 'MMMM yyyy',
-        optionProps: ({ date, setBaseDate, setKind, isActive }) => ({
+        optionProps: ({ date, setBaseDate, setKind }) => ({
             onClick: () => {
                 setBaseDate(date);
                 setKind('day');
             },
-            variant: isActive ? 'secondary' : 'tertiary',
         }),
     },
     year: {
@@ -192,17 +189,16 @@ const CONFIG: Record<Kind, ConfigKind> = {
         optionFormatStr: 'yyyy',
         listboxLabel: 'Select Year',
         ariaFormatStr: 'yyyy',
-        optionProps: ({ date, setBaseDate, setKind, isActive }) => ({
+        optionProps: ({ date, setBaseDate, setKind }) => ({
             onClick: () => {
                 setBaseDate(date);
                 setKind('month');
             },
-            variant: isActive ? 'secondary' : 'tertiary',
         }),
     },
 };
 
-export type CalendarPickerProps = {
+export type CalendarPickerProps = CommonProps<'id'> & {
     /**
      * The currently selected date
      *
@@ -232,22 +228,38 @@ export type CalendarPickerProps = {
  * @name CalendarPicker
  * @phase Dev
  */
-export function CalendarPicker({ value: valueProp, onChange, variant = 'flat' }: CalendarPickerProps) {
-    const baseId = useId();
+export function CalendarPicker({ id: idProp, value: valueProp, onChange, variant = 'flat' }: CalendarPickerProps) {
+    const baseId = useId(idProp);
     const [kind, setKind] = useState<Kind>('day');
     const config = useMemo(() => CONFIG[kind], [kind]);
     const value = useMemo(() => (valueProp && isValid(valueProp) ? valueProp : new Date()), [valueProp]);
 
     const [baseDate, setBaseDate] = useState<Date>(value);
+
     useEffect(() => setBaseDate(value), [value]);
 
     const { items } = useItemsAndRange(config, baseDate, baseId);
 
     const { handleKeyDownCapture } = useKeyDownCaptures({ config, baseDate, setBaseDate });
 
+    // when kind changes focus on the button for the current baseDate
+    const previousKind = useRef<Kind | null>(null);
+    const previousBaseDate = useRef(baseDate);
+    useEffect(() => {
+        if (previousKind.current === kind && previousBaseDate.current === baseDate) return;
+        const element = getElementById(items.find(({ value: date }) => config.compare(date, baseDate))?.id)!;
+        setTimeout(() => element?.focus(), 100);
+        previousKind.current = kind;
+        previousBaseDate.current = baseDate;
+    }, [baseDate, config, items, kind]);
+
     return (
         <FocusTrap
             focusTrapOptions={{
+                initialFocus: () => {
+                    const idToFocus = items.find(({ value: date }) => config.compare(date, baseDate))?.id;
+                    return getElementById(idToFocus)!;
+                },
                 fallbackFocus: () => {
                     const idToFocus = items.find(({ value: date }) => config.compare(date, baseDate))?.id;
                     return getElementById(idToFocus)!;
@@ -284,44 +296,32 @@ export function CalendarPicker({ value: valueProp, onChange, variant = 'flat' }:
                     />
                 </div>
                 {config.listBoxHeader}
-                <div
-                    aria-label={config.listboxLabel}
-                    data-body
-                    onKeyDownCapture={handleKeyDownCapture}
-                    ref={(node) => {
-                        const idToFocus = items.find(({ value: date }) => config.compare(date, baseDate))?.id;
-                        node?.querySelector<HTMLElement>(`[id="${idToFocus}"]`)?.focus();
-                    }}
-                    role="listbox"
-                >
+                <div aria-label={config.listboxLabel} data-body onKeyDownCapture={handleKeyDownCapture} role="listbox">
                     {items.map(({ value: date, label, id, 'aria-label': ariaLabel }) => {
                         const isSelected = config.compare(date, value);
                         const isActive = config.compare(date, baseDate);
-                        const isFocusable = isActive || (!baseDate && isSelected);
+
+                        const props = config.optionProps?.({
+                            date,
+                            baseDate,
+                            setBaseDate,
+                            onChange,
+                            setKind,
+                        });
+
                         return (
                             <Button
                                 aria-label={ariaLabel}
                                 aria-selected={isSelected || undefined}
-                                data-active={isActive || undefined}
                                 id={id}
-                                innerRef={(node) => {
-                                    if (isFocusable) node?.focus();
-                                }}
                                 key={date.toString()}
                                 label={label}
                                 role="option"
                                 size="large"
-                                tabIndex={isFocusable ? 0 : -1}
+                                tabIndex={isActive ? 0 : -1}
+                                variant={isSelected ? 'primary' : 'tertiary'}
                                 width="hug"
-                                {...config.optionProps?.({
-                                    date,
-                                    baseDate,
-                                    isSelected,
-                                    isActive,
-                                    setBaseDate,
-                                    onChange,
-                                    setKind,
-                                })}
+                                {...props}
                             />
                         );
                     })}
@@ -329,6 +329,10 @@ export function CalendarPicker({ value: valueProp, onChange, variant = 'flat' }:
             </div>
         </FocusTrap>
     );
+}
+
+export function generateItemId(baseId: string, date: Date) {
+    return `${baseId}-option-${format(date, 'MM-dd-yyyy')}`;
 }
 
 /** Generates the items (days, months, years) to display based on the grid and the range start and end */
@@ -344,7 +348,7 @@ function useItemsAndRange(config: ConfigKind, value: Date, baseId: string) {
                 value: date,
                 label,
                 'aria-label': format(date, config.ariaFormatStr),
-                id: `${baseId}-option-${format(date, 'MM-dd-yyyy')}`,
+                id: generateItemId(baseId, date),
             });
         }
 

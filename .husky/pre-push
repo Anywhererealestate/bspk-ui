@@ -1,1 +1,1 @@
-npm run pretty && npm run pr-check
+npm run pretty && npm run pre

@@ -33,7 +33,9 @@ export function PhoneNumberField({
             labelTrailing={labelTrailing}
             required={required}
         >
-            {(fieldProps) => <PhoneNumberInput {...inputProps} {...fieldProps} aria-label={label} invalid={invalid} />}
+            {(fieldProps) => (
+                <PhoneNumberInput id={controlId} {...inputProps} {...fieldProps} aria-label={label} invalid={invalid} />
+            )}
         </FormField>
     );
 }

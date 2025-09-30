@@ -146,7 +146,7 @@ export function TextInput({
                 aria-errormessage={ariaErrorMessage || undefined}
                 aria-invalid={invalid || undefined}
                 aria-label={ariaLabel}
-                autoComplete={autoComplete}
+                autoComplete={autoComplete || undefined}
                 data-main-input
                 disabled={disabled || undefined}
                 id={id}

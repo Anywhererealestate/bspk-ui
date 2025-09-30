@@ -70,6 +70,12 @@ export type ButtonProps<As extends ElementType = 'button'> = CommonProps<'disabl
     onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
     /** A ref to the Button element. */
     innerRef?: SetRef<HTMLButtonElement>;
+    /**
+     * The aria-label attribute for the button element.
+     *
+     * If not provided, the `label` prop will be used.
+     */
+    'aria-label'?: string;
 };
 
 /**
@@ -111,21 +117,23 @@ export function Button<As extends ElementType = 'button'>(
         children,
         innerRef,
         owner,
+        'aria-label': ariaLabelProp,
         ...containerProps
     } = props;
     const label = typeof children === 'string' ? children : labelProp || '';
+    const ariaLabel = ariaLabelProp || label;
 
     // ignore iconOnly if there is no icon
     const iconOnly = iconOnlyProp === true && !!icon;
 
     // if toolTip text is not provided and iconOnly is true, toolTip text should be label
-    const toolTip = toolTipProp || (iconOnly ? label : undefined);
+    const toolTip = toolTipProp || (iconOnly ? ariaLabel : undefined);
 
     const button = (triggerProps: TooltipTriggerProps) => (
         <As
             {...containerProps}
             {...triggerProps}
-            aria-label={label}
+            aria-label={ariaLabel}
             data-bspk="button"
             data-bspk-owner={owner || undefined}
             data-destructive={destructive || undefined}
