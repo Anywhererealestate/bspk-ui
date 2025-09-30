@@ -2,6 +2,8 @@ ul[data-bspk-utility='tab-list'][data-bspk='bottom-navigation'] {
     width: 100%;
     border-top: solid 1px var(--stroke-neutral-low);
     box-sizing: border-box;
+    background-color: var(--background-base);
+    height: var(--spacing-sizing-13);
 
     &[data-variant='elevated'] {
         box-shadow: var(--drop-shadow-north);
