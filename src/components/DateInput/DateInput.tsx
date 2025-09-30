@@ -1,7 +1,7 @@
 import './date-input.scss';
 import { SvgEvent } from '@bspk/icons/Event';
 import { format, isValid, parse } from 'date-fns';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from '-/components/Button';
 import { CalendarPicker } from '-/components/CalendarPicker';
 import { Portal } from '-/components/Portal';
@@ -67,7 +67,6 @@ export function DateInput({
 }: DateInputProps) {
     const [textValue, setTextValue] = useState(value ? format(value, 'MM/dd/yyyy') : '');
     const [calendarVisible, setCalendarVisible] = useState(false);
-    const containerRef = useRef<HTMLSpanElement | null>(null);
 
     useEffect(() => {
         const formattedValue = value ? format(value, 'MM/dd/yyyy') : '';
@@ -82,7 +81,7 @@ export function DateInput({
     });
 
     useOutsideClick({
-        elements: [elements.floating, containerRef.current],
+        elements: [elements.floating],
         callback: () => setCalendarVisible(false),
     });
 
@@ -120,15 +119,16 @@ export function DateInput({
     };
 
     return (
-        <span data-bspk="date-input" ref={containerRef}>
+        <>
             <div
+                data-bspk="date-input"
                 ref={(node) => {
                     elements.setReference(node);
                 }}
             >
                 <TextInput
                     aria-errormessage={ariaErrorMessage || undefined}
-                    aria-label={ariaLabel}
+                    aria-label={`Enter date or open calendar - ${ariaLabel}`}
                     disabled={disabled}
                     id={id}
                     invalid={invalid || undefined}
@@ -175,6 +175,7 @@ export function DateInput({
             {calendarVisible && (
                 <Portal>
                     <div
+                        data-calendar-picker
                         data-placement="bottom"
                         ref={(node) => {
                             elements.setFloating(node);
@@ -192,7 +193,7 @@ export function DateInput({
                     </div>
                 </Portal>
             )}
-        </span>
+        </>
     );
 }
 
