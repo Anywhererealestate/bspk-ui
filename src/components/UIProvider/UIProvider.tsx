@@ -1,9 +1,9 @@
 import { useState, ReactNode } from 'react';
-
+import { AriaLiveMessageHandler, sendAriaLiveMessage } from './AriaLiveMessageHandler';
 import { useEventListener } from '-/hooks/useAddEventListener';
 import { useDebounceState } from '-/hooks/useDebounceState';
 import { useIsomorphicEffect } from '-/hooks/useIsomorphicEffect';
-import { UIContext, ColorTheme, AriaLiveMessage } from '-/utils/uiContext';
+import { UIContext, ColorTheme } from '-/utils/uiContext';
 
 export type UIProviderProps = {
     /**
@@ -27,7 +27,6 @@ export type UIProviderProps = {
  */
 export function UIProvider({ children }: UIProviderProps) {
     const [theme, setTheme] = useState<ColorTheme>('light');
-    const [ariaLiveMessage, setAriaLiveMessage] = useState<AriaLiveMessage | null>(null);
     // Keep track of device width to determine if we are in mobile, tablet, or desktop mode
 
     const [deviceWidth, setDeviceWidth] = useDebounceState(() => {
@@ -53,17 +52,11 @@ export function UIProvider({ children }: UIProviderProps) {
                 isMobile: deviceWidth < 640,
                 isTablet: deviceWidth > 640 && deviceWidth < 1024,
                 isDesktop: deviceWidth >= 1024,
-                sendAriaLiveMessage: (message, live) => {
-                    setAriaLiveMessage({ message, live });
-                },
+                sendAriaLiveMessage,
             }}
         >
             {children}
-            {ariaLiveMessage && (
-                <div aria-live={ariaLiveMessage.live || 'polite'} data-sr-only role="alert">
-                    {ariaLiveMessage.message}
-                </div>
-            )}
+            <AriaLiveMessageHandler />
         </UIContext.Provider>
     );
 }

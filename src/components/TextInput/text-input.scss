@@ -46,7 +46,7 @@
     }
 
     &[data-disabled],
-    &:has(input[disabled]) {
+    &:has([data-main-input][disabled]) {
         --border-color: var(--stroke-neutral-disabled-light);
 
         background:
@@ -88,6 +88,8 @@
 
     [data-leading],
     [data-trailing] {
+        position: relative;
+
         svg {
             width: var(--field-icon-width);
         }
@@ -98,7 +100,7 @@
         color: var(--foreground-neutral-on-surface-variant-01);
     }
 
-    input {
+    [data-main-input] {
         flex: 1;
         background-color: transparent !important;
         border: none;

@@ -4,23 +4,23 @@ import { Tag } from '-/components/Tag';
 import { Txt } from '-/components/Txt';
 import { ComponentExample, Preset } from '-/utils/demo';
 
-const trailingPrice = (price: number) => (
+const TrailingPrice = ({ price }: { price: number }) => (
     <Txt>{`${new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'USD',
     }).format(price / 100)}`}</Txt>
 );
 const DEFAULT_OPTIONS = [
-    { id: '1', label: 'Option 1' },
-    { id: '2', label: 'Option 2' },
-    { id: '3', label: 'Option 3' },
-    { id: '4', label: 'Option 4' },
-    { id: '5', label: 'Option 5' },
-    { id: '6', label: 'Option 6' },
-    { id: '7', label: 'Option 7' },
-    { id: '8', label: 'Option 8' },
-    { id: '9', label: 'Option 9' },
-    { id: '10', label: 'Option 10' },
+    { value: '1', label: 'Option 1' },
+    { value: '2', label: 'Option 2' },
+    { value: '3', label: 'Option 3' },
+    { value: '4', label: 'Option 4' },
+    { value: '5', label: 'Option 5' },
+    { value: '6', label: 'Option 6' },
+    { value: '7', label: 'Option 7' },
+    { value: '8', label: 'Option 8' },
+    { value: '9', label: 'Option 9' },
+    { value: '10', label: 'Option 10' },
 ];
 
 export const presets: Preset<SelectProps>[] = [
@@ -48,10 +48,10 @@ export const presets: Preset<SelectProps>[] = [
             label: 'Demo Select',
             isMulti: false,
             options: [
-                { id: '1', label: 'This is a very long option that should truncate' },
-                { id: '2', label: 'This is another long option that should truncate' },
-                { id: '3', label: 'Short option' },
-                { id: '4', label: 'Another short option' },
+                { value: '1', label: 'This is a very long option that should truncate' },
+                { value: '2', label: 'This is another long option that should truncate' },
+                { value: '3', label: 'Short option' },
+                { value: '4', label: 'Another short option' },
             ],
             name: 'demo-select-long',
         },
@@ -64,17 +64,17 @@ export const presets: Preset<SelectProps>[] = [
             options: [
                 //
                 {
-                    id: 'a',
+                    value: 'a',
                     label: 'Package A',
                     trailing: <Tag color="blue" label="Recommended" size="x-small" />,
                 },
                 {
-                    id: 'b',
+                    value: 'b',
                     label: 'Package B',
                     trailing: <Tag color="green" label="Best Value" size="x-small" />,
                 },
-                { id: 'c', label: 'Package C' },
-                { id: 'd', label: 'Package D' },
+                { value: 'c', label: 'Package C' },
+                { value: 'd', label: 'Package D' },
             ],
             name: 'demo-select-tags',
         },
@@ -86,13 +86,13 @@ export const presets: Preset<SelectProps>[] = [
             isMulti: false,
             options: [
                 {
-                    id: '1',
+                    value: '1',
                     label: 'Option A',
-                    trailing: trailingPrice(400),
+                    trailing: <TrailingPrice price={400} />,
                 },
-                { id: '2', label: 'Option B', trailing: trailingPrice(1000) },
-                { id: '3', label: 'Option C', trailing: trailingPrice(1600) },
-                { id: '4', label: 'Option D', trailing: trailingPrice(2000) },
+                { value: '2', label: 'Option B', trailing: <TrailingPrice price={1000} /> },
+                { value: '3', label: 'Option C', trailing: <TrailingPrice price={1600} /> },
+                { value: '4', label: 'Option D', trailing: <TrailingPrice price={2000} /> },
             ],
             name: 'demo-select-trailing',
         },
@@ -105,22 +105,22 @@ export const presets: Preset<SelectProps>[] = [
             options: [
                 //
                 {
-                    id: 'Jessica',
+                    value: 'Jessica',
                     label: 'Jessica P.',
                     leading: <Avatar name="Jessica P." size="small" />,
                 },
                 {
-                    id: 'Louis',
+                    value: 'Louis',
                     label: 'Louis L.',
                     leading: <Avatar name="Louis L." size="small" />,
                 },
                 {
-                    id: 'Harvey',
+                    value: 'Harvey',
                     label: 'Harvey S.',
                     leading: <Avatar name="Harvey S." size="small" />,
                 },
                 {
-                    id: 'Mike',
+                    value: 'Mike',
                     label: 'Mike R.',
                     leading: <Avatar name="Mike R." size="small" />,
                 },

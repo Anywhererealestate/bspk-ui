@@ -31,9 +31,9 @@ ul[data-bspk-utility='tab-list'] {
         --icon-size: var(--spacing-sizing-06);
     }
 
-    &:has(:focus-visible) {
+    &:focus-within {
         outline: 2px solid var(--stroke-neutral-focus);
-        outline-offset: 1px;
+        outline-offset: -1px;
         position: relative;
         z-index: var(--z-index-focus);
     }
