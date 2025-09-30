@@ -91,7 +91,6 @@ export type AvatarProps = CommonProps<'disabled'> & {
  *                 image="/profile.jpg"
  *                 initials="AR"
  *                 name="Andre Giant"
- *                 showTooltip
  *                 size="large"
  *             />
  *         );

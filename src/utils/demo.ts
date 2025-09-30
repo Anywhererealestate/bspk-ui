@@ -98,7 +98,7 @@ export type ComponentExample<Props = Record<string, unknown>, PropName extends k
      */
     render?: ComponentExampleRender<Props>;
     /** We may not want certain props editable in the props table. */
-    disableProps?: PropName[];
+    disableProps?: PropName[] | true;
     /** The sections of the example. */
     sections?: {
         title: string;

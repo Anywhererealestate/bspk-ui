@@ -61,4 +61,5 @@ export const MenuExample: ComponentExampleFn<MenuProps & { style?: unknown; 'dat
         );
     },
     variants: false,
+    disableProps: true,
 });

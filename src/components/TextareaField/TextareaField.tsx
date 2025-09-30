@@ -46,6 +46,8 @@ export function TextareaField({
     required,
     invalid,
     characterCount,
+    errorMessage,
+    labelTrailing,
     ...inputProps
 }: TextareaFieldProps) {
     const maxLength = tryIntParse(inputProps.maxLength) || -1;
@@ -54,12 +56,14 @@ export function TextareaField({
         <FormField
             controlId={controlId}
             data-bspk="textarea-field"
+            errorMessage={errorMessage}
             helperText={helperText}
             invalid={invalid}
             label={label}
             labelTrailing={
                 // If characterCount is falsey, we don't want to show the labelTrailing
-                characterCount && (
+                labelTrailing ||
+                (characterCount && (
                     <Txt
                         style={{
                             color: 'var(--foreground-neutral-on-surface-variant-02)',
@@ -68,7 +72,7 @@ export function TextareaField({
                     >
                         {`${inputProps?.value?.length || 0}${maxLength > 0 ? `/${maxLength}` : ''}`}
                     </Txt>
-                )
+                ))
             }
             required={required}
         >

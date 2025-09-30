@@ -80,7 +80,7 @@ export function ProgressionStepper({
     return !steps?.length ? null : (
         <div {...containerProps} data-bspk="progression-stepper" data-variant={variant}>
             {variant === 'widget' && (
-                <label>
+                <span data-label>
                     <span data-title>{steps[Math.max(0, Math.min(currentStep - 1, steps.length - 1))].name}</span>
                     <span data-subtitle>
                         {currentStep >= steps.length ? (
@@ -91,7 +91,7 @@ export function ProgressionStepper({
                             </>
                         )}
                     </span>
-                </label>
+                </span>
             )}
             <ol>
                 {steps.map(({ name, subtext }, index) => {

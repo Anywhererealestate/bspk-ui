@@ -80,7 +80,7 @@ export function PhoneNumberInput({
 
     const [countryCode, setCountryCode] = useState<SupportedCountryCode>(initialCountryCode || guessUserCountryCode());
 
-    const [inputRef, setInputRef] = useState<HTMLInputElement | null>(null);
+    const inputRef = useRef<HTMLInputElement | null>(null);
 
     const { callingCode, selectedCodeData } = useMemo(() => {
         const selectedValue = (countryCode || 'US') as SupportedCountryCode;
@@ -128,7 +128,7 @@ export function PhoneNumberInput({
             }}
             label="Select country code"
             onClose={() => {
-                inputRef?.focus();
+                inputRef.current?.focus();
             }}
             owner="phone-number-input"
             role="listbox"
@@ -147,7 +147,9 @@ export function PhoneNumberInput({
                             containerRef={setRef}
                             disabled={disabled}
                             id={id}
-                            inputRef={setInputRef}
+                            inputRef={(inputNode) => {
+                                inputRef.current = inputNode;
+                            }}
                             leading={
                                 <>
                                     <input

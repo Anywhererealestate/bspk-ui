@@ -105,18 +105,17 @@ export function RadioGroup({
     const id = `radio-group-${useId()}`;
 
     return (
-        <div
-            {...props}
-            aria-describedby={props['aria-describedby']}
-            aria-errormessage={props['aria-errormessage']}
-            aria-label={hideLabelProp ? groupLabel : undefined}
-            aria-labelledby={!hideLabelProp ? `${id}-label` : undefined}
-            data-bspk="radio-group"
-            id={id}
-            role="radiogroup"
-        >
+        <div data-bspk="radio-group">
             {!hideLabelProp && <label id={`${id}-label`}>{groupLabel}</label>}
-            <div role="presentation">
+            <div
+                {...props}
+                aria-describedby={props['aria-describedby']}
+                aria-errormessage={props['aria-errormessage']}
+                aria-label={hideLabelProp ? groupLabel : undefined}
+                aria-labelledby={!hideLabelProp ? `${id}-label` : undefined}
+                id={id}
+                role="radiogroup"
+            >
                 {options.map(({ label, description, disabled, value }, index) => {
                     return (
                         <RadioOption
