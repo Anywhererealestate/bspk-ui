@@ -133,7 +133,6 @@ export function Button<As extends ElementType = 'button'>(
         <As
             {...containerProps}
             {...triggerProps}
-            aria-label={ariaLabel}
             data-bspk="button"
             data-bspk-owner={owner || undefined}
             data-destructive={destructive || undefined}
@@ -160,6 +159,11 @@ export function Button<As extends ElementType = 'button'>(
             }}
             ref={innerRef}
         >
+            {ariaLabel && ariaLabel !== label && (
+                <span data-aria-label data-sr-only>
+                    {ariaLabel}
+                </span>
+            )}
             {children && typeof children !== 'string' ? (
                 children
             ) : (
@@ -176,7 +180,7 @@ export function Button<As extends ElementType = 'button'>(
                     )}
                 </>
             )}
-            <span data-touch-target />
+            <span aria-hidden={true} data-touch-target />
         </As>
     );
 
