@@ -169,7 +169,11 @@ export function Button<As extends ElementType = 'button'>(
                             {icon}
                         </span>
                     )}
-                    {!iconOnly && <span data-button-label>{label}</span>}
+                    {!iconOnly && (
+                        <span aria-hidden={ariaLabel !== label || undefined} data-button-label>
+                            {label}
+                        </span>
+                    )}
                 </>
             )}
             <span data-touch-target />
