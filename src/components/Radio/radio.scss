@@ -6,26 +6,33 @@
 
     input[type='radio'] {
         cursor: pointer;
-        width: var(--spacing-sizing-05);
-        height: var(--spacing-sizing-05);
         border-radius: 50%;
         border-width: 2px;
         border-style: solid;
         border-color: var(--stroke-neutral-base);
         appearance: none;
+        box-sizing: content-box;
+
+        // with a border width of 2px, and box-sizing content-box, the overall size is 20px (16px + 2*2px)
+        width: var(--spacing-sizing-04);
+        height: var(--spacing-sizing-04);
+
+        // to prevent slight alignment issues with input checked state when browser scaling is applied (command + / command -)
+        transform: scale(0.99);
     }
 
     input[type='radio']:checked {
-        border: 2px solid var(--stroke-brand-primary);
+        border-color: var(--stroke-brand-primary);
     }
 
     [data-checked] {
         cursor: pointer;
-        width: var(--spacing-sizing-03);
-        height: var(--spacing-sizing-03);
+        width: 100%;
+        height: 100%;
         border-radius: 50%;
         background-color: var(--foreground-brand-primary);
         position: absolute;
+        transform: scale(0.6);
     }
 
     [data-checked-invalid] {
