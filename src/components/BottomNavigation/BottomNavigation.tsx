@@ -8,6 +8,12 @@ export type BottomNavigationProps = Pick<TabListProps, 'label' | 'onChange' | 'o
      * @default flat
      */
     variant?: 'elevated' | 'flat';
+    /**
+     * If the bottom navigation should render inline or fixed to the bottom of the viewport.
+     *
+     * @default inline
+     */
+    mode?: 'fixed' | 'inline';
 };
 
 /**
@@ -45,8 +51,10 @@ export type BottomNavigationProps = Pick<TabListProps, 'label' | 'onChange' | 'o
  * @name BottomNavigation
  * @phase Dev
  */
-export function BottomNavigation({ variant = 'flat', ...tabListProps }: BottomNavigationProps) {
-    return <TabList data-bspk="bottom-navigation" data-variant={variant} size="large" {...tabListProps} />;
+export function BottomNavigation({ mode = 'inline', variant = 'flat', ...tabListProps }: BottomNavigationProps) {
+    return (
+        <TabList data-bspk="bottom-navigation" data-mode={mode} data-variant={variant} size="large" {...tabListProps} />
+    );
 }
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

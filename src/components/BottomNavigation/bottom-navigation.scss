@@ -58,6 +58,16 @@ ul[data-bspk-utility='tab-list'][data-bspk='bottom-navigation'] {
             }
         }
     }
+
+    &[data-mode='fixed'] {
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        background: var(--surface-neutral-t1-base);
+        box-shadow: var(--drop-shadow-north);
+        z-index: var(--z-index-button-dock);
+    }
 }
 
 @media (width >= 640px) {
