@@ -1,7 +1,5 @@
-import { ButtonDock, ButtonDockProps } from '.';
-import { SnackbarProvider } from '-/components/SnackbarProvider';
-import { useSnackbarContext } from '-/hooks/useSnackbarContext';
-import { ComponentExample, Preset } from '-/utils/demo';
+import { ButtonDockProps } from '.';
+import { ComponentExampleFn, Preset } from '-/utils/demo';
 
 export const presets: Preset<ButtonDockProps>[] = [
     {
@@ -47,11 +45,10 @@ export const presets: Preset<ButtonDockProps>[] = [
     },
 ];
 
-export const ButtonDockExample: ComponentExample<ButtonDockProps> = {
+export const ButtonDockExample: ComponentExampleFn<ButtonDockProps> = ({ action }) => ({
     containerStyle: {
         height: '200px',
         width: '100%',
-        maxWidth: 375,
         padding: '0 0 16px 0',
         justifyContent: 'end',
         overflow: 'hidden',
@@ -59,35 +56,22 @@ export const ButtonDockExample: ComponentExample<ButtonDockProps> = {
     defaultState: presets[1].propState,
     disableProps: [],
     presets,
-    render: ({ props }) => {
-        return (
-            <SnackbarProvider countLimit={3} timeout={1000}>
-                <Example {...props} />
-            </SnackbarProvider>
-        );
+    render: ({ props, Component }) => {
+        const newProps = { ...props };
+        if (newProps.primaryButton) {
+            newProps.primaryButton = {
+                ...newProps.primaryButton,
+                onClick: () => action('Primary button clicked!'),
+            };
+        }
+        if (newProps.secondaryButton) {
+            newProps.secondaryButton = {
+                ...newProps.secondaryButton,
+                onClick: () => action('Secondary button clicked!'),
+            };
+        }
+        return <Component {...newProps} />;
     },
     sections: [],
     variants: false,
-};
-
-const Example = (exampleProps: ButtonDockProps) => {
-    const { sendSnackbar } = useSnackbarContext();
-
-    const { primaryButton, secondaryButton, ...restProps } = exampleProps;
-
-    if (primaryButton) {
-        primaryButton.onClick = () =>
-            sendSnackbar({
-                text: `Clicked primaryButton with text "${primaryButton.children}"`,
-            });
-    }
-
-    if (secondaryButton) {
-        secondaryButton.onClick = () =>
-            sendSnackbar({
-                text: `Clicked secondaryButton with text "${secondaryButton.children}"`,
-            });
-    }
-
-    return <ButtonDock {...restProps} primaryButton={primaryButton} secondaryButton={secondaryButton ?? undefined} />;
-};
+});

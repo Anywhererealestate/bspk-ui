@@ -7,7 +7,7 @@ export type ButtonDockProps = {
      *
      * @required
      */
-    primaryButton: Pick<ButtonProps, 'as' | 'children' | 'icon' | 'label' | 'onClick' | 'toolTip' | 'variant'>;
+    primaryButton: ButtonProps;
     /**
      * Secondary button. If provided will render on the left side.
      *
