@@ -1,7 +1,6 @@
+import './empty-state.scss';
 import { ReactNode } from 'react';
-
 import { Button } from '-/components/Button';
-import { Layout } from '-/components/Layout';
 import { Txt } from '-/components/Txt';
 import { CallToActionButton } from '-/types/common';
 
@@ -54,24 +53,16 @@ export type EmptyStateProps = {
  */
 export function EmptyState({ children, header, body, callToAction, bodyAlign = 'center' }: EmptyStateProps) {
     return (
-        <Layout
-            align="center"
-            column
-            data-bspk="empty-state"
-            style={{
-                margin: 'var(--spacing-sizing-04)',
-                maxWidth: '500px',
-            }}
-        >
+        <div data-bspk="empty-state">
             {children}
-            <Layout align="center" column gap="4">
+            <div data-body>
                 <Txt as="header" variant="heading-h5">
                     {header}
                 </Txt>
                 <Txt as="p" style={{ textAlign: bodyAlign }} variant="body-base">
                     {body}
                 </Txt>
-            </Layout>
+            </div>
             {callToAction && (
                 <Button
                     label={callToAction.label}
@@ -80,7 +71,7 @@ export function EmptyState({ children, header, body, callToAction, bodyAlign = '
                     variant="primary"
                 />
             )}
-        </Layout>
+        </div>
     );
 }
 

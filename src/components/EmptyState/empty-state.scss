@@ -1,0 +1,19 @@
+[data-bspk='empty-state'] {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sizing-04);
+
+    [data-body] {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: var(--spacing-sizing-01);
+
+        p {
+            margin: 0;
+        }
+    }
+}
