@@ -52,7 +52,16 @@ export type MenuProps<As extends ElementType = ElementType> = CommonProps<'id' |
  * @name Menu
  * @phase UXReview
  */
-export function Menu({ as, innerRef, id: idProp, children, owner, label, ...props }: ElementProps<MenuProps, 'div'>) {
+export function Menu({
+    as,
+    innerRef,
+    id: idProp,
+    children,
+    owner,
+    label,
+    'aria-label': ariaLabel,
+    ...props
+}: ElementProps<MenuProps, 'div'>) {
     const menuId = useId(idProp);
 
     const As = as || 'div';
@@ -60,7 +69,7 @@ export function Menu({ as, innerRef, id: idProp, children, owner, label, ...prop
     return (
         <As
             {...props}
-            aria-label={label || undefined}
+            aria-label={ariaLabel || label || undefined}
             data-bspk-owner={owner || undefined}
             data-bspk-utility="menu"
             id={menuId}

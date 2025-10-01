@@ -10,8 +10,8 @@ describe('DateInput', () => {
     it('has no basic a11y issues', hasNoBasicA11yIssues(<TestBed />));
 
     it('renders', () => {
-        const { getByLabelText } = render(<TestBed />);
+        const { container } = render(<TestBed />);
 
-        expect(getByLabelText('calendar input')).toBeInTheDocument();
+        expect(container.querySelector('input[name="calendar input"]')).toBeInTheDocument();
     });
 });

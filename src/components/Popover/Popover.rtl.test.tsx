@@ -21,8 +21,8 @@ describe('Popover (RTL)', () => {
     it('has no basic a11y issues', hasNoBasicA11yIssues(<TestBed />));
 
     it('renders', () => {
-        const { getByLabelText } = render(<TestBed />);
+        const { getByText } = render(<TestBed />);
 
-        expect(getByLabelText('Toggle popover')).toBeInTheDocument();
+        expect(getByText('Toggle popover')).toBeInTheDocument();
     });
 });

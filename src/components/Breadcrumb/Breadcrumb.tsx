@@ -97,7 +97,7 @@ export function Breadcrumb({ id: propId, items: itemsProp = [], scrollLimit }: B
 
     const items = useIds(`breadcrumb-${id}`, itemsProp);
 
-    const [show, setShow] = useState(false);
+    const [show, setShow] = useState(true);
 
     const { floatingStyles, elements } = useFloating({});
 
@@ -112,27 +112,6 @@ export function Breadcrumb({ id: propId, items: itemsProp = [], scrollLimit }: B
     const middleItems = items.length > 5 ? items.slice(1, items.length - 1) : null;
 
     if (items.length < 2) return null;
-
-    // <button
-    //     aria-expanded="false"
-    //     aria-haspopup="menu"
-    //     className="flex items-center gap-1"
-    //     data-slot="dropdown-menu-trigger"
-    //     data-state="closed"
-    //     id="radix-«r1d»"
-    //     type="button"
-    // />;
-
-    // <button
-    //     aria-controls="radix-«r1e»"
-    //     aria-expanded="true"
-    //     aria-haspopup="menu"
-    //     className="flex items-center gap-1"
-    //     data-slot="dropdown-menu-trigger"
-    //     data-state="open"
-    //     id="radix-«r1d»"
-    //     type="button"
-    // />;
 
     return (
         <nav aria-label="Breadcrumb" data-bspk="breadcrumb" id={id}>
@@ -176,7 +155,6 @@ export function Breadcrumb({ id: propId, items: itemsProp = [], scrollLimit }: B
                         />
                         {show && (
                             <Menu
-                                as="ol"
                                 id={menuId}
                                 innerRef={elements.setFloating}
                                 label="Expanded breadcrumb"
@@ -188,14 +166,14 @@ export function Breadcrumb({ id: propId, items: itemsProp = [], scrollLimit }: B
                                     ArrowDown: (event) => {
                                         setShow(true);
                                         event.preventDefault();
-                                        const element = (event.target as HTMLElement).closest('li')?.nextElementSibling
-                                            ?.children[0] as HTMLElement;
+                                        const element = (event.target as HTMLElement)
+                                            ?.nextElementSibling as HTMLElement;
                                         element?.focus();
                                     },
                                     ArrowUp: (event) => {
                                         event.preventDefault();
-                                        const element = (event.target as HTMLElement).closest('li')
-                                            ?.previousElementSibling?.children[0] as HTMLElement;
+                                        const element = (event.target as HTMLElement)
+                                            ?.previousElementSibling as HTMLElement;
                                         element?.focus();
                                     },
                                     Escape: () => {
@@ -217,9 +195,7 @@ export function Breadcrumb({ id: propId, items: itemsProp = [], scrollLimit }: B
                                 }}
                             >
                                 {middleItems.map((item, idx) => (
-                                    <li key={`Breadcrumb-${idx}`}>
-                                        <ListItem {...item} />
-                                    </li>
+                                    <ListItem {...item} key={`Breadcrumb-${idx}`} role="menuitem" />
                                 ))}
                             </Menu>
                         )}
@@ -228,7 +204,7 @@ export function Breadcrumb({ id: propId, items: itemsProp = [], scrollLimit }: B
                 ) : (
                     items.slice(1, items.length - 1).map((item, idx) => (
                         <li key={`Breadcrumb-${idx}`}>
-                            <Link {...item} role="menuitem" />
+                            <Link {...item} />
                             <SvgChevronRight aria-hidden />
                         </li>
                     ))

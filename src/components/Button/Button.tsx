@@ -120,7 +120,7 @@ export function Button<As extends ElementType = 'button'>(
         'aria-label': ariaLabelProp,
         ...containerProps
     } = props;
-    const label = typeof children === 'string' ? children : labelProp || '';
+    const label = labelProp || '';
     const ariaLabel = ariaLabelProp || label;
 
     // ignore iconOnly if there is no icon
@@ -159,15 +159,20 @@ export function Button<As extends ElementType = 'button'>(
             }}
             ref={innerRef}
         >
-            {ariaLabel && ariaLabel !== label && (
-                <span data-aria-label data-sr-only>
-                    {ariaLabel}
-                </span>
-            )}
-            {children && typeof children !== 'string' ? (
-                children
+            {children ? (
+                <>
+                    <span data-aria-label data-sr-only>
+                        {ariaLabel}
+                    </span>
+                    {children}
+                </>
             ) : (
                 <>
+                    {ariaLabel !== label && (
+                        <span data-aria-label data-sr-only>
+                            {ariaLabel}
+                        </span>
+                    )}
                     {!!icon && isValidElement(icon) && (
                         <span aria-hidden={true} data-button-icon>
                             {icon}
@@ -178,9 +183,10 @@ export function Button<As extends ElementType = 'button'>(
                             {label}
                         </span>
                     )}
+
+                    <span aria-hidden={true} data-touch-target />
                 </>
             )}
-            <span aria-hidden={true} data-touch-target />
         </As>
     );
 

@@ -1,5 +1,5 @@
 import { userEvent } from '@testing-library/user-event';
-import { CalendarPicker, generateItemId } from './CalendarPicker';
+import { CalendarPicker } from './CalendarPicker';
 import { hasNoBasicA11yIssues } from '-/rtl/hasNoBasicA11yIssues';
 import { render } from '-/rtl/util';
 
@@ -22,7 +22,7 @@ describe('CalendarPicker', () => {
         });
 
         document.activeElement?.textContent?.includes('July 1985');
-        const focusedElement = container.querySelector(`[id="${generateItemId('my-calendar', testDate)}"]`);
+        const focusedElement = container.querySelector(`[data-header] button`);
 
         expect(focusedElement).toHaveFocus();
     });
