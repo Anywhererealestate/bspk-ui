@@ -278,6 +278,7 @@ export function Select({
                             data-size={size}
                             onClickCapture={() => reference?.focus()}
                         >
+                            <input name={name} type="hidden" value={value} />
                             <input
                                 data-input
                                 ref={(node) => {
@@ -291,13 +292,12 @@ export function Select({
                                 aria-errormessage={ariaErrorMessage || undefined}
                                 aria-expanded={toggleProps['aria-expanded']}
                                 aria-haspopup="listbox"
-                                aria-label={label || selectedItem?.label || placeholder}
+                                aria-label={selectedItem?.label || label || placeholder}
                                 autoComplete="off"
                                 id={id}
-                                name={name}
                                 readOnly
                                 role="combobox"
-                                value={value}
+                                value={selectedItem?.label}
                             />
                             {!show && (
                                 <ListItem

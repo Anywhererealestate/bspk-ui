@@ -78,6 +78,7 @@ export function DateInput({
         strategy: 'absolute',
         offsetOptions: 4,
         refWidth: true,
+        hide: !calendarVisible,
     });
 
     useOutsideClick({

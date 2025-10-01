@@ -122,6 +122,12 @@ export type CommonPropsLibrary = {
      * @type string
      */
     role?: AriaRole;
+    /**
+     * The maximum number of ListItems to show before scrolling is enabled.
+     *
+     * Used in conjunction with scrollListItemsStyle utility.
+     */
+    scrollLimit?: number;
 };
 
 export type CommonProps<K extends keyof CommonPropsLibrary> = Pick<CommonPropsLibrary, K>;

@@ -19,6 +19,7 @@ import { useOutsideClick } from '-/hooks/useOutsideClick';
 import { CommonProps, SetRef } from '-/types/common';
 import { getElementById } from '-/utils/dom';
 import { handleKeyDown } from '-/utils/handleKeyDown';
+import { scrollListItemsStyle } from '-/utils/scrollListItemsStyle';
 
 export type MenuListItem = Omit<ListItemProps, 'id'> & {
     id: string;
@@ -78,7 +79,7 @@ export type InternalToggleProps = {
     reference: HTMLElement | null;
 };
 
-export type ListItemMenuProps = CommonProps<'disabled' | 'readOnly'> &
+export type ListItemMenuProps = CommonProps<'disabled' | 'readOnly' | 'scrollLimit'> &
     Pick<MenuProps, 'id' | 'label' | 'owner'> &
     Pick<UseFloatingProps, 'offsetOptions' | 'placement'> & {
         /**
@@ -137,8 +138,6 @@ export type ListItemMenuProps = CommonProps<'disabled' | 'readOnly'> &
         arrowKeyNavigationCallback?: (params: ArrowKeyNavigationCallbackParams) => boolean;
         /** Optional callback fired when the menu is closed. */
         onClose?: () => void;
-        /** The maximum number of items to show before scrolling is enabled. */
-        scrollLimit?: number;
         /** Remove menu from dom when closed for performance and to prevent tabbing to hidden menu items. */
         hideWhenClosed?: boolean;
     };
@@ -307,7 +306,7 @@ export function ListItemMenu({
                     style={{
                         width: menuWidth !== 'reference' ? menuWidth : undefined,
                         ...floatingStyles,
-                        ...scrollLimitStyle(scrollLimit, items.length),
+                        ...scrollListItemsStyle(scrollLimit, items.length),
                     }}
                 >
                     {menuLeading}
@@ -325,7 +324,7 @@ export function ListItemMenu({
                                     itemOnClick?.({ event, currentId: item.id, show, setShow });
                                 }}
                                 role={item.role || LIST_ITEM_ROLES[containerRole] || undefined}
-                                tabIndex={0}
+                                tabIndex={-1}
                             />
                         );
                     })}
@@ -335,24 +334,5 @@ export function ListItemMenu({
         </>
     );
 }
-
-const scrollLimitStyle = (scrollLimitProp: unknown, itemCount: unknown): CSSProperties => {
-    const scrollLimit = Number(scrollLimitProp);
-
-    // Check:
-    // 1. scrollLimit is valid
-    // 2. itemCount is a number
-    // 3. scrollLimit is less than itemCount
-    // If any of these fail, return undefined (no scrolling)
-    if (Number.isNaN(scrollLimit) || scrollLimit <= 0 || typeof itemCount !== 'number' || scrollLimit > itemCount)
-        return {};
-
-    return {
-        display: 'flex',
-        flexDirection: 'column',
-        maxHeight: `calc(var(--list-item-height) * ${scrollLimit})`,
-        overflow: 'hidden auto',
-    };
-};
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

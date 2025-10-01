@@ -1,6 +1,6 @@
 import { useState, KeyboardEvent } from 'react';
 import { getElementById } from '-/utils/dom';
-import { KeysCallback } from '-/utils/handleKeyDown';
+import { KeyCallbacks } from '-/utils/handleKeyDown';
 import { KeyboardEventCode } from '-/utils/keyboard';
 
 type ArrowKeyNames = Extract<KeyboardEventCode, `Arrow${string}`>;
@@ -62,7 +62,7 @@ export function useArrowNavigation({
 }: UseArrowNavigationProps): {
     activeElementId: string | null;
     setActiveElementId: (id: string | null) => void;
-    arrowKeyCallbacks: KeysCallback;
+    arrowKeyCallbacks: KeyCallbacks;
 } {
     const [activeElementId, setActiveElementIdBase] = useState<string | null>(defaultActiveId || ids[0] || null);
 
@@ -102,6 +102,6 @@ export function useArrowNavigation({
                     setActiveElementId(nextId);
                 },
             ]),
-        ) as KeysCallback,
+        ) as KeyCallbacks,
     };
 }

@@ -1,8 +1,8 @@
 import './calendar-picker.scss';
 import { isValid } from 'date-fns';
 import { FocusTrap } from 'focus-trap-react';
-import { useMemo, useState, useEffect } from 'react';
-import { Kind, useRows, useKeyDownCaptures, HeaderButton, CONFIG, useFocusNext } from './utils';
+import { useMemo, useState, useEffect, useRef } from 'react';
+import { Kind, useRows, useKeyDownCaptures, HeaderButton, CONFIG } from './utils';
 import { Button } from '-/components/Button';
 import { useId } from '-/hooks/useId';
 import { CommonProps } from '-/types/common';
@@ -49,22 +49,35 @@ export function CalendarPicker({ id: idProp, value: valueProp, onChange, variant
 
     const rows = useRows(config, activeDate, baseId);
 
-    const { setFocusNext, gridRef, headerRef } = useFocusNext();
+    const gridRef = useRef<HTMLDivElement | null>(null);
+    const headerRef = useRef<HTMLDivElement | null>(null);
+
+    // const activeCell = (context: string) => {
+    //     const element = gridRef.current?.querySelector<HTMLElement>('[tabindex="0"]');
+
+    //     console.log('activeCell', element, context);
+    //     return element;
+    // };
+
+    // const { setFocusNext } = useFocusNext({
+    //     target: gridRef.current,
+    //     defaultNext: activeCell('defaultNext'),
+    // });
 
     const { handleKeyDownCapture } = useKeyDownCaptures({
         config,
         activeDate,
         setActiveDate: (next) => {
             setActiveDate(next);
-            setFocusNext('day');
         },
     });
+
+    const focusCell = useRef(true);
 
     return (
         <FocusTrap
             focusTrapOptions={{
-                initialFocus: () => gridRef.current?.querySelector<HTMLElement>('[tabindex="0"]'),
-                fallbackFocus: () => gridRef.current!.querySelector<HTMLElement>('[tabindex="0"]')!,
+                fallbackFocus: () => headerRef.current?.firstChild as HTMLElement,
                 clickOutsideDeactivates: true,
             }}
         >
@@ -74,31 +87,42 @@ export function CalendarPicker({ id: idProp, value: valueProp, onChange, variant
                         activeDate={activeDate}
                         config={config.header['<<']}
                         direction="<<"
-                        setActiveDate={setActiveDate}
+                        setActiveDate={(data) => {
+                            setActiveDate(data);
+                            focusCell.current = false;
+                        }}
                     />
                     <HeaderButton
                         activeDate={activeDate}
                         config={config.header['<']}
                         direction="<"
-                        setActiveDate={setActiveDate}
+                        setActiveDate={(data) => {
+                            setActiveDate(data);
+                            focusCell.current = false;
+                        }}
                     />
                     <div data-title>
                         {config.header.label(activeDate, (nextKind) => {
                             setKind(nextKind);
-                            setFocusNext(kind);
                         })}
                     </div>
                     <HeaderButton
                         activeDate={activeDate}
                         config={config.header['>']}
                         direction=">"
-                        setActiveDate={setActiveDate}
+                        setActiveDate={(data) => {
+                            setActiveDate(data);
+                            focusCell.current = false;
+                        }}
                     />
                     <HeaderButton
                         activeDate={activeDate}
                         config={config.header['>>']}
                         direction=">>"
-                        setActiveDate={setActiveDate}
+                        setActiveDate={(data) => {
+                            setActiveDate(data);
+                            focusCell.current = false;
+                        }}
                     />
                 </div>
                 <div
@@ -124,17 +148,18 @@ export function CalendarPicker({ id: idProp, value: valueProp, onChange, variant
                                                 aria-colindex={colIndex + 1}
                                                 aria-label={ariaLabel}
                                                 aria-selected={isSelected}
+                                                data-active={isActive || undefined}
                                                 data-timestamp={date.getTime()}
                                                 id={id}
                                                 key={date.toString()}
                                                 label={label}
                                                 onClick={() => {
                                                     setActiveDate(date);
-
                                                     if (kind === 'day') onChange(date);
                                                     else setKind('day');
-
-                                                    setFocusNext(kind);
+                                                }}
+                                                onFocus={() => {
+                                                    focusCell.current = true;
                                                 }}
                                                 role="gridcell"
                                                 size="large"

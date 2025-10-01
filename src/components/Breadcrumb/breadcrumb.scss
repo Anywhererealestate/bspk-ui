@@ -1,7 +1,7 @@
 [data-bspk='breadcrumb'] {
     width: 100%;
 
-    ol {
+    > ol {
         display: flex;
         align-items: center;
         flex-flow: row wrap;
@@ -11,6 +11,27 @@
         li {
             display: flex;
             gap: var(--spacing-sizing-02);
+        }
+    }
+
+    [data-bspk-owner='Breadcrumb'][data-bspk-utility='menu'] {
+        width: 200px;
+
+        a {
+            &:focus,
+            &:hover {
+                background-color: var(--interactions-neutral-hover-opacity);
+                outline: none;
+            }
+
+            &:active {
+                background:
+                    linear-gradient(
+                        var(--interactions-neutral-press-opacity),
+                        var(--interactions-neutral-press-opacity)
+                    ),
+                    linear-gradient(var(--surface-neutral-t1-base), var(--surface-neutral-t1-base));
+            }
         }
     }
 }

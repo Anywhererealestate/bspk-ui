@@ -51,7 +51,8 @@
         [data-bspk='button'] {
             margin: auto;
 
-            &:focus-visible {
+            &:focus-visible,
+            &[data-active] {
                 outline: 2px solid var(--stroke-neutral-focus);
                 border-radius: var(--radius-sm);
             }

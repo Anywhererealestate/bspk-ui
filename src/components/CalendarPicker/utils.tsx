@@ -19,10 +19,9 @@ import {
     endOfDecade,
     setYear,
 } from 'date-fns';
-import { useMemo, KeyboardEvent, ReactNode, useRef } from 'react';
+import { useMemo, KeyboardEvent, ReactNode } from 'react';
 import { Button } from '-/components/Button';
 import { ListItemProps } from '-/components/ListItem';
-import { useMutationObserver } from '-/hooks/useMutationObserver';
 import { DataProps } from '-/types/common';
 import { handleKeyDown } from '-/utils/handleKeyDown';
 
@@ -288,37 +287,4 @@ export function HeaderButton({
             />
         )
     );
-}
-
-export function useFocusNext() {
-    const gridRef = useRef<HTMLDivElement | null>(null);
-    const headerRef = useRef<HTMLDivElement | null>(null);
-    const focusNext = useRef<Kind | 'init' | null>('init');
-
-    const setFocusNext = (next: Kind | null) => (focusNext.current = next);
-
-    useMutationObserver(
-        gridRef.current,
-        () => {
-            if (!focusNext.current) return;
-
-            let elementToFocus = headerRef.current?.querySelector<HTMLElement>(
-                `[data-header-button="${focusNext.current}"]`,
-            );
-
-            if (focusNext.current === 'day' || focusNext.current === 'init')
-                elementToFocus = gridRef.current?.querySelector<HTMLElement>('[tabindex="0"]');
-
-            if (focusNext.current === 'init' && !elementToFocus) return;
-
-            elementToFocus?.focus();
-            focusNext.current = null;
-        },
-        {
-            childList: true,
-            subtree: true,
-        },
-    );
-
-    return { setFocusNext, gridRef, headerRef };
 }
