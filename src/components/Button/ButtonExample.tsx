@@ -1,3 +1,5 @@
+import { SvgFlagUnitedStates } from '@bspk/icons/FlagUnitedStates';
+import { SvgKeyboardArrowDown } from '@bspk/icons/KeyboardArrowDown';
 import { SvgPerson } from '@bspk/icons/Person';
 import { ButtonProps } from '.';
 import { ComponentExample, Preset } from '-/utils/demo';
@@ -28,12 +30,23 @@ export const presets: Preset<ButtonProps>[] = [
         },
     },
     {
-        label: 'With aria-label',
+        label: 'Custom',
         propState: {
-            iconOnly: false,
-            icon: 'Add',
-            label: 'Add',
-            'aria-label': 'Custom aria-label',
+            label: 'Country picker',
+            variant: 'secondary',
+            children: (
+                <span
+                    aria-hidden="true"
+                    style={{
+                        display: 'flex',
+                        gap: 'var(--spacing-sizing-01)',
+                        padding: '0 var(--spacing-sizing-01) 0 var(--spacing-sizing-02)',
+                    }}
+                >
+                    <SvgFlagUnitedStates />
+                    <SvgKeyboardArrowDown />
+                </span>
+            ),
         },
     },
 ];

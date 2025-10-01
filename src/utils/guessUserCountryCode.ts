@@ -1,4 +1,4 @@
-import { countryCodeData, SupportedCountryCode } from './countryCodes';
+import { COUNTRY_CODE_DATA, SupportedCountryCode } from './countryCodes';
 
 /**
  * Guesses the user's country code based on their locale. If the locale does not match any supported country codes,
@@ -9,7 +9,7 @@ import { countryCodeData, SupportedCountryCode } from './countryCodes';
 export const guessUserCountryCode = (): SupportedCountryCode => {
     const guessedCountry = Intl.DateTimeFormat().resolvedOptions().locale.split('-')[1];
 
-    if (guessedCountry && countryCodeData[guessedCountry as SupportedCountryCode]) {
+    if (guessedCountry && COUNTRY_CODE_DATA[guessedCountry as SupportedCountryCode]) {
         return guessedCountry as SupportedCountryCode;
     }
 

@@ -8,12 +8,12 @@ import { TextInput, TextInputProps } from '-/components/TextInput';
 import { useId } from '-/hooks/useId';
 import { useUIContext } from '-/hooks/useUIContext';
 import { FormFieldControlProps } from '-/types/common';
-import { countryCodeData, countryCodes, SupportedCountryCode } from '-/utils/countryCodes';
+import { COUNTRY_CODE_DATA, countryCodes, SupportedCountryCode } from '-/utils/countryCodes';
 import { guessUserCountryCode } from '-/utils/guessUserCountryCode';
 import { useIds } from '-/utils/useIds';
 
 const SELECT_OPTIONS = countryCodes.map((code) => {
-    const countryCodeDetails = countryCodeData[code];
+    const countryCodeDetails = COUNTRY_CODE_DATA[code];
     return {
         value: code,
         label: `${countryCodeDetails?.name}`,
@@ -27,7 +27,7 @@ const SELECT_OPTIONS = countryCodes.map((code) => {
 export type PhoneNumberInputProps = FormFieldControlProps &
     Pick<
         TextInputProps,
-        'aria-label' | 'disabled' | 'id' | 'inputRef' | 'invalid' | 'name' | 'readOnly' | 'required' | 'size' | 'value'
+        'disabled' | 'id' | 'inputRef' | 'invalid' | 'name' | 'readOnly' | 'required' | 'size' | 'value'
     > & {
         /**
          * The default country code to select when the component is rendered. If not provided, it will attempt to guess
@@ -67,7 +67,6 @@ export function PhoneNumberInput({
     initialCountryCode,
     disabled,
     readOnly,
-    'aria-label': ariaLabel,
     'aria-describedby': ariaDescribedBy,
     'aria-errormessage': ariaErrorMessage,
     id: idProp,
@@ -82,12 +81,11 @@ export function PhoneNumberInput({
 
     const inputRef = useRef<HTMLInputElement | null>(null);
 
-    const { callingCode, selectedCodeData } = useMemo(() => {
-        const selectedValue = (countryCode || 'US') as SupportedCountryCode;
-        const data = countryCodeData[selectedValue] ?? countryCodeData.US;
+    const { callingCode, selectedMeta } = useMemo(() => {
+        const meta = COUNTRY_CODE_DATA[(countryCode || 'US') as SupportedCountryCode] ?? COUNTRY_CODE_DATA.US;
         return {
-            callingCode: getCountryCallingCode(countryCode),
-            selectedCodeData: data,
+            callingCode: getCountryCallingCode(meta.code),
+            selectedMeta: meta,
         };
     }, [countryCode]);
 
@@ -138,11 +136,12 @@ export function PhoneNumberInput({
             {(toggleProps, { setRef }) => {
                 return (
                     <div data-bspk="phone-number-input">
+                        <input hidden name={`${name}-country-code`} readOnly ref={fauxInputRef} value={countryCode} />
                         <TextInput
                             {...inputProps}
                             aria-describedby={ariaDescribedBy}
                             aria-errormessage={ariaErrorMessage}
-                            aria-label={ariaLabel}
+                            aria-label={`phone number input with country code of ${selectedMeta.name}`}
                             autoComplete="off"
                             containerRef={setRef}
                             disabled={disabled}
@@ -152,24 +151,19 @@ export function PhoneNumberInput({
                             }}
                             leading={
                                 <>
-                                    <input
-                                        contentEditable
-                                        name={`${name}-country-code`}
-                                        {...toggleProps}
-                                        aria-label="select country code"
-                                        ref={fauxInputRef}
-                                    />
                                     <Button
+                                        {...toggleProps}
                                         disabled={disabled || readOnly}
                                         label="Open country code menu"
-                                        onClick={() => {
+                                        onClick={(event) => {
+                                            toggleProps.onClick?.(event);
                                             fauxInputRef.current?.focus();
                                             fauxInputRef.current?.click();
                                         }}
                                         variant="tertiary"
                                     >
-                                        <SvgIcon name={selectedCodeData.flagIconName} />
-                                        <SvgIcon name="KeyboardArrowDown" />
+                                        <SvgIcon aria-hidden name={selectedMeta.flagIconName} />
+                                        <SvgIcon aria-hidden name="KeyboardArrowDown" />
                                     </Button>
                                     <span aria-hidden="true" style={{ cursor: 'default' }}>{`+${callingCode}`}</span>
                                 </>

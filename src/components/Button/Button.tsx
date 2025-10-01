@@ -1,5 +1,5 @@
 import './button.scss';
-import { AriaAttributes, ElementType, ReactNode, isValidElement } from 'react';
+import { ElementType, ReactNode, isValidElement } from 'react';
 import { Tooltip, TooltipTriggerProps } from '-/components/Tooltip';
 import { ButtonSize, CommonProps, ElementProps, SetRef } from '-/types/common';
 
@@ -8,6 +8,13 @@ export type ButtonVariant = 'primary' | 'secondary' | 'tertiary';
 export type ButtonProps<As extends ElementType = 'button'> = CommonProps<'disabled' | 'owner'> & {
     /**
      * The label of the button.
+     *
+     * If `iconOnly` is true, this is used for the aria-label and tooltip.
+     *
+     * If `children` is provided and is a string, it will override this label.
+     *
+     * If `children` is provided and is not a string, it will override the button content but this label will still be
+     * used for the aria-label and tooltip if `iconOnly` is true.
      *
      * @required
      */
@@ -70,12 +77,6 @@ export type ButtonProps<As extends ElementType = 'button'> = CommonProps<'disabl
     onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
     /** A ref to the Button element. */
     innerRef?: SetRef<HTMLButtonElement>;
-    /**
-     * The aria-label attribute for the button element.
-     *
-     * If not provided, the `label` prop will be used.
-     */
-    'aria-label'?: string;
 };
 
 /**
@@ -101,7 +102,7 @@ export type ButtonProps<As extends ElementType = 'button'> = CommonProps<'disabl
  * @phase UXReview
  */
 export function Button<As extends ElementType = 'button'>(
-    props: AriaAttributes & ElementProps<ButtonProps<As>, As>,
+    props: ElementProps<ButtonProps<As>, As, 'aria-label'>,
 ): JSX.Element {
     const {
         size = 'medium',
@@ -117,17 +118,21 @@ export function Button<As extends ElementType = 'button'>(
         children,
         innerRef,
         owner,
-        'aria-label': ariaLabelProp,
         ...containerProps
     } = props;
-    const label = labelProp || '';
-    const ariaLabel = ariaLabelProp || label;
 
-    // ignore iconOnly if there is no icon
+    let label = labelProp || '';
+
+    let customContent = children;
+    if (typeof children === 'string' && children.trim().length === 0) {
+        customContent = null;
+        label = children;
+    }
+
     const iconOnly = iconOnlyProp === true && !!icon;
 
-    // if toolTip text is not provided and iconOnly is true, toolTip text should be label
-    const toolTip = toolTipProp || (iconOnly ? ariaLabel : undefined);
+    let toolTip = toolTipProp;
+    if (iconOnly && !toolTipProp) toolTip = label;
 
     const button = (triggerProps: TooltipTriggerProps) => (
         <As
@@ -159,31 +164,21 @@ export function Button<As extends ElementType = 'button'>(
             }}
             ref={innerRef}
         >
-            {children ? (
+            {customContent ? (
                 <>
-                    <span data-aria-label data-sr-only>
-                        {ariaLabel}
+                    <span data-sr-only>{label}</span>
+                    <span aria-hidden data-button-custom>
+                        {customContent}
                     </span>
-                    {children}
                 </>
             ) : (
                 <>
-                    {ariaLabel !== label && (
-                        <span data-aria-label data-sr-only>
-                            {ariaLabel}
-                        </span>
-                    )}
                     {!!icon && isValidElement(icon) && (
                         <span aria-hidden={true} data-button-icon>
                             {icon}
                         </span>
                     )}
-                    {!iconOnly && (
-                        <span aria-hidden={ariaLabel !== label || undefined} data-button-label>
-                            {label}
-                        </span>
-                    )}
-
+                    {!iconOnly && <span data-button-label>{label}</span>}
                     <span aria-hidden={true} data-touch-target />
                 </>
             )}

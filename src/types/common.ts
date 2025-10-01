@@ -6,18 +6,28 @@
  * @bspk/ui/Txt".
  */
 
-import { JSXElementConstructor, ReactNode, ComponentPropsWithoutRef, AriaRole } from 'react';
+import { JSXElementConstructor, ReactNode, ComponentPropsWithoutRef, AriaRole, AriaAttributes } from 'react';
 
 export type AlertVariant = 'error' | 'informational' | 'success' | 'warning';
 
 /** Sets a ref to the given element. */
 export type SetRef<T> = (instance: T | null) => void;
 
+/**
+ * Utility type for combining component props with the props of the element or component it renders as. This type omits
+ * any props that are already defined on the component to avoid conflicts.
+ *
+ * It also omits any props defined in the O generic parameter. This is useful for omitting props like 'as' or 'ref' that
+ * are commonly used in polymorphic components.
+ *
+ * It also includes all ARIA attributes except those defined in the O generic parameter and the P generic parameter.
+ * This is useful for omitting props like 'role' that might be defined in the component.
+ */
 export type ElementProps<
     P extends Record<string, unknown>,
     E extends JSXElementConstructor<unknown> | keyof JSX.IntrinsicElements,
     O extends string = '',
-> = Omit<ComponentPropsWithoutRef<E>, O | keyof P> & P;
+> = Omit<AriaAttributes, O | keyof P> & Omit<ComponentPropsWithoutRef<E>, O | keyof P> & Omit<P, O>;
 
 export type ElementConstructorProps<
     E extends JSXElementConstructor<unknown> | keyof JSX.IntrinsicElements,

@@ -5,11 +5,7 @@ import { render } from '-/rtl/util';
 
 const TestBed = () => (
     <Tooltip label="Example label" placement="top">
-        {(triggerProps) => (
-            <Button label="Trigger button" {...triggerProps}>
-                Click me
-            </Button>
-        )}
+        {(triggerProps) => <Button label="Trigger button" {...triggerProps} />}
     </Tooltip>
 );
 
