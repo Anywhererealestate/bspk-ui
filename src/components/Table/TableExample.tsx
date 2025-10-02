@@ -118,7 +118,11 @@ export const TableExample: ComponentExampleFn<TableProps<TableRow>> = ({
                             key: 'description',
                             label: 'Description',
                             width: 'auto',
-                            formatter: (row) => <Truncated style={{ maxWidth: '200px' }}>{row.description}</Truncated>,
+                            formatter: (row) => (
+                                <Truncated role="note" style={{ maxWidth: '200px' }}>
+                                    {row.description}
+                                </Truncated>
+                            ),
                         },
                     ],
                     data: componentsMeta
