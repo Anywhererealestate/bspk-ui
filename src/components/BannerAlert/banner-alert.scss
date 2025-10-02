@@ -64,28 +64,6 @@
                     font: var(--heading-h6);
                 }
             }
-
-            // close button
-            button {
-                background: none;
-                border: none;
-                cursor: pointer;
-                padding: 0;
-                margin: 0 0 0 auto;
-                color: var(--foreground-neutral-on-surface-variant-01);
-                height: var(--spacing-sizing-08);
-                width: var(--spacing-sizing-08);
-
-                @media (any-pointer: coarse) {
-                    height: var(--spacing-sizing-12);
-                    width: var(--spacing-sizing-12);
-                }
-
-                svg {
-                    width: var(--spacing-sizing-04);
-                    height: var(--spacing-sizing-04);
-                }
-            }
         }
 
         [data-body] {
@@ -100,12 +78,6 @@
 
             button {
                 margin-left: auto;
-                background: none;
-                border: none;
-                cursor: pointer;
-                padding: 0 var(--spacing-sizing-03);
-                height: var(--spacing-sizing-12);
-                font: var(--labels-small);
             }
         }
     }
