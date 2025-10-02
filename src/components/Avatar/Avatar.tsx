@@ -50,13 +50,17 @@ export type AvatarProps = CommonProps<'disabled'> & {
      */
     initials?: string;
     /**
-     * Whether to show the icon in the avatar.
+     * Whether to show the icon in the avatar instead of the initials.
+     *
+     * If an image is provided, the image will be shown instead of the icon.
      *
      * @default true
      */
     showIcon?: boolean;
     /**
      * The url to the image to display in the avatar.
+     *
+     * When provided the image will be displayed instead of the icon or initials.
      *
      * @example
      *     /profile.jpg

@@ -4,6 +4,7 @@ import { SvgClose } from '@bspk/icons/Close';
 import { SvgErrorFill } from '@bspk/icons/ErrorFill';
 import { SvgInfoFill } from '@bspk/icons/InfoFill';
 import { SvgWarningFill } from '@bspk/icons/WarningFill';
+import { Button } from '-/components/Button';
 import { ElementProps, AlertVariant, CallToActionButton } from '-/types/common';
 
 export type BannerAlertProps = {
@@ -95,16 +96,26 @@ export function BannerAlert({
                     <header>
                         <span>{header}</span>
                         {typeof onClose === 'function' && (
-                            <button aria-label="Close" onClick={onClose} type="button">
-                                <SvgClose />
-                            </button>
+                            <Button
+                                icon={<SvgClose />}
+                                iconOnly
+                                label="Close"
+                                onClick={onClose}
+                                size="small"
+                                variant="tertiary"
+                            />
                         )}
                     </header>
                 )}
                 <div data-body>
                     <span>{body}</span>
                     {callToAction?.label && callToAction?.onClick && (
-                        <button onClick={callToAction.onClick}>{callToAction.label}</button>
+                        <Button
+                            label={callToAction.label}
+                            onClick={callToAction.onClick}
+                            size="small"
+                            variant="tertiary"
+                        />
                     )}
                 </div>
             </div>
