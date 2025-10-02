@@ -117,5 +117,5 @@ export const BottomNavigationExample: ComponentExample<BottomNavigationProps> = 
     presets,
     render: ({ props, Component }) => <Component {...props} />,
     sections: [],
-    variants: {},
+    variants: false,
 };
