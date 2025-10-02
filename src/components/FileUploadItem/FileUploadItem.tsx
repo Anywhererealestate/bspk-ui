@@ -62,9 +62,7 @@ export function FileUploadItem({
                     <SvgDraft />
                 </div>
                 <div data-info>
-                    <Truncated data-file-name role="note">
-                        {fileName}
-                    </Truncated>
+                    <Truncated data-file-name>{fileName}</Truncated>
                     <span data-file-details>{subText}</span>
                 </div>
                 <Button
