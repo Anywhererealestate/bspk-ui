@@ -533,28 +533,31 @@ async function createMeta() {
     fs.writeFileSync(
         metaFilePath,
         [
-            target === 'local'
-                ? `import meta from './data.json';`
-                : `import React from 'react';\nimport meta from 'src/meta/data.json';\n\n`,
+            target === 'local' ? `import meta from './data.json';` : `import meta from 'src/meta/data.json';`,
+            `import { ComponentMeta, TypeMeta, UtilityMeta } from '@bspk/ui/types/meta';
+`,
             `export const componentsMeta = meta.componentsMeta as ComponentMeta[];
 export const utilitiesMeta = meta.utilitiesMeta as UtilityMeta[];
-export const typesMeta = meta.typesMeta as TypeMeta[];
-export const MODE = meta.MODE as 'development' | 'production' | 'test';
+export const typesMeta = meta.typesMeta as TypeMeta[];`,
+            `export const MODE = meta.MODE as 'development' | 'production' | 'test';
 export const UI_HASH = meta.UI_HASH as string;
 export const VERSION = meta.VERSION as string;
 export const BUILD = meta.BUILD as string;`,
-
-            fs.readFileSync(path.resolve(__dirname, './src/types/meta.ts'), { encoding: 'utf-8' }),
-
-            `export type MetaComponentName = '${metaComponentNames.join("' | '")}';`,
-
-            target === 'local'
-                ? ''
-                : `export const components: Partial<Record<MetaComponentName, React.LazyExoticComponent<any>>> = {${metaComponentNames.map(componentImport).join(',')}\n};`,
         ].join('\n\n'),
     );
 
     pretty(metaFilePath);
+
+    if (target !== 'local') {
+        const componentsManifestPath = path.join(outDirectory, 'componentManifest.ts');
+        const componentsManifestContent = [
+            `import React from 'react';`,
+            `export type MetaComponentName = '${metaComponentNames.join("' | '")}';`,
+            `export const components: Partial<Record<MetaComponentName, React.LazyExoticComponent<any>>> = {${metaComponentNames.map(componentImport).join(',')}\n};`,
+        ].join('\n\n');
+        fs.writeFileSync(componentsManifestPath, componentsManifestContent);
+        pretty(componentsManifestPath);
+    }
 
     console.info('Create meta complete.');
 
