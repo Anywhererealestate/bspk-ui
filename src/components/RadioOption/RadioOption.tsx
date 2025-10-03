@@ -17,7 +17,7 @@ export function RadioOption({ label: labelProp, description, disabled, ...radioP
     return (
         label && (
             <ToggleOption data-bspk="radio-option" description={description} disabled={disabled} label={label}>
-                <Radio {...radioProps} aria-label={ariaLabel} />
+                <Radio {...radioProps} aria-label={ariaLabel} disabled={disabled} />
             </ToggleOption>
         )
     );
