@@ -241,8 +241,6 @@ export function Select({
                 tabIndex={0}
             >
                 <ListItem
-                    aria-hidden={true}
-                    aria-labelledby={ariaLabelledBy || `${id}-label`}
                     data-bspk-owner="select"
                     data-placeholder={!selectedItem || undefined}
                     id={`${id}-selected-value`}

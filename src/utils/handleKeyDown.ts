@@ -19,8 +19,6 @@ export function handleKeyDown(
 
         const callback = keysCallback[eventCode];
 
-        //  'Ctrl+Option+Space
-
         if (callback) {
             callback(event);
             if (stopPropagation) event.stopPropagation();
