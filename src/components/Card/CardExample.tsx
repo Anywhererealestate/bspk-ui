@@ -9,6 +9,7 @@ export const CardExample: ComponentExample = {
                     height: '200px',
                     width: '100%',
                     minWidth: '250px',
+                    backgroundColor: 'unset',
                 }}
             />
         </Component>
