@@ -46,7 +46,7 @@ export type CardProps = {
  */
 export function Card({ children, showPadding, variant = 'elevated' }: CardProps) {
     return (
-        <div data-bspk="card" data-hide-padding={showPadding === false || undefined} data-variant={variant}>
+        <div data-bspk="card" data-padding={showPadding === true || undefined} data-variant={variant}>
             {children}
         </div>
     );
