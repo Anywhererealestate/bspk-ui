@@ -83,7 +83,7 @@ export function ProgressionStepper({
                 <label>
                     <span data-title>{steps[Math.max(0, Math.min(currentStep - 1, steps.length - 1))].name}</span>
                     <span data-subtitle>
-                        {currentStep >= steps.length ? (
+                        {currentStep > steps.length ? (
                             'Completed'
                         ) : (
                             <>
