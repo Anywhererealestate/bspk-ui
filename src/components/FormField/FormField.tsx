@@ -85,7 +85,7 @@ export function FormField({
     return (
         <div {...props} data-bspk-utility="form-field" data-invalid={invalid || undefined}>
             <header>
-                <label htmlFor={controlId}>
+                <label htmlFor={controlId} id={`${controlId}-label`}>
                     <Txt as="span" variant="labels-small">
                         {label}
                     </Txt>
@@ -100,6 +100,7 @@ export function FormField({
             {children({
                 'aria-describedby': helperTextId,
                 'aria-errormessage': errorMessageId,
+                'aria-labelledby': `${controlId}-label`,
             })}
             {errorMessage && (
                 <InlineAlert id={errorMessageId} variant="error">

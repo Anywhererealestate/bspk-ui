@@ -67,12 +67,6 @@ export type CommonPropsLibrary = {
     /** The id of the element. If not provided one will be generated. */
     id?: string;
     /**
-     * Marks the element as active and displays active state theme.
-     *
-     * @default false
-     */
-    active?: boolean;
-    /**
      * The content of the element.
      *
      * @required
@@ -149,6 +143,8 @@ export type FormFieldControlProps = {
     'aria-describedby'?: string;
     /** The id of the error message */
     'aria-errormessage'?: string;
+    /** The id of the label */
+    'aria-labelledby'?: string;
 };
 
 export type Brand =

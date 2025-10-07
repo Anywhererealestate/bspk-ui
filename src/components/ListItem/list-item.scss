@@ -28,8 +28,10 @@
     &[data-action] {
         &[data-active],
         [data-pseudo='hover'] &,
+        &:focus,
         &:hover {
             background-color: var(--interactions-neutral-hover-opacity);
+            outline: unset;
         }
 
         [data-pseudo='active'] &,

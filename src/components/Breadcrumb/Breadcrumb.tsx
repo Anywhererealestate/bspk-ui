@@ -99,7 +99,9 @@ export function Breadcrumb({ id: propId, items: itemsProp = [], scrollLimit }: B
 
     const [show, setShow] = useState(true);
 
-    const { floatingStyles, elements } = useFloating({});
+    const { floatingStyles, elements } = useFloating({
+        hide: !show,
+    });
 
     useOutsideClick({
         elements: [elements.floating],
@@ -153,52 +155,49 @@ export function Breadcrumb({ id: propId, items: itemsProp = [], scrollLimit }: B
                                 ArrowDown: () => elements.reference?.click(),
                             })}
                         />
-                        {show && (
-                            <Menu
-                                id={menuId}
-                                innerRef={elements.setFloating}
-                                label="Expanded breadcrumb"
-                                onBlur={(event) => {
-                                    if (!event.currentTarget.contains(event.relatedTarget as Node))
-                                        setTimeout(() => setShow(false), 100);
-                                }}
-                                onKeyDownCapture={handleKeyDown({
-                                    ArrowDown: (event) => {
-                                        setShow(true);
-                                        event.preventDefault();
-                                        const element = (event.target as HTMLElement)
-                                            ?.nextElementSibling as HTMLElement;
-                                        element?.focus();
-                                    },
-                                    ArrowUp: (event) => {
-                                        event.preventDefault();
-                                        const element = (event.target as HTMLElement)
-                                            ?.previousElementSibling as HTMLElement;
-                                        element?.focus();
-                                    },
-                                    Escape: () => {
-                                        setShow(false);
-                                        elements.reference?.focus();
-                                    },
-                                    Space: (event) => {
-                                        event.preventDefault();
-                                        event.stopPropagation();
-                                        setShow(false);
-                                        (event.target as HTMLElement)?.click();
-                                    },
-                                })}
-                                owner="Breadcrumb"
-                                role="menu"
-                                style={{
-                                    ...floatingStyles,
-                                    ...scrollListItemsStyle(scrollLimit, items.length),
-                                }}
-                            >
-                                {middleItems.map((item, idx) => (
-                                    <ListItem {...item} key={`Breadcrumb-${idx}`} role="menuitem" />
-                                ))}
-                            </Menu>
-                        )}
+                        <Menu
+                            id={menuId}
+                            innerRef={elements.setFloating}
+                            label="Expanded breadcrumb"
+                            onBlur={(event) => {
+                                if (!event.currentTarget.contains(event.relatedTarget as Node))
+                                    setTimeout(() => setShow(false), 100);
+                            }}
+                            onKeyDownCapture={handleKeyDown({
+                                ArrowDown: (event) => {
+                                    setShow(true);
+                                    event.preventDefault();
+                                    const element = (event.target as HTMLElement)?.nextElementSibling as HTMLElement;
+                                    element?.focus();
+                                },
+                                ArrowUp: (event) => {
+                                    event.preventDefault();
+                                    const element = (event.target as HTMLElement)
+                                        ?.previousElementSibling as HTMLElement;
+                                    element?.focus();
+                                },
+                                Escape: () => {
+                                    setShow(false);
+                                    elements.reference?.focus();
+                                },
+                                Space: (event) => {
+                                    event.preventDefault();
+                                    event.stopPropagation();
+                                    setShow(false);
+                                    (event.target as HTMLElement)?.click();
+                                },
+                            })}
+                            owner="Breadcrumb"
+                            role="menu"
+                            style={{
+                                ...floatingStyles,
+                                ...scrollListItemsStyle(scrollLimit, items.length),
+                            }}
+                        >
+                            {middleItems.map((item, idx) => (
+                                <ListItem {...item} key={`Breadcrumb-${idx}`} role="menuitem" />
+                            ))}
+                        </Menu>
                         <SvgChevronRight aria-hidden />
                     </li>
                 ) : (

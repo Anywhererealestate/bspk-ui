@@ -5,6 +5,7 @@ activedescendant
 aria-activedescendant
 haspopup
 aria-haspopup
+labelledby
 describedby
 xxlg
 xxxlg

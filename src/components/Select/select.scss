@@ -7,7 +7,6 @@
     --select-height: var(--spacing-sizing-10);
     --select-font: var(--body-base);
     --select-clear-height: var(--spacing-sizing-05);
-    --select-padding: var(--spacing-sizing-03);
     --select-icon-width: var(--spacing-sizing-05);
 
     overflow: hidden;
@@ -27,38 +26,25 @@
     border: 1px solid var(--select-border-color);
     border-radius: var(--radius-sm);
     background: var(--select-background);
-    padding: 0 var(--select-padding);
 
-    [data-input] {
-        position: absolute;
-        opacity: 0;
-        inset: 0;
-    }
+    > [data-bspk='list-item'] {
+        background: transparent;
 
-    [data-icon] {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-
-        svg {
-            transform: rotate(90deg);
-            width: var(--select-icon-width);
+        &[data-placeholder] [data-item-label] [data-text] {
+            color: var(--foreground-neutral-on-surface-variant-03);
+            font: var(--select-font);
         }
     }
 
-    [data-bspk='list-item'][data-bspk-owner='select'] {
-        background: transparent;
-    }
-
-    [data-bspk='list-item'][data-selected] {
-        background: var(--surface-brand-primary-highlight);
+    > svg {
+        width: var(--select-icon-width);
+        margin: 0 var(--spacing-sizing-02) 0 var(--spacing-sizing-03);
     }
 
     &[data-size='small'] {
         --select-height: var(--spacing-sizing-08);
         --select-font: var(--body-small);
         --select-clear-height: var(--spacing-sizing-05);
-        --select-padding: var(--spacing-sizing-02);
         --select-icon-width: var(--spacing-sizing-05);
     }
 
@@ -104,6 +90,24 @@
 
     &[data-invalid] {
         --select-border-color: var(--status-error);
+    }
+}
+
+[data-bspk-utility='menu'][data-bspk-owner='select'] {
+    position: fixed;
+
+    [data-bspk='list-item'][data-selected] {
+        background: var(--surface-brand-primary-highlight);
+    }
+
+    [role='option'] {
+        &[aria-selected='true'] {
+            background: var(--surface-brand-primary-highlight);
+        }
+
+        &[data-active] {
+            background: var(--interactions-neutral-hover-opacity);
+        }
     }
 }
 

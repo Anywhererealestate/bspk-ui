@@ -13,9 +13,7 @@ import { Truncated } from '-/components/Truncated';
 import { useId } from '-/hooks/useId';
 import { CommonProps, ElementProps, SetRef } from '-/types/common';
 
-export type ListItemProps<As extends ElementType = ElementType> = CommonProps<
-    'active' | 'disabled' | 'owner' | 'readOnly'
-> &
+export type ListItemProps<As extends ElementType = ElementType> = CommonProps<'disabled' | 'owner' | 'readOnly'> &
     Pick<AriaAttributes, 'aria-label'> & {
         /**
          * The element type to render as.
@@ -78,13 +76,6 @@ export type ListItemProps<As extends ElementType = ElementType> = CommonProps<
          */
         id?: string;
         /**
-         * Whether to hide the label from screen readers. Use this when the label is redundant with other context, such
-         * as within a ListItemMenu or Label.
-         *
-         * @default false
-         */
-        hideAriaLabel?: boolean;
-        /**
          * Indicates the current "selected" state of the list item when used in a selectable context, such as within a
          * ListItemMenu.
          */
@@ -124,7 +115,6 @@ export type ListItemProps<As extends ElementType = ElementType> = CommonProps<
  * @phase UXReview
  */
 function ListItem<As extends ElementType = ElementType>({
-    active,
     as,
     disabled,
     innerRef,
@@ -138,7 +128,6 @@ function ListItem<As extends ElementType = ElementType>({
     id: idProp,
     'aria-label': ariaLabel,
     'aria-selected': ariaSelected,
-    hideAriaLabel,
     ...props
 }: ElementProps<ListItemProps<As>, As>) {
     const id = useId(idProp);
@@ -147,7 +136,7 @@ function ListItem<As extends ElementType = ElementType>({
 
     const As = asLogic(as, props);
     const role = roleLogic(roleProp, { as: As, props });
-    const actionable = (props.href || props.onClick) && !props.disabled && !props.readOnly;
+    const actionable = (props.href || props.onClick || As === 'label') && !props.disabled && !props.readOnly;
 
     return (
         <As
@@ -156,7 +145,6 @@ function ListItem<As extends ElementType = ElementType>({
             aria-label={ariaLabel || undefined}
             aria-selected={ariaSelected}
             data-action={actionable || undefined}
-            data-active={active || undefined}
             data-bspk="list-item"
             data-bspk-owner={owner || undefined}
             data-readonly={readOnly || undefined}
@@ -170,7 +158,7 @@ function ListItem<As extends ElementType = ElementType>({
                     {leading}
                 </span>
             )}
-            <span aria-hidden={hideAriaLabel ? true : undefined} data-item-label>
+            <span aria-hidden={ariaLabel ? true : undefined} data-item-label>
                 <Truncated data-text>{label}</Truncated>
                 {subText && <span data-sub-text>{subText}</span>}
             </span>

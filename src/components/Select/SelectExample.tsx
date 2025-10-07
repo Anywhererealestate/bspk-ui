@@ -31,6 +31,7 @@ export const presets: Preset<SelectProps>[] = [
             options: DEFAULT_OPTIONS,
             isMulti: false,
             name: 'demo-select',
+            value: [],
         },
     },
     {
@@ -40,6 +41,7 @@ export const presets: Preset<SelectProps>[] = [
             options: DEFAULT_OPTIONS,
             isMulti: true,
             name: 'demo-select-multi',
+            value: [],
         },
     },
     {
@@ -54,6 +56,7 @@ export const presets: Preset<SelectProps>[] = [
                 { value: '4', label: 'Another short option' },
             ],
             name: 'demo-select-long',
+            value: [],
         },
     },
     {
@@ -77,6 +80,7 @@ export const presets: Preset<SelectProps>[] = [
                 { value: 'd', label: 'Package D' },
             ],
             name: 'demo-select-tags',
+            value: [],
         },
     },
     {
@@ -84,6 +88,7 @@ export const presets: Preset<SelectProps>[] = [
         propState: {
             label: 'Demo Select',
             isMulti: false,
+            value: [],
             options: [
                 {
                     value: '1',
@@ -102,8 +107,8 @@ export const presets: Preset<SelectProps>[] = [
         propState: {
             label: 'Select user',
             isMulti: false,
+            value: [],
             options: [
-                //
                 {
                     value: 'Jessica',
                     label: 'Jessica P.',
@@ -134,7 +139,8 @@ export const SelectExample: ComponentExample<SelectProps> = {
     defaultState: {
         label: 'Demo Select',
         options: DEFAULT_OPTIONS,
+        scrollLimit: 5,
     },
     presets,
-    variants: false,
+    //variants: false,
 };

@@ -294,7 +294,6 @@ export function ListItemMenu({
                 <Menu
                     {...ariaProps}
                     aria-label={label}
-                    as="ul"
                     data-placement={currentPlacement}
                     data-scroll={!!scrollLimit && items.length > scrollLimit}
                     id={containerId}
@@ -313,7 +312,6 @@ export function ListItemMenu({
                     {items.map((item, index) => {
                         return (
                             <ListItem
-                                as="li"
                                 key={index}
                                 {...item}
                                 active={activeElementId === item.id || undefined}

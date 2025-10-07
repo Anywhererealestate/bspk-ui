@@ -134,7 +134,10 @@ export type KeyboardEventKey =
     | 'z'
     | "'";
 
+export type KeyboardEventCodeCustom = 'Ctrl+Option+Space';
+
 export type KeyboardEventCode =
+    | KeyboardEventCodeCustom
     | 'AltLeft'
     | 'AltRight'
     | 'ArrowDown'

@@ -68,11 +68,14 @@ export function useArrowNavigation({
 
     const setActiveElementId = (id: string | null) => {
         setActiveElementIdBase(id);
-        getElementById(id)?.scrollIntoView({
-            block: 'nearest',
-            behavior: 'smooth',
-            inline: 'nearest',
-        });
+
+        requestAnimationFrame(() =>
+            getElementById(id)?.scrollIntoView({
+                block: 'nearest',
+                behavior: 'instant',
+                inline: 'nearest',
+            }),
+        );
     };
 
     return {
@@ -82,22 +85,23 @@ export function useArrowNavigation({
             ARROW_KEYS.map((key) => [
                 key,
                 (event: KeyboardEvent) => {
-                    let nextIndex = 0;
-                    let currentIndex = 0;
-                    let nextId = ids[nextIndex];
                     const increment = increments[key];
-
-                    if (activeElementId) {
-                        currentIndex = ids.indexOf(activeElementId);
-                        nextIndex = (currentIndex + increment + ids.length) % ids.length;
-                        nextId = ids[nextIndex];
+                    const currentIndex = activeElementId ? ids.indexOf(activeElementId) : 0;
+                    const nextIndex = currentIndex + increment;
+                    // If the next index is out of bounds, do nothing.
+                    if (nextIndex < 0 || nextIndex >= ids.length) {
+                        event.preventDefault();
+                        return;
                     }
+
+                    const nextId = ids[nextIndex];
 
                     if (
                         typeof callback === 'function' &&
                         callback({ key, event, activeElementId: nextId, increment }) === false
                     )
                         return;
+
                     event.preventDefault();
                     setActiveElementId(nextId);
                 },

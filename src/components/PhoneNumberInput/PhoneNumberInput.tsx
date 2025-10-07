@@ -103,8 +103,6 @@ export function PhoneNumberInput({
 
     const { sendAriaLiveMessage } = useUIContext();
 
-    const fauxInputRef = useRef<HTMLInputElement | null>(null);
-
     return (
         <ListItemMenu
             disabled={disabled || readOnly}
@@ -136,7 +134,7 @@ export function PhoneNumberInput({
             {(toggleProps, { setRef }) => {
                 return (
                     <div data-bspk="phone-number-input">
-                        <input hidden name={`${name}-country-code`} readOnly ref={fauxInputRef} value={countryCode} />
+                        <input hidden name={`${name}-country-code`} readOnly value={countryCode} />
                         <TextInput
                             {...inputProps}
                             aria-describedby={ariaDescribedBy}
@@ -157,8 +155,6 @@ export function PhoneNumberInput({
                                         label="Open country code menu"
                                         onClick={(event) => {
                                             toggleProps.onClick?.(event);
-                                            fauxInputRef.current?.focus();
-                                            fauxInputRef.current?.click();
                                         }}
                                         variant="tertiary"
                                     >
