@@ -4,10 +4,6 @@
     border-radius: var(--radius-md);
     overflow: hidden;
 
-    &[data-padding] {
-        padding: var(--spacing-sizing-03);
-    }
-
     &[data-variant='outlined'] {
         border: solid 1px var(--stroke-neutral-low);
     }

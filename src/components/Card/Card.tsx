@@ -9,12 +9,6 @@ export type CardProps = {
      */
     children: ReactNode;
     /**
-     * Determines if the padding should be hidden.
-     *
-     * @default true
-     */
-    showPadding?: boolean;
-    /**
      * Determines how the card border will appear.
      *
      * @default elevated
@@ -44,9 +38,9 @@ export type CardProps = {
  * @name Card
  * @phase UXReview
  */
-export function Card({ children, showPadding, variant = 'elevated' }: CardProps) {
+export function Card({ children, variant = 'elevated' }: CardProps) {
     return (
-        <div data-bspk="card" data-padding={showPadding === true || undefined} data-variant={variant}>
+        <div data-bspk="card" data-variant={variant}>
             {children}
         </div>
     );
