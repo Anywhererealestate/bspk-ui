@@ -1,6 +1,7 @@
+import { KeyboardEvent } from 'react';
 import { KeyboardEventCode } from './keyboard';
 
-export type KeysCallback = Partial<Record<KeyboardEventCode, ((event: React.KeyboardEvent) => void) | null>>;
+export type KeysCallback = Partial<Record<KeyboardEventCode, ((event: KeyboardEvent) => void) | null>>;
 
 /**
  * Handles multiple keydown events with specific callbacks for each key.
@@ -12,13 +13,19 @@ export function handleKeyDown(
     keysCallback: KeysCallback = {},
     { stopPropagation = false, preventDefault = false }: { stopPropagation?: boolean; preventDefault?: boolean } = {},
 ) {
-    return (event: React.KeyboardEvent) => {
-        const callback = keysCallback[event.code as KeyboardEventCode];
+    return (event: KeyboardEvent) => {
+        let eventCode = event.code as KeyboardEventCode;
+        if (event.ctrlKey && event.altKey && event.code === 'Space') eventCode = 'Ctrl+Option+Space';
+
+        const callback = keysCallback[eventCode];
+
+        //  'Ctrl+Option+Space
+
         if (callback) {
             callback(event);
             if (stopPropagation) event.stopPropagation();
             if (preventDefault) event.preventDefault();
         }
-        return callback ? (event.code as KeyboardEventCode) : null;
+        return callback ? eventCode : null;
     };
 }

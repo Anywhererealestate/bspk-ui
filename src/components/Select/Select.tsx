@@ -1,67 +1,31 @@
 import './select.scss';
-import { SvgChevronRight } from '@bspk/icons/ChevronRight';
-import { ElementType, useMemo, KeyboardEvent, MouseEvent } from 'react';
-import { Checkbox } from '-/components/Checkbox';
+import { SvgKeyboardArrowDown } from '@bspk/icons/KeyboardArrowDown';
+import { useMemo, KeyboardEvent, MouseEvent } from 'react';
 import { ListItem, ListItemProps } from '-/components/ListItem';
-import { ListItemMenu, ListItemMenuProps, MenuListItem } from '-/components/ListItemMenu';
+import { Menu } from '-/components/Menu';
+import { useArrowNavigation } from '-/hooks/useArrowNavigation';
+import { useFloating } from '-/hooks/useFloating';
 import { useId } from '-/hooks/useId';
+import { useOutsideClick } from '-/hooks/useOutsideClick';
 import { CommonProps, ElementProps, FormFieldControlProps } from '-/types/common';
 import { getElementById } from '-/utils/dom';
+import { handleKeyDown } from '-/utils/handleKeyDown';
+import { scrollListItemsStyle, ScrollListItemsStyleProps } from '-/utils/scrollListItemsStyle';
 
-const DEFAULT_PLACEHOLDER = 'Select one';
-
-const multiSelectValue = (values: string[], selected: boolean, currentValue: string) => {
-    const next = values.filter((val) => val !== currentValue);
-    return selected ? [...next, currentValue] : next;
-};
-
-const multiSelectAllItem = (
-    isMulti: boolean,
-    menuId: string,
-    value: string[],
-    items: (MenuListItem & { value: string })[],
-    onChange: SelectProps['onChange'],
-    selectAll?: string,
-): MenuListItem[] => {
-    if (!isMulti) return [];
-
-    const enabledItems = items.filter((item) => !item.disabled);
-
-    const allSelected = value?.length === enabledItems.length;
-
-    const selectAllLabel = selectAll || 'Select All';
-
-    return [
-        {
-            as: 'label' as ElementType,
-            id: `select-${menuId}-select-all`,
-            label: selectAllLabel,
-            trailing: (
-                <Checkbox
-                    aria-label={selectAllLabel}
-                    checked={!!allSelected}
-                    indeterminate={!allSelected && value.length > 0}
-                    name=""
-                    onChange={(checked) => {
-                        onChange?.(checked ? items.map((item) => item.value) : []);
-                    }}
-                    value="select-all"
-                />
-            ),
-        },
-    ];
-};
+export const DEFAULT_PLACEHOLDER = 'Select one';
 
 /**
  * An option in a Select component.
  *
  * Essentially the props of ListItemProps. Except for `value` which is required.
  */
-export type SelectOption = Omit<ListItemProps, 'id' | 'onClick' | 'value'> & { value: string };
+export type SelectOption = Omit<ListItemProps, 'id' | 'onClick' | 'subText' | 'value'> & { value: string };
+
+export type SelectItem = SelectOption & { id: string };
 
 export type SelectProps = CommonProps<'disabled' | 'id' | 'invalid' | 'name' | 'readOnly' | 'size'> &
     FormFieldControlProps &
-    Pick<ListItemMenuProps, 'scrollLimit'> & {
+    ScrollListItemsStyleProps & {
         /**
          * Array of options to display in the select
          *
@@ -84,23 +48,11 @@ export type SelectProps = CommonProps<'disabled' | 'id' | 'invalid' | 'name' | '
          */
         options: SelectOption[];
         /**
-         * Array of selected values
+         * Selected value
          *
-         * @type Array<string>
+         * @default ''
          */
-        value?: Array<string>;
-        /**
-         * Whether the listbox allows multiple selections.
-         *
-         * @default false
-         */
-        isMulti?: boolean;
-        /**
-         * The label for the "Select All" option.
-         *
-         * @default Select All
-         */
-        selectAll?: string;
+        value: string;
         /**
          * The function to call when the selected values change.
          *
@@ -122,12 +74,6 @@ export type SelectProps = CommonProps<'disabled' | 'id' | 'invalid' | 'name' | '
          * @default Select one
          */
         placeholder?: string;
-        /**
-         * The description for the select.
-         *
-         * This is typically used to provide additional context or instructions for the user.
-         */
-        description?: string;
     };
 
 /**
@@ -168,158 +114,195 @@ export type SelectProps = CommonProps<'disabled' | 'id' | 'invalid' | 'name' | '
  */
 export function Select({
     options: optionsProp = [],
-    value = [],
+    value = '',
     onChange,
     label,
     placeholder: placeholderProp,
     size = 'medium',
     disabled,
-    id: propId,
+    id: idProp,
     invalid,
     readOnly,
     name,
-    isMulti = false,
-    selectAll = 'Select All',
-    description,
     'aria-describedby': ariaDescribedBy,
     'aria-errormessage': ariaErrorMessage,
+    'aria-labelledby': ariaLabelledBy,
     scrollLimit,
     ...props
 }: ElementProps<SelectProps, 'div'>) {
-    const id = useId(propId);
-    const menuId = useMemo(() => `select-${id}-menu`, [id]);
+    const id = useId(idProp);
+    const menuId = useMemo(() => `${id}-menu`, [id]);
     const placeholder = placeholderProp || DEFAULT_PLACEHOLDER;
 
-    const items = useMemo(() => {
-        const nextItems = optionsProp.map((item, index): MenuListItem & { value: string } => ({
-            ...item,
-            id: `${menuId}-item-${index}`,
-            'aria-selected': isMulti ? undefined : value.includes(item.value),
-        }));
-
-        if (isMulti) {
-            return nextItems.map((item) => ({
+    const { items, availableItems } = useMemo(() => {
+        const nextItems = optionsProp.map(
+            (item, index): SelectItem => ({
                 ...item,
-                as: 'label' as ElementType,
-                ariaHideLabel: true,
-                trailing: (
-                    <Checkbox
-                        aria-label={item.label}
-                        checked={value.includes(item.value)}
-                        name={item.id}
-                        onChange={(checked) => {
-                            onChange?.(multiSelectValue(value, checked, item.value));
-                        }}
-                        value={item.value}
-                    />
-                ),
-            }));
+                id: `${id}-item-${index}`,
+                'aria-label': item.label,
+                'aria-selected': value.includes(item.value),
+            }),
+        );
+
+        return { items: nextItems, availableItems: nextItems.filter((item) => !item.disabled) };
+    }, [optionsProp, id, value]);
+
+    const closeMenu = () => {
+        setActiveElementId(null);
+    };
+
+    const selectedItem = useMemo(
+        (): SelectItem | undefined => items.find((o) => o.value === value?.[0]),
+        [items, value],
+    );
+
+    const { activeElementId, setActiveElementId, arrowKeyCallbacks } = useArrowNavigation({
+        ids: availableItems.map((i) => i.id),
+    });
+
+    const open = Boolean(activeElementId);
+
+    const { elements, floatingStyles } = useFloating({
+        hide: !open,
+        offsetOptions: 4,
+    });
+
+    useOutsideClick({
+        elements: [elements.floating, elements.reference],
+        callback: closeMenu,
+        disabled: !open,
+    });
+
+    const spaceEnter = () => {
+        if (!open) {
+            elements.reference?.click();
+            return;
         }
 
-        return nextItems;
-    }, [optionsProp, isMulti, menuId, value, onChange]);
-
-    const selectedItem = useMemo(() => {
-        if (isMulti)
-            return {
-                label: `${value?.length || 0} option${value?.length !== 1 ? 's' : ''} selected`,
-                id: value?.join(', ') || '',
-            };
-        return items.find((o) => o.value === value?.[0]);
-    }, [isMulti, items, value]);
-
-    const descriptionId = useMemo(() => (description ? `${id}-description` : undefined), [description, id]);
+        if (activeElementId) getElementById(activeElementId)?.click();
+    };
 
     return (
-        <ListItemMenu
-            activeElementId={isMulti ? undefined : selectedItem?.id}
-            id={menuId}
-            itemOnClick={({ event, currentId, setShow }) => {
-                if (isMulti) {
-                    getElementById(currentId)?.click();
-                    // noop, onChange is handled in the item onClick or by label's default behavior
-                    return;
-                }
-                event.preventDefault();
-                onChange?.([items.find((i) => i.id === currentId)?.value || ''], event);
-                setShow(false);
-            }}
-            items={({ show }) => {
-                if (!show) return items.filter((item) => (isMulti ? undefined : value.includes(item.value)));
+        <>
+            <input name={name} type="hidden" value={value} />
+            {!ariaLabelledBy && (
+                <div data-sr-only id={`${id}-label`}>
+                    {label}
+                </div>
+            )}
+            <div
+                {...props}
+                aria-activedescendant={activeElementId || undefined}
+                aria-autocomplete="list"
+                aria-controls={activeElementId ? menuId : undefined}
+                aria-describedby={ariaDescribedBy || undefined}
+                aria-disabled={disabled || undefined}
+                aria-errormessage={ariaErrorMessage || undefined}
+                aria-expanded={open}
+                aria-haspopup="listbox"
+                aria-labelledby={ariaLabelledBy || `${id}-label`}
+                aria-readonly={readOnly || undefined}
+                data-bspk="select"
+                data-invalid={invalid || undefined}
+                data-open={open || undefined}
+                data-size={size}
+                id={id}
+                onBlur={(event) => {
+                    const targetOutsideOfMenu =
+                        event.relatedTarget && !elements.floating?.contains(event.relatedTarget as Element);
+                    if (targetOutsideOfMenu) closeMenu();
+                }}
+                onClick={() => {
+                    if (disabled || readOnly || !items.length) return;
 
-                return [
-                    ...multiSelectAllItem(
-                        isMulti,
-                        menuId,
-                        value,
-                        items as (MenuListItem & { value: string })[],
-                        onChange,
-                        selectAll,
-                    ),
-                    ...items,
-                ];
-            }}
-            label={label}
-            owner="select"
-            role={isMulti ? 'group' : 'listbox'}
-            scrollLimit={scrollLimit || 5}
-        >
-            {(toggleProps, { setRef, show, reference }) => {
-                return (
-                    <>
-                        <span data-sr-only id={descriptionId}>
-                            {description}
-                        </span>
-                        <div
-                            {...props}
-                            data-bspk="select"
-                            data-invalid={invalid || undefined}
-                            data-open={show || undefined}
-                            data-size={size}
-                            id={id}
-                            onClickCapture={() => reference?.focus()}
-                        >
-                            <input
-                                data-input
-                                ref={(node) => {
-                                    setRef(node);
-                                }}
-                                type="text"
-                                {...toggleProps}
-                                aria-controls={(show && menuId) || undefined}
-                                aria-describedby={descriptionId || ariaDescribedBy || undefined}
-                                aria-disabled={disabled || readOnly}
-                                aria-errormessage={ariaErrorMessage || undefined}
-                                aria-expanded={toggleProps['aria-expanded']}
-                                aria-haspopup="listbox"
-                                aria-label={label || selectedItem?.label || placeholder}
-                                autoComplete="off"
-                                name={name}
-                                readOnly
-                                role="combobox"
-                                value={value}
-                            />
-                            {!show && (
-                                <ListItem
-                                    aria-hidden={show || undefined}
-                                    data-bspk-owner="select"
-                                    data-placeholder={!selectedItem || undefined}
-                                    owner="select"
-                                    readOnly
-                                    {...(selectedItem || { label: placeholder })}
-                                    aria-selected={undefined}
-                                    id={`${id}-selected-value`}
-                                    onClick={undefined}
-                                />
-                            )}
-                            <span data-icon>
-                                <SvgChevronRight />
-                            </span>
-                        </div>
-                    </>
-                );
-            }}
-        </ListItemMenu>
+                    if (!open) {
+                        const nextActiveId = selectedItem?.id || items[0].id;
+                        setActiveElementId(nextActiveId);
+                        return;
+                    }
+
+                    closeMenu();
+                }}
+                onKeyDown={handleKeyDown(
+                    {
+                        ...arrowKeyCallbacks,
+                        ArrowDown: (event) => {
+                            if (!open) spaceEnter();
+                            arrowKeyCallbacks.ArrowDown?.(event);
+                        },
+                        Space: spaceEnter,
+                        Enter: spaceEnter,
+                        'Ctrl+Option+Space': spaceEnter,
+                    },
+                    { preventDefault: true, stopPropagation: true },
+                )}
+                ref={elements.setReference}
+                role="combobox"
+                tabIndex={0}
+            >
+                <ListItem
+                    aria-hidden={true}
+                    aria-labelledby={ariaLabelledBy || `${id}-label`}
+                    data-bspk-owner="select"
+                    data-placeholder={!selectedItem || undefined}
+                    id={`${id}-selected-value`}
+                    label={selectedItem?.label || placeholder}
+                    leading={selectedItem?.leading}
+                    onClick={undefined}
+                    owner="select"
+                    trailing={selectedItem?.trailing}
+                />
+                <SvgKeyboardArrowDown />
+            </div>
+            <Menu
+                aria-autocomplete={undefined}
+                aria-label={label}
+                as="div"
+                id={menuId}
+                innerRef={elements.setFloating}
+                label={label}
+                onClickCapture={() => {
+                    // Prevent the menu from closing when clicking inside it
+                    // maintain focus on the select control
+                    elements.reference?.focus();
+                }}
+                onFocus={() => {
+                    elements.reference?.focus();
+                }}
+                owner="select"
+                role="listbox"
+                style={{
+                    ...(open ? scrollListItemsStyle(scrollLimit, items.length) : {}),
+                    ...floatingStyles,
+                }}
+                tabIndex={-1}
+            >
+                {items.map((item) => {
+                    const isActive = activeElementId === item.id;
+                    const isSelected = value.includes(item.value);
+
+                    return (
+                        <ListItem
+                            key={item.id}
+                            {...item}
+                            active={isActive || undefined}
+                            aria-label={undefined}
+                            aria-selected={isSelected}
+                            as="li"
+                            onClick={() => {
+                                if (item.disabled || item.readOnly) return;
+                                onChange([item.value]);
+                                closeMenu();
+                            }}
+                            owner="select"
+                            role="option"
+                            tabIndex={-1} //show && isActive ? -1 : 0}
+                            value={undefined}
+                        />
+                    );
+                })}
+            </Menu>
+        </>
     );
 }
 
