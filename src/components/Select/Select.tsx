@@ -162,6 +162,7 @@ export function Select({
     const { elements, floatingStyles } = useFloating({
         hide: !open,
         offsetOptions: 4,
+        refWidth: true,
     });
 
     useOutsideClick({
