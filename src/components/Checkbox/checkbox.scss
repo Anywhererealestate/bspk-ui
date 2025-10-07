@@ -62,7 +62,7 @@
     }
 
     input[type='checkbox']:disabled {
-        pointer-events: none;
+        cursor: not-allowed;
 
         & + span {
             --stroke: var(--stroke-neutral-interactions-disabled-light);

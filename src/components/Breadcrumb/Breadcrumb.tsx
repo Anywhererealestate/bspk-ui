@@ -1,14 +1,13 @@
 import './breadcrumb.scss';
 import { SvgChevronRight } from '@bspk/icons/ChevronRight';
 import { SvgMoreHoriz } from '@bspk/icons/MoreHoriz';
-import { useMemo } from 'react';
 import { Button } from '-/components/Button';
 import { Link } from '-/components/Link';
-import { ListItemGroupProps } from '-/components/ListItemGroup';
-import { ListItemMenu } from '-/components/ListItemMenu';
+import { ListItemMenu, ListItemMenuProps } from '-/components/ListItemMenu';
 import { Txt } from '-/components/Txt';
 import { useId } from '-/hooks/useId';
 import { CommonProps } from '-/types/common';
+import { useIds } from '-/utils/useIds';
 
 export type BreadcrumbItem = {
     /**
@@ -32,7 +31,7 @@ export type BreadcrumbItem = {
 };
 
 export type BreadcrumbProps = CommonProps<'id'> &
-    Pick<ListItemGroupProps, 'scrollLimit'> & {
+    Pick<ListItemMenuProps, 'scrollLimit'> & {
         /**
          * The array of breadcrumb items.
          *
@@ -89,14 +88,8 @@ export type BreadcrumbProps = CommonProps<'id'> &
  */
 export function Breadcrumb({ id: propId, items: itemsProp = [], scrollLimit }: BreadcrumbProps) {
     const id = useId(propId);
-    const items = useMemo(
-        () =>
-            (Array.isArray(itemsProp) ? itemsProp : []).map((item, index) => ({
-                ...item,
-                id: `breadcrumb-${id}-item-${index + 1}`,
-            })),
-        [id, itemsProp],
-    );
+
+    const items = useIds(`breadcrumb-${id}`, itemsProp);
 
     if (items.length < 2) return null;
 
@@ -110,16 +103,13 @@ export function Breadcrumb({ id: propId, items: itemsProp = [], scrollLimit }: B
                 {items.length > 5 ? (
                     <li>
                         <ListItemMenu
-                            items={({ setShow }) =>
-                                items.slice(1, items.length - 1).map((item) => ({
-                                    ...item,
-                                    onClick: () => setShow(false),
-                                }))
-                            }
+                            hideWhenClosed
+                            itemOnClick={({ setShow }) => setShow(false)}
+                            items={items.slice(1, items.length - 1)}
                             label="Expanded breadcrumb"
                             owner="Breadcrumb"
                             placement="bottom"
-                            role="tree"
+                            role="menu"
                             scrollLimit={scrollLimit}
                             width="200px"
                         >

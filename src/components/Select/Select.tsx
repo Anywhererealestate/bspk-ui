@@ -1,19 +1,63 @@
 import './select.scss';
 import { SvgChevronRight } from '@bspk/icons/ChevronRight';
-import { useMemo } from 'react';
+import { ElementType, useMemo, KeyboardEvent, MouseEvent } from 'react';
 import { Checkbox } from '-/components/Checkbox';
-import { ListItem } from '-/components/ListItem';
+import { ListItem, ListItemProps } from '-/components/ListItem';
 import { ListItemMenu, ListItemMenuProps, MenuListItem } from '-/components/ListItemMenu';
 import { useId } from '-/hooks/useId';
 import { CommonProps, ElementProps, FormFieldControlProps } from '-/types/common';
+import { getElementById } from '-/utils/dom';
 
 const DEFAULT_PLACEHOLDER = 'Select one';
+
+const multiSelectValue = (values: string[], selected: boolean, currentValue: string) => {
+    const next = values.filter((val) => val !== currentValue);
+    return selected ? [...next, currentValue] : next;
+};
+
+const multiSelectAllItem = (
+    isMulti: boolean,
+    menuId: string,
+    value: string[],
+    items: (MenuListItem & { value: string })[],
+    onChange: SelectProps['onChange'],
+    selectAll?: string,
+): MenuListItem[] => {
+    if (!isMulti) return [];
+
+    const enabledItems = items.filter((item) => !item.disabled);
+
+    const allSelected = value?.length === enabledItems.length;
+
+    const selectAllLabel = selectAll || 'Select All';
+
+    return [
+        {
+            as: 'label' as ElementType,
+            id: `select-${menuId}-select-all`,
+            label: selectAllLabel,
+            trailing: (
+                <Checkbox
+                    aria-label={selectAllLabel}
+                    checked={!!allSelected}
+                    indeterminate={!allSelected && value.length > 0}
+                    name=""
+                    onChange={(checked) => {
+                        onChange?.(checked ? items.map((item) => item.value) : []);
+                    }}
+                    value="select-all"
+                />
+            ),
+        },
+    ];
+};
 
 /**
  * An option in a Select component.
  *
- * Essentially the props of ListItem, but 'id' is required as it's used as the value.
+ * Essentially the props of ListItemProps. Except for `value` which is required.
  */
+export type SelectOption = Omit<ListItemProps, 'id' | 'onClick' | 'value'> & { value: string };
 
 export type SelectProps = CommonProps<'disabled' | 'id' | 'invalid' | 'name' | 'readOnly' | 'size'> &
     FormFieldControlProps &
@@ -38,7 +82,7 @@ export type SelectProps = CommonProps<'disabled' | 'id' | 'invalid' | 'name' | '
          * @type Array<SelectOption>
          * @required
          */
-        options: MenuListItem[];
+        options: SelectOption[];
         /**
          * Array of selected values
          *
@@ -65,7 +109,7 @@ export type SelectProps = CommonProps<'disabled' | 'id' | 'invalid' | 'name' | '
          *
          * @required
          */
-        onChange: (value: string[], event?: React.MouseEvent<HTMLElement, MouseEvent>) => void;
+        onChange: (value: string[], event?: KeyboardEvent | MouseEvent) => void;
         /**
          * The label for the select element, used for accessibility, and the dropdown modal header.
          *
@@ -146,22 +190,42 @@ export function Select({
     const menuId = useMemo(() => `select-${id}-menu`, [id]);
     const placeholder = placeholderProp || DEFAULT_PLACEHOLDER;
 
-    const items = useItems({
-        value,
-        options: optionsProp,
-        isMulti,
-        selectAll,
-        onChange,
-        id: menuId,
-    });
+    const items = useMemo(() => {
+        const nextItems = optionsProp.map((item, index): MenuListItem & { value: string } => ({
+            ...item,
+            id: `${menuId}-item-${index}`,
+            'aria-selected': isMulti ? undefined : value.includes(item.value),
+        }));
 
-    const selectedItem: MenuListItem | undefined = useMemo(() => {
+        if (isMulti) {
+            return nextItems.map((item) => ({
+                ...item,
+                as: 'label' as ElementType,
+                ariaHideLabel: true,
+                trailing: (
+                    <Checkbox
+                        aria-label={item.label}
+                        checked={value.includes(item.value)}
+                        name={item.id}
+                        onChange={(checked) => {
+                            onChange?.(multiSelectValue(value, checked, item.value));
+                        }}
+                        value={item.value}
+                    />
+                ),
+            }));
+        }
+
+        return nextItems;
+    }, [optionsProp, isMulti, menuId, value, onChange]);
+
+    const selectedItem = useMemo(() => {
         if (isMulti)
             return {
                 label: `${value?.length || 0} option${value?.length !== 1 ? 's' : ''} selected`,
                 id: value?.join(', ') || '',
             };
-        return items.find((o) => o.id === value?.[0]);
+        return items.find((o) => o.value === value?.[0]);
     }, [isMulti, items, value]);
 
     const descriptionId = useMemo(() => (description ? `${id}-description` : undefined), [description, id]);
@@ -170,55 +234,84 @@ export function Select({
         <ListItemMenu
             activeElementId={isMulti ? undefined : selectedItem?.id}
             id={menuId}
-            items={({ setShow }) => {
-                if (isMulti) return items;
-                return items.map((item) => ({
-                    ...item,
-                    onClick: (event) => {
-                        item.onClick?.(event);
-                        onChange([item.id], event);
-                        setShow(false);
-                    },
-                }));
+            itemOnClick={({ event, currentId, setShow }) => {
+                if (isMulti) {
+                    getElementById(currentId)?.click();
+                    // noop, onChange is handled in the item onClick or by label's default behavior
+                    return;
+                }
+                event.preventDefault();
+                onChange?.([items.find((i) => i.id === currentId)?.value || ''], event);
+                setShow(false);
+            }}
+            items={({ show }) => {
+                if (!show) return items.filter((item) => (isMulti ? undefined : value.includes(item.value)));
+
+                return [
+                    ...multiSelectAllItem(
+                        isMulti,
+                        menuId,
+                        value,
+                        items as (MenuListItem & { value: string })[],
+                        onChange,
+                        selectAll,
+                    ),
+                    ...items,
+                ];
             }}
             label={label}
             owner="select"
-            role="listbox"
+            role={isMulti ? 'group' : 'listbox'}
             scrollLimit={scrollLimit || 5}
         >
-            {(toggleProps, { setRef, show }) => {
+            {(toggleProps, { setRef, show, reference }) => {
                 return (
                     <>
                         <span data-sr-only id={descriptionId}>
                             {description}
                         </span>
-                        <input defaultValue={value} name={name} type="hidden" />
                         <div
                             {...props}
-                            aria-describedby={descriptionId || ariaDescribedBy || undefined}
-                            aria-disabled={disabled || readOnly}
-                            aria-errormessage={ariaErrorMessage || undefined}
-                            aria-label={label || selectedItem?.label || placeholder}
                             data-bspk="select"
                             data-invalid={invalid || undefined}
+                            data-open={show || undefined}
                             data-size={size}
                             id={id}
-                            ref={setRef}
-                            {...toggleProps}
-                            aria-controls={(show && menuId) || undefined}
-                            aria-expanded={toggleProps['aria-expanded']}
-                            aria-haspopup="listbox"
-                            role="combobox"
+                            onClickCapture={() => reference?.focus()}
                         >
-                            <ListItem
-                                data-bspk-owner="select"
-                                data-placeholder={!selectedItem || undefined}
-                                owner="select"
+                            <input
+                                data-input
+                                ref={(node) => {
+                                    setRef(node);
+                                }}
+                                type="text"
+                                {...toggleProps}
+                                aria-controls={(show && menuId) || undefined}
+                                aria-describedby={descriptionId || ariaDescribedBy || undefined}
+                                aria-disabled={disabled || readOnly}
+                                aria-errormessage={ariaErrorMessage || undefined}
+                                aria-expanded={toggleProps['aria-expanded']}
+                                aria-haspopup="listbox"
+                                aria-label={label || selectedItem?.label || placeholder}
+                                autoComplete="off"
+                                name={name}
                                 readOnly
-                                {...(selectedItem || { label: placeholder })}
-                                id={`${id}-selected-value`}
-                                onClick={undefined}
+                                role="combobox"
+                                value={value}
                             />
+                            {!show && (
+                                <ListItem
+                                    aria-hidden={show || undefined}
+                                    data-bspk-owner="select"
+                                    data-placeholder={!selectedItem || undefined}
+                                    owner="select"
+                                    readOnly
+                                    {...(selectedItem || { label: placeholder })}
+                                    aria-selected={undefined}
+                                    id={`${id}-selected-value`}
+                                    onClick={undefined}
+                                />
+                            )}
                             <span data-icon>
                                 <SvgChevronRight />
                             </span>
@@ -228,79 +321,6 @@ export function Select({
             }}
         </ListItemMenu>
     );
-}
-
-/** A hook to generate the items for the select listbox. */
-function useItems({
-    value: selectedValues = [],
-    options,
-    isMulti,
-    selectAll,
-    onChange,
-    id,
-}: {
-    value: string[];
-    options: MenuListItem[];
-    isMulti: boolean;
-    selectAll: string;
-    onChange: (value: string[], event?: React.MouseEvent<HTMLElement, MouseEvent>) => void;
-    id: string;
-}) {
-    return useMemo(() => {
-        const allSelected = isMulti ? selectedValues?.length === options.length : false;
-
-        const multiSelectValue = (selected: boolean, itemValue: string) => {
-            const next = selectedValues.filter((value) => value !== itemValue);
-            return selected ? [...next, itemValue] : next;
-        };
-
-        const nextItems: MenuListItem[] = [];
-
-        if (isMulti)
-            nextItems.push({
-                as: 'label',
-                id: `${id}-select-all`,
-                label: selectAll || 'Select All',
-                trailing: (
-                    <Checkbox
-                        aria-label={selectAll}
-                        checked={!!allSelected}
-                        indeterminate={!allSelected && selectedValues.length > 0}
-                        name=""
-                        onChange={(checked) => {
-                            onChange?.(checked ? options.map((item) => item.id) : []);
-                        }}
-                        value="select-all"
-                    />
-                ),
-            });
-
-        nextItems.push(
-            ...options.map((item) => {
-                const selected = selectedValues.includes(item.id);
-                return {
-                    ...item,
-                    as: isMulti ? 'label' : item.as,
-                    disabled: item.disabled || undefined,
-                    trailing: isMulti ? (
-                        <Checkbox
-                            aria-label={item.label}
-                            checked={selected}
-                            name={item.id}
-                            onChange={(checked) => {
-                                onChange?.(multiSelectValue(checked, item.id));
-                            }}
-                            value={item.id}
-                        />
-                    ) : (
-                        item.trailing || undefined
-                    ),
-                };
-            }),
-        );
-
-        return nextItems;
-    }, [id, isMulti, onChange, options, selectAll, selectedValues]);
 }
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

@@ -12,12 +12,6 @@
     overflow: hidden auto;
     height: fit-content;
     z-index: var(--z-index-dropdown);
-
-    [data-bspk='list-item'] {
-        &[data-selected] {
-            background-color: var(--surface-brand-primary-highlight);
-        }
-    }
 }
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

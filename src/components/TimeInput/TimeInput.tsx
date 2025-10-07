@@ -1,6 +1,7 @@
 import './time-input.scss';
 import { SvgSchedule } from '@bspk/icons/Schedule';
-import { useEffect, useState } from 'react';
+import { FocusTrap } from 'focus-trap-react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { TimeInputListbox } from './Listbox';
 import { TimeInputSegment } from './Segment';
 import { Button } from '-/components/Button';
@@ -14,9 +15,11 @@ import { handleKeyDown } from '-/utils/handleKeyDown';
 
 export const MINUTE_OPTIONS = ['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55'];
 export const HOUR_OPTIONS = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
-export const MERIDIEM_OPTIONS: Meridiem[] = ['AM', 'PM'];
+export const MERIDIEM_OPTIONS = ['AM', 'PM'];
 
-type Meridiem = 'AM' | 'PM';
+type Minute = (typeof MINUTE_OPTIONS)[number];
+type Hour = (typeof HOUR_OPTIONS)[number];
+type Meridiem = (typeof MERIDIEM_OPTIONS)[number];
 
 export type TimeInputProps = Pick<
     TextInputProps,
@@ -65,7 +68,7 @@ export function TimeInput({
 
     const [hours, setHours] = useState<(typeof HOUR_OPTIONS)[number]>();
     const [minutes, setMinutes] = useState<(typeof MINUTE_OPTIONS)[number]>();
-    const [meridiem, setMeridiem] = useState<Meridiem>('AM');
+    const [meridiem, setMeridiem] = useState<(typeof MERIDIEM_OPTIONS)[number]>('AM');
 
     useEffect(() => {
         setInputValue(
@@ -74,7 +77,7 @@ export function TimeInput({
         if (hours !== undefined && minutes === undefined) setMinutes('00');
     }, [hours, minutes, meridiem]);
 
-    const [open, setOpen] = useState(false);
+    const [open, setOpenState] = useState(false);
 
     const { floatingStyles, elements } = useFloating({
         strategy: 'fixed',
@@ -83,7 +86,51 @@ export function TimeInput({
         hide: !open,
     });
 
+    const setOpen = useCallback(
+        (nextOpen: boolean) => {
+            setOpenState(nextOpen);
+
+            if (!elements.reference || !buttonRef.current) return;
+
+            // Focus the button when closing the menu
+            if (!nextOpen && open) buttonRef.current.focus();
+
+            // Focus the hours listbox when opening the menu
+            if (nextOpen && !open)
+                elements.reference.querySelector<HTMLElement>('[data-scroll-column="hours"]')?.focus();
+        },
+        [elements?.reference, open],
+    );
+
     useOutsideClick({ elements: [elements.floating], callback: () => setOpen(false), disabled: !open });
+
+    const { hourOptions, minuteOptions, meridiemOptions } = useMemo(
+        () => ({
+            hourOptions: HOUR_OPTIONS.map((h) => ({
+                id: `${id}-hours-${h}`,
+                value: h,
+                label: h.toString().padStart(2, '0'),
+            })),
+            minuteOptions: MINUTE_OPTIONS.map((m) => ({
+                id: `${id}-minutes-${m}`,
+                value: m,
+                label: m.toString().padStart(2, '0'),
+            })),
+            meridiemOptions: MERIDIEM_OPTIONS.map((m) => ({
+                id: `${id}-meridiem-${m}`,
+                value: m,
+                label: m,
+            })),
+        }),
+        [id],
+    );
+
+    const listBoxRefs = useRef<{
+        hours?: HTMLElement | null;
+        minutes?: HTMLElement | null;
+        meridiem?: HTMLElement | null;
+    } | null>(null);
+    const buttonRef = useRef<HTMLElement | null>(null);
 
     return (
         <>
@@ -103,45 +150,44 @@ export function TimeInput({
                     elements.reference?.querySelector<HTMLElement>('[tabIndex]')?.focus();
                 }}
                 onKeyDownCapture={handleKeyDown({ Escape: () => setOpen(false) })}
-                ref={elements.setReference}
+                ref={(node) => {
+                    elements.setReference(node);
+                }}
                 role="group"
             >
                 <TimeInputSegment
-                    ariaLabel={ariaLabel}
-                    defaultValue={hours}
                     disabled={disabled}
                     name={`${name}-hours`}
                     onChange={(next) => setHours(next || undefined)}
                     readOnly={readOnly}
                     type="hours"
+                    value={hours}
                 />
                 <span aria-hidden="true">:</span>
                 <TimeInputSegment
-                    ariaLabel={ariaLabel}
-                    defaultValue={minutes}
                     disabled={disabled}
                     name={`${name}-minutes`}
                     onChange={(next) => setMinutes(next || undefined)}
                     readOnly={readOnly}
                     type="minutes"
+                    value={minutes}
                 />
                 <TimeInputSegment
-                    ariaLabel={ariaLabel}
-                    defaultValue={meridiem}
                     disabled={disabled}
                     name={`${name}-meridiem`}
                     onChange={(next) => setMeridiem(next || 'AM')}
                     readOnly={readOnly}
                     type="meridiem"
+                    value={meridiem}
                 />
                 <Button
                     icon={<SvgSchedule />}
                     iconOnly
-                    label={`${open ? 'Close' : 'Open'} Time Picker`}
-                    onClick={() => {
-                        setOpen(!open);
-                        elements.reference?.focus();
+                    innerRef={(node) => {
+                        buttonRef.current = node;
                     }}
+                    label={`${open ? 'Close' : 'Open'} Time Picker`}
+                    onClick={() => setOpen(!open)}
                     variant="tertiary"
                 />
             </div>
@@ -151,38 +197,58 @@ export function TimeInput({
                         innerRef={(node) => {
                             if (!node) return;
                             elements.setFloating(node as HTMLElement);
-                            node.querySelector<HTMLElement>('[data-scroll-column="hours"]')?.focus();
                         }}
                         label="Select time"
                         owner="time-input"
                         style={floatingStyles}
                     >
-                        <div data-scroll-values>
-                            <TimeInputListbox
-                                onSelect={setHours}
-                                options={HOUR_OPTIONS.map((h) => h)}
-                                selectedValue={hours}
-                                type="hours"
-                            />
-                            <TimeInputListbox
-                                onSelect={setMinutes}
-                                options={MINUTE_OPTIONS}
-                                selectedValue={minutes}
-                                type="minutes"
-                            />
-                            <TimeInputListbox<Meridiem>
-                                onSelect={setMeridiem}
-                                onTab={(e) => {
-                                    e.preventDefault();
-                                    setOpen(false);
-                                    setTimeout(() => elements.reference?.focus(), 10);
-                                    // Focus back on the input after closing
+                        <FocusTrap
+                            focusTrapOptions={{
+                                fallbackFocus: () => listBoxRefs.current!.hours!,
+                                clickOutsideDeactivates: true,
+                            }}
+                        >
+                            <div
+                                data-scroll-values
+                                ref={(node) => {
+                                    listBoxRefs.current = {
+                                        hours: node?.querySelector('[data-scroll-column="hours"]') as HTMLElement,
+                                        minutes: node?.querySelector('[data-scroll-column="minutes"]') as HTMLElement,
+                                        meridiem: node?.querySelector('[data-scroll-column="meridiem"]') as HTMLElement,
+                                    };
+                                    listBoxRefs.current.hours?.focus();
                                 }}
-                                options={MERIDIEM_OPTIONS}
-                                selectedValue={meridiem}
-                                type="meridiem"
-                            />
-                        </div>
+                            >
+                                <TimeInputListbox
+                                    onSelect={(next) => {
+                                        setHours(next as Hour);
+                                        setTimeout(() => listBoxRefs.current?.minutes?.focus(), 10);
+                                    }}
+                                    options={hourOptions}
+                                    selectedValue={hours}
+                                    type="hours"
+                                />
+                                <TimeInputListbox
+                                    onSelect={(next) => {
+                                        setMinutes(next as Minute);
+                                        setTimeout(() => listBoxRefs.current?.meridiem?.focus(), 10);
+                                    }}
+                                    options={minuteOptions}
+                                    selectedValue={minutes}
+                                    type="minutes"
+                                />
+                                <TimeInputListbox
+                                    onSelect={(next) => {
+                                        setMeridiem(next as Meridiem);
+                                        setOpen(false);
+                                        setTimeout(() => buttonRef.current?.focus(), 10);
+                                    }}
+                                    options={meridiemOptions}
+                                    selectedValue={meridiem}
+                                    type="meridiem"
+                                />
+                            </div>
+                        </FocusTrap>
                     </Menu>
                 </Portal>
             )}

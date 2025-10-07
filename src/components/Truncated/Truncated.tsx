@@ -43,7 +43,13 @@ export function Truncated<As extends ElementType = 'span'>({
     const { setElement, isTruncated } = useTruncatedText();
 
     const span = (triggerProps: TooltipTriggerProps) => (
-        <span {...props} data-bspk-utility="truncated" ref={(node) => setElement(node)} {...triggerProps}>
+        <span
+            {...props}
+            data-bspk-utility="truncated"
+            ref={(node) => setElement(node)}
+            {...triggerProps}
+            role={isTruncated ? 'note' : props.role}
+        >
             {children}
         </span>
     );

@@ -10,25 +10,23 @@ export const NUMBER_PLACEHOLDER = '--' as const;
 export type TimeInputType = 'hours' | 'meridiem' | 'minutes';
 
 type TimeInputSegmentProps<T extends string> = {
-    ariaLabel?: string;
     disabled?: boolean;
     name: string;
     readOnly?: boolean;
-    defaultValue?: T;
+    value?: T;
     type: TimeInputType;
     onChange: (value: T | null) => void;
 };
 
 export function TimeInputSegment<T extends string>({
-    ariaLabel,
     disabled,
     name,
     readOnly,
-    defaultValue,
+    value: valueProp,
     type: kind,
     onChange,
 }: TimeInputSegmentProps<T>) {
-    const ref = useRef<HTMLSpanElement | null>(null);
+    const ref = useRef<HTMLElement | null>(null);
 
     const selectAll = (element: HTMLElement | null = ref.current) => {
         if (!element) return;
@@ -52,8 +50,8 @@ export function TimeInputSegment<T extends string>({
     );
 
     useEffect(() => {
-        if (ref.current) ref.current.textContent = valueToContent(defaultValue);
-    }, [defaultValue, valueToContent]);
+        if (ref.current) ref.current.textContent = valueToContent(valueProp);
+    }, [valueProp, valueToContent]);
 
     const handleBlur = () => {
         window.getSelection()?.removeAllRanges();
@@ -170,32 +168,39 @@ export function TimeInputSegment<T extends string>({
         [kind, handleIncrement, onChange],
     );
 
+    const valueText = valueProp ? valueToContent(valueProp) : 'Empty';
+
     return (
         <span
-            aria-disabled={disabled}
-            aria-label={`${ariaLabel} ${name.charAt(0).toUpperCase() + name.slice(1)}`}
+            aria-disabled={!!disabled}
+            aria-label={kind}
             aria-readonly={readOnly}
+            aria-valuemax={kind === 'hours' ? 12 : kind === 'minutes' ? 59 : undefined}
+            aria-valuemin={kind === 'hours' ? 1 : kind === 'minutes' ? 0 : undefined}
+            aria-valuetext={valueText}
             contentEditable={!readOnly && !disabled}
             data-input
             data-type={kind}
-            data-value={defaultValue || undefined}
+            data-value={valueProp || undefined}
             id={`${name}`}
+            inputMode={kind === 'meridiem' ? 'text' : 'numeric'}
             onBlur={handleBlur}
             onClick={() => {
                 if (disabled || readOnly) return;
-                selectAll();
+                //selectAll();
             }}
             onFocus={() => {
                 if (disabled || readOnly) return;
-                selectAll();
+                //selectAll();
             }}
             onKeyDown={handleInputKeyDown}
             ref={(element) => {
                 if (!element) return;
                 ref.current = element;
-                element.textContent = valueToContent(defaultValue);
+                element.textContent = valueToContent(valueProp);
             }}
             role="spinbutton"
+            spellCheck="false"
             tabIndex={0}
         />
     );

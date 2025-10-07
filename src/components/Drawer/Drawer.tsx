@@ -5,7 +5,7 @@ import { Button } from '-/components/Button';
 import { Dialog, DialogProps } from '-/components/Dialog';
 import { Txt } from '-/components/Txt';
 
-export type DrawerProps = Pick<DialogProps, 'container' | 'id' | 'innerRef' | 'owner'> & {
+export type DrawerProps = Pick<DialogProps, 'container' | 'disableFocusTrap' | 'id' | 'innerRef' | 'owner'> & {
     /** Drawer header. */
     header?: string;
     /**
@@ -85,6 +85,7 @@ export function Drawer({
     closeButton = false,
     placement = 'right',
     onClose,
+    disableFocusTrap,
     ...dialogProps
 }: DrawerProps) {
     if (!open) return null;
@@ -105,14 +106,7 @@ export function Drawer({
                         </Txt>
                     )}
                     {closeButton && (
-                        <Button
-                            icon={<SvgClose />}
-                            iconOnly
-                            innerRef={(node) => node?.focus({ preventScroll: true })}
-                            label="close"
-                            onClick={onClose}
-                            variant="tertiary"
-                        />
+                        <Button icon={<SvgClose />} iconOnly label="close" onClick={onClose} variant="tertiary" />
                     )}
                 </div>
             )}
@@ -126,6 +120,7 @@ export function Drawer({
     return (
         <Dialog
             {...dialogProps}
+            disableFocusTrap={disableFocusTrap}
             onClose={onClose || (() => {})}
             open={open}
             placement={placement}

@@ -115,8 +115,6 @@
         "./Link/*": "./dist/components/Link/*.js",
         "./ListItem": "./dist/components/ListItem/index.js",
         "./ListItem/*": "./dist/components/ListItem/*.js",
-        "./ListItemGroup": "./dist/components/ListItemGroup/index.js",
-        "./ListItemGroup/*": "./dist/components/ListItemGroup/*.js",
         "./ListItemMenu": "./dist/components/ListItemMenu/index.js",
         "./ListItemMenu/*": "./dist/components/ListItemMenu/*.js",
         "./Menu": "./dist/components/Menu/index.js",

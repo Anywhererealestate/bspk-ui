@@ -2,7 +2,7 @@ import './segmented-control.scss';
 import { TabOption, TabList, TabListProps } from '-/components/TabList';
 import { ElementProps } from '-/types/common';
 
-export type SegmentedControlOption = Pick<TabOption, 'disabled' | 'icon' | 'iconSelected' | 'label' | 'value'>;
+export type SegmentedControlOption = Omit<TabOption, 'badge'>;
 export type SegmentedControlProps = TabListProps<SegmentedControlOption>;
 
 /**

@@ -11,6 +11,7 @@ export const ChipFilterExample: ComponentExampleFn<ChipFilterProps> = ({ action 
             label: 'basic ChipFilter',
             propState: {
                 label: 'chip option',
+                trailingIcon: undefined,
             },
         },
         {
@@ -46,6 +47,7 @@ export const ChipFilterExample: ComponentExampleFn<ChipFilterProps> = ({ action 
             propState: {
                 label: 'chip option',
                 trailingBadgeCount: 3,
+                trailingIcon: undefined,
             },
         },
         {
@@ -54,6 +56,7 @@ export const ChipFilterExample: ComponentExampleFn<ChipFilterProps> = ({ action 
                 label: 'chip option',
                 trailingBadgeCount: 3,
                 disabled: true,
+                trailingIcon: undefined,
             },
         },
     ],

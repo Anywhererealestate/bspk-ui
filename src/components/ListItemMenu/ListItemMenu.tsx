@@ -1,19 +1,43 @@
-import { AriaAttributes, CSSProperties, HTMLAttributes, ReactNode, useState, KeyboardEvent, useEffect } from 'react';
-import { ListItemProps as ListItemPropsBase } from '-/components/ListItem';
-import { ListItemGroup, ListItemGroupProps } from '-/components/ListItemGroup';
+import {
+    AriaAttributes,
+    CSSProperties,
+    HTMLAttributes,
+    ReactNode,
+    useState,
+    KeyboardEvent,
+    MouseEvent,
+    Dispatch,
+    SetStateAction,
+    useMemo,
+} from 'react';
+import { ListItem, ListItemProps } from '-/components/ListItem';
 import { Menu, MenuProps } from '-/components/Menu';
-import { Portal } from '-/components/Portal';
+import { ArrowKeyNavigationCallbackParams, useArrowNavigation } from '-/hooks/useArrowNavigation';
 import { useFloating, UseFloatingProps } from '-/hooks/useFloating';
 import { useId } from '-/hooks/useId';
-import { useKeyNavigation } from '-/hooks/useKeyNavigation';
 import { useOutsideClick } from '-/hooks/useOutsideClick';
 import { CommonProps, SetRef } from '-/types/common';
-import { KeysCallback } from '-/utils/handleKeyDown';
+import { getElementById } from '-/utils/dom';
+import { handleKeyDown } from '-/utils/handleKeyDown';
+
+export type MenuListItem = Omit<ListItemProps, 'id'> & {
+    id: string;
+};
+
+export type ListItemMenuRole = keyof typeof LIST_ITEM_ROLES;
+
+const LIST_ITEM_ROLES = {
+    group: undefined,
+    listbox: 'option',
+    menu: 'menuitem',
+    tree: 'treeitem',
+} as const;
 
 /** Props for the toggle element that opens the ListItemMenu. */
 export type ToggleProps = Pick<
     AriaAttributes,
     | 'aria-activedescendant'
+    | 'aria-controls'
     | 'aria-disabled'
     | 'aria-errormessage'
     | 'aria-expanded'
@@ -24,7 +48,7 @@ export type ToggleProps = Pick<
 > &
     Pick<HTMLAttributes<HTMLElement>, 'role' | 'tabIndex'> & {
         /** Event handler for the toggle element that change the menu state. */
-        onClick: () => void;
+        onClick: (event: MouseEvent<HTMLElement>) => void;
         /** Event handler for keydown events on the toggle element that change the menu state. */
         onKeyDownCapture: (event: KeyboardEvent) => void;
     };
@@ -50,19 +74,11 @@ export type InternalToggleProps = {
     itemCount: number;
     /** Whether or not the menu is currently open. */
     show?: boolean;
+    /** The reference element the menu is anchored to. */
+    reference: HTMLElement | null;
 };
 
-/**
- * The items to display in the ListItemMenu.
- *
- * Id is optional, if not provided it will be auto-generated.
- */
-export type MenuListItem = Omit<ListItemPropsBase, 'id'> & Required<Pick<ListItemPropsBase, 'id'>>;
-
-export type MenuListItemsFn = (props: { setShow: (show: boolean) => void }) => MenuListItem[];
-
 export type ListItemMenuProps = CommonProps<'disabled' | 'readOnly'> &
-    Pick<ListItemGroupProps, 'scrollLimit'> &
     Pick<MenuProps, 'id' | 'label' | 'owner'> &
     Pick<UseFloatingProps, 'offsetOptions' | 'placement'> & {
         /**
@@ -76,7 +92,7 @@ export type ListItemMenuProps = CommonProps<'disabled' | 'readOnly'> &
          *
          * @default listbox
          */
-        role?: HTMLAttributes<HTMLElement>['role'];
+        role?: ListItemMenuRole;
         /**
          * The width of the menu. If 'reference' is provided, the menu will match the width of the useFloating reference
          * element.
@@ -91,7 +107,7 @@ export type ListItemMenuProps = CommonProps<'disabled' | 'readOnly'> &
          *
          * @required
          */
-        items: MenuListItem[] | MenuListItemsFn;
+        items: MenuListItem[] | ((params: { show?: boolean }) => MenuListItem[]);
         /**
          * Content to display in the floating menu element before the ListItems.
          *
@@ -106,8 +122,25 @@ export type ListItemMenuProps = CommonProps<'disabled' | 'readOnly'> &
         trailing?: ReactNode;
         /** The ID of the currently active element. */
         activeElementId?: string | null;
-        /** Override or extend the keyboard navigation functionality. */
-        keyOverrides?: KeysCallback;
+        /** Optional callback fired when an item is clicked/selected. */
+        itemOnClick?: (params: {
+            event: MouseEvent;
+            currentId: string;
+            show: boolean;
+            setShow: Dispatch<SetStateAction<boolean>>;
+        }) => void;
+        /**
+         * Optional callback fired when the arrow keys are used for navigation.
+         *
+         * If the callback returns `true`, the change is accepted; if it returns `false`, the change is ignored.
+         */
+        arrowKeyNavigationCallback?: (params: ArrowKeyNavigationCallbackParams) => boolean;
+        /** Optional callback fired when the menu is closed. */
+        onClose?: () => void;
+        /** The maximum number of items to show before scrolling is enabled. */
+        scrollLimit?: number;
+        /** Remove menu from dom when closed for performance and to prevent tabbing to hidden menu items. */
+        hideWhenClosed?: boolean;
     };
 
 /**
@@ -143,27 +176,46 @@ export type ListItemMenuProps = CommonProps<'disabled' | 'readOnly'> &
  * @phase Utility
  */
 export function ListItemMenu({
-    items: itemsProp,
-    scrollLimit,
-    children,
-    owner,
-    role: role = 'listbox',
-    disabled,
-    readOnly,
-    width: menuWidth = 'reference',
-    id: menuIdProps,
-    placement = 'bottom',
-    offsetOptions = 4,
-    trailing: menuTrailing,
-    leading: menuLeading,
     activeElementId: activeElementIdProp = null,
-    keyOverrides,
+    children,
+    disabled,
+    id: idProp,
+    items: itemsProp,
     label,
+    leading: menuLeading,
+    offsetOptions = 4,
+    arrowKeyNavigationCallback,
+    itemOnClick,
+    owner,
+    placement = 'bottom',
+    readOnly,
+    role: containerRole = 'listbox',
+    scrollLimit,
+    trailing: menuTrailing,
+    width: menuWidth = 'reference',
+    onClose,
+    hideWhenClosed = false,
     ...ariaProps
 }: ListItemMenuProps) {
-    const menuId = useId(menuIdProps);
+    const containerId = useId(idProp);
 
-    const [show, setShow] = useState(false);
+    const [show, setShowBase] = useState(false);
+
+    const items = useMemo(() => (typeof itemsProp === 'function' ? itemsProp({ show }) : itemsProp), [itemsProp, show]);
+
+    const setShow = (next: boolean | ((prev: boolean) => boolean)) => {
+        if (disabled || readOnly) return;
+
+        setShowBase((prev) => {
+            if (prev && !next) {
+                // closing
+                onClose?.();
+            }
+
+            if (typeof next === 'function') return next(prev);
+            return next;
+        });
+    };
 
     const { floatingStyles, elements, currentPlacement } = useFloating({
         hide: !show,
@@ -173,51 +225,36 @@ export function ListItemMenu({
         strategy: 'fixed',
     });
 
-    const { handleKeyDown, setActiveElementId, setElements, activeElementId } = useKeyNavigation({
-        Tab: () => {
-            setShow(false);
-            setActiveElementId(null);
-        },
-        Escape: () => {
-            setShow(false);
-            setActiveElementId(null);
-        },
-        ...keyOverrides,
-    });
-
-    useEffect(() => setActiveElementId(null), [itemsProp, setActiveElementId]);
-
     useOutsideClick({
-        elements: [elements.floating as HTMLElement],
+        elements: [elements.floating as HTMLElement, elements.reference as HTMLElement],
         callback: () => setShow(false),
         disabled: !show,
     });
 
-    const items = (typeof itemsProp === 'function' ? itemsProp({ setShow }) : itemsProp).map((item, index) => {
-        const itemId = `list-item-menu-${menuId}-item-${item.id || index + 1}`;
-        return {
-            ...item,
-            onClick: (event) => {
-                elements.reference?.focus();
-                setActiveElementId(itemId);
-                item?.onClick?.(event);
-            },
-            id: itemId,
-            tabIndex: 0,
-            role: role === 'listbox' ? 'option' : item.role || undefined,
-        } as MenuListItem;
+    const { activeElementId, setActiveElementId, arrowKeyCallbacks } = useArrowNavigation({
+        ids: items.flatMap((item) => (item.disabled ? [] : item.id)),
+        callback: (params) => {
+            if (!show) setShow(true);
+
+            if (typeof arrowKeyNavigationCallback === 'function' && arrowKeyNavigationCallback)
+                return arrowKeyNavigationCallback(params);
+            return true;
+        },
     });
 
-    if (items.length === 0 && !menuLeading && !menuTrailing)
-        return children({} as ToggleProps, {
-            setRef: elements.setReference,
-            toggleMenu: (force) =>
-                setShow((prev) => {
-                    if (typeof force === 'boolean') return force;
-                    return !prev;
-                }),
-            itemCount: 0,
-        });
+    const tabEscape = () => {
+        setShow(false);
+        setActiveElementId(null);
+    };
+
+    const enterSpace = (event: KeyboardEvent) => {
+        event.preventDefault();
+        if (!show) {
+            setShow(true);
+            return;
+        }
+        getElementById(activeElementId)?.click();
+    };
 
     return (
         <>
@@ -225,65 +262,97 @@ export function ListItemMenu({
                 {
                     'aria-disabled': disabled || undefined,
                     'aria-expanded': show,
-                    'aria-haspopup': 'listbox',
+                    'aria-haspopup': show && containerRole !== 'group' ? containerRole : undefined,
+                    'aria-controls': containerId,
                     'aria-readonly': readOnly || undefined,
-                    'aria-owns': menuId,
+                    'aria-owns': containerId,
+
                     'aria-activedescendant': show ? activeElementId || undefined : undefined,
                     role: 'combobox',
                     tabIndex: 0,
-                    onClick: () => {
+                    onClick: (event) => {
                         const nextShow = !show;
                         setShow(nextShow);
-                        const nextActiveId = activeElementIdProp || items[0]?.id || null;
-                        setActiveElementId(nextShow ? nextActiveId : null);
+                        setActiveElementId(nextShow ? activeElementIdProp || items[0]?.id || null : null);
+                        event.preventDefault();
                     },
-                    onKeyDownCapture: (event: KeyboardEvent) => {
-                        const code = handleKeyDown(event);
-                        if (code?.startsWith('Arrow') && !show) {
-                            setShow(true);
-                            event.preventDefault();
-                        }
-                    },
+                    onKeyDownCapture: handleKeyDown({
+                        ...arrowKeyCallbacks,
+                        Enter: enterSpace,
+                        Space: enterSpace,
+                        Tab: tabEscape,
+                        Escape: tabEscape,
+                    }),
                 },
                 {
                     setRef: elements.setReference,
                     toggleMenu: () => setShow(true),
                     itemCount: items.length,
+                    reference: elements.reference as HTMLElement | null,
                 },
             )}
-            {show && (
-                <Portal>
-                    <Menu
-                        data-placement={currentPlacement}
-                        id={menuId}
-                        innerRef={(node) => {
-                            elements.setFloating(node);
-                        }}
-                        owner={owner}
-                        style={{
-                            width: menuWidth !== 'reference' ? menuWidth : undefined,
-                            ...floatingStyles,
-                        }}
-                        tabIndex={-1}
-                        {...ariaProps}
-                        role="presentation"
-                    >
-                        {menuLeading}
-                        <ListItemGroup
-                            activeElementId={activeElementId}
-                            aria-label={label}
-                            context={{ role }}
-                            innerRefs={setElements}
-                            items={items}
-                            role={role}
-                            scrollLimit={!menuLeading && !menuTrailing && scrollLimit}
-                        />
-                        {menuTrailing}
-                    </Menu>
-                </Portal>
+            {(!hideWhenClosed || show) && (
+                <Menu
+                    {...ariaProps}
+                    aria-label={label}
+                    as="ul"
+                    data-placement={currentPlacement}
+                    data-scroll={!!scrollLimit && items.length > scrollLimit}
+                    id={containerId}
+                    innerRef={(node) => {
+                        elements.setFloating(node);
+                    }}
+                    owner={owner}
+                    role={containerRole}
+                    style={{
+                        width: menuWidth !== 'reference' ? menuWidth : undefined,
+                        ...floatingStyles,
+                        ...scrollLimitStyle(scrollLimit, items.length),
+                    }}
+                >
+                    {menuLeading}
+                    {items.map((item, index) => {
+                        return (
+                            <ListItem
+                                as="li"
+                                key={index}
+                                {...item}
+                                active={activeElementId === item.id || undefined}
+                                onClick={(event) => {
+                                    elements.reference?.focus();
+                                    setActiveElementId(item.id);
+                                    item?.onClick?.(event);
+                                    itemOnClick?.({ event, currentId: item.id, show, setShow });
+                                }}
+                                role={item.role || LIST_ITEM_ROLES[containerRole] || undefined}
+                                tabIndex={0}
+                            />
+                        );
+                    })}
+                    {menuTrailing}
+                </Menu>
             )}
         </>
     );
 }
+
+const scrollLimitStyle = (scrollLimitProp: unknown, itemCount: unknown): CSSProperties => {
+    const scrollLimit = Number(scrollLimitProp);
+
+    // Check:
+    // 1. scrollLimit is valid
+    // 2. itemCount is a number
+    // 3. scrollLimit is less than itemCount
+    // If any of these fail, return undefined (no scrolling)
+    if (Number.isNaN(scrollLimit) || scrollLimit <= 0 || typeof itemCount !== 'number' || scrollLimit > itemCount)
+        return {};
+
+    return {
+        display: 'flex',
+        flexDirection: 'column',
+        maxHeight: `calc(var(--list-item-height) * ${scrollLimit})`,
+        overflow: 'hidden auto',
+    };
+};
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

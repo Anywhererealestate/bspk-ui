@@ -137,6 +137,7 @@ export function Popover({
                     <FocusTrap
                         focusTrapOptions={{
                             fallbackFocus: () => elements.floating || document.body,
+                            clickOutsideDeactivates: true,
                         }}
                     >
                         <div

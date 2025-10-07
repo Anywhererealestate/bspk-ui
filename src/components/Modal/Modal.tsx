@@ -44,7 +44,10 @@ function useDialogHeight() {
 
 export type ModalCallToAction = Pick<ButtonProps, 'destructive'> & Pick<CallToActionButton, 'label' | 'onClick'>;
 
-export type ModalProps = Pick<DialogProps, 'container' | 'id' | 'innerRef' | 'onClose' | 'open' | 'owner'> & {
+export type ModalProps = Pick<
+    DialogProps,
+    'container' | 'disableFocusTrap' | 'id' | 'innerRef' | 'onClose' | 'open' | 'owner'
+> & {
     /**
      * Modal header.
      *
@@ -142,6 +145,7 @@ export function Modal({
     cancelButton,
     buttonFormat = 'horizontal',
     innerRef,
+    disableFocusTrap,
     ...dialogProps
 }: ModalProps) {
     const { isMobile } = useUIContext();
@@ -176,6 +180,7 @@ export function Modal({
             {...dialogProps}
             aria-description={description}
             aria-label={header}
+            disableFocusTrap={disableFocusTrap}
             innerRef={setModalRefs}
             placement="center"
             showScrim

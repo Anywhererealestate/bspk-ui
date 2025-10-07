@@ -107,7 +107,6 @@ export function TextInput({
     owner,
     'aria-describedby': ariaDescribedBy,
     'aria-errormessage': ariaErrorMessage,
-
     inputProps,
     ...props
 }: ElementProps<TextInputProps, 'div'>) {
@@ -148,6 +147,7 @@ export function TextInput({
                 aria-invalid={invalid || undefined}
                 aria-label={ariaLabel}
                 autoComplete={autoComplete}
+                data-main-input
                 disabled={disabled || undefined}
                 id={id}
                 name={name}
