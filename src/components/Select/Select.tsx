@@ -12,8 +12,6 @@ import { getElementById } from '-/utils/dom';
 import { handleKeyDown } from '-/utils/handleKeyDown';
 import { scrollListItemsStyle, ScrollListItemsStyleProps } from '-/utils/scrollListItemsStyle';
 
-export const DEFAULT_PLACEHOLDER = 'Select one';
-
 /**
  * An option in a Select component.
  *
@@ -61,7 +59,7 @@ export type SelectProps = CommonProps<'disabled' | 'id' | 'invalid' | 'name' | '
          *
          * @required
          */
-        onChange: (value: string[], event?: KeyboardEvent | MouseEvent) => void;
+        onChange: (value: string, event?: KeyboardEvent | MouseEvent) => void;
         /**
          * The label for the select element, used for accessibility, and the dropdown modal header.
          *
@@ -71,7 +69,7 @@ export type SelectProps = CommonProps<'disabled' | 'id' | 'invalid' | 'name' | '
         /**
          * Placeholder for the select
          *
-         * @default Select one
+         * @default 'Select one'
          */
         placeholder?: string;
     };
@@ -117,7 +115,7 @@ export function Select({
     value = '',
     onChange,
     label,
-    placeholder: placeholderProp,
+    placeholder = 'Select one',
     size = 'medium',
     disabled,
     id: idProp,
@@ -132,7 +130,6 @@ export function Select({
 }: ElementProps<SelectProps, 'div'>) {
     const id = useId(idProp);
     const menuId = useMemo(() => `${id}-menu`, [id]);
-    const placeholder = placeholderProp || DEFAULT_PLACEHOLDER;
 
     const { items, availableItems } = useMemo(() => {
         const nextItems = optionsProp.map(
@@ -289,7 +286,7 @@ export function Select({
                             as="li"
                             onClick={() => {
                                 if (item.disabled || item.readOnly) return;
-                                onChange([item.value]);
+                                onChange(item.value);
                                 closeMenu();
                             }}
                             owner="select"
