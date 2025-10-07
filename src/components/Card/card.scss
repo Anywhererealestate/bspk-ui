@@ -1,13 +1,8 @@
 [data-bspk='card'] {
     display: block;
     background: var(--surface-neutral-t1-base);
-    padding: var(--spacing-sizing-03);
     border-radius: var(--radius-md);
     overflow: hidden;
-
-    &[data-hide-padding] {
-        padding: 0;
-    }
 
     &[data-variant='outlined'] {
         border: solid 1px var(--stroke-neutral-low);
