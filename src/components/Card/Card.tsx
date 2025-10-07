@@ -19,7 +19,7 @@ export type CardProps = {
      *
      * @default elevated
      */
-    variant?: 'elevated' | 'filled' | 'outlined';
+    variant?: 'elevated' | 'outlined';
 };
 
 /**
