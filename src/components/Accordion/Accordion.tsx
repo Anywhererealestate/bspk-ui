@@ -26,6 +26,8 @@ export type AccordionSection = {
     /**
      * If the accordion is initially open.
      *
+     * This is ignored if the accordion section disabled property is true.
+     *
      * @default false
      */
     isOpen?: boolean;
@@ -79,6 +81,7 @@ export function Accordion({ items: itemsProp, singleOpen = true }: AccordionProp
             itemsProp.map((item) => ({
                 ...item,
                 id: item.id || `accordion-item-${randomString(8)}`,
+                isOpen: item.disabled ? false : item.isOpen || false,
             })),
         [itemsProp],
     );
