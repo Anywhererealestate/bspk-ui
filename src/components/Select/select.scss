@@ -28,17 +28,20 @@
     border-radius: var(--radius-sm);
     background: var(--select-background);
     padding: 0 var(--select-padding);
+    cursor: pointer;
 
     [data-input] {
         position: absolute;
         opacity: 0;
         inset: 0;
+        cursor: pointer;
     }
 
     [data-icon] {
         display: flex;
         flex-direction: column;
         justify-content: center;
+        pointer-events: none;
 
         svg {
             transform: rotate(90deg);
