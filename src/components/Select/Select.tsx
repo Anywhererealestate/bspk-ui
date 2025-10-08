@@ -45,11 +45,7 @@ export type SelectProps = CommonProps<'disabled' | 'id' | 'invalid' | 'name' | '
          * @required
          */
         options: SelectOption[];
-        /**
-         * Selected value
-         *
-         * @default ''
-         */
+        /** Selected value */
         value: string;
         /**
          * The function to call when the selected values change.
@@ -69,7 +65,7 @@ export type SelectProps = CommonProps<'disabled' | 'id' | 'invalid' | 'name' | '
         /**
          * Placeholder for the select
          *
-         * @default 'Select one'
+         * @default Select one
          */
         placeholder?: string;
     };
@@ -127,7 +123,7 @@ export function Select({
     'aria-labelledby': ariaLabelledBy,
     scrollLimit,
     ...props
-}: ElementProps<SelectProps, 'div'>) {
+}: ElementProps<SelectProps, 'button'>) {
     const id = useId(idProp);
     const menuId = useMemo(() => `${id}-menu`, [id]);
 
@@ -188,7 +184,7 @@ export function Select({
                     {label}
                 </div>
             )}
-            <div
+            <button
                 {...props}
                 aria-activedescendant={activeElementId || undefined}
                 aria-autocomplete="list"
@@ -237,8 +233,10 @@ export function Select({
                 ref={elements.setReference}
                 role="combobox"
                 tabIndex={0}
+                type="button"
             >
                 <ListItem
+                    as="span"
                     data-bspk-owner="select"
                     data-placeholder={!selectedItem || undefined}
                     id={`${id}-selected-value`}
@@ -249,7 +247,7 @@ export function Select({
                     trailing={selectedItem?.trailing}
                 />
                 <SvgKeyboardArrowDown />
-            </div>
+            </button>
             <Menu
                 aria-autocomplete={undefined}
                 aria-label={label}

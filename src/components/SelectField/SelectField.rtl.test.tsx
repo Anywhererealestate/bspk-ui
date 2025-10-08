@@ -1,10 +1,9 @@
 import { SelectField } from './SelectField';
-import { presets } from '-/components/Select/SelectExample';
+import { presets } from './SelectFieldExample';
 import { hasNoBasicA11yIssues } from '-/rtl/hasNoBasicA11yIssues';
 import { render } from '-/rtl/util';
 
 const nonPresetProps = {
-    controlId: 'example-select-field',
     name: 'Example name',
     onChange: () => {},
     placeholder: 'Select an option',
