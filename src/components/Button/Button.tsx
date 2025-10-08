@@ -123,6 +123,7 @@ export function Button<As extends ElementType = 'button'>(
 
     const button = (triggerProps: TooltipTriggerProps) => (
         <As
+            type={As === 'button' ? 'button' : undefined}
             {...containerProps}
             {...triggerProps}
             aria-label={label}
