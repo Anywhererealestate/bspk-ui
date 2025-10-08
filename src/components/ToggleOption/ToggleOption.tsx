@@ -5,7 +5,7 @@ import { CommonProps } from '-/types/common';
 export type ToggleOptionControlProps<T extends { 'aria-label'?: string }> = Omit<T, 'aria-label'> &
     Pick<ToggleOptionProps, 'description' | 'label'>;
 
-export type ToggleOptionProps = CommonProps<'disabled'> & {
+export type ToggleOptionProps = CommonProps<'disabled' | 'readOnly'> & {
     /**
      * The label of the option. Also used as the aria-label of the control.
      *
@@ -29,9 +29,9 @@ export type ToggleOptionProps = CommonProps<'disabled'> & {
  * @name ToggleOption
  * @phase Utility
  */
-export function ToggleOption({ label, description, children, disabled }: ToggleOptionProps) {
+export function ToggleOption({ label, description, children, disabled, readOnly }: ToggleOptionProps) {
     return (
-        <label aria-disabled={!!disabled || undefined} data-bspk="toggle-option">
+        <label aria-disabled={!!disabled || !!readOnly || undefined} data-bspk="toggle-option">
             <span data-control>{children}</span>
             <span data-label>{label}</span>
             {description && <span data-description>{description}</span>}

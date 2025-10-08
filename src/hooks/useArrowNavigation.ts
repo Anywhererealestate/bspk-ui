@@ -64,7 +64,7 @@ export function useArrowNavigation({
     setActiveElementId: (id: string | null) => void;
     arrowKeyCallbacks: KeysCallback;
 } {
-    const [activeElementId, setActiveElementIdBase] = useState<string | null>(defaultActiveId || ids[0] || null);
+    const [activeElementId, setActiveElementIdBase] = useState<string | null>(defaultActiveId || null);
 
     const setActiveElementId = (id: string | null) => {
         setActiveElementIdBase(id);

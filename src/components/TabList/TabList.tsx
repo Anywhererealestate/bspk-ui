@@ -161,6 +161,7 @@ export function TabList({
 
     const { activeElementId, setActiveElementId, arrowKeyCallbacks } = useArrowNavigation({
         ids: options.map((opt) => opt.id),
+        defaultActiveId: options.find((opt) => opt.value === valueProp)?.id,
     });
 
     const value = useMemo(() => {

@@ -3,7 +3,7 @@ import { hasNoBasicA11yIssues } from '-/rtl/hasNoBasicA11yIssues';
 import { render } from '-/rtl/util';
 
 const TestBed = () => (
-    <Card showPadding={false} variant="elevated">
+    <Card variant="elevated">
         * <h3>Card Title</h3>* <p>This is some content inside the card.</p>*{' '}
     </Card>
 );

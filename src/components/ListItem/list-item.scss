@@ -25,7 +25,8 @@
         }
     }
 
-    &[data-action] {
+    &[data-action],
+    &:is(label) {
         &[data-active],
         [data-pseudo='hover'] &,
         &:hover {
@@ -36,13 +37,6 @@
         // pressed state
         &:active {
             background-color: var(--interactions-neutral-press-opacity);
-        }
-    }
-
-    &[aria-disabled] {
-        [data-text],
-        [data-sub-text] {
-            color: var(--foreground-neutral-disabled-on-surface);
         }
     }
 
@@ -81,6 +75,13 @@
             width: 100%;
             font: var(--body-small);
             color: var(--foreground-neutral-on-surface-variant-01);
+        }
+    }
+
+    &[aria-disabled] {
+        [data-text],
+        [data-sub-text] {
+            color: var(--foreground-neutral-disabled-on-surface);
         }
     }
 
