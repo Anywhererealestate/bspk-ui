@@ -2,7 +2,7 @@ import './checkbox.scss';
 import { ChangeEvent, useEffect, useRef } from 'react';
 import { CommonProps, ElementProps, FormFieldControlProps, RequiredCommonProps } from '-/types/common';
 
-export type CheckboxProps = CommonProps<'aria-label' | 'disabled' | 'invalid' | 'name'> &
+export type CheckboxProps = CommonProps<'aria-label' | 'disabled' | 'invalid' | 'name' | 'readOnly'> &
     FormFieldControlProps &
     RequiredCommonProps<'value'> & {
         /**
@@ -64,6 +64,7 @@ export function Checkbox({
     indeterminate: indeterminateProp,
     invalid,
     disabled,
+    readOnly,
     ...props
 }: ElementProps<CheckboxProps, 'input'>) {
     const indeterminate = !!indeterminateProp;
@@ -88,8 +89,9 @@ export function Checkbox({
                 aria-invalid={invalid || undefined}
                 checked={checked}
                 data-indeterminate={indeterminate || undefined}
-                disabled={disabled || undefined}
+                disabled={disabled || readOnly || undefined}
                 onChange={(event) => props.onChange(!!event.target.checked, event)}
+                readOnly={readOnly}
                 ref={(node) => {
                     if (!node) return;
                     inputRef.current = node;
