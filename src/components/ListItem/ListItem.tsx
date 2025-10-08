@@ -160,10 +160,12 @@ function ListItem<As extends ElementType = ElementType>({
             data-bspk="list-item"
             data-bspk-owner={owner || undefined}
             data-readonly={readOnly || undefined}
+            disabled={disabled || undefined}
             id={id}
+            readOnly={readOnly || undefined}
             ref={innerRef}
             role={role}
-            tabIndex={props.tabIndex || (actionable ? 0 : undefined)}
+            tabIndex={disabled || readOnly ? -1 : (props.tabIndex ?? (actionable ? 0 : undefined))}
         >
             {leading && (
                 <span aria-hidden data-leading>
