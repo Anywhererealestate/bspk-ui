@@ -137,5 +137,4 @@ export const SelectExample: ComponentExample<SelectProps> = {
         return <Component {...props} />;
     },
     presets,
-    variants: false,
 };

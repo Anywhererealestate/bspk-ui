@@ -104,7 +104,7 @@ export type SelectProps = CommonProps<'disabled' | 'id' | 'invalid' | 'name' | '
  *     }
  *
  * @name Select
- * @phase Dev
+ * @phase UXReview
  */
 export function Select({
     options: optionsProp = [],
@@ -190,7 +190,7 @@ export function Select({
                 aria-autocomplete="list"
                 aria-controls={activeElementId ? menuId : undefined}
                 aria-describedby={ariaDescribedBy || undefined}
-                aria-disabled={disabled || undefined}
+                aria-disabled={disabled || readOnly || undefined}
                 aria-errormessage={ariaErrorMessage || undefined}
                 aria-expanded={open}
                 aria-haspopup="listbox"
