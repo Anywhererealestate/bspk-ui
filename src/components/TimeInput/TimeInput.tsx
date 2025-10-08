@@ -147,6 +147,7 @@ export function TimeInput({
                 data-value={inputValue || undefined}
                 id={id}
                 onClickCapture={() => {
+                    if (disabled || readOnly) return;
                     elements.reference?.querySelector<HTMLElement>('[tabIndex]')?.focus();
                 }}
                 onKeyDownCapture={handleKeyDown({ Escape: () => setOpen(false) })}
@@ -154,6 +155,7 @@ export function TimeInput({
                     elements.setReference(node);
                 }}
                 role="group"
+                tabIndex={disabled || readOnly ? -1 : 0}
             >
                 <TimeInputSegment
                     disabled={disabled}
@@ -181,6 +183,7 @@ export function TimeInput({
                     value={meridiem}
                 />
                 <Button
+                    disabled={disabled || readOnly}
                     icon={<SvgSchedule />}
                     iconOnly
                     innerRef={(node) => {
