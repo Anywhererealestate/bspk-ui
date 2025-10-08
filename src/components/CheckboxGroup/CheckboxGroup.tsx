@@ -103,7 +103,7 @@ export function CheckboxGroup({
         >
             {selectAll && (
                 <>
-                    <ToggleOption label={selectAllProps?.label || 'All'}>
+                    <ToggleOption label={selectAllProps?.label || 'All'} readOnly={readOnly}>
                         <Checkbox
                             aria-label={selectAllProps?.label || 'All'}
                             checked={!!values.length && values.length === options.length}
@@ -119,7 +119,13 @@ export function CheckboxGroup({
                 </>
             )}
             {options.map(({ label, description, value, disabled }) => (
-                <ToggleOption description={description} disabled={disabled || disabledGroup} key={value} label={label}>
+                <ToggleOption
+                    description={description}
+                    disabled={disabled || disabledGroup}
+                    key={value}
+                    label={label}
+                    readOnly={readOnly}
+                >
                     <Checkbox
                         aria-label={label}
                         checked={values.includes(value)}
