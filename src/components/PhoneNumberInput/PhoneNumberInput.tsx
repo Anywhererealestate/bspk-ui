@@ -27,8 +27,15 @@ const SELECT_OPTIONS = countryCodes.map((code) => {
 export type PhoneNumberInputProps = FormFieldControlProps &
     Pick<
         TextInputProps,
-        'aria-label' | 'disabled' | 'inputRef' | 'invalid' | 'name' | 'readOnly' | 'required' | 'size' | 'value'
+        'aria-label' | 'disabled' | 'inputRef' | 'invalid' | 'name' | 'readOnly' | 'required' | 'size'
     > & {
+        /**
+         * The complete phone number including country code and national number. This can be provided with or without
+         * any formatting. (e.g. "+1 (555) 867-5309" or "15558675309" for a US number). *
+         *
+         * @type string
+         */
+        value: string;
         /**
          * The default country code to select when the component is rendered. If not provided, it will attempt to guess
          * based on the user's locale. If the guessed country code is not supported, it will default to 'US'. Based on
@@ -38,14 +45,28 @@ export type PhoneNumberInputProps = FormFieldControlProps &
          */
         initialCountryCode?: SupportedCountryCode;
         /**
-         * Disables formatting of the phone number input in the UI. values returned by `onChange` are always
-         * unformatted.
+         * Disables formatting of the phone number input in the UI.
          *
          * @type boolean
          */
         disableFormatting?: boolean;
-        /** Handler for change events. Contains the raw phone number value and the selected country code. */
-        onChange: (value: string, countryCode: SupportedCountryCode) => void;
+        /**
+         * Handler for change events. Contains the raw phone number value and the selected country code.
+         *
+         * `(value: string, countryCode: SupportedCountryCode) => void`
+         *
+         * @param value - The raw phone number value without formatting.
+         * @param countryCode - The selected country code as a 2-digit ISO code.
+         */
+        onChange: (
+            value: string,
+            info: {
+                countryCode: SupportedCountryCode;
+                nationalNumber: string;
+                countryCallingCode: string;
+                numberValue: string;
+            },
+        ) => void;
     };
 
 /**
@@ -81,6 +102,24 @@ export function PhoneNumberInput({
 
     const [inputRef, setInputRef] = useState<HTMLInputElement | null>(null);
 
+    const textValue = useMemo(() => {
+        // remove country code from value for display in input
+        let rawNumber = value.replace(/\D/g, '');
+        const countryCallingCode = getCountryCallingCode(countryCode);
+        if (rawNumber.startsWith(countryCallingCode)) {
+            rawNumber = rawNumber.slice(countryCallingCode.length);
+        } else if (rawNumber.startsWith(`+${countryCallingCode}`)) {
+            rawNumber = rawNumber.slice(countryCallingCode.length + 1);
+        }
+
+        if (disableFormatting) {
+            return rawNumber;
+        }
+
+        const formatter = new AsYouType(countryCode);
+        return formatter.input(rawNumber);
+    }, [value, countryCode, disableFormatting]);
+
     const { callingCode, selectedCodeData } = useMemo(() => {
         const selectedValue = (countryCode || 'US') as SupportedCountryCode;
         const data = countryCodeData[selectedValue] ?? countryCodeData.US;
@@ -98,6 +137,8 @@ export function PhoneNumberInput({
             const formatter = new AsYouType(countryCode);
             rawNumber = formatter.input(`${rawNumber}`);
         }
+
+        console.log({ rawNumber, newValue, value });
 
         onChange(rawNumber, countryCode);
     };
@@ -174,7 +215,7 @@ export function PhoneNumberInput({
                             onChange={handleChange}
                             owner="phone-number-input"
                             readOnly={readOnly}
-                            value={value}
+                            value={textValue}
                         />
                     </div>
                 );
