@@ -140,10 +140,6 @@ export function Select({
         return { items: nextItems, availableItems: nextItems.filter((item) => !item.disabled) };
     }, [optionsProp, id, value]);
 
-    const closeMenu = () => {
-        setActiveElementId(null);
-    };
-
     const selectedItem = useMemo(
         (): SelectItem | undefined => items.find((o) => o.value === value?.[0]),
         [items, value],
@@ -153,6 +149,7 @@ export function Select({
         ids: availableItems.map((i) => i.id),
     });
 
+    const closeMenu = () => setActiveElementId(null);
     const open = Boolean(activeElementId);
 
     const { elements, floatingStyles } = useFloating({
@@ -172,7 +169,6 @@ export function Select({
             elements.reference?.click();
             return;
         }
-
         if (activeElementId) getElementById(activeElementId)?.click();
     };
 

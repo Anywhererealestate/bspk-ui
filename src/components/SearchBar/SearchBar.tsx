@@ -1,17 +1,29 @@
 import './search-bar.scss';
 import { SvgSearch } from '@bspk/icons/Search';
-import { useEffect, useRef, useState } from 'react';
-import { ListItemMenu, ListItemMenuProps, MenuListItem } from '-/components/ListItemMenu';
+import { useEffect } from 'react';
+import { ListItem, ListItemProps } from '-/components/ListItem';
+import { Menu } from '-/components/Menu';
 import { TextInputProps, TextInput } from '-/components/TextInput';
 import { Txt } from '-/components/Txt';
+import { useArrowNavigation } from '-/hooks/useArrowNavigation';
+import { useFloating } from '-/hooks/useFloating';
 import { useId } from '-/hooks/useId';
+import { useOutsideClick } from '-/hooks/useOutsideClick';
 import { useUIContext } from '-/hooks/useUIContext';
+import { getElementById } from '-/utils/dom';
+import { handleKeyDown } from '-/utils/handleKeyDown';
+import { scrollListItemsStyle, ScrollListItemsStyleProps } from '-/utils/scrollListItemsStyle';
 import { useIds } from '-/utils/useIds';
 
-export type SearchOption = MenuListItem & { value: string };
+/**
+ * An option in a SearchBar component.
+ *
+ * Essentially the props for a ListItem except for `value` which is required.
+ */
+export type SearchBarOption = Pick<ListItemProps, 'label' | 'leading' | 'trailing'>;
 
-export type SearchBarProps = Pick<ListItemMenuProps, 'scrollLimit'> &
-    Pick<TextInputProps, 'aria-label' | 'disabled' | 'id' | 'inputRef' | 'name' | 'size'> & {
+export type SearchBarProps = Pick<TextInputProps, 'aria-label' | 'disabled' | 'id' | 'inputRef' | 'name' | 'size'> &
+    ScrollListItemsStyleProps & {
         /** The current value of the search bar. */
         value?: string;
         /**
@@ -23,19 +35,13 @@ export type SearchBarProps = Pick<ListItemMenuProps, 'scrollLimit'> &
          */
         placeholder: string;
         /**
-         * Handler for state updates.
+         * Handler for input value change. This is called on every key press in the input field and when a menu item is
+         * selected.
          *
          * @type (value: String) => void
          * @required
          */
-        onChange: (value: string) => void;
-        /*
-         * Handler for item selection.
-         *
-         * @type (item: MenuListItem) => void
-         * @required
-         */
-        onSelect: (item?: MenuListItem) => void;
+        onChange: (value: string, item?: SearchBarOption) => void;
         /**
          * Content to display in the menu.
          *
@@ -53,9 +59,9 @@ export type SearchBarProps = Pick<ListItemMenuProps, 'scrollLimit'> &
          *         { value: '10', label: 'Jackfruit Pudding' },
          *     ];
          *
-         * @type Array<SearchOption>
+         * @type Array<SearchBarOption>
          */
-        items?: SearchOption[];
+        items?: SearchBarOption[];
         /**
          * Message to display when no results are found
          *
@@ -112,17 +118,17 @@ export function SearchBar({
     inputRef,
     name,
     size = 'medium',
-    onSelect,
     value,
     onChange,
     disabled = false,
     scrollLimit,
 }: SearchBarProps) {
     const id = useId(idProp);
+    const menuId = `${id}-menu`;
 
     const items = useIds(`search-bar-${id}`, itemsProp || []);
 
-    const inputElementRef = useRef<HTMLInputElement | null>(null);
+    const filteredItems = items.filter((item) => item.label.toLowerCase().includes((value || '').toLowerCase()));
 
     const { sendAriaLiveMessage } = useUIContext();
 
@@ -130,88 +136,137 @@ export function SearchBar({
         if (!items.length) sendAriaLiveMessage('No results found', 'assertive');
     }, [items.length, sendAriaLiveMessage, value]);
 
-    const [textValue, setTextValue] = useState(value || '');
+    const { activeElementId, setActiveElementId, arrowKeyCallbacks } = useArrowNavigation({
+        ids: filteredItems.map((i) => i.id),
+    });
 
-    useEffect(() => {
-        setTextValue(items.find((item) => item.value === value)?.label || '');
-    }, [items, value]);
+    const closeMenu = () => setActiveElementId(null);
+    const open = Boolean(activeElementId);
+
+    const { elements, floatingStyles } = useFloating({
+        hide: !open,
+        offsetOptions: 4,
+        refWidth: true,
+    });
+
+    useOutsideClick({
+        elements: [elements.floating, elements.reference],
+        callback: closeMenu,
+        disabled: !open,
+    });
+
+    const spaceEnter = () => {
+        if (!open) {
+            elements.reference?.click();
+            return;
+        }
+        if (activeElementId) getElementById(activeElementId)?.click();
+    };
 
     return (
         <>
             <div data-bspk="search-bar">
-                <ListItemMenu
-                    arrowKeyNavigationCallback={(params) => {
-                        // maintain default behavior for arrow keys left/right
-                        return params.key !== 'ArrowLeft' && params.key !== 'ArrowRight';
-                    }}
+                <TextInput
+                    aria-label={`${items.length === 0 ? 'No results found ' : ''}${ariaLabel}`}
+                    autoComplete="off"
+                    containerRef={elements.setReference}
                     disabled={disabled}
-                    itemOnClick={({ currentId, setShow }) => {
-                        const item = items.find((i) => i.id === currentId)!;
-                        onSelect(item);
-                        onChange(item.value);
-                        setTextValue(item.label);
-                        setShow(false);
+                    id={id}
+                    inputProps={{
+                        'aria-controls': open ? menuId : undefined,
+                        'aria-expanded': open,
+                        'aria-haspopup': 'listbox',
+                        'aria-activedescendant': activeElementId || undefined,
+                        'aria-autocomplete': 'list',
+                        role: 'combobox',
+                        spellCheck: 'false',
                     }}
-                    items={items.map((item) => {
-                        return {
-                            ...item,
-                            'aria-selected': item.value === value,
-                        };
-                    })}
-                    label="Search bar"
-                    leading={
-                        !!value?.length &&
-                        !items?.length && (
-                            <div data-bspk="no-items-found">
-                                <Txt as="div" variant="heading-h5">
-                                    No results found
-                                </Txt>
-                                {noResultsMessage && (
-                                    <Txt as="div" variant="body-base">
-                                        {noResultsMessage}
-                                    </Txt>
-                                )}
-                            </div>
-                        )
-                    }
-                    onClose={() => {
-                        setTimeout(() => {
-                            if (!inputElementRef.current) return;
-                            inputElementRef.current.focus();
-                            inputElementRef.current.setSelectionRange(0, inputElementRef.current.value.length);
-                        }, 100);
+                    inputRef={(node) => {
+                        if (!node) return;
+                        inputRef?.(node);
                     }}
-                    owner="search-bar"
-                    role="listbox"
-                    scrollLimit={scrollLimit}
-                >
-                    {(toggleProps, { setRef, toggleMenu }) => (
-                        <TextInput
-                            aria-label={(items.length === 0 ? 'No results found' : '') + ariaLabel}
-                            autoComplete="off"
-                            containerRef={setRef}
-                            disabled={disabled}
-                            id={id}
-                            inputProps={{ ...toggleProps }}
-                            inputRef={(node) => {
-                                if (!node) return;
-                                inputRef?.(node);
-                                inputElementRef.current = node;
-                            }}
-                            leading={<SvgSearch />}
-                            name={name}
-                            onChange={(str) => {
-                                setTextValue(str);
-                                if (str.length) toggleMenu(true);
-                            }}
-                            owner="search-bar"
-                            placeholder={placeholder}
-                            size={size}
-                            value={textValue}
-                        />
+                    leading={<SvgSearch />}
+                    name={name}
+                    onChange={(str) => onChange(str)}
+                    onKeyDown={handleKeyDown(
+                        {
+                            ...arrowKeyCallbacks,
+                            ArrowDown: (event) => {
+                                if (!open) spaceEnter();
+                                arrowKeyCallbacks.ArrowDown?.(event);
+                            },
+                            Space: spaceEnter,
+                            Enter: spaceEnter,
+                            'Ctrl+Option+Space': spaceEnter,
+                        },
+                        { preventDefault: true, stopPropagation: true },
                     )}
-                </ListItemMenu>
+                    owner="search-bar"
+                    placeholder={placeholder}
+                    size={size}
+                    value={value}
+                />
             </div>
+
+            <Menu
+                aria-autocomplete={undefined}
+                aria-label={ariaLabel}
+                as="div"
+                id={menuId}
+                innerRef={elements.setFloating}
+                label={ariaLabel}
+                onClickCapture={() => {
+                    // Prevent the menu from closing when clicking inside it
+                    // maintain focus on the select control
+                    elements.reference?.focus();
+                }}
+                onFocus={() => {
+                    elements.reference?.focus();
+                }}
+                owner="select"
+                role="listbox"
+                style={{
+                    ...(open ? scrollListItemsStyle(scrollLimit, items.length) : {}),
+                    ...floatingStyles,
+                }}
+                tabIndex={-1}
+            >
+                {!!value?.length && !items?.length && (
+                    <div data-bspk="no-items-found">
+                        <Txt as="div" variant="heading-h5">
+                            No results found
+                        </Txt>
+                        {noResultsMessage && (
+                            <Txt as="div" variant="body-base">
+                                {noResultsMessage}
+                            </Txt>
+                        )}
+                    </div>
+                )}
+                {filteredItems.map((item) => {
+                    const isActive = activeElementId === item.id;
+                    const isSelected = value == item.label;
+
+                    return (
+                        <ListItem
+                            key={item.id}
+                            {...item}
+                            active={isActive || undefined}
+                            aria-label={undefined}
+                            aria-selected={isSelected}
+                            as="li"
+                            onClick={() => {
+                                onChange(item.label, item);
+                                closeMenu();
+                            }}
+                            owner="select"
+                            role="option"
+                            tabIndex={-1} //show && isActive ? -1 : 0}
+                            value={undefined}
+                        />
+                    );
+                })}
+            </Menu>
         </>
     );
 }
