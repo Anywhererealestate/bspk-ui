@@ -19,7 +19,28 @@ export const presets: Preset<ListItemProps>[] = [
         propState: {
             label: 'as="button"',
             as: 'button',
-            subText: 'example to leverage disabled and readOnly attributes',
+            subText: 'Button example',
+            trailing: undefined,
+            leading: 'Avatar',
+        },
+    },
+    {
+        label: 'As Button Disabled',
+        propState: {
+            label: 'as="button"',
+            as: 'button',
+            disabled: true,
+            subText: 'Disabled button example',
+            trailing: undefined,
+            leading: 'Avatar',
+        },
+    },
+    {
+        label: 'As Button Read Only',
+        propState: {
+            label: 'as="button"',
+            as: 'button',
+            subText: 'Read only button example',
             trailing: undefined,
             leading: 'Avatar',
         },

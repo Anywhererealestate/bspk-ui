@@ -22,7 +22,6 @@ import { handleKeyDown } from '-/utils/handleKeyDown';
 
 export type MenuListItem = Omit<ListItemProps, 'id'> & {
     id: string;
-    disabled?: boolean;
 };
 
 export type ListItemMenuRole = keyof typeof LIST_ITEM_ROLES;
