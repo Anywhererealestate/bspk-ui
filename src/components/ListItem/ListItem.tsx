@@ -13,9 +13,7 @@ import { Truncated } from '-/components/Truncated';
 import { useId } from '-/hooks/useId';
 import { CommonProps, ElementProps, SetRef } from '-/types/common';
 
-export type ListItemProps<As extends ElementType = ElementType> = CommonProps<
-    'active' | 'disabled' | 'owner' | 'readOnly'
-> &
+export type ListItemProps<As extends ElementType = ElementType> = CommonProps<'active' | 'owner'> &
     Pick<AriaAttributes, 'aria-label'> & {
         /**
          * The element type to render as.
@@ -123,15 +121,13 @@ export type ListItemProps<As extends ElementType = ElementType> = CommonProps<
  * @name ListItem
  * @phase UXReview
  */
-function ListItem<As extends ElementType = ElementType>({
+function ListItem<As extends ElementType = 'div'>({
     active,
     as,
     innerRef,
     label,
     leading,
     owner,
-    disabled,
-    readOnly,
     role: roleProp,
     subText,
     trailing,
@@ -147,36 +143,29 @@ function ListItem<As extends ElementType = ElementType>({
 
     const As = asLogic(as, props);
 
-    const canBeDisabled =
-        As === 'button' ||
-        As === 'fieldset' ||
-        As === 'input' ||
-        As === 'optgroup' ||
-        As === 'option' ||
-        As === 'select' ||
-        As === 'textarea';
-
-    const canBeReadOnly = As === 'input' || As === 'select' || As === 'textarea';
-
     const role = roleLogic(roleProp, { as: As, props });
-    const actionable = props.href || props.onClick || canBeDisabled;
-    // !props.disabled &&
-    // !props.readOnly &&
-    // !props.ariaDisabled &&
-    // !props.ariaReadonly;
+
+    const actionable =
+        (props.href || props.onClick) &&
+        !props.disabled &&
+        !props.readOnly &&
+        !props.ariaDisabled &&
+        !props.ariaReadonly;
+
+    const isReadOnly = props.readOnly || props.ariaReadonly;
+
     return (
         <As
             {...props}
             aria-label={ariaLabel || undefined}
             aria-selected={ariaSelected}
-            data-action={actionable || undefined}
+            data-action={!actionable || undefined}
             data-active={active || undefined}
             data-bspk="list-item"
             data-bspk-owner={owner || undefined}
             data-readonly={props.readOnly || undefined}
-            disabled={canBeDisabled ? disabled : undefined}
             id={id}
-            readOnly={canBeReadOnly ? readOnly : undefined}
+            onClick={isReadOnly ? undefined : props.onClick}
             ref={innerRef}
             role={props.role || actionable ? role : undefined}
             tabIndex={props.tabIndex || (actionable ? 0 : -1)}

@@ -29,7 +29,6 @@ export const presets: Preset<ListItemProps>[] = [
         propState: {
             label: 'as="button"',
             as: 'button',
-            disabled: true,
             subText: 'Disabled button example',
             trailing: undefined,
             leading: 'Avatar',
@@ -48,7 +47,8 @@ export const presets: Preset<ListItemProps>[] = [
 ];
 
 export const ListItemExample: ComponentExampleFn<ListItemProps> = ({ action, setState }) => ({
-    render: ({ props, id }) => {
+    presets,
+    render: ({ props, id, preset }) => {
         const leading = createExampleChildElement({
             exampleState: props,
             name: 'leading',
@@ -66,9 +66,48 @@ export const ListItemExample: ComponentExampleFn<ListItemProps> = ({ action, set
 
         let as: ElementType = props.as || 'div';
 
+        if (!preset) return null;
+
         if (trailing.componentName && ['Checkbox', 'Radio', 'Switch'].includes(trailing.componentName)) as = 'label';
 
-        return <ListItem {...props} as={as} leading={leading.element} trailing={trailing.element} />;
+        switch (preset.label) {
+            case 'Long Label':
+                return <ListItem {...props} leading={leading.element} trailing={trailing.element} />;
+            case 'As Button':
+                return (
+                    <ListItem
+                        {...props}
+                        leading={leading.element}
+                        onClick={() => action('ListItem clicked')}
+                        trailing={undefined}
+                    />
+                );
+            case 'As Button Disabled':
+                return (
+                    <ListItem
+                        {...props}
+                        disabled={true}
+                        leading={leading.element}
+                        onClick={() => action('ListItem clicked')}
+                        readOnly={undefined}
+                        trailing={undefined}
+                    />
+                );
+            case 'As Button Read Only':
+                return (
+                    <ListItem
+                        {...props}
+                        disabled={undefined}
+                        leading={leading.element}
+                        onClick={() => action('ListItem clicked')}
+                        readOnly={true}
+                        trailing={undefined}
+                    />
+                );
+            default:
+                return <ListItem {...props} as={as} leading={leading.element} trailing={trailing.element} />;
+        }
+
+        // return <ListItem {...props} as={as} leading={leading.element} trailing={trailing.element} />;
     },
-    presets,
 });
