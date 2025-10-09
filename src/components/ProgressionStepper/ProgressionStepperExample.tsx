@@ -6,7 +6,7 @@ export const presets: Preset<ProgressionStepperProps>[] = [
         label: 'Horizontal',
         propState: {
             variant: 'horizontal',
-            currentStep: 2,
+            completedStep: 2,
             steps: [{ name: 'Name of step 1' }, { name: 'Name of step 2' }, { name: 'Name of step 3' }],
         },
     },
@@ -14,7 +14,7 @@ export const presets: Preset<ProgressionStepperProps>[] = [
         label: 'Vertical',
         propState: {
             variant: 'vertical',
-            currentStep: 2,
+            completedStep: 2,
             steps: [
                 {
                     name: 'Name of step 1',
@@ -35,7 +35,7 @@ export const presets: Preset<ProgressionStepperProps>[] = [
         label: 'Widget',
         propState: {
             variant: 'widget',
-            currentStep: 3,
+            completedStep: 3,
             steps: [
                 { name: 'Name of step 1' },
                 { name: 'Name of step 2' },
@@ -43,7 +43,23 @@ export const presets: Preset<ProgressionStepperProps>[] = [
                 { name: 'Name of step 4' },
                 { name: 'Name of step 5' },
                 { name: 'Name of step 6' },
-                { name: 'Name of step 7' },
+                { name: 'Review' },
+            ],
+        },
+    },
+    {
+        label: 'Widget (w/ subtext)',
+        propState: {
+            variant: 'widget',
+            completedStep: 3,
+            steps: [
+                { name: 'Name of step 1' },
+                { name: 'Name of step 2' },
+                { name: 'Name of step 3' },
+                { name: 'Name of step 4' },
+                { name: 'Name of step 5' },
+                { name: 'Name of step 6' },
+                { name: 'Review', subtext: `Check your information...` },
             ],
         },
     },
