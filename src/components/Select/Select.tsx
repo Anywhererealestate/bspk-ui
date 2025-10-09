@@ -144,10 +144,7 @@ export function Select({
         setActiveElementId(null);
     };
 
-    const selectedItem = useMemo(
-        (): SelectItem | undefined => items.find((o) => o.value === value?.[0]),
-        [items, value],
-    );
+    const selectedItem = useMemo((): SelectItem | undefined => items.find((o) => o.value === value), [items, value]);
 
     const { activeElementId, setActiveElementId, arrowKeyCallbacks } = useArrowNavigation({
         ids: availableItems.map((i) => i.id),
