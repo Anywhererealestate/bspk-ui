@@ -208,6 +208,7 @@ export function TabList({
                 const isSelected = item.value === value;
                 const icon = isSelected ? item.iconSelected : item.icon;
                 const isActive = (activeElementId && activeElementId === item.id) || undefined;
+                const focusable = (isSelected && !activeElementId) || isActive;
 
                 return (
                     <Fragment key={item.id}>
@@ -224,7 +225,7 @@ export function TabList({
                                     id={item.id}
                                     onClick={item.disabled ? undefined : handleClick(item)}
                                     role="tab"
-                                    tabIndex={isActive ? 0 : -1}
+                                    tabIndex={focusable ? 0 : -1}
                                 >
                                     {icon && <span aria-hidden="true">{icon}</span>}
                                     {!iconsOnly && <Truncated data-label>{item.label}</Truncated>}
