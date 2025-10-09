@@ -13,9 +13,7 @@ import { Truncated } from '-/components/Truncated';
 import { useId } from '-/hooks/useId';
 import { CommonProps, ElementProps, SetRef } from '-/types/common';
 
-export type ListItemProps<As extends ElementType = ElementType> = CommonProps<
-    'active' | 'disabled' | 'owner' | 'readOnly'
-> &
+export type ListItemProps<As extends ElementType = ElementType> = CommonProps<'active' | 'owner'> &
     Pick<AriaAttributes, 'aria-label'> & {
         /**
          * The element type to render as.
@@ -123,14 +121,12 @@ export type ListItemProps<As extends ElementType = ElementType> = CommonProps<
  * @name ListItem
  * @phase UXReview
  */
-function ListItem<As extends ElementType = ElementType>({
+function ListItem<As extends ElementType = 'div'>({
     active,
     as,
-    disabled,
     innerRef,
     label,
     leading,
-    readOnly,
     owner,
     role: roleProp,
     subText,
@@ -152,14 +148,12 @@ function ListItem<As extends ElementType = ElementType>({
     return (
         <As
             {...props}
-            aria-disabled={disabled || undefined}
             aria-label={ariaLabel || undefined}
             aria-selected={ariaSelected}
             data-action={actionable || undefined}
             data-active={active || undefined}
             data-bspk="list-item"
             data-bspk-owner={owner || undefined}
-            data-readonly={readOnly || undefined}
             id={id}
             ref={innerRef}
             role={role}
