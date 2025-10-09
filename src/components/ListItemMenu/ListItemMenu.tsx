@@ -20,9 +20,10 @@ import { CommonProps, SetRef } from '-/types/common';
 import { getElementById } from '-/utils/dom';
 import { handleKeyDown } from '-/utils/handleKeyDown';
 
-export type MenuListItem = Omit<ListItemProps, 'id'> & {
-    id: string;
-};
+export type MenuListItem = CommonProps<'disabled'> &
+    Omit<ListItemProps, 'id'> & {
+        id: string;
+    };
 
 export type ListItemMenuRole = keyof typeof LIST_ITEM_ROLES;
 
