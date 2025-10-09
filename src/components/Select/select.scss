@@ -81,6 +81,8 @@
             linear-gradient(var(--interactions-disabled-opacity), var(--interactions-disabled-opacity)),
             linear-gradient(var(--surface-neutral-t1-base), var(--surface-neutral-t1-base));
 
+        cursor: not-allowed;
+
         &[aria-readonly]:not([data-empty]) {
             --select-text-color: var(--foreground-neutral-on-surface);
         }
