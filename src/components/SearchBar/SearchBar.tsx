@@ -1,6 +1,6 @@
 import './search-bar.scss';
 import { SvgSearch } from '@bspk/icons/Search';
-import { useEffect } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { ListItem, ListItemProps } from '-/components/ListItem';
 import { Menu } from '-/components/Menu';
 import { TextInputProps, TextInput } from '-/components/TextInput';
@@ -114,7 +114,7 @@ export function SearchBar({
     noResultsMessage,
     placeholder = 'Search',
     'aria-label': ariaLabel,
-    value: idProp,
+    id: idProp,
     inputRef,
     name,
     size = 'medium',
@@ -128,7 +128,12 @@ export function SearchBar({
 
     const items = useIds(`search-bar-${id}`, itemsProp || []);
 
-    const filteredItems = items.filter((item) => item.label.toLowerCase().includes((value || '').toLowerCase()));
+    const [hasFocus, setHasFocus] = useState(false);
+
+    const filteredItems = useMemo(() => {
+        const valueStr = value?.toString().trim().toLowerCase() || '';
+        return items.filter((item) => !valueStr || item.label.toLowerCase().includes(valueStr));
+    }, [items, value]);
 
     const { sendAriaLiveMessage } = useUIContext();
 
@@ -163,6 +168,20 @@ export function SearchBar({
         if (activeElementId) getElementById(activeElementId)?.click();
     };
 
+    useEffect(() => {
+        if (!hasFocus) {
+            setActiveElementId(null);
+            return;
+        }
+
+        if (activeElementId) return;
+
+        // If we have focus but no active element, set the first item as active (if there is one)
+        if (filteredItems.length) {
+            setActiveElementId(value?.trim().length ? filteredItems[0].id : null);
+        }
+    }, [hasFocus, filteredItems, activeElementId, setActiveElementId, value]);
+
     return (
         <>
             <div data-bspk="search-bar">
@@ -187,7 +206,12 @@ export function SearchBar({
                     }}
                     leading={<SvgSearch />}
                     name={name}
+                    onBlur={() => {
+                        setHasFocus(false);
+                        closeMenu();
+                    }}
                     onChange={(str) => onChange(str)}
+                    onFocus={() => setHasFocus(true)}
                     onKeyDown={handleKeyDown(
                         {
                             ...arrowKeyCallbacks,
