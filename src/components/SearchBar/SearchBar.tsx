@@ -47,16 +47,16 @@ export type SearchBarProps = Pick<TextInputProps, 'aria-label' | 'disabled' | 'i
          *
          * @example
          *     [
-         *         { value: '1', label: 'Apple Pie' },
-         *         { value: '2', label: 'Banana Split' },
-         *         { value: '3', label: 'Cherry Tart' },
-         *         { value: '4', label: 'Dragonfruit Sorbet' },
-         *         { value: '5', label: 'Elderberry Jam' },
-         *         { value: '6', label: 'Fig Newton' },
-         *         { value: '7', label: 'Grape Soda' },
-         *         { value: '8', label: 'Honeydew Smoothie' },
-         *         { value: '9', label: 'Ice Cream Sandwich' },
-         *         { value: '10', label: 'Jackfruit Pudding' },
+         *         { label: 'Apple Pie' },
+         *         { label: 'Banana Split' },
+         *         { label: 'Cherry Tart' },
+         *         { label: 'Dragonfruit Sorbet' },
+         *         { label: 'Elderberry Jam' },
+         *         { label: 'Fig Newton' },
+         *         { label: 'Grape Soda' },
+         *         { label: 'Honeydew Smoothie' },
+         *         { label: 'Ice Cream Sandwich' },
+         *         { label: 'Jackfruit Pudding' },
          *     ];
          *
          * @type Array<SearchBarOption>
@@ -86,16 +86,16 @@ export type SearchBarProps = Pick<TextInputProps, 'aria-label' | 'disabled' | 'i
  *             <SearchBar
  *                 aria-label="Example aria-label"
  *                 items={[
- *                     { value: '1', label: 'Apple Pie' },
- *                     { value: '2', label: 'Banana Split' },
- *                     { value: '3', label: 'Cherry Tart' },
- *                     { value: '4', label: 'Dragonfruit Sorbet' },
- *                     { value: '5', label: 'Elderberry Jam' },
- *                     { value: '6', label: 'Fig Newton' },
- *                     { value: '7', label: 'Grape Soda' },
- *                     { value: '8', label: 'Honeydew Smoothie' },
- *                     { value: '9', label: 'Ice Cream Sandwich' },
- *                     { value: '10', label: 'Jackfruit Pudding' },
+ *                     { label: 'Apple Pie' },
+ *                     { label: 'Banana Split' },
+ *                     { label: 'Cherry Tart' },
+ *                     { label: 'Dragonfruit Sorbet' },
+ *                     { label: 'Elderberry Jam' },
+ *                     { label: 'Fig Newton' },
+ *                     { label: 'Grape Soda' },
+ *                     { label: 'Honeydew Smoothie' },
+ *                     { label: 'Ice Cream Sandwich' },
+ *                     { label: 'Jackfruit Pudding' },
  *                 ]}
  *                 name="Example name"
  *                 placeholder="Search"
