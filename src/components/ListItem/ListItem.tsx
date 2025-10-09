@@ -13,9 +13,7 @@ import { Truncated } from '-/components/Truncated';
 import { useId } from '-/hooks/useId';
 import { CommonProps, ElementProps, SetRef } from '-/types/common';
 
-export type ListItemProps<As extends ElementType = ElementType> = CommonProps<
-    'active' | 'disabled' | 'owner' | 'readOnly'
-> &
+export type ListItemProps<As extends ElementType = ElementType> = CommonProps<'active' | 'owner'> &
     Pick<AriaAttributes, 'aria-label'> & {
         /**
          * The element type to render as.
@@ -126,11 +124,9 @@ export type ListItemProps<As extends ElementType = ElementType> = CommonProps<
 function ListItem<As extends ElementType = ElementType>({
     active,
     as,
-    disabled,
     innerRef,
     label,
     leading,
-    readOnly,
     owner,
     role: roleProp,
     subText,
@@ -147,25 +143,26 @@ function ListItem<As extends ElementType = ElementType>({
 
     const As = asLogic(as, props);
     const role = roleLogic(roleProp, { as: As, props });
-    const actionable = (props.href || props.onClick) && !props.disabled && !props.readOnly;
-
+    const actionable =
+        (props.href || props.onClick) &&
+        !props.disabled &&
+        !props.readOnly &&
+        !props.ariaDisabled &&
+        !props.ariaReadonly;
     return (
         <As
             {...props}
-            aria-disabled={disabled || undefined}
             aria-label={ariaLabel || undefined}
             aria-selected={ariaSelected}
-            data-action={actionable || undefined}
+            data-action={!actionable || undefined}
             data-active={active || undefined}
             data-bspk="list-item"
             data-bspk-owner={owner || undefined}
-            data-readonly={readOnly || undefined}
-            disabled={disabled || undefined}
+            data-readonly={props.readOnly || undefined}
             id={id}
-            readOnly={readOnly || undefined}
             ref={innerRef}
-            role={role}
-            tabIndex={disabled || readOnly ? -1 : (props.tabIndex ?? (actionable ? 0 : undefined))}
+            role={props.role || actionable ? role : undefined}
+            tabIndex={props.tabIndex || (!actionable ? 0 : -1)}
         >
             {leading && (
                 <span aria-hidden data-leading>

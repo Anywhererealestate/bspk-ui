@@ -8,8 +8,19 @@ export const presets: Preset<ListItemProps>[] = [
         label: 'Long Label',
         propState: {
             label: 'This is a really long label that should be truncated if it exceeds the width of the ListItem',
+            as: undefined,
             subText: 'See below for other leading and trailing examples',
             trailing: 'Checkbox',
+            leading: 'Avatar',
+        },
+    },
+    {
+        label: 'As Button',
+        propState: {
+            label: 'as="button"',
+            as: 'button',
+            subText: 'example to leverage disabled and readOnly attributes',
+            trailing: undefined,
             leading: 'Avatar',
         },
     },
