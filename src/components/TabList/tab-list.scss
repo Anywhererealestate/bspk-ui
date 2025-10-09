@@ -68,6 +68,18 @@ ul[data-bspk-utility='tab-list'] {
             width: var(--icon-size);
         }
     }
+
+    &:not([data-bspk]):focus-within {
+        li:not([aria-disabled]) {
+            &[data-active] {
+                background-color: var(--interactions-neutral-hover-opacity);
+            }
+
+            &[aria-selected='true'] {
+                background-color: var(--surface-brand-primary-highlight);
+            }
+        }
+    }
 }
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
