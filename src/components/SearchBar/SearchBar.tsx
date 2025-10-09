@@ -101,7 +101,6 @@ export type SearchBarProps = Pick<TextInputProps, 'aria-label' | 'disabled' | 'i
  *                 placeholder="Search"
  *                 value={searchText}
  *                 onChange={setSearchText}
- *                 onSelect={handleItemSelect}
  *             />
  *         );
  *     }
@@ -186,7 +185,7 @@ export function SearchBar({
         <>
             <div data-bspk="search-bar">
                 <TextInput
-                    aria-label={`${items.length === 0 ? 'No results found ' : ''}${ariaLabel}`}
+                    aria-label={ariaLabel}
                     autoComplete="off"
                     containerRef={elements.setReference}
                     disabled={disabled}
@@ -234,11 +233,9 @@ export function SearchBar({
 
             <Menu
                 aria-autocomplete={undefined}
-                aria-label={ariaLabel}
                 as="div"
                 id={menuId}
                 innerRef={elements.setFloating}
-                label={ariaLabel}
                 onClickCapture={() => {
                     // Prevent the menu from closing when clicking inside it
                     // maintain focus on the select control
