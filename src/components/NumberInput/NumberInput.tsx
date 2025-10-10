@@ -1,5 +1,5 @@
 import './number-input.scss';
-import { useCallback, useState } from 'react';
+import { useMemo } from 'react';
 import { IncrementButton } from './IncrementButton';
 import { useId } from '-/hooks/useId';
 import { CommonProps, FormFieldControlProps } from '-/types/common';
@@ -16,7 +16,7 @@ export type NumberInputProps = CommonProps<
 > &
     FormFieldControlProps & {
         /** The value of the control. */
-        value?: number | string;
+        value?: number;
         /**
          * Callback when the value changes.
          *
@@ -75,7 +75,7 @@ export type NumberInputProps = CommonProps<
  * @phase Utility
  */
 export function NumberInput({
-    value,
+    value: valueProp,
     onChange,
     align = 'center',
     size = 'medium',
@@ -95,26 +95,11 @@ export function NumberInput({
     const max = typeof maxProp === 'number' && maxProp >= min ? maxProp : Number.MAX_SAFE_INTEGER;
     const centered = align !== 'left';
     const inputId = useId(inputIdProp);
-    const valueNumber = isNumber(value) || 0;
-
-    const [inputElement, setInputElement] = useState<HTMLInputElement | null>(null);
+    const value = useMemo(() => isNumber(valueProp) || 0, [valueProp]);
 
     const handleIncrement = (increment: -1 | 1) => {
-        if (!inputElement) return;
-        const nextValue = (isNumber(inputElement.value) || 0) + increment * step;
-        handleUpdate(nextValue);
+        onChange(value + increment * step);
     };
-
-    const handleUpdate = useCallback(
-        (nextValue: number | undefined) => {
-            if (!inputElement) return;
-            let nextVal = isNumber(nextValue);
-            if (nextVal !== undefined) nextVal = Math.min(Math.max(nextVal, min), max);
-            onChange(nextVal);
-            inputElement.value = nextVal?.toString() || '';
-        },
-        [inputElement, min, max, onChange],
-    );
 
     return (
         <div
@@ -128,7 +113,7 @@ export function NumberInput({
         >
             {!!centered && (
                 <IncrementButton
-                    disabled={disabled ? true : valueNumber + -1 < min}
+                    disabled={disabled ? true : value + -1 < min}
                     increment={-1}
                     inputId={inputId}
                     onIncrement={handleIncrement}
@@ -141,25 +126,27 @@ export function NumberInput({
                 aria-invalid={invalid}
                 aria-label={ariaLabel}
                 autoComplete="off"
-                defaultValue={String(valueNumber)}
+                data-input
+                data-stepper-input-element
                 disabled={disabled}
                 id={inputId}
+                inputMode="numeric"
                 max={max}
                 min={min}
                 name={name}
-                onBlur={() => {
-                    handleUpdate(isNumber(inputElement?.value));
+                onChange={(e) => {
+                    onChange(isNumber(e.target.value));
                 }}
                 readOnly={readOnly}
-                ref={(node) => node && setInputElement(node)}
                 step={step}
                 type="number"
+                value={value}
             />
             {!centered && (
                 <>
                     <div aria-hidden data-divider />
                     <IncrementButton
-                        disabled={disabled ? true : valueNumber + -1 < min}
+                        disabled={!!disabled || value + -1 < min}
                         increment={-1}
                         inputId={inputId}
                         onIncrement={handleIncrement}
@@ -167,7 +154,7 @@ export function NumberInput({
                 </>
             )}
             <IncrementButton
-                disabled={disabled ? true : valueNumber + 1 > max}
+                disabled={!!disabled || value + 1 > max}
                 increment={1}
                 inputId={inputId}
                 onIncrement={handleIncrement}
