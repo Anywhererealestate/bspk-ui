@@ -20,12 +20,12 @@ export const presets = (action: (param: string) => void): Preset<ListItemProps>[
         } as ElementProps<ListItemProps<'div'>, 'div'>,
     },
     {
-        label: 'As Role Button',
+        label: 'As Div',
         propState: {
             as: undefined,
-            label: 'as="button"',
+            label: 'role = "button"',
             role: 'button',
-            subText: 'Button example',
+            subText: 'aria-disabled = {true}',
             trailing: undefined,
             leading: undefined,
             'aria-disabled': true,
