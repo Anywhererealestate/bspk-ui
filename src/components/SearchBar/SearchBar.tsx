@@ -18,11 +18,14 @@ import { useIds } from '-/utils/useIds';
 /**
  * An option in a SearchBar component.
  *
- * Essentially the props for a ListItem except for `value` which is required.
+ * Essentially the props for a ListItem.
  */
 export type SearchBarOption = Pick<ListItemProps, 'label' | 'leading' | 'trailing'>;
 
-export type SearchBarProps = Pick<TextInputProps, 'aria-label' | 'disabled' | 'id' | 'inputRef' | 'name' | 'size'> &
+export type SearchBarProps<O extends SearchBarOption> = Pick<
+    TextInputProps,
+    'aria-label' | 'disabled' | 'id' | 'inputRef' | 'name' | 'size'
+> &
     ScrollListItemsStyleProps & {
         /** The current value of the search bar. */
         value?: string;
@@ -38,10 +41,10 @@ export type SearchBarProps = Pick<TextInputProps, 'aria-label' | 'disabled' | 'i
          * Handler for input value change. This is called on every key press in the input field and when a menu item is
          * selected.
          *
-         * @type (value: String) => void
+         * @type (value: String, item?: SearchBarOption) => void
          * @required
          */
-        onChange: (value: string, item?: SearchBarOption) => void;
+        onChange: (value: string, item?: O) => void;
         /**
          * Content to display in the menu.
          *
@@ -61,7 +64,7 @@ export type SearchBarProps = Pick<TextInputProps, 'aria-label' | 'disabled' | 'i
          *
          * @type Array<SearchBarOption>
          */
-        items?: SearchBarOption[];
+        items?: O[];
         /**
          * Message to display when no results are found
          *
@@ -108,7 +111,7 @@ export type SearchBarProps = Pick<TextInputProps, 'aria-label' | 'disabled' | 'i
  * @name SearchBar
  * @phase UXReview
  */
-export function SearchBar({
+export function SearchBar<O extends SearchBarOption>({
     items: itemsProp,
     noResultsMessage,
     placeholder = 'Search',
@@ -121,7 +124,7 @@ export function SearchBar({
     onChange,
     disabled = false,
     scrollLimit,
-}: SearchBarProps) {
+}: SearchBarProps<O>) {
     const id = useId(idProp);
     const menuId = `${id}-menu`;
 
