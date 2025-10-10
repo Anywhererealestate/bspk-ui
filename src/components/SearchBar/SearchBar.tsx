@@ -83,8 +83,6 @@ export type SearchBarProps<O extends SearchBarOption = SearchBarOption> = Pick<
  *     export function Example() {
  *         const [searchText, setSearchText] = useState<string>('');
  *
- *         const handleItemSelect = (item) => console.log('Selected item:', item);
- *
  *         return (
  *             <SearchBar
  *                 aria-label="Example aria-label"
@@ -158,8 +156,12 @@ export function SearchBar<O extends SearchBarOption>({
 
     useOutsideClick({
         elements: [elements.floating, elements.reference],
-        callback: closeMenu,
+        callback: () => {
+            setHasFocus(false);
+            closeMenu();
+        },
         disabled: !open,
+        handleTabs: true,
     });
 
     const spaceEnter = () => {
@@ -208,10 +210,6 @@ export function SearchBar<O extends SearchBarOption>({
                     }}
                     leading={<SvgSearch />}
                     name={name}
-                    onBlur={() => {
-                        setHasFocus(false);
-                        closeMenu();
-                    }}
                     onChange={(str) => onChange(str)}
                     onFocus={() => setHasFocus(true)}
                     onKeyDown={handleKeyDown(
