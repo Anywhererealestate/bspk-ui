@@ -201,7 +201,7 @@ export function TimeInputSegment<T extends string>({
             }}
             role="spinbutton"
             spellCheck="false"
-            tabIndex={0}
+            tabIndex={disabled || readOnly ? -1 : 0}
         />
     );
 }
