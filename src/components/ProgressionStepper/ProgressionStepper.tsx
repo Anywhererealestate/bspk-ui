@@ -37,16 +37,12 @@ export type ProgressionStepperProps = {
      */
     steps: ProgressionStepperItem[];
     /**
-     * The current step in the progress bar.
-     *
-     * If the current step is greater than the number of steps, all steps with be completed.
-     *
-     * If the current step is less than 1, all steps will be incomplete.
+     * The last completed step in the progress bar. This is only applicable for the 'widget' variant.
      *
      * @default 0
      * @minimum 0
      */
-    currentStep?: number;
+    completedStep?: number;
     /**
      * The variant of the progress bar. Can be either horizontal, vertical, or widget.
      *
@@ -72,22 +68,35 @@ export type ProgressionStepperProps = {
  */
 export function ProgressionStepper({
     steps = [],
-    currentStep: currentStepProp = 0,
+    completedStep: completedStepProp = 0,
     variant = 'horizontal',
     ...containerProps
 }: ElementProps<ProgressionStepperProps, 'div'>) {
-    const currentStep = Math.max(0, Math.min(currentStepProp, steps.length + 1));
-    return !steps?.length ? null : (
+    const completedStepNumber = Math.max(0, Math.min(completedStepProp, steps.length));
+
+    const currentStepNumber = Math.min(completedStepNumber + 1, steps.length);
+
+    const currentStep = steps[currentStepNumber - 1];
+
+    if (!steps?.length) return null;
+
+    return (
         <div {...containerProps} data-bspk="progression-stepper" data-variant={variant}>
             {variant === 'widget' && (
                 <label>
-                    <span data-title>{steps[Math.max(0, Math.min(currentStep - 1, steps.length - 1))].name}</span>
+                    <span data-title>{currentStep.name}</span>
                     <span data-subtitle>
-                        {currentStep > steps.length ? (
-                            'Completed'
+                        {currentStep.subtext ? (
+                            currentStep.subtext
                         ) : (
                             <>
-                                Step {currentStep} of {steps.length}
+                                {completedStepNumber === steps.length ? (
+                                    'Completed'
+                                ) : (
+                                    <>
+                                        Step {currentStepNumber} of {steps.length}
+                                    </>
+                                )}
                             </>
                         )}
                     </span>
@@ -97,8 +106,8 @@ export function ProgressionStepper({
                 {steps.map(({ name, subtext }, index) => {
                     const stepNum = index + 1;
                     let status: 'complete' | 'current' | 'incomplete' = 'incomplete';
-                    if (currentStep > stepNum) status = 'complete';
-                    else if (currentStep === stepNum) status = 'current';
+                    if (completedStepNumber >= stepNum) status = 'complete';
+                    else if (completedStepNumber + 1 === stepNum) status = 'current';
 
                     return (
                         <li
