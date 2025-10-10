@@ -22,7 +22,7 @@ import { useIds } from '-/utils/useIds';
  */
 export type SearchBarOption = Pick<ListItemProps, 'label' | 'leading' | 'trailing'>;
 
-export type SearchBarProps<O extends SearchBarOption> = Pick<
+export type SearchBarProps<O extends SearchBarOption = SearchBarOption> = Pick<
     TextInputProps,
     'aria-label' | 'disabled' | 'id' | 'inputRef' | 'name' | 'size'
 > &
