@@ -4,7 +4,7 @@ import { ElementProps } from '-/types/common';
 import { createExampleChildElement } from '-/utils/createExampleChildElement';
 import { ComponentExampleFn, Preset } from '-/utils/demo';
 
-export const presets: Preset<ListItemProps>[] = [
+export const presets = (action: (param: string) => void): Preset<ListItemProps>[] => [
     {
         label: 'Long Label',
         propState: {
@@ -13,7 +13,11 @@ export const presets: Preset<ListItemProps>[] = [
             subText: 'See below for other leading and trailing examples',
             trailing: 'Checkbox',
             leading: 'Avatar',
-        },
+            disabled: undefined,
+            readOnly: undefined,
+            'aria-disabled': undefined,
+            'aria-readonly': undefined,
+        } as ElementProps<ListItemProps<'div'>, 'div'>,
     },
     {
         label: 'As Role Button',
@@ -25,6 +29,10 @@ export const presets: Preset<ListItemProps>[] = [
             trailing: undefined,
             leading: undefined,
             'aria-disabled': true,
+            disabled: undefined,
+            readOnly: undefined,
+            'aria-readonly': undefined,
+            onClick: () => action('This is aria disabled and should not show'),
         } as ElementProps<ListItemProps<'div'>, 'div'>,
     },
     {
@@ -37,6 +45,9 @@ export const presets: Preset<ListItemProps>[] = [
             leading: undefined,
             disabled: undefined,
             readOnly: undefined,
+            'aria-disabled': undefined,
+            'aria-readonly': undefined,
+            onClick: () => action('This is not disabled or readonly and should show'),
         } as ElementProps<ListItemProps<'button'>, 'button'>,
     },
     {
@@ -49,6 +60,9 @@ export const presets: Preset<ListItemProps>[] = [
             leading: undefined,
             disabled: true,
             readOnly: false,
+            'aria-disabled': undefined,
+            'aria-readonly': undefined,
+            onClick: () => action('This is disabled and should not show'),
         } as ElementProps<ListItemProps<'button'>, 'button'>,
     },
     {
@@ -61,12 +75,15 @@ export const presets: Preset<ListItemProps>[] = [
             leading: undefined,
             readOnly: true,
             disabled: undefined,
+            'aria-disabled': undefined,
+            'aria-readonly': undefined,
+            onClick: () => action('This is readonly and should not show'),
         } as ElementProps<ListItemProps<'button'>, 'button'>,
     },
 ];
 
 export const ListItemExample: ComponentExampleFn<ListItemProps> = ({ action, setState }) => ({
-    presets,
+    presets: presets(action),
     render: ({ props, id, preset }) => {
         const leading = createExampleChildElement({
             exampleState: props,
@@ -89,9 +106,7 @@ export const ListItemExample: ComponentExampleFn<ListItemProps> = ({ action, set
 
         if (trailing.componentName && ['Checkbox', 'Radio', 'Switch'].includes(trailing.componentName)) as = 'label';
 
-        return (
-            <ListItem {...props} aria-disabled={false} as={as} leading={leading.element} trailing={trailing.element} />
-        );
+        return <ListItem {...props} as={as} leading={leading.element} trailing={trailing.element} />;
     },
     variants: false,
 });

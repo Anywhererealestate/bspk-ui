@@ -134,6 +134,8 @@ function ListItem<As extends ElementType = 'div'>({
     id: idProp,
     'aria-label': ariaLabel,
     'aria-selected': ariaSelected,
+    'aria-disabled': ariaDisabled,
+    'aria-readonly': ariaReadonly,
     hideAriaLabel,
     ...props
 }: ElementProps<ListItemProps<As>, As>) {
@@ -143,8 +145,8 @@ function ListItem<As extends ElementType = 'div'>({
 
     const As = asLogic(as, props);
 
-    const isReadOnly = props.readOnly || props.ariaReadonly;
-    const isDisabled = props.disabled || props.ariaDisabled;
+    const isReadOnly = Boolean(props.readOnly || ariaReadonly);
+    const isDisabled = Boolean(props.disabled || ariaDisabled);
 
     const actionable = !!(props.href || props.onClick || as === 'button') && !isReadOnly && !isDisabled;
 
