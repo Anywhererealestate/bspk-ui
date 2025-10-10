@@ -16,14 +16,28 @@ export const presets: Preset<ListItemProps>[] = [
         },
     },
     {
+        label: 'As Role Button',
+        propState: {
+            as: undefined,
+            label: 'as="button"',
+            role: 'button',
+            subText: 'Button example',
+            trailing: undefined,
+            leading: undefined,
+            'aria-disabled': true,
+        } as ElementProps<ListItemProps<'div'>, 'div'>,
+    },
+    {
         label: 'As Button',
         propState: {
             label: 'as="button"',
             as: 'button',
             subText: 'Button example',
             trailing: undefined,
-            leading: 'Avatar',
-        },
+            leading: undefined,
+            disabled: undefined,
+            readOnly: undefined,
+        } as ElementProps<ListItemProps<'button'>, 'button'>,
     },
     {
         label: 'As Button Disabled',
@@ -32,9 +46,9 @@ export const presets: Preset<ListItemProps>[] = [
             as: 'button',
             subText: 'Disabled button example',
             trailing: undefined,
-            leading: 'Avatar',
+            leading: undefined,
             disabled: true,
-            readOnly: undefined,
+            readOnly: false,
         } as ElementProps<ListItemProps<'button'>, 'button'>,
     },
     {
@@ -44,7 +58,7 @@ export const presets: Preset<ListItemProps>[] = [
             as: 'button',
             subText: 'Read only button example',
             trailing: undefined,
-            leading: 'Avatar',
+            leading: undefined,
             readOnly: true,
             disabled: undefined,
         } as ElementProps<ListItemProps<'button'>, 'button'>,
@@ -75,6 +89,9 @@ export const ListItemExample: ComponentExampleFn<ListItemProps> = ({ action, set
 
         if (trailing.componentName && ['Checkbox', 'Radio', 'Switch'].includes(trailing.componentName)) as = 'label';
 
-        return <ListItem {...props} as={as} leading={leading.element} trailing={trailing.element} />;
+        return (
+            <ListItem {...props} aria-disabled={false} as={as} leading={leading.element} trailing={trailing.element} />
+        );
     },
+    variants: false,
 });

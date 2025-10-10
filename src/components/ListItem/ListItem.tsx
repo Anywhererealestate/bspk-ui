@@ -143,31 +143,28 @@ function ListItem<As extends ElementType = 'div'>({
 
     const As = asLogic(as, props);
 
-    const actionable =
-        Boolean(props.href || props.onClick) &&
-        !props.disabled &&
-        !props.readOnly &&
-        !props.ariaDisabled &&
-        !props.ariaReadonly;
+    const isReadOnly = props.readOnly || props.ariaReadonly;
+    const isDisabled = props.disabled || props.ariaDisabled;
+
+    const actionable = !!(props.href || props.onClick || as === 'button') && !isReadOnly && !isDisabled;
 
     const role = roleLogic(roleProp, { as: As, props, actionable });
-
-    const isReadOnly = props.readOnly || props.ariaReadonly;
 
     return (
         <As
             {...props}
             aria-label={ariaLabel || undefined}
             aria-selected={ariaSelected}
-            data-action={!actionable || undefined}
+            data-action={actionable || undefined}
             data-active={active || undefined}
             data-bspk="list-item"
             data-bspk-owner={owner || undefined}
-            data-readonly={props.readOnly || undefined}
+            data-disabled={isDisabled || undefined}
+            data-readonly={isReadOnly || undefined}
             id={id}
-            onClick={isReadOnly ? undefined : props.onClick}
+            onClick={isReadOnly || isDisabled ? undefined : props.onClick}
             ref={innerRef}
-            role={props.role || actionable ? role : undefined}
+            role={role}
             tabIndex={props.tabIndex || (actionable ? 0 : -1)}
         >
             {leading && (
@@ -195,6 +192,7 @@ function asLogic<As extends ElementType>(as: As | undefined, props: Partial<List
 }
 
 function roleLogic(
+    /** User provided role prop */
     existingRole: AriaRole | undefined,
     {
         as: As,
@@ -203,14 +201,12 @@ function roleLogic(
     }: {
         as: ElementType;
         props: Partial<ListItemProps>;
-        actionable: boolean;
+        actionable?: boolean;
     },
 ): HTMLAttributes<HTMLElement>['role'] | undefined {
     if (existingRole) return existingRole;
 
     if (!actionable) return undefined;
-
-    if (props.href) return As !== 'a' ? 'link' : undefined;
 
     if (props.onClick && As !== 'button' && As !== 'label') return 'button';
 
