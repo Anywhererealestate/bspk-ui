@@ -83,6 +83,7 @@ export function DateInput({
     useOutsideClick({
         elements: [elements.floating, containerRef.current],
         callback: () => setCalendarVisible(false),
+        disabled: !calendarVisible,
     });
 
     const isValidDate = (next: string) => {

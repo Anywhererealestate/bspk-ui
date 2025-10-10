@@ -1,17 +1,32 @@
 import './search-bar.scss';
 import { SvgSearch } from '@bspk/icons/Search';
-import { useEffect, useRef, useState } from 'react';
-import { ListItemMenu, ListItemMenuProps, MenuListItem } from '-/components/ListItemMenu';
+import { useEffect, useMemo, useState } from 'react';
+import { ListItem, ListItemProps } from '-/components/ListItem';
+import { Menu } from '-/components/Menu';
 import { TextInputProps, TextInput } from '-/components/TextInput';
 import { Txt } from '-/components/Txt';
+import { useArrowNavigation } from '-/hooks/useArrowNavigation';
+import { useFloating } from '-/hooks/useFloating';
 import { useId } from '-/hooks/useId';
+import { useOutsideClick } from '-/hooks/useOutsideClick';
 import { useUIContext } from '-/hooks/useUIContext';
+import { getElementById } from '-/utils/dom';
+import { handleKeyDown } from '-/utils/handleKeyDown';
+import { scrollListItemsStyle, ScrollListItemsStyleProps } from '-/utils/scrollListItemsStyle';
 import { useIds } from '-/utils/useIds';
 
-export type SearchOption = MenuListItem & { value: string };
+/**
+ * An option in a SearchBar component.
+ *
+ * Essentially the props for a ListItem.
+ */
+export type SearchBarOption = Pick<ListItemProps, 'label' | 'leading' | 'trailing'>;
 
-export type SearchBarProps = Pick<ListItemMenuProps, 'scrollLimit'> &
-    Pick<TextInputProps, 'aria-label' | 'disabled' | 'id' | 'inputRef' | 'name' | 'size'> & {
+export type SearchBarProps<O extends SearchBarOption = SearchBarOption> = Pick<
+    TextInputProps,
+    'aria-label' | 'disabled' | 'id' | 'inputRef' | 'name' | 'size'
+> &
+    ScrollListItemsStyleProps & {
         /** The current value of the search bar. */
         value?: string;
         /**
@@ -23,39 +38,33 @@ export type SearchBarProps = Pick<ListItemMenuProps, 'scrollLimit'> &
          */
         placeholder: string;
         /**
-         * Handler for state updates.
+         * Handler for input value change. This is called on every key press in the input field and when a menu item is
+         * selected.
          *
-         * @type (value: String) => void
+         * @type (value: String, item?: SearchBarOption) => void
          * @required
          */
-        onChange: (value: string) => void;
-        /*
-         * Handler for item selection.
-         *
-         * @type (item: MenuListItem) => void
-         * @required
-         */
-        onSelect: (item?: MenuListItem) => void;
+        onChange: (value: string, item?: O) => void;
         /**
          * Content to display in the menu.
          *
          * @example
          *     [
-         *         { value: '1', label: 'Apple Pie' },
-         *         { value: '2', label: 'Banana Split' },
-         *         { value: '3', label: 'Cherry Tart' },
-         *         { value: '4', label: 'Dragonfruit Sorbet' },
-         *         { value: '5', label: 'Elderberry Jam' },
-         *         { value: '6', label: 'Fig Newton' },
-         *         { value: '7', label: 'Grape Soda' },
-         *         { value: '8', label: 'Honeydew Smoothie' },
-         *         { value: '9', label: 'Ice Cream Sandwich' },
-         *         { value: '10', label: 'Jackfruit Pudding' },
+         *         { label: 'Apple Pie' },
+         *         { label: 'Banana Split' },
+         *         { label: 'Cherry Tart' },
+         *         { label: 'Dragonfruit Sorbet' },
+         *         { label: 'Elderberry Jam' },
+         *         { label: 'Fig Newton' },
+         *         { label: 'Grape Soda' },
+         *         { label: 'Honeydew Smoothie' },
+         *         { label: 'Ice Cream Sandwich' },
+         *         { label: 'Jackfruit Pudding' },
          *     ];
          *
-         * @type Array<SearchOption>
+         * @type Array<SearchBarOption>
          */
-        items?: SearchOption[];
+        items?: O[];
         /**
          * Message to display when no results are found
          *
@@ -74,28 +83,25 @@ export type SearchBarProps = Pick<ListItemMenuProps, 'scrollLimit'> &
  *     export function Example() {
  *         const [searchText, setSearchText] = useState<string>('');
  *
- *         const handleItemSelect = (item) => console.log('Selected item:', item);
- *
  *         return (
  *             <SearchBar
  *                 aria-label="Example aria-label"
  *                 items={[
- *                     { value: '1', label: 'Apple Pie' },
- *                     { value: '2', label: 'Banana Split' },
- *                     { value: '3', label: 'Cherry Tart' },
- *                     { value: '4', label: 'Dragonfruit Sorbet' },
- *                     { value: '5', label: 'Elderberry Jam' },
- *                     { value: '6', label: 'Fig Newton' },
- *                     { value: '7', label: 'Grape Soda' },
- *                     { value: '8', label: 'Honeydew Smoothie' },
- *                     { value: '9', label: 'Ice Cream Sandwich' },
- *                     { value: '10', label: 'Jackfruit Pudding' },
+ *                     { label: 'Apple Pie' },
+ *                     { label: 'Banana Split' },
+ *                     { label: 'Cherry Tart' },
+ *                     { label: 'Dragonfruit Sorbet' },
+ *                     { label: 'Elderberry Jam' },
+ *                     { label: 'Fig Newton' },
+ *                     { label: 'Grape Soda' },
+ *                     { label: 'Honeydew Smoothie' },
+ *                     { label: 'Ice Cream Sandwich' },
+ *                     { label: 'Jackfruit Pudding' },
  *                 ]}
  *                 name="Example name"
  *                 placeholder="Search"
  *                 value={searchText}
  *                 onChange={setSearchText}
- *                 onSelect={handleItemSelect}
  *             />
  *         );
  *     }
@@ -103,26 +109,31 @@ export type SearchBarProps = Pick<ListItemMenuProps, 'scrollLimit'> &
  * @name SearchBar
  * @phase UXReview
  */
-export function SearchBar({
+export function SearchBar<O extends SearchBarOption>({
     items: itemsProp,
     noResultsMessage,
     placeholder = 'Search',
     'aria-label': ariaLabel,
-    value: idProp,
+    id: idProp,
     inputRef,
     name,
     size = 'medium',
-    onSelect,
     value,
     onChange,
     disabled = false,
     scrollLimit,
-}: SearchBarProps) {
+}: SearchBarProps<O>) {
     const id = useId(idProp);
+    const menuId = `${id}-menu`;
 
     const items = useIds(`search-bar-${id}`, itemsProp || []);
 
-    const inputElementRef = useRef<HTMLInputElement | null>(null);
+    const [hasFocus, setHasFocus] = useState(false);
+
+    const filteredItems = useMemo(() => {
+        const valueStr = value?.toString().trim().toLowerCase() || '';
+        return items.filter((item) => !valueStr || item.label.toLowerCase().includes(valueStr));
+    }, [items, value]);
 
     const { sendAriaLiveMessage } = useUIContext();
 
@@ -130,88 +141,154 @@ export function SearchBar({
         if (!items.length) sendAriaLiveMessage('No results found', 'assertive');
     }, [items.length, sendAriaLiveMessage, value]);
 
-    const [textValue, setTextValue] = useState(value || '');
+    const { activeElementId, setActiveElementId, arrowKeyCallbacks } = useArrowNavigation({
+        ids: filteredItems.map((i) => i.id),
+    });
+
+    const closeMenu = () => setActiveElementId(null);
+    const open = Boolean(activeElementId);
+
+    const { elements, floatingStyles } = useFloating({
+        hide: !open,
+        offsetOptions: 4,
+        refWidth: true,
+    });
+
+    useOutsideClick({
+        elements: [elements.floating, elements.reference],
+        callback: () => {
+            setHasFocus(false);
+            closeMenu();
+        },
+        disabled: !open,
+        handleTabs: true,
+    });
+
+    const spaceEnter = () => {
+        if (!open) {
+            elements.reference?.click();
+            return;
+        }
+        if (activeElementId) getElementById(activeElementId)?.click();
+    };
 
     useEffect(() => {
-        setTextValue(items.find((item) => item.value === value)?.label || '');
-    }, [items, value]);
+        if (!hasFocus) {
+            setActiveElementId(null);
+            return;
+        }
+
+        if (activeElementId) return;
+
+        // If we have focus but no active element, set the first item as active (if there is one)
+        if (filteredItems.length) {
+            setActiveElementId(value?.trim().length ? filteredItems[0].id : null);
+        }
+    }, [hasFocus, filteredItems, activeElementId, setActiveElementId, value]);
 
     return (
         <>
             <div data-bspk="search-bar">
-                <ListItemMenu
-                    arrowKeyNavigationCallback={(params) => {
-                        // maintain default behavior for arrow keys left/right
-                        return params.key !== 'ArrowLeft' && params.key !== 'ArrowRight';
-                    }}
+                <TextInput
+                    aria-label={ariaLabel}
+                    autoComplete="off"
+                    containerRef={elements.setReference}
                     disabled={disabled}
-                    itemOnClick={({ currentId, setShow }) => {
-                        const item = items.find((i) => i.id === currentId)!;
-                        onSelect(item);
-                        onChange(item.value);
-                        setTextValue(item.label);
-                        setShow(false);
+                    id={id}
+                    inputProps={{
+                        'aria-controls': open ? menuId : undefined,
+                        'aria-expanded': open,
+                        'aria-haspopup': 'listbox',
+                        'aria-activedescendant': activeElementId || undefined,
+                        'aria-autocomplete': 'list',
+                        role: 'combobox',
+                        spellCheck: 'false',
                     }}
-                    items={items.map((item) => {
-                        return {
-                            ...item,
-                            'aria-selected': item.value === value,
-                        };
-                    })}
-                    label="Search bar"
-                    leading={
-                        !!value?.length &&
-                        !items?.length && (
-                            <div data-bspk="no-items-found">
-                                <Txt as="div" variant="heading-h5">
-                                    No results found
-                                </Txt>
-                                {noResultsMessage && (
-                                    <Txt as="div" variant="body-base">
-                                        {noResultsMessage}
-                                    </Txt>
-                                )}
-                            </div>
-                        )
-                    }
-                    onClose={() => {
-                        setTimeout(() => {
-                            if (!inputElementRef.current) return;
-                            inputElementRef.current.focus();
-                            inputElementRef.current.setSelectionRange(0, inputElementRef.current.value.length);
-                        }, 100);
+                    inputRef={(node) => {
+                        if (!node) return;
+                        inputRef?.(node);
                     }}
-                    owner="search-bar"
-                    role="listbox"
-                    scrollLimit={scrollLimit}
-                >
-                    {(toggleProps, { setRef, toggleMenu }) => (
-                        <TextInput
-                            aria-label={(items.length === 0 ? 'No results found' : '') + ariaLabel}
-                            autoComplete="off"
-                            containerRef={setRef}
-                            disabled={disabled}
-                            id={id}
-                            inputProps={{ ...toggleProps }}
-                            inputRef={(node) => {
-                                if (!node) return;
-                                inputRef?.(node);
-                                inputElementRef.current = node;
-                            }}
-                            leading={<SvgSearch />}
-                            name={name}
-                            onChange={(str) => {
-                                setTextValue(str);
-                                if (str.length) toggleMenu(true);
-                            }}
-                            owner="search-bar"
-                            placeholder={placeholder}
-                            size={size}
-                            value={textValue}
-                        />
+                    leading={<SvgSearch />}
+                    name={name}
+                    onChange={(str) => onChange(str)}
+                    onFocus={() => setHasFocus(true)}
+                    onKeyDown={handleKeyDown(
+                        {
+                            ...arrowKeyCallbacks,
+                            ArrowDown: (event) => {
+                                if (!open) spaceEnter();
+                                arrowKeyCallbacks.ArrowDown?.(event);
+                            },
+                            Space: spaceEnter,
+                            Enter: spaceEnter,
+                            'Ctrl+Option+Space': spaceEnter,
+                        },
+                        { preventDefault: true, stopPropagation: true },
                     )}
-                </ListItemMenu>
+                    owner="search-bar"
+                    placeholder={placeholder}
+                    size={size}
+                    value={value}
+                />
             </div>
+            <Menu
+                aria-autocomplete={undefined}
+                as="div"
+                id={menuId}
+                innerRef={elements.setFloating}
+                label="Search results"
+                onClickCapture={() => {
+                    // Prevent the menu from closing when clicking inside it
+                    // maintain focus on the select control
+                    elements.reference?.focus();
+                }}
+                onFocus={() => {
+                    elements.reference?.focus();
+                }}
+                owner="select"
+                role="listbox"
+                style={{
+                    ...(open ? scrollListItemsStyle(scrollLimit, items.length) : {}),
+                    ...floatingStyles,
+                }}
+                tabIndex={-1}
+            >
+                {!!value?.length && !items?.length && (
+                    <div data-bspk="no-items-found">
+                        <Txt as="div" variant="heading-h5">
+                            No results found
+                        </Txt>
+                        {noResultsMessage && (
+                            <Txt as="div" variant="body-base">
+                                {noResultsMessage}
+                            </Txt>
+                        )}
+                    </div>
+                )}
+                {filteredItems.map((item) => {
+                    const isActive = activeElementId === item.id;
+                    const isSelected = value == item.label;
+
+                    return (
+                        <ListItem
+                            key={item.id}
+                            {...item}
+                            active={isActive || undefined}
+                            aria-label={undefined}
+                            aria-selected={isSelected}
+                            as="li"
+                            onClick={() => {
+                                onChange(item.label, item);
+                                closeMenu();
+                            }}
+                            owner="select"
+                            role="option"
+                            tabIndex={-1} //show && isActive ? -1 : 0}
+                            value={undefined}
+                        />
+                    );
+                })}
+            </Menu>
         </>
     );
 }
