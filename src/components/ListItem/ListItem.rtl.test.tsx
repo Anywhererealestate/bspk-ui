@@ -1,7 +1,10 @@
 import { ListItem } from './ListItem';
-import { presets } from './ListItemExample';
+import { presets as presentsFn } from './ListItemExample';
 import { hasNoBasicA11yIssues } from '-/rtl/hasNoBasicA11yIssues';
 import { render } from '-/rtl/util';
+
+// eslint-disable-next-line no-console
+const presets = presentsFn(console.log);
 
 describe('ListItem (RTL)', () => {
     presets.forEach((preset) => {
