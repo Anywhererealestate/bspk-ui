@@ -144,7 +144,7 @@ function ListItem<As extends ElementType = 'div'>({
     const As = asLogic(as, props);
 
     const actionable =
-        (props.href || props.onClick) &&
+        Boolean(props.href || props.onClick) &&
         !props.disabled &&
         !props.readOnly &&
         !props.ariaDisabled &&

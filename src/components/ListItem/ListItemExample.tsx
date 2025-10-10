@@ -1,6 +1,6 @@
 import { ElementType } from 'react';
-import { ElementProps } from '../../types/common';
 import { ListItem, ListItemProps } from './ListItem';
+import { ElementProps } from '-/types/common';
 import { createExampleChildElement } from '-/utils/createExampleChildElement';
 import { ComponentExampleFn, Preset } from '-/utils/demo';
 
