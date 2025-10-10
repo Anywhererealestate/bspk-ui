@@ -1,4 +1,4 @@
-import { useState, KeyboardEvent } from 'react';
+import { useState, KeyboardEvent, useEffect } from 'react';
 import { getElementById } from '-/utils/dom';
 import { KeysCallback } from '-/utils/handleKeyDown';
 import { KeyboardEventCode } from '-/utils/keyboard';
@@ -65,6 +65,11 @@ export function useArrowNavigation({
     arrowKeyCallbacks: KeysCallback;
 } {
     const [activeElementId, setActiveElementIdBase] = useState<string | null>(defaultActiveId || null);
+
+    useEffect(() => {
+        // If the active element is not in the list, reset the first ID as active
+        if (activeElementId && !ids.includes(activeElementId)) setActiveElementIdBase(ids[0]);
+    }, [ids, activeElementId]);
 
     const setActiveElementId = (id: string | null) => {
         setActiveElementIdBase(id);

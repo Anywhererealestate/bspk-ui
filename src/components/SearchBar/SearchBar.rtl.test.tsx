@@ -23,7 +23,6 @@ const TestBed = () => {
             items={items}
             name="Example name"
             onChange={() => {}}
-            onSelect={() => {}}
             placeholder="Search"
             value=""
         />

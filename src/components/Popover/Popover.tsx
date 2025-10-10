@@ -111,6 +111,7 @@ export function Popover({
     useOutsideClick({
         elements: [elements.floating],
         callback: () => setShow(false),
+        disabled: !show,
     });
 
     const basicArrowX = middlewareData?.arrow?.x ? `${middlewareData.arrow.x}px` : '0px';
