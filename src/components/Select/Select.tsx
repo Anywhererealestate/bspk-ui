@@ -15,9 +15,10 @@ import { scrollListItemsStyle, ScrollListItemsStyleProps } from '-/utils/scrollL
 /**
  * An option in a Select component.
  *
- * Essentially the props of ListItemProps. Except for `value` which is required.
+ * Essentially the props of ListItemProps.
  */
-export type SelectOption = Omit<ListItemProps, 'id' | 'onClick' | 'subText' | 'value'> & { value: string };
+export type SelectOption = CommonProps<'disabled'> &
+    Omit<ListItemProps, 'id' | 'onClick' | 'subText' | 'value'> & { value: string };
 
 export type SelectItem = SelectOption & { id: string };
 
@@ -277,7 +278,7 @@ export function Select({
                             aria-selected={isSelected}
                             as="li"
                             onClick={() => {
-                                if (item.disabled || item.readOnly) return;
+                                if (item.disabled) return;
                                 onChange(item.value);
                                 closeMenu();
                             }}

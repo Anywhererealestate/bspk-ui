@@ -13,9 +13,7 @@ import { Truncated } from '-/components/Truncated';
 import { useId } from '-/hooks/useId';
 import { CommonProps, ElementProps, SetRef } from '-/types/common';
 
-export type ListItemProps<As extends ElementType = ElementType> = CommonProps<
-    'active' | 'disabled' | 'owner' | 'readOnly'
-> &
+export type ListItemProps<As extends ElementType = ElementType> = CommonProps<'active' | 'owner'> &
     Pick<AriaAttributes, 'aria-label'> & {
         /**
          * The element type to render as.
@@ -123,14 +121,12 @@ export type ListItemProps<As extends ElementType = ElementType> = CommonProps<
  * @name ListItem
  * @phase UXReview
  */
-function ListItem<As extends ElementType = ElementType>({
+function ListItem<As extends ElementType = 'div'>({
     active,
     as,
-    disabled,
     innerRef,
     label,
     leading,
-    readOnly,
     owner,
     role: roleProp,
     subText,
@@ -138,6 +134,8 @@ function ListItem<As extends ElementType = ElementType>({
     id: idProp,
     'aria-label': ariaLabel,
     'aria-selected': ariaSelected,
+    'aria-disabled': ariaDisabled,
+    'aria-readonly': ariaReadonly,
     hideAriaLabel,
     ...props
 }: ElementProps<ListItemProps<As>, As>) {
@@ -146,24 +144,30 @@ function ListItem<As extends ElementType = ElementType>({
     if (!label) return null;
 
     const As = asLogic(as, props);
-    const role = roleLogic(roleProp, { as: As, props });
-    const actionable = (props.href || props.onClick) && !props.disabled && !props.readOnly;
+
+    const isReadOnly = Boolean(props.readOnly || ariaReadonly);
+    const isDisabled = Boolean(props.disabled || ariaDisabled);
+
+    const actionable = !!(props.href || props.onClick || as === 'button') && !isReadOnly && !isDisabled;
+
+    const role = roleLogic(roleProp, { as: As, props, actionable });
 
     return (
         <As
             {...props}
-            aria-disabled={disabled || undefined}
             aria-label={ariaLabel || undefined}
             aria-selected={ariaSelected}
             data-action={actionable || undefined}
             data-active={active || undefined}
             data-bspk="list-item"
             data-bspk-owner={owner || undefined}
-            data-readonly={readOnly || undefined}
+            data-disabled={isDisabled || undefined}
+            data-readonly={isReadOnly || undefined}
             id={id}
+            onClick={isReadOnly || isDisabled ? undefined : props.onClick}
             ref={innerRef}
             role={role}
-            tabIndex={props.tabIndex || (actionable ? 0 : undefined)}
+            tabIndex={props.tabIndex || (actionable ? 0 : -1)}
         >
             {leading && (
                 <span aria-hidden data-leading>
@@ -190,18 +194,21 @@ function asLogic<As extends ElementType>(as: As | undefined, props: Partial<List
 }
 
 function roleLogic(
+    /** User provided role prop */
     existingRole: AriaRole | undefined,
     {
         as: As,
         props,
+        actionable,
     }: {
         as: ElementType;
         props: Partial<ListItemProps>;
+        actionable?: boolean;
     },
 ): HTMLAttributes<HTMLElement>['role'] | undefined {
     if (existingRole) return existingRole;
 
-    if (props.href) return As !== 'a' ? 'link' : undefined;
+    if (!actionable) return undefined;
 
     if (props.onClick && As !== 'button' && As !== 'label') return 'button';
 
