@@ -143,14 +143,14 @@ function ListItem<As extends ElementType = 'div'>({
 
     const As = asLogic(as, props);
 
-    const role = roleLogic(roleProp, { as: As, props });
-
     const actionable =
         (props.href || props.onClick) &&
         !props.disabled &&
         !props.readOnly &&
         !props.ariaDisabled &&
         !props.ariaReadonly;
+
+    const role = roleLogic(roleProp, { as: As, props, actionable });
 
     const isReadOnly = props.readOnly || props.ariaReadonly;
 
@@ -199,12 +199,16 @@ function roleLogic(
     {
         as: As,
         props,
+        actionable,
     }: {
         as: ElementType;
         props: Partial<ListItemProps>;
+        actionable: boolean;
     },
 ): HTMLAttributes<HTMLElement>['role'] | undefined {
     if (existingRole) return existingRole;
+
+    if (!actionable) return undefined;
 
     if (props.href) return As !== 'a' ? 'link' : undefined;
 
