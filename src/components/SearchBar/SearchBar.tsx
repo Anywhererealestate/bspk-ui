@@ -233,12 +233,12 @@ export function SearchBar<O extends SearchBarOption>({
                     value={value}
                 />
             </div>
-
             <Menu
                 aria-autocomplete={undefined}
                 as="div"
                 id={menuId}
                 innerRef={elements.setFloating}
+                label="Search results"
                 onClickCapture={() => {
                     // Prevent the menu from closing when clicking inside it
                     // maintain focus on the select control
