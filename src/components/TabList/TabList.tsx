@@ -160,7 +160,7 @@ export function TabList({
     const options = useIds(`tab-list-${id}`, optionsProp);
 
     const { activeElementId, setActiveElementId, arrowKeyCallbacks } = useArrowNavigation({
-        ids: options.map((opt) => opt.id),
+        ids: options.filter((o) => !o.disabled).map((o) => o.id),
         defaultActiveId: options.find((opt) => opt.value === valueProp)?.id,
     });
 
@@ -176,6 +176,14 @@ export function TabList({
         setActiveElementId(item.id);
         if (!item.disabled) onChange(item.value);
     };
+
+    // ensure an option is always focusable
+    const focusableOption = useMemo(
+        () =>
+            options.find((item) => (activeElementId ? activeElementId === item.id : item.value === value)) ||
+            options[0],
+        [activeElementId, options, value],
+    );
 
     return (
         <ul
@@ -208,7 +216,6 @@ export function TabList({
                 const isSelected = item.value === value;
                 const icon = isSelected ? item.iconSelected : item.icon;
                 const isActive = (activeElementId && activeElementId === item.id) || undefined;
-                const focusable = (isSelected && !activeElementId) || isActive;
 
                 return (
                     <Fragment key={item.id}>
@@ -225,7 +232,7 @@ export function TabList({
                                     id={item.id}
                                     onClick={item.disabled ? undefined : handleClick(item)}
                                     role="tab"
-                                    tabIndex={focusable ? 0 : -1}
+                                    tabIndex={focusableOption.id === item.id ? 0 : -1}
                                 >
                                     {icon && <span aria-hidden="true">{icon}</span>}
                                     {!iconsOnly && <Truncated data-label>{item.label}</Truncated>}
