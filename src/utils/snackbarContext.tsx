@@ -5,30 +5,20 @@ export interface SnackbarData {
     id: string;
     /** The main body text of the snackbar */
     text: string;
-    /**
-     * The variant of the snackbar.
-     *
-     * @default 'default'
-     */
-    variant?: 'default' | 'error' | 'success' | 'warning';
     /** Time in milliseconds after which the snackbar will auto dismiss. You can also set a default at the UIProvider */
     timeout?: number | null;
-    /** Optional action button */
-    button?: {
-        /**
-         * The button text
-         *
-         * @default 'dismiss'
-         */
-        label: string;
-        /**
-         * Either 'close' or a callback function that is called when the button is clicked. If 'close' is provided the
-         * snackbar will close when the button is clicked.
-         *
-         * @default 'close'
-         */
-        onClick: 'close' | (() => void);
-    };
+    /**
+     * Optional action button
+     *
+     * @default false
+     */
+    closeButton?: boolean;
+    /**
+     * Label for the close button, if enabled
+     *
+     * @default 'Dismiss'
+     */
+    closeButtonLabel?: string;
 }
 
 export type SnackbarInput = Omit<SnackbarData, 'id'>;

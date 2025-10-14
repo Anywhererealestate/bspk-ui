@@ -1,19 +1,39 @@
 import './snackbar-provider.scss';
 import { useState, ReactNode, useRef, useEffect } from 'react';
+import { Button } from '-/components/Button';
 import { Portal } from '-/components/Portal';
-import { Snackbar } from '-/components/Snackbar';
+import './snackbar.scss';
+import { Txt } from '-/components/Txt';
 import { randomString } from '-/utils/random';
 import { SnackbarContext, SnackbarData, SnackbarInput } from '-/utils/snackbarContext';
 
 export type SnackbarProviderProps = {
+    /** Text to be shown in the snackbar */
+    text: string;
+    /**
+     * Optional action button
+     *
+     * @default false
+     */
+
+    closeButton?: boolean;
+    /**
+     * Label for the close button
+     *
+     * @default Dismiss
+     */
+    closeButtonLabel?: string;
+    /** Callback when the snackbar is dismissed */
+    onClose: () => void;
     /** Content to be rendered inside the provider */
     children: ReactNode;
     /**
-     * Default time in milliseconds after which the snackbar will auto dismiss. If a Snackbar is sent with a timeout
-     * property that value will be used instead. If you want to disable the timeout for a specific snackbar, set its
-     * timeout to null.
+     * Time in milliseconds after which the snackbar will auto dismiss.
+     *
+     * If you want to disable the timeout for a specific snackbar, set its timeout to zero and set the closeButton prop
+     * to true.
      */
-    timeout?: number | null;
+    timeout?: number;
     /**
      * Maximum number of snackbars to show at once
      *
@@ -93,7 +113,15 @@ export type SnackbarProviderProps = {
  * @name SnackbarProvider
  * @phase UXReview
  */
-export function SnackbarProvider({ children, timeout, countLimit = 10 }: SnackbarProviderProps) {
+export function SnackbarProvider({
+    text,
+    children,
+    timeout,
+    closeButton,
+    closeButtonLabel = 'Dismiss',
+    onClose,
+    countLimit = 10,
+}: SnackbarProviderProps) {
     const [snackbars, setSnackbars] = useState<SnackbarData[]>([]);
     const timeouts = useRef<Map<string, NodeJS.Timeout>>(new Map());
 
@@ -147,8 +175,18 @@ export function SnackbarProvider({ children, timeout, countLimit = 10 }: Snackba
             {visibleSnackbars.length > 0 && (
                 <Portal>
                     <div aria-live="off" data-bspk="snackbar-provider">
-                        {visibleSnackbars.map(({ button, text, id }) => (
-                            <Snackbar button={button} key={id} onClose={() => clearSnackbar(id)} text={text} />
+                        {visibleSnackbars.map(({ id }) => (
+                            <span data-bspk="snackbar" key={id} role="alert">
+                                <Txt variant="body-small">{text}</Txt>
+
+                                {closeButton && (
+                                    <Button
+                                        label={closeButtonLabel}
+                                        onClick={!onClose ? onClose : () => clearSnackbar(id)}
+                                        variant="tertiary"
+                                    />
+                                )}
+                            </span>
                         ))}
                     </div>
                 </Portal>
