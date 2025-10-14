@@ -13,7 +13,7 @@ export type SnackbarProviderProps = {
     /**
      * Optional action button
      *
-     * @default false
+     * @default true
      */
 
     closeButton?: boolean;
@@ -117,7 +117,7 @@ export function SnackbarProvider({
     text,
     children,
     timeout,
-    closeButton,
+    closeButton = true,
     closeButtonLabel = 'Dismiss',
     onClose,
     countLimit = 10,
