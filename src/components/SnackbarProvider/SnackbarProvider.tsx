@@ -11,31 +11,33 @@ export type SnackbarProviderProps = {
     /** Text to be shown in the snackbar */
     text: string;
     /**
-     * Optional action button
+     * Whether to show a close button on the snackbar.
+     *
+     * Since there is no default timeout, this is true by default. You can provide a timeout to auto-dismiss the
+     * snackbar in addition to the close button.
      *
      * @default true
      */
 
     closeButton?: boolean;
     /**
-     * Label for the close button
+     * Label for the close button.
      *
      * @default Dismiss
      */
     closeButtonLabel?: string;
     /** Callback when the snackbar is dismissed */
     onClose: () => void;
-    /** Content to be rendered inside the provider */
+    /** Content to be rendered inside the snack bar provider, the snackbar trigger element. */
     children: ReactNode;
     /**
      * Time in milliseconds after which the snackbar will auto dismiss.
      *
-     * If you want to disable the timeout for a specific snackbar, set its timeout to zero and set the closeButton prop
-     * to true.
+     * If no timeout is provided, and closeButton is set to false the snackbar will not be dismissable.
      */
     timeout?: number;
     /**
-     * Maximum number of snackbars to show at once
+     * Maximum number of snackbars to show at once.
      *
      * @default 10
      */
