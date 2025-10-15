@@ -1,14 +1,14 @@
 import { useState } from 'react';
-import { SnackbarProvider, SnackbarProviderProps } from './SnackbarProvider';
+import { Snackbar, SnackbarProps } from './Snackbar';
 import { Button } from '-/components/Button';
 import { ComponentExample } from '-/utils/demo';
 
-function SnackbarDemo(props: SnackbarProviderProps) {
+function SnackbarDemo(props: SnackbarProps) {
     const [snackbarOpen, setSnackbarOpen] = useState(false);
 
     return (
         <>
-            <SnackbarProvider
+            <Snackbar
                 {...props}
                 closeButton={props.closeButton}
                 closeButtonLabel={props.closeButtonLabel}
@@ -22,7 +22,7 @@ function SnackbarDemo(props: SnackbarProviderProps) {
     );
 }
 
-export const SnackbarProviderExample: ComponentExample<SnackbarProviderProps> = {
+export const SnackbarExample: ComponentExample<SnackbarProps> = {
     containerStyle: { width: '100%' },
     defaultState: {},
     disableProps: [],

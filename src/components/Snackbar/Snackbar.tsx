@@ -1,4 +1,3 @@
-import './snackbar-provider.scss';
 import { useEffect } from 'react';
 import { Button } from '-/components/Button';
 import { Portal } from '-/components/Portal';
@@ -7,7 +6,7 @@ import { Txt } from '-/components/Txt';
 import { useId } from '-/hooks/useId';
 import { CommonProps } from '-/types/common';
 
-export type SnackbarProviderProps = CommonProps<'id'> & {
+export type SnackbarProps = CommonProps<'id'> & {
     /** Text to be shown in the snackbar */
     text: string;
     /**
@@ -64,10 +63,10 @@ export type SnackbarProviderProps = CommonProps<'id'> & {
  *         );
  *     }
  *
- * @name SnackbarProvider
+ * @name Snackbar
  * @phase UXReview
  */
-export function SnackbarProvider({
+export function Snackbar({
     id: propId,
     text,
     timeout,
@@ -75,7 +74,7 @@ export function SnackbarProvider({
     closeButtonLabel = 'Dismiss',
     onClose,
     open = false,
-}: SnackbarProviderProps) {
+}: SnackbarProps) {
     const id = useId(propId);
     useEffect(() => {
         if (open && timeout) {
