@@ -1,9 +1,9 @@
 import './search-bar.scss';
 import { SvgSearch } from '@bspk/icons/Search';
 import { useEffect, useMemo, useState } from 'react';
+import { InputProps, Input } from '-/components/Input';
 import { ListItem, ListItemProps } from '-/components/ListItem';
 import { Menu } from '-/components/Menu';
-import { InputProps, Input } from '-/components/Input';
 import { Txt } from '-/components/Txt';
 import { useArrowNavigation } from '-/hooks/useArrowNavigation';
 import { useFloating } from '-/hooks/useFloating';
