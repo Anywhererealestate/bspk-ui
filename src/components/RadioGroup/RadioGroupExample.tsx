@@ -1,5 +1,5 @@
 import { RadioGroupProps } from '.';
-import { CheckboxGroupExample } from '-/components/CheckboxGroup/CheckboxGroupExample';
+import { CheckboxGroupExample } from '-/components/Checkbox/CheckboxGroupExample';
 import { RadioExample } from '-/components/Radio/RadioExample';
 import { ComponentExample } from '-/utils/demo';
 

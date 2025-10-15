@@ -1,9 +1,10 @@
 import { useRef, useState } from 'react';
 import { SnackbarProvider, SnackbarProviderProps } from './SnackbarProvider';
 import { Button } from '-/components/Button';
-import { CheckboxGroup } from '-/components/CheckboxGroup';
-import { NumberField } from '-/components/NumberField';
-import { TextField } from '-/components/TextField';
+import { CheckboxGroup } from '-/components/Checkbox';
+import { Field, FieldLabel } from '-/components/Field';
+import { Input } from '-/components/Input';
+import { InputNumber } from '-/components/InputNumber';
 import { Txt } from '-/components/Txt';
 import { useSnackbarContext } from '-/hooks/useSnackbarContext';
 import { ComponentExample } from '-/utils/demo';
@@ -55,15 +56,17 @@ function ExampleForm() {
 
     return (
         <div data-snackbar-provider-example="">
-            <TextField
-                aria-label="Snackbar Text"
-                controlId="text"
-                label="Snackbar Text"
-                name="text"
-                onChange={setSnackbarText}
-                size="small"
-                value={snackbarText}
-            />
+            <Field>
+                <FieldLabel>Snackbar Text</FieldLabel>
+                <Input
+                    aria-label="Snackbar Text"
+                    id="text"
+                    name="text"
+                    onChange={setSnackbarText}
+                    size="small"
+                    value={snackbarText}
+                />
+            </Field>
 
             <CheckboxGroup
                 aria-label="Example Checkbox Group"
@@ -86,30 +89,34 @@ function ExampleForm() {
             />
 
             {enableTimeout && (
-                <NumberField
-                    aria-label="Timeout"
-                    controlId="timeout"
-                    label="Timeout (ms)"
-                    max={60000}
-                    min={0}
-                    name="timeout"
-                    onChange={(val) => setTimeout(parseInt(`${val}`) || 0)}
-                    size="small"
-                    step={1000}
-                    value={timeout}
-                />
+                <Field>
+                    <FieldLabel>Timeout (ms)</FieldLabel>
+                    <InputNumber
+                        aria-label="Timeout"
+                        id="timeout"
+                        max={60000}
+                        min={0}
+                        name="timeout"
+                        onChange={(val) => setTimeout(parseInt(`${val}`) || 0)}
+                        size="small"
+                        step={1000}
+                        value={timeout}
+                    />
+                </Field>
             )}
 
             {enableDismiss && (
-                <TextField
-                    aria-label="Dismiss button Text"
-                    controlId="text"
-                    label="Dismiss Button Text"
-                    name="text"
-                    onChange={setDismissButtonText}
-                    size="small"
-                    value={dismissButtonText}
-                />
+                <Field>
+                    <FieldLabel>Dismiss Button Text</FieldLabel>
+                    <Input
+                        aria-label="Dismiss button Text"
+                        id="text"
+                        name="text"
+                        onChange={setDismissButtonText}
+                        size="small"
+                        value={dismissButtonText}
+                    />
+                </Field>
             )}
 
             {!enableDismiss && !enableTimeout && (

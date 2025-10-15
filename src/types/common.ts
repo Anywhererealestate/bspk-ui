@@ -97,7 +97,7 @@ export type CommonPropsLibrary = {
      *
      * @required
      */
-    name: string;
+    name?: string;
     /**
      * The value of the control.
      *
@@ -109,7 +109,7 @@ export type CommonPropsLibrary = {
      *
      * @required
      */
-    'aria-label': string;
+    'aria-label'?: string;
     /**
      * Identifies the parent component. Helps with styling, debugging, and/or testing purposes.
      *
@@ -127,13 +127,6 @@ export type CommonPropsLibrary = {
 export type CommonProps<K extends keyof CommonPropsLibrary> = Pick<CommonPropsLibrary, K>;
 
 export type RequiredCommonProps<K extends keyof CommonPropsLibrary> = Required<Pick<CommonPropsLibrary, K>>;
-
-export type FormFieldControlProps = {
-    /** The id of the control description. */
-    'aria-describedby'?: string;
-    /** The id of the error message */
-    'aria-errormessage'?: string;
-};
 
 export type Brand =
     | 'anywhere'

@@ -1,13 +1,11 @@
 import './password-input.scss';
 import { useState } from 'react';
 import { Button } from '-/components/Button';
-import { TextInput, TextInputProps } from '-/components/TextInput';
+import { useFieldContext } from '-/components/Field';
+import { Input, InputProps } from '-/components/Input';
 
 export type PasswordInputProps = Pick<
-    TextInputProps,
-    | 'aria-describedby'
-    | 'aria-errormessage'
-    | 'aria-label'
+    InputProps,
     | 'containerRef'
     | 'disabled'
     | 'id'
@@ -42,9 +40,6 @@ export function PasswordInput({
     disabled,
     readOnly,
     size = 'medium',
-    'aria-label': ariaLabel,
-    'aria-describedby': ariaDescribedBy,
-    'aria-errormessage': ariaErrorMessage,
     inputProps,
     inputRef,
     name,
@@ -52,10 +47,13 @@ export function PasswordInput({
     required,
     value,
     containerRef,
-    id,
-    invalid,
+    id: idProp,
+    invalid: invalidProp,
     ...props
 }: PasswordInputProps) {
+    const { id, ariaDescribedBy, ariaErrorMessage, hasError } = useFieldContext(idProp);
+    const invalid = !readOnly && !disabled && (invalidProp || hasError);
+
     const [isShowingPassword, setIsShowingPassword] = useState(false);
 
     const togglePasswordVisibility = () => {
@@ -65,10 +63,9 @@ export function PasswordInput({
 
     return (
         <div {...props} data-bspk="password-input">
-            <TextInput
+            <Input
                 aria-describedby={ariaDescribedBy}
                 aria-errormessage={ariaErrorMessage}
-                aria-label={ariaLabel}
                 autoComplete="off"
                 containerRef={containerRef}
                 disabled={disabled}

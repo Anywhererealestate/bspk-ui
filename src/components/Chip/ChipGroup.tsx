@@ -1,0 +1,47 @@
+import './chip-group.scss';
+import { ReactNode } from 'react';
+import { ChipProps } from './';
+
+export type ChipGroupItem = Pick<
+    ChipProps,
+    'disabled' | 'flat' | 'label' | 'leadingIcon' | 'onClick' | 'selected' | 'trailingBadge' | 'trailingIcon'
+>;
+
+export type ChipGroupProps = {
+    /**
+     * To allow chips to wrap. If set to false chips will scroll.
+     *
+     * @default true
+     */
+    wrap?: boolean;
+    /** Only Chip, ChipInput, ChipFilter, ChipSuggestion, or ChipAssist components should be used as children. */
+    children?: ReactNode;
+};
+/**
+ * A group of chips that can be used to display a set of related items or actions.
+ *
+ * @example
+ *     import { ChipGroup } from '@bspk/ui/ChipGroup';
+ *
+ *     function Example() {
+ *         return (
+ *             <ChipGroup wrap={false}>
+ *                 <ChipSuggestion label="suggestion 1" onClick={() => console.log('Suggestion 1')} />
+ *                 <ChipSuggestion label="suggestion 2" onClick={() => console.log('Suggestion 2')} />
+ *                 <ChipSuggestion label="suggestion 3" onClick={() => console.log('Suggestion 3')} />
+ *             </ChipGroup>
+ *         );
+ *     }
+ *
+ * @name ChipGroup
+ * @phase UXReview
+ */
+export function ChipGroup({ children, wrap = true }: ChipGroupProps) {
+    return (
+        <div data-bspk="chip-group" data-wrap={wrap || undefined}>
+            {children}
+        </div>
+    );
+}
+
+/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

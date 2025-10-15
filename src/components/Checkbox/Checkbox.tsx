@@ -1,9 +1,8 @@
 import './checkbox.scss';
 import { ChangeEvent, useEffect, useRef } from 'react';
-import { CommonProps, ElementProps, FormFieldControlProps, RequiredCommonProps } from '-/types/common';
+import { CommonProps, ElementProps, RequiredCommonProps } from '-/types/common';
 
 export type CheckboxProps = CommonProps<'aria-label' | 'disabled' | 'invalid' | 'name' | 'readOnly'> &
-    FormFieldControlProps &
     RequiredCommonProps<'value'> & {
         /**
          * If the checkbox is partially checked or
@@ -58,6 +57,9 @@ export type CheckboxProps = CommonProps<'aria-label' | 'disabled' | 'invalid' | 
  *
  * @name Checkbox
  * @phase UXReview
+ *
+ * @subcomponent CheckboxGroup
+ * @subcomponent CheckboxOption
  */
 export function Checkbox({
     checked: checkedProp = false,

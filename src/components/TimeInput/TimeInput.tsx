@@ -5,12 +5,13 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { TimeInputListbox } from './Listbox';
 import { TimeInputSegment } from './Segment';
 import { Button } from '-/components/Button';
+import { useFieldContext } from '-/components/Field';
 import { Menu } from '-/components/Menu';
 import { Portal } from '-/components/Portal';
-import { TextInputProps } from '-/components/TextInput';
+import { InputProps } from '-/components/Input';
 import { useFloating } from '-/hooks/useFloating';
-import { useId } from '-/hooks/useId';
 import { useOutsideClick } from '-/hooks/useOutsideClick';
+import { ElementProps } from '-/types/common';
 import { handleKeyDown } from '-/utils/handleKeyDown';
 
 export const MINUTE_OPTIONS = ['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55'];
@@ -21,18 +22,7 @@ type Minute = (typeof MINUTE_OPTIONS)[number];
 type Hour = (typeof HOUR_OPTIONS)[number];
 type Meridiem = (typeof MERIDIEM_OPTIONS)[number];
 
-export type TimeInputProps = Pick<
-    TextInputProps,
-    | 'aria-describedby'
-    | 'aria-errormessage'
-    | 'aria-label'
-    | 'disabled'
-    | 'id'
-    | 'invalid'
-    | 'name'
-    | 'readOnly'
-    | 'size'
-> & {
+export type TimeInputProps = Pick<InputProps, 'disabled' | 'id' | 'invalid' | 'name' | 'readOnly' | 'size'> & {
     value?: string;
 };
 
@@ -52,17 +42,16 @@ export type TimeInputProps = Pick<
  */
 export function TimeInput({
     value,
-    'aria-label': ariaLabel,
     disabled,
     id: idProp,
-    invalid,
+    invalid: invalidProp,
     readOnly,
     name,
     size,
-    'aria-describedby': ariaDescribedBy,
-    'aria-errormessage': ariaErrorMessage,
-}: TimeInputProps) {
-    const id = useId(idProp);
+    ...props
+}: ElementProps<TimeInputProps, 'div'>) {
+    const { id, ariaDescribedBy, ariaErrorMessage, hasError } = useFieldContext(idProp);
+    const invalid = !readOnly && !disabled && (invalidProp || hasError);
 
     const [inputValue, setInputValue] = useState(value);
 
@@ -135,8 +124,8 @@ export function TimeInput({
     return (
         <>
             <div
+                {...props}
                 aria-describedby={ariaErrorMessage || ariaDescribedBy || undefined}
-                data-aria-label={ariaLabel || undefined}
                 data-bspk="time-input"
                 data-disabled={disabled || undefined}
                 data-invalid={invalid || undefined}

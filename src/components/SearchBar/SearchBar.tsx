@@ -3,7 +3,7 @@ import { SvgSearch } from '@bspk/icons/Search';
 import { useEffect, useMemo, useState } from 'react';
 import { ListItem, ListItemProps } from '-/components/ListItem';
 import { Menu } from '-/components/Menu';
-import { TextInputProps, TextInput } from '-/components/TextInput';
+import { InputProps, Input } from '-/components/Input';
 import { Txt } from '-/components/Txt';
 import { useArrowNavigation } from '-/hooks/useArrowNavigation';
 import { useFloating } from '-/hooks/useFloating';
@@ -23,8 +23,8 @@ import { useIds } from '-/utils/useIds';
 export type SearchBarOption = Pick<ListItemProps, 'label' | 'leading' | 'trailing'>;
 
 export type SearchBarProps<O extends SearchBarOption = SearchBarOption> = Pick<
-    TextInputProps,
-    'aria-label' | 'disabled' | 'id' | 'inputRef' | 'name' | 'size'
+    InputProps,
+    'disabled' | 'id' | 'inputRef' | 'name' | 'size'
 > &
     ScrollListItemsStyleProps & {
         /** The current value of the search bar. */
@@ -113,7 +113,6 @@ export function SearchBar<O extends SearchBarOption>({
     items: itemsProp,
     noResultsMessage,
     placeholder = 'Search',
-    'aria-label': ariaLabel,
     id: idProp,
     inputRef,
     name,
@@ -189,8 +188,7 @@ export function SearchBar<O extends SearchBarOption>({
     return (
         <>
             <div data-bspk="search-bar">
-                <TextInput
-                    aria-label={ariaLabel}
+                <Input
                     autoComplete="off"
                     containerRef={elements.setReference}
                     disabled={disabled}

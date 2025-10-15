@@ -1,13 +1,13 @@
 import './select.scss';
 import { SvgKeyboardArrowDown } from '@bspk/icons/KeyboardArrowDown';
 import { useMemo, KeyboardEvent, MouseEvent } from 'react';
+import { useFieldContext } from '-/components/Field';
 import { ListItem, ListItemProps } from '-/components/ListItem';
 import { Menu } from '-/components/Menu';
 import { useArrowNavigation } from '-/hooks/useArrowNavigation';
 import { useFloating } from '-/hooks/useFloating';
-import { useId } from '-/hooks/useId';
 import { useOutsideClick } from '-/hooks/useOutsideClick';
-import { CommonProps, ElementProps, FormFieldControlProps } from '-/types/common';
+import { CommonProps, ElementProps } from '-/types/common';
 import { getElementById } from '-/utils/dom';
 import { handleKeyDown } from '-/utils/handleKeyDown';
 import { scrollListItemsStyle, ScrollListItemsStyleProps } from '-/utils/scrollListItemsStyle';
@@ -23,7 +23,6 @@ export type SelectOption = CommonProps<'disabled'> &
 export type SelectItem = SelectOption & { id: string };
 
 export type SelectProps = CommonProps<'disabled' | 'id' | 'invalid' | 'name' | 'readOnly' | 'size'> &
-    FormFieldControlProps &
     ScrollListItemsStyleProps & {
         /**
          * Array of options to display in the select
@@ -116,16 +115,15 @@ export function Select({
     size = 'medium',
     disabled,
     id: idProp,
-    invalid,
+    invalid: invalidProp,
     readOnly,
     name,
-    'aria-describedby': ariaDescribedBy,
-    'aria-errormessage': ariaErrorMessage,
     'aria-labelledby': ariaLabelledBy,
     scrollLimit,
     ...props
 }: ElementProps<SelectProps, 'button'>) {
-    const id = useId(idProp);
+    const { id, ariaDescribedBy, ariaErrorMessage, hasError } = useFieldContext(idProp);
+    const invalid = !readOnly && !disabled && (invalidProp || hasError);
     const menuId = useMemo(() => `${id}-menu`, [id]);
 
     const { items, availableItems } = useMemo(() => {
@@ -134,7 +132,7 @@ export function Select({
                 ...item,
                 id: `${id}-item-${index}`,
                 'aria-label': item.label,
-                'aria-selected': value.includes(item.value),
+                'aria-selected': value == item.value,
             }),
         );
 
@@ -267,7 +265,7 @@ export function Select({
             >
                 {items.map((item) => {
                     const isActive = activeElementId === item.id;
-                    const isSelected = value.includes(item.value);
+                    const isSelected = value === item.value;
 
                     return (
                         <ListItem
