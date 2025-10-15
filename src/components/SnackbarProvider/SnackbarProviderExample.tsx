@@ -1,22 +1,26 @@
+import React, { useState } from 'react';
 import { SnackbarProvider, SnackbarProviderProps } from './SnackbarProvider';
 import { Button } from '-/components/Button';
-import { useSnackbarContext } from '-/hooks/useSnackbarContext';
+// import { useSnackbarContext } from '-/hooks/useSnackbarContext';
 import { ComponentExample } from '-/utils/demo';
 
 function SnackbarDemo(props: SnackbarProviderProps) {
-    const label = 'Open Snackbar';
-    const { sendSnackbar } = useSnackbarContext();
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
 
-    const onButtonClick = () => {
-        sendSnackbar({
-            text: props.text,
-            timeout: props.timeout,
-            closeButton: props.closeButton,
-            closeButtonLabel: props.closeButtonLabel,
-        });
-    };
-
-    return <Button label={label} onClick={onButtonClick} size="medium" title="Snackbar" />;
+    return (
+        <>
+            <SnackbarProvider
+                {...props}
+                closeButton={props.closeButton}
+                closeButtonLabel={props.closeButtonLabel}
+                onClose={() => setSnackbarOpen(false)}
+                open={snackbarOpen}
+                text={props.text}
+                timeout={props.timeout}
+            />
+            <Button label="open snackbar" onClick={() => setSnackbarOpen(true)} size="medium" title="Snackbar" />
+        </>
+    );
 }
 
 export const SnackbarProviderExample: ComponentExample<SnackbarProviderProps> = {
@@ -24,19 +28,7 @@ export const SnackbarProviderExample: ComponentExample<SnackbarProviderProps> = 
     defaultState: {},
     disableProps: [],
     presets: [],
-    render: ({ props }) => (
-        <SnackbarProvider
-            {...props}
-            closeButton={props.closeButton}
-            closeButtonLabel={props.closeButtonLabel}
-            countLimit={props.countLimit}
-            onClose={() => {}}
-            text={props.text}
-            timeout={props.timeout}
-        >
-            <SnackbarDemo {...props} />
-        </SnackbarProvider>
-    ),
+    render: ({ props }) => <SnackbarDemo {...props} />,
     sections: [],
     variants: {},
 };

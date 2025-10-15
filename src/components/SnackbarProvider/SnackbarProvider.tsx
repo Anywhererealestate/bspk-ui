@@ -1,13 +1,45 @@
 import './snackbar-provider.scss';
-import { useState, ReactNode, useRef, useEffect } from 'react';
+import { createContext, useEffect } from 'react';
 import { Button } from '-/components/Button';
 import { Portal } from '-/components/Portal';
 import './snackbar.scss';
 import { Txt } from '-/components/Txt';
-import { randomString } from '-/utils/random';
-import { SnackbarContext, SnackbarData, SnackbarInput } from '-/utils/snackbarContext';
+import { useId } from '-/hooks/useId';
+import { CommonProps } from '-/types/common';
 
-export type SnackbarProviderProps = {
+export interface SnackbarData {
+    /** Automatically set unique identifier. */
+    id: string;
+    /** The main body text of the snackbar */
+    text: string;
+    /** Time in milliseconds after which the snackbar will auto dismiss. You can also set a default at the UIProvider */
+    timeout?: number | null;
+    /**
+     * Optional action button
+     *
+     * @default false
+     */
+    closeButton?: boolean;
+    /**
+     * Label for the close button, if enabled
+     *
+     * @default 'Dismiss'
+     */
+    closeButtonLabel?: string;
+}
+
+export type SnackbarInput = SnackbarData;
+
+export type SnackbarContextProps = {
+    snackbars: SnackbarData[];
+    sendSnackbar: (data: SnackbarData) => void;
+    clearSnackbar: (id: SnackbarData['id']) => void;
+    clearAll: () => void;
+};
+
+export const SnackbarContext = createContext<SnackbarContextProps | undefined>(undefined);
+
+export type SnackbarProviderProps = CommonProps<'id'> & {
     /** Text to be shown in the snackbar */
     text: string;
     /**
@@ -29,7 +61,7 @@ export type SnackbarProviderProps = {
     /** Callback when the snackbar is dismissed */
     onClose: () => void;
     /** Content to be rendered inside the snack bar provider, the snackbar trigger element. */
-    children: ReactNode;
+    // children: ReactNode;
     /**
      * Time in milliseconds after which the snackbar will auto dismiss.
      *
@@ -37,11 +69,11 @@ export type SnackbarProviderProps = {
      */
     timeout?: number;
     /**
-     * Maximum number of snackbars to show at once.
+     * If the snackbar is open or not.
      *
-     * @default 10
+     * @default false
      */
-    countLimit?: number;
+    open?: boolean;
 };
 
 /**
@@ -50,65 +82,17 @@ export type SnackbarProviderProps = {
  *
  * @example
  *     import { SnackbarProvider } from '@bspk/ui/SnackbarProvider';
- *
- *     // In your application root
- *     function Example() {
- *         return (
- *             <SnackbarProvider timeout={5000} countLimit={1}>
- *                 <App />
- *             </SnackbarProvider>
- *         );
- *     }
- *
- *     // In a descendent component
- *     import { useSnackbarContext } from '@bspk/ui/hooks/useSnackbarContext';
- *
- *     function ExampleComponent() {
- *         // The useSnackbarContext provides access to the sendSnackbar function
- *         const { sendSnackbar } = useSnackbarContext();
- *
- *         return (
- *             <button
- *                 onClick={() =>
- *                     sendSnackbar({
- *                         text: 'Example snackbar',
- *                         button: { text: 'Dismiss', onClick: 'close' },
- *                         timeout: 3000,
- *                     })
- *                 }
- *             >
- *                 Show snackbar
- *             </button>
- *         );
- *     }
- *
- *     // You can also programatically dismiss a Snackbar by calling clearSnackbar with the Snackbar's id.
- *     import { useSnackbarContext } from '@bspk/ui/hooks/useSnackbarContext';
+ *     import { Button } from '@bspk/ui/Button';
  *     import { useState } from 'react';
  *
- *     function ExampleClearComponent() {
- *         const [snackbarId, setSnackbarId] = useState<string | null>(null);
+ *     function ExampleComponent(props) {
+ *         const [snackbarOpen, setSnackbarOpen] = useState(false);
  *
- *         const { sendSnackbar, clearSnackbar } = useSnackbarContext();
- *
- *         const sendAndStoreId = () => {
- *             const id = sendSnackbar({
- *                 text: 'Without a button or timeout I can only be closed programatically',
- *             });
- *             setSnackbarId(id);
- *         };
- *
- *         const clear = () => {
- *             if (snackbarId) {
- *                 clearSnackbar(snackbarId);
- *                 setSnackbarId(null);
- *             }
- *         };
- *
- *         return snackbarId ? (
- *             <button onClick={clear}>Clear snackbar</button>
- *         ) : (
- *             <button onClick={sendAndStoreId}>Send snackbar</button>
+ *         return (
+ *             <>
+ *                 <Button label="Show snackbar" onClick={() => setSnackbarOpen(true)} size="medium" title="Snackbar" />
+ *                 <SnackbarProvider {...props} open={snackbarOpen} onClose={() => setSnackbarOpen(false)} />
+ *             </>
  *         );
  *     }
  *
@@ -116,85 +100,35 @@ export type SnackbarProviderProps = {
  * @phase UXReview
  */
 export function SnackbarProvider({
+    id: propId,
     text,
-    children,
     timeout,
     closeButton = true,
     closeButtonLabel = 'Dismiss',
     onClose,
-    countLimit = 10,
+    open = false,
 }: SnackbarProviderProps) {
-    const [snackbars, setSnackbars] = useState<SnackbarData[]>([]);
-    const timeouts = useRef<Map<string, NodeJS.Timeout>>(new Map());
-
-    const baseTimeout = timeout ?? 0;
-
-    const sendSnackbar = (data: SnackbarInput): string => {
-        const id = randomString(8);
-
-        setSnackbars((prevState) => prevState.concat([{ id, ...data }]));
-
-        const nextTimeout = data.timeout ?? baseTimeout;
-        if (data.timeout !== null && nextTimeout) {
-            timeouts.current.set(
-                id,
-                setTimeout(() => {
-                    clearSnackbar(id);
-                    timeouts.current.delete(id);
-                }, data.timeout ?? baseTimeout),
-            );
-        }
-
-        return id;
-    };
-
-    const clearSnackbar = (id: string) => {
-        setSnackbars((prevState) => prevState.filter((snackbarData) => snackbarData.id !== id));
-    };
-
-    const clearAll = () => {
-        setSnackbars([]);
-    };
-
+    const id = useId(propId);
     useEffect(() => {
-        return () => {
-            // eslint-disable-next-line react-hooks/exhaustive-deps -- we only want to run this on dismount
-            timeouts.current.forEach((timeoutToClear) => clearTimeout(timeoutToClear));
-        };
-    }, []);
+        if (open && timeout) {
+            const timer = setTimeout(() => {
+                onClose?.();
+            }, timeout);
+            return () => clearTimeout(timer);
+        }
+        return undefined;
+    }, [open, timeout, onClose]);
 
-    const visibleSnackbars = countLimit ? snackbars.slice(0, countLimit) : snackbars;
+    if (!open) return null;
 
     return (
-        <SnackbarContext.Provider
-            value={{
-                snackbars,
-                sendSnackbar,
-                clearSnackbar,
-                clearAll,
-            }}
-        >
-            {visibleSnackbars.length > 0 && (
-                <Portal>
-                    <div aria-live="off" data-bspk="snackbar-provider">
-                        {visibleSnackbars.map(({ id }) => (
-                            <span data-bspk="snackbar" key={id} role="alert">
-                                <Txt variant="body-small">{text}</Txt>
-
-                                {closeButton && (
-                                    <Button
-                                        label={closeButtonLabel}
-                                        onClick={!onClose ? onClose : () => clearSnackbar(id)}
-                                        variant="tertiary"
-                                    />
-                                )}
-                            </span>
-                        ))}
-                    </div>
-                </Portal>
-            )}
-
-            {children}
-        </SnackbarContext.Provider>
+        <Portal>
+            <div aria-live="off" data-bspk="snackbar-provider">
+                <span data-bspk="snackbar" key={id} role="alert">
+                    <Txt variant="body-small">{text}</Txt>
+                    {closeButton && <Button label={closeButtonLabel} onClick={onClose} variant="tertiary" />}
+                </span>
+            </div>
+        </Portal>
     );
 }
