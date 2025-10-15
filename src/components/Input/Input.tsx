@@ -79,9 +79,8 @@ export type InputProps = CommonProps<
  *         return <Input aria-label="Example aria-label" name="Example name" onChange={setValue} value={value} />;
  *     }
  *
- * @element
- *
  * @name Input
+ *
  * @phase Utility
  */
 export function Input({

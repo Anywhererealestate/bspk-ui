@@ -39,6 +39,7 @@ export type InputOTPProps = CommonProps<'id' | 'invalid' | 'name' | 'size'> & {
  *     }
  *
  * @name InputOTP
+ *
  * @phase UXReview
  */
 export function InputOTP({

@@ -66,6 +66,7 @@ export type CarouselProps = {
  *     }
  *
  * @name Carousel
+ *
  * @phase UXReview
  */
 

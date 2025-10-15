@@ -25,9 +25,9 @@ import { CheckboxProps } from '-/components/Checkbox';
  *     );
  *     }
  *
- * @param allValues - The values of the checkboxes.
+ * @param allValues - The values of the checkboxes. *
  * @param name - The name of the checkboxes.
- * @param externalState - The externally managed state of the checkboxes.
+ * @param externalState - The externally managed state of the checkboxes. *
  * @returns Properties to pass to the checkbox, other helper functions, and the state of the checkbox.
  */
 export function useCheckboxGroupState(

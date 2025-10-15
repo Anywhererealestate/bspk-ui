@@ -23,6 +23,7 @@ export type StylesProviderDemoProps = {
  *     }
  *
  * @name StylesProviderDemo
+ *
  * @phase Utility
  */
 export function StylesProviderDemo({ brand = 'anywhere' }: StylesProviderDemoProps): JSX.Element | null {

@@ -45,6 +45,7 @@ export type FieldProps = {
  *     }
  *
  * @name Field
+ *
  * @phase Utility
  */
 export function Field({ children, ...props }: ElementProps<FieldProps, 'div'>) {

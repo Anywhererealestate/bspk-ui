@@ -26,8 +26,7 @@ export type ToggleOptionProps = CommonProps<'disabled' | 'readOnly'> & {
 /**
  * A utility component that wraps a checkbox, radio-group-item, and switch.
  *
- * @name ToggleOption
- * @phase Utility
+ * * @name ToggleOption * * @phase Utility
  */
 export function ToggleOption({ label, description, children, disabled, readOnly }: ToggleOptionProps) {
     return (

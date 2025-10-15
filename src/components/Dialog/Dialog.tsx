@@ -77,6 +77,7 @@ export type DialogProps = CommonProps<'id' | 'owner'> &
  *     }
  *
  * @name Dialog
+ *
  * @phase Utility
  */
 export function Dialog({

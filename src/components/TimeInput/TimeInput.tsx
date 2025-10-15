@@ -38,6 +38,7 @@ export type TimeInputProps = Pick<InputProps, 'disabled' | 'id' | 'invalid' | 'n
  *     }
  *
  * @name TimeInput
+ *
  * @phase UXReview
  */
 export function TimeInput({

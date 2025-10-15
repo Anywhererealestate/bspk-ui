@@ -51,6 +51,7 @@ export type ButtonDockProps = {
  *     }
  *
  * @name ButtonDock
+ *
  * @phase Dev
  */
 export function ButtonDock({ primaryButton, secondaryButton, arrangement = 'fill', mode = 'inline' }: ButtonDockProps) {

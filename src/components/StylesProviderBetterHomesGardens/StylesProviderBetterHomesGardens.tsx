@@ -4,8 +4,8 @@ import '-/styles/base.scss';
 /**
  * Utility to provide the Better Homes & Gardens styles to the application.
  *
- * @name StylesProviderBetterHomesGardens
- * @phase Utility
+ * * @name StylesProviderBetterHomesGardens * * @phase Utility
+ *
  * @generated
  */
 export function StylesProviderBetterHomesGardens(): JSX.Element | null {

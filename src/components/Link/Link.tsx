@@ -51,6 +51,7 @@ export type LinkProps = Pick<CommonPropsLibrary, 'disabled'> & {
  *     }
  *
  * @name Link
+ *
  * @phase UXReview
  */
 export function Link({ label, trailingIcon, size, variant, target = '_self', ...props }: ElementProps<LinkProps, 'a'>) {

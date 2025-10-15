@@ -13,6 +13,7 @@ export type ChipSuggestionProps = Pick<ChipProps, 'disabled' | 'label' | 'onClic
  *     }
  *
  * @name ChipSuggestion
+ *
  * @phase UXReview
  */
 export function ChipSuggestion({ disabled, label, onClick }: ChipSuggestionProps) {

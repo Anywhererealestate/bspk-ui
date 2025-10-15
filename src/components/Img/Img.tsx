@@ -26,6 +26,7 @@ export type ImgProps = {
  *     }
  *
  * @name Img
+ *
  * @phase Backlog
  */
 export function Img({ alt, ...props }: ElementProps<ImgProps, 'img'>) {

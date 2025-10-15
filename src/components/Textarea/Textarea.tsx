@@ -77,9 +77,8 @@ export type TextareaProps = CommonProps<'disabled' | 'id' | 'invalid' | 'readOnl
  *         return <Textarea aria-label="Example aria-label" name="Example name" onChange={setValue} value={value} />;
  *     }
  *
- * @element
- *
  * @name Textarea
+ *
  * @phase Utility
  */
 export function Textarea({

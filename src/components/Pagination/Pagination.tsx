@@ -43,6 +43,7 @@ export type PaginationProps = {
  *     }
  *
  * @name Pagination
+ *
  * @phase UXReview
  */
 export function Pagination({ numPages, value, onChange, ...ariaProps }: AriaAttributes & PaginationProps) {

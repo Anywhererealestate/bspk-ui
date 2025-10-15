@@ -22,9 +22,8 @@ export type RadioProps = CommonProps<'aria-label' | 'disabled' | 'invalid' | 'na
  * A round control that allows user to choose one option from a set. This is the base element and if used directly you
  * must wrap it with a label. This will more often be used in the RadioOption or RadioGroup component.
  *
- * @element
- *
  * @name RadioGroupItem
+ *
  * @phase Utility
  */
 export function RadioGroupItem(props: ElementProps<RadioProps, 'input'>) {

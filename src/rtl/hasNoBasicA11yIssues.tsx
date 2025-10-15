@@ -15,7 +15,7 @@ import { render, waitFor } from '-/rtl/util';
  *         it('has no basic a11y issues', hasNoBasicA11yIssues(<TestBed />));
  *     });
  *
- * @param TestBed - A React element representing the component to be tested.
+ * @param TestBed - A React element representing the component to be tested. *
  * @returns An async function that performs the accessibility test.
  */
 export const hasNoBasicA11yIssues = (TestBed: ReactElement) => {

@@ -32,8 +32,7 @@ export type TruncatedProps<As extends ElementType = 'span'> = {
 /**
  * A utility component that displays a tooltip with the full text when hovered when text is truncated.
  *
- * @name Truncated
- * @phase Utility
+ * * @name Truncated * * @phase Utility
  */
 export function Truncated<As extends ElementType = 'span'>({
     children,

@@ -32,6 +32,7 @@ export type ProgressCircleProps = {
  *     }
  *
  * @name ProgressCircle
+ *
  * @phase UXReview
  */
 function ProgressCircle({ label, labelPosition, size = 'medium' }: ProgressCircleProps) {

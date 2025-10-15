@@ -4,8 +4,8 @@ import '-/styles/base.scss';
 /**
  * Utility to provide the Anywhere styles to the application.
  *
- * @name StylesProviderAnywhere
- * @phase Utility
+ * * @name StylesProviderAnywhere * * @phase Utility
+ *
  * @generated
  */
 export function StylesProviderAnywhere(): JSX.Element | null {

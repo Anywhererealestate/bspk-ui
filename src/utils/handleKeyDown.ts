@@ -6,8 +6,8 @@ export type KeysCallback = Partial<Record<KeyboardEventCode, ((event: KeyboardEv
 /**
  * Handles multiple keydown events with specific callbacks for each key.
  *
- * @param keysCallback - An object where keys are keyboard event codes and values are callback functions.
- * @returns A function that can be used as an event handler for keydown events.
+ * * @param keysCallback - An object where keys are keyboard event codes and values are callback functions. * * @returns
+ * A function that can be used as an event handler for keydown events.
  */
 export function handleKeyDown(
     keysCallback: KeysCallback = {},

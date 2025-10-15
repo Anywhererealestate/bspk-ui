@@ -53,12 +53,12 @@ export type CheckboxProps = CommonProps<'aria-label' | 'disabled' | 'invalid' | 
  *         );
  *     }
  *
- * @element
- *
  * @name Checkbox
+ *
  * @phase UXReview
  *
  * @subcomponent CheckboxGroup
+ *
  * @subcomponent CheckboxOption
  */
 export function Checkbox({

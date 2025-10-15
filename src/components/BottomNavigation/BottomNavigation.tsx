@@ -49,6 +49,7 @@ export type BottomNavigationProps = Pick<TabListProps, 'label' | 'onChange' | 'o
  *     }
  *
  * @name BottomNavigation
+ *
  * @phase Dev
  */
 export function BottomNavigation({ mode = 'inline', variant = 'flat', ...tabListProps }: BottomNavigationProps) {

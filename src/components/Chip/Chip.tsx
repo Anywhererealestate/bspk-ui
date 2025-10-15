@@ -72,12 +72,17 @@ export type ChipProps = {
  *     }
  *
  * @name Chip
+ *
  * @phase Utility
  *
  * @subcomponent ChipAssist
+ *
  * @subcomponent ChipFilter
+ *
  * @subcomponent ChipInput
+ *
  * @subcomponent ChipSuggestion
+ *
  * @subcomponent ChipGroup
  */
 export function Chip({

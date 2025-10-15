@@ -21,8 +21,7 @@ export type PortalProps = {
  *
  * Initial SRR is supported.
  *
- * @name Portal
- * @phase Utility
+ * * @name Portal * * @phase Utility
  */
 export function Portal({ children, container }: PortalProps) {
     const [portalContainer, setPortalContainer] = useState<HTMLElement | null>(container || null);

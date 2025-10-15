@@ -79,6 +79,7 @@ export type CheckboxGroupProps = CommonProps<'disabled' | 'readOnly'> & {
  *     }
  *
  * @name CheckboxGroup
+ *
  * @phase UXReview
  */
 export function CheckboxGroup({

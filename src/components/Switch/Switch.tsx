@@ -46,9 +46,8 @@ export type SwitchProps = CommonProps<'aria-label' | 'disabled' | 'name' | 'valu
  *         );
  *     }
  *
- * @element
- *
  * @name Switch
+ *
  * @phase UXReview
  */
 export function Switch({ checked = false, disabled: disabledProp = false, readOnly, ...props }: SwitchProps) {

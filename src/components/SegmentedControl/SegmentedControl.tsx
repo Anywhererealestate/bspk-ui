@@ -29,6 +29,7 @@ export type SegmentedControlProps = TabListProps<SegmentedControlOption>;
  *     }
  *
  * @name SegmentedControl
+ *
  * @phase UXReview
  */
 export function SegmentedControl({

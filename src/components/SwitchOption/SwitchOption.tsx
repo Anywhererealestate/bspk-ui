@@ -8,8 +8,7 @@ export type SwitchOptionProps = ToggleOptionControlProps<SwitchProps>;
  *
  * If only a switch is needed, consider using the Switch component directly.
  *
- * @name SwitchOption
- * @phase UXReview
+ * * @name SwitchOption * * @phase UXReview
  */
 export function SwitchOption({ label: labelProp, description, ...checkboxProps }: SwitchOptionProps) {
     const label = labelProp || description;

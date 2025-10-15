@@ -50,6 +50,7 @@ export type EmptyStateProps = {
  *     }
  *
  * @name EmptyState
+ *
  * @phase UXReview
  */
 export function EmptyState({ children, header, body, callToAction, bodyAlign = 'center' }: EmptyStateProps) {

@@ -141,6 +141,7 @@ export type TabListProps<O extends TabOption = TabOption> = {
  *     }
  *
  * @name TabList
+ *
  * @phase Utility
  */
 export function TabList({

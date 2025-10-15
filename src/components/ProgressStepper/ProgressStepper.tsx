@@ -64,6 +64,7 @@ export type ProgressStepperProps = {
  *     }
  *
  * @name ProgressStepper
+ *
  * @phase UXReview
  */
 export function ProgressStepper({

@@ -32,7 +32,9 @@ import '-/styles/base.scss';
  * Utility to provide the ${title} styles to the application.
  *
  * @name ${componentName}
+ *
  * @phase Utility
+ * 
  * @generated
  */
 export function ${componentName}(): JSX.Element | null {

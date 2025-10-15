@@ -49,6 +49,7 @@ export type LayoutProps<As extends ElementType = 'div'> = {
  *     }
  *
  * @name Layout
+ *
  * @phase Utility
  */
 export function Layout<As extends ElementType = 'div'>({

@@ -37,8 +37,7 @@ export type ExamplePlaceholderProps = {
 /**
  * A utility component that serves as a placeholder for examples.
  *
- * @name ExamplePlaceholder
- * @phase Utility
+ * * @name ExamplePlaceholder * * @phase Utility
  */
 export function ExamplePlaceholder({
     hideSize = false,
