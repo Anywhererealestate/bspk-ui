@@ -1,6 +1,6 @@
 import { ElementType } from 'react';
 
-import { SkeletonText } from '-/components/SkeletonText';
+import { SkeletonText } from '-/components/Skeleton/Text';
 import { ElementProps } from '-/types/common';
 import { TxtVariant } from '-/utils/txtVariants';
 

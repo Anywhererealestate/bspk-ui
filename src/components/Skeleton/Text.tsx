@@ -31,7 +31,7 @@ export type SkeletonTextProps = {
  * A visual placeholder for an text while it is in a loading state.
  *
  * @example
- *     import { SkeletonText } from '@bspk/ui/SkeletonText';
+ *     import { SkeletonText } from '@bspk/ui/Skeleton/Text';
  *
  *     function Example(item: { content: string } | null) {
  *         return (

@@ -4,7 +4,8 @@ import '-/styles/base.scss';
 /**
  * Utility to provide the Denali Boss styles to the application.
  *
- * * @name StylesProviderDenaliBoss * * @phase Utility
+ * @name StylesProviderDenaliBoss
+ * @phase Utility
  *
  * @generated
  */

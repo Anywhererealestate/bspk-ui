@@ -1,4 +1,4 @@
-[data-bspk='time-input'] {
+[data-bspk='time-picker'] {
     --border-color: var(--stroke-neutral-base);
 
     display: flex;
@@ -112,7 +112,7 @@
     }
 }
 
-[data-bspk-owner='time-input'][data-bspk-utility='menu'] {
+[data-bspk-owner='time-picker'][data-bspk-utility='menu'] {
     overflow: hidden;
     height: 324px;
 

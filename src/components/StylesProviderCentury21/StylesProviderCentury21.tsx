@@ -4,7 +4,8 @@ import '-/styles/base.scss';
 /**
  * Utility to provide the Century 21 styles to the application.
  *
- * * @name StylesProviderCentury21 * * @phase Utility
+ * @name StylesProviderCentury21
+ * @phase Utility
  *
  * @generated
  */

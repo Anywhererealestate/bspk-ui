@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { RadioProps } from '-/components/RadioGroupItem';
+import { RadioProps } from '-/components/RadioGroup';
 
 /**
  * A hook to manage the state of a single radio-group-item. Used alongside the RadioGroupItem component.

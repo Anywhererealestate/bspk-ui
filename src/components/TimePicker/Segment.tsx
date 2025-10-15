@@ -7,25 +7,25 @@ export const HOUR_BOUNDS = { min: 1, max: 12 } as const;
 
 export const NUMBER_PLACEHOLDER = '--' as const;
 
-export type TimeInputType = 'hours' | 'meridiem' | 'minutes';
+export type TimePickerType = 'hours' | 'meridiem' | 'minutes';
 
-type TimeInputSegmentProps<T extends string> = {
+type TimePickerSegmentProps<T extends string> = {
     disabled?: boolean;
     name: string;
     readOnly?: boolean;
     value?: T;
-    type: TimeInputType;
+    type: TimePickerType;
     onChange: (value: T | null) => void;
 };
 
-export function TimeInputSegment<T extends string>({
+export function TimePickerSegment<T extends string>({
     disabled,
     name,
     readOnly,
     value: valueProp,
     type: kind,
     onChange,
-}: TimeInputSegmentProps<T>) {
+}: TimePickerSegmentProps<T>) {
     const ref = useRef<HTMLElement | null>(null);
 
     const selectAll = (element: HTMLElement | null = ref.current) => {

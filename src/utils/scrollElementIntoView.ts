@@ -1,7 +1,8 @@
 /**
  * Scrolls the container to make the element visible.
  *
- * * @param element -- The element to scroll into view. * * @param container -- The container to scroll.
+ * @param element -- The element to scroll into view.
+ * @param container -- The container to scroll.
  */
 export function scrollElementIntoView(element?: Element | null, container?: Element | null): void {
     if (!element || !container) return;

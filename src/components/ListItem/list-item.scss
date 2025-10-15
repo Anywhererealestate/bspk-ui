@@ -9,7 +9,7 @@
     min-height: var(--list-item-height);
     flex-direction: row;
     gap: var(--spacing-sizing-03);
-    padding: var(--spacing-sizing-02);
+    padding: var(--list-item-padding, var(--spacing-sizing-02));
     justify-items: stretch;
     border: unset;
     margin: unset;

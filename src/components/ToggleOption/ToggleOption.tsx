@@ -1,5 +1,5 @@
-import './toggle-option.scss';
 import { ReactElement } from 'react';
+import { ListItem } from '-/components/ListItem';
 import { CommonProps } from '-/types/common';
 
 export type ToggleOptionControlProps<T extends { 'aria-label'?: string }> = Omit<T, 'aria-label'> &
@@ -26,15 +26,22 @@ export type ToggleOptionProps = CommonProps<'disabled' | 'readOnly'> & {
 /**
  * A utility component that wraps a checkbox, radio-group-item, and switch.
  *
- * * @name ToggleOption * * @phase Utility
+ * - @name ToggleOption
+ *
+ * @phase Utility
  */
 export function ToggleOption({ label, description, children, disabled, readOnly }: ToggleOptionProps) {
     return (
-        <label aria-disabled={!!disabled || !!readOnly || undefined} data-bspk="toggle-option">
-            <span data-control>{children}</span>
-            <span data-label>{label}</span>
-            {description && <span data-description>{description}</span>}
-        </label>
+        <ListItem
+            aria-disabled={!!disabled || !!readOnly || undefined}
+            aria-readonly={readOnly}
+            as="label"
+            className="bspk-toggle-option"
+            data-bspk-owner="toggle-option"
+            label={label}
+            leading={children}
+            subText={description}
+        />
     );
 }
 

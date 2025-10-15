@@ -3,18 +3,18 @@ import { ComponentExample, Preset } from '-/utils/demo';
 
 export const presets: Preset<CheckboxGroupProps>[] = [
     {
-        label: 'With Descriptions',
+        label: 'With subTexts',
         propState: {
             disabled: false,
             options: [
-                { label: 'Option 1', value: 'option1', description: 'Description for option 1' },
+                { label: 'Option 1', value: 'option1' },
                 {
                     label: 'Option 2',
                     value: 'option2',
-                    description: 'Description for option 2 (disabled)',
+
                     disabled: true,
                 },
-                { label: 'Option 3', value: 'option3', description: 'Description for option 3' },
+                { label: 'Option 3', value: 'option3' },
             ],
             name: 'Checkbox group',
         },
@@ -24,13 +24,12 @@ export const presets: Preset<CheckboxGroupProps>[] = [
         propState: {
             disabled: true,
             options: [
-                { label: 'Option 1', value: 'option1', description: 'Description for option 1' },
+                { label: 'Option 1', value: 'option1' },
                 {
                     label: 'Option 2',
                     value: 'option2',
-                    description: 'Description for option 2 (disabled)',
                 },
-                { label: 'Option 3', value: 'option3', description: 'Description for option 3' },
+                { label: 'Option 3', value: 'option3' },
             ],
             name: 'Checkbox group',
         },

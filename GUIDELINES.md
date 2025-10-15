@@ -11,7 +11,7 @@ export type CheckboxOptionProps = Pick<
     CheckboxProps,
     'checked' | 'disabled' | 'indeterminate' | 'name' | 'onChange' | 'readOnly' | 'value'
 > &
-    Pick<ToggleOptionProps, 'description' | 'label'>;
+    CommonProps<'id'>;
 ```
 
 union, tuple, or different types of data. Interfaces can only be used to describe the shape of an object.

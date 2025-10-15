@@ -1,4 +1,4 @@
-import { RadioProps, RadioGroupItem } from './RadioGroupItem';
+import { RadioProps, RadioGroupItem } from './Item';
 import { ToggleOption, ToggleOptionControlProps } from '-/components/ToggleOption';
 
 export type RadioOptionProps = ToggleOptionControlProps<RadioProps>;
@@ -8,7 +8,9 @@ export type RadioOptionProps = ToggleOptionControlProps<RadioProps>;
  *
  * If only a radio-group-item button is needed, consider using the RadioGroupItem component directly.
  *
- * * @name RadioOption * * @phase Utility
+ * - @name RadioOption
+ *
+ * @phase Utility
  */
 export function RadioOption({ label: labelProp, description, disabled, ...radioProps }: RadioOptionProps) {
     const label = labelProp || description;

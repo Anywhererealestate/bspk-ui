@@ -4,7 +4,8 @@ import '-/styles/base.scss';
 /**
  * Utility to provide the Cartus styles to the application.
  *
- * * @name StylesProviderCartus * * @phase Utility
+ * @name StylesProviderCartus
+ * @phase Utility
  *
  * @generated
  */

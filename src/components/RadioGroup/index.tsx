@@ -1,3 +1,3 @@
 export * from './RadioGroup';
-export * from './RadioGroupItem';
+export * from './Item';
 export * from './RadioOption';

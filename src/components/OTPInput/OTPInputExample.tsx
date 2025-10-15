@@ -1,7 +1,7 @@
-import { InputOTPProps } from '.';
+import { OTPInputProps } from '.';
 import { ComponentExample, Preset } from '-/utils/demo';
 
-export const presets: Preset<InputOTPProps>[] = [
+export const presets: Preset<OTPInputProps>[] = [
     {
         label: '4 Characters',
         propState: {
@@ -20,7 +20,7 @@ export const presets: Preset<InputOTPProps>[] = [
     },
 ];
 
-export const InputOTPExample: ComponentExample<InputOTPProps> = {
+export const OTPInputExample: ComponentExample<OTPInputProps> = {
     containerStyle: { width: '100%' },
     defaultState: {},
     disableProps: [],

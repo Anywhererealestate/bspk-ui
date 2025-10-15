@@ -1,8 +1,7 @@
-[data-bspk='radio-group-item-group'] {
+[data-bspk='checkbox-group'] {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-sizing-01);
-    max-width: 100%;
+    gap: 0;
 
     --list-item-height: auto;
     --list-item-padding: var(--spacing-sizing-01);

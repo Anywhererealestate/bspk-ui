@@ -1,5 +1,5 @@
-import './radio-group-item-group.scss';
-import { RadioOption, RadioOptionProps } from '-/components/RadioOption';
+import './radio-group.scss';
+import { RadioOption, RadioOptionProps } from './RadioOption';
 import { useId } from '-/hooks/useId';
 import { ElementProps, CommonProps } from '-/types/common';
 
@@ -111,7 +111,7 @@ export function RadioGroup({
             aria-errormessage={props['aria-errormessage']}
             aria-label={hideLabelProp ? groupLabel : undefined}
             aria-labelledby={!hideLabelProp ? `${id}-label` : undefined}
-            data-bspk="radio-group-item-group"
+            data-bspk="radio-group"
             id={id}
             role="radiogroup"
         >

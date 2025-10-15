@@ -1,11 +1,11 @@
-import './input-otp.scss';
+import './otp-input.scss';
 import { useRef } from 'react';
 import { useId } from '-/hooks/useId';
 import { CommonProps } from '-/types/common';
 
-export type InputOTPProps = CommonProps<'id' | 'invalid' | 'name' | 'size'> & {
+export type OTPInputProps = CommonProps<'id' | 'invalid' | 'name' | 'size'> & {
     /**
-     * The value of the input-otp.
+     * The value of the otp-input.
      *
      * @example
      *     867530;
@@ -20,7 +20,7 @@ export type InputOTPProps = CommonProps<'id' | 'invalid' | 'name' | 'size'> & {
      */
     onChange: (value: string) => void;
     /**
-     * The length of the input-otp.
+     * The length of the otp-input.
      *
      * @default 6
      * @maximum 10
@@ -32,17 +32,17 @@ export type InputOTPProps = CommonProps<'id' | 'invalid' | 'name' | 'size'> & {
  * A row of input fields that are used to input a temporary secure pin code sent to the customer.
  *
  * @example
- *     import { InputOTP } from '@bspk/ui/InputOTP';
+ *     import { OTPInput } from '@bspk/ui/OTPInput';
  *
  *     function Example() {
- *         return <InputOTP name="2-auth-otp" length={4} value={otpValue} onChange={setOtpValue} />;
+ *         return <OTPInput name="2-auth-otp" length={4} value={otpValue} onChange={setOtpValue} />;
  *     }
  *
- * @name InputOTP
+ * @name OTPInput
  *
  * @phase UXReview
  */
-export function InputOTP({
+export function OTPInput({
     value: valueProp,
     onChange,
     name,
@@ -50,7 +50,7 @@ export function InputOTP({
     length = 6,
     size = 'medium',
     invalid = false,
-}: InputOTPProps) {
+}: OTPInputProps) {
     const id = useId(idProp);
     const value = valueProp?.slice(0, length) || '';
     const parentRef = useRef<HTMLDivElement | null>(null);
@@ -67,7 +67,7 @@ export function InputOTP({
 
     return (
         <div
-            data-bspk="input-otp"
+            data-bspk="otp-input"
             data-invalid={invalid || undefined}
             data-size={size || 'medium'}
             id={id}

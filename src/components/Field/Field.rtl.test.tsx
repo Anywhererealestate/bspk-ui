@@ -16,8 +16,8 @@ describe('Field (RTL)', () => {
     it('has no basic a11y issues', hasNoBasicA11yIssues(<TestBed />));
 
     it('renders', () => {
-        const { getByLabelText } = render(<TestBed />);
+        const { getByText } = render(<TestBed />);
 
-        expect(getByLabelText('Example label')).toBeInTheDocument();
+        expect(getByText('Example label')).toBeInTheDocument();
     });
 });

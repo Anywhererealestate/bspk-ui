@@ -1,4 +1,4 @@
-import { TimeInputType } from './Segment';
+import { TimePickerType } from './Segment';
 import { useArrowNavigation } from '-/hooks/useArrowNavigation';
 import { getElementById } from '-/utils/dom';
 import { handleKeyDown } from '-/utils/handleKeyDown';
@@ -9,15 +9,15 @@ type Option = {
     label: string;
 };
 
-type TimeInputListboxProps = {
+type TimePickerListboxProps = {
     options: Option[];
     selectedValue?: string;
-    type: TimeInputType;
+    type: TimePickerType;
     onSelect?: (value: string) => void;
     onTab?: (e: React.KeyboardEvent) => void;
 };
 
-export function TimeInputListbox({ options, selectedValue, type: kind, onSelect, onTab }: TimeInputListboxProps) {
+export function TimePickerListbox({ options, selectedValue, type: kind, onSelect, onTab }: TimePickerListboxProps) {
     const { activeElementId, arrowKeyCallbacks } = useArrowNavigation({
         ids: options.map((option) => option.id),
         defaultActiveId: (options.find((option) => option.value === selectedValue) || options[0])?.id || null,
@@ -31,7 +31,7 @@ export function TimeInputListbox({ options, selectedValue, type: kind, onSelect,
         <div
             //aria-activedescendant={activeElementId || undefined}
             aria-label={`Select ${kind}`}
-            data-bspk="time-input-listbox"
+            data-bspk="time-picker-listbox"
             data-scroll-column={kind}
             data-type={kind}
             data-visible={true}

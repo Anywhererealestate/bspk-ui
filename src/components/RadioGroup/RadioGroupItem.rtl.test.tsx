@@ -1,4 +1,4 @@
-import { RadioGroupItem } from './RadioGroupItem';
+import { RadioGroupItem } from './Item';
 import { hasNoBasicA11yIssues } from '-/rtl/hasNoBasicA11yIssues';
 import { render } from '-/rtl/util';
 

@@ -33,23 +33,25 @@ export type CheckboxProps = CommonProps<'aria-label' | 'disabled' | 'invalid' | 
  * CheckboxGroup component.
  *
  * @example
- *     import { Checkbox } from '@bspk/ui/Checkbox';
+ *     import { CheckboxGroup } from '@bspk/ui/CheckboxGroup';
  *
  *     function Example() {
- *         const [checked, setChecked] = React.useState(false);
+ *         const [values, setValues] = React.useState<string[]>([]);
  *
  *         return (
- *             <label htmlFor="sample-checkbox">
- *                 <Checkbox
- *                     aria-label="Sample"
- *                     checked={checked}
- *                     id="sample-checkbox"
- *                     name="sample-checkbox"
- *                     onChange={(nextChecked) => setChecked(nextChecked)}
- *                     value="sample"
- *                 />
- *                 Checkbox Label
- *             </label>
+ *             <CheckboxGroup
+ *                 aria-label="Example Checkbox Group"
+ *                 name="example-checkbox-group"
+ *                 options={[
+ *                     { label: 'Option 1', value: 'option1' },
+ *                     { label: 'Option 2', value: 'option2' },
+ *                     { label: 'Option 3', value: 'option3' },
+ *                 ]}
+ *                 values={values}
+ *                 onChange={(nextValues: string[]) => {
+ *                     setValues(nextValues);
+ *                 }}
+ *             />
  *         );
  *     }
  *

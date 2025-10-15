@@ -1,9 +1,9 @@
-import './time-input.scss';
+import './time-picker.scss';
 import { SvgSchedule } from '@bspk/icons/Schedule';
 import { FocusTrap } from 'focus-trap-react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { TimeInputListbox } from './Listbox';
-import { TimeInputSegment } from './Segment';
+import { TimePickerListbox } from './Listbox';
+import { TimePickerSegment } from './Segment';
 import { Button } from '-/components/Button';
 import { useFieldContext } from '-/components/Field';
 import { InputProps } from '-/components/Input';
@@ -22,7 +22,7 @@ type Minute = (typeof MINUTE_OPTIONS)[number];
 type Hour = (typeof HOUR_OPTIONS)[number];
 type Meridiem = (typeof MERIDIEM_OPTIONS)[number];
 
-export type TimeInputProps = Pick<InputProps, 'disabled' | 'id' | 'invalid' | 'name' | 'readOnly' | 'size'> & {
+export type TimePickerProps = Pick<InputProps, 'disabled' | 'id' | 'invalid' | 'name' | 'readOnly' | 'size'> & {
     value?: string;
 };
 
@@ -31,17 +31,17 @@ export type TimeInputProps = Pick<InputProps, 'disabled' | 'id' | 'invalid' | 'n
  * select a date.
  *
  * @example
- *     import { TimeInput } from '@bspk/ui/TimeInput';
+ *     import { TimePicker } from '@bspk/ui/TimePicker';
  *
  *     function Example() {
- *         return <TimeInput>Example TimeInput</TimeInput>;
+ *         return <TimePicker>Example TimePicker</TimePicker>;
  *     }
  *
- * @name TimeInput
+ * @name TimePicker
  *
  * @phase UXReview
  */
-export function TimeInput({
+export function TimePicker({
     value,
     disabled,
     id: idProp,
@@ -50,7 +50,7 @@ export function TimeInput({
     name,
     size,
     ...props
-}: ElementProps<TimeInputProps, 'div'>) {
+}: ElementProps<TimePickerProps, 'div'>) {
     const { id, ariaDescribedBy, ariaErrorMessage, hasError } = useFieldContext(idProp);
     const invalid = !readOnly && !disabled && (invalidProp || hasError);
 
@@ -127,7 +127,7 @@ export function TimeInput({
             <div
                 {...props}
                 aria-describedby={ariaErrorMessage || ariaDescribedBy || undefined}
-                data-bspk="time-input"
+                data-bspk="time-picker"
                 data-disabled={disabled || undefined}
                 data-invalid={invalid || undefined}
                 data-name={name || undefined}
@@ -147,7 +147,7 @@ export function TimeInput({
                 role="group"
                 tabIndex={disabled || readOnly ? -1 : 0}
             >
-                <TimeInputSegment
+                <TimePickerSegment
                     disabled={disabled}
                     name={`${name}-hours`}
                     onChange={(next) => setHours(next || undefined)}
@@ -156,7 +156,7 @@ export function TimeInput({
                     value={hours}
                 />
                 <span aria-hidden="true">:</span>
-                <TimeInputSegment
+                <TimePickerSegment
                     disabled={disabled}
                     name={`${name}-minutes`}
                     onChange={(next) => setMinutes(next || undefined)}
@@ -164,7 +164,7 @@ export function TimeInput({
                     type="minutes"
                     value={minutes}
                 />
-                <TimeInputSegment
+                <TimePickerSegment
                     disabled={disabled}
                     name={`${name}-meridiem`}
                     onChange={(next) => setMeridiem(next || 'AM')}
@@ -192,7 +192,7 @@ export function TimeInput({
                             elements.setFloating(node as HTMLElement);
                         }}
                         label="Select time"
-                        owner="time-input"
+                        owner="time-picker"
                         style={floatingStyles}
                     >
                         <FocusTrap
@@ -212,7 +212,7 @@ export function TimeInput({
                                     listBoxRefs.current.hours?.focus();
                                 }}
                             >
-                                <TimeInputListbox
+                                <TimePickerListbox
                                     onSelect={(next) => {
                                         setHours(next as Hour);
                                         setTimeout(() => listBoxRefs.current?.minutes?.focus(), 10);
@@ -221,7 +221,7 @@ export function TimeInput({
                                     selectedValue={hours}
                                     type="hours"
                                 />
-                                <TimeInputListbox
+                                <TimePickerListbox
                                     onSelect={(next) => {
                                         setMinutes(next as Minute);
                                         setTimeout(() => listBoxRefs.current?.meridiem?.focus(), 10);
@@ -230,7 +230,7 @@ export function TimeInput({
                                     selectedValue={minutes}
                                     type="minutes"
                                 />
-                                <TimeInputListbox
+                                <TimePickerListbox
                                     onSelect={(next) => {
                                         setMeridiem(next as Meridiem);
                                         setOpen(false);

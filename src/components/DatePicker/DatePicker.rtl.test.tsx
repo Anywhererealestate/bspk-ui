@@ -3,15 +3,15 @@ import { hasNoBasicA11yIssues } from '-/rtl/hasNoBasicA11yIssues';
 import { render } from '-/rtl/util';
 
 const TestBed = () => (
-    <DatePicker aria-label="calendar input" name="calendar input" onChange={() => {}} value={new Date()} />
+    <DatePicker name="calendar input" onChange={() => {}} placeholder="Select Date" value={new Date()} />
 );
 
 describe('DatePicker', () => {
     it('has no basic a11y issues', hasNoBasicA11yIssues(<TestBed />));
 
     it('renders', () => {
-        const { getByLabelText } = render(<TestBed />);
+        const { getByPlaceholderText } = render(<TestBed />);
 
-        expect(getByLabelText('calendar input')).toBeInTheDocument();
+        expect(getByPlaceholderText('Select Date')).toBeInTheDocument();
     });
 });

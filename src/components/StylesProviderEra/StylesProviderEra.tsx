@@ -4,7 +4,8 @@ import '-/styles/base.scss';
 /**
  * Utility to provide the ERA styles to the application.
  *
- * * @name StylesProviderEra * * @phase Utility
+ * @name StylesProviderEra
+ * @phase Utility
  *
  * @generated
  */
