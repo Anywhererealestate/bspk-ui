@@ -104,7 +104,8 @@ export const ListItemExample: ComponentExampleFn<ListItemProps> = ({ action, set
 
         if (!preset) return null;
 
-        if (trailing.componentName && ['Checkbox', 'Radio', 'Switch'].includes(trailing.componentName)) as = 'label';
+        if (trailing.componentName && ['Checkbox', 'RadioGroupItem', 'Switch'].includes(trailing.componentName))
+            as = 'label';
 
         return <ListItem {...props} as={as} leading={leading.element} trailing={trailing.element} />;
     },

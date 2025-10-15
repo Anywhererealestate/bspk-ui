@@ -90,8 +90,6 @@ if (packageJsonContent.includes(oldComponentName)) {
 
         const filePath = path.join(dir, file);
 
-        console.log(`checking: ${filePath}`);
-
         const content = fs.readFileSync(filePath, 'utf-8');
         const containsOldName = content.includes(oldComponentName) || content.includes(oldKebabCase);
 

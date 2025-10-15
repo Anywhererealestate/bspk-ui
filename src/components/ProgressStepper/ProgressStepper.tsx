@@ -1,9 +1,9 @@
-import './progression-stepper.scss';
+import './progress-stepper.scss';
 import { SvgCheck } from '@bspk/icons/Check';
 import { ElementProps } from '-/types/common';
 
 /** A progress stepper item is a single step in the progress bar. */
-export type ProgressionStepperItem = {
+export type ProgressStepperItem = {
     /**
      * The name of the step.
      *
@@ -25,17 +25,17 @@ export type ProgressionStepperItem = {
     touchLink?: { label: string; onClick: () => void };
 };
 
-export type ProgressionStepperProps = {
+export type ProgressStepperProps = {
     /**
      * The steps to display in the progress bar.
      *
      * @example
      *     [{ name: 'Name of step 1' }, { name: 'Name of step 2' }, { name: 'Name of step 3' }];
      *
-     * @type Array<ProgressionStepperItem>
+     * @type Array<ProgressStepperItem>
      * @required
      */
-    steps: ProgressionStepperItem[];
+    steps: ProgressStepperItem[];
     /**
      * The last completed step in the progress bar. This is only applicable for the 'widget' variant.
      *
@@ -57,21 +57,21 @@ export type ProgressionStepperProps = {
  * A progress stepper is a horizontal visual indicator that let’s the user know the progression of the current process.
  *
  * @example
- *     import { ProgressionStepper } from '@bspk/ui/ProgressionStepper';
+ *     import { ProgressStepper } from '@bspk/ui/ProgressStepper';
  *
  *     export function Example() {
- *         return <ProgressionStepper steps={[{ name: 'Step 1' }, { name: 'Step 2' }, { name: 'Step 3' }]} />;
+ *         return <ProgressStepper steps={[{ name: 'Step 1' }, { name: 'Step 2' }, { name: 'Step 3' }]} />;
  *     }
  *
- * @name ProgressionStepper
+ * @name ProgressStepper
  * @phase UXReview
  */
-export function ProgressionStepper({
+export function ProgressStepper({
     steps = [],
     completedStep: completedStepProp = 0,
     variant = 'horizontal',
     ...containerProps
-}: ElementProps<ProgressionStepperProps, 'div'>) {
+}: ElementProps<ProgressStepperProps, 'div'>) {
     const completedStepNumber = Math.max(0, Math.min(completedStepProp, steps.length));
 
     const currentStepNumber = Math.min(completedStepNumber + 1, steps.length);
@@ -81,7 +81,7 @@ export function ProgressionStepper({
     if (!steps?.length) return null;
 
     return (
-        <div {...containerProps} data-bspk="progression-stepper" data-variant={variant}>
+        <div {...containerProps} data-bspk="progress-stepper" data-variant={variant}>
             {variant === 'widget' && (
                 <label>
                     <span data-title>{currentStep.name}</span>

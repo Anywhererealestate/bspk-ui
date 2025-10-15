@@ -1,7 +1,7 @@
-import { ProgressionStepperProps } from '.';
+import { ProgressStepperProps } from '.';
 import { ComponentExample, Preset } from '-/utils/demo';
 
-export const presets: Preset<ProgressionStepperProps>[] = [
+export const presets: Preset<ProgressStepperProps>[] = [
     {
         label: 'Horizontal',
         propState: {
@@ -65,7 +65,7 @@ export const presets: Preset<ProgressionStepperProps>[] = [
     },
 ];
 
-export const ProgressionStepperExample: ComponentExample<ProgressionStepperProps> = {
+export const ProgressStepperExample: ComponentExample<ProgressStepperProps> = {
     containerStyle: { width: '100%' },
     presets,
 };

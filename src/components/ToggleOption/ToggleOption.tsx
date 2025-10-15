@@ -24,7 +24,7 @@ export type ToggleOptionProps = CommonProps<'disabled' | 'readOnly'> & {
 };
 
 /**
- * A utility component that wraps a checkbox, radio, and switch.
+ * A utility component that wraps a checkbox, radio-group-item, and switch.
  *
  * @name ToggleOption
  * @phase Utility

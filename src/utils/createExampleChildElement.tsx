@@ -6,7 +6,7 @@ import { Avatar } from '-/components/Avatar';
 import { Button } from '-/components/Button';
 import { Checkbox } from '-/components/Checkbox';
 import { Img } from '-/components/Img';
-import { Radio } from '-/components/Radio';
+import { RadioGroupItem } from '-/components/RadioGroupItem';
 import { Switch } from '-/components/Switch';
 import { Tag } from '-/components/Tag';
 import { Txt } from '-/components/Txt';
@@ -29,9 +29,9 @@ export function createExampleChildElement({ exampleState, name, setState, action
 } {
     const componentName = exampleState[name];
 
-    if (componentName === 'Checkbox' || componentName === 'Radio' || componentName === 'Switch') {
-        let As: typeof Checkbox | typeof Radio | typeof Switch = Checkbox;
-        if (componentName === 'Radio') As = Radio;
+    if (componentName === 'Checkbox' || componentName === 'RadioGroupItem' || componentName === 'Switch') {
+        let As: typeof Checkbox | typeof RadioGroupItem | typeof Switch = Checkbox;
+        if (componentName === 'RadioGroupItem') As = RadioGroupItem;
         else if (componentName === 'Switch') As = Switch;
 
         const toggleName = `data-${name}-toggle-${id}`;

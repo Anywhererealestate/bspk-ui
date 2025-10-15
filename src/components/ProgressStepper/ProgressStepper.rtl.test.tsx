@@ -1,18 +1,18 @@
-import { ProgressionStepper } from './ProgressionStepper';
-import { presets } from './ProgressionStepperExample';
+import { ProgressStepper } from './ProgressStepper';
+import { presets } from './ProgressStepperExample';
 import { hasNoBasicA11yIssues } from '-/rtl/hasNoBasicA11yIssues';
 import { render } from '-/rtl/util';
 
-describe('ProgressionStepper (RTL)', () => {
+describe('ProgressStepper (RTL)', () => {
     presets.forEach((preset) => {
         it(
             `has no basic a11y issues - ${preset.label}`,
-            hasNoBasicA11yIssues(<ProgressionStepper {...preset.propState} />),
+            hasNoBasicA11yIssues(<ProgressStepper {...preset.propState} />),
         );
     });
 
     it('renders', () => {
-        const { getByText } = render(<ProgressionStepper {...presets[0].propState} />);
+        const { getByText } = render(<ProgressStepper {...presets[0].propState} />);
 
         expect(getByText('Name of step 1')).toBeInTheDocument();
     });

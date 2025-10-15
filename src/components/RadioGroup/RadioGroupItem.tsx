@@ -1,17 +1,17 @@
-import './radio.scss';
+import './radio-group-item.scss';
 import { ChangeEvent } from 'react';
 import { ElementProps, CommonProps } from '-/types/common';
 
 export type RadioProps = CommonProps<'aria-label' | 'disabled' | 'invalid' | 'name'> &
     Required<CommonProps<'value'>> & {
         /**
-         * Marks the radio as checked.
+         * Marks the radio-group-item as checked.
          *
          * @default false
          */
         checked?: boolean;
         /**
-         * The function to call when the radio is checked.
+         * The function to call when the radio-group-item is checked.
          *
          * @required
          */
@@ -24,21 +24,21 @@ export type RadioProps = CommonProps<'aria-label' | 'disabled' | 'invalid' | 'na
  *
  * @element
  *
- * @name Radio
+ * @name RadioGroupItem
  * @phase Utility
  */
-export function Radio(props: ElementProps<RadioProps, 'input'>) {
+export function RadioGroupItem(props: ElementProps<RadioProps, 'input'>) {
     const { checked = false, invalid, disabled, onChange, ...otherProps } = props;
 
     return (
-        <span data-bspk="radio">
+        <span data-bspk="radio-group-item">
             <input
                 {...otherProps}
                 checked={!!checked}
                 data-invalid={invalid || undefined}
                 disabled={disabled || undefined}
                 onChange={(event) => onChange(!!event.target.checked, event)}
-                type="radio"
+                type="radio-group-item"
             />
             <span aria-hidden />
         </span>

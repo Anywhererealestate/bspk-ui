@@ -1,7 +1,7 @@
-import './progression-stepper-bar.scss';
+import './progress-stepper-bar.scss';
 import { cssWithVars } from '-/utils/cwv';
 
-export type ProgressionStepperBarProps = {
+export type ProgressStepperBarProps = {
     /**
      * The number of steps in the progress bar.
      *
@@ -34,20 +34,20 @@ export type ProgressionStepperBarProps = {
 /**
  * Component description coming soon.
  *
- * @name ProgressionStepperBar
+ * @name ProgressStepperBar
  * @phase UXReview
  */
-export function ProgressionStepperBar({
+export function ProgressStepperBar({
     stepCount,
     stepCompleted: stepCompletedProp = 0,
     size = 'large',
     ...containerProps
-}: ProgressionStepperBarProps) {
+}: ProgressStepperBarProps) {
     const stepCompleted = Math.min(stepCompletedProp, stepCount);
 
     return (
         <div
-            data-bspk="progression-stepper-bar"
+            data-bspk="progress-stepper-bar"
             data-size={size}
             style={cssWithVars({ '--steps': stepCount })}
             {...containerProps}

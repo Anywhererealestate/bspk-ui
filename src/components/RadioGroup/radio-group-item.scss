@@ -1,11 +1,11 @@
-[data-bspk='radio'] {
+[data-bspk='radio-group-item'] {
     display: block;
     position: relative;
     width: var(--spacing-sizing-06);
     aspect-ratio: 1/1;
     padding: 2px;
 
-    input[type='radio'] {
+    input[type='radio-group-item'] {
         position: absolute;
         opacity: 0;
         z-index: 2;
@@ -44,7 +44,7 @@
         }
     }
 
-    input[type='radio']:not(:disabled) {
+    input[type='radio-group-item']:not(:disabled) {
         &:hover + span {
             --background: var(--interactions-neutral-hover-opacity);
         }
@@ -59,7 +59,7 @@
         }
     }
 
-    input[type='radio']:checked + span {
+    input[type='radio-group-item']:checked + span {
         --stroke: var(--stroke-brand-primary);
 
         &::before {
@@ -67,7 +67,7 @@
         }
     }
 
-    input[type='radio']:disabled {
+    input[type='radio-group-item']:disabled {
         pointer-events: none;
 
         & + span {

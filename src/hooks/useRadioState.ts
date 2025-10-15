@@ -1,22 +1,22 @@
 import { useState } from 'react';
 
-import { RadioProps } from '-/components/Radio';
+import { RadioProps } from '-/components/RadioGroupItem';
 
 /**
- * A hook to manage the state of a single radio. Used alongside the Radio component.
+ * A hook to manage the state of a single radio-group-item. Used alongside the RadioGroupItem component.
  *
  * @example
- *     import { Radio } from '@bspk/ui/Radio';
+ *     import { RadioGroupItem } from '@bspk/ui/RadioGroupItem';
  *     import { useRadioState } from '@bspk/ui/hooks/useRadioState';
  *
  *     export function Example() {
  *     const { radioProps } = useRadioState('fruits');
- *     return <Radio aria-label="cherry" {...radioProps('cherry')} />;
+ *     return <RadioGroupItem aria-label="cherry" {...radioProps('cherry')} />;
  *     }
  *
- * @param name - The name of the radio.
- * @param externalState - The externally managed state of the radio.
- * @returns Properties to pass to the radio and the state of the radio.
+ * @param name - The name of the radio-group-item.
+ * @param externalState - The externally managed state of the radio-group-item.
+ * @returns Properties to pass to the radio-group-item and the state of the radio-group-item.
  */
 export function useRadioState(
     name: string,

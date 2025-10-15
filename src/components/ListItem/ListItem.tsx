@@ -41,11 +41,11 @@ export type ListItemProps<As extends ElementType = ElementType> = CommonProps<'a
         /**
          * The trailing element to display in the ListItem.
          *
-         * Trailing elements should only be one of the following [Icon](/icons), Checkbox, Button, Radio, Switch, Tag,
-         * Txt.
+         * Trailing elements should only be one of the following [Icon](/icons), Checkbox, Button, RadioGroupItem,
+         * Switch, Tag, Txt.
          *
          * @exampleType select
-         * @options Checkbox, Icon, Button, Radio, Switch, Tag, Txt
+         * @options Checkbox, Icon, Button, RadioGroupItem, Switch, Tag, Txt
          */
         trailing?: ReactNode;
         /**
@@ -98,7 +98,7 @@ export type ListItemProps<As extends ElementType = ElementType> = CommonProps<'a
  *
  * Leading elements should be one of the following [Icon](/icons), Img, Avatar.
  *
- * Trailing elements should be one of the following [Icon](/icons), Checkbox, Button, Radio, Switch, Tag, Txt.
+ * Trailing elements should be one of the following [Icon](/icons), Checkbox, Button, RadioGroupItem, Switch, Tag, Txt.
  *
  * Button should only have the props: icon, iconOnly, label, onClick, size="large", and variant="tertiary".
  *

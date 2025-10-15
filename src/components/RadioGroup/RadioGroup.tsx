@@ -1,4 +1,4 @@
-import './radio-group.scss';
+import './radio-group-item-group.scss';
 import { RadioOption, RadioOptionProps } from '-/components/RadioOption';
 import { useId } from '-/hooks/useId';
 import { ElementProps, CommonProps } from '-/types/common';
@@ -47,7 +47,7 @@ export type RadioGroupProps = CommonProps<'disabled' | 'name'> & {
      */
     options: RadioGroupOption[];
     /**
-     * The label of the radio group.
+     * The label of the radio-group-item group.
      *
      * @required
      */
@@ -101,7 +101,7 @@ export function RadioGroup({
     disabled: disabledGroup = false,
     ...props
 }: ElementProps<RadioGroupProps, 'div'>) {
-    const id = `radio-group-${useId()}`;
+    const id = `radio-group-item-group-${useId()}`;
 
     return (
         <div
@@ -110,7 +110,7 @@ export function RadioGroup({
             aria-errormessage={props['aria-errormessage']}
             aria-label={hideLabelProp ? groupLabel : undefined}
             aria-labelledby={!hideLabelProp ? `${id}-label` : undefined}
-            data-bspk="radio-group"
+            data-bspk="radio-group-item-group"
             id={id}
             role="radiogroup"
         >
@@ -122,7 +122,7 @@ export function RadioGroup({
                             checked={groupValue === value}
                             description={description}
                             disabled={disabledGroup || disabled}
-                            key={`radio-option-${value || index}`}
+                            key={`radio-group-item-option-${value || index}`}
                             label={label}
                             name={name}
                             onChange={(checked) => checked && onChange(value)}
