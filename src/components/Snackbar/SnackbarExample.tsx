@@ -8,15 +8,7 @@ function SnackbarDemo(props: SnackbarProps) {
 
     return (
         <>
-            <Snackbar
-                {...props}
-                closeButton={props.closeButton}
-                closeButtonLabel={props.closeButtonLabel}
-                onClose={() => setSnackbarOpen(false)}
-                open={snackbarOpen}
-                text={props.text}
-                timeout={props.timeout}
-            />
+            <Snackbar {...props} onClose={() => setSnackbarOpen(false)} open={snackbarOpen} />
             <Button label="open snackbar" onClick={() => setSnackbarOpen(true)} size="medium" title="Snackbar" />
         </>
     );

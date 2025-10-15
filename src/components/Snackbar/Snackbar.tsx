@@ -8,7 +8,11 @@ import { useId } from '-/hooks/useId';
 import { CommonProps, SetRef } from '-/types/common';
 
 export type SnackbarProps = CommonProps<'id'> & {
-    /** Text to be shown in the snackbar */
+    /**
+     * Text to be shown in the snackbar
+     *
+     * @required
+     */
     text: string;
     /**
      * Whether to show a close button on the snackbar.
@@ -31,7 +35,11 @@ export type SnackbarProps = CommonProps<'id'> & {
      * @type BspkIcon
      */
     icon?: ReactNode;
-    /** Callback when the snackbar is dismissed */
+    /**
+     * Callback when the snackbar is dismissed
+     *
+     * @required
+     */
     onClose: () => void;
     /** Content to be rendered inside the snack bar provider, the snackbar trigger element. */
     // children: ReactNode;
@@ -59,11 +67,11 @@ export type SnackbarProps = CommonProps<'id'> & {
 };
 
 /**
- * Snackbar context provider. Snackbars are intended to provide feedback about an action without interrupting the
- * customer experience.
+ * Snackbars are intended to provide feedback about an action. Because of focus trap these will interrupt the customer
+ * experience.
  *
  * @example
- *     import { SnackbarProvider } from '@bspk/ui/SnackbarProvider';
+ *     import { Snackbar } from '@bspk/ui/Snackbar';
  *     import { Button } from '@bspk/ui/Button';
  *     import { useState } from 'react';
  *
@@ -73,12 +81,13 @@ export type SnackbarProps = CommonProps<'id'> & {
  *         return (
  *             <>
  *                 <Button label="Show snackbar" onClick={() => setSnackbarOpen(true)} size="medium" title="Snackbar" />
- *                 <SnackbarProvider {...props} open={snackbarOpen} onClose={() => setSnackbarOpen(false)} />
+ *                 <Snackbar text="I am an example." open={snackbarOpen} onClose={() => setSnackbarOpen(false)} />
  *             </>
  *         );
  *     }
  *
  * @name Snackbar
+ *
  * @phase UXReview
  */
 export function Snackbar({
