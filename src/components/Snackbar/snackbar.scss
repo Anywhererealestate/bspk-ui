@@ -21,7 +21,6 @@
         padding: var(--spacing-sizing-02) var(--spacing-sizing-02) var(--spacing-sizing-02) var(--spacing-sizing-04);
         gap: var(--spacing-sizing-03);
         width: 600px;
-        max-width: 100%;
         box-shadow:
             0 0 1px 0 var(--shadow-variant-05),
             0 0 12px 0 var(--shadow-variant-03);
@@ -30,6 +29,10 @@
         height: var(--spacing-sizing-14);
 
         [data-snackbar-icon-text] {
+            flex: 1 1 0; // allow to grow and shrink, but not overflow
+            min-width: 0; // Prevent overflow from long content
+            max-width: 100%;
+            overflow: hidden;
             display: flex;
             align-items: center;
             gap: var(--spacing-sizing-03);
@@ -44,6 +47,7 @@
         }
 
         [data-bspk='button'][data-variant='tertiary'] {
+            flex: 0 0 auto; // prevent button from shrinking
             color: inherit;
         }
     }

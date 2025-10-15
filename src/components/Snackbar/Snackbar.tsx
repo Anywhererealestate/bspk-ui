@@ -2,7 +2,8 @@ import { ReactNode, isValidElement, useEffect } from 'react';
 import { Button } from '-/components/Button';
 import { Portal } from '-/components/Portal';
 import './snackbar.scss';
-import { Txt } from '-/components/Txt';
+import { Truncated } from '-/components/Truncated';
+// import { Txt } from '-/components/Txt';
 import { useId } from '-/hooks/useId';
 import { CommonProps } from '-/types/common';
 
@@ -104,7 +105,7 @@ export function Snackbar({
                                 {icon}
                             </span>
                         )}
-                        <Txt variant="body-small">{text}</Txt>
+                        <Truncated data-label>{text}</Truncated>
                     </div>
                     {closeButton && <Button label={closeButtonLabel} onClick={onClose} variant="tertiary" />}
                 </div>
