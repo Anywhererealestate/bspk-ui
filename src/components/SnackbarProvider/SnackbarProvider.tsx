@@ -1,43 +1,11 @@
 import './snackbar-provider.scss';
-import { createContext, useEffect } from 'react';
+import { useEffect } from 'react';
 import { Button } from '-/components/Button';
 import { Portal } from '-/components/Portal';
 import './snackbar.scss';
 import { Txt } from '-/components/Txt';
 import { useId } from '-/hooks/useId';
 import { CommonProps } from '-/types/common';
-
-export interface SnackbarData {
-    /** Automatically set unique identifier. */
-    id: string;
-    /** The main body text of the snackbar */
-    text: string;
-    /** Time in milliseconds after which the snackbar will auto dismiss. You can also set a default at the UIProvider */
-    timeout?: number | null;
-    /**
-     * Optional action button
-     *
-     * @default false
-     */
-    closeButton?: boolean;
-    /**
-     * Label for the close button, if enabled
-     *
-     * @default 'Dismiss'
-     */
-    closeButtonLabel?: string;
-}
-
-export type SnackbarInput = SnackbarData;
-
-export type SnackbarContextProps = {
-    snackbars: SnackbarData[];
-    sendSnackbar: (data: SnackbarData) => void;
-    clearSnackbar: (id: SnackbarData['id']) => void;
-    clearAll: () => void;
-};
-
-export const SnackbarContext = createContext<SnackbarContextProps | undefined>(undefined);
 
 export type SnackbarProviderProps = CommonProps<'id'> & {
     /** Text to be shown in the snackbar */

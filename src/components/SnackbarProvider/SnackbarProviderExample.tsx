@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { SnackbarProvider, SnackbarProviderProps } from './SnackbarProvider';
 import { Button } from '-/components/Button';
-// import { useSnackbarContext } from '-/hooks/useSnackbarContext';
 import { ComponentExample } from '-/utils/demo';
 
 function SnackbarDemo(props: SnackbarProviderProps) {
