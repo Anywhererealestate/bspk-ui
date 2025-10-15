@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { ReactNode, isValidElement, useEffect } from 'react';
 import { Button } from '-/components/Button';
 import { Portal } from '-/components/Portal';
 import './snackbar.scss';
@@ -17,7 +17,6 @@ export type SnackbarProps = CommonProps<'id'> & {
      *
      * @default true
      */
-
     closeButton?: boolean;
     /**
      * Label for the close button.
@@ -25,6 +24,12 @@ export type SnackbarProps = CommonProps<'id'> & {
      * @default Dismiss
      */
     closeButtonLabel?: string;
+    /**
+     * The icon of the button.
+     *
+     * @type BspkIcon
+     */
+    icon?: ReactNode;
     /** Callback when the snackbar is dismissed */
     onClose: () => void;
     /** Content to be rendered inside the snack bar provider, the snackbar trigger element. */
@@ -72,6 +77,7 @@ export function Snackbar({
     timeout,
     closeButton = true,
     closeButtonLabel = 'Dismiss',
+    icon,
     onClose,
     open = false,
 }: SnackbarProps) {
@@ -90,11 +96,18 @@ export function Snackbar({
 
     return (
         <Portal>
-            <div aria-live="off" data-bspk="snackbar-provider">
-                <span data-bspk="snackbar" key={id} role="alert">
-                    <Txt variant="body-small">{text}</Txt>
+            <div aria-live="off" data-bspk="snackbar">
+                <div data-snackbar-content key={id} role="alert">
+                    <div data-snackbar-icon-text>
+                        {!!icon && isValidElement(icon) && (
+                            <span aria-hidden={true} data-snackbar-icon>
+                                {icon}
+                            </span>
+                        )}
+                        <Txt variant="body-small">{text}</Txt>
+                    </div>
                     {closeButton && <Button label={closeButtonLabel} onClick={onClose} variant="tertiary" />}
-                </span>
+                </div>
             </div>
         </Portal>
     );
