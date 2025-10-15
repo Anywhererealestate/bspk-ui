@@ -1,8 +1,8 @@
+import './snackbar.scss';
 import { FocusTrap } from 'focus-trap-react';
 import { ReactNode, isValidElement, useEffect, useRef } from 'react';
 import { Button } from '-/components/Button';
 import { Portal } from '-/components/Portal';
-import './snackbar.scss';
 import { Truncated } from '-/components/Truncated';
 import { useId } from '-/hooks/useId';
 import { CommonProps, SetRef } from '-/types/common';
