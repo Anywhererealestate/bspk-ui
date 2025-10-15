@@ -4,7 +4,6 @@ import { Button } from '-/components/Button';
 import { Portal } from '-/components/Portal';
 import './snackbar.scss';
 import { Truncated } from '-/components/Truncated';
-// import { Txt } from '-/components/Txt';
 import { useId } from '-/hooks/useId';
 import { CommonProps, SetRef } from '-/types/common';
 
