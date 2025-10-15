@@ -8,7 +8,6 @@ import {
     HTMLAttributes,
     AriaRole,
 } from 'react';
-import { ListItemButton } from './ListItemButton';
 import { Truncated } from '-/components/Truncated';
 import { useId } from '-/hooks/useId';
 import { CommonProps, ElementProps, SetRef } from '-/types/common';
@@ -42,11 +41,11 @@ export type ListItemProps<As extends ElementType = ElementType> = CommonProps<'a
         /**
          * The trailing element to display in the ListItem.
          *
-         * Trailing elements should only be one of the following [Icon](/icons), Checkbox, ListItemButton, Radio,
-         * Switch, Tag, Txt.
+         * Trailing elements should only be one of the following [Icon](/icons), Checkbox, Button, Radio, Switch, Tag,
+         * Txt.
          *
          * @exampleType select
-         * @options Checkbox, Icon, ListItemButton, Radio, Switch, Tag, Txt
+         * @options Checkbox, Icon, Button, Radio, Switch, Tag, Txt
          */
         trailing?: ReactNode;
         /**
@@ -99,9 +98,9 @@ export type ListItemProps<As extends ElementType = ElementType> = CommonProps<'a
  *
  * Leading elements should be one of the following [Icon](/icons), Img, Avatar.
  *
- * Trailing elements should be one of the following [Icon](/icons), Checkbox, ListItemButton, Radio, Switch, Tag, Txt.
+ * Trailing elements should be one of the following [Icon](/icons), Checkbox, Button, Radio, Switch, Tag, Txt.
  *
- * The ListItemButton is a more limited Button with context specific options.
+ * Button should only have the props: icon, iconOnly, label, onClick, size="large", and variant="tertiary".
  *
  * @example
  *     import { SvgSquare } from '@bspk/icons/Square';
@@ -121,7 +120,7 @@ export type ListItemProps<As extends ElementType = ElementType> = CommonProps<'a
  * @name ListItem
  * @phase UXReview
  */
-function ListItem<As extends ElementType = 'div'>({
+export function ListItem<As extends ElementType = 'div'>({
     active,
     as,
     innerRef,
@@ -182,10 +181,6 @@ function ListItem<As extends ElementType = 'div'>({
         </As>
     );
 }
-
-ListItem.Button = ListItemButton;
-
-export { ListItem };
 
 function asLogic<As extends ElementType>(as: As | undefined, props: Partial<ListItemProps>): ElementType {
     if (as) return as;
