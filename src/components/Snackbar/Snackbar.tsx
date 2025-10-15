@@ -1,11 +1,12 @@
-import { ReactNode, isValidElement, useEffect } from 'react';
+import { FocusTrap } from 'focus-trap-react';
+import { ReactNode, isValidElement, useEffect, useRef } from 'react';
 import { Button } from '-/components/Button';
 import { Portal } from '-/components/Portal';
 import './snackbar.scss';
 import { Truncated } from '-/components/Truncated';
 // import { Txt } from '-/components/Txt';
 import { useId } from '-/hooks/useId';
-import { CommonProps } from '-/types/common';
+import { CommonProps, SetRef } from '-/types/common';
 
 export type SnackbarProps = CommonProps<'id'> & {
     /** Text to be shown in the snackbar */
@@ -47,6 +48,15 @@ export type SnackbarProps = CommonProps<'id'> & {
      * @default false
      */
     open?: boolean;
+    /** A ref to the snackbar element. */
+    innerRef?: SetRef<HTMLDivElement>;
+    /**
+     * If focus trapping should be disabled. Generally this should not be disabled as snackbars should always trap
+     * focus.
+     *
+     * @default false
+     */
+    disableFocusTrap?: boolean;
 };
 
 /**
@@ -81,8 +91,11 @@ export function Snackbar({
     icon,
     onClose,
     open = false,
+    innerRef,
+    disableFocusTrap = false,
 }: SnackbarProps) {
     const id = useId(propId);
+    const boxRef = useRef<HTMLDivElement | null>(null);
     useEffect(() => {
         if (open && timeout) {
             const timer = setTimeout(() => {
@@ -97,18 +110,26 @@ export function Snackbar({
 
     return (
         <Portal>
-            <div aria-live="off" data-bspk="snackbar">
-                <div data-snackbar-content key={id} role="alert">
-                    <div data-snackbar-icon-text>
-                        {!!icon && isValidElement(icon) && (
-                            <span aria-hidden={true} data-snackbar-icon>
-                                {icon}
-                            </span>
-                        )}
-                        <Truncated data-label>{text}</Truncated>
+            <div aria-live="off" data-bspk="snackbar" id={id} ref={innerRef}>
+                <FocusTrap
+                    active={!disableFocusTrap}
+                    focusTrapOptions={{
+                        clickOutsideDeactivates: true,
+                        fallbackFocus: () => boxRef.current!,
+                    }}
+                >
+                    <div data-snackbar-content key={id} role="alert">
+                        <div data-snackbar-icon-text>
+                            {!!icon && isValidElement(icon) && (
+                                <span aria-hidden={true} data-snackbar-icon>
+                                    {icon}
+                                </span>
+                            )}
+                            <Truncated data-label>{text}</Truncated>
+                        </div>
+                        {closeButton && <Button label={closeButtonLabel} onClick={onClose} variant="tertiary" />}
                     </div>
-                    {closeButton && <Button label={closeButtonLabel} onClick={onClose} variant="tertiary" />}
-                </div>
+                </FocusTrap>
             </div>
         </Portal>
     );
