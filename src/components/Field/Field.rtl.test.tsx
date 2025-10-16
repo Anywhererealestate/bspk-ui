@@ -5,7 +5,7 @@ import { render } from '-/rtl/util';
 
 const TestBed = () => (
     <Field>
-        <FieldLabel required={true}>Example label</FieldLabel>
+        <FieldLabel>Example label</FieldLabel>
         <Input name="example-text" onChange={() => {}} value="Input text" />
         <FieldDescription>This is an example description.</FieldDescription>
         <FieldError>This is an error message.</FieldError>
