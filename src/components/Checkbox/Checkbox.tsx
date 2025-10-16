@@ -57,8 +57,6 @@ export type CheckboxProps = CommonProps<'aria-label' | 'disabled' | 'invalid' | 
  *
  * @name Checkbox
  * @phase UXReview
- *
- * *
  */
 export function Checkbox({
     checked: checkedProp = false,
