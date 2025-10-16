@@ -334,6 +334,10 @@
         {
             "title": "Sotheby's",
             "slug": "sothebys"
+        },
+        {
+            "title": "Example",
+            "slug": "example"
         }
     ]
 }

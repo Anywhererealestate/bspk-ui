@@ -55,7 +55,8 @@ async function main() {
     await Promise.all(
         BRANDS.map(async ({ slug }) => {
             const brandStylesPath = path.resolve(STYLES_SOURCE_DIR, `${slug}.css`);
-            await exec(`cp ${brandStylesPath} ${path.resolve(distStylesPath, `${slug}.css`)}`);
+            if (fs.existsSync(brandStylesPath))
+                await exec(`cp ${brandStylesPath} ${path.resolve(distStylesPath, `${slug}.css`)}`);
         }),
     );
 
