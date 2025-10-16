@@ -5,12 +5,12 @@
  * element's position and the specified placement, strategy, and offset options.
  *
  * @template ReferenceType - The type of the reference element, extending HTMLElement.
- * @param {Object} params - The parameters for the hook. * @param {Placement} params.placement - The preferred placement
- *   of the floating element.
+ * @param {Object} params - The parameters for the hook.
+ * @param {Placement} params.placement - The preferred placement of the floating element.
  * @param {React.MutableRefObject<HTMLElement | null>} [params.arrowRef] - A ref object for the arrow element. *
  * @param {Strategy} [params.strategy] - The positioning strategy ('absolute' or 'fixed').
- * @param {OffsetOptions} [params.offsetOptions=0] - The offset options for the floating element. Default is `0` *
- *   @param {boolean} [params.refWidth] - Whether to match the width of the floating element to the reference element.
+ * @param {OffsetOptions} [params.offsetOptions=0] - The offset options for the floating element. *. Default is `0`
+ * @param {boolean} [params.refWidth] - Whether to match the width of the floating element to the reference element.
  * @param {boolean} [params.hide=false] - Whether to hide the floating element. Default is `false`
  */
 import {
@@ -79,11 +79,7 @@ export type UseFloatingElements = {
     setFloating: (element: HTMLElement | null) => void;
 };
 
-/**
- * - @param param0
- *
- * @returns
- */
+/** A hook to manage the positioning of a floating element relative to a reference element. */
 export function useFloating({
     placement = 'bottom-start',
     arrowRef,

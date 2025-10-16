@@ -100,8 +100,8 @@ const GB = 1024 * MB;
  *
  * Lets not support terrabytes or petabytes for now.
  *
- * - @param fileSize {number | null | undefined} - The size of the file in bytes.
- * - @returns {string | null | undefined} A string representing the file size in a human-readable format or the original
+ * @param fileSize {number | null | undefined} - The size of the file in bytes.
+ * @returns {string | null | undefined} A string representing the file size in a human-readable format or the original
  *   value if it cannot be formatted.
  */
 function fileSizeFormat(fileSize?: number): string | undefined {

@@ -6,7 +6,6 @@ import '-/styles/base.scss';
  *
  * @name StylesProviderAnywhere
  * @phase Utility
- *
  * @generated
  */
 export function StylesProviderAnywhere(): JSX.Element | null {

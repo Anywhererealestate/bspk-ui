@@ -6,7 +6,6 @@ import '-/styles/base.scss';
  *
  * @name StylesProviderBetterHomesGardens
  * @phase Utility
- *
  * @generated
  */
 export function StylesProviderBetterHomesGardens(): JSX.Element | null {

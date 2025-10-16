@@ -14,7 +14,7 @@ import { CheckboxProps } from '-/components/Checkbox';
  *     return <Checkbox aria-label="cherry" {...checkboxProps('cherry')} />;
  *     }
  *
- * @param name - The name of the checkbox. *
+ * @param name - The name of the checkbox.
  * @param externalState - The externally managed state of the checkbox.
  * @returns Properties to pass to the checkbox and the state of the checkbox.
  */

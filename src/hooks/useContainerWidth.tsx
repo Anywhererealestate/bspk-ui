@@ -11,7 +11,7 @@ import { useState, useLayoutEffect } from 'react';
  *         return <div ref={containerRef}>Width: {width}px</div>;
  *     }
  *
- * @param ref - A ref to a container element. *
+ * @param ref - A ref to a container element.
  * @returns The width of the container element.
  */
 export function useContainerWidth(ref: React.RefObject<HTMLDivElement>) {

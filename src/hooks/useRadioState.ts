@@ -14,7 +14,7 @@ import { RadioProps } from '-/components/RadioGroup';
  *     return <RadioGroupItem aria-label="cherry" {...radioProps('cherry')} />;
  *     }
  *
- * @param name - The name of the radio-group-item. *
+ * @param name - The name of the radio-group-item.
  * @param externalState - The externally managed state of the radio-group-item.
  * @returns Properties to pass to the radio-group-item and the state of the radio-group-item.
  */

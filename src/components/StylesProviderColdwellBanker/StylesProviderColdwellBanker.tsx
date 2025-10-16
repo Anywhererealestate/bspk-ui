@@ -6,7 +6,6 @@ import '-/styles/base.scss';
  *
  * @name StylesProviderColdwellBanker
  * @phase Utility
- *
  * @generated
  */
 export function StylesProviderColdwellBanker(): JSX.Element | null {

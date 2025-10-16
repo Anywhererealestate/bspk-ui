@@ -25,7 +25,7 @@ import { useEffect } from 'react';
  *     );
  *     }
  *
- * @param elements - The elements to check if the click occurred outside of. *
+ * @param elements - The elements to check if the click occurred outside of.
  * @param callback - The callback to call when a click occurs outside of the ref.
  * @param disabled - Whether the hook should be disabled. Defaults to false.
  */

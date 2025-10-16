@@ -6,7 +6,6 @@ import '-/styles/base.scss';
  *
  * @name StylesProviderSothebys
  * @phase Utility
- *
  * @generated
  */
 export function StylesProviderSothebys(): JSX.Element | null {
