@@ -6,6 +6,11 @@
 }
 
 [data-bspk='field-label'] {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--spacing-sizing-01);
+
     span {
         font: var(--labels-small);
         color: var(--foreground-neutral-on-surface);
@@ -14,14 +19,18 @@
             font: var(--body-small);
             color: var(--foreground-neutral-on-surface-variant-01);
         }
+
+        &[data-trailing] {
+            font: var(--body-small);
+            color: var(--foreground-neutral-on-surface-variant-02);
+            margin-left: auto;
+        }
     }
 }
 
 [data-bspk='field-description'] {
     font: var(--body-small);
     color: var(--foreground-neutral-on-surface-variant-01);
-    margin-top: -4px;
-    margin-bottom: 4px;
 }
 
 [data-bspk-owner='field-error'] {

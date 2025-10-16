@@ -62,7 +62,7 @@ export function Field({ children, ...props }: ElementProps<FieldProps, 'div'>) {
             <div
                 {...props}
                 data-bspk-utility="field"
-                data-invalid={fieldContextValue.hasError || undefined}
+                data-invalid={fieldContextValue.invalid || undefined}
                 role="group"
             >
                 {children}

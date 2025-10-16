@@ -1,10 +1,10 @@
 import './textarea.scss';
 import { ChangeEvent, useRef } from 'react';
-import { useFieldContext } from '-/components/Field';
-import { CommonProps, SetRef } from '-/types/common';
+import { FieldContextProps, useFieldInit } from '-/components/Field';
+import { SetRef } from '-/types/common';
 import { cssWithVars } from '-/utils/cwv';
 
-export type TextareaProps = CommonProps<'disabled' | 'id' | 'invalid' | 'readOnly'> & {
+export type TextareaProps = Partial<FieldContextProps> & {
     /**
      * Callback when the value of the field changes.
      *
@@ -58,6 +58,12 @@ export type TextareaProps = CommonProps<'disabled' | 'id' | 'invalid' | 'readOnl
      * @maximum 10
      */
     maxRows?: number;
+    /**
+     * Whether the character count should be displayed.
+     *
+     * @default true
+     */
+    characterCount?: boolean;
 };
 
 /**
@@ -70,11 +76,17 @@ export type TextareaProps = CommonProps<'disabled' | 'id' | 'invalid' | 'readOnl
  * @example
  *     import { useState } from 'react';
  *     import { Textarea } from '@bspk/ui/Textarea';
+ *     import { Field, FieldLabel } from '@bspk/ui/Field';
  *
  *     export function Example() {
  *         const [value, setValue] = useState<string>('');
  *
- *         return <Textarea aria-label="Example aria-label" name="Example name" onChange={setValue} value={value} />;
+ *         return (
+ *             <Field>
+ *                 <FieldLabel>Comment</FieldLabel>
+ *                 <Textarea aria-label="Example aria-label" name="comment" onChange={setValue} value={value} />
+ *             </Field>
+ *         );
  *     }
  *
  * @name Textarea
@@ -93,10 +105,21 @@ export function Textarea({
     invalid: invalidProp,
     readOnly,
     disabled,
+    required,
+    characterCount,
+    maxLength,
     ...otherProps
 }: TextareaProps) {
-    const { id, ariaDescribedBy, ariaErrorMessage, hasError } = useFieldContext(idProp);
-    const invalid = !readOnly && !disabled && (invalidProp || hasError);
+    const { id, ariaDescribedBy, ariaErrorMessage, invalid } = useFieldInit({
+        id: idProp,
+        readOnly,
+        disabled,
+        invalid: invalidProp,
+        required,
+        labelTrailing: characterCount
+            ? `${value?.length || 0}${maxLength && maxLength > 0 ? `/${maxLength}` : ''}`
+            : undefined,
+    });
 
     const onInput = () => {
         const target = textareaElement.current;
@@ -125,7 +148,7 @@ export function Textarea({
                 data-invalid={invalid || undefined}
                 disabled={disabled}
                 id={id}
-                maxLength={otherProps.maxLength}
+                maxLength={maxLength}
                 name={name}
                 onBlur={(event) => {
                     const target = event.target as HTMLTextAreaElement;

@@ -1,5 +1,6 @@
 import { SelectProps } from '.';
 import { Avatar } from '-/components/Avatar';
+import { Field, FieldDescription, FieldLabel } from '-/components/Field';
 import { Tag } from '-/components/Tag';
 import { Txt } from '-/components/Txt';
 import { ComponentExample, Preset } from '-/utils/demo';
@@ -134,7 +135,13 @@ export const SelectExample: ComponentExample<SelectProps> = {
         value: '',
     },
     render: ({ props, Component }) => {
-        return <Component {...props} />;
+        return (
+            <Field>
+                <FieldLabel>Example Select</FieldLabel>
+                <Component {...props} />
+                <FieldDescription>The select allows you to choose from a list of options.</FieldDescription>
+            </Field>
+        );
     },
     presets,
 };

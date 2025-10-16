@@ -2,7 +2,7 @@ import './input.scss';
 import { SvgCancel } from '@bspk/icons/Cancel';
 import { ChangeEvent, HTMLInputTypeAttribute, ReactNode, useMemo, useRef, useState } from 'react';
 import { Button } from '-/components/Button';
-import { useFieldContext } from '-/components/Field';
+import { FieldContextProps, useFieldInit } from '-/components/Field';
 import { useTimeout } from '-/hooks/useTimeout';
 import { CommonProps, ElementProps, SetRef } from '-/types/common';
 
@@ -58,25 +58,30 @@ type InputBaseProps = {
     showClearButton?: boolean;
 };
 
-export type InputProps = CommonProps<
-    'disabled' | 'id' | 'invalid' | 'name' | 'owner' | 'readOnly' | 'required' | 'size' | 'value'
-> &
-    InputBaseProps & {
+export type InputProps = CommonProps<'name' | 'owner' | 'size' | 'value'> &
+    InputBaseProps &
+    Partial<FieldContextProps> & {
         inputProps?: Omit<React.InputHTMLAttributes<HTMLInputElement>, keyof InputBaseProps>;
     };
 
 /**
  * A text input that allows users to enter text, numbers or symbols in a singular line. This is the base element and is
- * not intended to be used directly. Use the TextField component.
+ * not intended to be used directly.
  *
  * @example
  *     import { useState } from 'react';
  *     import { Input } from '@bspk/ui/Input';
+ *     import { Field, FieldLabel } from '@bspk/ui/Field';
  *
  *     export function Example() {
  *         const [value, setValue] = useState<string>('');
  *
- *         return <Input aria-label="Example aria-label" name="Example name" onChange={setValue} value={value} />;
+ *         return (
+ *             <Field>
+ *                 <FieldLabel>Example Label</FieldLabel>
+ *                 <Input name="Example name" onChange={setValue} value={value} />
+ *             </Field>
+ *         );
  *     }
  *
  * @name Input
@@ -105,8 +110,13 @@ export function Input({
     inputProps,
     ...props
 }: ElementProps<InputProps, 'div'>) {
-    const { id, ariaDescribedBy, ariaErrorMessage, hasError } = useFieldContext(idProp);
-    const invalid = !readOnly && !disabled && (invalidProp || hasError);
+    const { id, ariaDescribedBy, ariaErrorMessage, invalid } = useFieldInit({
+        id: idProp,
+        required,
+        readOnly,
+        disabled,
+        invalid: invalidProp,
+    });
 
     const [focused, setFocused] = useState(false);
 

@@ -1,7 +1,7 @@
 import './select.scss';
 import { SvgKeyboardArrowDown } from '@bspk/icons/KeyboardArrowDown';
 import { useMemo, KeyboardEvent, MouseEvent } from 'react';
-import { useFieldContext } from '-/components/Field';
+import { FieldContextProps, useFieldInit } from '-/components/Field';
 import { ListItem, ListItemProps } from '-/components/ListItem';
 import { Menu } from '-/components/Menu';
 import { useArrowNavigation } from '-/hooks/useArrowNavigation';
@@ -22,7 +22,8 @@ export type SelectOption = CommonProps<'disabled'> &
 
 export type SelectItem = SelectOption & { id: string };
 
-export type SelectProps = CommonProps<'disabled' | 'id' | 'invalid' | 'name' | 'readOnly' | 'size'> &
+export type SelectProps = CommonProps<'name' | 'size'> &
+    Partial<FieldContextProps> &
     ScrollListItemsStyleProps & {
         /**
          * Array of options to display in the select
@@ -79,27 +80,33 @@ export type SelectProps = CommonProps<'disabled' | 'id' | 'invalid' | 'name' | '
  *     export function Example() {
  *         const [selected, setSelected] = React.useState<string[]>([]);
  *         return (
- *             <Select
- *                 label="Select an option"
- *                 itemCount={5}
- *                 name="example-select"
- *                 onChange={setSelected}
- *                 options={[
- *                     { id: '1', label: 'Option 1' },
- *                     { id: '2', label: 'Option 2' },
- *                     { id: '3', label: 'Option 3' },
- *                     { id: '4', label: 'Option 4' },
- *                     { id: '5', label: 'Option 5' },
- *                     { id: '6', label: 'Option 6' },
- *                     { id: '7', label: 'Option 7' },
- *                     { id: '8', label: 'Option 8' },
- *                     { id: '9', label: 'Option 9' },
- *                     { id: '10', label: 'Option 10' },
- *                 ]}
- *                 placeholder="Select an option"
- *                 size="medium"
- *                 value={selected}
- *             />
+ *             <Field>
+ *                 <FieldLabel>Select an option</FieldLabel>
+ *                 <Select
+ *                     label="Select an option"
+ *                     itemCount={5}
+ *                     name="example-select"
+ *                     onChange={setSelected}
+ *                     options={[
+ *                         { id: '1', label: 'Option 1' },
+ *                         { id: '2', label: 'Option 2' },
+ *                         { id: '3', label: 'Option 3' },
+ *                         { id: '4', label: 'Option 4' },
+ *                         { id: '5', label: 'Option 5' },
+ *                         { id: '6', label: 'Option 6' },
+ *                         { id: '7', label: 'Option 7' },
+ *                         { id: '8', label: 'Option 8' },
+ *                         { id: '9', label: 'Option 9' },
+ *                         { id: '10', label: 'Option 10' },
+ *                     ]}
+ *                     placeholder="Select an option"
+ *                     size="medium"
+ *                     value={selected}
+ *                 />
+ *                 <FieldDescription>
+ *                     The select allows you to choose one option from a list of options.
+ *                 </FieldDescription>
+ *             </Field>
  *         );
  *     }
  *
@@ -120,9 +127,21 @@ export function Select({
     name,
     'aria-labelledby': ariaLabelledBy,
     scrollLimit,
+    required: requiredProp,
     ...props
 }: ElementProps<SelectProps, 'button'>) {
-    const { id, ariaDescribedBy, ariaErrorMessage, hasError } = useFieldContext(idProp);
+    const {
+        id,
+        ariaDescribedBy,
+        ariaErrorMessage,
+        invalid: hasError,
+    } = useFieldInit({
+        id: idProp,
+        readOnly,
+        disabled,
+        required: requiredProp,
+        invalid: invalidProp,
+    });
     const invalid = !readOnly && !disabled && (invalidProp || hasError);
     const menuId = useMemo(() => `${id}-menu`, [id]);
 

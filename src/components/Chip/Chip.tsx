@@ -74,15 +74,10 @@ export type ChipProps = {
  * @name Chip
  * @phase UXReview
  *
- * @subcomponent ChipAssist
- *
- * @subcomponent ChipFilter
- *
- * @subcomponent ChipInput
- *
- * @subcomponent ChipSuggestion
- *
- * @subcomponent ChipGroup
+ * *
+ * *
+ * *
+ * *
  */
 export function Chip({
     flat = false,

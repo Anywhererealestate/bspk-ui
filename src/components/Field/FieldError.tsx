@@ -3,11 +3,13 @@ import { useFieldContext } from './utils';
 import { InlineAlert } from '-/components/InlineAlert';
 
 export function FieldError({ children }: { children?: string }) {
-    const { setField, id, hasError } = useFieldContext();
+    const { setField, id, ariaErrorMessage } = useFieldContext();
 
     useEffect(() => {
-        if (setField && hasError !== !!children) setField({ hasError: !!children });
-    }, [children, setField, hasError]);
+        if (setField && !!ariaErrorMessage !== !!children)
+            setField({ ariaErrorMessage: children ? `${id}-error` : undefined });
+    }, [children, setField, ariaErrorMessage, id]);
+
     return children ? (
         <InlineAlert id={`${id}-error`} owner="field-error" variant="error">
             {children}

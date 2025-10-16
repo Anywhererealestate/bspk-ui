@@ -105,8 +105,6 @@ export type AvatarProps = CommonProps<'disabled'> & {
  *
  * @name Avatar
  * @phase UXReview
- *
- * @subcomponent AvatarGroup
  */
 export function Avatar({
     initials: initialsProp,

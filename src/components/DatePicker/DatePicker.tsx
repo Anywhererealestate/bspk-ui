@@ -4,6 +4,7 @@ import { format, isValid, parse } from 'date-fns';
 import { useEffect, useRef, useState } from 'react';
 import { Calendar } from './Calendar';
 import { Button } from '-/components/Button';
+import { useFieldInit } from '-/components/Field';
 import { Input, InputProps } from '-/components/Input';
 import { Portal } from '-/components/Portal';
 import { useFloating } from '-/hooks/useFloating';
@@ -11,7 +12,10 @@ import { useOutsideClick } from '-/hooks/useOutsideClick';
 
 const parsableDate = (dateString: string) => /^\d{1,2}\/\d{1,2}\/\d{4}$/.test(dateString);
 
-export type DatePickerProps = Pick<InputProps, 'disabled' | 'invalid' | 'name' | 'readOnly' | 'required' | 'size'> & {
+export type DatePickerProps = Pick<
+    InputProps,
+    'disabled' | 'id' | 'invalid' | 'name' | 'readOnly' | 'required' | 'size'
+> & {
     /** The value of the calendar input */
     value: Date | undefined;
     /** Fires when the date changes with the new date */
@@ -36,18 +40,23 @@ export type DatePickerProps = Pick<InputProps, 'disabled' | 'invalid' | 'name' |
  *
  * @example
  *     import { DatePicker } from '@bspk/ui/DatePicker';
+ *     import { Field, FieldLabel } from '@bspk/ui/Field';
  *     import { useState } from 'react';
  *
  *     function Example() {
  *         const [date, setDate] = useState<Date | undefined>(new Date());
  *
- *         return <DatePicker name="calendar input" aria-label="calendar input" value={date} onChange={setDate} />;
+ *         return (
+ *             <Field>
+ *                 <FieldLabel>Date</FieldLabel>
+ *                 <DatePicker name="destination-date" value={date} onChange={setDate} />
+ *                 <FieldDescription>The date picker allows you to select a date.</FieldDescription>
+ *             </Field>
+ *         );
  *     }
  *
  * @name DatePicker
- * @phase Utility
- *
- * @subcomponent Calendar
+ * @phase UXReview
  */
 export function DatePicker({
     value,
@@ -57,10 +66,19 @@ export function DatePicker({
     closeCalendarOnChange = true,
     name,
     placeholder,
-    invalid,
+    invalid: invalidProp,
     required,
     size,
+    id: idProp,
 }: DatePickerProps) {
+    const { id, ariaDescribedBy, ariaErrorMessage, invalid } = useFieldInit({
+        id: idProp,
+        required,
+        readOnly,
+        disabled,
+        invalid: invalidProp,
+    });
+
     const [textValue, setTextValue] = useState(value ? format(value, 'MM/dd/yyyy') : '');
     const [calendarVisible, setCalendarVisible] = useState(false);
     const containerRef = useRef<HTMLSpanElement | null>(null);
@@ -124,9 +142,10 @@ export function DatePicker({
                 }}
             >
                 <Input
-                    aria-describedby={undefined}
-                    aria-errormessage={undefined}
-                    disabled={disabled}
+                    aria-describedby={ariaDescribedBy || undefined}
+                    aria-errormessage={ariaErrorMessage || undefined}
+                    disabled={disabled || undefined}
+                    id={id}
                     invalid={invalid || undefined}
                     name={name}
                     onBlur={() => validate()}

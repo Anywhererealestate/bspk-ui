@@ -1,8 +1,14 @@
 import { InputProps } from '.';
+import { Field, FieldLabel } from '-/components/Field';
 import { ComponentExample } from '-/utils/demo';
 
 export const InputExample: ComponentExample<InputProps> = {
-    render: ({ props, Component }) => <Component {...props} />,
+    render: ({ props, Component }) => (
+        <Field>
+            <FieldLabel>Example Input</FieldLabel>
+            <Component {...props} />
+        </Field>
+    ),
     presets: [
         {
             label: 'Currency',

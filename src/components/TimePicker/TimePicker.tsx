@@ -5,7 +5,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { TimePickerListbox } from './Listbox';
 import { TimePickerSegment } from './Segment';
 import { Button } from '-/components/Button';
-import { useFieldContext } from '-/components/Field';
+import { FieldContextProps, useFieldInit } from '-/components/Field';
 import { InputProps } from '-/components/Input';
 import { Menu } from '-/components/Menu';
 import { Portal } from '-/components/Portal';
@@ -22,9 +22,10 @@ type Minute = (typeof MINUTE_OPTIONS)[number];
 type Hour = (typeof HOUR_OPTIONS)[number];
 type Meridiem = (typeof MERIDIEM_OPTIONS)[number];
 
-export type TimePickerProps = Pick<InputProps, 'disabled' | 'id' | 'invalid' | 'name' | 'readOnly' | 'size'> & {
-    value?: string;
-};
+export type TimePickerProps = Partial<FieldContextProps> &
+    Pick<InputProps, 'name' | 'size'> & {
+        value?: string;
+    };
 
 /**
  * An input field that allows a customer to manually type in a specific time or triggers a time picker combobox to
@@ -34,7 +35,13 @@ export type TimePickerProps = Pick<InputProps, 'disabled' | 'id' | 'invalid' | '
  *     import { TimePicker } from '@bspk/ui/TimePicker';
  *
  *     function Example() {
- *         return <TimePicker>Example TimePicker</TimePicker>;
+ *         return (
+ *             <Field>
+ *                 <FieldLabel>Time</FieldLabel>
+ *                 <TimePicker />
+ *                 <FieldDescription>The time picker allows you to select a time.</FieldDescription>
+ *             </Field>
+ *         );
  *     }
  *
  * @name TimePicker
@@ -48,9 +55,21 @@ export function TimePicker({
     readOnly,
     name,
     size,
+    required: requiredProp,
     ...props
 }: ElementProps<TimePickerProps, 'div'>) {
-    const { id, ariaDescribedBy, ariaErrorMessage, hasError } = useFieldContext(idProp);
+    const {
+        id,
+        ariaDescribedBy,
+        ariaErrorMessage,
+        invalid: hasError,
+    } = useFieldInit({
+        id: idProp,
+        readOnly,
+        disabled,
+        invalid: invalidProp,
+        required: requiredProp,
+    });
     const invalid = !readOnly && !disabled && (invalidProp || hasError);
 
     const [inputValue, setInputValue] = useState(value);

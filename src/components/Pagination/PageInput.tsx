@@ -3,11 +3,13 @@ import { FC, useEffect, useState } from 'react';
 import { PaginationProps } from './Pagination';
 import { Input } from '-/components/Input';
 import { Txt } from '-/components/Txt';
+import { useId } from '-/hooks/useId';
 
 type PageInputProps = Pick<PaginationProps, 'numPages' | 'onChange' | 'value'>;
 
 export const PageInput: FC<PageInputProps> = ({ numPages, onChange, value }) => {
     const [page, setPage] = useState<string>(String(value));
+    const id = useId();
 
     useEffect(() => {
         const stringValue = String(value);
@@ -50,6 +52,7 @@ export const PageInput: FC<PageInputProps> = ({ numPages, onChange, value }) => 
             <div data-bspk="page-input">
                 <Input
                     aria-label="Page input"
+                    id={id}
                     name="page-input"
                     onBlur={handleSubmit}
                     onChange={handleChange}

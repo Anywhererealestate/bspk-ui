@@ -3,7 +3,7 @@ import { SvgIcon } from '@bspk/icons/SvgIcon';
 import { AsYouType, getCountryCallingCode } from 'libphonenumber-js';
 import { useMemo, useRef, useState } from 'react';
 import { Button } from '-/components/Button';
-import { useFieldContext } from '-/components/Field';
+import { FieldContextProps, useFieldInit } from '-/components/Field';
 import { Input, InputProps } from '-/components/Input';
 import { ListItemMenu } from '-/components/ListItemMenu';
 import { useUIContext } from '-/hooks/useUIContext';
@@ -23,36 +23,48 @@ const SELECT_OPTIONS = countryCodes.map((code) => {
     };
 });
 
-export type InputPhoneProps = Pick<
-    InputProps,
-    'disabled' | 'id' | 'inputRef' | 'invalid' | 'name' | 'readOnly' | 'required' | 'size' | 'value'
-> & {
-    /**
-     * The default country code to select when the component is rendered. If not provided, it will attempt to guess
-     * based on the user's locale. If the guessed country code is not supported, it will default to 'US'. Based on
-     * [ISO](https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes) 2-digit country codes.
-     *
-     * @type string
-     */
-    initialCountryCode?: SupportedCountryCode;
-    /**
-     * Disables formatting of the phone number input in the UI. values returned by `onChange` are always unformatted.
-     *
-     * @type boolean
-     */
-    disableFormatting?: boolean;
-    /** Handler for change events. Contains the raw phone number value and the selected country code. */
-    onChange: (value: string, countryCode: SupportedCountryCode) => void;
-};
+export type InputPhoneProps = Partial<FieldContextProps> &
+    Pick<InputProps, 'inputRef' | 'name' | 'size' | 'value'> & {
+        /**
+         * The default country code to select when the component is rendered. If not provided, it will attempt to guess
+         * based on the user's locale. If the guessed country code is not supported, it will default to 'US'. Based on
+         * [ISO](https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes) 2-digit country codes.
+         *
+         * @type string
+         */
+        initialCountryCode?: SupportedCountryCode;
+        /**
+         * Disables formatting of the phone number input in the UI. values returned by `onChange` are always
+         * unformatted.
+         *
+         * @type boolean
+         */
+        disableFormatting?: boolean;
+        /** Handler for change events. Contains the raw phone number value and the selected country code. */
+        onChange: (value: string, countryCode: SupportedCountryCode) => void;
+    };
 
 /**
  * A text input that allows users to enter text phone numbers with country codes.
  *
- * This is the base element and if used must contain the field label contextually. This will more often be used in the
- * PhoneNumberField component.
+ * This is the base element and if used must contain the field label contextually.
  *
  * @example
- *     <InputPhone aria-label="Phone Number" initialCountryCode="US" value={value} onChange={onChange} />;
+ *     import { InputPhone } from '@bspk/ui/InputPhone';
+ *
+ *     export function Example() {
+ *         const [state, setState] = React.useState<number>();
+ *
+ *         return (
+ *             <Field>
+ *                 <FieldLabel>Example Input Phone</FieldLabel>
+ *                 <InputPhone aria-label="Phone Number" initialCountryCode="US" value={value} onChange={onChange} />
+ *                 <FieldDescription>
+ *                     The phone input allows you to enter a phone number with country code.
+ *                 </FieldDescription>
+ *             </Field>
+ *         );
+ *     }
  *
  * @name InputPhone
  * @phase UXReview
@@ -67,9 +79,22 @@ export function InputPhone({
     name,
     id: idProp,
     invalid: invalidProp,
+    required: requiredProp,
     ...inputProps
 }: InputPhoneProps) {
-    const { id, ariaDescribedBy, ariaErrorMessage, hasError } = useFieldContext(idProp);
+    const {
+        id,
+        ariaDescribedBy,
+        ariaErrorMessage,
+        invalid: hasError,
+        required,
+    } = useFieldInit({
+        id: idProp,
+        readOnly,
+        disabled,
+        invalid: invalidProp,
+        required: requiredProp,
+    });
     const invalid = !readOnly && !disabled && (invalidProp || hasError);
 
     const items = useIds(`input-phone-${id}`, SELECT_OPTIONS);
@@ -172,6 +197,7 @@ export function InputPhone({
                             onChange={handleChange}
                             owner="input-phone"
                             readOnly={readOnly}
+                            required={required}
                             value={value}
                         />
                     </div>
