@@ -4,7 +4,7 @@ export const BRANDS: {
     /** The title of the brand. */
     title: string;
     /** The slug of the brand, used in URLs and identifiers. */
-    slug: Brand;
+    slug: Brand | 'example';
 }[] = [
     {
         title: 'Anywhere',
@@ -41,5 +41,9 @@ export const BRANDS: {
     {
         title: "Sotheby's",
         slug: 'sothebys',
+    },
+    {
+        title: 'Example',
+        slug: 'example',
     },
 ] as const;

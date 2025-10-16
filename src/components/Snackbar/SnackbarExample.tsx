@@ -1,4 +1,5 @@
-import { SnackbarProps } from '.';
+import { Snackbar, SnackbarProps } from './Snackbar';
+import { Button } from '-/components/Button';
 import { ComponentExample } from '-/utils/demo';
 
 export const SnackbarExample: ComponentExample<SnackbarProps> = {
@@ -6,7 +7,12 @@ export const SnackbarExample: ComponentExample<SnackbarProps> = {
     defaultState: {},
     disableProps: [],
     presets: [],
-    render: ({ props, Component }) => <Component {...props} />,
+    render: ({ props, setState }) => (
+        <>
+            <Snackbar {...props} onClose={() => setState({ open: false })} />
+            <Button label="open snackbar" onClick={() => setState({ open: true })} size="medium" title="Snackbar" />
+        </>
+    ),
     sections: [],
-    variants: {},
+    variants: false,
 };

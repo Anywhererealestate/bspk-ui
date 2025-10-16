@@ -33,6 +33,9 @@
     --z-index-navbar: 700;
     --z-index-footer: 600;
     --list-item-height: var(--spacing-sizing-13);
+    --button-border-width: 1px;
+    --button-border-type: solid;
+    --button-border-radius: var(--radius-sm);
 }
 
 @media (prefers-reduced-motion) {
