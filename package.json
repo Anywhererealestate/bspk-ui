@@ -199,8 +199,6 @@
         "./StylesProviderDenaliBoss/*": "./dist/components/StylesProviderDenaliBoss/*.js",
         "./StylesProviderEra": "./dist/components/StylesProviderEra/index.js",
         "./StylesProviderEra/*": "./dist/components/StylesProviderEra/*.js",
-        "./StylesProviderExampleTheme": "./dist/components/StylesProviderExampleTheme/index.js",
-        "./StylesProviderExampleTheme/*": "./dist/components/StylesProviderExampleTheme/*.js",
         "./StylesProviderSothebys": "./dist/components/StylesProviderSothebys/index.js",
         "./StylesProviderSothebys/*": "./dist/components/StylesProviderSothebys/*.js",
         "./Switch": "./dist/components/Switch/index.js",
