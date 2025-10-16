@@ -5,7 +5,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { TimePickerListbox } from './Listbox';
 import { TimePickerSegment } from './Segment';
 import { Button } from '-/components/Button';
-import { FieldContextProps, useFieldInit } from '-/components/Field';
+import { FieldControlProp, useFieldInit } from '-/components/Field';
 import { InputProps } from '-/components/Input';
 import { Menu } from '-/components/Menu';
 import { Portal } from '-/components/Portal';
@@ -22,7 +22,7 @@ type Minute = (typeof MINUTE_OPTIONS)[number];
 type Hour = (typeof HOUR_OPTIONS)[number];
 type Meridiem = (typeof MERIDIEM_OPTIONS)[number];
 
-export type TimePickerProps = Partial<FieldContextProps> &
+export type TimePickerProps = FieldControlProp &
     Pick<InputProps, 'name' | 'size'> & {
         value?: string;
     };

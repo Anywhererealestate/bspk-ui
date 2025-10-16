@@ -1,7 +1,7 @@
 import './input-number.scss';
 import { useMemo } from 'react';
 import { IncrementButton } from './IncrementButton';
-import { FieldContextProps, useFieldInit } from '-/components/Field';
+import { FieldControlProp, useFieldInit } from '-/components/Field';
 import { useId } from '-/hooks/useId';
 import { CommonProps } from '-/types/common';
 
@@ -13,7 +13,7 @@ function isNumber(value: unknown, fallbackValue: number | undefined = undefined)
 }
 
 export type InputNumberProps = CommonProps<'aria-label' | 'name' | 'size'> &
-    Partial<FieldContextProps> & {
+    FieldControlProp & {
         /** The value of the control. */
         value?: number;
         /**

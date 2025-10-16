@@ -1,10 +1,10 @@
 import './textarea.scss';
 import { ChangeEvent, useRef } from 'react';
-import { FieldContextProps, useFieldInit } from '-/components/Field';
+import { FieldControlProp, useFieldInit } from '-/components/Field';
 import { SetRef } from '-/types/common';
 import { cssWithVars } from '-/utils/cwv';
 
-export type TextareaProps = Partial<FieldContextProps> & {
+export type TextareaProps = FieldControlProp & {
     /**
      * Callback when the value of the field changes.
      *

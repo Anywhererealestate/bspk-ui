@@ -3,7 +3,7 @@ import { SvgIcon } from '@bspk/icons/SvgIcon';
 import { AsYouType, getCountryCallingCode } from 'libphonenumber-js';
 import { useMemo, useRef, useState } from 'react';
 import { Button } from '-/components/Button';
-import { FieldContextProps, useFieldInit } from '-/components/Field';
+import { FieldControlProp, useFieldInit } from '-/components/Field';
 import { Input, InputProps } from '-/components/Input';
 import { ListItemMenu } from '-/components/ListItemMenu';
 import { useUIContext } from '-/hooks/useUIContext';
@@ -23,7 +23,7 @@ const SELECT_OPTIONS = countryCodes.map((code) => {
     };
 });
 
-export type InputPhoneProps = Partial<FieldContextProps> &
+export type InputPhoneProps = FieldControlProp &
     Pick<InputProps, 'inputRef' | 'name' | 'size' | 'value'> & {
         /**
          * The default country code to select when the component is rendered. If not provided, it will attempt to guess
@@ -80,7 +80,8 @@ export function InputPhone({
     id: idProp,
     invalid: invalidProp,
     required: requiredProp,
-    ...inputProps
+    size = 'medium',
+    inputRef,
 }: InputPhoneProps) {
     const {
         id,
@@ -101,7 +102,7 @@ export function InputPhone({
 
     const [countryCode, setCountryCode] = useState<SupportedCountryCode>(initialCountryCode || guessUserCountryCode());
 
-    const [inputRef, setInputRef] = useState<HTMLInputElement | null>(null);
+    const [inputInternalRef, setInternalInputRef] = useState<HTMLInputElement | null>(null);
 
     const { callingCode, selectedCodeData } = useMemo(() => {
         const selectedValue = (countryCode || 'US') as SupportedCountryCode;
@@ -149,7 +150,7 @@ export function InputPhone({
             }}
             label="Select country code"
             onClose={() => {
-                inputRef?.focus();
+                inputInternalRef?.focus();
             }}
             owner="input-phone"
             role="listbox"
@@ -160,14 +161,16 @@ export function InputPhone({
                 return (
                     <div data-bspk="input-phone">
                         <Input
-                            {...inputProps}
                             aria-describedby={ariaDescribedBy}
                             aria-errormessage={ariaErrorMessage}
                             autoComplete="off"
                             containerRef={setRef}
                             disabled={disabled}
                             id={id}
-                            inputRef={setInputRef}
+                            inputRef={(node) => {
+                                inputRef?.(node);
+                                setInternalInputRef(node);
+                            }}
                             invalid={invalid}
                             leading={
                                 <>
@@ -198,6 +201,7 @@ export function InputPhone({
                             owner="input-phone"
                             readOnly={readOnly}
                             required={required}
+                            size={size}
                             value={value}
                         />
                     </div>

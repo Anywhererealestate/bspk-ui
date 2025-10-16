@@ -5,7 +5,7 @@
     aspect-ratio: 1/1;
     padding: 2px;
 
-    input[type='radio-group-item'] {
+    input[type='radio'] {
         position: absolute;
         opacity: 0;
         z-index: 2;
@@ -44,7 +44,7 @@
         }
     }
 
-    input[type='radio-group-item']:not(:disabled) {
+    input[type='radio']:not(:disabled) {
         &:hover + span {
             --background: var(--interactions-neutral-hover-opacity);
         }
@@ -59,7 +59,7 @@
         }
     }
 
-    input[type='radio-group-item']:checked + span {
+    input[type='radio']:checked + span {
         --stroke: var(--stroke-brand-primary);
 
         &::before {
@@ -67,7 +67,7 @@
         }
     }
 
-    input[type='radio-group-item']:disabled {
+    input[type='radio']:disabled {
         pointer-events: none;
 
         & + span {

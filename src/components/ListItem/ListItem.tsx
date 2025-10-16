@@ -168,11 +168,7 @@ export function ListItem<As extends ElementType = 'div'>({
             role={role}
             tabIndex={props.tabIndex || (actionable ? 0 : -1)}
         >
-            {leading && (
-                <span aria-hidden data-leading>
-                    {leading}
-                </span>
-            )}
+            {leading && <span data-leading>{leading}</span>}
             <span aria-hidden={hideAriaLabel ? true : undefined} data-item-label>
                 <Truncated data-text>{label}</Truncated>
                 {subText && <span data-sub-text>{subText}</span>}

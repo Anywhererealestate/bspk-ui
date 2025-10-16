@@ -1,36 +1,25 @@
 import { createContext, useContext, useEffect } from 'react';
+import { CommonProps } from '-/types/common';
 import { randomString } from '-/utils/random';
 
+export type FieldControlProp = CommonProps<'disabled' | 'id' | 'invalid' | 'readOnly' | 'required'>;
+
 /** The props that are provided via context to all Field subcomponents. */
-export type FieldContextProps = {
-    /** The unique identifier for the field. */
-    id: string;
-    /** The `aria-describedby` attribute value that should be applied to the field input element. */
+export type FieldContextProps = FieldControlProp & {
+    /** The aria-describedby attribute value that should be applied to the field input element. */
     ariaDescribedBy?: string;
-    /** The `aria-errormessage` attribute value that should be applied to the field input element. */
+    /** The aria-errormessage attribute value that should be applied to the field input element. */
     ariaErrorMessage?: string;
-    /**
-     * Whether the field is currently in an invalid state.
-     *
-     * If FieldError is used within the Field, this will be set true.
-     */
-    invalid?: boolean;
-    /** Whether the field is required. */
-    required?: boolean;
-    /** Whether the field is read-only. */
-    readOnly?: boolean;
-    /** Whether the field is disabled. */
-    disabled?: boolean;
     /** Text that appears after the label, but before the input (e.g. "optional"). */
     labelTrailing?: string;
 };
 
 export const fieldContext = createContext<
-    (Partial<FieldContextProps> & { setField: (props: Partial<FieldContextProps>) => void }) | null
+    (FieldContextProps & { setField: (props: FieldContextProps) => void }) | null
 >(null);
 
-export function useFieldContext(): Partial<FieldContextProps> & {
-    setField: (props: Partial<FieldContextProps>) => void;
+export function useFieldContext(): FieldContextProps & {
+    setField: (props: FieldContextProps) => void;
 } {
     return (
         useContext(fieldContext) || {
@@ -40,8 +29,8 @@ export function useFieldContext(): Partial<FieldContextProps> & {
     );
 }
 
-export function useFieldInit(defaults?: Partial<FieldContextProps>): Partial<FieldContextProps> & {
-    setField: (props: Partial<FieldContextProps>) => void;
+export function useFieldInit(defaults?: FieldContextProps): FieldContextProps & {
+    setField: (props: FieldContextProps) => void;
     ariaDescribedBy?: string;
     ariaErrorMessage?: string;
 } {

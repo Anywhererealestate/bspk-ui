@@ -25,9 +25,13 @@ export type RadioProps = CommonProps<'aria-label' | 'disabled' | 'invalid' | 'na
  * @name RadioGroupItem
  * @phase Utility
  */
-export function RadioGroupItem(props: ElementProps<RadioProps, 'input'>) {
-    const { checked = false, invalid, disabled, onChange, ...otherProps } = props;
-
+export function RadioGroupItem({
+    checked = false,
+    invalid,
+    disabled,
+    onChange,
+    ...otherProps
+}: ElementProps<RadioProps, 'input'>) {
     return (
         <span data-bspk="radio-group-item">
             <input
@@ -36,7 +40,7 @@ export function RadioGroupItem(props: ElementProps<RadioProps, 'input'>) {
                 data-invalid={invalid || undefined}
                 disabled={disabled || undefined}
                 onChange={(event) => onChange(!!event.target.checked, event)}
-                type="radio-group-item"
+                type="radio"
             />
             <span aria-hidden />
         </span>

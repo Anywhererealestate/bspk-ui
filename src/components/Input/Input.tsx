@@ -2,7 +2,7 @@ import './input.scss';
 import { SvgCancel } from '@bspk/icons/Cancel';
 import { ChangeEvent, HTMLInputTypeAttribute, ReactNode, useMemo, useRef, useState } from 'react';
 import { Button } from '-/components/Button';
-import { FieldContextProps, useFieldInit } from '-/components/Field';
+import { FieldControlProp, useFieldInit } from '-/components/Field';
 import { useTimeout } from '-/hooks/useTimeout';
 import { CommonProps, ElementProps, SetRef } from '-/types/common';
 
@@ -59,8 +59,8 @@ type InputBaseProps = {
 };
 
 export type InputProps = CommonProps<'name' | 'owner' | 'size' | 'value'> &
-    InputBaseProps &
-    Partial<FieldContextProps> & {
+    FieldControlProp &
+    InputBaseProps & {
         inputProps?: Omit<React.InputHTMLAttributes<HTMLInputElement>, keyof InputBaseProps>;
     };
 
@@ -85,7 +85,7 @@ export type InputProps = CommonProps<'name' | 'owner' | 'size' | 'value'> &
  *     }
  *
  * @name Input
- * @phase Utility
+ * @phase UXReview
  */
 export function Input({
     invalid: invalidProp,

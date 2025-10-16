@@ -1,7 +1,7 @@
 import './select.scss';
 import { SvgKeyboardArrowDown } from '@bspk/icons/KeyboardArrowDown';
 import { useMemo, KeyboardEvent, MouseEvent } from 'react';
-import { FieldContextProps, useFieldInit } from '-/components/Field';
+import { FieldControlProp, useFieldInit } from '-/components/Field';
 import { ListItem, ListItemProps } from '-/components/ListItem';
 import { Menu } from '-/components/Menu';
 import { useArrowNavigation } from '-/hooks/useArrowNavigation';
@@ -23,7 +23,7 @@ export type SelectOption = CommonProps<'disabled'> &
 export type SelectItem = SelectOption & { id: string };
 
 export type SelectProps = CommonProps<'name' | 'size'> &
-    Partial<FieldContextProps> &
+    FieldControlProp &
     ScrollListItemsStyleProps & {
         /**
          * Array of options to display in the select
