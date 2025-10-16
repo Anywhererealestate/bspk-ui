@@ -48,12 +48,6 @@ export type RadioGroupProps = CommonProps<'disabled' | 'id' | 'name'> & {
      */
     options: RadioGroupOption[];
     /**
-     * The label of the radio-group-item group.
-     *
-     * @required
-     */
-    label: string;
-    /**
      * Hides the RadioGroup label. When label isn't showing it is used as the aria-label prop.
      *
      * @default false
@@ -97,7 +91,6 @@ export function RadioGroup({
     options = [],
     name,
     value: groupValue,
-    label: groupLabel,
     hideLabel: hideLabelProp = false,
     disabled: disabledGroup = false,
     id: idProp,
@@ -110,14 +103,11 @@ export function RadioGroup({
             {...props}
             aria-describedby={props['aria-describedby']}
             aria-errormessage={props['aria-errormessage']}
-            aria-label={hideLabelProp ? groupLabel : undefined}
             aria-labelledby={!hideLabelProp ? `${id}-label` : undefined}
             data-bspk="radio-group"
             id={id}
             role="radiogroup"
         >
-            {!hideLabelProp && <label id={`${id}-label`}>{groupLabel}</label>}
-
             {options.map(({ label, description, disabled, value }, index) => {
                 return (
                     <ToggleOption

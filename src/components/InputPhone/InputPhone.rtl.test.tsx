@@ -1,9 +1,13 @@
 import { InputPhone } from './InputPhone';
+import { Field, FieldLabel } from '-/components/Field';
 import { hasNoBasicA11yIssues } from '-/rtl/hasNoBasicA11yIssues';
 import { render } from '-/rtl/util';
 
 const TestBed = () => (
-    <InputPhone aria-label="Phone number input" name="Example name" onChange={() => {}} value="9375551060" />
+    <Field>
+        <FieldLabel>Phone number input</FieldLabel>
+        <InputPhone name="Example name" onChange={() => {}} value="9375551060" />
+    </Field>
 );
 
 describe('InputPhone (RTL)', () => {

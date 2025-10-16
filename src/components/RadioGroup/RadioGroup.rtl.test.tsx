@@ -1,32 +1,19 @@
 import { RadioGroup } from './RadioGroup';
+import { presets } from './RadioGroupExample';
 import { hasNoBasicA11yIssues } from '-/rtl/hasNoBasicA11yIssues';
 import { render } from '-/rtl/util';
 
-const TestBed = () => (
-    <RadioGroup
-        label="Example label"
-        name="Example name"
-        onChange={() => {}}
-        options={[
-            {
-                value: '1',
-                label: 'Option 1',
-                name: 'Option 1',
-                description: 'Description here',
-            },
-            { value: '2', label: 'Option 2', name: 'Option 2' },
-            { value: '3', label: 'Option 3', name: 'Option 3' },
-        ]}
-        value="2"
-    />
-);
-
 describe('RadioGroup (RTL)', () => {
-    it('has no basic a11y issues', hasNoBasicA11yIssues(<TestBed />));
+    presets.forEach((preset) => {
+        it(
+            `has no basic a11y issues - ${preset.label}`,
+            hasNoBasicA11yIssues(<RadioGroup onChange={() => {}} {...preset.propState} />),
+        );
+    });
 
     it('renders', () => {
-        const { getByLabelText } = render(<TestBed />);
+        const { getByText } = render(<RadioGroup {...presets[1].propState} onChange={() => {}} />);
 
-        expect(getByLabelText('Example label')).toBeInTheDocument();
+        expect(getByText('Option 1')).toBeInTheDocument();
     });
 });
