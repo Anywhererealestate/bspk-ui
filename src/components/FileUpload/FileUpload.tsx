@@ -1,8 +1,8 @@
 import './file-upload.scss';
 import { SvgCloudUpload } from '@bspk/icons/CloudUpload';
 import { useRef, ChangeEvent, useState, useEffect } from 'react';
+import { FileUploadItem, FileUploadItemProps } from './FileUploadItem';
 import { Button } from '-/components/Button';
-import { FileUploadItem, FileUploadItemProps } from '-/components/FileUploadItem';
 import { InlineAlert } from '-/components/InlineAlert';
 import { Txt } from '-/components/Txt';
 import { DEFAULT_ERROR_MESSAGE, FileEntry, FileUploadStatus, MimeType } from '-/utils/fileUploads';

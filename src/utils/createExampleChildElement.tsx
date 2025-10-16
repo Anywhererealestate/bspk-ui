@@ -6,7 +6,7 @@ import { Avatar } from '-/components/Avatar';
 import { Button } from '-/components/Button';
 import { Checkbox } from '-/components/Checkbox';
 import { Img } from '-/components/Img';
-import { RadioGroupItem } from '-/components/RadioGroup/Item';
+import { RadioGroupItem } from '-/components/RadioGroup/RadioGroupItem';
 import { Switch } from '-/components/Switch';
 import { Tag } from '-/components/Tag';
 import { Txt } from '-/components/Txt';

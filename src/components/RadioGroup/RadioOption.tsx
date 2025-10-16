@@ -1,4 +1,4 @@
-import { RadioProps, RadioGroupItem } from './Item';
+import { RadioProps, RadioGroupItem } from './RadioGroupItem';
 import { ToggleOption, ToggleOptionControlProps } from '-/components/ToggleOption';
 
 export type RadioOptionProps = ToggleOptionControlProps<RadioProps>;
