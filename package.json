@@ -83,8 +83,6 @@
         "./Field/*": "./dist/components/Field/*.js",
         "./FileUpload": "./dist/components/FileUpload/index.js",
         "./FileUpload/*": "./dist/components/FileUpload/*.js",
-        "./FileUploadItem": "./dist/components/FileUploadItem/index.js",
-        "./FileUploadItem/*": "./dist/components/FileUploadItem/*.js",
         "./Img": "./dist/components/Img/index.js",
         "./Img/*": "./dist/components/Img/*.js",
         "./InlineAlert": "./dist/components/InlineAlert/index.js",

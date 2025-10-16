@@ -6,7 +6,7 @@ export const FieldExample: ComponentExample<FieldProps & { value?: string }> = {
     render: ({ props, setState }) => {
         return (
             <Field {...props}>
-                <FieldLabel required={true}>Example label</FieldLabel>
+                <FieldLabel>Example label</FieldLabel>
                 <Input onChange={(next: string) => setState({ value: next })} value={props.value} />
                 <FieldDescription>This is an example description.</FieldDescription>
                 <FieldError>This is an error message.</FieldError>
