@@ -1,4 +1,8 @@
 [data-bspk='list-item'] {
+    // --list-item-padding
+    // --list-item-height
+    // --list-item-gap
+
     display: flex;
     width: 100%;
     user-select: none;
@@ -8,7 +12,7 @@
     overflow: hidden;
     min-height: var(--list-item-height);
     flex-direction: row;
-    gap: var(--spacing-sizing-03);
+    gap: var(--list-item-gap, var(--spacing-sizing-03));
     padding: var(--list-item-padding, var(--spacing-sizing-02));
     justify-items: stretch;
     border: unset;
@@ -108,6 +112,11 @@
             color: var(--foreground-neutral-disabled-on-surface);
             cursor: not-allowed;
         }
+    }
+
+    &[data-bspk-utility='toggle-option'] {
+        --list-item-gap: var(--spacing-sizing-02);
+        --list-item-padding: var(--spacing-sizing-01);
     }
 }
 
