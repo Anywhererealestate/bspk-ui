@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 import { SnackbarProvider, SnackbarProviderProps } from './SnackbarProvider';
 import { Button } from '-/components/Button';
 import { CheckboxGroup } from '-/components/Checkbox';
-import { Field, FieldLabel } from '-/components/Field';
+import { Field, FieldDescription, FieldLabel } from '-/components/Field';
 import { Input } from '-/components/Input';
 import { InputNumber } from '-/components/InputNumber';
 import { Txt } from '-/components/Txt';
@@ -66,6 +66,7 @@ function ExampleForm() {
                     size="small"
                     value={snackbarText}
                 />
+                <FieldDescription>Text to display in the snackbar.</FieldDescription>
             </Field>
 
             <CheckboxGroup

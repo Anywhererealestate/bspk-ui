@@ -104,7 +104,6 @@ export type SelectProps = CommonProps<'disabled' | 'id' | 'invalid' | 'name' | '
  *     }
  *
  * @name Select
- *
  * @phase UXReview
  */
 export function Select({

@@ -174,7 +174,6 @@ export type ListItemMenuProps = CommonProps<'disabled' | 'readOnly'> &
  *     }
  *
  * @name ListItemMenu
- *
  * @phase Utility
  */
 export function ListItemMenu({

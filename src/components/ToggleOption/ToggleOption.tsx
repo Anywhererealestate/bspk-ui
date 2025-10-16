@@ -26,8 +26,7 @@ export type ToggleOptionProps = CommonProps<'disabled' | 'readOnly'> & {
 /**
  * A utility component that wraps a checkbox, radio-group-item, and switch.
  *
- * - @name ToggleOption
- *
+ * @name ToggleOption
  * @phase Utility
  */
 export function ToggleOption({ label, description, children, disabled, readOnly }: ToggleOptionProps) {
@@ -36,8 +35,7 @@ export function ToggleOption({ label, description, children, disabled, readOnly 
             aria-disabled={!!disabled || !!readOnly || undefined}
             aria-readonly={readOnly}
             as="label"
-            className="bspk-toggle-option"
-            data-bspk-owner="toggle-option"
+            data-bspk-utility="toggle-option"
             label={label}
             leading={children}
             subText={description}

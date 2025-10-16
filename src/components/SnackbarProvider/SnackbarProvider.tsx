@@ -91,7 +91,6 @@ export type SnackbarProviderProps = {
  *     }
  *
  * @name SnackbarProvider
- *
  * @phase UXReview
  */
 export function SnackbarProvider({ children, timeout, countLimit = 10 }: SnackbarProviderProps) {

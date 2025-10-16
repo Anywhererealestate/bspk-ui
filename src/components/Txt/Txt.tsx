@@ -54,7 +54,6 @@ export type TxtProps<As extends ElementType = 'span'> = {
  *     }
  *
  * @name Txt
- *
  * @phase UXReview
  */
 export function Txt<As extends ElementType = 'span'>({

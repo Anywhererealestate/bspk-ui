@@ -70,7 +70,6 @@ export type BannerAlertProps = {
  * @exampleDescription This example shows how to use the BannerAlert component with an error variant, a header, and a body message.
  *
  * @name BannerAlert
- *
  * @phase UXReview
  */
 export function BannerAlert({

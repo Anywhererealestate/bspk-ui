@@ -8,8 +8,7 @@ export type RadioOptionProps = ToggleOptionControlProps<RadioProps>;
  *
  * If only a radio-group-item button is needed, consider using the RadioGroupItem component directly.
  *
- * - @name RadioOption
- *
+ * @name RadioOption
  * @phase Utility
  */
 export function RadioOption({ label: labelProp, description, disabled, ...radioProps }: RadioOptionProps) {

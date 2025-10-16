@@ -38,7 +38,6 @@ export type TimePickerProps = Pick<InputProps, 'disabled' | 'id' | 'invalid' | '
  *     }
  *
  * @name TimePicker
- *
  * @phase UXReview
  */
 export function TimePicker({

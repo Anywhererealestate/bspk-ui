@@ -72,8 +72,7 @@ export type ChipProps = {
  *     }
  *
  * @name Chip
- *
- * @phase Utility
+ * @phase UXReview
  *
  * @subcomponent ChipAssist
  *

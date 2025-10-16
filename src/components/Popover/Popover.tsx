@@ -82,7 +82,6 @@ export type PopoverProps = CommonProps<'disabled'> &
  *     }
  *
  * @name Popover
- *
  * @phase UXReview
  */
 export function Popover({

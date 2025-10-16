@@ -55,7 +55,6 @@ export type InputPhoneProps = Pick<
  *     <InputPhone aria-label="Phone Number" initialCountryCode="US" value={value} onChange={onChange} />;
  *
  * @name InputPhone
- *
  * @phase UXReview
  */
 export function InputPhone({

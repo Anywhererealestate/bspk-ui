@@ -78,7 +78,6 @@ export type TextareaProps = CommonProps<'disabled' | 'id' | 'invalid' | 'readOnl
  *     }
  *
  * @name Textarea
- *
  * @phase Utility
  */
 export function Textarea({

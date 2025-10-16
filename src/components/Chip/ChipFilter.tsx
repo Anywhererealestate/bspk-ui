@@ -41,7 +41,6 @@ export type ChipFilterProps = Pick<ChipProps, 'disabled' | 'label' | 'leadingIco
  *     }
  *
  * @name ChipFilter
- *
  * @phase UXReview
  */
 export function ChipFilter({

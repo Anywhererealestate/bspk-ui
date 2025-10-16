@@ -80,7 +80,6 @@ export type InputProps = CommonProps<
  *     }
  *
  * @name Input
- *
  * @phase Utility
  */
 export function Input({

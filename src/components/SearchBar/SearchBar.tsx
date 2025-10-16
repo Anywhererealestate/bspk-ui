@@ -107,7 +107,6 @@ export type SearchBarProps<O extends SearchBarOption = SearchBarOption> = Pick<
  *     }
  *
  * @name SearchBar
- *
  * @phase UXReview
  */
 export function SearchBar<O extends SearchBarOption>({

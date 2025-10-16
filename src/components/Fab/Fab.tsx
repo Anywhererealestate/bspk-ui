@@ -50,7 +50,6 @@ export type FabProps<As extends ElementType = 'button'> = Pick<
  *     }
  *
  * @name Fab
- *
  * @phase UXReview
  */
 export function Fab<As extends ElementType = 'button'>(props: AriaAttributes & ElementProps<FabProps<As>, As>) {

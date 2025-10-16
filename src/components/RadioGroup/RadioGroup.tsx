@@ -89,7 +89,6 @@ export type RadioGroupProps = CommonProps<'disabled' | 'name'> & {
  *     }
  *
  * @name RadioGroup
- *
  * @phase UXReview
  */
 export function RadioGroup({

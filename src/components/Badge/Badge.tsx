@@ -56,7 +56,6 @@ export type BadgeProps = {
  * @exampleDescription This example shows a badge with a count of 5, size small, and primary variant.
  *
  * @name Badge
- *
  * @phase UXReview
  */
 export function Badge({ count: countProp, size = 'small', surfaceBorder, children, color = 'primary' }: BadgeProps) {

@@ -90,7 +90,6 @@ export type TableProps<R extends TableRow> = {
  *     }
  *
  * @name Table
- *
  * @phase UXReview
  */
 export function Table<R extends TableRow>({

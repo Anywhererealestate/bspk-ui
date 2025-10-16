@@ -60,7 +60,6 @@ export type AvatarGroupProps = {
  *     }
  *
  * @name AvatarGroup
- *
  * @phase UXReview
  */
 export function AvatarGroup({ items, size = 'small', max = 5, variant }: AvatarGroupProps) {

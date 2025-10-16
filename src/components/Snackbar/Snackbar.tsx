@@ -25,7 +25,6 @@ export type SnackbarProps = {
  *     }
  *
  * @name Snackbar
- *
  * @phase Utility
  */
 export function Snackbar({ text, button, onClose }: SnackbarProps) {

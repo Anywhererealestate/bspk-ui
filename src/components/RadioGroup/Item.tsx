@@ -23,7 +23,6 @@ export type RadioProps = CommonProps<'aria-label' | 'disabled' | 'invalid' | 'na
  * must wrap it with a label. This will more often be used in the RadioOption or RadioGroup component.
  *
  * @name RadioGroupItem
- *
  * @phase Utility
  */
 export function RadioGroupItem(props: ElementProps<RadioProps, 'input'>) {

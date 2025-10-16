@@ -38,7 +38,6 @@ export type TabGroupProps = Omit<TabListProps<TabOption>, 'iconsOnly'> & {
  *     }
  *
  * @name TabGroup
- *
  * @phase UXReview
  */
 export function TabGroup({

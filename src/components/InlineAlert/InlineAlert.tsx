@@ -37,7 +37,6 @@ export type InlineAlertProps = CommonProps<'owner'> & {
  *     }
  *
  * @name InlineAlert
- *
  * @phase UXReview
  */
 export function InlineAlert({ children, variant = 'informational', id, owner }: InlineAlertProps) {

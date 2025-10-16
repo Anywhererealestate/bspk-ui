@@ -33,7 +33,6 @@ export type PasswordProps = Pick<
  *     }
  *
  * @name Password
- *
  * @phase UXReview
  */
 export function Password({ inputProps, inputRef, name, onChange, required, containerRef, ...props }: PasswordProps) {

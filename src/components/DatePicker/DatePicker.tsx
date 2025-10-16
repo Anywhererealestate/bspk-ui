@@ -45,7 +45,6 @@ export type DatePickerProps = Pick<InputProps, 'disabled' | 'invalid' | 'name' |
  *     }
  *
  * @name DatePicker
- *
  * @phase Utility
  *
  * @subcomponent Calendar

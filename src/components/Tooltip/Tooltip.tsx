@@ -53,7 +53,6 @@ export type TooltipProps = {
  *     }
  *
  * @name Tooltip
- *
  * @phase UXReview
  */
 export function Tooltip({ placement = 'top', label, children, disabled = false, showTail = true }: TooltipProps) {

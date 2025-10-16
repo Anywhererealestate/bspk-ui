@@ -92,7 +92,6 @@ export type ButtonProps<As extends ElementType = 'button'> = CommonProps<'disabl
  *     }
  *
  * @name Button
- *
  * @phase UXReview
  */
 export function Button<As extends ElementType = 'button'>(

@@ -90,7 +90,6 @@ export type FileUploadProps = Pick<FileUploadItemProps, 'cancelButtonLabel' | 'o
  *     }
  *
  * @name FileUpload
- *
  * @phase UXReview
  */
 export function FileUpload({

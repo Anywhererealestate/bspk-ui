@@ -27,27 +27,29 @@ export type SwitchProps = CommonProps<'aria-label' | 'disabled' | 'name' | 'valu
 /**
  * A control element that allows users to toggle between two states, typically representing on/off and inherits
  * immediate reaction in each state. This is the base element and if used directly you must wrap it with a label. This
- * will more often be used in the ListItem (as="label") component.
+ * will more often be used in the ListItem or ToggleOption component.
  *
  * @example
  *     import { useState } from 'react';
  *     import { Switch } from '@bspk/ui/Switch';
+ *     import { ToggleOption } from '@bspk/ui/ToggleOption';
  *
  *     export function Example() {
  *         const [isChecked, setIsChecked] = useState<boolean>(false);
  *
  *         return (
- *             <Switch
- *                 aria-label="Example aria-label"
- *                 name="Example name"
- *                 onChange={setIsChecked}
- *                 checked={isChecked}
- *             />
+ *             <ToggleOption disabled={props.disabled} label="Enable feature" readOnly={props.readOnly}>
+ *                 <Switch
+ *                     aria-label="Example aria-label"
+ *                     name="Example name"
+ *                     onChange={setIsChecked}
+ *                     checked={isChecked}
+ *                 />
+ *             </ToggleOption>
  *         );
  *     }
  *
  * @name Switch
- *
  * @phase UXReview
  */
 export function Switch({ checked = false, disabled: disabledProp = false, readOnly, ...props }: SwitchProps) {

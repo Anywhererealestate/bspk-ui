@@ -45,7 +45,6 @@ type DotSize = 'medium' | 'small' | 'x-small';
  *     }
  *
  * @name PageControl
- *
  * @phase UXReview
  */
 export function PageControl({ currentPage: currentProp, numPages: numPagesProp, variant = 'flat' }: PageControlProps) {

@@ -36,7 +36,6 @@ export type CardProps = {
  *     }
  *
  * @name Card
- *
  * @phase UXReview
  */
 export function Card({ children, variant = 'elevated' }: CardProps) {

@@ -44,7 +44,6 @@ const iconWidths: Record<RatingSize, number> = {
  *     }
  *
  * @name Rating
- *
  * @phase UXReview
  */
 export function Rating({ size = 'medium', value, onChange }: RatingProps) {
