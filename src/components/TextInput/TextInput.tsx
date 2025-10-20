@@ -49,7 +49,7 @@ type TextInputBaseProps = {
      *
      * @default off
      */
-    autoComplete?: '' | 'off' | 'on';
+    autoComplete?: 'off' | 'on';
     /**
      * Specifies if the clear button should be shown. This should almost always be true, but can be set to false.
      *
@@ -146,7 +146,7 @@ export function TextInput({
                 aria-errormessage={ariaErrorMessage || undefined}
                 aria-invalid={invalid || undefined}
                 aria-label={ariaLabel}
-                autoComplete={autoComplete}
+                autoComplete={autoComplete || undefined}
                 data-main-input
                 disabled={disabled || undefined}
                 id={id}
