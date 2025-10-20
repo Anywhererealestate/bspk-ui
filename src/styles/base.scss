@@ -181,6 +181,7 @@ body[data-bspk] {
     position: absolute !important;
     width: 1px;
     clip: rect(1px, 1px, 1px, 1px);
+    pointer-events: none;
 }
 
 [data-touch-target] ~ * {

@@ -73,11 +73,12 @@ export function useArrowNavigation({
 
     const setActiveElementId = (id: string | null) => {
         setActiveElementIdBase(id);
-        getElementById(id)?.scrollIntoView({
-            block: 'nearest',
-            behavior: 'smooth',
-            inline: 'nearest',
-        });
+        if (id)
+            getElementById(id)?.scrollIntoView({
+                block: 'nearest',
+                behavior: 'smooth',
+                inline: 'nearest',
+            });
     };
 
     return {

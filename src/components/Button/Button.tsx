@@ -152,6 +152,7 @@ export function Button<As extends ElementType = 'button'>(
                 containerProps.onMouseOver?.(e);
             }}
             ref={innerRef}
+            role={As !== 'button' ? 'button' : undefined}
         >
             {children && typeof children !== 'string' ? (
                 children

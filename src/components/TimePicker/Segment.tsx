@@ -16,6 +16,7 @@ type TimePickerSegmentProps<T extends string> = {
     value?: T;
     type: TimePickerType;
     onChange: (value: T | null) => void;
+    setRef?: (element: HTMLElement | null) => void;
 };
 
 export function TimePickerSegment<T extends string>({
@@ -25,6 +26,7 @@ export function TimePickerSegment<T extends string>({
     value: valueProp,
     type: kind,
     onChange,
+    setRef,
 }: TimePickerSegmentProps<T>) {
     const ref = useRef<HTMLElement | null>(null);
 
@@ -198,6 +200,7 @@ export function TimePickerSegment<T extends string>({
                 if (!element) return;
                 ref.current = element;
                 element.textContent = valueToContent(valueProp);
+                setRef?.(element);
             }}
             role="spinbutton"
             spellCheck="false"

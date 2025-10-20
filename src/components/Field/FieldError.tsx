@@ -10,9 +10,11 @@ export function FieldError({ children }: { children?: string }) {
             setField({ ariaErrorMessage: children ? `${id}-error` : undefined });
     }, [children, setField, ariaErrorMessage, id]);
 
-    return children ? (
-        <InlineAlert id={`${id}-error`} owner="field-error" variant="error">
-            {children}
-        </InlineAlert>
-    ) : null;
+    return (
+        children && (
+            <InlineAlert id={`${id}-error`} owner="field-error" variant="error">
+                {children}
+            </InlineAlert>
+        )
+    );
 }

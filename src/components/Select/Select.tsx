@@ -58,12 +58,6 @@ export type SelectProps = CommonProps<'name' | 'size'> &
          */
         onChange: (value: string, event?: KeyboardEvent | MouseEvent) => void;
         /**
-         * The label for the select element, used for accessibility, and the dropdown modal header.
-         *
-         * @required
-         */
-        label: string;
-        /**
          * Placeholder for the select
          *
          * @default Select one
@@ -117,7 +111,6 @@ export function Select({
     options: optionsProp = [],
     value = '',
     onChange,
-    label,
     placeholder = 'Select one',
     size = 'medium',
     disabled,
@@ -128,13 +121,13 @@ export function Select({
     'aria-labelledby': ariaLabelledBy,
     scrollLimit,
     required: requiredProp,
-    ...props
+    ...elementProps
 }: ElementProps<SelectProps, 'button'>) {
     const {
         id,
+        invalid: hasError,
         ariaDescribedBy,
         ariaErrorMessage,
-        invalid: hasError,
     } = useFieldInit({
         id: idProp,
         readOnly,
@@ -190,13 +183,8 @@ export function Select({
     return (
         <>
             <input name={name} type="hidden" value={value} />
-            {!ariaLabelledBy && (
-                <div data-sr-only id={`${id}-label`}>
-                    {label}
-                </div>
-            )}
             <button
-                {...props}
+                {...elementProps}
                 aria-activedescendant={activeElementId || undefined}
                 aria-autocomplete="list"
                 aria-controls={activeElementId ? menuId : undefined}
@@ -261,11 +249,9 @@ export function Select({
             </button>
             <Menu
                 aria-autocomplete={undefined}
-                aria-label={label}
                 as="div"
                 id={menuId}
                 innerRef={elements.setFloating}
-                label={label}
                 onClickCapture={() => {
                     // Prevent the menu from closing when clicking inside it
                     // maintain focus on the select control

@@ -1,5 +1,5 @@
-import { Select } from './Select';
 import { presets } from './SelectExample';
+import { Select, SelectProps, SelectField } from './';
 import { hasNoBasicA11yIssues } from '-/rtl/hasNoBasicA11yIssues';
 import { render } from '-/rtl/util';
 
@@ -9,16 +9,23 @@ const nonPresetProps = {
     placeholder: 'Select an option',
 };
 
+const TestBed = (props: SelectProps) => (
+    <>
+        <Select {...props} />
+        <SelectField label="Select Label" {...props} />
+    </>
+);
+
 describe('Select (RTL)', () => {
     presets.forEach((preset) => {
         it(
             `has no basic a11y issues - ${preset.label}`,
-            hasNoBasicA11yIssues(<Select {...preset.propState} {...nonPresetProps} />),
+            hasNoBasicA11yIssues(<TestBed {...preset.propState} {...nonPresetProps} />),
         );
     });
 
     it('renders', () => {
-        const { queryByText } = render(<Select {...presets[0].propState} {...nonPresetProps} />);
+        const { queryByText } = render(<TestBed {...presets[0].propState} {...nonPresetProps} />);
 
         expect(queryByText(nonPresetProps.placeholder)).toBeInTheDocument();
     });

@@ -1,9 +1,17 @@
 import './time-picker.scss';
 import { SvgSchedule } from '@bspk/icons/Schedule';
 import { FocusTrap } from 'focus-trap-react';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { TimePickerListbox } from './Listbox';
 import { TimePickerSegment } from './Segment';
+import {
+    HOUR_OPTIONS,
+    MINUTE_OPTIONS,
+    MERIDIEM_OPTIONS,
+    Meridiem,
+    partsToStringValue,
+    stringValueToParts,
+} from './utils';
 import { Button } from '-/components/Button';
 import { FieldControlProp, useFieldInit } from '-/components/Field';
 import { InputProps } from '-/components/Input';
@@ -14,16 +22,8 @@ import { useOutsideClick } from '-/hooks/useOutsideClick';
 import { ElementProps } from '-/types/common';
 import { handleKeyDown } from '-/utils/handleKeyDown';
 
-export const MINUTE_OPTIONS = ['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55'];
-export const HOUR_OPTIONS = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
-export const MERIDIEM_OPTIONS = ['AM', 'PM'];
-
-type Minute = (typeof MINUTE_OPTIONS)[number];
-type Hour = (typeof HOUR_OPTIONS)[number];
-type Meridiem = (typeof MERIDIEM_OPTIONS)[number];
-
 export type TimePickerProps = FieldControlProp &
-    Pick<InputProps, 'name' | 'size'> & {
+    Pick<InputProps, 'name' | 'onChange' | 'size'> & {
         value?: string;
     };
 
@@ -56,6 +56,7 @@ export function TimePicker({
     name,
     size,
     required: requiredProp,
+    onChange: onChangeProp,
     ...props
 }: ElementProps<TimePickerProps, 'div'>) {
     const {
@@ -72,18 +73,23 @@ export function TimePicker({
     });
     const invalid = !readOnly && !disabled && (invalidProp || hasError);
 
-    const [inputValue, setInputValue] = useState(value);
+    const { hours, minutes, meridiem } = useMemo(() => stringValueToParts(value || '00:00'), [value]);
 
-    const [hours, setHours] = useState<(typeof HOUR_OPTIONS)[number]>();
-    const [minutes, setMinutes] = useState<(typeof MINUTE_OPTIONS)[number]>();
-    const [meridiem, setMeridiem] = useState<(typeof MERIDIEM_OPTIONS)[number]>('AM');
-
-    useEffect(() => {
-        setInputValue(
-            `${hours?.toString().padStart(2, '0')}:${minutes?.toString().padStart(2, '0')} ${meridiem || ''}`.trim(),
-        );
-        if (hours !== undefined && minutes === undefined) setMinutes('00');
-    }, [hours, minutes, meridiem]);
+    const setValue = useCallback(
+        (
+            params: Partial<{
+                hours?: string;
+                minutes?: string;
+                meridiem?: Meridiem;
+            }>,
+        ) => {
+            const nextValue = { hours, minutes, meridiem, ...params };
+            onChangeProp(
+                partsToStringValue(nextValue.hours?.toString(), nextValue.minutes?.toString(), nextValue.meridiem),
+            );
+        },
+        [hours, minutes, meridiem, onChangeProp],
+    );
 
     const [open, setOpenState] = useState(false);
 
@@ -140,11 +146,16 @@ export function TimePicker({
     } | null>(null);
     const buttonRef = useRef<HTMLElement | null>(null);
 
+    const [firstField, setFirstField] = useState<HTMLElement | null>(null);
+
     return (
         <>
             <div
                 {...props}
+                aria-controls={open ? `${id}-time-picker-menu` : undefined}
                 aria-describedby={ariaErrorMessage || ariaDescribedBy || undefined}
+                aria-expanded={open || undefined}
+                aria-labelledby={`${id}-field-label`}
                 data-bspk="time-picker"
                 data-disabled={disabled || undefined}
                 data-invalid={invalid || undefined}
@@ -152,8 +163,7 @@ export function TimePicker({
                 data-open={open || undefined}
                 data-readonly={readOnly || undefined}
                 data-size={size || undefined}
-                data-value={inputValue || undefined}
-                id={id}
+                data-value={value || undefined}
                 onClickCapture={() => {
                     if (disabled || readOnly) return;
                     elements.reference?.querySelector<HTMLElement>('[tabIndex]')?.focus();
@@ -162,14 +172,25 @@ export function TimePicker({
                 ref={(node) => {
                     elements.setReference(node);
                 }}
-                role="group"
-                tabIndex={disabled || readOnly ? -1 : 0}
+                role={open ? 'combobox' : undefined}
+                tabIndex={-1}
             >
+                <input
+                    data-sr-only
+                    id={id}
+                    name={name}
+                    onChange={(e) => onChangeProp(e.target.value)}
+                    onFocus={() => firstField?.focus()}
+                    tabIndex={-1}
+                    type="time"
+                    value={value}
+                />
                 <TimePickerSegment
                     disabled={disabled}
                     name={`${name}-hours`}
-                    onChange={(next) => setHours(next || undefined)}
+                    onChange={(next) => setValue({ hours: next || undefined })}
                     readOnly={readOnly}
+                    setRef={setFirstField}
                     type="hours"
                     value={hours}
                 />
@@ -177,7 +198,7 @@ export function TimePicker({
                 <TimePickerSegment
                     disabled={disabled}
                     name={`${name}-minutes`}
-                    onChange={(next) => setMinutes(next || undefined)}
+                    onChange={(next) => setValue({ minutes: next || undefined })}
                     readOnly={readOnly}
                     type="minutes"
                     value={minutes}
@@ -185,12 +206,13 @@ export function TimePicker({
                 <TimePickerSegment
                     disabled={disabled}
                     name={`${name}-meridiem`}
-                    onChange={(next) => setMeridiem(next || 'AM')}
+                    onChange={(next) => setValue({ meridiem: next || 'AM' })}
                     readOnly={readOnly}
                     type="meridiem"
                     value={meridiem}
                 />
                 <Button
+                    as="span"
                     disabled={disabled || readOnly}
                     icon={<SvgSchedule />}
                     iconOnly
@@ -205,6 +227,7 @@ export function TimePicker({
             {!!open && (
                 <Portal>
                     <Menu
+                        id={`${id}-time-picker-menu`}
                         innerRef={(node) => {
                             if (!node) return;
                             elements.setFloating(node as HTMLElement);
@@ -232,7 +255,7 @@ export function TimePicker({
                             >
                                 <TimePickerListbox
                                     onSelect={(next) => {
-                                        setHours(next as Hour);
+                                        setValue({ hours: next });
                                         setTimeout(() => listBoxRefs.current?.minutes?.focus(), 10);
                                     }}
                                     options={hourOptions}
@@ -241,7 +264,7 @@ export function TimePicker({
                                 />
                                 <TimePickerListbox
                                     onSelect={(next) => {
-                                        setMinutes(next as Minute);
+                                        setValue({ minutes: next });
                                         setTimeout(() => listBoxRefs.current?.meridiem?.focus(), 10);
                                     }}
                                     options={minuteOptions}
@@ -250,7 +273,7 @@ export function TimePicker({
                                 />
                                 <TimePickerListbox
                                     onSelect={(next) => {
-                                        setMeridiem(next as Meridiem);
+                                        setValue({ meridiem: next as Meridiem });
                                         setOpen(false);
                                         setTimeout(() => buttonRef.current?.focus(), 10);
                                     }}

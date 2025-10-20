@@ -1,7 +1,7 @@
 import './password.scss';
 import { useState } from 'react';
 import { Button } from '-/components/Button';
-import { Input, InputProps } from '-/components/Input';
+import { InputElement, InputProps } from '-/components/Input';
 
 export type PasswordProps = Pick<
     InputProps,
@@ -44,7 +44,7 @@ export function Password({ inputProps, inputRef, name, onChange, required, conta
     };
 
     return (
-        <Input
+        <InputElement
             {...props}
             autoComplete="off"
             containerRef={containerRef}

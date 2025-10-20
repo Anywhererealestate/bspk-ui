@@ -149,16 +149,46 @@ function cssImportsInjected(fileContent: string) {
 async function componentExports() {
     const nextExports: Record<string, string> = { ...packageData['static-exports'] };
 
-    (await readDir(path.resolve('./dist/components'), { withFileTypes: true }))
-        .filter((dirent) => dirent.isDirectory() && !dirent.name.startsWith('.'))
-        .sort((a, b) => a.name.localeCompare(b.name))
-        .forEach((dirent) => {
-            if (!dirent.isDirectory() || dirent.name.startsWith('.')) return;
-            nextExports[`./${dirent.name}`] = `./dist/components/${dirent.name}/index.js`;
-            nextExports[`./${dirent.name}/*`] = `./dist/components/${dirent.name}/*.js`;
-        });
+    await Promise.all(
+        (await readDir(path.resolve('./dist/components'), { withFileTypes: true }))
+            //
+            .map(async (dirent) => {
+                //
+                if (!dirent.isDirectory() || dirent.name.startsWith('.')) return;
+                nextExports[`./${dirent.name}`] = `./dist/components/${dirent.name}/index.js`;
+                nextExports[`./${dirent.name}/*`] = `./dist/components/${dirent.name}/*.js`;
 
-    (packageData.exports as Record<string, string>) = nextExports as Record<string, string>;
+                const files = await Promise.all(
+                    (await readDir(`${'./dist/components'}/${dirent.name}`))
+                        .filter((file) => file.endsWith('.js') || file.endsWith('.ts'))
+                        .map(async (file) => ({
+                            filePath: `${'./dist/components'}/${dirent.name}/${file}`,
+                            content: await readFile(`${'./dist/components'}/${dirent.name}/${file}`),
+                        })),
+                );
+
+                // look for files in each folder with the @export tag and add them to nextExports
+                files.forEach(async ({ filePath, content }) => {
+                    const nameMatch = content.match(/ \* @name\W([^\W]+)/)?.[1];
+                    const exportMatch = content.match(/ \* @export/);
+
+                    if (exportMatch && nameMatch) {
+                        console.log(`Adding export "./${nameMatch}" to "${filePath}"`);
+                        nextExports[`./${nameMatch}`] = filePath;
+                    }
+                });
+            }),
+    );
+
+    (packageData.exports as Record<string, string>) = Object.fromEntries(Object.entries(nextExports).sort()) as Record<
+        string,
+        string
+    >;
+
+    packageData['last-modified'] = new Date().toISOString();
+
+    console.log('Writing package.json exports:', packageData.exports);
+
     return writeFile(path.resolve('./package.json'), `${JSON.stringify(packageData, null, 4)}\n`, 'utf-8');
 }
 

@@ -77,6 +77,7 @@ export type TextareaProps = FieldControlProp & {
  *     import { useState } from 'react';
  *     import { Textarea } from '@bspk/ui/Textarea';
  *     import { Field, FieldLabel } from '@bspk/ui/Field';
+ *     import { TextareaField } from '@bspk/ui/TextareaField';
  *
  *     export function Example() {
  *         const [value, setValue] = useState<string>('');
@@ -87,6 +88,12 @@ export type TextareaProps = FieldControlProp & {
  *                 <Textarea aria-label="Example aria-label" name="comment" onChange={setValue} value={value} />
  *             </Field>
  *         );
+ *     }
+ *
+ *     export function ExampleField() {
+ *         const [value, setValue] = useState<string>('');
+ *
+ *         return <TextareaField label="Example aria-label" name="comment" onChange={setValue} value={value} />;
  *     }
  *
  * @name Textarea

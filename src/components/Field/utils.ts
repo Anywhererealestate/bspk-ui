@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect } from 'react';
+import { createContext, ReactNode, useContext, useEffect } from 'react';
 import { CommonProps } from '-/types/common';
 import { randomString } from '-/utils/random';
 
@@ -11,7 +11,9 @@ export type FieldContextProps = FieldControlProp & {
     /** The aria-errormessage attribute value that should be applied to the field input element. */
     ariaErrorMessage?: string;
     /** Text that appears after the label, but before the input (e.g. "optional"). */
-    labelTrailing?: string;
+    labelTrailing?: ReactNode | string;
+    /** Unless set to false, the id will be used as the htmlFor attribute. */
+    htmlFor?: string | false;
 };
 
 export const fieldContext = createContext<
@@ -47,7 +49,8 @@ export function useFieldInit(defaults?: FieldContextProps): FieldContextProps & 
                 return context[key as keyof FieldContextProps] !== defaults[key as keyof FieldContextProps];
             })
         ) {
-            context.setField({ ...defaults, id: defaults.id || context.id || `field-${randomString(8)}` });
+            const updates = { ...defaults, id: defaults.id || context.id || `field-${randomString(8)}` };
+            context.setField(updates);
         }
     }, [context, defaults]);
 

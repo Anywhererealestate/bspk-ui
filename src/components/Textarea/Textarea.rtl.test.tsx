@@ -1,9 +1,13 @@
+import { TextareaField } from './Field';
 import { Textarea } from './Textarea';
 import { hasNoBasicA11yIssues } from '-/rtl/hasNoBasicA11yIssues';
 import { render } from '-/rtl/util';
 
 const TestBed = () => (
-    <Textarea aria-label="Example label" name="Example name" onChange={() => {}} value="text value" />
+    <>
+        <Textarea aria-label="Example label" name="Example name" onChange={() => {}} value="text value" />
+        <TextareaField label="Example label" name="Example name" onChange={() => {}} value="text value" />
+    </>
 );
 
 describe('Textarea (RTL)', () => {

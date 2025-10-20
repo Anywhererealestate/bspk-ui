@@ -12,4 +12,5 @@ export const InputPhoneExample: ComponentExample<InputPhoneProps> = {
             <FieldDescription>The phone input allows you to enter a phone number with country code.</FieldDescription>
         </Field>
     ),
+    variants: true,
 };

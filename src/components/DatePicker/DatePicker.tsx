@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Calendar } from './Calendar';
 import { Button } from '-/components/Button';
 import { useFieldInit } from '-/components/Field';
-import { Input, InputProps } from '-/components/Input';
+import { InputElement, InputProps } from '-/components/Input';
 import { Portal } from '-/components/Portal';
 import { useFloating } from '-/hooks/useFloating';
 import { useOutsideClick } from '-/hooks/useOutsideClick';
@@ -141,7 +141,7 @@ export function DatePicker({
                     elements.setReference(node);
                 }}
             >
-                <Input
+                <InputElement
                     aria-describedby={ariaDescribedBy || undefined}
                     aria-errormessage={ariaErrorMessage || undefined}
                     disabled={disabled || undefined}

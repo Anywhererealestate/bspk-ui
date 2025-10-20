@@ -1,12 +1,20 @@
 import { InputProps } from '.';
-import { Field, FieldLabel } from '-/components/Field';
+import { Field, FieldDescription, FieldLabel } from '-/components/Field';
 import { ComponentExample } from '-/utils/demo';
 
-export const InputExample: ComponentExample<InputProps> = {
+type InputExampleProps = InputProps & { label: string; description?: string };
+
+export const InputExample: ComponentExample<InputExampleProps> = {
+    defaultState: {
+        label: 'Property Description',
+        description: 'This is a description of the property.',
+        placeholder: 'Waterfront condo with great views',
+    },
     render: ({ props, Component }) => (
         <Field>
-            <FieldLabel>Example Input</FieldLabel>
+            <FieldLabel>{props.label || 'Example Input'}</FieldLabel>
             <Component {...props} />
+            {props.description && <FieldDescription>{props.description}</FieldDescription>}
         </Field>
     ),
     presets: [
@@ -16,8 +24,10 @@ export const InputExample: ComponentExample<InputProps> = {
                 type: 'number',
                 leading: '$',
                 trailing: undefined,
-                placeholder: 'currency',
+                placeholder: '0.00',
                 name: 'currency',
+                label: 'Balance',
+                description: 'Enter the current balance',
             },
         },
         {
@@ -26,8 +36,10 @@ export const InputExample: ComponentExample<InputProps> = {
                 type: 'number',
                 leading: undefined,
                 trailing: '%',
-                placeholder: 'percent',
+                placeholder: '0',
                 name: 'percent',
+                label: 'Growth Rate',
+                description: 'Enter the expected growth rate',
             },
         },
         {
@@ -35,9 +47,11 @@ export const InputExample: ComponentExample<InputProps> = {
             propState: {
                 type: 'number',
                 leading: undefined,
-                placeholder: 'dimensions',
-                trailing: 'ft',
+                placeholder: '0',
+                trailing: 'Acre(s)',
                 name: 'dimension',
+                label: 'Land Size',
+                description: 'Enter the size of the land',
             },
         },
     ],
