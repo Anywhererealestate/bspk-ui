@@ -3,10 +3,17 @@ import { SvgChevronRight } from '@bspk/icons/ChevronRight';
 import { SvgMoreHoriz } from '@bspk/icons/MoreHoriz';
 import { Button } from '-/components/Button';
 import { Link } from '-/components/Link';
-import { ListItemMenu, ListItemMenuProps } from '-/components/ListItemMenu';
+import { ListItem } from '-/components/ListItem';
+import { Menu } from '-/components/Menu';
 import { Txt } from '-/components/Txt';
+import { useArrowNavigation } from '-/hooks/useArrowNavigation';
+import { useFloating } from '-/hooks/useFloating';
 import { useId } from '-/hooks/useId';
+import { useOutsideClick } from '-/hooks/useOutsideClick';
 import { CommonProps } from '-/types/common';
+import { getElementById } from '-/utils/dom';
+import { handleKeyDown } from '-/utils/handleKeyDown';
+import { scrollListItemsStyle, ScrollListItemsStyleProps } from '-/utils/scrollListItemsStyle';
 import { useIds } from '-/utils/useIds';
 
 export type BreadcrumbItem = {
@@ -31,7 +38,7 @@ export type BreadcrumbItem = {
 };
 
 export type BreadcrumbProps = CommonProps<'id'> &
-    Pick<ListItemMenuProps, 'scrollLimit'> & {
+    ScrollListItemsStyleProps & {
         /**
          * The array of breadcrumb items.
          *
@@ -91,18 +98,37 @@ export function Breadcrumb({ id: propId, items: itemsProp = [], scrollLimit }: B
 
     const items = useIds(`breadcrumb-${id}`, itemsProp);
 
-    if (items.length < 2) return null;
+    const { activeElementId, setActiveElementId, arrowKeyCallbacks } = useArrowNavigation({
+        ids: items.map((i) => i.id),
+    });
 
-    return (
-        <nav aria-label="Breadcrumb" data-bspk="breadcrumb" id={id}>
-            <ol>
-                <li>
-                    <Link href={items[0].href} label={items[0].label} />
-                    <SvgChevronRight aria-hidden />
-                </li>
-                {items.length > 5 ? (
-                    <li>
-                        <ListItemMenu
+    const closeMenu = () => setActiveElementId(null);
+    const open = Boolean(activeElementId);
+
+    const { elements, floatingStyles } = useFloating({
+        hide: !open,
+        offsetOptions: 4,
+        refWidth: false,
+    });
+
+    useOutsideClick({
+        elements: [elements.floating, elements.reference],
+        callback: () => closeMenu(),
+        disabled: !open,
+    });
+
+    const spaceEnter = () => {
+        if (!open) {
+            elements.reference?.click();
+            return;
+        }
+        if (activeElementId) getElementById(activeElementId)?.click();
+    };
+
+    const dropdownItems = items.slice(1, items.length - 1);
+
+    /*
+   <ListItemMenu
                             hideWhenClosed
                             itemOnClick={({ setShow }) => setShow(false)}
                             items={items.slice(1, items.length - 1)}
@@ -114,19 +140,64 @@ export function Breadcrumb({ id: propId, items: itemsProp = [], scrollLimit }: B
                             width="200px"
                         >
                             {(triggerProps, { setRef, itemCount }) => (
-                                <Button
-                                    {...triggerProps}
-                                    icon={<SvgMoreHoriz />}
-                                    iconOnly
-                                    innerRef={setRef}
-                                    label={`Access to ${itemCount} pages`}
-                                    onClick={triggerProps.onClick}
-                                    size="small"
-                                    variant="tertiary"
-                                />
+                                
                             )}
-                        </ListItemMenu>
+                        </ListItemMenu>*/
+
+    if (items.length < 2) return null;
+
+    return (
+        <nav aria-label="Breadcrumb" data-bspk="breadcrumb" id={id}>
+            <ol>
+                <li>
+                    <Link href={items[0].href} label={items[0].label} />
+                    <SvgChevronRight aria-hidden />
+                </li>
+                {items.length > 5 ? (
+                    <li>
+                        <Button
+                            icon={<SvgMoreHoriz />}
+                            iconOnly
+                            innerRef={elements.setReference}
+                            label={`Access to ${dropdownItems.length} pages`}
+                            onClick={() => {
+                                if (open) {
+                                    closeMenu();
+                                } else {
+                                    setActiveElementId(items[1].id);
+                                }
+                            }}
+                            onKeyDown={handleKeyDown(
+                                {
+                                    ...arrowKeyCallbacks,
+                                    ArrowDown: (event) => {
+                                        if (!open) spaceEnter();
+                                        arrowKeyCallbacks.ArrowDown?.(event);
+                                    },
+                                    Space: spaceEnter,
+                                    Enter: spaceEnter,
+                                    Escape: closeMenu,
+                                    'Ctrl+Option+Space': spaceEnter,
+                                },
+                                { preventDefault: true, stopPropagation: true },
+                            )}
+                            size="small"
+                            variant="tertiary"
+                        />
                         <SvgChevronRight aria-hidden />
+                        {open && (
+                            <Menu
+                                style={{
+                                    ...(open ? scrollListItemsStyle(scrollLimit, items.length) : {}),
+                                    ...floatingStyles,
+                                    width: '200px',
+                                }}
+                            >
+                                {dropdownItems.map((item, idx) => (
+                                    <ListItem key={`Breadcrumb-MenuItem-${idx}`} {...item} />
+                                ))}
+                            </Menu>
+                        )}
                     </li>
                 ) : (
                     items.slice(1, items.length - 1).map((item, idx) => (
