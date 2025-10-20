@@ -173,11 +173,6 @@ export function Select({
     return (
         <>
             <input name={name} type="hidden" value={value} />
-            {!ariaLabelledBy && (
-                <div data-sr-only id={`${id}-label`}>
-                    {label}
-                </div>
-            )}
             <button
                 {...props}
                 aria-activedescendant={activeElementId || undefined}
@@ -188,7 +183,8 @@ export function Select({
                 aria-errormessage={ariaErrorMessage || undefined}
                 aria-expanded={open}
                 aria-haspopup="listbox"
-                aria-labelledby={ariaLabelledBy || `${id}-label`}
+                aria-label={!ariaLabelledBy ? selectedItem?.label || placeholder : undefined}
+                aria-labelledby={ariaLabelledBy}
                 aria-readonly={readOnly || undefined}
                 data-bspk="select"
                 data-invalid={invalid || undefined}
