@@ -16,7 +16,10 @@ export type FormFieldProps = {
      */
     label: string;
     /**
-     * The children of the form field. This should be a control such as Input, Select, DateInput, or TimeInput.
+     * The children of the form field. This should at least contain a FieldLabel component and a control such as
+     * DatePicker, Input, InputNumber, InputPhone, Password, Select, Textarea, or TimePicker.
+     *
+     * Other components such as FieldDescription and FieldError can also be included.
      *
      * @required
      */
@@ -29,7 +32,8 @@ export type FormFieldProps = {
 /**
  * Wrapper component for form controls.
  *
- * Children should be one of the following: Input, Select, DateInput or TimeInput.
+ * Children should be one of the following: DatePicker, Input, InputNumber, InputPhone, Password, Select, Textarea, or
+ * TimePicker.
  *
  * @example
  *     import { Input } from '@bspk/ui/Input';
@@ -64,7 +68,7 @@ export function FormField({ label, errorMessage, helperText, children, labelTrai
         <Field>
             <FieldLabel labelTrailing={labelTrailing}>{label}</FieldLabel>
             {children}
-            <FieldDescription>{helperText}</FieldDescription>
+            {!errorMessage && helperText && <FieldDescription>{helperText}</FieldDescription>}
             <FieldError>{errorMessage}</FieldError>
         </Field>
     );

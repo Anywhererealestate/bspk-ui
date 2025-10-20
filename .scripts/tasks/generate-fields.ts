@@ -5,7 +5,19 @@
  */
 import fs from 'fs';
 
-['DatePicker', 'InputPhone', 'Textarea', 'Select', 'InputNumber', 'Password', 'TimePicker'].map((name) => {
+const CONTROLS = [
+    //
+    'DatePicker',
+    'Input',
+    'InputNumber',
+    'InputPhone',
+    'Password',
+    'Select',
+    'Textarea',
+    'TimePicker',
+];
+
+CONTROLS.map((name) => {
     const content = `import { ${name}, ${name}Props } from './${name}';
 import { FormField, FormFieldControlProps } from '-/components/Field';
 

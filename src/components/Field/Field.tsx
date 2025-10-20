@@ -6,7 +6,8 @@ import { randomString } from '-/utils/random';
 
 export type FieldProps = {
     /**
-     * The children of the form field. This should be a control such as Input, Select, DatePicker, or TimePicker.
+     * The children of the form field. This should be a control such as DatePicker, Input, InputNumber, InputPhone,
+     * Password, Select, Textarea, or TimePicker.
      *
      * @required
      */
@@ -16,7 +17,8 @@ export type FieldProps = {
 /**
  * Wrapper component for form controls.
  *
- * Children should be one of the following: Input, Select, DatePicker or TimePicker.
+ * Children should be one of the following: DatePicker, Input, InputNumber, InputPhone, Password, Select, Textarea, or
+ * TimePicker.
  *
  * @example
  *     import { Input } from '@bspk/ui/Input';

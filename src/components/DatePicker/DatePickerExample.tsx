@@ -5,7 +5,9 @@ import { ComponentExample, Preset } from '-/utils/demo';
 export const presets: Preset<DatePickerProps>[] = [];
 
 export const DatePickerExample: ComponentExample<DatePickerProps> = {
-    defaultState: {},
+    defaultState: {
+        value: undefined,
+    },
     disableProps: [],
     presets,
     render: ({ props, Component }) => {

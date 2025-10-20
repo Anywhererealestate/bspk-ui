@@ -16,7 +16,11 @@ export type DatePickerProps = Pick<
     InputProps,
     'disabled' | 'id' | 'invalid' | 'name' | 'readOnly' | 'required' | 'size'
 > & {
-    /** The value of the calendar input */
+    /**
+     * The value of the calendar input
+     *
+     * @type Date
+     */
     value: Date | undefined;
     /** Fires when the date changes with the new date */
     onChange: (newDate: Date | undefined) => void;
