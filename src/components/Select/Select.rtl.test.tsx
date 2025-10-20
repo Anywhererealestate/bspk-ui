@@ -1,5 +1,5 @@
 import { presets } from './SelectExample';
-import { Select, SelectProps, SelectField } from './';
+import { Select, SelectProps } from './';
 import { hasNoBasicA11yIssues } from '-/rtl/hasNoBasicA11yIssues';
 import { render } from '-/rtl/util';
 
@@ -11,7 +11,6 @@ const nonPresetProps = {
 const TestBed = (props: SelectProps) => (
     <>
         <Select {...props} placeholder="Select an option" />
-        <SelectField label="Select Label" {...props} placeholder="Select an option (field)" />
     </>
 );
 
@@ -27,7 +26,5 @@ describe('Select (RTL)', () => {
         const { queryByText } = render(<TestBed {...presets[0].propState} {...nonPresetProps} />);
 
         expect(queryByText('Select an option')).toBeInTheDocument();
-
-        expect(queryByText('Select an option (field)')).toBeInTheDocument();
     });
 });

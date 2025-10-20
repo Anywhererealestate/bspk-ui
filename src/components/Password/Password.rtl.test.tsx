@@ -1,11 +1,10 @@
-import { Password, PasswordField } from './';
+import { Password } from './';
 import { hasNoBasicA11yIssues } from '-/rtl/hasNoBasicA11yIssues';
 import { render } from '-/rtl/util';
 
 const TestBed = () => (
     <>
         <Password aria-label="Password" name="password" onChange={() => {}} value="foo" />
-        <PasswordField label="Password field" name="password-field" onChange={() => {}} value="foo" />
     </>
 );
 
@@ -16,6 +15,5 @@ describe('Password (RTL)', () => {
         const { getByLabelText } = render(<TestBed />);
 
         expect(getByLabelText('Password')).toBeInTheDocument();
-        expect(getByLabelText('Password field')).toBeInTheDocument();
     });
 });

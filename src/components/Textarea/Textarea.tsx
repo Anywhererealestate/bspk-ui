@@ -1,10 +1,10 @@
 import './textarea.scss';
 import { ChangeEvent, useRef } from 'react';
-import { useId } from '-/hooks/useId';
+import { useFieldInit } from '-/components/Field';
 import { CommonProps, FormFieldControlProps, SetRef } from '-/types/common';
 import { cssWithVars } from '-/utils/cwv';
 
-export type TextareaProps = CommonProps<'aria-label' | 'disabled' | 'id' | 'invalid' | 'readOnly'> &
+export type TextareaProps = CommonProps<'aria-label' | 'disabled' | 'id' | 'invalid' | 'readOnly' | 'required'> &
     FormFieldControlProps & {
         /**
          * Callback when the value of the field changes.
@@ -99,10 +99,20 @@ export function Textarea({
     maxRows = 10,
     'aria-describedby': ariaDescribedBy,
     'aria-errormessage': ariaErrorMessage,
+    required,
+    readOnly,
+    disabled,
     ...otherProps
 }: TextareaProps) {
-    const id = useId(idProp);
-    const invalid = !otherProps.readOnly && !otherProps.disabled && invalidProp;
+    const { id } = useFieldInit({
+        id: idProp,
+        required,
+        readOnly,
+        disabled,
+        invalid: invalidProp,
+    });
+
+    const invalid = !readOnly && !disabled && invalidProp;
 
     const onInput = () => {
         const target = textareaElement.current;
@@ -129,6 +139,7 @@ export function Textarea({
                 aria-errormessage={ariaErrorMessage || undefined}
                 aria-invalid={invalid || undefined}
                 aria-label={ariaLabel}
+                disabled={disabled}
                 id={id}
                 name={name}
                 onBlur={(event) => {
@@ -138,6 +149,7 @@ export function Textarea({
                 onChange={(event) => onChange(event.target.value, event)}
                 onInput={onInput}
                 placeholder={placeholder}
+                readOnly={readOnly}
                 ref={(node) => {
                     innerRef?.(node);
                     textareaElement.current = node;

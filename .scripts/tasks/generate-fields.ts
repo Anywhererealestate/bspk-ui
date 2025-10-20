@@ -68,9 +68,36 @@ export function ${name}Field({ label, helperText, labelTrailing, errorMessage, .
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
 `;
 
+    const testContent = `import { ${name}Field } from '.';
+import { hasNoBasicA11yIssues } from '-/rtl/hasNoBasicA11yIssues';
+import { render } from '-/rtl/util';
+
+const TestBed = () => (
+    <>
+        <${name}Field label="Example field label" name="example-field-name" onChange={() => {}} value="" />
+    </>
+);
+
+describe('${name}Field (RTL)', () => {
+    it('has no basic a11y issues', hasNoBasicA11yIssues(<TestBed />));
+
+    it('renders', () => {
+        const { getAllByLabelText } = render(<TestBed />);
+
+        expect(getAllByLabelText('Example field label')[0]).toBeInTheDocument();
+    });
+});
+`;
+
     const path = `./src/components/${name}Field/${name}Field.tsx`;
 
     fs.writeFileSync(path, content, 'utf8');
+
+    // write test file
+
+    const testPath = `./src/components/${name}Field/${name}Field.rtl.test.tsx`;
+
+    fs.writeFileSync(testPath, testContent, 'utf8');
 
     // update index file to export new Field component
 

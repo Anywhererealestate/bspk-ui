@@ -1,11 +1,10 @@
-import { InputNumber, InputNumberField } from './';
+import { InputNumber } from './';
 import { hasNoBasicA11yIssues } from '-/rtl/hasNoBasicA11yIssues';
 import { render } from '-/rtl/util';
 
 const TestBed = () => (
     <>
         <InputNumber aria-label="Example label" name="Example name" onChange={() => {}} value={24} />
-        <InputNumberField label="Example label field" name="Example name" onChange={() => {}} value={24} />
     </>
 );
 
@@ -16,6 +15,5 @@ describe('InputNumber (RTL)', () => {
         const { getByLabelText } = render(<TestBed />);
 
         expect(getByLabelText('Example label')).toBeInTheDocument();
-        expect(getByLabelText('Example label field')).toBeInTheDocument();
     });
 });
