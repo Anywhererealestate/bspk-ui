@@ -68,6 +68,8 @@ export type TextareaProps = CommonProps<'aria-label' | 'disabled' | 'id' | 'inva
  * content within maximum and minimum rows. A character counter when a maxLength is set to show the number of characters
  * remaining below the limit.
  *
+ * For a more complete example with field usage, see the TextareaField component.
+ *
  * @example
  *     import { useState } from 'react';
  *     import { Textarea } from '@bspk/ui/Textarea';
@@ -81,7 +83,7 @@ export type TextareaProps = CommonProps<'aria-label' | 'disabled' | 'id' | 'inva
  * @element
  *
  * @name Textarea
- * @phase Utility
+ * @phase UXReview
  */
 export function Textarea({
     invalid: invalidProp,

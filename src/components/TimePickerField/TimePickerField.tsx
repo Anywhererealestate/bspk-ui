@@ -1,21 +1,25 @@
-import { TimePicker, TimePickerProps } from './TimePicker';
 import { FormField, FormFieldControlProps } from '-/components/Field';
+import { TimePicker, TimePickerProps } from '-/components/TimePicker';
 
 export type TimePickerFieldProps = FormFieldControlProps<TimePickerProps>;
 
 /**
- * /** A component that allows users to input large amounts of text that could span multiple lines.
+ * A field wrapper for the TimePicker component.
  *
- * This component takes properties from the FormField and TimePicker component.
+ * This component takes properties from the FormField and TimePicker components.
  *
  * @name TimePickerField
  * @phase UXReview
  *
- * @export
- * 
  * @generated
  */
-export function TimePickerField({ label, helperText, labelTrailing, errorMessage, ...controlProps }: TimePickerFieldProps) {
+export function TimePickerField({
+    label,
+    helperText,
+    labelTrailing,
+    errorMessage,
+    ...controlProps
+}: TimePickerFieldProps) {
     return (
         <FormField errorMessage={errorMessage} helperText={helperText} label={label} labelTrailing={labelTrailing}>
             <TimePicker {...controlProps} />

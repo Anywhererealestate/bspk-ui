@@ -55,6 +55,8 @@ export type InputPhoneProps = FieldControlProp &
  *
  * This is the base element and if used must contain the field label contextually.
  *
+ * For a more complete example with field usage, see the InputPhoneField component.
+ *
  * @example
  *     import { InputPhone } from '@bspk/ui/InputPhone';
  *

@@ -54,6 +54,8 @@ export type InputNumberProps = CommonProps<'aria-label' | 'name' | 'size'> &
  *
  * The value of the input is a number. The value is clamped to the min and max values if they are provided.
  *
+ * For a more complete example with field usage, see the InputNumberField component.
+ *
  * @example
  *     import { InputNumber } from '@bspk/ui/InputNumber';
  *
@@ -75,7 +77,7 @@ export type InputNumberProps = CommonProps<'aria-label' | 'name' | 'size'> &
  *     }
  *
  * @name InputNumber
- * @phase Utility
+ * @phase UXReview
  */
 export function InputNumber({
     value: valueProp,

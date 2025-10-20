@@ -3,6 +3,7 @@
  *
  * $ npx tsx .scripts/tasks/generate-fields.ts
  */
+import { execSync } from 'child_process';
 import fs from 'fs';
 
 const CONTROLS = [
@@ -18,21 +19,42 @@ const CONTROLS = [
 ];
 
 CONTROLS.map((name) => {
-    const content = `import { ${name}, ${name}Props } from './${name}';
-import { FormField, FormFieldControlProps } from '-/components/Field';
+    // delete existing Field component if it exists
+    const fieldPath = `./src/components/${name}/Field.tsx`;
+    // ensure index file does not export the Field component
+    const indexPath = `./src/components/${name}/index.tsx`;
+
+    if (fs.existsSync(fieldPath)) {
+        fs.unlinkSync(fieldPath);
+    }
+
+    const indexContent = fs.readFileSync(indexPath, 'utf8');
+
+    const exportStatement = `export * from './Field';\n`;
+
+    if (indexContent.includes(exportStatement)) {
+        fs.writeFileSync(indexPath, indexContent.replace(exportStatement, ''), 'utf8');
+    }
+
+    // make new component folder
+
+    execSync(`mkdir -p ./src/components/${name}Field`);
+
+    // write Field component file
+
+    const content = `import { FormField, FormFieldControlProps } from '-/components/Field';
+import { ${name}, ${name}Props } from '-/components/${name}';
 
 export type ${name}FieldProps = FormFieldControlProps<${name}Props>;
 
 /**
- * /** A component that allows users to input large amounts of text that could span multiple lines.
+ * A field wrapper for the ${name} component.
  *
- * This component takes properties from the FormField and ${name} component.
+ * This component takes properties from the FormField and ${name} components.
  *
  * @name ${name}Field
  * @phase UXReview
  *
- * @export
- * 
  * @generated
  */
 export function ${name}Field({ label, helperText, labelTrailing, errorMessage, ...controlProps }: ${name}FieldProps) {
@@ -46,18 +68,19 @@ export function ${name}Field({ label, helperText, labelTrailing, errorMessage, .
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
 `;
 
-    const path = `./src/components/${name}/Field.tsx`;
+    const path = `./src/components/${name}Field/${name}Field.tsx`;
 
     fs.writeFileSync(path, content, 'utf8');
 
-    // ensure index file exports the new Field component
-    const indexPath = `./src/components/${name}/index.tsx`;
+    // update index file to export new Field component
 
-    const indexContent = fs.readFileSync(indexPath, 'utf8');
-
-    const exportStatement = `export * from './Field';\n`;
-
-    if (!indexContent.includes(exportStatement)) {
-        fs.appendFileSync(indexPath, exportStatement, 'utf8');
-    }
+    const newIndexPath = `./src/components/${name}Field/index.tsx`;
+    fs.appendFileSync(
+        newIndexPath,
+        `
+        export * from './${name}Field';`,
+        'utf8',
+    );
 });
+
+execSync('npx prettier --write ./src');

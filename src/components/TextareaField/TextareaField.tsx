@@ -1,18 +1,16 @@
-import { Textarea, TextareaProps } from './Textarea';
 import { FormField, FormFieldControlProps } from '-/components/Field';
+import { Textarea, TextareaProps } from '-/components/Textarea';
 
 export type TextareaFieldProps = FormFieldControlProps<TextareaProps>;
 
 /**
- * /** A component that allows users to input large amounts of text that could span multiple lines.
+ * A field wrapper for the Textarea component.
  *
- * This component takes properties from the FormField and Textarea component.
+ * This component takes properties from the FormField and Textarea components.
  *
  * @name TextareaField
  * @phase UXReview
  *
- * @export
- * 
  * @generated
  */
 export function TextareaField({ label, helperText, labelTrailing, errorMessage, ...controlProps }: TextareaFieldProps) {

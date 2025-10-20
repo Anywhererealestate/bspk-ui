@@ -1,21 +1,25 @@
-import { InputPhone, InputPhoneProps } from './InputPhone';
 import { FormField, FormFieldControlProps } from '-/components/Field';
+import { InputPhone, InputPhoneProps } from '-/components/InputPhone';
 
 export type InputPhoneFieldProps = FormFieldControlProps<InputPhoneProps>;
 
 /**
- * /** A component that allows users to input large amounts of text that could span multiple lines.
+ * A field wrapper for the InputPhone component.
  *
- * This component takes properties from the FormField and InputPhone component.
+ * This component takes properties from the FormField and InputPhone components.
  *
  * @name InputPhoneField
  * @phase UXReview
  *
- * @export
- * 
  * @generated
  */
-export function InputPhoneField({ label, helperText, labelTrailing, errorMessage, ...controlProps }: InputPhoneFieldProps) {
+export function InputPhoneField({
+    label,
+    helperText,
+    labelTrailing,
+    errorMessage,
+    ...controlProps
+}: InputPhoneFieldProps) {
     return (
         <FormField errorMessage={errorMessage} helperText={helperText} label={label} labelTrailing={labelTrailing}>
             <InputPhone {...controlProps} />

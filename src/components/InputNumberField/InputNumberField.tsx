@@ -1,21 +1,25 @@
-import { InputNumber, InputNumberProps } from './InputNumber';
 import { FormField, FormFieldControlProps } from '-/components/Field';
+import { InputNumber, InputNumberProps } from '-/components/InputNumber';
 
 export type InputNumberFieldProps = FormFieldControlProps<InputNumberProps>;
 
 /**
- * /** A component that allows users to input large amounts of text that could span multiple lines.
+ * A field wrapper for the InputNumber component.
  *
- * This component takes properties from the FormField and InputNumber component.
+ * This component takes properties from the FormField and InputNumber components.
  *
  * @name InputNumberField
  * @phase UXReview
  *
- * @export
- * 
  * @generated
  */
-export function InputNumberField({ label, helperText, labelTrailing, errorMessage, ...controlProps }: InputNumberFieldProps) {
+export function InputNumberField({
+    label,
+    helperText,
+    labelTrailing,
+    errorMessage,
+    ...controlProps
+}: InputNumberFieldProps) {
     return (
         <FormField errorMessage={errorMessage} helperText={helperText} label={label} labelTrailing={labelTrailing}>
             <InputNumber {...controlProps} />

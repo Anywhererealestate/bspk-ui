@@ -1,18 +1,16 @@
-import { Input, InputProps } from './Input';
 import { FormField, FormFieldControlProps } from '-/components/Field';
+import { Input, InputProps } from '-/components/Input';
 
 export type InputFieldProps = FormFieldControlProps<InputProps>;
 
 /**
- * /** A component that allows users to input large amounts of text that could span multiple lines.
+ * A field wrapper for the Input component.
  *
- * This component takes properties from the FormField and Input component.
+ * This component takes properties from the FormField and Input components.
  *
  * @name InputField
  * @phase UXReview
  *
- * @export
- * 
  * @generated
  */
 export function InputField({ label, helperText, labelTrailing, errorMessage, ...controlProps }: InputFieldProps) {

@@ -22,6 +22,8 @@ export type PasswordProps = Pick<
 /**
  * An input field that is specifically built with a show/hide toggle for entering security passwords.
  *
+ * For a more complete example with field usage, see the PasswordField component.
+ *
  * @example
  *     import { Password } from '@bspk/ui/Password';
  *     import { useState } from 'react';

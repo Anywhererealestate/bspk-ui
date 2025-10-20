@@ -42,6 +42,8 @@ export type DatePickerProps = Pick<
  * An input that allows a customer to manually type in a specific date or triggers a date picker combobox to select a
  * date.
  *
+ * For a more complete example with field usage, see the DatePickerField component.
+ *
  * @example
  *     import { DatePicker } from '@bspk/ui/DatePicker';
  *     import { Field, FieldLabel } from '@bspk/ui/Field';

@@ -68,6 +68,8 @@ export type SelectProps = CommonProps<'name' | 'size'> &
 /**
  * A field element that allows users to select one option from a list of available choices.
  *
+ * For a more complete example with field usage, see the SelectField component.
+ *
  * @example
  *     import { Select } from '@bspk/ui/Select';
  *

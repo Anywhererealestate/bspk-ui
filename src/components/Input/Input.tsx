@@ -8,6 +8,8 @@ export type InputProps = Omit<InputElementProps, 'ariaDescribedBy' | 'ariaErrorM
 /**
  * An input that allows users to enter text, numbers or symbols in a singular line.
  *
+ * For a more complete example with field usage, see the InputField component.
+ *
  * @example
  *     import { useState } from 'react';
  *     import { Input } from '@bspk/ui/Input';

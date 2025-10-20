@@ -1,18 +1,16 @@
-import { Select, SelectProps } from './Select';
 import { FormField, FormFieldControlProps } from '-/components/Field';
+import { Select, SelectProps } from '-/components/Select';
 
 export type SelectFieldProps = FormFieldControlProps<SelectProps>;
 
 /**
- * /** A component that allows users to input large amounts of text that could span multiple lines.
+ * A field wrapper for the Select component.
  *
- * This component takes properties from the FormField and Select component.
+ * This component takes properties from the FormField and Select components.
  *
  * @name SelectField
  * @phase UXReview
  *
- * @export
- * 
  * @generated
  */
 export function SelectField({ label, helperText, labelTrailing, errorMessage, ...controlProps }: SelectFieldProps) {

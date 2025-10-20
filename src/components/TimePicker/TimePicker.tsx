@@ -31,6 +31,8 @@ export type TimePickerProps = FieldControlProp &
  * An input field that allows a customer to manually type in a specific time or triggers a time picker combobox to
  * select a date.
  *
+ * For a more complete example with field usage, see the TimePickerField component.
+ *
  * @example
  *     import { TimePicker } from '@bspk/ui/TimePicker';
  *
