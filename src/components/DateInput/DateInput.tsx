@@ -13,7 +13,7 @@ const parsableDate = (dateString: string) => /^\d{1,2}\/\d{1,2}\/\d{4}$/.test(da
 
 export type DateInputProps = Pick<
     TextInputProps,
-    'aria-errormessage' | 'aria-label' | 'disabled' | 'invalid' | 'name' | 'readOnly' | 'required' | 'size'
+    'aria-errormessage' | 'aria-label' | 'disabled' | 'id' | 'invalid' | 'name' | 'readOnly' | 'required' | 'size'
 > & {
     /** The value of the calendar input */
     value: Date | undefined;
@@ -62,6 +62,7 @@ export function DateInput({
     invalid,
     required,
     size,
+    id,
     'aria-errormessage': ariaErrorMessage,
 }: DateInputProps) {
     const [textValue, setTextValue] = useState(value ? format(value, 'MM/dd/yyyy') : '');
@@ -130,6 +131,7 @@ export function DateInput({
                     aria-errormessage={ariaErrorMessage || undefined}
                     aria-label={ariaLabel}
                     disabled={disabled}
+                    id={id}
                     invalid={invalid || undefined}
                     name={name}
                     onBlur={() => validate()}
