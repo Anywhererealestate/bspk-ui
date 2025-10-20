@@ -111,6 +111,7 @@ export function Button<As extends ElementType = 'button'>(
         children,
         innerRef,
         owner,
+        role,
         ...containerProps
     } = props;
     const label = typeof children === 'string' ? children : labelProp || '';
@@ -152,6 +153,7 @@ export function Button<As extends ElementType = 'button'>(
                 containerProps.onMouseOver?.(e);
             }}
             ref={innerRef}
+            role={role || (As !== 'button' ? 'button' : undefined)}
         >
             {children && typeof children !== 'string' ? (
                 children
