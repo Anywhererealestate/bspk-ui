@@ -1,4 +1,3 @@
-import './date-field.scss';
 import { DateInput, DateInputProps } from '-/components/DateInput';
 import { FormField, FormFieldWrapProps } from '-/components/FormField';
 
@@ -50,7 +49,9 @@ export function DateField({
             labelTrailing={labelTrailing}
             required={required}
         >
-            {(fieldProps) => <DateInput {...inputProps} {...fieldProps} aria-label={label} invalid={invalid} />}
+            {(fieldProps) => (
+                <DateInput id={controlId} {...inputProps} {...fieldProps} aria-label={label} invalid={invalid} />
+            )}
         </FormField>
     );
 }
