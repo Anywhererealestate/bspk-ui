@@ -1,0 +1,27 @@
+import { DatePicker, DatePickerField } from './';
+import { hasNoBasicA11yIssues } from '-/rtl/hasNoBasicA11yIssues';
+import { render } from '-/rtl/util';
+
+const TestBed = () => (
+    <>
+        <DatePicker name="calendar input" onChange={() => {}} placeholder="Select Date" value={new Date()} />
+        <DatePickerField
+            label="calendar input"
+            name="calendar input"
+            onChange={() => {}}
+            placeholder="Select Date Field"
+            value={new Date()}
+        />
+    </>
+);
+
+describe('DatePicker', () => {
+    it('has no basic a11y issues', hasNoBasicA11yIssues(<TestBed />));
+
+    it('renders', () => {
+        const { getByPlaceholderText } = render(<TestBed />);
+
+        expect(getByPlaceholderText('Select Date')).toBeInTheDocument();
+        expect(getByPlaceholderText('Select Date Field')).toBeInTheDocument();
+    });
+});

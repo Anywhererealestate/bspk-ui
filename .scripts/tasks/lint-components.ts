@@ -67,14 +67,23 @@ async function main() {
         const hasDefaultDescription = content.includes(`Component description.`);
         const hasFunctionName = content.includes(`.bspkName = '${name}'`);
         const hasDataName = content.includes(`data-bspk="${slug}"`);
+        const hasOwnerName = content.includes(`owner="${slug}"`);
         const hasDataUtilityName = content.includes(`data-bspk-utility="${slug}"`);
+        const hasDataOwnerName = content.includes(`data-bspk-owner="${slug}"`);
         const isGenerated = content.includes(`@generated`);
 
         const sassNameMatch = content.match(/import '\.\/(.*)\.scss'/);
 
         const sassName = sassNameMatch?.[1];
 
-        if (phase !== 'Utility' && !isGenerated && !hasDataName && !hasDataUtilityName) {
+        if (
+            phase !== 'Utility' &&
+            !isGenerated &&
+            !hasDataName &&
+            !hasDataUtilityName &&
+            !hasDataOwnerName &&
+            !hasOwnerName
+        ) {
             errors.push(`❌ ${name} does not have a data-bspk attribute. Please add it to the component.`);
         }
 

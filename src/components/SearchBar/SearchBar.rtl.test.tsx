@@ -33,8 +33,8 @@ describe('SearchBar (RTL)', () => {
     it('has no basic a11y issues', hasNoBasicA11yIssues(<TestBed />));
 
     it('renders', () => {
-        const { getByLabelText } = render(<TestBed />);
+        const { getByPlaceholderText } = render(<TestBed />);
 
-        expect(getByLabelText('Example aria-label')).toBeInTheDocument();
+        expect(getByPlaceholderText('Search')).toBeInTheDocument();
     });
 });

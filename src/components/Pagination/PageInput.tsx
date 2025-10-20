@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from 'react';
 
 import { PaginationProps } from './Pagination';
-import { TextInput } from '-/components/TextInput';
+import { Input } from '-/components/Input';
 import { Txt } from '-/components/Txt';
 
 type PageInputProps = Pick<PaginationProps, 'numPages' | 'onChange' | 'value'>;
@@ -48,7 +48,7 @@ export const PageInput: FC<PageInputProps> = ({ numPages, onChange, value }) => 
             style={{ display: 'contents' }}
         >
             <div data-bspk="page-input">
-                <TextInput
+                <Input
                     aria-label="Page input"
                     name="page-input"
                     onBlur={handleSubmit}

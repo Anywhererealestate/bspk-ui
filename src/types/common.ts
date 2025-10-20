@@ -109,7 +109,7 @@ export type CommonPropsLibrary = {
      *
      * @required
      */
-    'aria-label': string;
+    'aria-label'?: string;
     /**
      * Identifies the parent component. Helps with styling, debugging, and/or testing purposes.
      *

@@ -1,13 +1,13 @@
 import './select.scss';
 import { SvgKeyboardArrowDown } from '@bspk/icons/KeyboardArrowDown';
 import { useMemo, KeyboardEvent, MouseEvent } from 'react';
+import { FieldControlProp, useFieldInit } from '-/components/Field';
 import { ListItem, ListItemProps } from '-/components/ListItem';
 import { Menu } from '-/components/Menu';
 import { useArrowNavigation } from '-/hooks/useArrowNavigation';
 import { useFloating } from '-/hooks/useFloating';
-import { useId } from '-/hooks/useId';
 import { useOutsideClick } from '-/hooks/useOutsideClick';
-import { CommonProps, ElementProps, FormFieldControlProps } from '-/types/common';
+import { CommonProps, ElementProps } from '-/types/common';
 import { getElementById } from '-/utils/dom';
 import { handleKeyDown } from '-/utils/handleKeyDown';
 import { scrollListItemsStyle, ScrollListItemsStyleProps } from '-/utils/scrollListItemsStyle';
@@ -22,8 +22,8 @@ export type SelectOption = CommonProps<'disabled'> &
 
 export type SelectItem = SelectOption & { id: string };
 
-export type SelectProps = CommonProps<'disabled' | 'id' | 'invalid' | 'name' | 'readOnly' | 'size'> &
-    FormFieldControlProps &
+export type SelectProps = CommonProps<'name' | 'size'> &
+    FieldControlProp &
     ScrollListItemsStyleProps & {
         /**
          * Array of options to display in the select
@@ -58,12 +58,6 @@ export type SelectProps = CommonProps<'disabled' | 'id' | 'invalid' | 'name' | '
          */
         onChange: (value: string, event?: KeyboardEvent | MouseEvent) => void;
         /**
-         * The label for the select element, used for accessibility, and the dropdown modal header.
-         *
-         * @required
-         */
-        label: string;
-        /**
          * Placeholder for the select
          *
          * @default Select one
@@ -80,27 +74,33 @@ export type SelectProps = CommonProps<'disabled' | 'id' | 'invalid' | 'name' | '
  *     export function Example() {
  *         const [selected, setSelected] = React.useState<string[]>([]);
  *         return (
- *             <Select
- *                 label="Select an option"
- *                 itemCount={5}
- *                 name="example-select"
- *                 onChange={setSelected}
- *                 options={[
- *                     { id: '1', label: 'Option 1' },
- *                     { id: '2', label: 'Option 2' },
- *                     { id: '3', label: 'Option 3' },
- *                     { id: '4', label: 'Option 4' },
- *                     { id: '5', label: 'Option 5' },
- *                     { id: '6', label: 'Option 6' },
- *                     { id: '7', label: 'Option 7' },
- *                     { id: '8', label: 'Option 8' },
- *                     { id: '9', label: 'Option 9' },
- *                     { id: '10', label: 'Option 10' },
- *                 ]}
- *                 placeholder="Select an option"
- *                 size="medium"
- *                 value={selected}
- *             />
+ *             <Field>
+ *                 <FieldLabel>Select an option</FieldLabel>
+ *                 <Select
+ *                     label="Select an option"
+ *                     itemCount={5}
+ *                     name="example-select"
+ *                     onChange={setSelected}
+ *                     options={[
+ *                         { id: '1', label: 'Option 1' },
+ *                         { id: '2', label: 'Option 2' },
+ *                         { id: '3', label: 'Option 3' },
+ *                         { id: '4', label: 'Option 4' },
+ *                         { id: '5', label: 'Option 5' },
+ *                         { id: '6', label: 'Option 6' },
+ *                         { id: '7', label: 'Option 7' },
+ *                         { id: '8', label: 'Option 8' },
+ *                         { id: '9', label: 'Option 9' },
+ *                         { id: '10', label: 'Option 10' },
+ *                     ]}
+ *                     placeholder="Select an option"
+ *                     size="medium"
+ *                     value={selected}
+ *                 />
+ *                 <FieldDescription>
+ *                     The select allows you to choose one option from a list of options.
+ *                 </FieldDescription>
+ *             </Field>
  *         );
  *     }
  *
@@ -111,21 +111,31 @@ export function Select({
     options: optionsProp = [],
     value = '',
     onChange,
-    label,
     placeholder = 'Select one',
     size = 'medium',
     disabled,
     id: idProp,
-    invalid,
+    invalid: invalidProp,
     readOnly,
     name,
-    'aria-describedby': ariaDescribedBy,
-    'aria-errormessage': ariaErrorMessage,
     'aria-labelledby': ariaLabelledBy,
     scrollLimit,
-    ...props
+    required: requiredProp,
+    ...elementProps
 }: ElementProps<SelectProps, 'button'>) {
-    const id = useId(idProp);
+    const {
+        id,
+        invalid: hasError,
+        ariaDescribedBy,
+        ariaErrorMessage,
+    } = useFieldInit({
+        id: idProp,
+        readOnly,
+        disabled,
+        required: requiredProp,
+        invalid: invalidProp,
+    });
+    const invalid = !readOnly && !disabled && (invalidProp || hasError);
     const menuId = useMemo(() => `${id}-menu`, [id]);
 
     const { items, availableItems } = useMemo(() => {
@@ -134,7 +144,7 @@ export function Select({
                 ...item,
                 id: `${id}-item-${index}`,
                 'aria-label': item.label,
-                'aria-selected': value.includes(item.value),
+                'aria-selected': value == item.value,
             }),
         );
 
@@ -174,7 +184,7 @@ export function Select({
         <>
             <input name={name} type="hidden" value={value} />
             <button
-                {...props}
+                {...elementProps}
                 aria-activedescendant={activeElementId || undefined}
                 aria-autocomplete="list"
                 aria-controls={activeElementId ? menuId : undefined}
@@ -240,11 +250,9 @@ export function Select({
             </button>
             <Menu
                 aria-autocomplete={undefined}
-                aria-label={label}
                 as="div"
                 id={menuId}
                 innerRef={elements.setFloating}
-                label={label}
                 onClickCapture={() => {
                     // Prevent the menu from closing when clicking inside it
                     // maintain focus on the select control
@@ -263,7 +271,7 @@ export function Select({
             >
                 {items.map((item) => {
                     const isActive = activeElementId === item.id;
-                    const isSelected = value.includes(item.value);
+                    const isSelected = value === item.value;
 
                     return (
                         <ListItem
