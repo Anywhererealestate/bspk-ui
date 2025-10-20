@@ -1,24 +1,24 @@
-import { InputNumber, InputNumberProps } from './InputNumber';
+import { Textarea, TextareaProps } from './Textarea';
 import { FormField, FormFieldControlProps } from '-/components/Field';
 
-export type InputNumberFieldProps = FormFieldControlProps<InputNumberProps>;
+export type TextareaFieldProps = FormFieldControlProps<TextareaProps>;
 
 /**
  * /** A component that allows users to input large amounts of text that could span multiple lines.
  *
- * This component takes properties from the FormField and InputNumber component.
+ * This component takes properties from the FormField and Textarea component.
  *
- * @name InputNumberField
+ * @name TextareaField
  * @phase UXReview
  *
  * @export
  * 
  * @generated
  */
-export function InputNumberField({ label, helperText, labelTrailing, errorMessage, ...controlProps }: InputNumberFieldProps) {
+export function TextareaField({ label, helperText, labelTrailing, errorMessage, ...controlProps }: TextareaFieldProps) {
     return (
         <FormField errorMessage={errorMessage} helperText={helperText} label={label} labelTrailing={labelTrailing}>
-            <InputNumber {...controlProps} />
+            <Textarea {...controlProps} />
         </FormField>
     );
 }
