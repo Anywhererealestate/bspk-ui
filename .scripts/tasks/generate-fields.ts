@@ -102,7 +102,7 @@ describe('${name}Field (RTL)', () => {
     // update index file to export new Field component
 
     const newIndexPath = `./src/components/${name}Field/index.tsx`;
-    fs.appendFileSync(
+    fs.writeFileSync(
         newIndexPath,
         `
         export * from './${name}Field';`,
