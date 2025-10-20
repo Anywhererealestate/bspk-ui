@@ -1,5 +1,7 @@
 import { DatePicker, DatePickerProps } from './DatePicker';
-import { FormField, FormFieldProps } from '-/components/Field';
+import { FormField, FormFieldControlProps } from '-/components/Field';
+
+export type DatePickerFieldProps = FormFieldControlProps<DatePickerProps>;
 
 /**
  * A component that allows users to input large amounts of text that could span multiple lines.
@@ -40,7 +42,7 @@ export function DatePickerField({
     labelTrailing,
     errorMessage,
     ...controlProps
-}: Omit<DatePickerProps, keyof FormFieldProps> & Omit<FormFieldProps, 'children'>) {
+}: DatePickerFieldProps) {
     return (
         <FormField errorMessage={errorMessage} helperText={helperText} label={label} labelTrailing={labelTrailing}>
             <DatePicker {...controlProps} />

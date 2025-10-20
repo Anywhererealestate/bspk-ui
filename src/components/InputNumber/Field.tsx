@@ -1,7 +1,7 @@
 import { InputNumber, InputNumberProps } from './InputNumber';
-import { FormField, FormFieldProps } from '-/components/Field';
+import { FormField, FormFieldControlProps } from '-/components/Field';
 
-export type InputNumberFieldProps = Omit<FormFieldProps, 'children'> & Omit<InputNumberProps, keyof FormFieldProps>;
+export type InputNumberFieldProps = FormFieldControlProps<InputNumberProps>;
 
 /**
  * A component that allows users to input large amounts of text that could span multiple lines.
@@ -42,7 +42,7 @@ export function InputNumberField({
     labelTrailing,
     errorMessage,
     ...controlProps
-}: Omit<FormFieldProps, 'children'> & Omit<InputNumberProps, keyof FormFieldProps>) {
+}: InputNumberFieldProps) {
     return (
         <FormField errorMessage={errorMessage} helperText={helperText} label={label} labelTrailing={labelTrailing}>
             <InputNumber {...controlProps} />

@@ -135,58 +135,58 @@ export function DatePicker({
     };
 
     return (
-        <span data-bspk="date-picker" ref={containerRef}>
-            <div
-                ref={(node) => {
-                    elements.setReference(node);
-                }}
-            >
-                <InputElement
-                    aria-describedby={ariaDescribedBy || undefined}
-                    aria-errormessage={ariaErrorMessage || undefined}
-                    disabled={disabled || undefined}
-                    id={id}
-                    invalid={invalid || undefined}
-                    name={name}
-                    onBlur={() => validate()}
-                    onChange={handleTextChange}
-                    onKeyDown={(event) => {
-                        // allow select all and other keyboard shortcuts
-                        if (event.ctrlKey || event.metaKey) {
-                            return;
-                        }
-
-                        // handle backspace and delete to remove the slash and the number before it
-                        if (event.key === 'Backspace' || (event.key === 'Delete' && textValue.endsWith('/'))) {
-                            event.preventDefault();
-                            setTextValue((prev) => prev.slice(0, -2));
-                        }
-
-                        // if a single key and not a number or forward slash ignore
-                        if (event.key.length === 1 && !/[0-9/]/.test(event.key)) {
-                            event.preventDefault();
-                        }
-                    }}
-                    placeholder={placeholder || 'mm/dd/yyyy'}
-                    readOnly={readOnly}
-                    required={required}
-                    showClearButton={false}
-                    size={size}
-                    trailing={
-                        !disabled &&
-                        !readOnly && (
-                            <Button
-                                icon={<SvgEvent />}
-                                iconOnly
-                                label="Toggle calendar"
-                                onClick={() => setCalendarVisible((prev) => !prev)}
-                                variant="tertiary"
-                            />
-                        )
+        <div
+            data-bspk="date-picker"
+            ref={(node) => {
+                containerRef.current = node;
+                elements.setReference(node);
+            }}
+        >
+            <InputElement
+                aria-describedby={ariaDescribedBy || undefined}
+                aria-errormessage={ariaErrorMessage || undefined}
+                disabled={disabled || undefined}
+                id={id}
+                invalid={invalid || undefined}
+                name={name}
+                onBlur={() => validate()}
+                onChange={handleTextChange}
+                onKeyDown={(event) => {
+                    // allow select all and other keyboard shortcuts
+                    if (event.ctrlKey || event.metaKey) {
+                        return;
                     }
-                    value={textValue}
-                />
-            </div>
+
+                    // handle backspace and delete to remove the slash and the number before it
+                    if (event.key === 'Backspace' || (event.key === 'Delete' && textValue.endsWith('/'))) {
+                        event.preventDefault();
+                        setTextValue((prev) => prev.slice(0, -2));
+                    }
+
+                    // if a single key and not a number or forward slash ignore
+                    if (event.key.length === 1 && !/[0-9/]/.test(event.key)) {
+                        event.preventDefault();
+                    }
+                }}
+                placeholder={placeholder || 'mm/dd/yyyy'}
+                readOnly={readOnly}
+                required={required}
+                showClearButton={false}
+                size={size}
+                trailing={
+                    !disabled &&
+                    !readOnly && (
+                        <Button
+                            icon={<SvgEvent />}
+                            iconOnly
+                            label="Toggle calendar"
+                            onClick={() => setCalendarVisible((prev) => !prev)}
+                            variant="tertiary"
+                        />
+                    )
+                }
+                value={textValue}
+            />
             {calendarVisible && (
                 <Portal>
                     <div
@@ -207,7 +207,7 @@ export function DatePicker({
                     </div>
                 </Portal>
             )}
-        </span>
+        </div>
     );
 }
 
