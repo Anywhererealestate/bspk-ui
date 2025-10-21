@@ -49,7 +49,7 @@ export type CommonPropsLibrary = {
     /**
      * Marks the element as invalid and displays error state theme.
      *
-     * If the errorMessage is empty the error state theme will not appear.
+     * Ensure an error message is provided to assistive technologies when using this prop.
      *
      * @default false
      */
