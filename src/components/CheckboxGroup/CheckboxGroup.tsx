@@ -102,8 +102,7 @@ export function CheckboxGroup({
             role="group"
         >
             {selectAll && (
-                <>
-                    <ToggleOption label={selectAllProps?.label || 'All'} readOnly={readOnly}>
+                <ToggleOption label={selectAllProps?.label || 'All'} readOnly={readOnly}>
                         <Checkbox
                             aria-label={selectAllProps?.label || 'All'}
                             checked={!!values.length && values.length === options.length}
@@ -116,7 +115,6 @@ export function CheckboxGroup({
                             value="all"
                         />
                     </ToggleOption>
-                </>
             )}
             {options.map(({ label, description, value, disabled }) => (
                 <ToggleOption

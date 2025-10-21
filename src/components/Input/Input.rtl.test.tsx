@@ -3,9 +3,7 @@ import { hasNoBasicA11yIssues } from '-/rtl/hasNoBasicA11yIssues';
 import { render } from '-/rtl/util';
 
 const TestBed = () => (
-    <>
-        <Input aria-label="Example label" name="input-name" onChange={() => {}} value="text value" />
-    </>
+    <Input aria-label="Example label" name="input-name" onChange={() => {}} value="text value" />
 );
 
 describe('Input (RTL)', () => {

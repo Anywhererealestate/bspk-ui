@@ -3,9 +3,7 @@ import { hasNoBasicA11yIssues } from '-/rtl/hasNoBasicA11yIssues';
 import { render } from '-/rtl/util';
 
 const TestBed = () => (
-    <>
-        <InputNumberField label="Example field label" name="example-field-name" onChange={() => {}} value={0} />
-    </>
+    <InputNumberField label="Example field label" name="example-field-name" onChange={() => {}} value={0} />
 );
 
 describe('InputNumberField (RTL)', () => {

@@ -9,9 +9,7 @@ const nonPresetProps = {
 };
 
 const TestBed = (props: SelectFieldProps) => (
-    <>
-        <SelectField {...props} placeholder="SelectField an option" />
-    </>
+    <SelectField {...props} placeholder="SelectField an option" />
 );
 
 describe('SelectField (RTL)', () => {

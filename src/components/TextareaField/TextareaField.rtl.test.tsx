@@ -3,9 +3,7 @@ import { hasNoBasicA11yIssues } from '-/rtl/hasNoBasicA11yIssues';
 import { render } from '-/rtl/util';
 
 const TestBed = () => (
-    <>
-        <TextareaField label="Example field label" name="example-field-name" onChange={() => {}} value="" />
-    </>
+    <TextareaField label="Example field label" name="example-field-name" onChange={() => {}} value="" />
 );
 
 describe('TextareaField (RTL)', () => {

@@ -3,9 +3,7 @@ import { hasNoBasicA11yIssues } from '-/rtl/hasNoBasicA11yIssues';
 import { render } from '-/rtl/util';
 
 const TestBed = () => (
-    <>
-        <DatePicker name="calendar input" onChange={() => {}} placeholder="Select Date" value={new Date()} />
-    </>
+    <DatePicker name="calendar input" onChange={() => {}} placeholder="Select Date" value={new Date()} />
 );
 
 describe('DatePicker', () => {

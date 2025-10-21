@@ -3,9 +3,7 @@ import { hasNoBasicA11yIssues } from '-/rtl/hasNoBasicA11yIssues';
 import { render } from '-/rtl/util';
 
 const TestBed = () => (
-    <>
-        <TimePicker aria-label="Example label" name="example-name" onChange={() => {}} value="text value" />
-    </>
+    <TimePicker aria-label="Example label" name="example-name" onChange={() => {}} value="text value" />
 );
 
 describe('TimePicker (RTL)', () => {
