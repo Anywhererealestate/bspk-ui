@@ -114,15 +114,13 @@ export function Textarea({
     disabled,
     ...otherProps
 }: TextareaProps) {
-    const { id } = useFieldInit({
+    const { id, invalid } = useFieldInit({
         id: idProp,
         required,
         readOnly,
         disabled,
         invalid: invalidProp,
     });
-
-    const invalid = !readOnly && !disabled && invalidProp;
 
     const onInput = () => {
         const target = textareaElement.current;

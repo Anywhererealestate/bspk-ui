@@ -39,19 +39,22 @@ export function useFieldInit(defaults?: FieldContextProps): FieldContextProps & 
     const context = useContext(fieldContext);
 
     useEffect(() => {
+        // skip if no context or defaults
         if (!context || !context.setField || !defaults) return;
 
         // prevent duplicate calls
-        if (
-            Object.keys(defaults).some((key) => {
-                // don't reset id defaults.id is falsey
-                if (key === 'id') return defaults.id && context.id !== defaults.id;
-                return context[key as keyof FieldContextProps] !== defaults[key as keyof FieldContextProps];
-            })
-        ) {
-            const updates = { ...defaults, id: defaults.id || context.id || `field-${randomString(8)}` };
-            context.setField(updates);
-        }
+        const shouldUpdate = Object.keys(defaults).some((key) => {
+            // don't reset id defaults.id is falsey
+            if (key === 'id') return defaults.id && context.id !== defaults.id;
+            return context[key as keyof FieldContextProps] !== defaults[key as keyof FieldContextProps];
+        });
+
+        if (shouldUpdate)
+            context.setField({
+                ...defaults,
+                // generate a unique id if none is provided
+                id: defaults.id || context.id || `field-${randomString(8)}`,
+            });
     }, [context, defaults]);
 
     if (!context) {
@@ -63,5 +66,8 @@ export function useFieldInit(defaults?: FieldContextProps): FieldContextProps & 
     }
 
     // consider field invalid if there is an error message
-    return { ...context, invalid: context.invalid || !!context.ariaErrorMessage };
+    return {
+        ...context,
+        invalid: !defaults?.disabled && !defaults?.readOnly && (context.invalid || !!context.ariaErrorMessage),
+    };
 }

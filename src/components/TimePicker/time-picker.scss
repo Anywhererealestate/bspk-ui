@@ -7,7 +7,7 @@
     border: solid 1px var(--border-color);
     height: var(--field-height);
     border-radius: var(--radius-sm);
-    padding: 0 0 0 var(--field-padding);
+    padding: 0 0 0 var(--field-padding, var(--spacing-sizing-02));
     width: 100%;
     justify-content: flex-start;
     align-items: center;
