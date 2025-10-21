@@ -210,6 +210,7 @@ export function DatePicker({
                         style={{ ...floatingStyles, zIndex: 'var( --z-index-dropdown)' }}
                     >
                         <Calendar
+                            focusTrap={true}
                             onChange={(next) => {
                                 if (closeCalendarOnChange) setCalendarVisible(false);
                                 onChange(next);
