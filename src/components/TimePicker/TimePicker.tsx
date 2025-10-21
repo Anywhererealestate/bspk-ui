@@ -67,6 +67,7 @@ export function TimePicker({
     size,
     required: requiredProp,
     onChange: onChangeProp,
+    'aria-labelledby': ariaLabelledBy,
     ...props
 }: ElementProps<TimePickerProps, 'div'>) {
     const {
@@ -81,6 +82,7 @@ export function TimePicker({
         invalid: invalidProp,
         required: requiredProp,
     });
+    const menuId = `${id}-time-picker-menu`;
     const invalid = !readOnly && !disabled && (invalidProp || hasError);
 
     const { hours, minutes, meridiem } = useMemo(() => stringValueToParts(value || '00:00'), [value]);
@@ -162,9 +164,9 @@ export function TimePicker({
         <>
             <div
                 {...props}
-                aria-controls={open ? `${id}-time-picker-menu` : undefined}
                 aria-describedby={ariaErrorMessage || ariaDescribedBy || undefined}
-                aria-labelledby={`${id}-field-label`}
+                aria-label={!ariaLabelledBy ? props['aria-label'] : undefined}
+                aria-labelledby={ariaLabelledBy}
                 data-bspk="time-picker"
                 data-disabled={disabled || undefined}
                 data-invalid={invalid || undefined}
@@ -221,7 +223,9 @@ export function TimePicker({
                     value={meridiem}
                 />
                 <Button
-                    aria-expanded={open || undefined}
+                    aria-controls={open ? menuId : undefined}
+                    aria-expanded={open}
+                    aria-haspopup="listbox"
                     as="span"
                     disabled={disabled || readOnly}
                     icon={<SvgSchedule />}
@@ -238,7 +242,7 @@ export function TimePicker({
             {!!open && (
                 <Portal>
                     <Menu
-                        id={`${id}-time-picker-menu`}
+                        id={menuId}
                         innerRef={(node) => {
                             if (!node) return;
                             elements.setFloating(node as HTMLElement);
