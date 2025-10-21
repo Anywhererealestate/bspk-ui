@@ -8,9 +8,7 @@ const nonPresetProps = {
     onChange: () => {},
 };
 
-const TestBed = (props: SelectFieldProps) => (
-    <SelectField {...props} placeholder="SelectField an option" />
-);
+const TestBed = (props: SelectFieldProps) => <SelectField {...props} placeholder="SelectField an option" />;
 
 describe('SelectField (RTL)', () => {
     presets.forEach((preset) => {
