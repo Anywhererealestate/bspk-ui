@@ -1,10 +1,11 @@
-import './chip-utility.scss';
+import './chip.scss';
+import { SvgClose } from '@bspk/icons/Close';
 import { ReactNode, isValidElement } from 'react';
 import { Badge, BadgeProps } from '-/components/Badge';
 
 export type BadgeItem = Pick<BadgeProps, 'count' | 'size' | 'surfaceBorder'>;
 
-export type ChipUtilityProps = {
+export type ChipProps = {
     /**
      * Is the chip disabled.
      *
@@ -50,6 +51,13 @@ export type ChipUtilityProps = {
      */
     trailingIcon?: ReactNode;
     /**
+     * If true, a close icon will be added and the chip can be removed.
+     *
+     * @default true
+     */
+
+    removable?: boolean;
+    /**
      * The trailing Badge for use in the ChipFilter.
      *
      * If a trailingIcon is provided the Badge will **not** be visible.
@@ -61,7 +69,7 @@ export type ChipUtilityProps = {
  * Dynamically generated options that are suggested to the user as responses or prompts.
  *
  * @example
- *     import { ChipUtility } from '@bspk/ui/ChipUtility';
+ *     import { Chip } from '@bspk/ui/Chip';
  *
  *     function Example() {
  *         return (
@@ -71,10 +79,10 @@ export type ChipUtilityProps = {
  *         );
  *     }
  *
- * @name ChipUtility
- * @phase Utility
+ * @name Chip
+ * @phase UXReview
  */
-export function ChipUtility({
+export function Chip({
     flat = false,
     disabled = false,
     label,
@@ -82,11 +90,12 @@ export function ChipUtility({
     leadingIcon,
     onClick,
     trailingIcon,
+    removable = false,
     trailingBadge,
-}: ChipUtilityProps) {
+}: ChipProps) {
     return (
         <button
-            data-bspk-utility="chip-utility"
+            data-bspk="chip"
             data-disabled={disabled || undefined}
             data-flat={flat || undefined}
             data-selected={selected || undefined}
@@ -102,7 +111,7 @@ export function ChipUtility({
             <span>{label}</span>
             {isValidElement(trailingIcon) && (
                 <span aria-hidden="true" data-chip-icon>
-                    {trailingIcon}
+                    {removable ? <SvgClose /> : trailingIcon}
                 </span>
             )}
             {trailingBadge && !trailingIcon && (

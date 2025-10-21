@@ -2,10 +2,10 @@ import './chip-group.scss';
 
 import { ReactNode } from 'react';
 
-import { ChipUtilityProps } from '-/components/ChipUtility';
+import { ChipProps } from '-/components/Chip';
 
 export type ChipGroupItem = Pick<
-    ChipUtilityProps,
+    ChipProps,
     'disabled' | 'flat' | 'label' | 'leadingIcon' | 'onClick' | 'selected' | 'trailingBadge' | 'trailingIcon'
 >;
 
@@ -16,7 +16,7 @@ export type ChipGroupProps = {
      * @default true
      */
     wrap?: boolean;
-    /** Only ChipUtility, ChipInput, ChipFilter, ChipSuggestion, or ChipAssist components should be used as children. */
+    /** Only Chip components should be used as children. */
     children?: ReactNode;
 };
 /**
