@@ -47,9 +47,9 @@ export type CallToActionButton = {
 
 export type CommonPropsLibrary = {
     /**
-     * Marks the element as invalid and displays error state theme.
+     * Indicates that the element is in an invalid state and displays the error theme.
      *
-     * Ensure an error message is provided to assistive technologies when using this prop.
+     * If set to true, an accompanying error message should be provided.
      *
      * @default false
      */

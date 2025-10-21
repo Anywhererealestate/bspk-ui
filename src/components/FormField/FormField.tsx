@@ -5,7 +5,7 @@ export type FormFieldControlProps<P extends Record<string, unknown>> = Omit<Form
     Omit<P, keyof FormFieldProps | 'invalid'>;
 
 export type FormFieldProps = {
-    /** The error message to display which when set makes the field invalid. */
+    /** Displays an error message and marks the field as invalid. */
     errorMessage?: string;
     /**
      * The label of the field.
