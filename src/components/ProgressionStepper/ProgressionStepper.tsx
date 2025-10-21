@@ -86,19 +86,14 @@ export function ProgressionStepper({
                 <label>
                     <span data-title>{currentStep.name}</span>
                     <span data-subtitle>
-                        {currentStep.subtext ? (
-                            currentStep.subtext
-                        ) : (
-                            <>
-                                {completedStepNumber === steps.length ? (
-                                    'Completed'
-                                ) : (
-                                    <>
-                                        Step {currentStepNumber} of {steps.length}
-                                    </>
-                                )}
-                            </>
-                        )}
+                        {currentStep?.subtext ||
+                            (completedStepNumber === steps.length ? (
+                                'Completed'
+                            ) : (
+                                <>
+                                    Step {currentStepNumber} of {steps.length}
+                                </>
+                            ))}
                     </span>
                 </label>
             )}

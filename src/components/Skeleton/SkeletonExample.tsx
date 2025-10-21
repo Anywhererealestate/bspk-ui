@@ -31,9 +31,7 @@ function SkeletonTransition({
     const [loaded, setLoaded] = useState(false);
     useTimeout(() => setLoaded(true), 3000);
 
-    return (
-        <Component {...props}>{loaded && <>{PROP_VARIANT_CHILDREN[props!.variant as SkeletonVariant]}</>}</Component>
-    );
+    return <Component {...props}>{loaded && PROP_VARIANT_CHILDREN[props!.variant as SkeletonVariant]}</Component>;
 }
 
 const PROP_VARIANT_CHILDREN: Record<SkeletonVariant, SkeletonProps['children']> = {

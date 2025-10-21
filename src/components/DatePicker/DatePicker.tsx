@@ -2,8 +2,8 @@ import './date-picker.scss';
 import { SvgEvent } from '@bspk/icons/Event';
 import { format, isValid, parse } from 'date-fns';
 import { useEffect, useRef, useState } from 'react';
-import { Calendar } from './Calendar';
 import { Button } from '-/components/Button';
+import { Calendar } from '-/components/Calendar';
 import { useFieldInit } from '-/components/Field';
 import { InputElement, InputProps } from '-/components/Input';
 import { Portal } from '-/components/Portal';
@@ -39,7 +39,7 @@ export type DatePickerProps = Pick<
 };
 
 /**
- * An input that allows a customer to manually type in a specific date or triggers a date picker combobox to select a
+ * An input that allows a customer to manually type in a specific date or triggers a the Calendar component to select a
  * date.
  *
  * For a more complete example with field usage, see the DatePickerField component.

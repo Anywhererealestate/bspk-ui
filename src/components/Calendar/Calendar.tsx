@@ -1,3 +1,4 @@
+import './calendar.scss';
 import { SvgChevronLeft } from '@bspk/icons/ChevronLeft';
 import { SvgChevronRight } from '@bspk/icons/ChevronRight';
 import { SvgKeyboardDoubleArrowLeft } from '@bspk/icons/KeyboardDoubleArrowLeft';
@@ -216,14 +217,25 @@ export type CalendarProps = {
      * @default flat
      */
     variant?: 'elevated' | 'flat';
+    /**
+     * If focus trap should be enabled within the calendar component.
+     *
+     * Only applicable if the Calendar is used in a popover like in DatePicker.
+     *
+     * @default false
+     */
+    focusTrap?: boolean;
 };
 
 /**
  * Allows customers to select the date, month, and year.
  *
  * @name Calendar
+ * @phase UXReview
+ *
+ * @generated
  */
-export function Calendar({ value: valueProp, onChange, variant = 'flat' }: CalendarProps) {
+export function Calendar({ value: valueProp, onChange, variant = 'flat', focusTrap = false }: CalendarProps) {
     const baseId = useId();
     const [kind, setKind] = useState<Kind>('day');
     const config = useMemo(() => CONFIG[kind], [kind]);
@@ -236,7 +248,74 @@ export function Calendar({ value: valueProp, onChange, variant = 'flat' }: Calen
 
     const { handleKeyDownCapture } = useKeyDownCaptures({ config, baseDate, setBaseDate });
 
-    return (
+    const calendar = (
+        <div data-bspk="calendar" data-kind={kind} data-variant={variant || 'flat'}>
+            <div data-header>
+                <HeaderButton
+                    baseDate={baseDate}
+                    config={config.header['<<']}
+                    direction="<<"
+                    setBaseDate={setBaseDate}
+                />
+                <HeaderButton baseDate={baseDate} config={config.header['<']} direction="<" setBaseDate={setBaseDate} />
+                <span data-title>{config.header.label(baseDate, setKind)}</span>
+                <HeaderButton baseDate={baseDate} config={config.header['>']} direction=">" setBaseDate={setBaseDate} />
+                <HeaderButton
+                    baseDate={baseDate}
+                    config={config.header['>>']}
+                    direction=">>"
+                    setBaseDate={setBaseDate}
+                />
+            </div>
+            {config.listBoxHeader}
+            <div
+                aria-label={config.listboxLabel}
+                data-body
+                onKeyDownCapture={handleKeyDownCapture}
+                ref={(node) => {
+                    if (!focusTrap) return;
+
+                    const idToFocus = items.find(({ value: date }) => config.compare(date, baseDate))?.id;
+                    node?.querySelector<HTMLElement>(`[id="${idToFocus}"]`)?.focus();
+                }}
+                role="listbox"
+            >
+                {items.map(({ value: date, label, id, 'aria-label': ariaLabel }) => {
+                    const isSelected = config.compare(date, value);
+                    const isActive = config.compare(date, baseDate);
+                    const isFocusable = isActive || (!baseDate && isSelected);
+                    return (
+                        <Button
+                            aria-label={ariaLabel}
+                            aria-selected={isSelected || undefined}
+                            data-active={isActive || undefined}
+                            id={id}
+                            innerRef={(node) => {
+                                if (isFocusable && focusTrap) node?.focus();
+                            }}
+                            key={date.toString()}
+                            label={label}
+                            role="option"
+                            size="large"
+                            tabIndex={isFocusable ? 0 : -1}
+                            width="hug"
+                            {...config.optionProps?.({
+                                date,
+                                baseDate,
+                                isSelected,
+                                isActive,
+                                setBaseDate,
+                                onChange,
+                                setKind,
+                            })}
+                        />
+                    );
+                })}
+            </div>
+        </div>
+    );
+
+    return focusTrap ? (
         <FocusTrap
             focusTrapOptions={{
                 fallbackFocus: () => {
@@ -246,79 +325,10 @@ export function Calendar({ value: valueProp, onChange, variant = 'flat' }: Calen
                 clickOutsideDeactivates: true,
             }}
         >
-            <div data-bspk="calendar" data-kind={kind} data-variant={variant || 'flat'}>
-                <div data-header>
-                    <HeaderButton
-                        baseDate={baseDate}
-                        config={config.header['<<']}
-                        direction="<<"
-                        setBaseDate={setBaseDate}
-                    />
-                    <HeaderButton
-                        baseDate={baseDate}
-                        config={config.header['<']}
-                        direction="<"
-                        setBaseDate={setBaseDate}
-                    />
-                    <span data-title>{config.header.label(baseDate, setKind)}</span>
-                    <HeaderButton
-                        baseDate={baseDate}
-                        config={config.header['>']}
-                        direction=">"
-                        setBaseDate={setBaseDate}
-                    />
-                    <HeaderButton
-                        baseDate={baseDate}
-                        config={config.header['>>']}
-                        direction=">>"
-                        setBaseDate={setBaseDate}
-                    />
-                </div>
-                {config.listBoxHeader}
-                <div
-                    aria-label={config.listboxLabel}
-                    data-body
-                    onKeyDownCapture={handleKeyDownCapture}
-                    ref={(node) => {
-                        const idToFocus = items.find(({ value: date }) => config.compare(date, baseDate))?.id;
-                        node?.querySelector<HTMLElement>(`[id="${idToFocus}"]`)?.focus();
-                    }}
-                    role="listbox"
-                >
-                    {items.map(({ value: date, label, id, 'aria-label': ariaLabel }) => {
-                        const isSelected = config.compare(date, value);
-                        const isActive = config.compare(date, baseDate);
-                        const isFocusable = isActive || (!baseDate && isSelected);
-                        return (
-                            <Button
-                                aria-label={ariaLabel}
-                                aria-selected={isSelected || undefined}
-                                data-active={isActive || undefined}
-                                id={id}
-                                innerRef={(node) => {
-                                    if (isFocusable) node?.focus();
-                                }}
-                                key={date.toString()}
-                                label={label}
-                                role="option"
-                                size="large"
-                                tabIndex={isFocusable ? 0 : -1}
-                                width="hug"
-                                {...config.optionProps?.({
-                                    date,
-                                    baseDate,
-                                    isSelected,
-                                    isActive,
-                                    setBaseDate,
-                                    onChange,
-                                    setKind,
-                                })}
-                            />
-                        );
-                    })}
-                </div>
-            </div>
+            {calendar}
         </FocusTrap>
+    ) : (
+        calendar
     );
 }
 

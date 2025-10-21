@@ -25,7 +25,7 @@ export const PopoverExample: ComponentExampleFn<PopoverProps> = ({ action }) => 
                     label: 'CTA Button',
                     onClick: () => action('Call to action clicked!'),
                 },
-                children: () => <></>,
+                children: () => null,
             },
         },
         {
@@ -41,7 +41,7 @@ export const PopoverExample: ComponentExampleFn<PopoverProps> = ({ action }) => 
                     label: 'Secondary',
                     onClick: () => action('Secondary call to action clicked!'),
                 },
-                children: () => <></>,
+                children: () => null,
             },
         },
     ],

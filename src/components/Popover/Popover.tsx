@@ -49,7 +49,7 @@ export type PopoverProps = CommonProps<'disabled'> &
          *
          * @required
          */
-        children: (triggerProps: PopoverTriggerProps) => ReactElement;
+        children: (triggerProps: PopoverTriggerProps) => ReactElement | null;
     };
 
 /**
