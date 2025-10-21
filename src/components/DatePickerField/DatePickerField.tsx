@@ -1,5 +1,5 @@
 import { DatePicker, DatePickerProps } from '-/components/DatePicker';
-import { FormField, FormFieldControlProps } from '-/components/Field';
+import { FormField, FormFieldControlProps } from '-/components/FormField';
 
 export type DatePickerFieldProps = FormFieldControlProps<DatePickerProps>;
 

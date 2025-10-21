@@ -1,4 +1,4 @@
-import { FormField, FormFieldControlProps } from '-/components/Field';
+import { FormField, FormFieldControlProps } from '-/components/FormField';
 import { Password, PasswordProps } from '-/components/Password';
 
 export type PasswordFieldProps = FormFieldControlProps<PasswordProps>;

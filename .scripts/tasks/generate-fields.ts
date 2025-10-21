@@ -42,7 +42,7 @@ CONTROLS.map((name) => {
 
     // write Field component file
 
-    const content = `import { FormField, FormFieldControlProps } from '-/components/Field';
+    const content = `import { FormField, FormFieldControlProps } from '-/components/FormField';
 import { ${name}, ${name}Props } from '-/components/${name}';
 
 export type ${name}FieldProps = FormFieldControlProps<${name}Props>;

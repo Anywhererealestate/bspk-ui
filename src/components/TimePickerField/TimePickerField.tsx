@@ -1,4 +1,4 @@
-import { FormField, FormFieldControlProps } from '-/components/Field';
+import { FormField, FormFieldControlProps } from '-/components/FormField';
 import { TimePicker, TimePickerProps } from '-/components/TimePicker';
 
 export type TimePickerFieldProps = FormFieldControlProps<TimePickerProps>;

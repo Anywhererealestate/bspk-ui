@@ -105,6 +105,8 @@
         "./FileUpload/*": "./dist/components/FileUpload/*.js",
         "./FileUploadItem": "./dist/components/FileUploadItem/index.js",
         "./FileUploadItem/*": "./dist/components/FileUploadItem/*.js",
+        "./FormField": "./dist/components/FormField/index.js",
+        "./FormField/*": "./dist/components/FormField/*.js",
         "./Img": "./dist/components/Img/index.js",
         "./Img/*": "./dist/components/Img/*.js",
         "./InlineAlert": "./dist/components/InlineAlert/index.js",

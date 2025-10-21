@@ -1,4 +1,4 @@
-import { FormField, FormFieldControlProps } from '-/components/Field';
+import { FormField, FormFieldControlProps } from '-/components/FormField';
 import { InputPhone, InputPhoneProps } from '-/components/InputPhone';
 
 export type InputPhoneFieldProps = FormFieldControlProps<InputPhoneProps>;

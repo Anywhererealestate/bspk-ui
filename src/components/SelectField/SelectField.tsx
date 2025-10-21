@@ -1,4 +1,4 @@
-import { FormField, FormFieldControlProps } from '-/components/Field';
+import { FormField, FormFieldControlProps } from '-/components/FormField';
 import { Select, SelectProps } from '-/components/Select';
 
 export type SelectFieldProps = FormFieldControlProps<SelectProps>;

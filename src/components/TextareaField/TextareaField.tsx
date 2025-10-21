@@ -1,4 +1,4 @@
-import { FormField, FormFieldControlProps } from '-/components/Field';
+import { FormField, FormFieldControlProps } from '-/components/FormField';
 import { Textarea, TextareaProps } from '-/components/Textarea';
 
 export type TextareaFieldProps = FormFieldControlProps<TextareaProps>;

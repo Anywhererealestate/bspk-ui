@@ -1,7 +1,5 @@
 import { ReactNode } from 'react';
-import { FieldDescription } from './FieldDescription';
-import { FieldError } from './FieldError';
-import { Field, FieldLabel } from '.';
+import { Field, FieldLabel, FieldDescription, FieldError } from '-/components/Field';
 
 export type FormFieldControlProps<P extends Record<string, unknown>> = Omit<FormFieldProps, 'children'> &
     Omit<P, keyof FormFieldProps>;
