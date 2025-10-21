@@ -1,7 +1,7 @@
 import './date-picker.scss';
 import { SvgEvent } from '@bspk/icons/Event';
 import { format, isValid, parse } from 'date-fns';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Button } from '-/components/Button';
 import { Calendar } from '-/components/Calendar';
 import { useFieldInit } from '-/components/Field';
@@ -21,7 +21,7 @@ export type DatePickerProps = Pick<
      *
      * @type Date
      */
-    value: Date | undefined;
+    value: Date | string | undefined;
     /** Fires when the date changes with the new date */
     onChange: (newDate: Date | undefined) => void;
     /**
@@ -70,7 +70,7 @@ export type DatePickerProps = Pick<
  * @phase UXReview
  */
 export function DatePicker({
-    value,
+    value: valueProp,
     onChange,
     disabled,
     readOnly,
@@ -91,14 +91,22 @@ export function DatePicker({
         invalid: invalidProp,
     });
 
-    const [textValue, setTextValue] = useState(value ? format(value, 'MM/dd/yyyy') : '');
-    const [calendarVisible, setCalendarVisible] = useState(false);
-    const containerRef = useRef<HTMLSpanElement | null>(null);
+    const value = useMemo(() => {
+        if (typeof valueProp === 'string') {
+            const parsedDate = new Date(valueProp);
+            return isValid(parsedDate) ? parsedDate : undefined;
+        }
+        return valueProp instanceof Date && isValid(valueProp) ? valueProp : undefined;
+    }, [valueProp]);
 
     useEffect(() => {
         const formattedValue = value ? format(value, 'MM/dd/yyyy') : '';
         setTextValue(formattedValue);
     }, [value]);
+    const [textValue, setTextValue] = useState(() => (value ? format(value, 'MM/dd/yyyy') : ''));
+
+    const [calendarVisible, setCalendarVisible] = useState(false);
+    const containerRef = useRef<HTMLSpanElement | null>(null);
 
     const { elements, floatingStyles } = useFloating({
         placement: 'bottom',

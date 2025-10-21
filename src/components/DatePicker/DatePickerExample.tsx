@@ -1,15 +1,12 @@
 import { DatePickerProps } from '.';
-import { ComponentExample, Preset } from '-/utils/demo';
-
-export const presets: Preset<DatePickerProps>[] = [];
+import { ComponentExample } from '-/utils/demo';
 
 export const DatePickerExample: ComponentExample<DatePickerProps> = {
     defaultState: {
-        value: undefined,
+        value: new Date(1985, 5, 3),
         'aria-label': 'Select date',
     },
     disableProps: [],
-    presets,
     sections: [],
     variants: false,
 };
