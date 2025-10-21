@@ -51,7 +51,7 @@ export type InputPhoneProps = FieldControlProp &
     };
 
 /**
- * A text input that allows users to enter text phone numbers with country codes.
+ * An input that allows users to enter text phone numbers and select country codes for the phone number.
  *
  * This is the base element and if used must contain the field label contextually.
  *
@@ -60,8 +60,14 @@ export type InputPhoneProps = FieldControlProp &
  * @example
  *     import { InputPhone } from '@bspk/ui/InputPhone';
  *
- *     export function Example() {
- *         const [state, setState] = React.useState<number>();
+ *     function ExampleStandalone() {
+ *         const [value, onChange] = React.useState<number | undefined>();
+ *
+ *         return <InputPhone aria-label="Phone Number" initialCountryCode="US" value={value} onChange={onChange} />;
+ *     }
+ *
+ *     function ExampleWithField() {
+ *         const [value, onChange] = React.useState<number | undefined>();
  *
  *         return (
  *             <Field>

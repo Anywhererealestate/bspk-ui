@@ -49,7 +49,7 @@ export type TxtProps<As extends ElementType = 'span'> = {
  * @example
  *     import { Txt } from '@bspk/ui/Txt';
  *
- *     export function Example() {
+ *     function Example() {
  *         return <Txt>Example Txt</Txt>;
  *     }
  *

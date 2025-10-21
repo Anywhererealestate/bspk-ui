@@ -28,10 +28,29 @@ export type PasswordProps = Pick<
  *     import { Password } from '@bspk/ui/Password';
  *     import { useState } from 'react';
  *
- *     function Example() {
+ *     function ExampleStandalone() {
  *         const [value, setValue] = useState('');
  *
- *         return <Password value={value} onChange={setValue} aria-label="password" name="password" />;
+ *         return (
+ *             <Password
+ *                 aria-label="Enter password"
+ *                 value={value}
+ *                 onChange={setValue}
+ *                 aria-label="password"
+ *                 name="password"
+ *             />
+ *         );
+ *     }
+ *
+ *     function ExampleWithField() {
+ *         const [value, setValue] = useState('');
+ *         return (
+ *             <Field>
+ *                 <FieldLabel>Password</FieldLabel>
+ *                 <Password value={value} onChange={setValue} aria-label="password" name="password" />
+ *                 <FieldDescription>The password field allows you to enter a secure password.</FieldDescription>
+ *             </Field>
+ *         );
  *     }
  *
  * @name Password

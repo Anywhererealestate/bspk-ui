@@ -21,7 +21,7 @@ export type TabGroupProps = Omit<TabListProps<TabOption>, 'iconsOnly'> & {
  *     import { useState } from 'react';
  *     import { TabGroup } from '@bspk/ui/TabGroup';
  *
- *     export function Example() {
+ *     function Example() {
  *         const [selectedTab, setSelectedTab] = useState<string>();
  *
  *         return (

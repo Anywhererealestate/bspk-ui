@@ -80,8 +80,8 @@ export type SearchBarProps<O extends SearchBarOption = SearchBarOption> = Pick<
  *     import { useState } from 'react';
  *     import { SearchBar } from '@bspk/ui/SearchBar';
  *
- *     export function Example() {
- *         const [searchText, setSearchText] = useState<string>('');
+ *     function Example() {
+ *         const [searchText, setSearchText] = useState('');
  *
  *         return (
  *             <SearchBar
@@ -98,7 +98,7 @@ export type SearchBarProps<O extends SearchBarOption = SearchBarOption> = Pick<
  *                     { label: 'Ice Cream Sandwich' },
  *                     { label: 'Jackfruit Pudding' },
  *                 ]}
- *                 name="Example name"
+ *                 name="example-name"
  *                 placeholder="Search"
  *                 value={searchText}
  *                 onChange={setSearchText}

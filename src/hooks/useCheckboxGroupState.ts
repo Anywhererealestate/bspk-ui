@@ -9,7 +9,7 @@ import { CheckboxProps } from '-/components/Checkbox';
  *     import { Checkbox } from "@bspk/ui/Checkbox";
  *     import { useCheckboxGroupState } from "@bspk/ui/hooks/useCheckboxGroupState";
  *
- *     export function Example() {
+ *     function Example() {
  *     const allValues = ["Red", "Orange", "Yellow", "Green"];
  *
  *     const { allCheckboxProps, checkboxProps, values } = useCheckboxGroupState(allValues, "fruits");

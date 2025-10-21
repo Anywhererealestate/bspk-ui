@@ -74,10 +74,21 @@ export type TextareaProps = CommonProps<'aria-label' | 'disabled' | 'id' | 'inva
  *     import { useState } from 'react';
  *     import { Textarea } from '@bspk/ui/Textarea';
  *
- *     export function Example() {
- *         const [value, setValue] = useState<string>('');
+ *     function ExampleWithField() {
+ *         const [value, setValue] = useState('');
+ *         return (
+ *             <Field>
+ *                 <FieldLabel>Example Textarea</FieldLabel>
+ *                 <Textarea name="example-name" onChange={setValue} value={value} />
+ *                 <FieldDescription>This is an example textarea field.</FieldDescription>
+ *             </Field>
+ *         );
+ *     }
  *
- *         return <Textarea aria-label="Example aria-label" name="Example name" onChange={setValue} value={value} />;
+ *     function ExampleStandalone() {
+ *         const [value, setValue] = useState('');
+ *
+ *         return <Textarea aria-label="Enter text" name="example-name" onChange={setValue} value={value} />;
  *     }
  *
  * @element
@@ -91,7 +102,6 @@ export function Textarea({
     textSize = 'medium',
     value = '',
     name,
-    'aria-label': ariaLabel,
     innerRef,
     placeholder,
     id: idProp,
@@ -138,7 +148,6 @@ export function Textarea({
                 aria-describedby={ariaDescribedBy || undefined}
                 aria-errormessage={ariaErrorMessage || undefined}
                 aria-invalid={invalid || undefined}
-                aria-label={ariaLabel}
                 disabled={disabled}
                 id={id}
                 name={name}

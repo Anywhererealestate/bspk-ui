@@ -3,7 +3,7 @@ import { hasNoBasicA11yIssues } from '-/rtl/hasNoBasicA11yIssues';
 import { render } from '-/rtl/util';
 
 const TestBed = () => (
-    <Textarea aria-label="Example label" name="Example name" onChange={() => {}} value="text value" />
+    <Textarea aria-label="Example label" name="example-name" onChange={() => {}} value="text value" />
 );
 
 describe('Textarea (RTL)', () => {

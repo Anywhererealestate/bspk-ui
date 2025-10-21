@@ -6,6 +6,7 @@ export const presets: Preset<DatePickerProps>[] = [];
 export const DatePickerExample: ComponentExample<DatePickerProps> = {
     defaultState: {
         value: undefined,
+        'aria-label': 'Select date',
     },
     disableProps: [],
     presets,

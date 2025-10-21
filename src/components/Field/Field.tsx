@@ -24,7 +24,7 @@ export type FieldProps = {
  *     import { Input } from '@bspk/ui/Input';
  *     import { Field, FieldLabel, FieldDescription, FieldError } from '@bspk/ui/Field';
  *
- *     export function Example() {
+ *     function Example() {
  *         const [state, setState] = React.useState<string | undefined>(undefined);
  *         const [error, setError] = React.useState<string | undefined>(undefined);
  *

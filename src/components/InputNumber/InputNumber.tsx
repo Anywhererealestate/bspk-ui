@@ -59,15 +59,28 @@ export type InputNumberProps = CommonProps<'aria-label' | 'name' | 'size'> &
  * @example
  *     import { InputNumber } from '@bspk/ui/InputNumber';
  *
- *     export function Example() {
- *         const [state, setState] = React.useState<number>();
+ *     function ExampleStandalone() {
+ *         const [state, setState] = React.useState<number | undefined>();
+ *
+ *         return (
+ *             <InputNumber
+ *                 aria-label="Example aria-label"
+ *                 name="example-name"
+ *                 onChange={(nextValue) => setState(nextValue)}
+ *                 value={state}
+ *             />
+ *         );
+ *     }
+ *
+ *     function ExampleWithField() {
+ *         const [state, setState] = React.useState<number | undefined>();
  *
  *         return (
  *             <Field>
  *                 <FieldLabel>Example Input Number</FieldLabel>
  *                 <InputNumber
  *                     aria-label="Example aria-label"
- *                     name="Example name"
+ *                     name="example-name"
  *                     onChange={(nextValue) => setState(nextValue)}
  *                     value={state}
  *                 />

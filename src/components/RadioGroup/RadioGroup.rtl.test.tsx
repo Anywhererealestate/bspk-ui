@@ -5,7 +5,7 @@ import { render } from '-/rtl/util';
 const TestBed = () => (
     <RadioGroup
         label="Example label"
-        name="Example name"
+        name="example-name"
         onChange={() => {}}
         options={[
             {

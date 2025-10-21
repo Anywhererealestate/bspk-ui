@@ -14,7 +14,7 @@ const parsableDate = (dateString: string) => /^\d{1,2}\/\d{1,2}\/\d{4}$/.test(da
 
 export type DatePickerProps = Pick<
     InputProps,
-    'disabled' | 'id' | 'invalid' | 'name' | 'readOnly' | 'required' | 'size'
+    'aria-label' | 'disabled' | 'id' | 'invalid' | 'name' | 'readOnly' | 'required' | 'size'
 > & {
     /**
      * The value of the calendar input
@@ -49,13 +49,18 @@ export type DatePickerProps = Pick<
  *     import { Field, FieldLabel } from '@bspk/ui/Field';
  *     import { useState } from 'react';
  *
- *     function Example() {
+ *     function ExampleStandalone() {
+ *         const [date, setDate] = useState<Date | undefined>(new Date());
+ *         return <DatePicker aria-label="Date" name="date2" value={date} onChange={setDate} />;
+ *     }
+ *
+ *     function ExampleWithField() {
  *         const [date, setDate] = useState<Date | undefined>(new Date());
  *
  *         return (
  *             <Field>
  *                 <FieldLabel>Date</FieldLabel>
- *                 <DatePicker name="destination-date" value={date} onChange={setDate} />
+ *                 <DatePicker name="date1" value={date} onChange={setDate} />
  *                 <FieldDescription>The date picker allows you to select a date.</FieldDescription>
  *             </Field>
  *         );
@@ -76,6 +81,7 @@ export function DatePicker({
     required,
     size,
     id: idProp,
+    'aria-label': ariaLabel,
 }: DatePickerProps) {
     const { id, ariaDescribedBy, ariaErrorMessage, invalid } = useFieldInit({
         id: idProp,
@@ -151,6 +157,7 @@ export function DatePicker({
             <InputElement
                 aria-describedby={ariaDescribedBy || undefined}
                 aria-errormessage={ariaErrorMessage || undefined}
+                aria-label={ariaLabel}
                 disabled={disabled || undefined}
                 id={id}
                 invalid={invalid || undefined}

@@ -21,7 +21,7 @@ const TestBed = () => {
         <SearchBar
             aria-label="Example aria-label"
             items={items}
-            name="Example name"
+            name="example-name"
             onChange={() => {}}
             placeholder="Search"
             value=""

@@ -36,11 +36,19 @@ export type TimePickerProps = FieldControlProp &
  * @example
  *     import { TimePicker } from '@bspk/ui/TimePicker';
  *
- *     function Example() {
+ *     function ExampleStandalone() {
+ *         const [value, onChange] = React.useState('');
+ *
+ *         return <TimePicker aria-label="Time" name="time" value={value} onChange={onChange} />;
+ *     }
+ *
+ *     function ExampleWithField() {
+ *         const [value, onChange] = React.useState('');
+ *
  *         return (
  *             <Field>
  *                 <FieldLabel>Time</FieldLabel>
- *                 <TimePicker />
+ *                 <TimePicker value={value} onChange={onChange} />
  *                 <FieldDescription>The time picker allows you to select a time.</FieldDescription>
  *             </Field>
  *         );

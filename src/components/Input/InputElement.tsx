@@ -58,6 +58,8 @@ type InputElementBaseProps = CommonProps<'name' | 'owner' | 'size' | 'value'> &
          * @default true
          */
         showClearButton?: boolean;
+        /** The aria-label of the input element. */
+        'aria-label'?: string;
     };
 
 export type InputElementProps = InputElementBaseProps & {
@@ -73,13 +75,13 @@ export type InputElementProps = InputElementBaseProps & {
  *     import { InputElement } from '@bspk/ui/InputElement';
  *     import { Field, FieldLabel } from '@bspk/ui/Field';
  *
- *     export function Example() {
- *         const [value, setValue] = useState<string>('');
+ *     function Example() {
+ *         const [value, setValue] = useState('');
  *
  *         return (
  *             <Field>
  *                 <FieldLabel>Example Label</FieldLabel>
- *                 <InputElement name="Example name" onChange={setValue} value={value} />
+ *                 <InputElement name="example-name" onChange={setValue} value={value} />
  *             </Field>
  *         );
  *     }

@@ -8,7 +8,7 @@ import { useEffect } from 'react';
  *     import { useOutsideClick } from '@bspk/ui/hooks/useOutsideClick';
  *     import React, { useRef, useState } from 'react';
  *
- *     export function Example() {
+ *     function Example() {
  *     const [isOpen, setIsOpen] = useState(false);
  *     const containerRef = useRef<HTMLDivElement>(null);
  *

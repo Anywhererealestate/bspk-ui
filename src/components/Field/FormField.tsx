@@ -39,7 +39,7 @@ export type FormFieldProps = {
  *     import { Input } from '@bspk/ui/Input';
  *     import { FormField } from '@bspk/ui/FormField';
  *
- *     export function Example() {
+ *     function Example() {
  *         const [state, setState] = React.useState<string | undefined>(undefined);
  *         return (
  *             <FormField controlId="Example controlId" label="Example label">

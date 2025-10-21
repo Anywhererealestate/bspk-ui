@@ -21,7 +21,7 @@ export type ImgProps = {
  * @example
  *     import { Img } from '@bspk/ui/Img';
  *
- *     export function Example() {
+ *     function Example() {
  *         return <Img alt="Example alt" src="Example src" />;
  *     }
  *

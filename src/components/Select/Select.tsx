@@ -73,28 +73,42 @@ export type SelectProps = CommonProps<'name' | 'size'> &
  * @example
  *     import { Select } from '@bspk/ui/Select';
  *
- *     export function Example() {
+ *     const OPTIONS = [
+ *         { id: '1', label: 'Option 1' },
+ *         { id: '2', label: 'Option 2' },
+ *         { id: '3', label: 'Option 3' },
+ *         { id: '4', label: 'Option 4' },
+ *         { id: '5', label: 'Option 5' },
+ *         { id: '6', label: 'Option 6' },
+ *     ];
+ *
+ *     function ExampleStandalone() {
+ *         const [selected, setSelected] = React.useState<string[]>([]);
+ *
+ *         return (
+ *             <Select
+ *                 aria-label="Select an option"
+ *                 itemCount={5}
+ *                 name="example-select"
+ *                 onChange={setSelected}
+ *                 options={OPTIONS}
+ *                 placeholder="Select an option"
+ *                 size="medium"
+ *                 value={selected}
+ *             />
+ *         );
+ *     }
+ *
+ *     function ExampleWithField() {
  *         const [selected, setSelected] = React.useState<string[]>([]);
  *         return (
  *             <Field>
  *                 <FieldLabel>Select an option</FieldLabel>
  *                 <Select
- *                     label="Select an option"
  *                     itemCount={5}
  *                     name="example-select"
  *                     onChange={setSelected}
- *                     options={[
- *                         { id: '1', label: 'Option 1' },
- *                         { id: '2', label: 'Option 2' },
- *                         { id: '3', label: 'Option 3' },
- *                         { id: '4', label: 'Option 4' },
- *                         { id: '5', label: 'Option 5' },
- *                         { id: '6', label: 'Option 6' },
- *                         { id: '7', label: 'Option 7' },
- *                         { id: '8', label: 'Option 8' },
- *                         { id: '9', label: 'Option 9' },
- *                         { id: '10', label: 'Option 10' },
- *                     ]}
+ *                     options={OPTIONS}
  *                     placeholder="Select an option"
  *                     size="medium"
  *                     value={selected}
@@ -182,6 +196,10 @@ export function Select({
         if (activeElementId) getElementById(activeElementId)?.click();
     };
 
+    const ariaLabel = ariaLabelledBy
+        ? undefined
+        : elementProps['aria-label'] || selectedItem?.label || placeholder || undefined;
+
     return (
         <>
             <input name={name} type="hidden" value={value} />
@@ -195,7 +213,7 @@ export function Select({
                 aria-errormessage={ariaErrorMessage || undefined}
                 aria-expanded={open}
                 aria-haspopup="listbox"
-                aria-label={!ariaLabelledBy ? selectedItem?.label || placeholder : undefined}
+                aria-label={ariaLabel}
                 aria-labelledby={ariaLabelledBy}
                 aria-readonly={readOnly || undefined}
                 data-bspk="select"

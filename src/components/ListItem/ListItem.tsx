@@ -107,7 +107,7 @@ export type ListItemProps<As extends ElementType = ElementType> = CommonProps<'a
  *     import { SvgSquare } from '@bspk/icons/Square';
  *     import { ListItem } from '@bspk/ui/ListItem';
  *
- *     export function Example() {
+ *     function Example() {
  *         return (
  *             <ListItem
  *                 label="Example label"

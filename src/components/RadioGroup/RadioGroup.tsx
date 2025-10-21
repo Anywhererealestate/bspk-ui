@@ -68,12 +68,12 @@ export type RadioGroupProps = CommonProps<'disabled' | 'name'> &
  *     import { useState } from 'react';
  *     import { RadioGroup } from '@bspk/ui/RadioGroup';
  *
- *     export function Example() {
+ *     function Example() {
  *         const [selectedOption, setSelectedOption] = useState<string>('1');
  *
  *         return (
  *             <RadioGroup
- *                 name="Example name"
+ *                 name="example-name"
  *                 onChange={(nextValue) => setSelectedOption(nextValue)}
  *                 options={[
  *                     {
