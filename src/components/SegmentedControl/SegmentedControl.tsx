@@ -12,7 +12,7 @@ export type SegmentedControlProps = TabListProps<SegmentedControlOption>;
  *     import { useState } from 'react';
  *     import { SegmentedControl } from '@bspk/ui/SegmentedControl';
  *
- *     export function Example() {
+ *     function Example() {
  *         const [selectedOption, setSelectedOption] = useState<string>();
  *
  *         return (

@@ -1,0 +1,12 @@
+[data-bspk='date-picker'] {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+
+    [data-bspk='input'] {
+        padding-right: 0;
+    }
+}
+
+/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

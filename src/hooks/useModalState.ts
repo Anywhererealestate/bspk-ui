@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
  *     import { Modal } from '@bspk/ui/Modal';
  *     import { useModalState } from '@bspk/ui/hooks/useModalState';
  *
- *     export function Example() {
+ *     function Example() {
  *     const modalProps = useModalState(false);
  *     return <Modal  {...modalProps}>...</Modal>
  *     }

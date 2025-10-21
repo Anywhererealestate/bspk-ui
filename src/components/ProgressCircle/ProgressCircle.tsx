@@ -27,7 +27,7 @@ export type ProgressCircleProps = {
  * @example
  *     import { ProgressCircle } from '@bspk/ui/ProgressCircle';
  *
- *     export function Example() {
+ *     function Example() {
  *         return <ProgressCircle label="Example label" />;
  *     }
  *

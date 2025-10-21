@@ -124,7 +124,7 @@ export type TabListProps<O extends TabOption = TabOption> = {
  *     import { useState } from 'react';
  *     import { TabList } from '@bspk/ui/TabList';
  *
- *     export function Example() {
+ *     function Example() {
  *         const [selectedTab, setSelectedTab] = useState<string>();
  *
  *         return (

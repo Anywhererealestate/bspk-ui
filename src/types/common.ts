@@ -47,9 +47,9 @@ export type CallToActionButton = {
 
 export type CommonPropsLibrary = {
     /**
-     * Marks the element as invalid and displays error state theme.
+     * Indicates that the element is in an invalid state and displays the error theme.
      *
-     * If the errorMessage is empty the error state theme will not appear.
+     * If set to true, an accompanying error message should be provided.
      *
      * @default false
      */
@@ -109,7 +109,7 @@ export type CommonPropsLibrary = {
      *
      * @required
      */
-    'aria-label': string;
+    'aria-label'?: string;
     /**
      * Identifies the parent component. Helps with styling, debugging, and/or testing purposes.
      *

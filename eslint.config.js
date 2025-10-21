@@ -59,6 +59,7 @@ export default [
                 },
             ],
             '@typescript-eslint/member-ordering': 'error',
+            'react/jsx-no-useless-fragment': 'error',
             'react/self-closing-comp': 'error',
             'react-hooks/rules-of-hooks': 'error',
             'react-hooks/exhaustive-deps': 'warn',

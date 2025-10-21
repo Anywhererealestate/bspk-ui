@@ -102,21 +102,19 @@ export function CheckboxGroup({
             role="group"
         >
             {selectAll && (
-                <>
-                    <ToggleOption label={selectAllProps?.label || 'All'} readOnly={readOnly}>
-                        <Checkbox
-                            aria-label={selectAllProps?.label || 'All'}
-                            checked={!!values.length && values.length === options.length}
-                            data-testid="selectAll-Checkbox"
-                            disabled={disabledGroup}
-                            indeterminate={!!values.length && values.length < options.length}
-                            name={name}
-                            onChange={(checked) => onChange(checked ? options.map((o) => o.value) : [])}
-                            readOnly={readOnly}
-                            value="all"
-                        />
-                    </ToggleOption>
-                </>
+                <ToggleOption label={selectAllProps?.label || 'All'} readOnly={readOnly}>
+                    <Checkbox
+                        aria-label={selectAllProps?.label || 'All'}
+                        checked={!!values.length && values.length === options.length}
+                        data-testid="selectAll-Checkbox"
+                        disabled={disabledGroup}
+                        indeterminate={!!values.length && values.length < options.length}
+                        name={name}
+                        onChange={(checked) => onChange(checked ? options.map((o) => o.value) : [])}
+                        readOnly={readOnly}
+                        value="all"
+                    />
+                </ToggleOption>
             )}
             {options.map(({ label, description, value, disabled }) => (
                 <ToggleOption

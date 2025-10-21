@@ -44,7 +44,7 @@ export type TooltipProps = {
  *     import { Tooltip } from '@bspk/ui/Tooltip';
  *     import { Button } from '@bspk/ui/Button';
  *
- *     export function Example() {
+ *     function Example() {
  *         return (
  *             <Tooltip label="I explain what this button does" placement="top">
  *                 {(triggerProps) => <Button {...triggerProps}>Click me</Button>}

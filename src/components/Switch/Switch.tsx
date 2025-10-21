@@ -33,13 +33,13 @@ export type SwitchProps = CommonProps<'aria-label' | 'disabled' | 'name' | 'valu
  *     import { useState } from 'react';
  *     import { Switch } from '@bspk/ui/Switch';
  *
- *     export function Example() {
+ *     function Example() {
  *         const [isChecked, setIsChecked] = useState<boolean>(false);
  *
  *         return (
  *             <Switch
  *                 aria-label="Example aria-label"
- *                 name="Example name"
+ *                 name="example-name"
  *                 onChange={setIsChecked}
  *                 checked={isChecked}
  *             />
