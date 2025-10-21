@@ -62,5 +62,6 @@ export function useFieldInit(defaults?: FieldContextProps): FieldContextProps & 
         };
     }
 
-    return context;
+    // consider field invalid if there is an error message
+    return { ...context, invalid: context.invalid || !!context.ariaErrorMessage };
 }
