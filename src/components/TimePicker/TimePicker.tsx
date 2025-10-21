@@ -164,7 +164,6 @@ export function TimePicker({
                 {...props}
                 aria-controls={open ? `${id}-time-picker-menu` : undefined}
                 aria-describedby={ariaErrorMessage || ariaDescribedBy || undefined}
-                aria-expanded={open || undefined}
                 aria-labelledby={`${id}-field-label`}
                 data-bspk="time-picker"
                 data-disabled={disabled || undefined}
@@ -182,17 +181,17 @@ export function TimePicker({
                 ref={(node) => {
                     elements.setReference(node);
                 }}
-                role={open ? 'combobox' : undefined}
+                role="group"
                 tabIndex={-1}
             >
                 <input
+                    aria-hidden
                     data-sr-only
                     id={id}
                     name={name}
                     onChange={(e) => onChangeProp(e.target.value)}
                     onFocus={() => firstField?.focus()}
                     tabIndex={-1}
-                    type="hidden"
                     value={value}
                 />
                 <TimePickerSegment
@@ -222,6 +221,7 @@ export function TimePicker({
                     value={meridiem}
                 />
                 <Button
+                    aria-expanded={open || undefined}
                     as="span"
                     disabled={disabled || readOnly}
                     icon={<SvgSchedule />}
@@ -231,6 +231,7 @@ export function TimePicker({
                     }}
                     label={`${open ? 'Close' : 'Open'} Time Picker`}
                     onClick={() => setOpen(!open)}
+                    role="combobox"
                     variant="tertiary"
                 />
             </div>
