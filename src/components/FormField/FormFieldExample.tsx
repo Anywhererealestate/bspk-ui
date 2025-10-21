@@ -15,11 +15,7 @@ type ExampleProps = FieldControlProp & FormFieldProps;
 
 export const presets: Preset<Partial<ExampleProps>>[] = [
     {
-        label: 'Not Disabled',
-        propState: { disabled: false },
-    },
-    {
-        label: 'Disabled',
+        label: 'Control Disabled',
         propState: { disabled: true },
     },
 ];
