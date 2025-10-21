@@ -52,7 +52,7 @@ export const FormFieldExample: ComponentExample<ExampleProps> = {
     variants: false,
 };
 
-export function FormFieldExampleRender({ syntax: Code, ...props }: ExampleProps & { syntax: Syntax }) {
+export function FormFieldExampleRender({ syntax: Code, ...props }: ExampleProps & { syntax?: Syntax }) {
     const [value, setValueState] = useState<{ [key: string]: unknown }>({});
 
     const setValue = (next: { [key: string]: unknown }) => {
@@ -165,7 +165,7 @@ export function FormFieldExampleRender({ syntax: Code, ...props }: ExampleProps 
                 <Button label="Submit" type="submit" variant="primary" />
             </div>
 
-            <Code code={`// Submitted Form Data\n${JSON.stringify(formValues, null, 2)}`} />
+            {Code && <Code code={`// Submitted Form Data\n${JSON.stringify(formValues, null, 2)}`} />}
         </form>
     );
 }

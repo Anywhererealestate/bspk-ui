@@ -4,7 +4,7 @@ import { FieldControlProp, useFieldInit } from '-/components/Field';
 import { CommonProps, SetRef } from '-/types/common';
 import { cssWithVars } from '-/utils/cwv';
 
-export type TextareaProps = CommonProps<'aria-label' | 'disabled' | 'id' | 'invalid' | 'readOnly' | 'required'> &
+export type TextareaProps = CommonProps<'aria-label'> &
     FieldControlProp & {
         /**
          * Callback when the value of the field changes.

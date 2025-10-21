@@ -5,21 +5,7 @@ import { FieldControlProp, useFieldInit } from '-/components/Field';
 import { InputElement, InputProps } from '-/components/Input';
 
 export type PasswordProps = FieldControlProp &
-    Pick<
-        InputProps,
-        | 'containerRef'
-        | 'disabled'
-        | 'id'
-        | 'inputProps'
-        | 'inputRef'
-        | 'invalid'
-        | 'name'
-        | 'onChange'
-        | 'readOnly'
-        | 'required'
-        | 'size'
-        | 'value'
-    >;
+    Pick<InputProps, 'containerRef' | 'inputProps' | 'inputRef' | 'name' | 'onChange' | 'size' | 'value'>;
 
 /**
  * An input field that is specifically built with a show/hide toggle for entering security passwords.
