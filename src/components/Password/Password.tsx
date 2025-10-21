@@ -1,23 +1,25 @@
 import './password.scss';
 import { useState } from 'react';
 import { Button } from '-/components/Button';
-import { Input, InputProps } from '-/components/Input';
+import { FieldControlProp, useFieldInit } from '-/components/Field';
+import { InputElement, InputProps } from '-/components/Input';
 
-export type PasswordProps = Pick<
-    InputProps,
-    | 'containerRef'
-    | 'disabled'
-    | 'id'
-    | 'inputProps'
-    | 'inputRef'
-    | 'invalid'
-    | 'name'
-    | 'onChange'
-    | 'readOnly'
-    | 'required'
-    | 'size'
-    | 'value'
->;
+export type PasswordProps = FieldControlProp &
+    Pick<
+        InputProps,
+        | 'containerRef'
+        | 'disabled'
+        | 'id'
+        | 'inputProps'
+        | 'inputRef'
+        | 'invalid'
+        | 'name'
+        | 'onChange'
+        | 'readOnly'
+        | 'required'
+        | 'size'
+        | 'value'
+    >;
 
 /**
  * An input field that is specifically built with a show/hide toggle for entering security passwords.
@@ -56,22 +58,46 @@ export type PasswordProps = Pick<
  * @name Password
  * @phase UXReview
  */
-export function Password({ inputProps, inputRef, name, onChange, required, containerRef, ...props }: PasswordProps) {
+export function Password({
+    inputProps,
+    inputRef,
+    name,
+    onChange,
+    required,
+    containerRef,
+    invalid: invalidProp,
+    readOnly,
+    disabled,
+    id: idProp,
+    ...props
+}: PasswordProps) {
+    const { id, invalid, ariaDescribedBy, ariaErrorMessage } = useFieldInit({
+        id: idProp,
+        required,
+        readOnly,
+        disabled,
+        invalid: invalidProp,
+    });
+
     const [isShowingPassword, setIsShowingPassword] = useState(false);
 
     const togglePasswordVisibility = () => {
-        if (props.disabled || props.readOnly) return;
+        if (disabled || readOnly) return;
         setIsShowingPassword((prev) => !prev);
     };
 
     return (
-        <Input
+        <InputElement
             {...props}
+            aria-describedby={ariaDescribedBy}
+            aria-errormessage={ariaErrorMessage}
             autoComplete="off"
             containerRef={containerRef}
             data-bspk-owner="password"
+            id={id}
             inputProps={inputProps}
             inputRef={inputRef}
+            invalid={invalid}
             name={name}
             onChange={onChange}
             onClick={(e) => {
@@ -81,8 +107,8 @@ export function Password({ inputProps, inputRef, name, onChange, required, conta
             required={required}
             showClearButton={false}
             trailing={
-                !props.disabled &&
-                !props.readOnly && (
+                !disabled &&
+                !readOnly && (
                     <Button
                         data-toggle-visibility-button
                         label={isShowingPassword ? 'Hide' : 'Show'}

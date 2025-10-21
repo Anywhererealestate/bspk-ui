@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { FormField, FormFieldProps } from '.';
-import { Button } from '-/components//Button';
+import { Button } from '-/components/Button';
 import { DatePicker } from '-/components/DatePicker';
 import { FieldControlProp } from '-/components/Field';
 import { Input } from '-/components/Input';
@@ -10,7 +10,7 @@ import { Password } from '-/components/Password';
 import { Select } from '-/components/Select';
 import { Textarea } from '-/components/Textarea';
 import { TimePicker } from '-/components/TimePicker';
-import { ComponentExample, Preset } from '-/utils/demo';
+import { ComponentExample, Preset, Syntax } from '-/utils/demo';
 
 type ExampleProps = Partial<FieldControlProp & FormFieldProps>;
 
@@ -28,12 +28,31 @@ export const FormFieldExample: ComponentExample<ExampleProps> = {
     },
     disableProps: [],
     presets: presets as Preset<ExampleProps>[],
-    render: ({ props }) => <FormFieldExampleRender {...props} />,
-    sections: [],
+    render: ({ props, Component }) => (
+        <Component {...props}>
+            <Input name="input" onChange={() => {}} placeholder="Example input" value="" />
+        </Component>
+    ),
+    sections: [
+        {
+            title: 'Form Field Example',
+            content: ({ Syntax: syntax }) => (
+                <>
+                    <p>
+                        This example demonstrates the FormField component wrapping various form controls including
+                        DatePicker, Input, InputNumber, InputPhone, Password, Select, Textarea, and TimePicker. It
+                        showcases how to manage state and handle form submissions.
+                    </p>
+                    <FormFieldExampleRender syntax={syntax} />
+                </>
+            ),
+            location: 'afterDemo',
+        },
+    ],
     variants: false,
 };
 
-export function FormFieldExampleRender(props: ExampleProps) {
+export function FormFieldExampleRender({ syntax: Code, ...props }: ExampleProps & { syntax: Syntax }) {
     const [value, setValueState] = useState<{ [key: string]: unknown }>({});
 
     const setValue = (next: { [key: string]: unknown }) => {
@@ -66,7 +85,7 @@ export function FormFieldExampleRender(props: ExampleProps) {
                 });
                 setFormValues(next);
             }}
-            style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-sizing-04)' }}
+            style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-sizing-04)', width: '400px' }}
         >
             <FormField {...props} label="DatePicker">
                 <DatePicker
@@ -146,10 +165,7 @@ export function FormFieldExampleRender(props: ExampleProps) {
                 <Button label="Submit" type="submit" variant="primary" />
             </div>
 
-            <pre>
-                {'// Submitted Form Data\n'}
-                {formValues && JSON.stringify(formValues, null, 2)}
-            </pre>
+            <Code code={`// Submitted Form Data\n${JSON.stringify(formValues, null, 2)}`} />
         </form>
     );
 }

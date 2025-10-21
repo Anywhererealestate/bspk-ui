@@ -22,7 +22,11 @@ export type FormFieldProps = {
      * @required
      */
     children: ReactNode;
-    /** The helperText of the field. */
+    /**
+     * This text provides additional context or instructions for the field.
+     *
+     * If an errorMessage is present, the helperText will not be displayed.
+     */
     helperText?: string;
     /** The trailing element of the label. */
     labelTrailing?: React.ReactNode;

@@ -1,11 +1,11 @@
 import './textarea.scss';
 import { ChangeEvent, useRef } from 'react';
-import { useFieldInit } from '-/components/Field';
-import { CommonProps, FormFieldControlProps, SetRef } from '-/types/common';
+import { FieldControlProp, useFieldInit } from '-/components/Field';
+import { CommonProps, SetRef } from '-/types/common';
 import { cssWithVars } from '-/utils/cwv';
 
 export type TextareaProps = CommonProps<'aria-label' | 'disabled' | 'id' | 'invalid' | 'readOnly' | 'required'> &
-    FormFieldControlProps & {
+    FieldControlProp & {
         /**
          * Callback when the value of the field changes.
          *
@@ -107,14 +107,12 @@ export function Textarea({
     id: idProp,
     minRows = 4,
     maxRows = 10,
-    'aria-describedby': ariaDescribedBy,
-    'aria-errormessage': ariaErrorMessage,
     required,
     readOnly,
     disabled,
     ...otherProps
 }: TextareaProps) {
-    const { id, invalid } = useFieldInit({
+    const { id, invalid, ariaDescribedBy, ariaErrorMessage } = useFieldInit({
         id: idProp,
         required,
         readOnly,
@@ -135,6 +133,9 @@ export function Textarea({
     return (
         <div
             data-bspk="textarea"
+            data-disabled={disabled || undefined}
+            data-invalid={invalid || undefined}
+            data-read-only={readOnly || undefined}
             data-size={textSize}
             style={cssWithVars({
                 '--min-rows': minRows,

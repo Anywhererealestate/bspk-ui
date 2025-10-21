@@ -62,6 +62,12 @@
         --border-color: var(--status-error);
     }
 
+    &:focus-within {
+        --border-color: var(--stroke-neutral-focus);
+
+        outline: 1px solid var(--stroke-neutral-focus);
+    }
+
     &[data-size='small'] {
         --field-padding: var(--spacing-sizing-02);
         --field-height: var(--spacing-sizing-08);
@@ -113,12 +119,6 @@
         &[type='number']::-webkit-outer-spin-button {
             display: none;
         }
-    }
-
-    &:focus-within {
-        --border-color: var(--stroke-neutral-focus);
-
-        outline: 1px solid var(--stroke-neutral-focus);
     }
 }
 
