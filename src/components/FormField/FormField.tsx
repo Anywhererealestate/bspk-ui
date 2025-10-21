@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 import { Field, FieldLabel, FieldDescription, FieldError } from '-/components/Field';
 
 export type FormFieldControlProps<P extends Record<string, unknown>> = Omit<FormFieldProps, 'children'> &
-    Omit<P, keyof FormFieldProps>;
+    Omit<P, keyof FormFieldProps | 'invalid'>;
 
 export type FormFieldProps = {
     /** The error message to display when the field is invalid. */
