@@ -232,8 +232,6 @@ export type CalendarProps = {
  *
  * @name Calendar
  * @phase UXReview
- *
- * @generated
  */
 export function Calendar({ value: valueProp, onChange, variant = 'flat', focusTrap = false }: CalendarProps) {
     const baseId = useId();

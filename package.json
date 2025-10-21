@@ -135,8 +135,6 @@
         "./MenuButton/*": "./dist/components/MenuButton/*.js",
         "./Modal": "./dist/components/Modal/index.js",
         "./Modal/*": "./dist/components/Modal/*.js",
-        "./NumberInput": "./dist/components/NumberInput/index.js",
-        "./NumberInput/*": "./dist/components/NumberInput/*.js",
         "./OTPInput": "./dist/components/OTPInput/index.js",
         "./OTPInput/*": "./dist/components/OTPInput/*.js",
         "./PageControl": "./dist/components/PageControl/index.js",
