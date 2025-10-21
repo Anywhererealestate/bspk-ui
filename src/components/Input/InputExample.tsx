@@ -1,5 +1,4 @@
 import { InputProps } from '.';
-import { Field, FieldDescription, FieldLabel } from '-/components/Field';
 import { ComponentExample } from '-/utils/demo';
 
 type InputExampleProps = InputProps & { label: string; description?: string };
@@ -10,13 +9,7 @@ export const InputExample: ComponentExample<InputExampleProps> = {
         description: 'This is a description of the property.',
         placeholder: 'Waterfront condo with great views',
     },
-    render: ({ props, Component }) => (
-        <Field>
-            <FieldLabel>{props.label || 'Example Input'}</FieldLabel>
-            <Component {...props} />
-            {props.description && <FieldDescription>{props.description}</FieldDescription>}
-        </Field>
-    ),
+    render: ({ props, Component }) => <Component {...props} />,
     presets: [
         {
             label: 'Currency',
