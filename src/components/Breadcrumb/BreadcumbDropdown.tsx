@@ -82,7 +82,6 @@ export function BreadcrumbDropdown({ items: itemsProp, id, scrollLimit }: Breadc
                 innerRef={elements.setReference}
                 label={`Access to ${items.length} pages`}
                 name={`${name}-country-code`}
-                onBlur={() => closeMenu()}
                 onClick={(event) => {
                     const nextOpen = !open;
                     if (nextOpen) {
@@ -115,7 +114,6 @@ export function BreadcrumbDropdown({ items: itemsProp, id, scrollLimit }: Breadc
                     id={menuId}
                     innerRef={elements.setFloating}
                     label="Expanded breadcrumb"
-                    onBlur={() => closeMenu()}
                     owner="Breadcrumb"
                     role="menu"
                     style={{
