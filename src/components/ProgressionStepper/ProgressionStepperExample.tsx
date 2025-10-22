@@ -51,7 +51,7 @@ export const presets: Preset<ProgressionStepperProps>[] = [
         label: 'Widget (w/ subtext)',
         propState: {
             variant: 'widget',
-            completedStep: 3,
+            completedStep: 6,
             steps: [
                 { name: 'Name of step 1' },
                 { name: 'Name of step 2' },
