@@ -197,7 +197,7 @@ export function InputPhone({
                         <>
                             <Button
                                 aria-activedescendant={open ? activeElementId || undefined : undefined}
-                                aria-controls={menuId}
+                                aria-controls={open ? menuId : undefined}
                                 aria-disabled={disabled || undefined}
                                 aria-expanded={open}
                                 aria-haspopup="listbox"
@@ -292,9 +292,6 @@ export function InputPhone({
             )}
         </>
     );
-    //     }}
-    // </ListItemMenu>
-    //);
 }
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

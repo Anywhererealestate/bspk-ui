@@ -1,37 +1,14 @@
 import './breadcrumb.scss';
 import { SvgChevronRight } from '@bspk/icons/ChevronRight';
-import { SvgMoreHoriz } from '@bspk/icons/MoreHoriz';
-import { Button } from '-/components/Button';
+import { BreadcrumbDropdown, BreadcrumbItem } from './BreadcumbDropdown';
 import { Link } from '-/components/Link';
-import { ListItemMenu, ListItemMenuProps } from '-/components/ListItemMenu';
 import { Txt } from '-/components/Txt';
 import { useId } from '-/hooks/useId';
 import { CommonProps } from '-/types/common';
-import { useIds } from '-/utils/useIds';
-
-export type BreadcrumbItem = {
-    /**
-     * The label of the breadcrumb item.
-     *
-     * @example
-     *     Page 1
-     *
-     * @required
-     */
-    label: string;
-    /**
-     * The href of the breadcrumb item.
-     *
-     * @example
-     *     https://bspk.anywhere.re
-     *
-     * @required
-     */
-    href: string;
-};
+import { ScrollListItemsStyleProps } from '-/utils/scrollListItemsStyle';
 
 export type BreadcrumbProps = CommonProps<'id'> &
-    Pick<ListItemMenuProps, 'scrollLimit'> & {
+    ScrollListItemsStyleProps & {
         /**
          * The array of breadcrumb items.
          *
@@ -86,10 +63,8 @@ export type BreadcrumbProps = CommonProps<'id'> &
  * @name Breadcrumb
  * @phase UXReview
  */
-export function Breadcrumb({ id: propId, items: itemsProp = [], scrollLimit }: BreadcrumbProps) {
+export function Breadcrumb({ id: propId, items = [], scrollLimit }: BreadcrumbProps) {
     const id = useId(propId);
-
-    const items = useIds(`breadcrumb-${id}`, itemsProp);
 
     if (items.length < 2) return null;
 
@@ -101,33 +76,7 @@ export function Breadcrumb({ id: propId, items: itemsProp = [], scrollLimit }: B
                     <SvgChevronRight aria-hidden />
                 </li>
                 {items.length > 5 ? (
-                    <li>
-                        <ListItemMenu
-                            hideWhenClosed
-                            itemOnClick={({ setShow }) => setShow(false)}
-                            items={items.slice(1, items.length - 1)}
-                            label="Expanded breadcrumb"
-                            owner="Breadcrumb"
-                            placement="bottom"
-                            role="menu"
-                            scrollLimit={scrollLimit}
-                            width="200px"
-                        >
-                            {(triggerProps, { setRef, itemCount }) => (
-                                <Button
-                                    {...triggerProps}
-                                    icon={<SvgMoreHoriz />}
-                                    iconOnly
-                                    innerRef={setRef}
-                                    label={`Access to ${itemCount} pages`}
-                                    onClick={triggerProps.onClick}
-                                    size="small"
-                                    variant="tertiary"
-                                />
-                            )}
-                        </ListItemMenu>
-                        <SvgChevronRight aria-hidden />
-                    </li>
+                    <BreadcrumbDropdown id={id} items={items.slice(1, items.length - 1)} scrollLimit={scrollLimit} />
                 ) : (
                     items.slice(1, items.length - 1).map((item, idx) => (
                         <li key={`Breadcrumb-${idx}`}>
