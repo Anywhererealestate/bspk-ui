@@ -207,7 +207,7 @@ export function Select({
                 {...elementProps}
                 aria-activedescendant={activeElementId || undefined}
                 aria-autocomplete="list"
-                aria-controls={activeElementId ? menuId : undefined}
+                aria-controls={open ? menuId : undefined}
                 aria-describedby={ariaDescribedBy || undefined}
                 aria-disabled={disabled || readOnly || undefined}
                 aria-errormessage={ariaErrorMessage || undefined}
