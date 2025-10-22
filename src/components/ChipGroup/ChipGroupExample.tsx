@@ -22,7 +22,7 @@ export const presets: Preset<ChipGroupProps>[] = [
 
 export const ChipGroupExample: ComponentExampleFn<ChipGroupProps> = ({ action }) => ({
     presets,
-    render: ({ props, preset }) => {
+    render: ({ props, preset, Component }) => {
         if (!preset) return null;
 
         const handleChipInputClick = () => action('Chip clicked!');
@@ -144,7 +144,40 @@ export const ChipGroupExample: ComponentExampleFn<ChipGroupProps> = ({ action })
                     </ChipGroup>
                 );
             default:
-                return null;
+                return (
+                    <Component {...props}>
+                        <Chip
+                            label="chip 1"
+                            leadingIcon={<SvgLightbulb />}
+                            onClick={handleChipInputClick}
+                            trailingIcon={<SvgChevronRight />}
+                        />
+                        <Chip
+                            label="chip 2"
+                            leadingIcon={<SvgIcecream />}
+                            onClick={handleChipInputClick}
+                            trailingIcon={<SvgChevronRight />}
+                        />
+                        <Chip
+                            label="chip 3"
+                            leadingIcon={<SvgSignLanguage />}
+                            onClick={handleChipInputClick}
+                            trailingIcon={<SvgClose />}
+                        />
+                        <Chip
+                            label="chip 4"
+                            leadingIcon={<SvgOpportunities />}
+                            onClick={handleChipInputClick}
+                            trailingIcon={<SvgClose />}
+                        />
+                        <Chip
+                            label="chip 5"
+                            leadingIcon={<SvgCloud />}
+                            onClick={handleChipInputClick}
+                            trailingIcon={<SvgKeyboardArrowDown />}
+                        />
+                    </Component>
+                );
         }
     },
 });
