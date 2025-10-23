@@ -1,10 +1,10 @@
 import './radio-group.scss';
+import { useFieldInit } from '-/components/Field';
 import { RadioProps } from '-/components/Radio';
 import { RadioOption, RadioOptionProps } from '-/components/RadioOption';
-import { useId } from '-/hooks/useId';
 import { ElementProps, FieldControlProps } from '-/types/common';
 
-export type RadioGroupOption = Pick<RadioOptionProps, 'checked' | 'description' | 'disabled' | 'label' | 'name'> &
+export type RadioGroupOption = Pick<RadioOptionProps, 'checked' | 'description' | 'disabled' | 'label'> &
     Pick<RadioProps, 'value'>;
 
 export type RadioGroupProps = FieldControlProps & {
@@ -29,18 +29,6 @@ export type RadioGroupProps = FieldControlProps & {
      * @required
      */
     options: RadioGroupOption[];
-    /**
-     * The label of the radio group.
-     *
-     * @required
-     */
-    label: string;
-    /**
-     * Hides the RadioGroup label. When label isn't showing it is used as the aria-label prop.
-     *
-     * @default false
-     */
-    hideLabel?: boolean;
 };
 
 /**
@@ -79,36 +67,46 @@ export function RadioGroup({
     options = [],
     name,
     value: groupValue,
-    label: groupLabel,
-    hideLabel: hideLabelProp = false,
-    disabled: disabledGroup = false,
+    disabled = false,
+    readOnly,
+    invalid: invalidProp,
+    required,
+    id: idProp,
+    'aria-describedby': ariaDescribedByProp,
+    'aria-errormessage': ariaErrorMessageProp,
     ...props
 }: ElementProps<RadioGroupProps, 'div'>) {
-    const id = `radio-group-${useId()}`;
+    const { id, ariaDescribedBy, ariaErrorMessage, invalid } = useFieldInit({
+        idProp,
+        required,
+        disabled,
+        readOnly,
+        invalidProp,
+    });
 
     return (
         <div
             {...props}
-            aria-describedby={props['aria-describedby']}
-            aria-errormessage={props['aria-errormessage']}
-            aria-label={hideLabelProp ? groupLabel : undefined}
-            aria-labelledby={!hideLabelProp ? `${id}-label` : undefined}
+            aria-describedby={ariaDescribedByProp || ariaDescribedBy || undefined}
             data-bspk="radio-group"
             id={id}
             role="radiogroup"
         >
-            {!hideLabelProp && <label id={`${id}-label`}>{groupLabel}</label>}
             <div role="presentation">
-                {options.map(({ label, description, disabled, value }, index) => {
+                {options.map(({ label, description, value, ...option }, index) => {
                     return (
                         <RadioOption
+                            aria-describedby={ariaDescribedByProp || ariaDescribedBy || undefined}
+                            aria-errormessage={ariaErrorMessageProp || ariaErrorMessage || undefined}
                             checked={groupValue === value}
                             description={description}
-                            disabled={disabledGroup || disabled}
+                            disabled={disabled || option.disabled}
+                            invalid={invalid || undefined}
                             key={`radio-option-${value || index}`}
                             label={label}
                             name={name}
                             onChange={(checked) => checked && onChange(value)}
+                            required={required}
                             value={value}
                         />
                     );

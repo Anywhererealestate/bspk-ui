@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { FormField, FormFieldProps } from '.';
 import { Button } from '-/components/Button';
+import { CheckboxGroup } from '-/components/CheckboxGroup';
 import { DatePicker } from '-/components/DatePicker';
 import { Input } from '-/components/Input';
 import { InputNumber } from '-/components/InputNumber';
 import { InputPhone } from '-/components/InputPhone';
 import { Password } from '-/components/Password';
+import { RadioGroup } from '-/components/RadioGroup';
 import { Select } from '-/components/Select';
 import { SwitchOption } from '-/components/SwitchOption';
 import { Textarea } from '-/components/Textarea';
@@ -39,8 +41,14 @@ export const FormFieldExample: ComponentExample<ExampleProps> = {
                 <>
                     <p>
                         This example demonstrates the FormField component wrapping various form controls including
-                        DatePicker, Input, InputNumber, InputPhone, Password, Select, Textarea, and TimePicker. It
-                        showcases how to manage state and handle form submissions.
+                        CheckboxGroup, RadioGroup, DatePicker, Input, InputNumber, InputPhone, Password, Select,
+                        Textarea, and TimePicker. It showcases how to manage state and handle form submissions.
+                    </p>
+                    <p>
+                        All the controls have a HTML input element inside of them so they will work with form
+                        submissions natively. You can see the raw submitted{' '}
+                        <a href="https://developer.mozilla.org/en-US/docs/Web/API/FormData">FormData</a> at the bottom
+                        after clicking the Submit button.
                     </p>
                     <FormFieldExampleRender {...props} syntax={syntax} />
                 </>
@@ -60,9 +68,24 @@ export function FormFieldExampleRender({ ...props }: ExampleProps & { syntax?: S
 
     const [formValues, setFormValues] = useState<{ [key: string]: unknown }>({});
 
-    const [hasError, setHasError] = useState(false);
     const [disabled, setDisabled] = useState(!!props.disabled);
     const [required, setRequired] = useState(!!props.required);
+
+    const [fieldProps, setFieldProps] = useState<{
+        errorMessage: boolean;
+        description: boolean;
+    }>({
+        errorMessage: false,
+        description: false,
+    });
+
+    const internalProps = (label: string) => {
+        return {
+            errorMessage: fieldProps.errorMessage ? `This is an error message for the ${label}.` : undefined,
+            helperText: fieldProps.description ? `This is a description for the ${label}.` : undefined,
+            label,
+        };
+    };
 
     return (
         <>
@@ -73,10 +96,10 @@ export function FormFieldExampleRender({ ...props }: ExampleProps & { syntax?: S
                 }}
             >
                 <SwitchOption
-                    checked={hasError}
+                    checked={fieldProps.errorMessage}
                     label="Has Error"
                     name="hasError"
-                    onChange={setHasError}
+                    onChange={(checked) => setFieldProps((prev) => ({ ...prev, errorMessage: checked }))}
                     value="hasError"
                 />
                 <SwitchOption
@@ -92,6 +115,13 @@ export function FormFieldExampleRender({ ...props }: ExampleProps & { syntax?: S
                     name="required"
                     onChange={setRequired}
                     value="required"
+                />
+                <SwitchOption
+                    checked={!!fieldProps.description}
+                    label="With Description"
+                    name="description"
+                    onChange={(checked) => setFieldProps((prev) => ({ ...prev, description: checked }))}
+                    value="description"
                 />
             </div>
             <form
@@ -119,7 +149,35 @@ export function FormFieldExampleRender({ ...props }: ExampleProps & { syntax?: S
                 }}
                 style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-sizing-04)', width: '400px' }}
             >
-                <FormField {...props} errorMessage={hasError ? 'This is an error message' : ''} label="DatePicker">
+                <FormField {...props} as="fieldset" {...internalProps('CheckboxGroup')}>
+                    <CheckboxGroup
+                        disabled={disabled}
+                        name="checkbox-group"
+                        onChange={(next) => setValue({ 'checkbox-group': next })}
+                        options={[
+                            { label: 'Option 1', value: 'option1' },
+                            { label: 'Option 2', value: 'option2' },
+                            { label: 'Option 3', value: 'option3' },
+                        ]}
+                        required={required}
+                        value={value['checkbox-group'] as string[]}
+                    />
+                </FormField>
+                <FormField {...props} as="fieldset" {...internalProps('RadioGroup')}>
+                    <RadioGroup
+                        disabled={disabled}
+                        name="radio-group"
+                        onChange={(next) => setValue({ 'radio-group': next })}
+                        options={[
+                            { label: 'Option 1', value: 'option1' },
+                            { label: 'Option 2', value: 'option2' },
+                            { label: 'Option 3', value: 'option3' },
+                        ]}
+                        required={required}
+                        value={value['radio-group'] as string}
+                    />
+                </FormField>
+                <FormField {...props} {...internalProps('DatePicker')}>
                     <DatePicker
                         disabled={disabled}
                         name="date-picker"
@@ -129,7 +187,7 @@ export function FormFieldExampleRender({ ...props }: ExampleProps & { syntax?: S
                         value={value['date-picker'] as Date}
                     />
                 </FormField>
-                <FormField {...props} errorMessage={hasError ? 'This is an error message' : ''} label="Input">
+                <FormField {...props} {...internalProps('Input')}>
                     <Input
                         disabled={disabled}
                         name="input"
@@ -139,7 +197,7 @@ export function FormFieldExampleRender({ ...props }: ExampleProps & { syntax?: S
                         value={value['input'] as string}
                     />
                 </FormField>
-                <FormField {...props} errorMessage={hasError ? 'This is an error message' : ''} label="InputNumber">
+                <FormField {...props} {...internalProps('InputNumber')}>
                     <InputNumber
                         disabled={disabled}
                         name="input-number"
@@ -148,7 +206,7 @@ export function FormFieldExampleRender({ ...props }: ExampleProps & { syntax?: S
                         value={value['input-number'] as number}
                     />
                 </FormField>
-                <FormField {...props} errorMessage={hasError ? 'This is an error message' : ''} label="InputPhone">
+                <FormField {...props} {...internalProps('InputPhone')}>
                     <InputPhone
                         disabled={disabled}
                         name="input-phone"
@@ -157,7 +215,7 @@ export function FormFieldExampleRender({ ...props }: ExampleProps & { syntax?: S
                         value={value['input-phone'] as string}
                     />
                 </FormField>
-                <FormField {...props} errorMessage={hasError ? 'This is an error message' : ''} label="Password">
+                <FormField {...props} {...internalProps('Password')}>
                     <Password
                         disabled={disabled}
                         name="password"
@@ -166,7 +224,7 @@ export function FormFieldExampleRender({ ...props }: ExampleProps & { syntax?: S
                         value={value['password'] as string}
                     />
                 </FormField>
-                <FormField {...props} errorMessage={hasError ? 'This is an error message' : ''} label="Select">
+                <FormField {...props} {...internalProps('Select')}>
                     <Select
                         disabled={disabled}
                         name="select"
@@ -181,7 +239,7 @@ export function FormFieldExampleRender({ ...props }: ExampleProps & { syntax?: S
                         value={value['select'] as string}
                     />
                 </FormField>
-                <FormField {...props} errorMessage={hasError ? 'This is an error message' : ''} label="Textarea">
+                <FormField {...props} {...internalProps('Textarea')}>
                     <Textarea
                         disabled={disabled}
                         name="textarea"
@@ -191,7 +249,7 @@ export function FormFieldExampleRender({ ...props }: ExampleProps & { syntax?: S
                         value={value['textarea'] as string}
                     />
                 </FormField>
-                <FormField {...props} errorMessage={hasError ? 'This is an error message' : ''} label="TimePicker">
+                <FormField {...props} {...internalProps('TimePicker')}>
                     <TimePicker
                         disabled={disabled}
                         name="time-picker"
@@ -204,7 +262,6 @@ export function FormFieldExampleRender({ ...props }: ExampleProps & { syntax?: S
                     <Button label="Reset" type="reset" variant="secondary" />
                     <Button label="Submit" type="submit" variant="primary" />
                 </div>
-
                 <code
                     style={{
                         background: 'var(--surface-neutral-t3-low)',
@@ -213,7 +270,7 @@ export function FormFieldExampleRender({ ...props }: ExampleProps & { syntax?: S
                         borderRadius: 'var(--radius-sm)',
                     }}
                 >
-                    <pre>{`// Submitted Form Data\n\n${JSON.stringify(formValues, null, 2)}`}</pre>
+                    <pre>{`// Raw FormData\n\n${JSON.stringify(formValues, null, 2)}`}</pre>
                 </code>
             </form>
         </>
