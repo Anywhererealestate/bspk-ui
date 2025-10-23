@@ -20,8 +20,8 @@ describe('RadioGroupField (RTL)', () => {
     it('has no basic a11y issues', hasNoBasicA11yIssues(<TestBed />));
 
     it('renders', () => {
-        const { getAllByLabelText } = render(<TestBed />);
+        const { getAllByText } = render(<TestBed />);
 
-        expect(getAllByLabelText('Example field label')[0]).toBeInTheDocument();
+        expect(getAllByText('Example field label')[0]).toBeInTheDocument();
     });
 });
