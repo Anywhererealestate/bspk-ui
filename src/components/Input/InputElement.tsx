@@ -2,7 +2,6 @@ import './input.scss';
 import { SvgCancel } from '@bspk/icons/Cancel';
 import { ChangeEvent, HTMLInputTypeAttribute, ReactNode, useMemo, useRef, useState } from 'react';
 import { Button } from '-/components/Button';
-import { FieldContextProps, FieldControlProp } from '-/components/Field';
 import { useTimeout } from '-/hooks/useTimeout';
 import { CommonProps, ElementProps, SetRef } from '-/types/common';
 
@@ -13,54 +12,64 @@ export const DEFAULT = {
     autoComplete: 'off',
 } as const;
 
-type InputElementBaseProps = CommonProps<'name' | 'owner' | 'size' | 'value'> &
-    FieldControlProp &
-    Pick<FieldContextProps, 'ariaDescribedBy' | 'ariaErrorMessage'> & {
-        /**
-         * Callback when the value of the field changes.
-         *
-         * @required
-         */
-        onChange: (next: string, event?: ChangeEvent<HTMLInputElement>) => void;
-        /** The ref of the container. */
-        containerRef?: SetRef<HTMLDivElement>;
-        /** The ref of the input. */
-        inputRef?: SetRef<HTMLInputElement>;
-        /**
-         * The trailing element to display in the field.
-         *
-         * @exampleType string
-         */
-        trailing?: ReactNode;
-        /**
-         * The leading element to display in the field.
-         *
-         * @exampleType string
-         */
-        leading?: ReactNode;
-        /** The placeholder of the field. */
-        placeholder?: string;
-        /**
-         * The type of the input.
-         *
-         * @default text
-         */
-        type?: Extract<HTMLInputTypeAttribute, 'number' | 'password' | 'text'>;
-        /**
-         * Specifies if user agent has any permission to provide automated assistance in filling out form field values
-         *
-         * @default off
-         */
-        autoComplete?: 'off' | 'on';
-        /**
-         * Specifies if the clear button should be shown. This should almost always be true, but can be set to false.
-         *
-         * @default true
-         */
-        showClearButton?: boolean;
-        /** The aria-label of the input element. */
-        'aria-label'?: string;
-    };
+type InputElementBaseProps = CommonProps<
+    | 'aria-describedby'
+    | 'aria-errormessage'
+    | 'disabled'
+    | 'id'
+    | 'invalid'
+    | 'name'
+    | 'owner'
+    | 'readOnly'
+    | 'required'
+    | 'size'
+    | 'value'
+> & {
+    /**
+     * Callback when the value of the field changes.
+     *
+     * @required
+     */
+    onChange: (next: string, event?: ChangeEvent<HTMLInputElement>) => void;
+    /** The ref of the container. */
+    containerRef?: SetRef<HTMLDivElement>;
+    /** The ref of the input. */
+    inputRef?: SetRef<HTMLInputElement>;
+    /**
+     * The trailing element to display in the field.
+     *
+     * @exampleType string
+     */
+    trailing?: ReactNode;
+    /**
+     * The leading element to display in the field.
+     *
+     * @exampleType string
+     */
+    leading?: ReactNode;
+    /** The placeholder of the field. */
+    placeholder?: string;
+    /**
+     * The type of the input.
+     *
+     * @default text
+     */
+    type?: Extract<HTMLInputTypeAttribute, 'number' | 'password' | 'text'>;
+    /**
+     * Specifies if user agent has any permission to provide automated assistance in filling out form field values
+     *
+     * @default off
+     */
+    autoComplete?: 'off' | 'on';
+    /**
+     * Specifies if the clear button should be shown. This should almost always be true, but can be set to false.
+     *
+     * @default true
+     */
+    showClearButton?: boolean;
+    /** The aria-label of the input element. */
+    'aria-label'?: string;
+};
 
 export type InputElementProps = InputElementBaseProps & {
     inputProps?: Omit<React.InputHTMLAttributes<HTMLInputElement>, keyof InputElementBaseProps>;
@@ -110,8 +119,8 @@ export function InputElement({
     showClearButton: showClearButtonProp = true,
     owner,
     inputProps,
-    ariaDescribedBy,
-    ariaErrorMessage,
+    'aria-describedby': ariaDescribedBy,
+    'aria-errormessage': ariaErrorMessage,
     ...props
 }: ElementProps<InputElementProps, 'div'>) {
     const [focused, setFocused] = useState(false);

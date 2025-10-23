@@ -1,10 +1,10 @@
 import { ReactNode } from 'react';
-import { Field, FieldLabel, FieldDescription, FieldError } from '-/components/Field';
+import { Field, FieldLabel, FieldDescription, FieldError, FieldContext } from '-/components/Field';
 
 export type FormFieldControlProps<P extends Record<string, unknown>> = Omit<FormFieldProps, 'children'> &
-    Omit<P, keyof FormFieldProps | 'invalid'>;
+    Omit<P, keyof FormFieldProps>;
 
-export type FormFieldProps = {
+export type FormFieldProps = Pick<FieldContext, 'labelTrailing'> & {
     /** Displays an error message and marks the field as invalid. */
     errorMessage?: string;
     /**
@@ -13,6 +13,8 @@ export type FormFieldProps = {
      * @required
      */
     label: string;
+    /** Whether to visually hide the label. */
+    hideLabel?: boolean;
     /**
      * The children of the form field. This should at least contain a FieldLabel component and a control such as
      * DatePicker, Input, InputNumber, InputPhone, Password, Select, Textarea, or TimePicker.
@@ -28,8 +30,6 @@ export type FormFieldProps = {
      * If an errorMessage is present, the helperText will not be displayed.
      */
     helperText?: string;
-    /** The trailing element of the label. */
-    labelTrailing?: React.ReactNode;
 };
 /**
  * Wrapper component for form controls.
@@ -65,10 +65,12 @@ export type FormFieldProps = {
  * @name FormField
  * @phase Utility
  */
-export function FormField({ label, errorMessage, helperText, children, labelTrailing }: FormFieldProps) {
+export function FormField({ label, errorMessage, helperText, children, labelTrailing, hideLabel }: FormFieldProps) {
     return (
         <Field>
-            <FieldLabel labelTrailing={labelTrailing}>{label}</FieldLabel>
+            <FieldLabel data-sr-only={hideLabel || undefined} labelTrailing={labelTrailing}>
+                {label}
+            </FieldLabel>
             {children}
             {!errorMessage && helperText && <FieldDescription>{helperText}</FieldDescription>}
             <FieldError>{errorMessage}</FieldError>

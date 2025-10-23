@@ -1,10 +1,11 @@
 import './field.scss';
-import { ReactNode, useState } from 'react';
-import { fieldContext, FieldContextProps } from './utils';
+import { Children, ElementType, isValidElement, ReactNode, useMemo, useState } from 'react';
+
+import { describedById, errorMessageId, fieldContext, FieldContext, labelledById } from './utils';
 import { ElementProps } from '-/types/common';
 import { randomString } from '-/utils/random';
 
-export type FieldProps = {
+export type FieldProps<As extends ElementType = ElementType> = {
     /**
      * The children of the form field. This should be a control such as DatePicker, Input, InputNumber, InputPhone,
      * Password, Select, Textarea, or TimePicker.
@@ -12,6 +13,21 @@ export type FieldProps = {
      * @required
      */
     children: ReactNode;
+    /**
+     * The element type to render the field as.
+     *
+     * @default div
+     * @type ElementType
+     */
+    as?: As;
+    /** The unique id for the field. */
+    id?: string;
+};
+
+const isComponentName = (child: ReactNode, name: string) => {
+    if (!isValidElement(child) || typeof child.type === 'string' || !child.props.children) return false;
+    const componentRType = child.type as { name?: string; displayName?: string };
+    return componentRType.displayName === name || componentRType.name === name;
 };
 
 /**
@@ -49,26 +65,44 @@ export type FieldProps = {
  * @name Field
  * @phase Utility
  */
-export function Field({ children, ...props }: ElementProps<FieldProps, 'div'>) {
-    const [fieldContextValue, setFieldContextValue] = useState<FieldContextProps>(() => ({
-        id: `field-${randomString()}`,
-    }));
+export function Field<As extends ElementType = ElementType>({
+    children,
+    as,
+    id: idProp,
+    ...props
+}: ElementProps<FieldProps<As>, As>) {
+    const id = useMemo(() => idProp || `field-${randomString(8)}`, [idProp]);
+
+    const childContext = useMemo(() => {
+        const next: Partial<FieldContext> = {};
+        Children.forEach(children, (child) => {
+            if (!isValidElement(child)) return;
+            if (isComponentName(child, 'FieldError')) next.ariaErrorMessage = errorMessageId(id);
+            else if (isComponentName(child, 'FieldLabel')) next.ariaLabelledBy = labelledById(id);
+            else if (isComponentName(child, 'FieldDescription')) next.ariaDescribedBy = describedById(id);
+            else if (isValidElement(child) && typeof child.type !== 'string' && child.props.id) {
+                return;
+            }
+        });
+        return next;
+    }, [children, id]);
+
+    const [contextValue, setContext] = useState<Partial<FieldContext>>(childContext);
+
+    const As = as || 'div';
 
     return (
         <fieldContext.Provider
             value={{
-                ...fieldContextValue,
-                setField: (partial) => setFieldContextValue((prev) => ({ ...prev, ...partial })),
+                ...childContext,
+                ...contextValue,
+                id,
+                setContext: (updates) => setContext((prev) => ({ ...prev, ...updates })),
             }}
         >
-            <div
-                {...props}
-                data-bspk-utility="field"
-                data-invalid={fieldContextValue.invalid || undefined}
-                role="group"
-            >
+            <As {...props} data-bspk-utility="field" id={id} role="group">
                 {children}
-            </div>
+            </As>
         </fieldContext.Provider>
     );
 }

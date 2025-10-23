@@ -1,7 +1,7 @@
 import './input-number.scss';
 import { useMemo } from 'react';
 import { IncrementButton } from './IncrementButton';
-import { FieldControlProp, useFieldInit } from '-/components/Field';
+import { useFieldInit } from '-/components/Field';
 import { useId } from '-/hooks/useId';
 import { CommonProps } from '-/types/common';
 
@@ -12,41 +12,38 @@ function isNumber(value: unknown, fallbackValue: number | undefined = undefined)
     return isNaN(num) ? fallbackValue : num;
 }
 
-export type InputNumberProps = CommonProps<'aria-label' | 'name' | 'size'> &
-    FieldControlProp & {
-        /** The value of the control. */
-        value?: number;
-        /**
-         * Callback when the value changes.
-         *
-         * @required
-         */
-        onChange: (value: number | string | undefined) => void;
-        /**
-         * The alignment of the input box. Centered between the plus and minus buttons or to the left of the buttons.
-         *
-         * @default center
-         */
-        align?: 'center' | 'left';
-        /**
-         * Defines the [maximum](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/max) value that is
-         * accepted.
-         */
-        max?: number;
-        /**
-         * Defines the [minimum](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/min) value that is
-         * accepted.
-         *
-         * @default 0
-         */
-        min?: number;
-        /**
-         * The amount to increment or decrement the value by when the (+) or (-) buttons are pressed.
-         *
-         * @default 1
-         */
-        step?: number;
-    };
+export type InputNumberProps = CommonProps<
+    'aria-label' | 'disabled' | 'id' | 'invalid' | 'name' | 'readOnly' | 'required' | 'size'
+> & {
+    /** The value of the control. */
+    value?: number;
+    /**
+     * Callback when the value changes.
+     *
+     * @required
+     */
+    onChange: (value: number | string | undefined) => void;
+    /**
+     * The alignment of the input box. Centered between the plus and minus buttons or to the left of the buttons.
+     *
+     * @default center
+     */
+    align?: 'center' | 'left';
+    /** Defines the [maximum](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/max) value that is accepted. */
+    max?: number;
+    /**
+     * Defines the [minimum](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/min) value that is accepted.
+     *
+     * @default 0
+     */
+    min?: number;
+    /**
+     * The amount to increment or decrement the value by when the (+) or (-) buttons are pressed.
+     *
+     * @default 1
+     */
+    step?: number;
+};
 
 /**
  * A input element that allows users to either input a numerical value or singularly increase or decrease the values by
@@ -106,16 +103,12 @@ export function InputNumber({
     min = 0,
     invalid: invalidProp = false,
     step = 1,
-    required: requiredProp = false,
+    required = false,
     ...inputElementProps
 }: InputNumberProps) {
-    const { id, ariaDescribedBy, ariaErrorMessage, invalid, required } = useFieldInit({
-        id: idProp,
-        readOnly,
-        disabled,
-        invalid: invalidProp,
-        required: requiredProp,
-    });
+    const id = useId(idProp);
+    const { ariaDescribedBy, ariaErrorMessage } = useFieldInit({ required });
+    const invalid = !disabled && !readOnly && (invalidProp || !!ariaErrorMessage);
 
     const max = typeof maxProp === 'number' && maxProp >= min ? maxProp : Number.MAX_SAFE_INTEGER;
     const centered = align !== 'left';
@@ -148,7 +141,7 @@ export function InputNumber({
                 {...inputElementProps}
                 aria-describedby={ariaDescribedBy || undefined}
                 aria-errormessage={ariaErrorMessage || undefined}
-                aria-invalid={invalid}
+                aria-invalid={invalid || undefined}
                 aria-label={ariaLabel}
                 autoComplete="off"
                 data-input

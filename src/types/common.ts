@@ -122,18 +122,15 @@ export type CommonPropsLibrary = {
      * @type string
      */
     role?: AriaRole;
-};
-
-export type CommonProps<K extends keyof CommonPropsLibrary> = Pick<CommonPropsLibrary, K>;
-
-export type RequiredCommonProps<K extends keyof CommonPropsLibrary> = Required<Pick<CommonPropsLibrary, K>>;
-
-export type FormFieldControlProps = {
     /** The id of the control description. */
     'aria-describedby'?: string;
     /** The id of the error message */
     'aria-errormessage'?: string;
 };
+
+export type CommonProps<K extends keyof CommonPropsLibrary> = Pick<CommonPropsLibrary, K>;
+
+export type RequiredCommonProps<K extends keyof CommonPropsLibrary> = Required<Pick<CommonPropsLibrary, K>>;
 
 export type Brand =
     | 'anywhere'

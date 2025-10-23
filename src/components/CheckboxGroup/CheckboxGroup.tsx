@@ -1,59 +1,67 @@
+import './checkbox-groups.scss';
 import { Checkbox } from '-/components/Checkbox';
+import { useFieldInit } from '-/components/Field';
 import { ToggleOptionProps, ToggleOption } from '-/components/ToggleOption';
-import { ElementProps, CommonProps, FormFieldControlProps } from '-/types/common';
+import { useId } from '-/hooks/useId';
+import { ElementProps, CommonProps } from '-/types/common';
+import { cssWithVars } from '-/utils/cwv';
 
-export type CheckboxGroupOption = Pick<ToggleOptionProps, 'description' | 'disabled' | 'label'> &
+export type CheckboxGroupOption = Pick<ToggleOptionProps, 'description' | 'disabled' | 'invalid' | 'label'> &
     Required<CommonProps<'value'>>;
 
-export type CheckboxGroupProps = CommonProps<'aria-label' | 'disabled' | 'readOnly'> &
-    FormFieldControlProps & {
-        /**
-         * The function to call when the checkboxes are changed.
-         *
-         * @example
-         *     (values) => setState({ values });
-         *
-         * @required
-         */
-        onChange: (values: string[]) => void;
-        /**
-         * The input control name of the checkboxes.
-         *
-         * @required
-         */
-        name: string;
-        /**
-         * The options for the checkboxes.
-         *
-         * @example
-         *     [
-         *         { label: 'Option 1', value: 'option1' },
-         *         { label: 'Option 2', value: 'option2' },
-         *         { label: 'Option 3', value: 'option3' },
-         *     ];
-         *
-         * @type Array<CheckboxGroupOption>
-         * @required
-         */
-        options: CheckboxGroupOption[];
-        /**
-         * The values of the checked checkboxes.
-         *
-         * @type Array<string>
-         */
-        values?: CheckboxGroupProps['options'][number]['value'][];
-        /**
-         * Whether to show a select all checkbox at the top of the list.
-         *
-         * @default false
-         */
-        selectAll?: boolean;
-        /** The props for the select all checkbox. */
-        selectAllProps?: CheckboxGroupOption;
-    };
+export type CheckboxGroupProps = CommonProps<'aria-label' | 'disabled' | 'invalid' | 'required'> & {
+    /**
+     * The function to call when the checkboxes are changed.
+     *
+     * @example
+     *     (values) => setState({ values });
+     *
+     * @required
+     */
+    onChange: (values: string[]) => void;
+    /**
+     * The input control name of the checkboxes.
+     *
+     * @required
+     */
+    name: string;
+    /**
+     * The options for the checkboxes.
+     *
+     * @example
+     *     [
+     *         { label: 'Option 1', value: 'option1' },
+     *         { label: 'Option 2', value: 'option2' },
+     *         { label: 'Option 3', value: 'option3' },
+     *     ];
+     *
+     * @type Array<CheckboxGroupOption>
+     * @required
+     */
+    options: CheckboxGroupOption[];
+    /**
+     * The values of the checked checkboxes.
+     *
+     * @type Array<string>
+     */
+    values?: CheckboxGroupProps['options'][number]['value'][];
+    /**
+     * Whether to show a select all checkbox at the top of the list.
+     *
+     * If a string is provided, it will be used as the label for the select all option.
+     *
+     * If true, the label will default to "All".
+     *
+     * @default false
+     * @type boolean
+     */
+    selectAll?: boolean | string;
+};
 
 /**
  * A group of checkboxes that allows users to choose one or more items from a list or turn an feature on or off.
+ *
+ * For a more complete example with field usage, see the CheckboxGroupField component.
  *
  * @example
  *     import { CheckboxGroup } from '@bspk/ui/CheckboxGroup';
@@ -87,56 +95,66 @@ export function CheckboxGroup({
     name,
     values = [],
     selectAll,
-    selectAllProps,
-    disabled: disabledGroup = false,
-    readOnly,
-    'aria-describedby': ariaDescribedBy,
-    'aria-errormessage': ariaErrorMessage,
+    disabled = false,
+    invalid: invalidProp = false,
+    'aria-describedby': ariaDescribedByProp,
+    'aria-errormessage': ariaErrorMessageProp,
+    id: idProp,
+    required,
     ...props
 }: ElementProps<CheckboxGroupProps, 'div'>) {
+    const id = useId(idProp);
+    const fieldProps = useFieldInit({ required });
+    const invalid = !disabled && (invalidProp || !!fieldProps.ariaErrorMessage);
+
     return (
         <div
             {...props}
-            aria-describedby={ariaErrorMessage || ariaDescribedBy || undefined}
+            aria-describedby={ariaDescribedByProp || fieldProps.ariaDescribedBy || undefined}
+            aria-label={props['aria-label']}
             data-bspk="checkbox-group"
+            id={id}
             role="group"
+            style={cssWithVars({
+                '--list-item-height': 'auto',
+            })}
         >
-            {selectAll && (
-                <ToggleOption label={selectAllProps?.label || 'All'} readOnly={readOnly}>
+            {!!selectAll && (
+                <ToggleOption disabled={disabled} label={typeof selectAll === 'string' ? selectAll : 'All'}>
                     <Checkbox
-                        aria-label={selectAllProps?.label || 'All'}
+                        aria-errormessage={ariaErrorMessageProp || fieldProps.ariaErrorMessage || undefined}
+                        aria-label={typeof selectAll === 'string' ? selectAll : 'All'}
                         checked={!!values.length && values.length === options.length}
                         data-testid="selectAll-Checkbox"
-                        disabled={disabledGroup}
+                        disabled={disabled}
                         indeterminate={!!values.length && values.length < options.length}
+                        invalid={invalid}
                         name={name}
                         onChange={(checked) => onChange(checked ? options.map((o) => o.value) : [])}
-                        readOnly={readOnly}
                         value="all"
                     />
                 </ToggleOption>
             )}
-            {options.map(({ label, description, value, disabled }) => (
-                <ToggleOption
-                    description={description}
-                    disabled={disabled || disabledGroup}
-                    key={value}
-                    label={label}
-                    readOnly={readOnly}
-                >
-                    <Checkbox
-                        aria-label={label}
-                        checked={values.includes(value)}
-                        disabled={disabled || disabledGroup}
-                        name={name}
-                        onChange={(checked) => {
-                            onChange(checked ? [...values, value] : values.filter((v) => v !== value));
-                        }}
-                        readOnly={readOnly}
-                        value={value}
-                    />
-                </ToggleOption>
-            ))}
+            <ul>
+                {options.map(({ label, description, value, ...item }, index) => (
+                    <li key={`checkbox-group-option-${index}`}>
+                        <ToggleOption description={description} disabled={item.disabled || disabled} label={label}>
+                            <Checkbox
+                                aria-errormessage={ariaErrorMessageProp || fieldProps.ariaErrorMessage || undefined}
+                                aria-label={label}
+                                checked={values.includes(value)}
+                                disabled={item.disabled || disabled}
+                                invalid={invalid}
+                                name={name}
+                                onChange={(checked) => {
+                                    onChange(checked ? [...values, value] : values.filter((v) => v !== value));
+                                }}
+                                value={value}
+                            />
+                        </ToggleOption>
+                    </li>
+                ))}
+            </ul>
         </div>
     );
 }

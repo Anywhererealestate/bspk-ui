@@ -1,73 +1,97 @@
-import { createContext, ReactNode, useContext, useEffect } from 'react';
-import { CommonProps } from '-/types/common';
-import { randomString } from '-/utils/random';
+import { createContext, useContext, useEffect } from 'react';
 
-export type FieldControlProp = CommonProps<'disabled' | 'id' | 'invalid' | 'readOnly' | 'required'>;
+export const errorMessageId = (id: string) => `${id}-field-error`;
+export const labelledById = (id: string) => `${id}-label`;
+export const describedById = (id: string) => `${id}-description`;
 
-/** The props that are provided via context to all Field subcomponents. */
-export type FieldContextProps = FieldControlProp & {
-    /** The aria-describedby attribute value that should be applied to the field input element. */
+/**
+ * The props that are provided via context to all Field subcomponents.
+ *
+ * `disabled`, `readOnly`, `required`, `labelTrailing`, and `id` are one-way props that are intended to be set by the
+ * control component using the useFieldInit hook.
+ *
+ * `ariaDescribedBy`, `ariaErrorMessage` are two-way props that can be set by both the control component and Field
+ * subcomponents.
+ *
+ * When FieldError sets `ariaErrorMessage`, it sets the context `invalid` as true.
+ *
+ * When FieldLabel sets `labelTrailing`, it adds content to appear after the label.
+ *
+ * Intended to be set by the control component (e.g., Input, Textarea) via the useFieldInit hook.
+ */
+export type FieldContextProps = {
+    id: string;
+    /**
+     * Text that appears after the label, but before the input (e.g. "optional").
+     *
+     * Intended to be set by the control component (e.g., Input, Textarea) via the useFieldInit hook and read by
+     * FieldLabel.
+     */
+    labelTrailing?: string;
+    /**
+     * Whether the field is required.
+     *
+     * Intended to be set by the control component (e.g., Input, Textarea) via the useFieldInit hook and read by
+     * FieldLabel.
+     */
+    required?: boolean;
+    /** The id of the control description. */
     ariaDescribedBy?: string;
-    /** The aria-errormessage attribute value that should be applied to the field input element. */
+    /** The id of the error message */
     ariaErrorMessage?: string;
-    /** Text that appears after the label, but before the input (e.g. "optional"). */
-    labelTrailing?: ReactNode | string;
-    /** Unless set to false, the id will be used as the htmlFor attribute. */
-    htmlFor?: string | false;
+    /** The id of the label element. */
+    ariaLabelledBy?: string;
 };
 
-export const fieldContext = createContext<
-    (FieldContextProps & { setField: (props: FieldContextProps) => void }) | null
->(null);
+export type FieldContext = FieldContextProps & {
+    setContext: (updates: Partial<FieldContext>) => void;
+};
 
-export function useFieldContext(): FieldContextProps & {
-    setField: (props: FieldContextProps) => void;
-} {
+export const fieldContext = createContext<FieldContext | null>(null);
+
+export function useFieldContext(): FieldContext {
     return (
         useContext(fieldContext) || {
-            id: undefined as unknown as string,
-            setField: () => {},
+            id: '',
+            setContext: () => {},
         }
     );
 }
-
-export function useFieldInit(defaults?: FieldContextProps): FieldContextProps & {
-    setField: (props: FieldContextProps) => void;
-    ariaDescribedBy?: string;
-    ariaErrorMessage?: string;
-} {
+/**
+ * This hook initializes field context values for control components that are children of a Field component.
+ *
+ * @param defaults - Default values to initialize the field context with.
+ * @returns {{
+ *     id: string; - The unique id for the field. Generated if not provided.
+ *     invalid: boolean; - Whether the field is in an invalid state based on defaults and whether there is an error message.
+ *     ariaDescribedBy?: string; - The aria-describedby attribute value to apply to the control component.
+ *     ariaErrorMessage?: string; - The aria-errormessage attribute value to apply to the control component.
+ * }}
+ *   The initialized field context values.
+ */
+export function useFieldInit(defaults?: Pick<FieldContext, 'labelTrailing' | 'required'>): FieldContext {
     const context = useContext(fieldContext);
 
     useEffect(() => {
-        // skip if no context or defaults
-        if (!context || !context.setField || !defaults) return;
+        if (!context || !defaults) return;
 
-        // prevent duplicate calls
-        const shouldUpdate = Object.keys(defaults).some((key) => {
-            // don't reset id defaults.id is falsey
-            if (key === 'id') return defaults.id && context.id !== defaults.id;
-            return context[key as keyof FieldContextProps] !== defaults[key as keyof FieldContextProps];
-        });
+        const updates: Partial<FieldContext>[] = [];
 
-        if (shouldUpdate)
-            context.setField({
-                ...defaults,
-                // generate a unique id if none is provided
-                id: defaults.id || context.id || `field-${randomString(8)}`,
-            });
-    }, [context, defaults]);
+        if (defaults.required && !!context.required !== !!defaults.required) {
+            updates.push({ required: defaults.required });
+        }
+
+        if (defaults.labelTrailing && context.labelTrailing !== defaults.labelTrailing) {
+            updates.push({ labelTrailing: defaults.labelTrailing });
+        }
+
+        if (updates.length > 0) context.setContext(Object.assign({}, ...updates));
+    }, [defaults, context]);
 
     if (!context) {
-        return {
-            ...defaults,
-            id: defaults?.id || ``,
-            setField: () => {},
-        };
+        return { ...defaults, id: '', setContext: () => {} };
     }
 
     // consider field invalid if there is an error message
-    return {
-        ...context,
-        invalid: !defaults?.disabled && !defaults?.readOnly && (context.invalid || !!context.ariaErrorMessage),
-    };
+    return context;
 }

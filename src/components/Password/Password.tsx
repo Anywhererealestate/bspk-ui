@@ -1,11 +1,25 @@
 import './password.scss';
 import { useState } from 'react';
 import { Button } from '-/components/Button';
-import { FieldControlProp, useFieldInit } from '-/components/Field';
+import { useFieldInit } from '-/components/Field';
 import { InputElement, InputProps } from '-/components/Input';
+import { useId } from '-/hooks/useId';
 
-export type PasswordProps = FieldControlProp &
-    Pick<InputProps, 'containerRef' | 'inputProps' | 'inputRef' | 'name' | 'onChange' | 'size' | 'value'>;
+export type PasswordProps = Pick<
+    InputProps,
+    | 'containerRef'
+    | 'disabled'
+    | 'id'
+    | 'inputProps'
+    | 'inputRef'
+    | 'invalid'
+    | 'name'
+    | 'onChange'
+    | 'readOnly'
+    | 'required'
+    | 'size'
+    | 'value'
+>;
 
 /**
  * An input field that is specifically built with a show/hide toggle for entering security passwords.
@@ -57,13 +71,9 @@ export function Password({
     id: idProp,
     ...props
 }: PasswordProps) {
-    const { id, invalid, ariaDescribedBy, ariaErrorMessage } = useFieldInit({
-        id: idProp,
-        required,
-        readOnly,
-        disabled,
-        invalid: invalidProp,
-    });
+    const id = useId(idProp);
+    const { ariaDescribedBy, ariaErrorMessage } = useFieldInit({ required });
+    const invalid = !disabled && !readOnly && (invalidProp || !!ariaErrorMessage);
 
     const [isShowingPassword, setIsShowingPassword] = useState(false);
 

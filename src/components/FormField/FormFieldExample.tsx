@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { FormField, FormFieldProps } from '.';
 import { Button } from '-/components/Button';
 import { DatePicker } from '-/components/DatePicker';
-import { FieldControlProp } from '-/components/Field';
 import { Input } from '-/components/Input';
 import { InputNumber } from '-/components/InputNumber';
 import { InputPhone } from '-/components/InputPhone';
@@ -10,9 +9,10 @@ import { Password } from '-/components/Password';
 import { Select } from '-/components/Select';
 import { Textarea } from '-/components/Textarea';
 import { TimePicker } from '-/components/TimePicker';
+import { CommonProps } from '-/types/common';
 import { ComponentExample, Preset, Syntax } from '-/utils/demo';
 
-type ExampleProps = Partial<FieldControlProp & FormFieldProps>;
+type ExampleProps = Partial<CommonProps<'disabled'> & FormFieldProps>;
 
 export const presets: Preset<Partial<ExampleProps>>[] = [
     {

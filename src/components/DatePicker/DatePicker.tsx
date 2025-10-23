@@ -8,13 +8,23 @@ import { useFieldInit } from '-/components/Field';
 import { InputElement, InputProps } from '-/components/Input';
 import { Portal } from '-/components/Portal';
 import { useFloating } from '-/hooks/useFloating';
+import { useId } from '-/hooks/useId';
 import { useOutsideClick } from '-/hooks/useOutsideClick';
 
 const parsableDate = (dateString: string) => /^\d{1,2}\/\d{1,2}\/\d{4}$/.test(dateString);
 
 export type DatePickerProps = Pick<
     InputProps,
-    'aria-label' | 'disabled' | 'id' | 'invalid' | 'name' | 'readOnly' | 'required' | 'size'
+    | 'aria-describedby'
+    | 'aria-errormessage'
+    | 'aria-label'
+    | 'disabled'
+    | 'id'
+    | 'invalid'
+    | 'name'
+    | 'readOnly'
+    | 'required'
+    | 'size'
 > & {
     /**
      * The value of the calendar input
@@ -82,14 +92,12 @@ export function DatePicker({
     size,
     id: idProp,
     'aria-label': ariaLabel,
+    'aria-describedby': ariaDescribedByProp,
+    'aria-errormessage': ariaErrorMessageProp,
 }: DatePickerProps) {
-    const { id, ariaDescribedBy, ariaErrorMessage, invalid } = useFieldInit({
-        id: idProp,
-        required,
-        readOnly,
-        disabled,
-        invalid: invalidProp,
-    });
+    const id = useId(idProp);
+    const fieldProps = useFieldInit({ required });
+    const invalid = !disabled && !readOnly && (invalidProp || !!fieldProps.ariaErrorMessage);
 
     const value = useMemo(() => {
         if (typeof valueProp === 'string') {
@@ -163,8 +171,8 @@ export function DatePicker({
             }}
         >
             <InputElement
-                aria-describedby={ariaDescribedBy || undefined}
-                aria-errormessage={ariaErrorMessage || undefined}
+                aria-describedby={ariaDescribedByProp || fieldProps.ariaDescribedBy || undefined}
+                aria-errormessage={ariaErrorMessageProp || fieldProps.ariaErrorMessage || undefined}
                 aria-label={ariaLabel}
                 disabled={disabled || undefined}
                 id={id}

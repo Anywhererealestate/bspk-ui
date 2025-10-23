@@ -1,6 +1,7 @@
 import './input.scss';
 import { DEFAULT, InputElement, InputElementProps } from './InputElement';
 import { useFieldInit } from '-/components/Field';
+import { useId } from '-/hooks/useId';
 import { ElementProps } from '-/types/common';
 
 export type InputProps = Omit<InputElementProps, 'ariaDescribedBy' | 'ariaErrorMessage'>;
@@ -57,23 +58,21 @@ export function Input({
     showClearButton: showClearButtonProp = true,
     owner,
     inputProps,
+    'aria-describedby': ariaDescribedByProp,
+    'aria-errormessage': ariaErrorMessageProp,
     ...props
 }: ElementProps<InputProps, 'div'>) {
-    const { id, ariaDescribedBy, ariaErrorMessage, invalid } = useFieldInit({
-        id: idProp,
-        required,
-        readOnly,
-        disabled,
-        invalid: invalidProp,
-    });
+    const id = useId(idProp);
+    const { ariaDescribedBy, ariaErrorMessage } = useFieldInit({ required });
+    const invalid = !disabled && !readOnly && (invalidProp || !!ariaErrorMessage);
 
     return (
         // data-bspk="input" -- because InputElement already has it :)
         <InputElement
             {...props}
+            aria-describedby={ariaDescribedByProp || ariaDescribedBy}
+            aria-errormessage={ariaErrorMessageProp || ariaErrorMessage}
             aria-label={ariaLabel}
-            ariaDescribedBy={ariaDescribedBy}
-            ariaErrorMessage={ariaErrorMessage}
             autoComplete={autoComplete}
             containerRef={containerRef}
             disabled={disabled}

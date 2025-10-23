@@ -1,11 +1,12 @@
 import './select.scss';
 import { SvgKeyboardArrowDown } from '@bspk/icons/KeyboardArrowDown';
 import { useMemo, KeyboardEvent, MouseEvent } from 'react';
-import { FieldControlProp, useFieldInit } from '-/components/Field';
+import { useFieldInit } from '-/components/Field';
 import { ListItem, ListItemProps } from '-/components/ListItem';
 import { Menu } from '-/components/Menu';
 import { useArrowNavigation } from '-/hooks/useArrowNavigation';
 import { useFloating } from '-/hooks/useFloating';
+import { useId } from '-/hooks/useId';
 import { useOutsideClick } from '-/hooks/useOutsideClick';
 import { CommonProps, ElementProps } from '-/types/common';
 import { getElementById } from '-/utils/dom';
@@ -22,8 +23,7 @@ export type SelectOption = CommonProps<'disabled'> &
 
 export type SelectItem = SelectOption & { id: string };
 
-export type SelectProps = CommonProps<'name' | 'size'> &
-    FieldControlProp &
+export type SelectProps = CommonProps<'disabled' | 'invalid' | 'name' | 'readOnly' | 'required' | 'size' | 'value'> &
     ScrollListItemsStyleProps & {
         /**
          * Array of options to display in the select
@@ -136,23 +136,13 @@ export function Select({
     name,
     'aria-labelledby': ariaLabelledBy,
     scrollLimit,
-    required: requiredProp,
+    required,
     ...elementProps
 }: ElementProps<SelectProps, 'button'>) {
-    const {
-        id,
-        invalid: hasError,
-        ariaDescribedBy,
-        ariaErrorMessage,
-    } = useFieldInit({
-        id: idProp,
-        readOnly,
-        disabled,
-        required: requiredProp,
-        invalid: invalidProp,
-    });
-    const invalid = !readOnly && !disabled && (invalidProp || hasError);
+    const id = useId(idProp);
     const menuId = useMemo(() => `${id}-menu`, [id]);
+    const { ariaDescribedBy, ariaErrorMessage } = useFieldInit({ required });
+    const invalid = !readOnly && !disabled && (invalidProp || !!ariaErrorMessage);
 
     const { items, availableItems } = useMemo(() => {
         const nextItems = optionsProp.map(

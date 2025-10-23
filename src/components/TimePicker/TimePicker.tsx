@@ -13,19 +13,30 @@ import {
     stringValueToParts,
 } from './utils';
 import { Button } from '-/components/Button';
-import { FieldControlProp, useFieldInit } from '-/components/Field';
+import { useFieldInit } from '-/components/Field';
 import { InputProps } from '-/components/Input';
 import { Menu } from '-/components/Menu';
 import { Portal } from '-/components/Portal';
 import { useFloating } from '-/hooks/useFloating';
+import { useId } from '-/hooks/useId';
 import { useOutsideClick } from '-/hooks/useOutsideClick';
 import { ElementProps } from '-/types/common';
 import { handleKeyDown } from '-/utils/handleKeyDown';
 
-export type TimePickerProps = FieldControlProp &
-    Pick<InputProps, 'name' | 'onChange' | 'size'> & {
-        value?: string;
-    };
+export type TimePickerProps = Pick<
+    InputProps,
+    'disabled' | 'invalid' | 'name' | 'onChange' | 'readOnly' | 'required' | 'size'
+> & {
+    /**
+     * The value of the time picker input in 24-hour format (HH:mm).
+     *
+     * @example
+     *     '14:30'; // 2:30 PM
+     *
+     * @type string
+     */
+    value?: string;
+};
 
 /**
  * An input field that allows a customer to manually type in a specific time or triggers a time picker combobox to
@@ -65,25 +76,15 @@ export function TimePicker({
     readOnly,
     name,
     size,
-    required: requiredProp,
+    required,
     onChange: onChangeProp,
     'aria-labelledby': ariaLabelledBy,
     ...props
 }: ElementProps<TimePickerProps, 'div'>) {
-    const {
-        id,
-        ariaDescribedBy,
-        ariaErrorMessage,
-        invalid: hasError,
-    } = useFieldInit({
-        id: idProp,
-        readOnly,
-        disabled,
-        invalid: invalidProp,
-        required: requiredProp,
-    });
+    const id = useId(idProp);
     const menuId = `${id}-time-picker-menu`;
-    const invalid = !readOnly && !disabled && (invalidProp || hasError);
+    const { ariaDescribedBy, ariaErrorMessage } = useFieldInit({ required });
+    const invalid = !readOnly && !disabled && (invalidProp || !!ariaErrorMessage);
 
     const { hours, minutes, meridiem } = useMemo(() => stringValueToParts(value || '00:00'), [value]);
 
