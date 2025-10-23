@@ -72,9 +72,27 @@ export function FormFieldExampleRender({ ...props }: ExampleProps & { syntax?: S
                     flexDirection: 'row',
                 }}
             >
-                <SwitchOption checked={hasError} label="Has Error" name="hasError" onChange={setHasError} />
-                <SwitchOption checked={disabled} label="Disabled" name="disabled" onChange={setDisabled} />
-                <SwitchOption checked={required} label="Required" name="required" onChange={setRequired} />
+                <SwitchOption
+                    checked={hasError}
+                    label="Has Error"
+                    name="hasError"
+                    onChange={setHasError}
+                    value="hasError"
+                />
+                <SwitchOption
+                    checked={disabled}
+                    label="Disabled"
+                    name="disabled"
+                    onChange={setDisabled}
+                    value="disabled"
+                />
+                <SwitchOption
+                    checked={required}
+                    label="Required"
+                    name="required"
+                    onChange={setRequired}
+                    value="required"
+                />
             </div>
             <form
                 onReset={() => {
@@ -108,7 +126,7 @@ export function FormFieldExampleRender({ ...props }: ExampleProps & { syntax?: S
                         onChange={(next) => setValue({ 'date-picker': next })}
                         placeholder="Example input"
                         required={required}
-                        value={value['date-picker'] as string}
+                        value={value['date-picker'] as Date}
                     />
                 </FormField>
                 <FormField {...props} errorMessage={hasError ? 'This is an error message' : ''} label="Input">

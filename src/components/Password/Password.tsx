@@ -6,8 +6,7 @@ import { InputElement, InputProps } from '-/components/Input';
 import { useId } from '-/hooks/useId';
 import { FieldControlProps } from '-/types/common';
 
-export type PasswordProps = FieldControlProps &
-    Pick<InputProps, 'containerRef' | 'inputProps' | 'inputRef' | 'name' | 'onChange' | 'size' | 'value'>;
+export type PasswordProps = FieldControlProps & Pick<InputProps, 'containerRef' | 'inputProps' | 'inputRef' | 'size'>;
 
 /**
  * An input field that is specifically built with a show/hide toggle for entering security passwords.
@@ -57,6 +56,7 @@ export function Password({
     readOnly,
     disabled,
     id: idProp,
+    'aria-label': ariaLabel,
     ...props
 }: PasswordProps) {
     /** FieldInit > */
@@ -80,6 +80,7 @@ export function Password({
             {...props}
             aria-describedby={ariaDescribedBy}
             aria-errormessage={ariaErrorMessage}
+            aria-label={ariaLabel || undefined}
             autoComplete="off"
             containerRef={containerRef}
             data-bspk-owner="password"

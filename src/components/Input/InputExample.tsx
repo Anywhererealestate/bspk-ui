@@ -14,6 +14,7 @@ export const InputExample: ComponentExample<InputExampleProps> = {
         {
             label: 'Currency',
             propState: {
+                value: '',
                 type: 'number',
                 leading: '$',
                 trailing: undefined,
@@ -26,6 +27,7 @@ export const InputExample: ComponentExample<InputExampleProps> = {
         {
             label: 'Percent',
             propState: {
+                value: '',
                 type: 'number',
                 leading: undefined,
                 trailing: '%',
@@ -38,6 +40,7 @@ export const InputExample: ComponentExample<InputExampleProps> = {
         {
             label: 'Dimension',
             propState: {
+                value: '',
                 type: 'number',
                 leading: undefined,
                 placeholder: '0',

@@ -23,8 +23,8 @@ export type SelectOption = CommonProps<'disabled'> &
 
 export type SelectItem = SelectOption & { id: string };
 
-export type SelectProps = CommonProps<'name' | 'size'> &
-    FieldControlProps &
+export type SelectProps = CommonProps<'size'> &
+    FieldControlProps<string, KeyboardEvent | MouseEvent> &
     ScrollListItemsStyleProps & {
         /**
          * Array of options to display in the select
@@ -47,17 +47,6 @@ export type SelectProps = CommonProps<'name' | 'size'> &
          * @required
          */
         options: SelectOption[];
-        /** Selected value */
-        value: string;
-        /**
-         * The function to call when the selected values change.
-         *
-         * @example
-         *     (value, event) => setState({ value });
-         *
-         * @required
-         */
-        onChange: (value: string, event?: KeyboardEvent | MouseEvent) => void;
         /**
          * Placeholder for the select
          *
@@ -135,9 +124,9 @@ export function Select({
     invalid: invalidProp,
     readOnly,
     name,
-    'aria-labelledby': ariaLabelledBy,
     scrollLimit,
     required = false,
+    'aria-label': ariaLabel,
     ...elementProps
 }: ElementProps<SelectProps, 'button'>) {
     /** FieldInit > */
@@ -192,14 +181,11 @@ export function Select({
         if (activeElementId) getElementById(activeElementId)?.click();
     };
 
-    const ariaLabel = ariaLabelledBy
-        ? undefined
-        : elementProps['aria-label'] || selectedItem?.label || placeholder || undefined;
-
     return (
         <>
             <input name={name} type="hidden" value={value} />
             <button
+                aria-label={`${ariaLabel} ${selectedItem?.label || placeholder}`}
                 {...elementProps}
                 aria-activedescendant={activeElementId || undefined}
                 aria-autocomplete="list"
@@ -209,8 +195,6 @@ export function Select({
                 aria-errormessage={ariaErrorMessage || undefined}
                 aria-expanded={open}
                 aria-haspopup="listbox"
-                aria-label={ariaLabel}
-                aria-labelledby={ariaLabelledBy}
                 aria-readonly={readOnly || undefined}
                 data-bspk="select"
                 data-invalid={invalid || undefined}

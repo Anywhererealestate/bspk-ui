@@ -1,65 +1,47 @@
 import './radio-group.scss';
+import { RadioProps } from '-/components/Radio';
 import { RadioOption, RadioOptionProps } from '-/components/RadioOption';
 import { useId } from '-/hooks/useId';
-import { ElementProps, CommonProps, FieldControlProps } from '-/types/common';
+import { ElementProps, FieldControlProps } from '-/types/common';
 
 export type RadioGroupOption = Pick<RadioOptionProps, 'checked' | 'description' | 'disabled' | 'label' | 'name'> &
-    Required<CommonProps<'value'>>;
+    Pick<RadioProps, 'value'>;
 
-export type RadioGroupProps = CommonProps<'name'> &
-    FieldControlProps & {
-        /**
-         * The value of the control.
-         *
-         * @example
-         *     1;
-         *
-         * @required
-         */
-        value: string;
-        /**
-         * The function to call when the radios are changed.
-         *
-         * @example
-         *     (value) => setState({ value }),
-         *
-         * @required
-         */
-        onChange: (value: string) => void;
-        /**
-         * The options for the radios.
-         *
-         * @example
-         *     [
-         *         {
-         *             value: '1',
-         *             label: 'Option 1',
-         *         },
-         *         {
-         *             value: '2',
-         *             label: 'Option 2',
-         *             description: 'Description here',
-         *         },
-         *         { value: '3', label: 'Option 3' },
-         *     ];
-         *
-         * @type Array<RadioGroupOption>
-         * @required
-         */
-        options: RadioGroupOption[];
-        /**
-         * The label of the radio group.
-         *
-         * @required
-         */
-        label: string;
-        /**
-         * Hides the RadioGroup label. When label isn't showing it is used as the aria-label prop.
-         *
-         * @default false
-         */
-        hideLabel?: boolean;
-    };
+export type RadioGroupProps = FieldControlProps & {
+    /**
+     * The options for the radios.
+     *
+     * @example
+     *     [
+     *         {
+     *             value: '1',
+     *             label: 'Option 1',
+     *         },
+     *         {
+     *             value: '2',
+     *             label: 'Option 2',
+     *             description: 'Description here',
+     *         },
+     *         { value: '3', label: 'Option 3' },
+     *     ];
+     *
+     * @type Array<RadioGroupOption>
+     * @required
+     */
+    options: RadioGroupOption[];
+    /**
+     * The label of the radio group.
+     *
+     * @required
+     */
+    label: string;
+    /**
+     * Hides the RadioGroup label. When label isn't showing it is used as the aria-label prop.
+     *
+     * @default false
+     */
+    hideLabel?: boolean;
+};
 
 /**
  * A group of radios that allows users to choose one or more items from a list or turn an feature on or off.

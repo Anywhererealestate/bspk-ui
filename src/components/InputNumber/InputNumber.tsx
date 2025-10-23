@@ -12,16 +12,8 @@ function isNumber(value: unknown, fallbackValue: number | undefined = undefined)
     return isNaN(num) ? fallbackValue : num;
 }
 
-export type InputNumberProps = CommonProps<'aria-label' | 'name' | 'size'> &
-    FieldControlProps & {
-        /** The value of the control. */
-        value?: number;
-        /**
-         * Callback when the value changes.
-         *
-         * @required
-         */
-        onChange: (value: number | string | undefined) => void;
+export type InputNumberProps = CommonProps<'size'> &
+    FieldControlProps<number> & {
         /**
          * The alignment of the input box. Centered between the plus and minus buttons or to the left of the buttons.
          *
@@ -101,7 +93,7 @@ export function InputNumber({
     readOnly = false,
     name,
     id: idProp,
-    'aria-label': ariaLabel,
+    'aria-label': ariaLabel = 'Input number',
     max: maxProp,
     min = 0,
     invalid: invalidProp = false,

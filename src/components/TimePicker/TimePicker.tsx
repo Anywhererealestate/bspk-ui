@@ -23,10 +23,7 @@ import { useOutsideClick } from '-/hooks/useOutsideClick';
 import { ElementProps, FieldControlProps } from '-/types/common';
 import { handleKeyDown } from '-/utils/handleKeyDown';
 
-export type TimePickerProps = FieldControlProps &
-    Pick<InputProps, 'name' | 'onChange' | 'size'> & {
-        value?: string;
-    };
+export type TimePickerProps = FieldControlProps & Pick<InputProps, 'size'>;
 
 /**
  * An input field that allows a customer to manually type in a specific time or triggers a time picker combobox to
@@ -68,7 +65,7 @@ export function TimePicker({
     size,
     required = false,
     onChange: onChangeProp,
-    'aria-labelledby': ariaLabelledBy,
+    'aria-label': ariaLabel = 'Time picker',
     ...props
 }: ElementProps<TimePickerProps, 'div'>) {
     /** FieldInit > */
@@ -162,8 +159,7 @@ export function TimePicker({
             <div
                 {...props}
                 aria-describedby={ariaErrorMessage || ariaDescribedBy || undefined}
-                aria-label={!ariaLabelledBy ? props['aria-label'] : undefined}
-                aria-labelledby={ariaLabelledBy}
+                aria-label={ariaLabel || undefined}
                 data-bspk="time-picker"
                 data-disabled={disabled || undefined}
                 data-invalid={invalid || undefined}

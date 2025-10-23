@@ -10,6 +10,7 @@ import { useFloating } from '-/hooks/useFloating';
 import { useId } from '-/hooks/useId';
 import { useOutsideClick } from '-/hooks/useOutsideClick';
 import { useUIContext } from '-/hooks/useUIContext';
+import { FieldControlProps } from '-/types/common';
 import { getElementById } from '-/utils/dom';
 import { handleKeyDown } from '-/utils/handleKeyDown';
 import { scrollListItemsStyle, ScrollListItemsStyleProps } from '-/utils/scrollListItemsStyle';
@@ -22,13 +23,9 @@ import { useIds } from '-/utils/useIds';
  */
 export type SearchBarOption = Pick<ListItemProps, 'label' | 'leading' | 'trailing'>;
 
-export type SearchBarProps<O extends SearchBarOption = SearchBarOption> = Pick<
-    InputProps,
-    'disabled' | 'id' | 'inputRef' | 'name' | 'size'
-> &
+export type SearchBarProps<O extends SearchBarOption = SearchBarOption> = FieldControlProps<string, O> &
+    Pick<InputProps, 'inputRef' | 'size'> &
     ScrollListItemsStyleProps & {
-        /** The current value of the search bar. */
-        value?: string;
         /**
          * The placeholder of the field.
          *
@@ -37,14 +34,6 @@ export type SearchBarProps<O extends SearchBarOption = SearchBarOption> = Pick<
          * @required
          */
         placeholder: string;
-        /**
-         * Handler for input value change. This is called on every key press in the input field and when a menu item is
-         * selected.
-         *
-         * @type (value: String, item?: SearchBarOption) => void
-         * @required
-         */
-        onChange: (value: string, item?: O) => void;
         /**
          * Content to display in the menu.
          *

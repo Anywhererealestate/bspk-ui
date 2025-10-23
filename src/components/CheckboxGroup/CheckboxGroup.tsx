@@ -1,56 +1,34 @@
-import { Checkbox } from '-/components/Checkbox';
+import { Checkbox, CheckboxProps } from '-/components/Checkbox';
 import { ToggleOptionProps, ToggleOption } from '-/components/ToggleOption';
-import { ElementProps, CommonProps, FieldControlProps } from '-/types/common';
+import { ElementProps, FieldControlProps } from '-/types/common';
 
-export type CheckboxGroupOption = Pick<ToggleOptionProps, 'description' | 'disabled' | 'label'> &
-    Required<CommonProps<'value'>>;
+export type CheckboxGroupOption = Pick<CheckboxProps, 'value'> &
+    Pick<ToggleOptionProps, 'description' | 'disabled' | 'label'>;
 
-export type CheckboxGroupProps = CommonProps<'aria-label'> &
-    FieldControlProps & {
-        /**
-         * The function to call when the checkboxes are changed.
-         *
-         * @example
-         *     (values) => setState({ values });
-         *
-         * @required
-         */
-        onChange: (values: string[]) => void;
-        /**
-         * The input control name of the checkboxes.
-         *
-         * @required
-         */
-        name: string;
-        /**
-         * The options for the checkboxes.
-         *
-         * @example
-         *     [
-         *         { label: 'Option 1', value: 'option1' },
-         *         { label: 'Option 2', value: 'option2' },
-         *         { label: 'Option 3', value: 'option3' },
-         *     ];
-         *
-         * @type Array<CheckboxGroupOption>
-         * @required
-         */
-        options: CheckboxGroupOption[];
-        /**
-         * The values of the checked checkboxes.
-         *
-         * @type Array<string>
-         */
-        values?: CheckboxGroupProps['options'][number]['value'][];
-        /**
-         * Whether to show a select all checkbox at the top of the list.
-         *
-         * @default false
-         */
-        selectAll?: boolean;
-        /** The props for the select all checkbox. */
-        selectAllProps?: CheckboxGroupOption;
-    };
+export type CheckboxGroupProps = FieldControlProps<string[]> & {
+    /**
+     * The options for the checkboxes.
+     *
+     * @example
+     *     [
+     *         { label: 'Option 1', value: 'option1' },
+     *         { label: 'Option 2', value: 'option2' },
+     *         { label: 'Option 3', value: 'option3' },
+     *     ];
+     *
+     * @type Array<CheckboxGroupOption>
+     * @required
+     */
+    options: CheckboxGroupOption[];
+    /**
+     * Whether to show a select all checkbox at the top of the list.
+     *
+     * @default false
+     */
+    selectAll?: boolean;
+    /** The props for the select all checkbox. */
+    selectAllProps?: CheckboxGroupOption;
+};
 
 /**
  * A group of checkboxes that allows users to choose one or more items from a list or turn an feature on or off.
@@ -85,7 +63,7 @@ export function CheckboxGroup({
     onChange,
     options = [],
     name,
-    values = [],
+    value = [],
     selectAll,
     selectAllProps,
     disabled: disabledGroup = false,
@@ -105,10 +83,10 @@ export function CheckboxGroup({
                 <ToggleOption label={selectAllProps?.label || 'All'} readOnly={readOnly}>
                     <Checkbox
                         aria-label={selectAllProps?.label || 'All'}
-                        checked={!!values.length && values.length === options.length}
+                        checked={!!value.length && value.length === options.length}
                         data-testid="selectAll-Checkbox"
                         disabled={disabledGroup}
-                        indeterminate={!!values.length && values.length < options.length}
+                        indeterminate={!!value.length && value.length < options.length}
                         name={name}
                         onChange={(checked) => onChange(checked ? options.map((o) => o.value) : [])}
                         readOnly={readOnly}
@@ -116,24 +94,24 @@ export function CheckboxGroup({
                     />
                 </ToggleOption>
             )}
-            {options.map(({ label, description, value, disabled }) => (
+            {options.map(({ label, description, value: optionValue, disabled }) => (
                 <ToggleOption
                     description={description}
                     disabled={disabled || disabledGroup}
-                    key={value}
+                    key={optionValue}
                     label={label}
                     readOnly={readOnly}
                 >
                     <Checkbox
                         aria-label={label}
-                        checked={values.includes(value)}
+                        checked={value.includes(optionValue)}
                         disabled={disabled || disabledGroup}
                         name={name}
                         onChange={(checked) => {
-                            onChange(checked ? [...values, value] : values.filter((v) => v !== value));
+                            onChange(checked ? [...value, optionValue] : value.filter((v) => v !== optionValue));
                         }}
                         readOnly={readOnly}
-                        value={value}
+                        value={optionValue}
                     />
                 </ToggleOption>
             ))}

@@ -30,8 +30,8 @@ const SELECT_OPTIONS = countryCodes.map((code) => {
     };
 });
 
-export type InputPhoneProps = FieldControlProps &
-    Pick<InputProps, 'inputRef' | 'name' | 'size' | 'value'> &
+export type InputPhoneProps = FieldControlProps<string, SupportedCountryCode> &
+    Pick<InputProps, 'inputRef' | 'size'> &
     ScrollListItemsStyleProps & {
         /**
          * The default country code to select when the component is rendered. If not provided, it will attempt to guess
@@ -48,8 +48,6 @@ export type InputPhoneProps = FieldControlProps &
          * @type boolean
          */
         disableFormatting?: boolean;
-        /** Handler for change events. Contains the raw phone number value and the selected country code. */
-        onChange: (value: string, countryCode: SupportedCountryCode) => void;
     };
 
 /**
@@ -99,6 +97,7 @@ export function InputPhone({
     size = 'medium',
     inputRef,
     scrollLimit = 5,
+    'aria-label': ariaLabel = 'Phone number input',
 }: InputPhoneProps) {
     /** FieldInit > */
     const id = useId(idProp);
@@ -179,7 +178,7 @@ export function InputPhone({
                 <InputElement
                     aria-describedby={ariaDescribedBy}
                     aria-errormessage={ariaErrorMessage}
-                    aria-label="Phone number input"
+                    aria-label={ariaLabel || undefined}
                     autoComplete="off"
                     containerRef={elements.setReference}
                     disabled={disabled}

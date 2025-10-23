@@ -6,7 +6,14 @@
  * @bspk/ui/Txt".
  */
 
-import { JSXElementConstructor, ReactNode, ComponentPropsWithoutRef, AriaRole } from 'react';
+import {
+    JSXElementConstructor,
+    ReactNode,
+    ComponentPropsWithoutRef,
+    AriaRole,
+    ChangeEvent,
+    KeyboardEvent,
+} from 'react';
 
 export type AlertVariant = 'error' | 'informational' | 'success' | 'warning';
 
@@ -103,7 +110,7 @@ export type CommonPropsLibrary = {
      *
      * @required
      */
-    value?: string;
+    optionValue?: string;
     /**
      * The aria-label for the element.
      *
@@ -128,7 +135,23 @@ export type CommonProps<K extends keyof CommonPropsLibrary> = Pick<CommonPropsLi
 
 export type RequiredCommonProps<K extends keyof CommonPropsLibrary> = Required<Pick<CommonPropsLibrary, K>>;
 
-export type FieldControlProps = CommonProps<'disabled' | 'id' | 'invalid' | 'readOnly' | 'required'>;
+export type FieldControlProps<
+    ValueType = string,
+    ChangeContext = ChangeEvent<HTMLElement> | KeyboardEvent | undefined,
+> = CommonProps<'aria-label' | 'disabled' | 'id' | 'invalid' | 'name' | 'readOnly' | 'required'> & {
+    /**
+     * The value of the field control.
+     *
+     * @required
+     */
+    value: ValueType | undefined;
+    /**
+     * The function to call when the value changes.
+     *
+     * @required
+     */
+    onChange: (next: ValueType | undefined, event?: ChangeContext) => void;
+};
 
 export type Brand =
     | 'anywhere'

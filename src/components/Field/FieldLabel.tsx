@@ -22,7 +22,7 @@ export function FieldLabel<As extends ElementType = 'label'>({
 }: ElementProps<FieldLabelProps<As>, As>) {
     const As = as || 'label';
 
-    const { required = false, id, htmlFor, ...context } = useFieldContext();
+    const { required, id, htmlFor, ...context } = useFieldContext();
 
     return (
         <As data-bspk="field-label" htmlFor={htmlFor} id={labelledById(id)} {...props}>

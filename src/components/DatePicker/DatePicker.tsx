@@ -10,34 +10,25 @@ import { Portal } from '-/components/Portal';
 import { useFloating } from '-/hooks/useFloating';
 import { useId } from '-/hooks/useId';
 import { useOutsideClick } from '-/hooks/useOutsideClick';
+import { FieldControlProps } from '-/types/common';
 
 const parsableDate = (dateString: string) => /^\d{1,2}\/\d{1,2}\/\d{4}$/.test(dateString);
 
-export type DatePickerProps = Pick<
-    InputProps,
-    'aria-label' | 'disabled' | 'id' | 'invalid' | 'name' | 'readOnly' | 'required' | 'size'
-> & {
-    /**
-     * The value of the calendar input
-     *
-     * @type Date
-     */
-    value: Date | string | undefined;
-    /** Fires when the date changes with the new date */
-    onChange: (newDate: Date | undefined) => void;
-    /**
-     * If the calendar should close when a date is selected.
-     *
-     * @default true
-     */
-    closeCalendarOnChange?: boolean;
-    /**
-     * The placeholder text for the date input field.
-     *
-     * @default mm/dd/yyyy
-     */
-    placeholder?: string;
-};
+export type DatePickerProps = FieldControlProps<Date | undefined> &
+    Pick<InputProps, 'size'> & {
+        /**
+         * If the calendar should close when a date is selected.
+         *
+         * @default true
+         */
+        closeCalendarOnChange?: boolean;
+        /**
+         * The placeholder text for the date input field.
+         *
+         * @default mm/dd/yyyy
+         */
+        placeholder?: string;
+    };
 
 /**
  * An input that allows a customer to manually type in a specific date or triggers a the Calendar component to select a
@@ -82,7 +73,7 @@ export function DatePicker({
     required = false,
     size,
     id: idProp,
-    'aria-label': ariaLabel,
+    'aria-label': ariaLabel = 'Date picker',
 }: DatePickerProps) {
     /** FieldInit > */
     const id = useId(idProp);

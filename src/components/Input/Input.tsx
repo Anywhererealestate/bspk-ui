@@ -43,7 +43,7 @@ export function Input({
     size = DEFAULT.size,
     value = DEFAULT.value,
     name,
-    'aria-label': ariaLabel,
+    'aria-label': ariaLabel = 'Input',
     inputRef,
     required = false,
     placeholder,

@@ -1,6 +1,6 @@
 import './input.scss';
 import { SvgCancel } from '@bspk/icons/Cancel';
-import { ChangeEvent, HTMLInputTypeAttribute, ReactNode, useMemo, useRef, useState } from 'react';
+import { HTMLInputTypeAttribute, ReactNode, useMemo, useRef, useState } from 'react';
 import { Button } from '-/components/Button';
 import { FieldContextProps } from '-/components/Field';
 import { useTimeout } from '-/hooks/useTimeout';
@@ -13,15 +13,9 @@ export const DEFAULT = {
     autoComplete: 'off',
 } as const;
 
-type InputElementBaseProps = CommonProps<'name' | 'owner' | 'size' | 'value'> &
+type InputElementBaseProps = CommonProps<'owner' | 'size'> &
     FieldControlProps &
     Pick<FieldContextProps, 'ariaDescribedBy' | 'ariaErrorMessage'> & {
-        /**
-         * Callback when the value of the field changes.
-         *
-         * @required
-         */
-        onChange: (next: string, event?: ChangeEvent<HTMLInputElement>) => void;
         /** The ref of the container. */
         containerRef?: SetRef<HTMLDivElement>;
         /** The ref of the input. */
@@ -58,8 +52,6 @@ type InputElementBaseProps = CommonProps<'name' | 'owner' | 'size' | 'value'> &
          * @default true
          */
         showClearButton?: boolean;
-        /** The aria-label of the input element. */
-        'aria-label'?: string;
     };
 
 export type InputElementProps = InputElementBaseProps & {
@@ -95,7 +87,7 @@ export function InputElement({
     size = DEFAULT.size,
     value = DEFAULT.value,
     name,
-    'aria-label': ariaLabel,
+    'aria-label': ariaLabel = 'Input',
     inputRef,
     required = false,
     placeholder,
