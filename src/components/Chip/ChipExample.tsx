@@ -1,7 +1,7 @@
-import { BadgeItem, ChipUtilityProps } from '.';
+import { BadgeItem, ChipProps } from '.';
 import { ComponentExample, Preset } from '-/utils/demo';
 
-export const presets: Preset<ChipUtilityProps>[] = [
+export const presets: Preset<ChipProps>[] = [
     {
         label: 'Basic',
         propState: {
@@ -59,7 +59,7 @@ export const presets: Preset<ChipUtilityProps>[] = [
     },
 ];
 
-export const ChipUtilityExample: ComponentExample<ChipUtilityProps> = {
+export const ChipExample: ComponentExample<ChipProps> = {
     render: ({ props, Component }) => <Component {...props} />,
     presets,
 };
