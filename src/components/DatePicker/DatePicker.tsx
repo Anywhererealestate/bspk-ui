@@ -8,6 +8,7 @@ import { useFieldInit } from '-/components/Field';
 import { InputElement, InputProps } from '-/components/Input';
 import { Portal } from '-/components/Portal';
 import { useFloating } from '-/hooks/useFloating';
+import { useId } from '-/hooks/useId';
 import { useOutsideClick } from '-/hooks/useOutsideClick';
 
 const parsableDate = (dateString: string) => /^\d{1,2}\/\d{1,2}\/\d{4}$/.test(dateString);
@@ -78,18 +79,19 @@ export function DatePicker({
     name,
     placeholder,
     invalid: invalidProp,
-    required,
+    required = false,
     size,
     id: idProp,
     'aria-label': ariaLabel,
 }: DatePickerProps) {
-    const { id, ariaDescribedBy, ariaErrorMessage, invalid } = useFieldInit({
-        id: idProp,
+    /** FieldInit > */
+    const id = useId(idProp);
+    const { ariaDescribedBy, ariaErrorMessage } = useFieldInit({
+        htmlFor: id,
         required,
-        readOnly,
-        disabled,
-        invalid: invalidProp,
     });
+    const invalid = !disabled && !readOnly && (invalidProp || !!ariaErrorMessage);
+    /** < FieldInit */
 
     const value = useMemo(() => {
         if (typeof valueProp === 'string') {

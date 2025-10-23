@@ -13,16 +13,17 @@ import {
     stringValueToParts,
 } from './utils';
 import { Button } from '-/components/Button';
-import { FieldControlProp, useFieldInit } from '-/components/Field';
+import { useFieldInit } from '-/components/Field';
 import { InputProps } from '-/components/Input';
 import { Menu } from '-/components/Menu';
 import { Portal } from '-/components/Portal';
 import { useFloating } from '-/hooks/useFloating';
+import { useId } from '-/hooks/useId';
 import { useOutsideClick } from '-/hooks/useOutsideClick';
-import { ElementProps } from '-/types/common';
+import { ElementProps, FieldControlProps } from '-/types/common';
 import { handleKeyDown } from '-/utils/handleKeyDown';
 
-export type TimePickerProps = FieldControlProp &
+export type TimePickerProps = FieldControlProps &
     Pick<InputProps, 'name' | 'onChange' | 'size'> & {
         value?: string;
     };
@@ -65,25 +66,21 @@ export function TimePicker({
     readOnly,
     name,
     size,
-    required: requiredProp,
+    required = false,
     onChange: onChangeProp,
     'aria-labelledby': ariaLabelledBy,
     ...props
 }: ElementProps<TimePickerProps, 'div'>) {
-    const {
-        id,
-        ariaDescribedBy,
-        ariaErrorMessage,
-        invalid: hasError,
-    } = useFieldInit({
-        id: idProp,
-        readOnly,
-        disabled,
-        invalid: invalidProp,
-        required: requiredProp,
+    /** FieldInit > */
+    const id = useId(idProp);
+    const { ariaDescribedBy, ariaErrorMessage } = useFieldInit({
+        htmlFor: id,
+        required,
     });
+    const invalid = !disabled && !readOnly && (invalidProp || !!ariaErrorMessage);
+    /** < FieldInit */
+
     const menuId = `${id}-time-picker-menu`;
-    const invalid = !readOnly && !disabled && (invalidProp || hasError);
 
     const { hours, minutes, meridiem } = useMemo(() => stringValueToParts(value || '00:00'), [value]);
 

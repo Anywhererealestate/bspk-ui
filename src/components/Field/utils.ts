@@ -1,73 +1,57 @@
-import { createContext, ReactNode, useContext, useEffect } from 'react';
+import { createContext, useContext, useEffect } from 'react';
 import { CommonProps } from '-/types/common';
-import { randomString } from '-/utils/random';
 
-export type FieldControlProp = CommonProps<'disabled' | 'id' | 'invalid' | 'readOnly' | 'required'>;
+export const errorMessageId = (id: string) => `${id}-field-error`;
+export const labelledById = (id: string) => `${id}-label`;
+export const describedById = (id: string) => `${id}-description`;
 
 /** The props that are provided via context to all Field subcomponents. */
-export type FieldContextProps = FieldControlProp & {
+export type FieldContextProps = CommonProps<'required'> & {
     /** The aria-describedby attribute value that should be applied to the field input element. */
     ariaDescribedBy?: string;
     /** The aria-errormessage attribute value that should be applied to the field input element. */
     ariaErrorMessage?: string;
     /** Text that appears after the label, but before the input (e.g. "optional"). */
-    labelTrailing?: ReactNode | string;
-    /** Unless set to false, the id will be used as the htmlFor attribute. */
-    htmlFor?: string | false;
+    labelTrailing?: string;
+    /** The aria-labelledby attribute value that should be applied to the field input element. */
+    ariaLabelledBy?: string;
+    /** The htmlFor attribute value that should be applied to the field label element. */
+    htmlFor?: string;
+    /** The id of the field. */
+    id: string;
 };
 
-export const fieldContext = createContext<
-    (FieldContextProps & { setField: (props: FieldContextProps) => void }) | null
->(null);
+export type FieldContext = FieldContextProps & {
+    setContext: (next: Pick<FieldContextProps, 'htmlFor' | 'required'>) => void;
+};
 
-export function useFieldContext(): FieldContextProps & {
-    setField: (props: FieldContextProps) => void;
-} {
+export const fieldContext = createContext<FieldContext | null>(null);
+
+export function useFieldContext(): FieldContext {
     return (
         useContext(fieldContext) || {
             id: undefined as unknown as string,
-            setField: () => {},
+            setContext: () => {},
         }
     );
 }
 
-export function useFieldInit(defaults?: FieldContextProps): FieldContextProps & {
-    setField: (props: FieldContextProps) => void;
-    ariaDescribedBy?: string;
-    ariaErrorMessage?: string;
-} {
+export function useFieldInit({ htmlFor, required }: { htmlFor: string; required?: boolean }): FieldContext {
     const context = useContext(fieldContext);
 
     useEffect(() => {
-        // skip if no context or defaults
-        if (!context || !context.setField || !defaults) return;
-
-        // prevent duplicate calls
-        const shouldUpdate = Object.keys(defaults).some((key) => {
-            // don't reset id defaults.id is falsey
-            if (key === 'id') return defaults.id && context.id !== defaults.id;
-            return context[key as keyof FieldContextProps] !== defaults[key as keyof FieldContextProps];
-        });
-
-        if (shouldUpdate)
-            context.setField({
-                ...defaults,
-                // generate a unique id if none is provided
-                id: defaults.id || context.id || `field-${randomString(8)}`,
-            });
-    }, [context, defaults]);
+        if (!context) return;
+        if (htmlFor !== context?.htmlFor || required !== context?.required) context.setContext({ htmlFor, required });
+    }, [context, htmlFor, required]);
 
     if (!context) {
         return {
-            ...defaults,
-            id: defaults?.id || ``,
-            setField: () => {},
+            htmlFor,
+            id: ``,
+            setContext: () => {},
         };
     }
 
     // consider field invalid if there is an error message
-    return {
-        ...context,
-        invalid: !defaults?.disabled && !defaults?.readOnly && (context.invalid || !!context.ariaErrorMessage),
-    };
+    return context;
 }

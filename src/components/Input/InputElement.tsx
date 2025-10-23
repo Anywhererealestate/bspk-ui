@@ -2,9 +2,9 @@ import './input.scss';
 import { SvgCancel } from '@bspk/icons/Cancel';
 import { ChangeEvent, HTMLInputTypeAttribute, ReactNode, useMemo, useRef, useState } from 'react';
 import { Button } from '-/components/Button';
-import { FieldContextProps, FieldControlProp } from '-/components/Field';
+import { FieldContextProps } from '-/components/Field';
 import { useTimeout } from '-/hooks/useTimeout';
-import { CommonProps, ElementProps, SetRef } from '-/types/common';
+import { CommonProps, ElementProps, SetRef, FieldControlProps } from '-/types/common';
 
 export const DEFAULT = {
     size: 'medium',
@@ -14,7 +14,7 @@ export const DEFAULT = {
 } as const;
 
 type InputElementBaseProps = CommonProps<'name' | 'owner' | 'size' | 'value'> &
-    FieldControlProp &
+    FieldControlProps &
     Pick<FieldContextProps, 'ariaDescribedBy' | 'ariaErrorMessage'> & {
         /**
          * Callback when the value of the field changes.
@@ -97,7 +97,7 @@ export function InputElement({
     name,
     'aria-label': ariaLabel,
     inputRef,
-    required,
+    required = false,
     placeholder,
     id,
     leading,

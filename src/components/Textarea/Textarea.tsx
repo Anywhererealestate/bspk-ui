@@ -1,11 +1,12 @@
 import './textarea.scss';
 import { ChangeEvent, useRef } from 'react';
-import { FieldControlProp, useFieldInit } from '-/components/Field';
-import { CommonProps, SetRef } from '-/types/common';
+import { useFieldInit } from '-/components/Field';
+import { useId } from '-/hooks/useId';
+import { CommonProps, FieldControlProps, SetRef } from '-/types/common';
 import { cssWithVars } from '-/utils/cwv';
 
 export type TextareaProps = CommonProps<'aria-label'> &
-    FieldControlProp & {
+    FieldControlProps & {
         /**
          * Callback when the value of the field changes.
          *
@@ -107,18 +108,19 @@ export function Textarea({
     id: idProp,
     minRows = 4,
     maxRows = 10,
-    required,
+    required = false,
     readOnly,
     disabled,
     ...otherProps
 }: TextareaProps) {
-    const { id, invalid, ariaDescribedBy, ariaErrorMessage } = useFieldInit({
-        id: idProp,
+    /** FieldInit > */
+    const id = useId(idProp);
+    const { ariaDescribedBy, ariaErrorMessage } = useFieldInit({
+        htmlFor: id,
         required,
-        readOnly,
-        disabled,
-        invalid: invalidProp,
     });
+    const invalid = !disabled && !readOnly && (invalidProp || !!ariaErrorMessage);
+    /** < FieldInit */
 
     const onInput = () => {
         const target = textareaElement.current;

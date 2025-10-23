@@ -1,20 +1,17 @@
-import { useEffect } from 'react';
-import { useFieldContext } from './utils';
+import { errorMessageId, useFieldContext } from './utils';
 import { InlineAlert } from '-/components/InlineAlert';
 
-export function FieldError({ children }: { children?: string }) {
-    const { setField, id, ariaErrorMessage, ...context } = useFieldContext();
+export type FieldErrorProps = {
+    /** The error message text. */
+    children?: string;
+};
 
-    useEffect(() => {
-        if (setField && !!ariaErrorMessage !== !!children)
-            setField({ ariaErrorMessage: children ? `${id}-error` : undefined });
-    }, [children, setField, ariaErrorMessage, id]);
-
-    if (context.disabled || context.readOnly) return null;
+export function FieldError({ children }: FieldErrorProps) {
+    const { id } = useFieldContext();
 
     return (
         children && (
-            <InlineAlert id={`${id}-error`} owner="field-error" variant="error">
+            <InlineAlert id={errorMessageId(id)} owner="field-error" variant="error">
                 {children}
             </InlineAlert>
         )

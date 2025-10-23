@@ -3,14 +3,16 @@ import { SvgIcon } from '@bspk/icons/SvgIcon';
 import { AsYouType, getCountryCallingCode } from 'libphonenumber-js';
 import { useMemo, useRef, useState } from 'react';
 import { Button } from '-/components/Button';
-import { FieldControlProp, useFieldInit } from '-/components/Field';
+import { useFieldInit } from '-/components/Field';
 import { InputElement, InputProps } from '-/components/Input';
 import { ListItem } from '-/components/ListItem';
 import { Menu } from '-/components/Menu';
 import { useArrowNavigation } from '-/hooks/useArrowNavigation';
 import { useFloating } from '-/hooks/useFloating';
+import { useId } from '-/hooks/useId';
 import { useOutsideClick } from '-/hooks/useOutsideClick';
 import { useUIContext } from '-/hooks/useUIContext';
+import { FieldControlProps } from '-/types/common';
 import { countryCodeData, countryCodes, SupportedCountryCode } from '-/utils/countryCodes';
 import { getElementById } from '-/utils/dom';
 import { guessUserCountryCode } from '-/utils/guessUserCountryCode';
@@ -28,7 +30,7 @@ const SELECT_OPTIONS = countryCodes.map((code) => {
     };
 });
 
-export type InputPhoneProps = FieldControlProp &
+export type InputPhoneProps = FieldControlProps &
     Pick<InputProps, 'inputRef' | 'name' | 'size' | 'value'> &
     ScrollListItemsStyleProps & {
         /**
@@ -93,26 +95,20 @@ export function InputPhone({
     name,
     id: idProp,
     invalid: invalidProp,
-    required: requiredProp,
+    required = false,
     size = 'medium',
     inputRef,
     scrollLimit = 5,
 }: InputPhoneProps) {
-    const {
-        id,
-        ariaDescribedBy,
-        ariaErrorMessage,
-        invalid: hasError,
+    /** FieldInit > */
+    const id = useId(idProp);
+    const { ariaDescribedBy, ariaErrorMessage } = useFieldInit({
+        htmlFor: id,
         required,
-    } = useFieldInit({
-        id: idProp,
-        readOnly,
-        disabled,
-        invalid: invalidProp,
-        required: requiredProp,
     });
+    const invalid = !disabled && !readOnly && (invalidProp || !!ariaErrorMessage);
+    /** < FieldInit */
     const menuId = useMemo(() => `${id}-menu`, [id]);
-    const invalid = !readOnly && !disabled && (invalidProp || hasError);
 
     const items = useIds(`input-phone-${id}`, SELECT_OPTIONS);
 

@@ -1,6 +1,7 @@
 import './input.scss';
 import { DEFAULT, InputElement, InputElementProps } from './InputElement';
 import { useFieldInit } from '-/components/Field';
+import { useId } from '-/hooks/useId';
 import { ElementProps } from '-/types/common';
 
 export type InputProps = Omit<InputElementProps, 'ariaDescribedBy' | 'ariaErrorMessage'>;
@@ -44,7 +45,7 @@ export function Input({
     name,
     'aria-label': ariaLabel,
     inputRef,
-    required,
+    required = false,
     placeholder,
     id: idProp,
     leading,
@@ -59,13 +60,14 @@ export function Input({
     inputProps,
     ...props
 }: ElementProps<InputProps, 'div'>) {
-    const { id, ariaDescribedBy, ariaErrorMessage, invalid } = useFieldInit({
-        id: idProp,
+    /** FieldInit > */
+    const id = useId(idProp);
+    const { ariaDescribedBy, ariaErrorMessage } = useFieldInit({
+        htmlFor: id,
         required,
-        readOnly,
-        disabled,
-        invalid: invalidProp,
     });
+    const invalid = !disabled && !readOnly && (invalidProp || !!ariaErrorMessage);
+    /** < FieldInit */
 
     return (
         // data-bspk="input" -- because InputElement already has it :)

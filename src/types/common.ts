@@ -128,12 +128,7 @@ export type CommonProps<K extends keyof CommonPropsLibrary> = Pick<CommonPropsLi
 
 export type RequiredCommonProps<K extends keyof CommonPropsLibrary> = Required<Pick<CommonPropsLibrary, K>>;
 
-export type FormFieldControlProps = {
-    /** The id of the control description. */
-    'aria-describedby'?: string;
-    /** The id of the error message */
-    'aria-errormessage'?: string;
-};
+export type FieldControlProps = CommonProps<'disabled' | 'id' | 'invalid' | 'readOnly' | 'required'>;
 
 export type Brand =
     | 'anywhere'

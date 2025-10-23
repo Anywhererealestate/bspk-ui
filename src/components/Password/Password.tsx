@@ -1,10 +1,12 @@
 import './password.scss';
 import { useState } from 'react';
 import { Button } from '-/components/Button';
-import { FieldControlProp, useFieldInit } from '-/components/Field';
+import { useFieldInit } from '-/components/Field';
 import { InputElement, InputProps } from '-/components/Input';
+import { useId } from '-/hooks/useId';
+import { FieldControlProps } from '-/types/common';
 
-export type PasswordProps = FieldControlProp &
+export type PasswordProps = FieldControlProps &
     Pick<InputProps, 'containerRef' | 'inputProps' | 'inputRef' | 'name' | 'onChange' | 'size' | 'value'>;
 
 /**
@@ -49,7 +51,7 @@ export function Password({
     inputRef,
     name,
     onChange,
-    required,
+    required = false,
     containerRef,
     invalid: invalidProp,
     readOnly,
@@ -57,13 +59,14 @@ export function Password({
     id: idProp,
     ...props
 }: PasswordProps) {
-    const { id, invalid, ariaDescribedBy, ariaErrorMessage } = useFieldInit({
-        id: idProp,
+    /** FieldInit > */
+    const id = useId(idProp);
+    const { ariaDescribedBy, ariaErrorMessage } = useFieldInit({
+        htmlFor: id,
         required,
-        readOnly,
-        disabled,
-        invalid: invalidProp,
     });
+    const invalid = !disabled && !readOnly && (invalidProp || !!ariaErrorMessage);
+    /** < FieldInit */
 
     const [isShowingPassword, setIsShowingPassword] = useState(false);
 

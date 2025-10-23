@@ -1,12 +1,12 @@
 import { Checkbox } from '-/components/Checkbox';
 import { ToggleOptionProps, ToggleOption } from '-/components/ToggleOption';
-import { ElementProps, CommonProps, FormFieldControlProps } from '-/types/common';
+import { ElementProps, CommonProps, FieldControlProps } from '-/types/common';
 
 export type CheckboxGroupOption = Pick<ToggleOptionProps, 'description' | 'disabled' | 'label'> &
     Required<CommonProps<'value'>>;
 
-export type CheckboxGroupProps = CommonProps<'aria-label' | 'disabled' | 'readOnly'> &
-    FormFieldControlProps & {
+export type CheckboxGroupProps = CommonProps<'aria-label'> &
+    FieldControlProps & {
         /**
          * The function to call when the checkboxes are changed.
          *

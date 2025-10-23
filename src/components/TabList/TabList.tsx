@@ -92,8 +92,11 @@ export type TabListProps<O extends TabOption = TabOption> = {
      */
     size?: TabSize;
     /**
-     * When 'fill' the options will fill the width of the container. When 'hug', the options will be as wide as their
-     * content.
+     * Determines how the tab options use horizontal space.
+     *
+     * If set to 'fill', options expand to fill the container's width.
+     *
+     * If set to 'hug', options only take up as much space as their content requires.
      *
      * @default hug
      */

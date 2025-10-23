@@ -1,9 +1,9 @@
 import './input-number.scss';
 import { useMemo } from 'react';
 import { IncrementButton } from './IncrementButton';
-import { FieldControlProp, useFieldInit } from '-/components/Field';
+import { useFieldInit } from '-/components/Field';
 import { useId } from '-/hooks/useId';
-import { CommonProps } from '-/types/common';
+import { CommonProps, FieldControlProps } from '-/types/common';
 
 function isNumber(value: unknown, fallbackValue: number | undefined = undefined): number | undefined {
     if (typeof value === 'number') return value;
@@ -13,7 +13,7 @@ function isNumber(value: unknown, fallbackValue: number | undefined = undefined)
 }
 
 export type InputNumberProps = CommonProps<'aria-label' | 'name' | 'size'> &
-    FieldControlProp & {
+    FieldControlProps & {
         /** The value of the control. */
         value?: number;
         /**
@@ -106,16 +106,17 @@ export function InputNumber({
     min = 0,
     invalid: invalidProp = false,
     step = 1,
-    required: requiredProp = false,
+    required = false,
     ...inputElementProps
 }: InputNumberProps) {
-    const { id, ariaDescribedBy, ariaErrorMessage, invalid, required } = useFieldInit({
-        id: idProp,
-        readOnly,
-        disabled,
-        invalid: invalidProp,
-        required: requiredProp,
+    /** FieldInit > */
+    const id = useId(idProp);
+    const { ariaDescribedBy, ariaErrorMessage } = useFieldInit({
+        htmlFor: id,
+        required,
     });
+    const invalid = !disabled && !readOnly && (invalidProp || !!ariaErrorMessage);
+    /** < FieldInit */
 
     const max = typeof maxProp === 'number' && maxProp >= min ? maxProp : Number.MAX_SAFE_INTEGER;
     const centered = align !== 'left';

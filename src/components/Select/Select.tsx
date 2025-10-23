@@ -1,13 +1,14 @@
 import './select.scss';
 import { SvgKeyboardArrowDown } from '@bspk/icons/KeyboardArrowDown';
 import { useMemo, KeyboardEvent, MouseEvent } from 'react';
-import { FieldControlProp, useFieldInit } from '-/components/Field';
+import { useFieldInit } from '-/components/Field';
 import { ListItem, ListItemProps } from '-/components/ListItem';
 import { Menu } from '-/components/Menu';
 import { useArrowNavigation } from '-/hooks/useArrowNavigation';
 import { useFloating } from '-/hooks/useFloating';
+import { useId } from '-/hooks/useId';
 import { useOutsideClick } from '-/hooks/useOutsideClick';
-import { CommonProps, ElementProps } from '-/types/common';
+import { CommonProps, ElementProps, FieldControlProps } from '-/types/common';
 import { getElementById } from '-/utils/dom';
 import { handleKeyDown } from '-/utils/handleKeyDown';
 import { scrollListItemsStyle, ScrollListItemsStyleProps } from '-/utils/scrollListItemsStyle';
@@ -23,7 +24,7 @@ export type SelectOption = CommonProps<'disabled'> &
 export type SelectItem = SelectOption & { id: string };
 
 export type SelectProps = CommonProps<'name' | 'size'> &
-    FieldControlProp &
+    FieldControlProps &
     ScrollListItemsStyleProps & {
         /**
          * Array of options to display in the select
@@ -136,22 +137,17 @@ export function Select({
     name,
     'aria-labelledby': ariaLabelledBy,
     scrollLimit,
-    required: requiredProp,
+    required = false,
     ...elementProps
 }: ElementProps<SelectProps, 'button'>) {
-    const {
-        id,
-        invalid: hasError,
-        ariaDescribedBy,
-        ariaErrorMessage,
-    } = useFieldInit({
-        id: idProp,
-        readOnly,
-        disabled,
-        required: requiredProp,
-        invalid: invalidProp,
+    /** FieldInit > */
+    const id = useId(idProp);
+    const { ariaDescribedBy, ariaErrorMessage } = useFieldInit({
+        htmlFor: id,
+        required,
     });
-    const invalid = !readOnly && !disabled && (invalidProp || hasError);
+    const invalid = !disabled && !readOnly && (invalidProp || !!ariaErrorMessage);
+    /** < FieldInit */
     const menuId = useMemo(() => `${id}-menu`, [id]);
 
     const { items, availableItems } = useMemo(() => {

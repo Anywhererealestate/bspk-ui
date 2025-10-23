@@ -53,7 +53,11 @@ export type ButtonProps<As extends ElementType = 'button'> = CommonProps<'disabl
      */
     variant?: ButtonVariant;
     /**
-     * The width of the button.
+     * Determines how the button uses horizontal space.
+     *
+     * If set to 'fill', options expand to fill the container's width.
+     *
+     * If set to 'hug', options only take up as much space as their content requires.
      *
      * @default hug
      */

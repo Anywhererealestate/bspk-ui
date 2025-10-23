@@ -87,6 +87,16 @@ export type ListItemProps<As extends ElementType = ElementType> = CommonProps<'a
          * ListItemMenu.
          */
         'aria-selected'?: boolean;
+        /**
+         * Determines how the ListItem uses horizontal space.
+         *
+         * If set to 'fill', options expand to fill the container's width.
+         *
+         * If set to 'hug', options only take up as much space as their content requires.
+         *
+         * @default fill
+         */
+        width?: 'fill' | 'hug';
     };
 
 /**
@@ -137,6 +147,7 @@ function ListItem<As extends ElementType = 'div'>({
     'aria-disabled': ariaDisabled,
     'aria-readonly': ariaReadonly,
     hideAriaLabel,
+    width = 'fill',
     ...props
 }: ElementProps<ListItemProps<As>, As>) {
     const id = useId(idProp);
@@ -162,6 +173,7 @@ function ListItem<As extends ElementType = 'div'>({
             data-bspk="list-item"
             data-bspk-owner={owner || undefined}
             data-disabled={isDisabled || undefined}
+            data-hug={width === 'hug' || undefined}
             data-readonly={isReadOnly || undefined}
             id={id}
             onClick={isReadOnly || isDisabled ? undefined : props.onClick}
