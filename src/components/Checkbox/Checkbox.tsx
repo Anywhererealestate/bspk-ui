@@ -65,6 +65,7 @@ export function Checkbox({
     invalid,
     disabled,
     readOnly,
+    required,
     ...props
 }: ElementProps<CheckboxProps, 'input'>) {
     const indeterminate = !!indeterminateProp;
@@ -97,6 +98,7 @@ export function Checkbox({
                     inputRef.current = node;
                     node.indeterminate = indeterminate;
                 }}
+                required={required || undefined}
                 type="checkbox"
             />
             <span aria-hidden>

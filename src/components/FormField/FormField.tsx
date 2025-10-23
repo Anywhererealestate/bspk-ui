@@ -1,10 +1,10 @@
-import { ReactNode } from 'react';
+import { ElementType, ReactNode } from 'react';
 import { Field, FieldLabel, FieldDescription, FieldError } from '-/components/Field';
 
 export type FormFieldControlProps<P extends Record<string, unknown>> = Omit<FormFieldProps, 'children'> &
     Omit<P, keyof FormFieldProps>;
 
-export type FormFieldProps = {
+export type FormFieldProps<As extends ElementType = ElementType> = {
     /** Displays an error message and marks the field as invalid. */
     errorMessage?: string;
     /**
@@ -32,6 +32,15 @@ export type FormFieldProps = {
     labelTrailing?: string;
     /** Marks the field as required. */
     required?: boolean;
+    /**
+     * The element type to render as.
+     *
+     * With grouped fields, this is typically set to "fieldset".
+     *
+     * @default div
+     * @type ElementType
+     */
+    as?: As;
 };
 
 /**
@@ -68,10 +77,13 @@ export type FormFieldProps = {
  * @name FormField
  * @phase Utility
  */
-export function FormField({ label, errorMessage, helperText, children, labelTrailing, required }: FormFieldProps) {
+export function FormField({ label, errorMessage, helperText, children, labelTrailing, required, as }: FormFieldProps) {
+    const fieldAs = as || 'div';
+
+    const labelAs = fieldAs === 'fieldset' ? 'legend' : undefined;
     return (
-        <Field>
-            <FieldLabel labelTrailing={labelTrailing} required={required}>
+        <Field as={fieldAs}>
+            <FieldLabel as={labelAs} labelTrailing={labelTrailing} required={required}>
                 {label}
             </FieldLabel>
             {children}

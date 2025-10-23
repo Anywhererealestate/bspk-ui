@@ -1,32 +1,32 @@
+import { CheckboxGroup, CheckboxGroupProps } from '-/components/CheckboxGroup';
 import { Field, FieldDescription, FieldError, FieldLabel } from '-/components/Field';
 import { FormFieldControlProps } from '-/components/FormField';
-import { RadioGroup, RadioGroupProps } from '-/components/RadioGroup';
 
-export type RadioGroupFieldProps = FormFieldControlProps<RadioGroupProps>;
+export type CheckboxGroupFieldProps = FormFieldControlProps<CheckboxGroupProps>;
 
 /**
- * A field wrapper for the RadioGroup component.
+ * A field wrapper for the CheckboxGroup component.
  *
- * This component takes properties from the FormField and RadioGroup components.
+ * This component takes properties from the FormField and CheckboxGroup components.
  *
- * @name RadioGroupField
+ * @name CheckboxGroupField
  * @phase UXReview
  *
  * @generated
  */
-export function RadioGroupField({
+export function CheckboxGroupField({
     label,
     helperText,
     labelTrailing,
     errorMessage,
     ...controlProps
-}: RadioGroupFieldProps) {
+}: CheckboxGroupFieldProps) {
     return (
         <Field as="fieldset">
             <FieldLabel as="legend" labelTrailing={labelTrailing}>
                 {label}
             </FieldLabel>
-            <RadioGroup {...controlProps} />
+            <CheckboxGroup {...controlProps} />
             {!errorMessage && helperText && <FieldDescription>{helperText}</FieldDescription>}
             {errorMessage && <FieldError>{errorMessage}</FieldError>}
         </Field>

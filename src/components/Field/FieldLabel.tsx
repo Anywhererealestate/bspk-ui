@@ -14,7 +14,7 @@ export type FieldLabelProps<As extends ElementType = ElementType> = Pick<FieldCo
     as?: As;
 };
 
-export function FieldLabel<As extends ElementType = 'label'>({
+export function FieldLabel<As extends ElementType = ElementType>({
     children,
     labelTrailing,
     as,
@@ -25,7 +25,7 @@ export function FieldLabel<As extends ElementType = 'label'>({
     const { required, id, htmlFor, ...context } = useFieldContext();
 
     return (
-        <As data-bspk="field-label" htmlFor={htmlFor} id={labelledById(id)} {...props}>
+        <As data-bspk="field-label" htmlFor={As === 'label' ? htmlFor : undefined} id={labelledById(id)} {...props}>
             <span>{children}</span>
             {required && <span data-required>{' (Required)'}</span>}
             {(labelTrailing || context.labelTrailing) && (

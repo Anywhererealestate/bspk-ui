@@ -1,3 +1,4 @@
+import './checkbox-group.scss';
 import { Checkbox, CheckboxProps } from '-/components/Checkbox';
 import { useFieldInit } from '-/components/Field';
 import { ToggleOptionProps, ToggleOption } from '-/components/ToggleOption';

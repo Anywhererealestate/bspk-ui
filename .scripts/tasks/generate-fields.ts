@@ -8,7 +8,7 @@ import fs from 'fs';
 
 const CONTROLS = [
     //
-    'RadioGroup',
+    'CheckboxGroup',
 ];
 
 CONTROLS.map((name) => {

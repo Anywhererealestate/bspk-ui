@@ -98,10 +98,10 @@ export function RadioGroup({
                         <RadioOption
                             aria-describedby={ariaDescribedByProp || ariaDescribedBy || undefined}
                             aria-errormessage={ariaErrorMessageProp || ariaErrorMessage || undefined}
-                            aria-invalid={invalid || undefined}
                             checked={groupValue === value}
                             description={description}
                             disabled={disabled || option.disabled}
+                            invalid={invalid || undefined}
                             key={`radio-option-${value || index}`}
                             label={label}
                             name={name}
