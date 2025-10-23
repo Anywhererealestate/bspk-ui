@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { Button } from '-/components/Button';
 import { useFieldInit } from '-/components/Field';
 import { InputElement, InputProps } from '-/components/Input';
-import { useId } from '-/hooks/useId';
 import { FieldControlProps } from '-/types/common';
 
 export type PasswordProps = FieldControlProps & Pick<InputProps, 'containerRef' | 'inputProps' | 'inputRef' | 'size'>;
@@ -59,14 +58,13 @@ export function Password({
     'aria-label': ariaLabel,
     ...props
 }: PasswordProps) {
-    /** FieldInit > */
-    const id = useId(idProp);
-    const { ariaDescribedBy, ariaErrorMessage } = useFieldInit({
-        htmlFor: id,
+    const { id, ariaDescribedBy, ariaErrorMessage, invalid } = useFieldInit({
+        idProp,
         required,
+        disabled,
+        readOnly,
+        invalidProp,
     });
-    const invalid = !disabled && !readOnly && (invalidProp || !!ariaErrorMessage);
-    /** < FieldInit */
 
     const [isShowingPassword, setIsShowingPassword] = useState(false);
 

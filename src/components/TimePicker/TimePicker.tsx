@@ -18,7 +18,6 @@ import { InputProps } from '-/components/Input';
 import { Menu } from '-/components/Menu';
 import { Portal } from '-/components/Portal';
 import { useFloating } from '-/hooks/useFloating';
-import { useId } from '-/hooks/useId';
 import { useOutsideClick } from '-/hooks/useOutsideClick';
 import { ElementProps, FieldControlProps } from '-/types/common';
 import { handleKeyDown } from '-/utils/handleKeyDown';
@@ -68,14 +67,13 @@ export function TimePicker({
     'aria-label': ariaLabel = 'Time picker',
     ...props
 }: ElementProps<TimePickerProps, 'div'>) {
-    /** FieldInit > */
-    const id = useId(idProp);
-    const { ariaDescribedBy, ariaErrorMessage } = useFieldInit({
-        htmlFor: id,
+    const { id, ariaDescribedBy, ariaErrorMessage, invalid } = useFieldInit({
+        idProp,
         required,
+        disabled,
+        readOnly,
+        invalidProp,
     });
-    const invalid = !disabled && !readOnly && (invalidProp || !!ariaErrorMessage);
-    /** < FieldInit */
 
     const menuId = `${id}-time-picker-menu`;
 

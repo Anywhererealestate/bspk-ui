@@ -6,7 +6,6 @@ import { ListItem, ListItemProps } from '-/components/ListItem';
 import { Menu } from '-/components/Menu';
 import { useArrowNavigation } from '-/hooks/useArrowNavigation';
 import { useFloating } from '-/hooks/useFloating';
-import { useId } from '-/hooks/useId';
 import { useOutsideClick } from '-/hooks/useOutsideClick';
 import { CommonProps, ElementProps, FieldControlProps } from '-/types/common';
 import { getElementById } from '-/utils/dom';
@@ -129,14 +128,13 @@ export function Select({
     'aria-label': ariaLabel,
     ...elementProps
 }: ElementProps<SelectProps, 'button'>) {
-    /** FieldInit > */
-    const id = useId(idProp);
-    const { ariaDescribedBy, ariaErrorMessage } = useFieldInit({
-        htmlFor: id,
+    const { id, ariaDescribedBy, ariaErrorMessage, invalid } = useFieldInit({
+        idProp,
         required,
+        disabled,
+        readOnly,
+        invalidProp,
     });
-    const invalid = !disabled && !readOnly && (invalidProp || !!ariaErrorMessage);
-    /** < FieldInit */
     const menuId = useMemo(() => `${id}-menu`, [id]);
 
     const { items, availableItems } = useMemo(() => {

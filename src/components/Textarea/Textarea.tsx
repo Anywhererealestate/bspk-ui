@@ -1,7 +1,6 @@
 import './textarea.scss';
 import { ChangeEvent, useRef } from 'react';
 import { useFieldInit } from '-/components/Field';
-import { useId } from '-/hooks/useId';
 import { FieldControlProps, SetRef } from '-/types/common';
 import { cssWithVars } from '-/utils/cwv';
 
@@ -94,14 +93,13 @@ export function Textarea({
     'aria-label': ariaLabel,
     ...otherProps
 }: TextareaProps) {
-    /** FieldInit > */
-    const id = useId(idProp);
-    const { ariaDescribedBy, ariaErrorMessage } = useFieldInit({
-        htmlFor: id,
+    const { id, ariaDescribedBy, ariaErrorMessage, invalid } = useFieldInit({
+        idProp,
         required,
+        disabled,
+        readOnly,
+        invalidProp,
     });
-    const invalid = !disabled && !readOnly && (invalidProp || !!ariaErrorMessage);
-    /** < FieldInit */
 
     const onInput = () => {
         const target = textareaElement.current;

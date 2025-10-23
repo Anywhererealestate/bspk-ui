@@ -1,4 +1,5 @@
-import { createContext, useContext, useEffect } from 'react';
+import { createContext, useContext, useEffect, useMemo } from 'react';
+import { useId } from '-/hooks/useId';
 import { CommonProps } from '-/types/common';
 
 export const errorMessageId = (id: string) => `${id}-field-error`;
@@ -36,22 +37,42 @@ export function useFieldContext(): FieldContext {
     );
 }
 
-export function useFieldInit({ htmlFor, required }: { htmlFor: string; required?: boolean }): FieldContext {
+/**
+ * Initializes field-related attributes and state for a form control component.
+ *
+ * Creates id if not provided, manages invalid state, and syncs with Field context.
+ */
+export function useFieldInit({
+    idProp,
+    required,
+    disabled,
+    readOnly,
+    invalidProp,
+}: {
+    idProp: string | undefined;
+    required: boolean | undefined;
+    disabled: boolean | undefined;
+    readOnly: boolean | undefined;
+    invalidProp: boolean | undefined;
+}): Pick<FieldContext, 'ariaDescribedBy' | 'ariaErrorMessage'> & { invalid: boolean; id: string } {
     const context = useContext(fieldContext);
+    const controlId = useId(idProp);
+
+    const invalid = useMemo(
+        () => !disabled && !readOnly && (invalidProp || !!context?.ariaErrorMessage),
+        [disabled, readOnly, invalidProp, context?.ariaErrorMessage],
+    );
 
     useEffect(() => {
         if (!context) return;
-        if (htmlFor !== context?.htmlFor || required !== context?.required) context.setContext({ htmlFor, required });
-    }, [context, htmlFor, required]);
 
-    if (!context) {
-        return {
-            htmlFor,
-            id: ``,
-            setContext: () => {},
-        };
-    }
+        if (controlId !== context?.id || required !== context?.required)
+            context.setContext({ htmlFor: controlId, required });
+    }, [context, controlId, required]);
 
-    // consider field invalid if there is an error message
-    return context;
+    return {
+        ...(context || {}),
+        invalid,
+        id: controlId,
+    };
 }

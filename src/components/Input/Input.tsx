@@ -1,7 +1,6 @@
 import './input.scss';
 import { DEFAULT, InputElement, InputElementProps } from './InputElement';
 import { useFieldInit } from '-/components/Field';
-import { useId } from '-/hooks/useId';
 import { ElementProps } from '-/types/common';
 
 export type InputProps = Omit<InputElementProps, 'ariaDescribedBy' | 'ariaErrorMessage'>;
@@ -60,14 +59,13 @@ export function Input({
     inputProps,
     ...props
 }: ElementProps<InputProps, 'div'>) {
-    /** FieldInit > */
-    const id = useId(idProp);
-    const { ariaDescribedBy, ariaErrorMessage } = useFieldInit({
-        htmlFor: id,
+    const { id, ariaDescribedBy, ariaErrorMessage, invalid } = useFieldInit({
+        idProp,
         required,
+        disabled,
+        readOnly,
+        invalidProp,
     });
-    const invalid = !disabled && !readOnly && (invalidProp || !!ariaErrorMessage);
-    /** < FieldInit */
 
     return (
         // data-bspk="input" -- because InputElement already has it :)

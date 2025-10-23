@@ -8,7 +8,6 @@ import { useFieldInit } from '-/components/Field';
 import { InputElement, InputProps } from '-/components/Input';
 import { Portal } from '-/components/Portal';
 import { useFloating } from '-/hooks/useFloating';
-import { useId } from '-/hooks/useId';
 import { useOutsideClick } from '-/hooks/useOutsideClick';
 import { FieldControlProps } from '-/types/common';
 
@@ -75,14 +74,13 @@ export function DatePicker({
     id: idProp,
     'aria-label': ariaLabel = 'Date picker',
 }: DatePickerProps) {
-    /** FieldInit > */
-    const id = useId(idProp);
-    const { ariaDescribedBy, ariaErrorMessage } = useFieldInit({
-        htmlFor: id,
+    const { id, ariaDescribedBy, ariaErrorMessage, invalid } = useFieldInit({
+        idProp,
         required,
+        disabled,
+        readOnly,
+        invalidProp,
     });
-    const invalid = !disabled && !readOnly && (invalidProp || !!ariaErrorMessage);
-    /** < FieldInit */
 
     const value = useMemo(() => {
         if (typeof valueProp === 'string') {
