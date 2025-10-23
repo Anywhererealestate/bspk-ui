@@ -56,7 +56,7 @@ export function useFieldInit({
     invalidProp: boolean | undefined;
 }): Pick<FieldContext, 'ariaDescribedBy' | 'ariaErrorMessage'> & { invalid: boolean; id: string } {
     const context = useContext(fieldContext);
-    const controlId = useId(idProp);
+    const controlId = useId(idProp || context?.htmlFor);
 
     const invalid = useMemo(
         () => !disabled && !readOnly && (invalidProp || !!context?.ariaErrorMessage),
@@ -66,8 +66,9 @@ export function useFieldInit({
     useEffect(() => {
         if (!context) return;
 
-        if (controlId !== context?.id || required !== context?.required)
-            context.setContext({ htmlFor: controlId, required });
+        if (controlId !== context?.htmlFor || !!required !== !!context?.required) {
+            context.setContext({ htmlFor: controlId, required: required });
+        }
     }, [context, controlId, required]);
 
     return {
