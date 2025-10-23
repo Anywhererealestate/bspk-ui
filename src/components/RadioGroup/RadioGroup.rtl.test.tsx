@@ -4,18 +4,17 @@ import { render } from '-/rtl/util';
 
 const TestBed = () => (
     <RadioGroup
-        label="Example label"
-        name="Example name"
+        aria-label="Example label"
+        name="example-name"
         onChange={() => {}}
         options={[
             {
                 value: '1',
                 label: 'Option 1',
-                name: 'Option 1',
                 description: 'Description here',
             },
-            { value: '2', label: 'Option 2', name: 'Option 2' },
-            { value: '3', label: 'Option 3', name: 'Option 3' },
+            { value: '2', label: 'Option 2' },
+            { value: '3', label: 'Option 3' },
         ]}
         value="2"
     />

@@ -53,7 +53,7 @@ export type ProgressBarProps = {
  * @example
  *     import { ProgressBar } from '@bspk/ui/ProgressBar';
  *
- *     export function Example() {
+ *     function Example() {
  *         return <ProgressBar label="Example label" completion={50} />;
  *     }
  *

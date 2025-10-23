@@ -9,7 +9,7 @@ import { RadioProps } from '-/components/Radio';
  *     import { Radio } from '@bspk/ui/Radio';
  *     import { useRadioState } from '@bspk/ui/hooks/useRadioState';
  *
- *     export function Example() {
+ *     function Example() {
  *     const { radioProps } = useRadioState('fruits');
  *     return <Radio aria-label="cherry" {...radioProps('cherry')} />;
  *     }

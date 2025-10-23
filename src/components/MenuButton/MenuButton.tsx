@@ -11,7 +11,7 @@ export type MenuButtonProps = Pick<ButtonProps, 'as' | 'onClick'>;
  * @example
  *     import { MenuButton } from '@bspk/ui/MenuButton';
  *
- *     export function Example() {
+ *     function Example() {
  *         return <MenuButton />;
  *     }
  *

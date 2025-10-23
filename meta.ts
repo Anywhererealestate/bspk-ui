@@ -212,6 +212,7 @@ function generateComponentMeta({
         phase: (COMPONENT_PHASE_ORDER.includes(componentDoc.phase as ComponentPhase)
             ? componentDoc.phase
             : 'Backlog') as ComponentPhase,
+        generated: 'generated' in componentDoc,
     } as ComponentMeta;
 }
 

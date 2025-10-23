@@ -1,13 +1,13 @@
 import './select.scss';
 import { SvgKeyboardArrowDown } from '@bspk/icons/KeyboardArrowDown';
 import { useMemo, KeyboardEvent, MouseEvent } from 'react';
+import { useFieldInit } from '-/components/Field';
 import { ListItem, ListItemProps } from '-/components/ListItem';
 import { Menu } from '-/components/Menu';
 import { useArrowNavigation } from '-/hooks/useArrowNavigation';
 import { useFloating } from '-/hooks/useFloating';
-import { useId } from '-/hooks/useId';
 import { useOutsideClick } from '-/hooks/useOutsideClick';
-import { CommonProps, ElementProps, FormFieldControlProps } from '-/types/common';
+import { CommonProps, ElementProps, FieldControlProps } from '-/types/common';
 import { getElementById } from '-/utils/dom';
 import { handleKeyDown } from '-/utils/handleKeyDown';
 import { scrollListItemsStyle, ScrollListItemsStyleProps } from '-/utils/scrollListItemsStyle';
@@ -22,8 +22,8 @@ export type SelectOption = CommonProps<'disabled'> &
 
 export type SelectItem = SelectOption & { id: string };
 
-export type SelectProps = CommonProps<'disabled' | 'id' | 'invalid' | 'name' | 'readOnly' | 'size'> &
-    FormFieldControlProps &
+export type SelectProps = CommonProps<'size'> &
+    FieldControlProps<string, KeyboardEvent | MouseEvent> &
     ScrollListItemsStyleProps & {
         /**
          * Array of options to display in the select
@@ -46,23 +46,6 @@ export type SelectProps = CommonProps<'disabled' | 'id' | 'invalid' | 'name' | '
          * @required
          */
         options: SelectOption[];
-        /** Selected value */
-        value: string;
-        /**
-         * The function to call when the selected values change.
-         *
-         * @example
-         *     (value, event) => setState({ value });
-         *
-         * @required
-         */
-        onChange: (value: string, event?: KeyboardEvent | MouseEvent) => void;
-        /**
-         * The label for the select element, used for accessibility, and the dropdown modal header.
-         *
-         * @required
-         */
-        label: string;
         /**
          * Placeholder for the select
          *
@@ -74,33 +57,55 @@ export type SelectProps = CommonProps<'disabled' | 'id' | 'invalid' | 'name' | '
 /**
  * A field element that allows users to select one option from a list of available choices.
  *
+ * For a more complete example with field usage, see the SelectField component.
+ *
  * @example
  *     import { Select } from '@bspk/ui/Select';
  *
- *     export function Example() {
+ *     const OPTIONS = [
+ *         { id: '1', label: 'Option 1' },
+ *         { id: '2', label: 'Option 2' },
+ *         { id: '3', label: 'Option 3' },
+ *         { id: '4', label: 'Option 4' },
+ *         { id: '5', label: 'Option 5' },
+ *         { id: '6', label: 'Option 6' },
+ *     ];
+ *
+ *     function ExampleStandalone() {
  *         const [selected, setSelected] = React.useState<string[]>([]);
+ *
  *         return (
  *             <Select
- *                 label="Select an option"
+ *                 aria-label="Select an option"
  *                 itemCount={5}
  *                 name="example-select"
  *                 onChange={setSelected}
- *                 options={[
- *                     { id: '1', label: 'Option 1' },
- *                     { id: '2', label: 'Option 2' },
- *                     { id: '3', label: 'Option 3' },
- *                     { id: '4', label: 'Option 4' },
- *                     { id: '5', label: 'Option 5' },
- *                     { id: '6', label: 'Option 6' },
- *                     { id: '7', label: 'Option 7' },
- *                     { id: '8', label: 'Option 8' },
- *                     { id: '9', label: 'Option 9' },
- *                     { id: '10', label: 'Option 10' },
- *                 ]}
+ *                 options={OPTIONS}
  *                 placeholder="Select an option"
  *                 size="medium"
  *                 value={selected}
  *             />
+ *         );
+ *     }
+ *
+ *     function ExampleWithField() {
+ *         const [selected, setSelected] = React.useState<string[]>([]);
+ *         return (
+ *             <Field>
+ *                 <FieldLabel>Select an option</FieldLabel>
+ *                 <Select
+ *                     itemCount={5}
+ *                     name="example-select"
+ *                     onChange={setSelected}
+ *                     options={OPTIONS}
+ *                     placeholder="Select an option"
+ *                     size="medium"
+ *                     value={selected}
+ *                 />
+ *                 <FieldDescription>
+ *                     The select allows you to choose one option from a list of options.
+ *                 </FieldDescription>
+ *             </Field>
  *         );
  *     }
  *
@@ -111,21 +116,25 @@ export function Select({
     options: optionsProp = [],
     value = '',
     onChange,
-    label,
     placeholder = 'Select one',
     size = 'medium',
     disabled,
     id: idProp,
-    invalid,
+    invalid: invalidProp,
     readOnly,
     name,
-    'aria-describedby': ariaDescribedBy,
-    'aria-errormessage': ariaErrorMessage,
-    'aria-labelledby': ariaLabelledBy,
     scrollLimit,
-    ...props
+    required = false,
+    'aria-label': ariaLabel,
+    ...elementProps
 }: ElementProps<SelectProps, 'button'>) {
-    const id = useId(idProp);
+    const { id, ariaDescribedBy, ariaErrorMessage, invalid } = useFieldInit({
+        idProp,
+        required,
+        disabled,
+        readOnly,
+        invalidProp,
+    });
     const menuId = useMemo(() => `${id}-menu`, [id]);
 
     const { items, availableItems } = useMemo(() => {
@@ -134,7 +143,7 @@ export function Select({
                 ...item,
                 id: `${id}-item-${index}`,
                 'aria-label': item.label,
-                'aria-selected': value.includes(item.value),
+                'aria-selected': value == item.value,
             }),
         );
 
@@ -173,22 +182,17 @@ export function Select({
     return (
         <>
             <input name={name} type="hidden" value={value} />
-            {!ariaLabelledBy && (
-                <div data-sr-only id={`${id}-label`}>
-                    {label}
-                </div>
-            )}
             <button
-                {...props}
+                aria-label={`${ariaLabel} ${selectedItem?.label || placeholder}`}
+                {...elementProps}
                 aria-activedescendant={activeElementId || undefined}
                 aria-autocomplete="list"
-                aria-controls={activeElementId ? menuId : undefined}
+                aria-controls={open ? menuId : undefined}
                 aria-describedby={ariaDescribedBy || undefined}
                 aria-disabled={disabled || readOnly || undefined}
                 aria-errormessage={ariaErrorMessage || undefined}
                 aria-expanded={open}
                 aria-haspopup="listbox"
-                aria-labelledby={ariaLabelledBy || `${id}-label`}
                 aria-readonly={readOnly || undefined}
                 data-bspk="select"
                 data-invalid={invalid || undefined}
@@ -244,11 +248,9 @@ export function Select({
             </button>
             <Menu
                 aria-autocomplete={undefined}
-                aria-label={label}
                 as="div"
                 id={menuId}
                 innerRef={elements.setFloating}
-                label={label}
                 onClickCapture={() => {
                     // Prevent the menu from closing when clicking inside it
                     // maintain focus on the select control
@@ -267,7 +269,7 @@ export function Select({
             >
                 {items.map((item) => {
                     const isActive = activeElementId === item.id;
-                    const isSelected = value.includes(item.value);
+                    const isSelected = value === item.value;
 
                     return (
                         <ListItem

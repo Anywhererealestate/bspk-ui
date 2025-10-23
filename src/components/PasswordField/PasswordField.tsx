@@ -1,65 +1,22 @@
-import { FormField, FormFieldWrapProps } from '-/components/FormField';
-import { PasswordInputProps, PasswordInput } from '-/components/PasswordInput';
+import { FormField, FormFieldControlProps } from '-/components/FormField';
+import { Password, PasswordProps } from '-/components/Password';
 
-export type PasswordFieldProps = FormFieldWrapProps<PasswordInputProps>;
+export type PasswordFieldProps = FormFieldControlProps<PasswordProps>;
 
 /**
- * A text input that allows users to enter text, numbers or symbols in a singular line.
+ * A field wrapper for the Password component.
  *
- * This component takes properties from the FormField and PasswordInput components.
- *
- * @example
- *     import { useState } from 'react';
- *     import { PasswordField } from '@bspk/ui/PasswordField';
- *
- *     export function Example() {
- *         const [value, setValue] = useState<string>('');
- *
- *         return (
- *             <PasswordField
- *                 controlId="Example controlId"
- *                 label="Example label"
- *                 name="Example name"
- *                 onChange={setValue}
- *                 value={value}
- *             />
- *         );
- *     }
+ * This component takes properties from the FormField and Password components.
  *
  * @name PasswordField
  * @phase UXReview
+ *
+ * @generated
  */
-export function PasswordField({
-    controlId,
-    errorMessage,
-    helperText,
-    invalid,
-    label,
-    labelTrailing,
-    required,
-    ...passwordInputProps
-}: PasswordFieldProps) {
+export function PasswordField({ label, helperText, labelTrailing, errorMessage, ...controlProps }: PasswordFieldProps) {
     return (
-        <FormField
-            controlId={controlId}
-            data-bspk="password-field"
-            errorMessage={errorMessage}
-            helperText={helperText}
-            invalid={invalid}
-            label={label}
-            labelTrailing={labelTrailing}
-            required={required}
-        >
-            {(fieldProps) => (
-                <PasswordInput
-                    {...passwordInputProps}
-                    {...fieldProps}
-                    id={controlId}
-                    invalid={invalid}
-                    required={required}
-                    value={passwordInputProps.value ?? ''}
-                />
-            )}
+        <FormField errorMessage={errorMessage} helperText={helperText} label={label} labelTrailing={labelTrailing}>
+            <Password {...controlProps} />
         </FormField>
     );
 }

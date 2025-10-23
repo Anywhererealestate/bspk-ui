@@ -9,7 +9,7 @@ import { CheckboxProps } from '-/components/Checkbox';
  *     import { Checkbox } from '@bspk/ui/Checkbox';
  *     import { useCheckboxState } from '@bspk/ui/hooks/useCheckboxState';
  *
- *     export function Example() {
+ *     function Example() {
  *     const { checkboxProps } = useCheckboxState('fruits');
  *     return <Checkbox aria-label="cherry" {...checkboxProps('cherry')} />;
  *     }

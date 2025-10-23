@@ -114,7 +114,7 @@ export type ModalProps = Pick<
  *     import { Button } from '@bspk/ui/Button';
  *     import { Modal } from '@bspk/ui/Modal';
  *
- *     export function Example() {
+ *     function Example() {
  *         const [open, setOpen] = React.useState(false);
  *
  *         return (

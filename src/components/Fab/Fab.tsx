@@ -45,7 +45,7 @@ export type FabProps<As extends ElementType = 'button'> = Pick<
  *     import { SvgBolt } from '@bspk/icons/Bolt';
  *     import { Fab } from '@bspk/ui/Fab';
  *
- *     export function Example() {
+ *     function Example() {
  *         return <Fab icon={<SvgBolt />} label="Example label" placement="bottom-right" variant="neutral" />;
  *     }
  *

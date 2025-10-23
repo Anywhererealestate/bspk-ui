@@ -39,7 +39,7 @@ export type MenuProps<As extends ElementType = ElementType> = CommonProps<'id' |
  *
  *     import { Menu } from '@bspk/ui/Menu';
  *
- *     export function Example() {
+ *     function Example() {
  *         return (
  *             <Menu>
  *                 <ListItem label="List Item" />

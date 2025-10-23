@@ -114,6 +114,7 @@ export type ComponentExample<Props = Record<string, unknown>, PropName extends k
             CodeExample: CodeExample;
             Syntax: Syntax;
         }) => React.ReactNode;
+        location?: 'afterDemo' | 'beforeDemo';
     }[];
 };
 

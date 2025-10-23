@@ -2,10 +2,10 @@ import './chip-group.scss';
 
 import { ReactNode } from 'react';
 
-import { ChipUtilityProps } from '-/components/ChipUtility';
+import { ChipProps } from '-/components/Chip';
 
 export type ChipGroupItem = Pick<
-    ChipUtilityProps,
+    ChipProps,
     'disabled' | 'flat' | 'label' | 'leadingIcon' | 'onClick' | 'selected' | 'trailingBadge' | 'trailingIcon'
 >;
 
@@ -16,21 +16,22 @@ export type ChipGroupProps = {
      * @default true
      */
     wrap?: boolean;
-    /** Only ChipUtility, ChipInput, ChipFilter, ChipSuggestion, or ChipAssist components should be used as children. */
+    /** Only Chip components should be used as children. */
     children?: ReactNode;
 };
 /**
- * A group of chips that can be used to display a set of related items or actions.
+ * A component that manages the layout of a group of chips.
  *
  * @example
  *     import { ChipGroup } from '@bspk/ui/ChipGroup';
+ *     import { Chip } from '@bspk/ui/Chip';
  *
  *     function Example() {
  *         return (
  *             <ChipGroup wrap={false}>
- *                 <ChipSuggestion label="suggestion 1" onClick={() => console.log('Suggestion 1')} />
- *                 <ChipSuggestion label="suggestion 2" onClick={() => console.log('Suggestion 2')} />
- *                 <ChipSuggestion label="suggestion 3" onClick={() => console.log('Suggestion 3')} />
+ *                 <Chip label="chip 1" onClick={() => console.log('Chip 1')} />
+ *                 <Chip label="chip 2" onClick={() => console.log('Chip 2')} />
+ *                 <Chip label="chip 3" onClick={() => console.log('Chip 3')} />
  *             </ChipGroup>
  *         );
  *     }

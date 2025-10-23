@@ -35,7 +35,7 @@ export type TagProps = {
  * @example
  *     import { Tag } from '@bspk/ui/Tag';
  *
- *     export function Example() {
+ *     function Example() {
  *         return <Tag label="Example Tag" variant="flat" color="primary" />;
  *     }
  *

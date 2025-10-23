@@ -1,0 +1,89 @@
+[data-bspk='calendar'] {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font: var(--labels-base);
+    width: 360px;
+    color: var(--foreground-neutral-on-surface);
+    gap: var(--spacing-sizing-01);
+    background: var(--surface-neutral-t1-base);
+    padding: var(--spacing-sizing-02);
+
+    &[data-variant='elevated'] {
+        border-radius: var(--radius-lg);
+        box-shadow: var(--drop-shadow-float);
+    }
+
+    [data-header] {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0;
+        border-bottom: 1px solid var(--stroke-neutral-low);
+
+        [data-title] {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            [data-bspk='button'] {
+                font: inherit;
+
+                &[data-month] {
+                    padding-right: var(--spacing-sizing-01);
+                }
+
+                &[data-year] {
+                    padding-left: var(--spacing-sizing-01);
+                }
+            }
+        }
+    }
+
+    [data-day-headers] {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        text-align: center;
+        color: var(--foreground-neutral-on-surface-variant-01);
+
+        span {
+            height: var(--spacing-sizing-12);
+            line-height: var(--spacing-sizing-12);
+        }
+    }
+
+    [data-body] {
+        display: grid;
+
+        [data-bspk='button'] {
+            margin: auto;
+        }
+
+        [data-non-month-day] {
+            color: var(--foreground-neutral-on-surface-variant-02);
+        }
+    }
+
+    &[data-kind='day'] {
+        padding: var(--spacing-sizing-01);
+
+        [data-body] {
+            grid-template-columns: repeat(7, calc(100% / 7));
+        }
+    }
+
+    &[data-kind='month'] {
+        [data-body] {
+            grid-template-columns: repeat(3, calc(100% / 3));
+        }
+    }
+
+    &[data-kind='year'] {
+        [data-body] {
+            grid-template-columns: repeat(4, calc(100% / 4));
+        }
+    }
+}
+
+/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

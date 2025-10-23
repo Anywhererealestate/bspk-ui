@@ -47,7 +47,7 @@ export type AvatarGroupProps = {
  * @example
  *     import { AvatarGroup } from '@bspk/ui/AvatarGroup';
  *
- *     export function Example() {
+ *     function Example() {
  *         return (
  *             <AvatarGroup
  *                 items={[

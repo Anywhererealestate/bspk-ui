@@ -27,9 +27,7 @@ export const presets: Preset<SelectProps>[] = [
     {
         label: 'Simple',
         propState: {
-            label: 'Demo Select',
             options: DEFAULT_OPTIONS,
-
             name: 'demo-select',
             value: '',
         },
@@ -37,8 +35,6 @@ export const presets: Preset<SelectProps>[] = [
     {
         label: 'Long text',
         propState: {
-            label: 'Demo Select',
-
             options: [
                 { value: '1', label: 'This is a very long option that should truncate' },
                 { value: '2', label: 'This is another long option that should truncate' },
@@ -52,8 +48,6 @@ export const presets: Preset<SelectProps>[] = [
     {
         label: 'Trailing Tags',
         propState: {
-            label: 'Demo Select',
-
             options: [
                 //
                 {
@@ -76,8 +70,6 @@ export const presets: Preset<SelectProps>[] = [
     {
         label: 'Trailing Text',
         propState: {
-            label: 'Demo Select',
-
             options: [
                 {
                     value: '1',
@@ -95,8 +87,6 @@ export const presets: Preset<SelectProps>[] = [
     {
         label: 'Leading Avatar',
         propState: {
-            label: 'Select user',
-
             options: [
                 //
                 {
@@ -128,13 +118,10 @@ export const presets: Preset<SelectProps>[] = [
 
 export const SelectExample: ComponentExample<SelectProps> = {
     defaultState: {
-        label: 'Demo Select',
         options: DEFAULT_OPTIONS,
         scrollLimit: 5,
         value: '',
     },
-    render: ({ props, Component }) => {
-        return <Component {...props} />;
-    },
+    render: ({ props, Component }) => <Component {...props} />,
     presets,
 };

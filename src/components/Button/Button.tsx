@@ -53,7 +53,11 @@ export type ButtonProps<As extends ElementType = 'button'> = CommonProps<'disabl
      */
     variant?: ButtonVariant;
     /**
-     * The width of the button.
+     * Determines how the button uses horizontal space.
+     *
+     * If set to 'fill', options expand to fill the container's width.
+     *
+     * If set to 'hug', options only take up as much space as the content requires.
      *
      * @default hug
      */
@@ -111,6 +115,7 @@ export function Button<As extends ElementType = 'button'>(
         children,
         innerRef,
         owner,
+        role,
         ...containerProps
     } = props;
     const label = typeof children === 'string' ? children : labelProp || '';
@@ -152,6 +157,7 @@ export function Button<As extends ElementType = 'button'>(
                 containerProps.onMouseOver?.(e);
             }}
             ref={innerRef}
+            role={role || (As !== 'button' ? 'button' : undefined)}
         >
             {children && typeof children !== 'string' ? (
                 children

@@ -1,0 +1,8 @@
+[data-bspk='checkbox-group'] {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    max-width: 100%;
+
+    --list-item-height: 'auto';
+}

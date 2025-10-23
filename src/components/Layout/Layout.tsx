@@ -44,7 +44,7 @@ export type LayoutProps<As extends ElementType = 'div'> = {
  * @example
  *     import { Layout } from '@bspk/ui/Layout';
  *
- *     export function Example() {
+ *     function Example() {
  *         return <Layout>Low effort example</Layout>;
  *     }
  *

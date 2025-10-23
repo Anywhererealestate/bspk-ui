@@ -1,15 +1,16 @@
 import './search-bar.scss';
 import { SvgSearch } from '@bspk/icons/Search';
 import { useEffect, useMemo, useState } from 'react';
+import { InputProps, Input } from '-/components/Input';
 import { ListItem, ListItemProps } from '-/components/ListItem';
 import { Menu } from '-/components/Menu';
-import { TextInputProps, TextInput } from '-/components/TextInput';
 import { Txt } from '-/components/Txt';
 import { useArrowNavigation } from '-/hooks/useArrowNavigation';
 import { useFloating } from '-/hooks/useFloating';
 import { useId } from '-/hooks/useId';
 import { useOutsideClick } from '-/hooks/useOutsideClick';
 import { useUIContext } from '-/hooks/useUIContext';
+import { FieldControlProps } from '-/types/common';
 import { getElementById } from '-/utils/dom';
 import { handleKeyDown } from '-/utils/handleKeyDown';
 import { scrollListItemsStyle, ScrollListItemsStyleProps } from '-/utils/scrollListItemsStyle';
@@ -22,13 +23,9 @@ import { useIds } from '-/utils/useIds';
  */
 export type SearchBarOption = Pick<ListItemProps, 'label' | 'leading' | 'trailing'>;
 
-export type SearchBarProps<O extends SearchBarOption = SearchBarOption> = Pick<
-    TextInputProps,
-    'aria-label' | 'disabled' | 'id' | 'inputRef' | 'name' | 'size'
-> &
+export type SearchBarProps<O extends SearchBarOption = SearchBarOption> = FieldControlProps<string, O> &
+    Pick<InputProps, 'inputRef' | 'size'> &
     ScrollListItemsStyleProps & {
-        /** The current value of the search bar. */
-        value?: string;
         /**
          * The placeholder of the field.
          *
@@ -37,14 +34,6 @@ export type SearchBarProps<O extends SearchBarOption = SearchBarOption> = Pick<
          * @required
          */
         placeholder: string;
-        /**
-         * Handler for input value change. This is called on every key press in the input field and when a menu item is
-         * selected.
-         *
-         * @type (value: String, item?: SearchBarOption) => void
-         * @required
-         */
-        onChange: (value: string, item?: O) => void;
         /**
          * Content to display in the menu.
          *
@@ -80,8 +69,8 @@ export type SearchBarProps<O extends SearchBarOption = SearchBarOption> = Pick<
  *     import { useState } from 'react';
  *     import { SearchBar } from '@bspk/ui/SearchBar';
  *
- *     export function Example() {
- *         const [searchText, setSearchText] = useState<string>('');
+ *     function Example() {
+ *         const [searchText, setSearchText] = useState('');
  *
  *         return (
  *             <SearchBar
@@ -98,7 +87,7 @@ export type SearchBarProps<O extends SearchBarOption = SearchBarOption> = Pick<
  *                     { label: 'Ice Cream Sandwich' },
  *                     { label: 'Jackfruit Pudding' },
  *                 ]}
- *                 name="Example name"
+ *                 name="example-name"
  *                 placeholder="Search"
  *                 value={searchText}
  *                 onChange={setSearchText}
@@ -113,7 +102,6 @@ export function SearchBar<O extends SearchBarOption>({
     items: itemsProp,
     noResultsMessage,
     placeholder = 'Search',
-    'aria-label': ariaLabel,
     id: idProp,
     inputRef,
     name,
@@ -189,8 +177,7 @@ export function SearchBar<O extends SearchBarOption>({
     return (
         <>
             <div data-bspk="search-bar">
-                <TextInput
-                    aria-label={ariaLabel}
+                <Input
                     autoComplete="off"
                     containerRef={elements.setReference}
                     disabled={disabled}
