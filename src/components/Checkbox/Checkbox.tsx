@@ -1,32 +1,32 @@
 import './checkbox.scss';
 import { ChangeEvent, useEffect, useRef } from 'react';
-import { CommonProps, ElementProps, FormFieldControlProps, RequiredCommonProps } from '-/types/common';
+import { ElementProps, FieldControlProps } from '-/types/common';
 
-export type CheckboxProps = CommonProps<'aria-label' | 'disabled' | 'invalid' | 'name' | 'readOnly'> &
-    FormFieldControlProps &
-    RequiredCommonProps<'value'> & {
-        /**
-         * If the checkbox is partially checked or
-         * [indeterminate](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#indeterminate_state_checkboxes).
-         *
-         * This will override the `checked` prop.
-         *
-         * @default false
-         */
-        indeterminate?: boolean;
-        /**
-         * Marks the checkbox as checked.
-         *
-         * @default false
-         */
-        checked?: boolean;
-        /**
-         * The function to call when the checkbox is checked or unchecked.
-         *
-         * @required
-         */
-        onChange: (checked: boolean, event: ChangeEvent<HTMLInputElement>) => void;
-    };
+export type CheckboxProps = Omit<FieldControlProps, 'onChange' | 'value'> & {
+    /**
+     * If the checkbox is partially checked or
+     * [indeterminate](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#indeterminate_state_checkboxes).
+     *
+     * This will override the `checked` prop.
+     *
+     * @default false
+     */
+    indeterminate?: boolean;
+    /**
+     * Marks the checkbox as checked.
+     *
+     * @default false
+     */
+    checked?: boolean;
+    /**
+     * The function to call when the checkbox is checked or unchecked.
+     *
+     * @required
+     */
+    onChange: (checked: boolean, event: ChangeEvent<HTMLInputElement>) => void;
+    /** The value of the checkbox. */
+    value: string;
+};
 
 /**
  * A control that allows users to choose one or more items from a list or turn an feature on or off. This is the base

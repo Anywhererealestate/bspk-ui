@@ -1,11 +1,11 @@
 import './password.scss';
 import { useState } from 'react';
 import { Button } from '-/components/Button';
-import { FieldControlProp, useFieldInit } from '-/components/Field';
+import { useFieldInit } from '-/components/Field';
 import { InputElement, InputProps } from '-/components/Input';
+import { FieldControlProps } from '-/types/common';
 
-export type PasswordProps = FieldControlProp &
-    Pick<InputProps, 'containerRef' | 'inputProps' | 'inputRef' | 'name' | 'onChange' | 'size' | 'value'>;
+export type PasswordProps = FieldControlProps & Pick<InputProps, 'containerRef' | 'inputProps' | 'inputRef' | 'size'>;
 
 /**
  * An input field that is specifically built with a show/hide toggle for entering security passwords.
@@ -49,20 +49,21 @@ export function Password({
     inputRef,
     name,
     onChange,
-    required,
+    required = false,
     containerRef,
     invalid: invalidProp,
     readOnly,
     disabled,
     id: idProp,
+    'aria-label': ariaLabel,
     ...props
 }: PasswordProps) {
-    const { id, invalid, ariaDescribedBy, ariaErrorMessage } = useFieldInit({
-        id: idProp,
+    const { id, ariaDescribedBy, ariaErrorMessage, invalid } = useFieldInit({
+        idProp,
         required,
-        readOnly,
         disabled,
-        invalid: invalidProp,
+        readOnly,
+        invalidProp,
     });
 
     const [isShowingPassword, setIsShowingPassword] = useState(false);
@@ -77,6 +78,7 @@ export function Password({
             {...props}
             aria-describedby={ariaDescribedBy}
             aria-errormessage={ariaErrorMessage}
+            aria-label={ariaLabel || undefined}
             autoComplete="off"
             containerRef={containerRef}
             data-bspk-owner="password"

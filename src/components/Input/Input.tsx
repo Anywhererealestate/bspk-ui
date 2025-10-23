@@ -42,9 +42,9 @@ export function Input({
     size = DEFAULT.size,
     value = DEFAULT.value,
     name,
-    'aria-label': ariaLabel,
+    'aria-label': ariaLabel = 'Input',
     inputRef,
-    required,
+    required = false,
     placeholder,
     id: idProp,
     leading,
@@ -60,11 +60,11 @@ export function Input({
     ...props
 }: ElementProps<InputProps, 'div'>) {
     const { id, ariaDescribedBy, ariaErrorMessage, invalid } = useFieldInit({
-        id: idProp,
+        idProp,
         required,
-        readOnly,
         disabled,
-        invalid: invalidProp,
+        readOnly,
+        invalidProp,
     });
 
     return (

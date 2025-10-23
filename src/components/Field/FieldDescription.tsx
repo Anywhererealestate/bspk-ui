@@ -1,17 +1,15 @@
-import { useEffect } from 'react';
-import { useFieldContext } from './utils';
+import { useFieldContext, describedById } from './utils';
 
-export function FieldDescription({ children }: { children?: string }) {
-    const { setField, id, ariaDescribedBy } = useFieldContext();
-
-    useEffect(() => {
-        if (setField && !!ariaDescribedBy !== !!children)
-            setField({ ariaDescribedBy: children ? `${id}-description` : undefined });
-    }, [children, setField, ariaDescribedBy, id]);
+function FieldDescription({ children }: { children?: string }) {
+    const { id } = useFieldContext();
 
     return children ? (
-        <p data-bspk="field-description" id={`${id}-description`}>
+        <p data-bspk="field-description" id={describedById(id)}>
             {children}
         </p>
     ) : null;
 }
+
+FieldDescription.displayName = 'FieldDescription';
+
+export { FieldDescription };

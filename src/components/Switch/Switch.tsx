@@ -2,7 +2,7 @@ import './switch.scss';
 import { ChangeEvent } from 'react';
 import { CommonProps } from '-/types/common';
 
-export type SwitchProps = CommonProps<'aria-label' | 'disabled' | 'name' | 'value'> & {
+export type SwitchProps = CommonProps<'aria-label' | 'disabled' | 'name'> & {
     /**
      * Marks the control as checked.
      *
@@ -22,6 +22,8 @@ export type SwitchProps = CommonProps<'aria-label' | 'disabled' | 'name' | 'valu
      * @default false
      */
     readOnly?: boolean;
+    /** The value of the switch. */
+    value: string;
 };
 
 /**

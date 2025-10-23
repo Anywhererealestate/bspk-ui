@@ -41,6 +41,7 @@ export const MenuExample: ComponentExampleFn<MenuProps & { style?: unknown; 'dat
                                 setState((prev) => ({ 'data-dark-mode': !prev['data-dark-mode'] }));
                                 action('Dark mode toggled');
                             }}
+                            value="dark-mode"
                         />
                     }
                 />

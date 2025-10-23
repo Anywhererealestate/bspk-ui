@@ -7,6 +7,7 @@ import {
     AriaAttributes,
     HTMLAttributes,
     AriaRole,
+    ComponentProps,
 } from 'react';
 import { ListItemButton } from './ListItemButton';
 import { Truncated } from '-/components/Truncated';
@@ -31,12 +32,16 @@ export type ListItemProps<As extends ElementType = ElementType> = CommonProps<'a
          * @options Icon, Img, Avatar
          */
         leading?: ReactNode;
+        /** Props to pass to the leading element wrapper span. */
+        leadingProps?: ComponentProps<'span'>;
         /**
          * The label to display in the ListItem.
          *
          * @required
          */
         label: string;
+        /** Props to pass to the label wrapper span. */
+        labelProps?: ComponentProps<'span'>;
         /** The subtext to display in the ListItem. */
         subText?: string;
         /**
@@ -49,6 +54,8 @@ export type ListItemProps<As extends ElementType = ElementType> = CommonProps<'a
          * @options Checkbox, Icon, ListItemButton, Radio, Switch, Tag, Txt
          */
         trailing?: ReactNode;
+        /** Props to pass to the trailing element wrapper span. */
+        trailingProps?: ComponentProps<'span'>;
         /**
          * The [href](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/a#href) of the list item.
          *
@@ -76,17 +83,20 @@ export type ListItemProps<As extends ElementType = ElementType> = CommonProps<'a
          */
         id?: string;
         /**
-         * Whether to hide the label from screen readers. Use this when the label is redundant with other context, such
-         * as within a ListItemMenu or Label.
-         *
-         * @default false
-         */
-        hideAriaLabel?: boolean;
-        /**
          * Indicates the current "selected" state of the list item when used in a selectable context, such as within a
          * ListItemMenu.
          */
         'aria-selected'?: boolean;
+        /**
+         * Determines how the ListItem uses horizontal space.
+         *
+         * If set to 'fill', options expand to fill the container's width.
+         *
+         * If set to 'hug', options only take up as much space as the content requires.
+         *
+         * @default fill
+         */
+        width?: 'fill' | 'hug';
     };
 
 /**
@@ -121,22 +131,25 @@ export type ListItemProps<As extends ElementType = ElementType> = CommonProps<'a
  * @name ListItem
  * @phase UXReview
  */
-function ListItem<As extends ElementType = 'div'>({
+function ListItem<As extends ElementType = ElementType>({
     active,
     as,
     innerRef,
     label,
+    labelProps,
     leading,
+    leadingProps,
     owner,
     role: roleProp,
     subText,
     trailing,
+    trailingProps,
     id: idProp,
     'aria-label': ariaLabel,
     'aria-selected': ariaSelected,
     'aria-disabled': ariaDisabled,
     'aria-readonly': ariaReadonly,
-    hideAriaLabel,
+    width,
     ...props
 }: ElementProps<ListItemProps<As>, As>) {
     const id = useId(idProp);
@@ -163,6 +176,7 @@ function ListItem<As extends ElementType = 'div'>({
             data-bspk-owner={owner || undefined}
             data-disabled={isDisabled || undefined}
             data-readonly={isReadOnly || undefined}
+            data-width={width === 'hug' ? 'hug' : undefined}
             id={id}
             onClick={isReadOnly || isDisabled ? undefined : props.onClick}
             ref={innerRef}
@@ -170,15 +184,19 @@ function ListItem<As extends ElementType = 'div'>({
             tabIndex={props.tabIndex || (actionable ? 0 : -1)}
         >
             {leading && (
-                <span aria-hidden data-leading>
+                <span {...leadingProps} data-leading>
                     {leading}
                 </span>
             )}
-            <span aria-hidden={hideAriaLabel ? true : undefined} data-item-label>
+            <span {...labelProps} data-item-label>
                 <Truncated data-text>{label}</Truncated>
                 {subText && <span data-sub-text>{subText}</span>}
             </span>
-            {trailing && <span data-trailing>{trailing}</span>}
+            {trailing && (
+                <span {...trailingProps} data-trailing>
+                    {trailing}
+                </span>
+            )}
         </As>
     );
 }

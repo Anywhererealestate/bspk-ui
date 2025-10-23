@@ -2,17 +2,18 @@ import { useState } from 'react';
 import { FormField, FormFieldProps } from '.';
 import { Button } from '-/components/Button';
 import { DatePicker } from '-/components/DatePicker';
-import { FieldControlProp } from '-/components/Field';
 import { Input } from '-/components/Input';
 import { InputNumber } from '-/components/InputNumber';
 import { InputPhone } from '-/components/InputPhone';
 import { Password } from '-/components/Password';
 import { Select } from '-/components/Select';
+import { SwitchOption } from '-/components/SwitchOption';
 import { Textarea } from '-/components/Textarea';
 import { TimePicker } from '-/components/TimePicker';
+import { FieldControlProps } from '-/types/common';
 import { ComponentExample, Preset, Syntax } from '-/utils/demo';
 
-type ExampleProps = Partial<FieldControlProp & FormFieldProps>;
+type ExampleProps = Partial<FieldControlProps & FormFieldProps>;
 
 export const presets: Preset<Partial<ExampleProps>>[] = [
     {
@@ -23,9 +24,7 @@ export const presets: Preset<Partial<ExampleProps>>[] = [
 
 export const FormFieldExample: ComponentExample<ExampleProps> = {
     containerStyle: { width: '100%' },
-    defaultState: {
-        disabled: false,
-    },
+    defaultState: {},
     disableProps: [],
     presets: presets as Preset<ExampleProps>[],
     render: ({ props, Component }) => (
@@ -36,14 +35,14 @@ export const FormFieldExample: ComponentExample<ExampleProps> = {
     sections: [
         {
             title: 'Form Field Example',
-            content: ({ Syntax: syntax }) => (
+            content: ({ Syntax: syntax, props }) => (
                 <>
                     <p>
                         This example demonstrates the FormField component wrapping various form controls including
                         DatePicker, Input, InputNumber, InputPhone, Password, Select, Textarea, and TimePicker. It
                         showcases how to manage state and handle form submissions.
                     </p>
-                    <FormFieldExampleRender syntax={syntax} />
+                    <FormFieldExampleRender {...props} syntax={syntax} />
                 </>
             ),
             location: 'afterDemo',
@@ -52,7 +51,7 @@ export const FormFieldExample: ComponentExample<ExampleProps> = {
     variants: false,
 };
 
-export function FormFieldExampleRender({ syntax: Code, ...props }: ExampleProps & { syntax?: Syntax }) {
+export function FormFieldExampleRender({ ...props }: ExampleProps & { syntax?: Syntax }) {
     const [value, setValueState] = useState<{ [key: string]: unknown }>({});
 
     const setValue = (next: { [key: string]: unknown }) => {
@@ -61,111 +60,162 @@ export function FormFieldExampleRender({ syntax: Code, ...props }: ExampleProps 
 
     const [formValues, setFormValues] = useState<{ [key: string]: unknown }>({});
 
-    return (
-        <form
-            onReset={() => {
-                setValueState({});
-                setFormValues({});
-            }}
-            onSubmit={(e) => {
-                e.preventDefault();
-                const formData = new FormData(e.currentTarget);
-                const next: { [key: string]: unknown[] | unknown } = {};
-                // handle multiple form entries with the same name
-                formData.forEach((fieldValue, key) => {
-                    if (next[key]) {
-                        if (Array.isArray(next[key])) {
-                            (next[key] as unknown[]).push(fieldValue);
-                        } else {
-                            next[key] = [next[key], fieldValue];
-                        }
-                    } else {
-                        next[key] = fieldValue;
-                    }
-                });
-                setFormValues(next);
-            }}
-            style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-sizing-04)', width: '400px' }}
-        >
-            <FormField {...props} label="DatePicker">
-                <DatePicker
-                    disabled={props.disabled}
-                    name="date-picker"
-                    onChange={(next) => setValue({ 'date-picker': next })}
-                    placeholder="Example input"
-                    value={value['date-picker'] as string}
-                />
-            </FormField>
-            <FormField {...props} label="Input">
-                <Input
-                    disabled={props.disabled}
-                    name="input"
-                    onChange={(next) => setValue({ input: next })}
-                    placeholder="Example input"
-                    value={value['input'] as string}
-                />
-            </FormField>
-            <FormField {...props} label="InputNumber">
-                <InputNumber
-                    disabled={props.disabled}
-                    name="input-number"
-                    onChange={(next) => setValue({ 'input-number': next })}
-                    value={value['input-number'] as number}
-                />
-            </FormField>
-            <FormField {...props} label="InputPhone">
-                <InputPhone
-                    disabled={props.disabled}
-                    name="input-phone"
-                    onChange={(next) => setValue({ 'input-phone': next })}
-                    value={value['input-phone'] as string}
-                />
-            </FormField>
-            <FormField {...props} label="Password">
-                <Password
-                    disabled={props.disabled}
-                    name="password"
-                    onChange={(next) => setValue({ password: next })}
-                    value={value['password'] as string}
-                />
-            </FormField>
-            <FormField {...props} label="Select">
-                <Select
-                    disabled={props.disabled}
-                    name="select"
-                    onChange={(next) => setValue({ select: next })}
-                    options={[
-                        { label: 'Option 1', value: 'option1' },
-                        { label: 'Option 2', value: 'option2' },
-                        { label: 'Option 3', value: 'option3' },
-                    ]}
-                    placeholder="Example input"
-                    value={value['select'] as string}
-                />
-            </FormField>
-            <FormField {...props} label="Textarea">
-                <Textarea
-                    disabled={props.disabled}
-                    name="textarea"
-                    onChange={(next) => setValue({ textarea: next })}
-                    placeholder="Example input"
-                    value={value['textarea'] as string}
-                />
-            </FormField>
-            <FormField {...props} label="TimePicker">
-                <TimePicker
-                    disabled={props.disabled}
-                    name="time-picker"
-                    onChange={(next) => setValue({ 'time-picker': next })}
-                    value={value['time-picker'] as string}
-                />
-            </FormField>
-            <div style={{ display: 'flex', flexDirection: 'row', gap: 'var(--spacing-sizing-02)' }}>
-                <Button label="Reset" type="reset" variant="secondary" />
-                <Button label="Submit" type="submit" variant="primary" />
-            </div>
+    const [hasError, setHasError] = useState(false);
+    const [disabled, setDisabled] = useState(!!props.disabled);
+    const [required, setRequired] = useState(!!props.required);
 
-            {Code && <Code code={`// Submitted Form Data\n${JSON.stringify(formValues, null, 2)}`} />}
-        </form>
+    return (
+        <>
+            <div
+                style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                }}
+            >
+                <SwitchOption
+                    checked={hasError}
+                    label="Has Error"
+                    name="hasError"
+                    onChange={setHasError}
+                    value="hasError"
+                />
+                <SwitchOption
+                    checked={disabled}
+                    label="Disabled"
+                    name="disabled"
+                    onChange={setDisabled}
+                    value="disabled"
+                />
+                <SwitchOption
+                    checked={required}
+                    label="Required"
+                    name="required"
+                    onChange={setRequired}
+                    value="required"
+                />
+            </div>
+            <form
+                onReset={() => {
+                    setValueState({});
+                    setFormValues({});
+                }}
+                onSubmit={(e) => {
+                    e.preventDefault();
+                    const formData = new FormData(e.currentTarget);
+                    const next: { [key: string]: unknown[] | unknown } = {};
+                    // handle multiple form entries with the same name
+                    formData.forEach((fieldValue, key) => {
+                        if (next[key]) {
+                            if (Array.isArray(next[key])) {
+                                (next[key] as unknown[]).push(fieldValue);
+                            } else {
+                                next[key] = [next[key], fieldValue];
+                            }
+                        } else {
+                            next[key] = fieldValue;
+                        }
+                    });
+                    setFormValues(next);
+                }}
+                style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-sizing-04)', width: '400px' }}
+            >
+                <FormField {...props} errorMessage={hasError ? 'This is an error message' : ''} label="DatePicker">
+                    <DatePicker
+                        disabled={disabled}
+                        name="date-picker"
+                        onChange={(next) => setValue({ 'date-picker': next })}
+                        placeholder="Example input"
+                        required={required}
+                        value={value['date-picker'] as Date}
+                    />
+                </FormField>
+                <FormField {...props} errorMessage={hasError ? 'This is an error message' : ''} label="Input">
+                    <Input
+                        disabled={disabled}
+                        name="input"
+                        onChange={(next) => setValue({ input: next })}
+                        placeholder="Example input"
+                        required={required}
+                        value={value['input'] as string}
+                    />
+                </FormField>
+                <FormField {...props} errorMessage={hasError ? 'This is an error message' : ''} label="InputNumber">
+                    <InputNumber
+                        disabled={disabled}
+                        name="input-number"
+                        onChange={(next) => setValue({ 'input-number': next })}
+                        required={required}
+                        value={value['input-number'] as number}
+                    />
+                </FormField>
+                <FormField {...props} errorMessage={hasError ? 'This is an error message' : ''} label="InputPhone">
+                    <InputPhone
+                        disabled={disabled}
+                        name="input-phone"
+                        onChange={(next) => setValue({ 'input-phone': next })}
+                        required={required}
+                        value={value['input-phone'] as string}
+                    />
+                </FormField>
+                <FormField {...props} errorMessage={hasError ? 'This is an error message' : ''} label="Password">
+                    <Password
+                        disabled={disabled}
+                        name="password"
+                        onChange={(next) => setValue({ password: next })}
+                        required={required}
+                        value={value['password'] as string}
+                    />
+                </FormField>
+                <FormField {...props} errorMessage={hasError ? 'This is an error message' : ''} label="Select">
+                    <Select
+                        disabled={disabled}
+                        name="select"
+                        onChange={(next) => setValue({ select: next })}
+                        options={[
+                            { label: 'Option 1', value: 'option1' },
+                            { label: 'Option 2', value: 'option2' },
+                            { label: 'Option 3', value: 'option3' },
+                        ]}
+                        placeholder="Example input"
+                        required={required}
+                        value={value['select'] as string}
+                    />
+                </FormField>
+                <FormField {...props} errorMessage={hasError ? 'This is an error message' : ''} label="Textarea">
+                    <Textarea
+                        disabled={disabled}
+                        name="textarea"
+                        onChange={(next) => setValue({ textarea: next })}
+                        placeholder="Example input"
+                        required={required}
+                        value={value['textarea'] as string}
+                    />
+                </FormField>
+                <FormField {...props} errorMessage={hasError ? 'This is an error message' : ''} label="TimePicker">
+                    <TimePicker
+                        disabled={disabled}
+                        name="time-picker"
+                        onChange={(next) => setValue({ 'time-picker': next })}
+                        required={required}
+                        value={value['time-picker'] as string}
+                    />
+                </FormField>
+                <div style={{ display: 'flex', flexDirection: 'row', gap: 'var(--spacing-sizing-02)' }}>
+                    <Button label="Reset" type="reset" variant="secondary" />
+                    <Button label="Submit" type="submit" variant="primary" />
+                </div>
+
+                <code
+                    style={{
+                        background: 'var(--surface-neutral-t3-low)',
+                        // fontWeight: 'bold',
+                        padding: 'var(--spacing-sizing-02)',
+                        borderRadius: 'var(--radius-sm)',
+                    }}
+                >
+                    <pre>{`// Submitted Form Data\n\n${JSON.stringify(formValues, null, 2)}`}</pre>
+                </code>
+            </form>
+        </>
     );
 }

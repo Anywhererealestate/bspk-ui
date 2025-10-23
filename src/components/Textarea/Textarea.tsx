@@ -1,65 +1,45 @@
 import './textarea.scss';
 import { ChangeEvent, useRef } from 'react';
-import { FieldControlProp, useFieldInit } from '-/components/Field';
-import { CommonProps, SetRef } from '-/types/common';
+import { useFieldInit } from '-/components/Field';
+import { FieldControlProps, SetRef } from '-/types/common';
 import { cssWithVars } from '-/utils/cwv';
 
-export type TextareaProps = CommonProps<'aria-label'> &
-    FieldControlProp & {
-        /**
-         * Callback when the value of the field changes.
-         *
-         * @type (next: String, Event) => void
-         * @required
-         */
-        onChange: (next: string, event?: ChangeEvent<HTMLTextAreaElement>) => void;
-        /**
-         * The text size of the field.
-         *
-         * @default medium
-         */
-        textSize?: 'large' | 'medium' | 'small';
-        /**
-         * The value of the field.
-         *
-         * @type multiline
-         */
-        value?: string;
-        /**
-         * The textarea control name of the field.
-         *
-         * @required
-         */
-        name: string;
-        /** The ref of the field. */
-        innerRef?: SetRef<HTMLTextAreaElement>;
-        /** The placeholder of the field. */
-        placeholder?: string;
-        /**
-         * The maximum number of characters that the field will accept.
-         *
-         * @minimum 1
-         */
-        maxLength?: number;
-        /**
-         * The minimum number of rows that the textarea will show.
-         *
-         * @default 3
-         * @minimum 3
-         * @maximum 10
-         */
-        minRows?: number;
-        /**
-         * The maximum number of rows that the textarea will show.
-         *
-         * When set the textarea will automatically adjust its height to fit the content up to this limit.
-         *
-         * @default 10
-         * @minimum 3
-         * @maximum 10
-         */
-        maxRows?: number;
-    };
+export type TextareaProps = FieldControlProps<string, ChangeEvent<HTMLTextAreaElement>> & {
+    /**
+     * The text size of the field.
+     *
+     * @default medium
+     */
+    textSize?: 'large' | 'medium' | 'small';
+    /** The ref of the field. */
+    innerRef?: SetRef<HTMLTextAreaElement>;
+    /** The placeholder of the field. */
+    placeholder?: string;
+    /**
+     * The maximum number of characters that the field will accept.
+     *
+     * @minimum 1
+     */
+    maxLength?: number;
+    /**
+     * The minimum number of rows that the textarea will show.
+     *
+     * @default 3
+     * @minimum 3
+     * @maximum 10
+     */
+    minRows?: number;
+    /**
+     * The maximum number of rows that the textarea will show.
+     *
+     * When set the textarea will automatically adjust its height to fit the content up to this limit.
+     *
+     * @default 10
+     * @minimum 3
+     * @maximum 10
+     */
+    maxRows?: number;
+};
 
 /**
  * A component that allows users to input large amounts of text that could span multiple lines.
@@ -107,17 +87,18 @@ export function Textarea({
     id: idProp,
     minRows = 4,
     maxRows = 10,
-    required,
+    required = false,
     readOnly,
     disabled,
+    'aria-label': ariaLabel,
     ...otherProps
 }: TextareaProps) {
-    const { id, invalid, ariaDescribedBy, ariaErrorMessage } = useFieldInit({
-        id: idProp,
+    const { id, ariaDescribedBy, ariaErrorMessage, invalid } = useFieldInit({
+        idProp,
         required,
-        readOnly,
         disabled,
-        invalid: invalidProp,
+        readOnly,
+        invalidProp,
     });
 
     const onInput = () => {
@@ -147,6 +128,7 @@ export function Textarea({
                 aria-describedby={ariaDescribedBy || undefined}
                 aria-errormessage={ariaErrorMessage || undefined}
                 aria-invalid={invalid || undefined}
+                aria-label={ariaLabel || undefined}
                 disabled={disabled}
                 id={id}
                 name={name}

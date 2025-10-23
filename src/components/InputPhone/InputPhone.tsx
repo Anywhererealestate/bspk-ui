@@ -3,7 +3,7 @@ import { SvgIcon } from '@bspk/icons/SvgIcon';
 import { AsYouType, getCountryCallingCode } from 'libphonenumber-js';
 import { useMemo, useRef, useState } from 'react';
 import { Button } from '-/components/Button';
-import { FieldControlProp, useFieldInit } from '-/components/Field';
+import { useFieldInit } from '-/components/Field';
 import { InputElement, InputProps } from '-/components/Input';
 import { ListItem } from '-/components/ListItem';
 import { Menu } from '-/components/Menu';
@@ -11,6 +11,7 @@ import { useArrowNavigation } from '-/hooks/useArrowNavigation';
 import { useFloating } from '-/hooks/useFloating';
 import { useOutsideClick } from '-/hooks/useOutsideClick';
 import { useUIContext } from '-/hooks/useUIContext';
+import { FieldControlProps } from '-/types/common';
 import { countryCodeData, countryCodes, SupportedCountryCode } from '-/utils/countryCodes';
 import { getElementById } from '-/utils/dom';
 import { guessUserCountryCode } from '-/utils/guessUserCountryCode';
@@ -28,8 +29,8 @@ const SELECT_OPTIONS = countryCodes.map((code) => {
     };
 });
 
-export type InputPhoneProps = FieldControlProp &
-    Pick<InputProps, 'inputRef' | 'name' | 'size' | 'value'> &
+export type InputPhoneProps = FieldControlProps<string, SupportedCountryCode> &
+    Pick<InputProps, 'inputRef' | 'size'> &
     ScrollListItemsStyleProps & {
         /**
          * The default country code to select when the component is rendered. If not provided, it will attempt to guess
@@ -46,8 +47,6 @@ export type InputPhoneProps = FieldControlProp &
          * @type boolean
          */
         disableFormatting?: boolean;
-        /** Handler for change events. Contains the raw phone number value and the selected country code. */
-        onChange: (value: string, countryCode: SupportedCountryCode) => void;
     };
 
 /**
@@ -93,26 +92,20 @@ export function InputPhone({
     name,
     id: idProp,
     invalid: invalidProp,
-    required: requiredProp,
+    required = false,
     size = 'medium',
     inputRef,
     scrollLimit = 5,
+    'aria-label': ariaLabel = 'Phone number input',
 }: InputPhoneProps) {
-    const {
-        id,
-        ariaDescribedBy,
-        ariaErrorMessage,
-        invalid: hasError,
+    const { id, ariaDescribedBy, ariaErrorMessage, invalid } = useFieldInit({
+        idProp,
         required,
-    } = useFieldInit({
-        id: idProp,
-        readOnly,
         disabled,
-        invalid: invalidProp,
-        required: requiredProp,
+        readOnly,
+        invalidProp,
     });
     const menuId = useMemo(() => `${id}-menu`, [id]);
-    const invalid = !readOnly && !disabled && (invalidProp || hasError);
 
     const items = useIds(`input-phone-${id}`, SELECT_OPTIONS);
 
@@ -183,7 +176,7 @@ export function InputPhone({
                 <InputElement
                     aria-describedby={ariaDescribedBy}
                     aria-errormessage={ariaErrorMessage}
-                    aria-label="Phone number input"
+                    aria-label={ariaLabel || undefined}
                     autoComplete="off"
                     containerRef={elements.setReference}
                     disabled={disabled}

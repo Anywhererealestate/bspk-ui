@@ -17,7 +17,7 @@ export function SwitchOption({ label: labelProp, description, ...checkboxProps }
 
     return (
         label && (
-            <ToggleOption data-bspk="switch-option" description={description} label={label}>
+            <ToggleOption data-bspk-owner="switch-option" description={description} label={label}>
                 <Switch {...checkboxProps} aria-label={ariaLabel} />
             </ToggleOption>
         )

@@ -5,6 +5,7 @@ export const presets: Preset<CheckboxGroupProps>[] = [
     {
         label: 'With Descriptions',
         propState: {
+            value: ['option2'],
             disabled: false,
             options: [
                 { label: 'Option 1', value: 'option1', description: 'Description for option 1' },
@@ -23,6 +24,7 @@ export const presets: Preset<CheckboxGroupProps>[] = [
     {
         label: 'Group disabled',
         propState: {
+            value: ['option2'],
             disabled: true,
             options: [
                 { label: 'Option 1', value: 'option1', description: 'Description for option 1' },
@@ -40,6 +42,7 @@ export const presets: Preset<CheckboxGroupProps>[] = [
     {
         label: 'Long labels',
         propState: {
+            value: ['option2'],
             disabled: false,
             options: [
                 { label: 'This is a very long label for option 1 that never seems to end', value: 'option1' },

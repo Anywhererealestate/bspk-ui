@@ -1,13 +1,13 @@
 import './select.scss';
 import { SvgKeyboardArrowDown } from '@bspk/icons/KeyboardArrowDown';
 import { useMemo, KeyboardEvent, MouseEvent } from 'react';
-import { FieldControlProp, useFieldInit } from '-/components/Field';
+import { useFieldInit } from '-/components/Field';
 import { ListItem, ListItemProps } from '-/components/ListItem';
 import { Menu } from '-/components/Menu';
 import { useArrowNavigation } from '-/hooks/useArrowNavigation';
 import { useFloating } from '-/hooks/useFloating';
 import { useOutsideClick } from '-/hooks/useOutsideClick';
-import { CommonProps, ElementProps } from '-/types/common';
+import { CommonProps, ElementProps, FieldControlProps } from '-/types/common';
 import { getElementById } from '-/utils/dom';
 import { handleKeyDown } from '-/utils/handleKeyDown';
 import { scrollListItemsStyle, ScrollListItemsStyleProps } from '-/utils/scrollListItemsStyle';
@@ -22,8 +22,8 @@ export type SelectOption = CommonProps<'disabled'> &
 
 export type SelectItem = SelectOption & { id: string };
 
-export type SelectProps = CommonProps<'name' | 'size'> &
-    FieldControlProp &
+export type SelectProps = CommonProps<'size'> &
+    FieldControlProps<string, KeyboardEvent | MouseEvent> &
     ScrollListItemsStyleProps & {
         /**
          * Array of options to display in the select
@@ -46,17 +46,6 @@ export type SelectProps = CommonProps<'name' | 'size'> &
          * @required
          */
         options: SelectOption[];
-        /** Selected value */
-        value: string;
-        /**
-         * The function to call when the selected values change.
-         *
-         * @example
-         *     (value, event) => setState({ value });
-         *
-         * @required
-         */
-        onChange: (value: string, event?: KeyboardEvent | MouseEvent) => void;
         /**
          * Placeholder for the select
          *
@@ -134,24 +123,18 @@ export function Select({
     invalid: invalidProp,
     readOnly,
     name,
-    'aria-labelledby': ariaLabelledBy,
     scrollLimit,
-    required: requiredProp,
+    required = false,
+    'aria-label': ariaLabel,
     ...elementProps
 }: ElementProps<SelectProps, 'button'>) {
-    const {
-        id,
-        invalid: hasError,
-        ariaDescribedBy,
-        ariaErrorMessage,
-    } = useFieldInit({
-        id: idProp,
-        readOnly,
+    const { id, ariaDescribedBy, ariaErrorMessage, invalid } = useFieldInit({
+        idProp,
+        required,
         disabled,
-        required: requiredProp,
-        invalid: invalidProp,
+        readOnly,
+        invalidProp,
     });
-    const invalid = !readOnly && !disabled && (invalidProp || hasError);
     const menuId = useMemo(() => `${id}-menu`, [id]);
 
     const { items, availableItems } = useMemo(() => {
@@ -196,14 +179,11 @@ export function Select({
         if (activeElementId) getElementById(activeElementId)?.click();
     };
 
-    const ariaLabel = ariaLabelledBy
-        ? undefined
-        : elementProps['aria-label'] || selectedItem?.label || placeholder || undefined;
-
     return (
         <>
             <input name={name} type="hidden" value={value} />
             <button
+                aria-label={`${ariaLabel} ${selectedItem?.label || placeholder}`}
                 {...elementProps}
                 aria-activedescendant={activeElementId || undefined}
                 aria-autocomplete="list"
@@ -213,8 +193,6 @@ export function Select({
                 aria-errormessage={ariaErrorMessage || undefined}
                 aria-expanded={open}
                 aria-haspopup="listbox"
-                aria-label={ariaLabel}
-                aria-labelledby={ariaLabelledBy}
                 aria-readonly={readOnly || undefined}
                 data-bspk="select"
                 data-invalid={invalid || undefined}

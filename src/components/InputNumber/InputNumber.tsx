@@ -1,9 +1,9 @@
 import './input-number.scss';
 import { useMemo } from 'react';
 import { IncrementButton } from './IncrementButton';
-import { FieldControlProp, useFieldInit } from '-/components/Field';
+import { useFieldInit } from '-/components/Field';
 import { useId } from '-/hooks/useId';
-import { CommonProps } from '-/types/common';
+import { CommonProps, FieldControlProps } from '-/types/common';
 
 function isNumber(value: unknown, fallbackValue: number | undefined = undefined): number | undefined {
     if (typeof value === 'number') return value;
@@ -12,16 +12,8 @@ function isNumber(value: unknown, fallbackValue: number | undefined = undefined)
     return isNaN(num) ? fallbackValue : num;
 }
 
-export type InputNumberProps = CommonProps<'aria-label' | 'name' | 'size'> &
-    FieldControlProp & {
-        /** The value of the control. */
-        value?: number;
-        /**
-         * Callback when the value changes.
-         *
-         * @required
-         */
-        onChange: (value: number | string | undefined) => void;
+export type InputNumberProps = CommonProps<'size'> &
+    FieldControlProps<number> & {
         /**
          * The alignment of the input box. Centered between the plus and minus buttons or to the left of the buttons.
          *
@@ -101,20 +93,20 @@ export function InputNumber({
     readOnly = false,
     name,
     id: idProp,
-    'aria-label': ariaLabel,
+    'aria-label': ariaLabel = 'Input number',
     max: maxProp,
     min = 0,
     invalid: invalidProp = false,
     step = 1,
-    required: requiredProp = false,
+    required = false,
     ...inputElementProps
 }: InputNumberProps) {
-    const { id, ariaDescribedBy, ariaErrorMessage, invalid, required } = useFieldInit({
-        id: idProp,
-        readOnly,
+    const { id, ariaDescribedBy, ariaErrorMessage, invalid } = useFieldInit({
+        idProp,
+        required,
         disabled,
-        invalid: invalidProp,
-        required: requiredProp,
+        readOnly,
+        invalidProp,
     });
 
     const max = typeof maxProp === 'number' && maxProp >= min ? maxProp : Number.MAX_SAFE_INTEGER;

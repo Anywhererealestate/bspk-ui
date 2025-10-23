@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 import { Field, FieldLabel, FieldDescription, FieldError } from '-/components/Field';
 
 export type FormFieldControlProps<P extends Record<string, unknown>> = Omit<FormFieldProps, 'children'> &
-    Omit<P, keyof FormFieldProps | 'invalid'>;
+    Omit<P, keyof FormFieldProps>;
 
 export type FormFieldProps = {
     /** Displays an error message and marks the field as invalid. */
@@ -29,8 +29,11 @@ export type FormFieldProps = {
      */
     helperText?: string;
     /** The trailing element of the label. */
-    labelTrailing?: React.ReactNode;
+    labelTrailing?: string;
+    /** Marks the field as required. */
+    required?: boolean;
 };
+
 /**
  * Wrapper component for form controls.
  *
@@ -65,10 +68,12 @@ export type FormFieldProps = {
  * @name FormField
  * @phase Utility
  */
-export function FormField({ label, errorMessage, helperText, children, labelTrailing }: FormFieldProps) {
+export function FormField({ label, errorMessage, helperText, children, labelTrailing, required }: FormFieldProps) {
     return (
         <Field>
-            <FieldLabel labelTrailing={labelTrailing}>{label}</FieldLabel>
+            <FieldLabel labelTrailing={labelTrailing} required={required}>
+                {label}
+            </FieldLabel>
             {children}
             {!errorMessage && helperText && <FieldDescription>{helperText}</FieldDescription>}
             <FieldError>{errorMessage}</FieldError>

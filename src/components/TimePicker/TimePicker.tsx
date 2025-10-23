@@ -13,19 +13,16 @@ import {
     stringValueToParts,
 } from './utils';
 import { Button } from '-/components/Button';
-import { FieldControlProp, useFieldInit } from '-/components/Field';
+import { useFieldInit } from '-/components/Field';
 import { InputProps } from '-/components/Input';
 import { Menu } from '-/components/Menu';
 import { Portal } from '-/components/Portal';
 import { useFloating } from '-/hooks/useFloating';
 import { useOutsideClick } from '-/hooks/useOutsideClick';
-import { ElementProps } from '-/types/common';
+import { ElementProps, FieldControlProps } from '-/types/common';
 import { handleKeyDown } from '-/utils/handleKeyDown';
 
-export type TimePickerProps = FieldControlProp &
-    Pick<InputProps, 'name' | 'onChange' | 'size'> & {
-        value?: string;
-    };
+export type TimePickerProps = FieldControlProps & Pick<InputProps, 'size'>;
 
 /**
  * An input field that allows a customer to manually type in a specific time or triggers a time picker combobox to
@@ -65,25 +62,20 @@ export function TimePicker({
     readOnly,
     name,
     size,
-    required: requiredProp,
+    required = false,
     onChange: onChangeProp,
-    'aria-labelledby': ariaLabelledBy,
+    'aria-label': ariaLabel = 'Time picker',
     ...props
 }: ElementProps<TimePickerProps, 'div'>) {
-    const {
-        id,
-        ariaDescribedBy,
-        ariaErrorMessage,
-        invalid: hasError,
-    } = useFieldInit({
-        id: idProp,
-        readOnly,
+    const { id, ariaDescribedBy, ariaErrorMessage, invalid } = useFieldInit({
+        idProp,
+        required,
         disabled,
-        invalid: invalidProp,
-        required: requiredProp,
+        readOnly,
+        invalidProp,
     });
+
     const menuId = `${id}-time-picker-menu`;
-    const invalid = !readOnly && !disabled && (invalidProp || hasError);
 
     const { hours, minutes, meridiem } = useMemo(() => stringValueToParts(value || '00:00'), [value]);
 
@@ -165,8 +157,7 @@ export function TimePicker({
             <div
                 {...props}
                 aria-describedby={ariaErrorMessage || ariaDescribedBy || undefined}
-                aria-label={!ariaLabelledBy ? props['aria-label'] : undefined}
-                aria-labelledby={ariaLabelledBy}
+                aria-label={ariaLabel || undefined}
                 data-bspk="time-picker"
                 data-disabled={disabled || undefined}
                 data-invalid={invalid || undefined}
