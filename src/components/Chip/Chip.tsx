@@ -1,5 +1,4 @@
 import './chip.scss';
-import { SvgClose } from '@bspk/icons/Close';
 import { ReactNode, isValidElement } from 'react';
 import { Badge, BadgeProps } from '-/components/Badge';
 
@@ -51,13 +50,6 @@ export type ChipProps = {
      */
     trailingIcon?: ReactNode;
     /**
-     * If true, a close icon will be added and the chip can be removed.
-     *
-     * @default true
-     */
-
-    removable?: boolean;
-    /**
      * The trailing Badge for use in the ChipFilter.
      *
      * If a trailingIcon is provided the Badge will **not** be visible.
@@ -90,7 +82,6 @@ export function Chip({
     leadingIcon,
     onClick,
     trailingIcon,
-    removable = false,
     trailingBadge,
 }: ChipProps) {
     return (
@@ -111,7 +102,7 @@ export function Chip({
             <span>{label}</span>
             {isValidElement(trailingIcon) && (
                 <span aria-hidden="true" data-chip-icon>
-                    {removable ? <SvgClose /> : trailingIcon}
+                    {trailingIcon}
                 </span>
             )}
             {trailingBadge && !trailingIcon && (
