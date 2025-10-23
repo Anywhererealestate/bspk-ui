@@ -1,6 +1,9 @@
 import { Checkbox, CheckboxProps } from '-/components/Checkbox';
+import { useFieldInit } from '-/components/Field';
 import { ToggleOptionProps, ToggleOption } from '-/components/ToggleOption';
 import { ElementProps, FieldControlProps } from '-/types/common';
+
+const ALL_LABEL = 'All';
 
 export type CheckboxGroupOption = Pick<CheckboxProps, 'value'> &
     Pick<ToggleOptionProps, 'description' | 'disabled' | 'label'>;
@@ -68,25 +71,40 @@ export function CheckboxGroup({
     selectAllProps,
     disabled: disabledGroup = false,
     readOnly,
-    'aria-describedby': ariaDescribedBy,
-    'aria-errormessage': ariaErrorMessage,
+    invalid: invalidProp,
+    required,
+    disabled,
+    id: idProp,
+    'aria-describedby': ariaDescribedByProp,
+    'aria-errormessage': ariaErrorMessageProp,
     ...props
 }: ElementProps<CheckboxGroupProps, 'div'>) {
+    const { id, ariaDescribedBy, ariaErrorMessage, invalid } = useFieldInit({
+        idProp,
+        required,
+        disabled,
+        readOnly,
+        invalidProp,
+    });
+
     return (
         <div
             {...props}
-            aria-describedby={ariaErrorMessage || ariaDescribedBy || undefined}
+            aria-describedby={ariaDescribedByProp || ariaDescribedBy || undefined}
             data-bspk="checkbox-group"
+            id={id}
             role="group"
         >
             {selectAll && (
-                <ToggleOption label={selectAllProps?.label || 'All'} readOnly={readOnly}>
+                <ToggleOption label={selectAllProps?.label || ALL_LABEL} readOnly={readOnly}>
                     <Checkbox
-                        aria-label={selectAllProps?.label || 'All'}
+                        aria-errormessage={ariaErrorMessageProp || ariaErrorMessage || undefined}
+                        aria-label={selectAllProps?.label || ALL_LABEL}
                         checked={!!value.length && value.length === options.length}
                         data-testid="selectAll-Checkbox"
                         disabled={disabledGroup}
                         indeterminate={!!value.length && value.length < options.length}
+                        invalid={invalid || undefined}
                         name={name}
                         onChange={(checked) => onChange(checked ? options.map((o) => o.value) : [])}
                         readOnly={readOnly}
@@ -103,9 +121,11 @@ export function CheckboxGroup({
                     readOnly={readOnly}
                 >
                     <Checkbox
+                        aria-errormessage={ariaErrorMessageProp || ariaErrorMessage || undefined}
                         aria-label={label}
                         checked={value.includes(optionValue)}
                         disabled={disabled || disabledGroup}
+                        invalid={invalid || undefined}
                         name={name}
                         onChange={(checked) => {
                             onChange(checked ? [...value, optionValue] : value.filter((v) => v !== optionValue));

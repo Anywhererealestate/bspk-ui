@@ -8,14 +8,7 @@ import fs from 'fs';
 
 const CONTROLS = [
     //
-    'DatePicker',
-    'Input',
-    'InputNumber',
-    'InputPhone',
-    'Password',
-    'Select',
-    'Textarea',
-    'TimePicker',
+    'RadioGroup',
 ];
 
 CONTROLS.map((name) => {

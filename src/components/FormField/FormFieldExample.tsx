@@ -6,6 +6,7 @@ import { Input } from '-/components/Input';
 import { InputNumber } from '-/components/InputNumber';
 import { InputPhone } from '-/components/InputPhone';
 import { Password } from '-/components/Password';
+import { RadioGroup } from '-/components/RadioGroup';
 import { Select } from '-/components/Select';
 import { SwitchOption } from '-/components/SwitchOption';
 import { Textarea } from '-/components/Textarea';
@@ -119,6 +120,20 @@ export function FormFieldExampleRender({ ...props }: ExampleProps & { syntax?: S
                 }}
                 style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-sizing-04)', width: '400px' }}
             >
+                <FormField {...props} errorMessage={hasError ? 'This is an error message' : ''} label="RadioGroup">
+                    <RadioGroup
+                        disabled={disabled}
+                        name="radio-group"
+                        onChange={(next) => setValue({ 'radio-group': next })}
+                        options={[
+                            { label: 'Option 1', value: 'option1' },
+                            { label: 'Option 2', value: 'option2' },
+                            { label: 'Option 3', value: 'option3' },
+                        ]}
+                        required={required}
+                        value={value['radio-group'] as string}
+                    />
+                </FormField>
                 <FormField {...props} errorMessage={hasError ? 'This is an error message' : ''} label="DatePicker">
                     <DatePicker
                         disabled={disabled}
@@ -204,7 +219,6 @@ export function FormFieldExampleRender({ ...props }: ExampleProps & { syntax?: S
                     <Button label="Reset" type="reset" variant="secondary" />
                     <Button label="Submit" type="submit" variant="primary" />
                 </div>
-
                 <code
                     style={{
                         background: 'var(--surface-neutral-t3-low)',
