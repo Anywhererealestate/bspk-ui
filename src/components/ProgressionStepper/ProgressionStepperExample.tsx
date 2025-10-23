@@ -59,7 +59,7 @@ export const presets: Preset<ProgressionStepperProps>[] = [
                 { name: 'Name of step 4' },
                 { name: 'Name of step 5' },
                 { name: 'Name of step 6' },
-                { name: 'Review', subtext: `Check your information...` },
+                { name: 'Review', subtext: `Whoop, there it is...` },
             ],
         },
     },
