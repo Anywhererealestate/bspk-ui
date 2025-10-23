@@ -96,7 +96,7 @@ export type TabListProps<O extends TabOption = TabOption> = {
      *
      * If set to 'fill', options expand to fill the container's width.
      *
-     * If set to 'hug', options only take up as much space as their content requires.
+     * If set to 'hug', options only take up as much space as the content requires.
      *
      * @default hug
      */
