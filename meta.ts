@@ -512,6 +512,8 @@ async function createMeta() {
 
     const metaJsonPath = path.join(outDirectory, 'data.json');
 
+    fs.mkdirSync(outDirectory, { recursive: true });
+
     fs.writeFileSync(
         metaJsonPath,
         JSON.stringify(
