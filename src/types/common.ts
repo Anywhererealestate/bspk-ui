@@ -31,7 +31,9 @@ export type ElementConstructorProps<
     O extends string = '',
 > = Omit<ComponentPropsWithoutRef<E>, O>;
 
-export type CSSWithVariables = React.CSSProperties & { [key: `--${string}`]: unknown };
+type CSSVariables = `--${string}`;
+
+export type CSSWithVariables = React.CSSProperties & { [key in CSSVariables]: unknown };
 
 export type DataProps = Record<`data-${string}`, string>;
 
