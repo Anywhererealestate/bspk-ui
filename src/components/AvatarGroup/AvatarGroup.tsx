@@ -1,9 +1,10 @@
 import './avatar-group.scss';
 import { Avatar, AvatarProps, SizeVariant } from '-/components/Avatar';
+import { CommonProps } from '-/types/common';
 
 export type AvatarItem = Pick<AvatarProps, 'color' | 'image' | 'initials' | 'name' | 'showIcon'>;
 
-export type AvatarGroupProps = {
+export type AvatarGroupProps = CommonProps<'style'> & {
     /**
      * The avatars to display in the group.
      *
@@ -62,14 +63,14 @@ export type AvatarGroupProps = {
  * @name AvatarGroup
  * @phase UXReview
  */
-export function AvatarGroup({ items, size = 'small', max = 5, variant }: AvatarGroupProps) {
+export function AvatarGroup({ items, size = 'small', max = 5, variant, style }: AvatarGroupProps) {
     if (!Array.isArray(items) || !items?.length) return null;
 
     const overFlowCount = items.length - max;
     const small = size === 'x-small' || size === 'small';
 
     return (
-        <div data-bspk="avatar-group" data-max={max} data-size={size} data-variant={variant}>
+        <div data-bspk="avatar-group" data-max={max} data-size={size} data-variant={variant} style={style}>
             <div data-gap={variant === 'spread' ? (small ? '01' : '02') : undefined} data-wrap>
                 {items.slice(0, max).map((item, index) => (
                     <Avatar
