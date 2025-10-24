@@ -5,9 +5,9 @@ import { SvgInfoFill } from '@bspk/icons/InfoFill';
 import { ReactNode } from 'react';
 import { SvgWarningTwoTone } from './SvgWarningTwoTone';
 import { Txt } from '-/components/Txt';
-import { AlertVariant } from '-/types/common';
+import { AlertVariant, CommonProps } from '-/types/common';
 
-export type InlineAlertProps = {
+export type InlineAlertProps = CommonProps<'owner'> & {
     /**
      * The content of the inline alert.
      *
@@ -32,16 +32,16 @@ export type InlineAlertProps = {
  * @example
  *     import { InlineAlert } from '@bspk/ui/InlineAlert';
  *
- *     export function Example() {
+ *     function Example() {
  *         return <InlineAlert variant="informational">Example informational inline alert</InlineAlert>;
  *     }
  *
  * @name InlineAlert
  * @phase UXReview
  */
-export function InlineAlert({ children, variant = 'informational', id }: InlineAlertProps) {
+export function InlineAlert({ children, variant = 'informational', id, owner }: InlineAlertProps) {
     return (
-        <div data-bspk="inline-alert" data-variant={variant} id={id} role="alert">
+        <div data-bspk="inline-alert" data-bspk-owner={owner || undefined} data-variant={variant} id={id} role="alert">
             {VARIANT_ICON[variant]}
             <Txt variant="body-small">{children}</Txt>
         </div>

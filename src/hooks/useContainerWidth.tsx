@@ -5,7 +5,7 @@ import { useState, useLayoutEffect } from 'react';
  * @example
  *     import { useRef } from 'react';
  *     import { useContainerWidth } from '@bspk/ui/hooks/useContainerWidth';
- *     export function Example() {
+ *     function Example() {
  *         const containerRef = useRef<HTMLDivElement>(null);
  *         const width = useContainerWidth(containerRef);
  *         return <div ref={containerRef}>Width: {width}px</div>;

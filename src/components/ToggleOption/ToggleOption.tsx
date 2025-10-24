@@ -1,5 +1,6 @@
 import './toggle-option.scss';
 import { ReactElement } from 'react';
+import { ListItem } from '-/components/ListItem';
 import { CommonProps } from '-/types/common';
 
 export type ToggleOptionControlProps<T extends { 'aria-label'?: string }> = Omit<T, 'aria-label'> &
@@ -31,11 +32,15 @@ export type ToggleOptionProps = CommonProps<'disabled' | 'readOnly'> & {
  */
 export function ToggleOption({ label, description, children, disabled, readOnly }: ToggleOptionProps) {
     return (
-        <label aria-disabled={!!disabled || !!readOnly || undefined} data-bspk="toggle-option">
-            <span data-control>{children}</span>
-            <span data-label>{label}</span>
-            {description && <span data-description>{description}</span>}
-        </label>
+        <ListItem
+            as="label"
+            data-disabled={disabled}
+            data-readonly={readOnly}
+            label={label}
+            leading={children}
+            subText={description}
+            width="hug"
+        />
     );
 }
 

@@ -1,11 +1,5 @@
 bspk
 Backquote
-haspopup
-activedescendant
-aria-activedescendant
-haspopup
-aria-haspopup
-describedby
 xxlg
 xxxlg
 xxxxlg
@@ -15,6 +9,7 @@ Lato
 inversed
 MERIDIEMS
 falsey
+
 
 # PROPER NAMES
 Yoshi
@@ -44,3 +39,59 @@ ERA
 era
 Sotheby's
 sothebys
+
+
+# ARIA
+aria-autocomplete
+aria-checked
+aria-current
+aria-disabled
+aria-errormessage
+aria-expanded
+aria-haspopup
+aria-hidden
+aria-invalid
+aria-label
+aria-level
+aria-modal
+aria-multiline
+aria-multiselectable
+aria-orientation
+aria-placeholder
+aria-pressed
+aria-readonly
+aria-required
+aria-selected
+aria-sort
+aria-valuemax
+aria-valuemin
+aria-valuenow
+aria-valuetext
+aria-atomic
+aria-busy
+aria-live
+aria-relevant
+aria-dropeffect (Deprecated)
+aria-grabbed (Deprecated)
+aria-activedescendant
+aria-colcount
+aria-colindex
+aria-colindextext
+aria-colspan
+aria-controls
+aria-describedby
+aria-description
+aria-details
+aria-flowto
+aria-labelledby
+aria-owns
+aria-posinset
+aria-rowcount
+aria-rowindex
+aria-rowindextext
+aria-rowspan
+aria-setsize
+aria-braillelabel
+aria-brailleroledescription
+aria-keyshortcuts
+aria-roledescription 

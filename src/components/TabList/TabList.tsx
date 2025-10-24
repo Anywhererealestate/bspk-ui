@@ -92,8 +92,11 @@ export type TabListProps<O extends TabOption = TabOption> = {
      */
     size?: TabSize;
     /**
-     * When 'fill' the options will fill the width of the container. When 'hug', the options will be as wide as their
-     * content.
+     * Determines how the tab options use horizontal space.
+     *
+     * If set to 'fill', options expand to fill the container's width.
+     *
+     * If set to 'hug', options only take up as much space as the content requires.
      *
      * @default hug
      */
@@ -124,7 +127,7 @@ export type TabListProps<O extends TabOption = TabOption> = {
  *     import { useState } from 'react';
  *     import { TabList } from '@bspk/ui/TabList';
  *
- *     export function Example() {
+ *     function Example() {
  *         const [selectedTab, setSelectedTab] = useState<string>();
  *
  *         return (

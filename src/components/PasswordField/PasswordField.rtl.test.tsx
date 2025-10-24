@@ -1,24 +1,17 @@
-import { PasswordField } from './PasswordField';
+import { PasswordField } from '.';
 import { hasNoBasicA11yIssues } from '-/rtl/hasNoBasicA11yIssues';
 import { render } from '-/rtl/util';
 
 const TestBed = () => (
-    <PasswordField
-        aria-label="Password field"
-        controlId="Example controlId"
-        label="Password field"
-        name="Example name"
-        onChange={() => {}}
-        value="foo"
-    />
+    <PasswordField label="Example field label" name="example-field-name" onChange={() => {}} value="" />
 );
 
 describe('PasswordField (RTL)', () => {
     it('has no basic a11y issues', hasNoBasicA11yIssues(<TestBed />));
 
     it('renders', () => {
-        const { getByLabelText } = render(<TestBed />);
+        const { getAllByLabelText } = render(<TestBed />);
 
-        expect(getByLabelText('Password field')).toBeInTheDocument();
+        expect(getAllByLabelText('Example field label')[0]).toBeInTheDocument();
     });
 });

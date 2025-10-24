@@ -27,7 +27,7 @@ export const generateComponentFile = (componentName: string) => {
      * @example
      *     import { ${componentName} } from '@bspk/ui/${componentName}';
      *
-     *     function Example() {
+     *    function Example() {
      *         return <${componentName}>Example ${componentName}</${componentName}>;
      *     }
      *

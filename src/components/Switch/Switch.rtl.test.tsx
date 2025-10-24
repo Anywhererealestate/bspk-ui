@@ -2,7 +2,9 @@ import { Switch } from './Switch';
 import { hasNoBasicA11yIssues } from '-/rtl/hasNoBasicA11yIssues';
 import { render } from '-/rtl/util';
 
-const TestBed = () => <Switch aria-label="Example aria-label" checked name="Example name" onChange={() => {}} />;
+const TestBed = () => (
+    <Switch aria-label="Example aria-label" checked name="example-name" onChange={() => {}} value="whoops" />
+);
 
 describe('Switch (RTL)', () => {
     it('has no basic a11y issues', hasNoBasicA11yIssues(<TestBed />));

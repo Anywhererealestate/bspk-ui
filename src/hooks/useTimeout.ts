@@ -13,7 +13,7 @@ type TimeoutHook = {
  *     import { useTimeout } from '@bspk/ui/hooks/useTimeout';
  *     import { useEffect } from 'react';
  *
- *     export function MyComponent() {
+ *     function MyComponent() {
  *     const timeout = useTimeout();
  *
  *     const handleClick = () => {

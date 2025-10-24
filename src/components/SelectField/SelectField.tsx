@@ -1,69 +1,22 @@
-import { FormField, FormFieldWrapProps } from '-/components/FormField';
-import { SelectProps, Select } from '-/components/Select';
+import { FormField, FormFieldControlProps } from '-/components/FormField';
+import { Select, SelectProps } from '-/components/Select';
 
-export type SelectFieldProps = FormFieldWrapProps<SelectProps>;
+export type SelectFieldProps = FormFieldControlProps<SelectProps>;
 
 /**
- * A component that allows users to input large amounts of text that could span multiple lines.
+ * A field wrapper for the Select component.
  *
  * This component takes properties from the FormField and Select components.
  *
- * @example
- *     import { SelectField } from '@bspk/ui/SelectField';
- *
- *     export function Example() {
- *         const [state, setState] = React.useState(['option1']);
- *         return (
- *             <SelectField
- *                 controlId="Example controlId"
- *                 label="Example label"
- *                 name="Example name"
- *                 onChange={(nextValue) => setState(nextValue)}
- *                 options={[
- *                     { label: 'Option 1', value: 'option1' },
- *                     { label: 'Option 2', value: 'option2' },
- *                     { label: 'Option 3', value: 'option3' },
- *                 ]}
- *                 placeholder="Select one..."
- *                 value={state}
- *             />
- *         );
- *     }
- *
  * @name SelectField
  * @phase UXReview
+ *
+ * @generated
  */
-export function SelectField({
-    label,
-    helperText,
-    controlId,
-    labelTrailing,
-    required,
-    invalid,
-    errorMessage,
-    ...inputProps
-}: SelectFieldProps) {
+export function SelectField({ label, helperText, labelTrailing, errorMessage, ...controlProps }: SelectFieldProps) {
     return (
-        <FormField
-            controlId={controlId}
-            data-bspk="select-field"
-            errorMessage={errorMessage}
-            helperText={helperText}
-            invalid={invalid}
-            label={label}
-            labelTrailing={labelTrailing}
-            required={required}
-        >
-            {(fieldProps) => (
-                <Select
-                    //
-                    {...inputProps}
-                    {...fieldProps}
-                    id={controlId}
-                    invalid={invalid}
-                    label={label}
-                />
-            )}
+        <FormField errorMessage={errorMessage} helperText={helperText} label={label} labelTrailing={labelTrailing}>
+            <Select {...controlProps} />
         </FormField>
     );
 }

@@ -49,7 +49,7 @@ export type PopoverProps = CommonProps<'disabled'> &
          *
          * @required
          */
-        children: (triggerProps: PopoverTriggerProps) => ReactElement;
+        children: (triggerProps: PopoverTriggerProps) => ReactElement | null;
     };
 
 /**
@@ -60,7 +60,7 @@ export type PopoverProps = CommonProps<'disabled'> &
  *     import { Popover } from '@bspk/ui/Popover';
  *     import { Button } from '@bspk/ui/Button';
  *
- *     export function Example() {
+ *     function Example() {
  *         const [showPopover, setShowPopover] = useState<boolean>(false);
  *
  *         const togglePopover = () => setShowPopover(!showPopover);

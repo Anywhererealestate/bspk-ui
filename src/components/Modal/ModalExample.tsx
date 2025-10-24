@@ -28,12 +28,10 @@ export const ModalExample: ComponentExampleFn<ModalProps> = ({ action }) => ({
                 header: 'Confirmation Modal',
                 description: 'This modal has a call to action and a cancel button.',
                 children: (
-                    <>
-                        <p>
-                            This is a confirmation modal. It has a call to action and a cancel button. The call to
-                            action is the primary button and the cancel button is the tertiary button.
-                        </p>
-                    </>
+                    <p>
+                        This is a confirmation modal. It has a call to action and a cancel button. The call to action is
+                        the primary button and the cancel button is the tertiary button.
+                    </p>
                 ),
                 callToAction: {
                     label: 'Call to Action',
