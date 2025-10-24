@@ -11,7 +11,7 @@ export const presets: Preset<AvatarGroupProps>[] = [
         label: 'Stacked (4) Auto Overflow',
         propState: {
             items: [
-                { name: 'Fezzik', image: '/profile.jpg' },
+                { name: 'Fezzik', image: '/avatar-01.png' },
                 { name: 'Inigo Montoya', initials: 'IM', color: BLUE },
                 { name: 'Miracle Max', initials: 'MM', showIcon: false, color: GREEN },
                 { name: 'Princess Buttercup', showIcon: true, color: PURPLE },

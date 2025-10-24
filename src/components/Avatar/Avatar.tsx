@@ -63,7 +63,7 @@ export type AvatarProps = CommonProps<'disabled'> & {
      * When provided the image will be displayed instead of the icon or initials.
      *
      * @example
-     *     /profile.jpg
+     *     /avatar-01.png
      */
     image?: string;
     /**
@@ -92,7 +92,7 @@ export type AvatarProps = CommonProps<'disabled'> & {
  *             <Avatar
  *                 color="blue"
  *                 icon={<SvgPerson />}
- *                 image="/profile.jpg"
+ *                 image="/avatar-01.png"
  *                 initials="AR"
  *                 name="Andre Giant"
  *                 showTooltip

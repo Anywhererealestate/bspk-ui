@@ -12,7 +12,7 @@ export type AvatarGroupProps = CommonProps<'style'> & {
      *
      * @example
      *     [
-     *         { name: 'Fezzik', image: '/profile.jpg' },
+     *         { name: 'Fezzik', image: '/avatar-01.png' },
      *         { name: 'Inigo Montoya', initials: 'IM', color: 'blue' },
      *         { name: 'Miracle Max', initials: 'MM', color: 'green' },
      *         { name: 'Princess Buttercup', showIcon: true },
