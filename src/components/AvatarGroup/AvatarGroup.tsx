@@ -45,7 +45,7 @@ export type AvatarGroupProps = CommonProps<'style'> & {
      *
      * @default auto
      */
-    variant?: 'auto' | 'spread' | 'stacked';
+    variant?: 'spread' | 'stacked';
 };
 
 /**
@@ -69,7 +69,7 @@ export type AvatarGroupProps = CommonProps<'style'> & {
  * @name AvatarGroup
  * @phase UXReview
  */
-export function AvatarGroup({ items, size = 'small', max = 'auto', variant = 'auto', style }: AvatarGroupProps) {
+export function AvatarGroup({ items, size = 'small', max = 'auto', variant = 'spread', style }: AvatarGroupProps) {
     const [overflow, setOverflow] = useState(typeof max === 'number' ? max : 0);
 
     const [ref, setRef] = useState<HTMLDivElement | null>(null);
