@@ -52,7 +52,7 @@ export type CheckboxGroupProps = FieldControlProps<string[]> & {
  *                     { label: 'Option 2', value: 'option2' },
  *                     { label: 'Option 3', value: 'option3' },
  *                 ]}
- *                 values={values}
+ *                 value={values}
  *                 onChange={(nextValues: string[]) => {
  *                     setValues(nextValues);
  *                 }}

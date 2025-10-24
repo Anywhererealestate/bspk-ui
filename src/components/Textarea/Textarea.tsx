@@ -1,45 +1,40 @@
 import './textarea.scss';
 import { ChangeEvent, useRef } from 'react';
 import { useFieldInit } from '-/components/Field';
-import { FieldControlProps, SetRef } from '-/types/common';
+import { CommonProps, FieldControlProps, SetRef } from '-/types/common';
 import { cssWithVars } from '-/utils/cwv';
 
-export type TextareaProps = FieldControlProps<string, ChangeEvent<HTMLTextAreaElement>> & {
-    /**
-     * The text size of the field.
-     *
-     * @default medium
-     */
-    textSize?: 'large' | 'medium' | 'small';
-    /** The ref of the field. */
-    innerRef?: SetRef<HTMLTextAreaElement>;
-    /** The placeholder of the field. */
-    placeholder?: string;
-    /**
-     * The maximum number of characters that the field will accept.
-     *
-     * @minimum 1
-     */
-    maxLength?: number;
-    /**
-     * The minimum number of rows that the textarea will show.
-     *
-     * @default 3
-     * @minimum 3
-     * @maximum 10
-     */
-    minRows?: number;
-    /**
-     * The maximum number of rows that the textarea will show.
-     *
-     * When set the textarea will automatically adjust its height to fit the content up to this limit.
-     *
-     * @default 10
-     * @minimum 3
-     * @maximum 10
-     */
-    maxRows?: number;
-};
+export type TextareaProps = CommonProps<'size'> &
+    FieldControlProps<string, ChangeEvent<HTMLTextAreaElement>> & {
+        /** The ref of the field. */
+        innerRef?: SetRef<HTMLTextAreaElement>;
+        /** The placeholder of the field. */
+        placeholder?: string;
+        /**
+         * The maximum number of characters that the field will accept.
+         *
+         * @minimum 1
+         */
+        maxLength?: number;
+        /**
+         * The minimum number of rows that the textarea will show.
+         *
+         * @default 3
+         * @minimum 3
+         * @maximum 10
+         */
+        minRows?: number;
+        /**
+         * The maximum number of rows that the textarea will show.
+         *
+         * When set the textarea will automatically adjust its height to fit the content up to this limit.
+         *
+         * @default 10
+         * @minimum 3
+         * @maximum 10
+         */
+        maxRows?: number;
+    };
 
 /**
  * A component that allows users to input large amounts of text that could span multiple lines.
@@ -79,7 +74,7 @@ export type TextareaProps = FieldControlProps<string, ChangeEvent<HTMLTextAreaEl
 export function Textarea({
     invalid: invalidProp,
     onChange,
-    textSize = 'medium',
+    size = 'medium',
     value = '',
     name,
     innerRef,
@@ -117,7 +112,7 @@ export function Textarea({
             data-disabled={disabled || undefined}
             data-invalid={invalid || undefined}
             data-read-only={readOnly || undefined}
-            data-size={textSize}
+            data-size={size}
             style={cssWithVars({
                 '--min-rows': minRows,
                 '--max-rows': maxRows,

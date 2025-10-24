@@ -1,5 +1,6 @@
 import './card.scss';
 import { ReactNode } from 'react';
+import { ElementProps } from '-/types/common';
 
 export type CardProps = {
     /**
@@ -38,9 +39,9 @@ export type CardProps = {
  * @name Card
  * @phase UXReview
  */
-export function Card({ children, variant = 'elevated' }: CardProps) {
+export function Card({ children, variant = 'elevated', ...props }: ElementProps<CardProps, 'div'>) {
     return (
-        <div data-bspk="card" data-variant={variant}>
+        <div {...props} data-bspk="card" data-variant={variant}>
             {children}
         </div>
     );

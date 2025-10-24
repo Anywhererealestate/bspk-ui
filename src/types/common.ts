@@ -31,6 +31,8 @@ export type ElementConstructorProps<
     O extends string = '',
 > = Omit<ComponentPropsWithoutRef<E>, O>;
 
+export type CSSWithVariables = React.CSSProperties & { [key: `--${string}`]: unknown };
+
 export type DataProps = Record<`data-${string}`, string>;
 
 export type ButtonSize = 'large' | 'medium' | 'small' | 'x-small';
@@ -129,6 +131,12 @@ export type CommonPropsLibrary = {
      * @type string
      */
     role?: AriaRole;
+    /**
+     * Inline styles to apply to the element.
+     *
+     * Allows for CSS variables to be passed in as well.
+     */
+    style?: CSSWithVariables;
 };
 
 export type CommonProps<K extends keyof CommonPropsLibrary> = Pick<CommonPropsLibrary, K>;

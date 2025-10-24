@@ -19,11 +19,12 @@ export function RadioGroupField({
     helperText,
     labelTrailing,
     errorMessage,
+    style,
     ...controlProps
 }: RadioGroupFieldProps) {
     return (
         <Field as="fieldset">
-            <FieldLabel as="legend" labelTrailing={labelTrailing}>
+            <FieldLabel as="legend" labelTrailing={labelTrailing} style={style}>
                 {label}
             </FieldLabel>
             <RadioGroup {...controlProps} />

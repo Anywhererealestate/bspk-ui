@@ -24,7 +24,7 @@ import { useIds } from '-/utils/useIds';
 export type SearchBarOption = Pick<ListItemProps, 'label' | 'leading' | 'trailing'>;
 
 export type SearchBarProps<O extends SearchBarOption = SearchBarOption> = FieldControlProps<string, O> &
-    Pick<InputProps, 'inputRef' | 'size'> &
+    Pick<InputProps, 'inputRef' | 'size' | 'trailing'> &
     ScrollListItemsStyleProps & {
         /**
          * The placeholder of the field.
@@ -110,6 +110,7 @@ export function SearchBar<O extends SearchBarOption>({
     onChange,
     disabled = false,
     scrollLimit,
+    trailing,
 }: SearchBarProps<O>) {
     const id = useId(idProp);
     const menuId = `${id}-menu`;
@@ -215,6 +216,7 @@ export function SearchBar<O extends SearchBarOption>({
                     owner="search-bar"
                     placeholder={placeholder}
                     size={size}
+                    trailing={trailing}
                     value={value}
                 />
             </div>

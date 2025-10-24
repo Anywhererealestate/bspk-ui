@@ -18,10 +18,17 @@ export function TimePickerField({
     helperText,
     labelTrailing,
     errorMessage,
+    style,
     ...controlProps
 }: TimePickerFieldProps) {
     return (
-        <FormField errorMessage={errorMessage} helperText={helperText} label={label} labelTrailing={labelTrailing}>
+        <FormField
+            errorMessage={errorMessage}
+            helperText={helperText}
+            label={label}
+            labelTrailing={labelTrailing}
+            style={style}
+        >
             <TimePicker {...controlProps} />
         </FormField>
     );

@@ -6,6 +6,7 @@
     gap: var(--spacing-sizing-02);
     align-items: center;
     justify-content: center;
+    width: fit-content;
 
     &[data-label-position='top'] {
         flex-direction: column-reverse;
