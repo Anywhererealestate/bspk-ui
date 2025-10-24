@@ -99,7 +99,7 @@ export function TimePicker({
 
     const { floatingStyles, elements } = useFloating({
         strategy: 'fixed',
-        refWidth: true,
+        refWidth: false,
         offsetOptions: 4,
         hide: !open,
     });
@@ -241,6 +241,7 @@ export function TimePicker({
                         label="Select time"
                         owner="time-picker"
                         style={floatingStyles}
+                        width="fit-content"
                     >
                         <FocusTrap
                             focusTrapOptions={{
