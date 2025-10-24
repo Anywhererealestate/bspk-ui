@@ -13,6 +13,7 @@ import {
     AriaRole,
     ChangeEvent,
     KeyboardEvent,
+    CSSProperties,
 } from 'react';
 
 export type AlertVariant = 'error' | 'informational' | 'success' | 'warning';
@@ -33,7 +34,7 @@ export type ElementConstructorProps<
 
 type CSSVariables = `--${string}`;
 
-export type CSSWithVariables = React.CSSProperties & { [key in CSSVariables]: unknown };
+export type CSSWithVariables = CSSProperties | (CSSProperties & { [key in CSSVariables]: unknown });
 
 export type DataProps = Record<`data-${string}`, string>;
 

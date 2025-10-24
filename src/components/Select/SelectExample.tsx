@@ -30,6 +30,37 @@ export const presets: Preset<SelectProps>[] = [
             options: DEFAULT_OPTIONS,
             name: 'demo-select',
             value: '',
+            menuWidth: '',
+        },
+    },
+    {
+        label: 'SubText',
+        propState: {
+            options: [
+                {
+                    value: 'Claude 3.7 Sonnet',
+                    label: 'Claude 3.7 Sonnet',
+                    subText: 'bedrock • us.anthropic.claude-3-7-sonnet-20250219-v1:0',
+                },
+                {
+                    value: 'Claude 4 Sonnet',
+                    label: 'Claude 4 Sonnet',
+                    subText: 'bedrock • us.anthropic.claude-sonnet-4-20250514-v1:0',
+                },
+                {
+                    value: 'Claude 4.5 Sonnet',
+                    label: 'Claude 4.5 Sonnet',
+                    subText: 'bedrock • us.anthropic.claude-sonnet-4-5-20250929-v1:0',
+                },
+                {
+                    value: 'GPT 4.1',
+                    label: 'GPT 4.1',
+                    subText: 'azure • gpt-41',
+                },
+            ],
+            name: 'demo-select-long',
+            value: '',
+            menuWidth: '600px',
         },
     },
     {
@@ -43,6 +74,7 @@ export const presets: Preset<SelectProps>[] = [
             ],
             name: 'demo-select-long',
             value: '',
+            menuWidth: '',
         },
     },
     {
@@ -65,6 +97,7 @@ export const presets: Preset<SelectProps>[] = [
             ],
             name: 'demo-select-tags',
             value: 'a',
+            menuWidth: '',
         },
     },
     {
@@ -82,6 +115,7 @@ export const presets: Preset<SelectProps>[] = [
             ],
             name: 'demo-select-trailing',
             value: '',
+            menuWidth: '',
         },
     },
     {
@@ -112,6 +146,7 @@ export const presets: Preset<SelectProps>[] = [
             ],
             name: 'demo-select-avatar',
             value: '',
+            menuWidth: '',
         },
     },
 ];
@@ -122,6 +157,6 @@ export const SelectExample: ComponentExample<SelectProps> = {
         scrollLimit: 5,
         value: '',
     },
-    render: ({ props, Component }) => <Component {...props} />,
+    render: ({ props, Component, preset }) => <Component key={preset?.label} {...props} />,
     presets,
 };
