@@ -1,4 +1,6 @@
 import './avatar-group.scss';
+import { useLayoutEffect, useState } from 'react';
+import { AvatarGroupOverflow } from './Overflow';
 import { Avatar, AvatarProps, SizeVariant } from '-/components/Avatar';
 import { CommonProps } from '-/types/common';
 
@@ -25,21 +27,25 @@ export type AvatarGroupProps = CommonProps<'style'> & {
      *
      * @default small
      */
-    size?: Extract<SizeVariant, 'large' | 'medium' | 'small' | 'x-small'>;
+    size?: SizeVariant;
     /**
-     * The maximum number of avatars to display before showing the overflowCount.
+     * The maximum number of avatars to display before showing the overflow menu.
      *
      * This is used to limit the number of avatars displayed in the group.
      *
      * Recommended to set this to a value between 3 and 5 for optimal display.
+     *
+     * If not set, as many avatars as possible will be displayed with an overflow menu.
+     *
+     * @default auto
      */
-    max?: number;
+    max?: number | 'auto';
     /**
      * The variant of the avatar group.
      *
-     * @default spread
+     * @default auto
      */
-    variant?: 'spread' | 'stacked';
+    variant?: 'auto' | 'spread' | 'stacked';
 };
 
 /**
@@ -63,28 +69,50 @@ export type AvatarGroupProps = CommonProps<'style'> & {
  * @name AvatarGroup
  * @phase UXReview
  */
-export function AvatarGroup({ items, size = 'small', max = 5, variant, style }: AvatarGroupProps) {
-    if (!Array.isArray(items) || !items?.length) return null;
+export function AvatarGroup({ items, size = 'small', max = 'auto', variant = 'auto', style }: AvatarGroupProps) {
+    const [overflow, setOverflow] = useState(0);
 
-    const overFlowCount = items.length - max;
-    const small = size === 'x-small' || size === 'small';
+    const [ref, setRef] = useState<HTMLDivElement | null>(null);
 
-    return (
-        <div data-bspk="avatar-group" data-max={max} data-size={size} data-variant={variant} style={style}>
-            <div data-gap={variant === 'spread' ? (small ? '01' : '02') : undefined} data-wrap>
-                {items.slice(0, max).map((item, index) => (
-                    <Avatar
-                        data-stacked={variant === 'stacked' ? (small ? '01' : '02') : undefined}
-                        key={index}
-                        {...item}
-                        size={size}
-                    />
+    useLayoutEffect(() => {
+        if (!ref) return;
+
+        const elements = ref.querySelectorAll<HTMLElement>('[data-bspk="avatar"]');
+        const sizePerAvatar = elements?.[0]?.clientWidth;
+        const parentWidth = ref.parentElement!.offsetWidth;
+        const offSetWidth = (ref.firstElementChild as HTMLElement)?.offsetWidth;
+
+        if (max !== 'auto' || !sizePerAvatar || elements.length < 2 || !parentWidth || offSetWidth <= parentWidth)
+            return;
+
+        ref.style.justifyContent = 'flex-start';
+
+        let nextOverflow = 0;
+
+        requestAnimationFrame(() => {
+            elements.forEach((el, index) => {
+                const rect = el.getBoundingClientRect();
+                // Reset opacity for all avatars first
+                el.style.opacity = '';
+                // Check if the right edge of the avatar is outside the parent's right edge
+                if (rect.right > ref.parentElement!.getBoundingClientRect().right) {
+                    el.style.opacity = '0.25';
+                    if (!nextOverflow) nextOverflow = elements.length - index + 1;
+                }
+            });
+
+            setOverflow(nextOverflow);
+        });
+    }, [ref, max, items.length, size, variant]);
+
+    return !Array.isArray(items) || !items?.length ? null : (
+        <div data-bspk="avatar-group" data-max={max} data-size={size} data-variant={variant} ref={setRef} style={style}>
+            <div data-wrap>
+                {items.slice(0, items.length - overflow).map((item, index) => (
+                    <Avatar key={index} {...item} size={size} />
                 ))}
-
-                {overFlowCount > 0 && (
-                    <div aria-hidden data-bspk="avatar" data-color="white" data-size={size}>
-                        <span data-overflow-count>+{overFlowCount}</span>
-                    </div>
+                {overflow > 0 && (
+                    <AvatarGroupOverflow items={items.slice(items.length - overflow)} overflow={overflow} size={size} />
                 )}
             </div>
         </div>
