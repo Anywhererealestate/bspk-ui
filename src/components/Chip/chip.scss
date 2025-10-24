@@ -45,11 +45,6 @@
         }
     }
 
-    &[data-selected] {
-        background-color: var(--surface-brand-primary-highlight);
-        border-color: var(--stroke-brand-primary);
-    }
-
     [data-chip-icon] {
         display: flex;
         align-items: center;

@@ -29,12 +29,6 @@ export type ChipProps = {
     /** The function to call when the chip is clicked. */
     onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
     /**
-     * Whether the chip is currently selected.
-     *
-     * @default false
-     */
-    selected?: boolean;
-    /**
      * The leading icon of the chip.
      *
      * @type BspkIcon
@@ -78,7 +72,6 @@ export function Chip({
     flat = false,
     disabled = false,
     label,
-    selected = false,
     leadingIcon,
     onClick,
     trailingIcon,
@@ -89,7 +82,6 @@ export function Chip({
             data-bspk="chip"
             data-disabled={disabled || undefined}
             data-flat={flat || undefined}
-            data-selected={selected || undefined}
             data-touch-target-parent
             disabled={disabled}
             onClick={disabled ? undefined : onClick}

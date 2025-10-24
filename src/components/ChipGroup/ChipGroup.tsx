@@ -6,7 +6,7 @@ import { ChipProps } from '-/components/Chip';
 
 export type ChipGroupItem = Pick<
     ChipProps,
-    'disabled' | 'flat' | 'label' | 'leadingIcon' | 'onClick' | 'selected' | 'trailingBadge' | 'trailingIcon'
+    'disabled' | 'flat' | 'label' | 'leadingIcon' | 'onClick' | 'trailingBadge' | 'trailingIcon'
 >;
 
 export type ChipGroupProps = {
