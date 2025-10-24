@@ -1,5 +1,5 @@
 import './menu.scss';
-import { CSSProperties, ElementType, ReactNode } from 'react';
+import { ElementType, ReactNode } from 'react';
 import { useId } from '-/hooks/useId';
 import { CommonProps, ElementProps, SetRef } from '-/types/common';
 
@@ -29,8 +29,13 @@ export type MenuProps<As extends ElementType = ElementType> = CommonProps<'id' |
      * @type ElementType
      */
     as?: As;
-    /** The width of the menu. */
-    width?: CSSProperties['width'];
+    /**
+     * The width of the menu.
+     *
+     * @type HTMLElement.style.width
+     * @exampleType string
+     */
+    width?: HTMLElement['style']['width'];
 };
 
 /**
