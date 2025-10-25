@@ -8,7 +8,7 @@ const PURPLE = COLOR_VARIANTS[10];
 
 export const presets: Preset<AvatarGroupProps>[] = [
     {
-        label: 'Stacked (4) Auto Overflow',
+        label: 'Stacked',
         propState: {
             items: [
                 { name: 'Fezzik', image: '/avatar-01.png' },
@@ -17,11 +17,11 @@ export const presets: Preset<AvatarGroupProps>[] = [
                 { name: 'Princess Buttercup', showIcon: true, color: PURPLE },
             ],
             variant: 'stacked' as AvatarGroupProps['variant'],
-            max: 'auto',
+            max: 10,
         },
     },
     {
-        label: 'Stacked (14) Auto Overflow',
+        label: 'Stacked With Overflow',
         propState: {
             items: [
                 {
@@ -50,19 +50,15 @@ export const presets: Preset<AvatarGroupProps>[] = [
                 { name: 'Ian Clark', image: '/avatar-09.png' },
                 { name: 'Julia Adams', image: '/avatar-10.png' },
                 { name: 'Katherine Johnson', image: '/avatar-11.png' },
-                { name: 'Liam Brown', image: '/avatar-12.png' },
-                { name: 'Mia Wong', image: '/avatar-13.png' },
-                { name: 'Noah Davis', image: '/avatar-14.png' },
             ],
             variant: 'stacked' as AvatarGroupProps['variant'],
-            max: 'auto',
+            max: 5,
         },
     },
 ];
 
 export const AvatarGroupExample: ComponentExample<AvatarGroupProps> = {
     presets,
-    containerStyle: { border: '1px dotted var(--stroke-neutral-base)', overflow: 'visible' },
     defaultState: {
         variant: 'spread',
     },

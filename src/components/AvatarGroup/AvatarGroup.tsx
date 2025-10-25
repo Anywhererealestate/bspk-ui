@@ -1,5 +1,4 @@
 import './avatar-group.scss';
-import { useLayoutEffect, useState } from 'react';
 import { AvatarGroupOverflow } from './Overflow';
 import { Avatar, AvatarProps, SizeVariant } from '-/components/Avatar';
 import { CommonProps } from '-/types/common';
@@ -35,11 +34,11 @@ export type AvatarGroupProps = CommonProps<'style'> & {
      *
      * Recommended to set this to a value between 3 and 5 for optimal display.
      *
-     * If not set, as many avatars as possible will be displayed with an overflow menu.
-     *
-     * @default auto
+     * @default 5
+     * @min 1
+     * @max 5
      */
-    max?: number | 'auto';
+    max?: number;
     /**
      * The variant of the avatar group.
      *
@@ -69,50 +68,18 @@ export type AvatarGroupProps = CommonProps<'style'> & {
  * @name AvatarGroup
  * @phase UXReview
  */
-export function AvatarGroup({ items, size = 'small', max = 'auto', variant = 'spread', style }: AvatarGroupProps) {
-    const [overflow, setOverflow] = useState(typeof max === 'number' ? max : 0);
-
-    const [ref, setRef] = useState<HTMLDivElement | null>(null);
-
-    useLayoutEffect(() => {
-        if (!ref) return;
-
-        const elements = ref.querySelectorAll<HTMLElement>('[data-bspk="avatar"]');
-        const sizePerAvatar = elements?.[0]?.clientWidth;
-        const parentWidth = ref.parentElement!.offsetWidth;
-        const offSetWidth = (ref.firstElementChild as HTMLElement)?.offsetWidth;
-
-        if (max !== 'auto' || !sizePerAvatar || elements.length < 2 || !parentWidth || offSetWidth <= parentWidth)
-            return;
-
-        ref.style.justifyContent = 'flex-start';
-
-        let nextOverflow = 0;
-
-        requestAnimationFrame(() => {
-            elements.forEach((el, index) => {
-                const rect = el.getBoundingClientRect();
-                // Reset opacity for all avatars first
-                el.style.opacity = '';
-                // Check if the right edge of the avatar is outside the parent's right edge
-                if (rect.right > ref.parentElement!.getBoundingClientRect().right) {
-                    el.style.opacity = '0.25';
-                    if (!nextOverflow) nextOverflow = elements.length - index + 1;
-                }
-            });
-
-            setOverflow(nextOverflow);
-        });
-    }, [ref, max, items.length, size, variant]);
+export function AvatarGroup({ items, size = 'small', max: maxProp = 5, variant = 'spread', style }: AvatarGroupProps) {
+    const max = maxProp > items.length ? items.length : maxProp;
+    const overflowItems = items.slice(max);
 
     return !Array.isArray(items) || !items?.length ? null : (
-        <div data-bspk="avatar-group" data-max={max} data-size={size} data-variant={variant} ref={setRef} style={style}>
+        <div data-bspk="avatar-group" data-max={max} data-size={size} data-variant={variant} style={style}>
             <div data-wrap>
-                {items.slice(0, items.length - overflow).map((item, index) => (
-                    <Avatar key={index} {...item} size={size} />
+                {items.slice(0, max).map((item, index) => (
+                    <Avatar key={index} {...item} onClick={() => {}} size={size} />
                 ))}
-                {overflow > 0 && (
-                    <AvatarGroupOverflow items={items.slice(items.length - overflow)} overflow={overflow} size={size} />
+                {overflowItems.length > 0 && (
+                    <AvatarGroupOverflow items={overflowItems} overflow={overflowItems.length} size={size} />
                 )}
             </div>
         </div>

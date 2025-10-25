@@ -112,14 +112,14 @@ export function Avatar({
     size = 'small',
     showIcon,
     image,
-    name: ariaLabel,
+    name,
     hideTooltip = false,
     onClick,
     disabled,
     ...props
 }: AvatarProps) {
     const children = useMemo(() => {
-        if (image) return <img alt={ariaLabel} aria-hidden={true} src={image} />;
+        if (image) return <img alt={name} aria-hidden={true} src={image} />;
 
         if (showIcon)
             return (
@@ -130,8 +130,8 @@ export function Avatar({
 
         let initials = initialsProp;
 
-        if (ariaLabel && !initials)
-            initials = ariaLabel
+        if (name && !initials)
+            initials = name
                 .split(' ')
                 .map((word) => word.charAt(0))
                 .slice(0, 2)
@@ -146,7 +146,7 @@ export function Avatar({
             );
 
         return null;
-    }, [ariaLabel, showIcon, image, initialsProp]);
+    }, [name, showIcon, image, initialsProp]);
 
     if (!children) return null;
 
@@ -155,8 +155,7 @@ export function Avatar({
             {...props}
             {...triggerProps}
             aria-disabled={disabled || undefined}
-            aria-label={onClick ? ariaLabel : undefined}
-            aria-labelledby={onClick ? triggerProps['aria-labelledby'] : undefined}
+            aria-label={name}
             aria-roledescription="person"
             data-bspk="avatar"
             data-color={color}
@@ -169,7 +168,7 @@ export function Avatar({
         </div>
     );
 
-    return !hideTooltip ? <Tooltip label={ariaLabel}>{avatar}</Tooltip> : avatar({});
+    return !hideTooltip ? <Tooltip label={name}>{avatar}</Tooltip> : avatar({});
 }
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

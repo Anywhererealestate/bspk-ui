@@ -1,10 +1,12 @@
 import { Avatar, AvatarProps, SizeVariant } from '-/components/Avatar';
 import { ListItem } from '-/components/ListItem';
 import { Menu } from '-/components/Menu';
+import { Portal } from '-/components/Portal';
 import { useArrowNavigation } from '-/hooks/useArrowNavigation';
 import { useFloating } from '-/hooks/useFloating';
 import { useOutsideClick } from '-/hooks/useOutsideClick';
 import { handleKeyDown } from '-/utils/handleKeyDown';
+import { scrollListItemsStyle } from '-/utils/scrollListItemsStyle';
 import { useIds } from '-/utils/useIds';
 
 type AvatarGroupOverflowProps = {
@@ -59,22 +61,31 @@ export function AvatarGroupOverflow({ items: itemsProp, overflow, size }: Avatar
             >
                 <span data-overflow-count>+{overflow}</span>
             </button>
-            <Menu
-                id={menuId}
-                innerRef={elements.setFloating}
-                role="menu"
-                style={{ ...floatingStyles, '--list-item-height': 'auto', paddingRight: 'var(--spacing-sizing-04)' }}
-                width="fit-content"
-            >
-                {items.map((item, index) => (
-                    <ListItem
-                        active={activeElementId === item.id}
-                        key={index}
-                        label={item.name}
-                        leading={<Avatar {...item} />}
-                    />
-                ))}
-            </Menu>
+            {open && (
+                <Portal>
+                    <Menu
+                        id={menuId}
+                        innerRef={elements.setFloating}
+                        role="menu"
+                        style={{
+                            ...floatingStyles,
+                            ...scrollListItemsStyle(5, items.length),
+                            '--list-item-height': `var(--spacing-sizing-12)`,
+                            paddingRight: 'var(--spacing-sizing-04)',
+                        }}
+                        width="fit-content"
+                    >
+                        {items.map((item, index) => (
+                            <ListItem
+                                active={activeElementId === item.id}
+                                key={index}
+                                label={item.name}
+                                leading={<Avatar {...item} hideTooltip size="small" />}
+                            />
+                        ))}
+                    </Menu>
+                </Portal>
+            )}
         </>
     );
 }
