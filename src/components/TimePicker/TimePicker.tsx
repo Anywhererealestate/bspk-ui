@@ -230,7 +230,7 @@ export function TimePicker({
                     variant="tertiary"
                 />
             </div>
-            {!!open && (
+            {open && (
                 <Portal>
                     <Menu
                         id={menuId}
@@ -257,7 +257,16 @@ export function TimePicker({
                                         minutes: node?.querySelector('[data-scroll-column="minutes"]') as HTMLElement,
                                         meridiem: node?.querySelector('[data-scroll-column="meridiem"]') as HTMLElement,
                                     };
-                                    listBoxRefs.current.hours?.focus();
+                                    const activeHour =
+                                        listBoxRefs.current.hours?.querySelector<HTMLElement>('[data-active]');
+                                    const activeMinute =
+                                        listBoxRefs.current.minutes?.querySelector<HTMLElement>('[data-active]');
+                                    const activeMeridiem =
+                                        listBoxRefs.current.meridiem?.querySelector<HTMLElement>('[data-active]');
+                                    activeHour?.scrollIntoView({ block: 'nearest' });
+                                    activeMinute?.scrollIntoView({ block: 'nearest' });
+                                    activeMeridiem?.scrollIntoView({ block: 'nearest' });
+                                    activeHour?.focus();
                                 }}
                             >
                                 <TimePickerListbox
