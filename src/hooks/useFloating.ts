@@ -158,13 +158,14 @@ export function useFloating({
                     arrowRef?.current && arrow({ element: arrowRef.current, padding: 8 }),
                     offset(offsetOptions),
                     flip(),
-                    size({
-                        apply({ rects, elements }: MiddlewareState) {
-                            Object.assign(elements.floating.style, {
-                                width: refWidth ? `${rects.reference.width}px` : undefined,
-                            });
-                        },
-                    }),
+                    refWidth &&
+                        size({
+                            apply({ rects, elements }: MiddlewareState) {
+                                Object.assign(elements.floating.style, {
+                                    width: `${rects.reference.width}px`,
+                                });
+                            },
+                        }),
                 ],
             }).then((value: ComputePositionReturn) => {
                 setFloatingStyles(() => ({

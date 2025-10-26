@@ -1,7 +1,8 @@
 import { CheckboxProps, Checkbox } from '-/components/Checkbox';
 import { ToggleOption, ToggleOptionControlProps } from '-/components/ToggleOption';
+import { CommonProps } from '-/types/common';
 
-export type CheckboxOptionProps = ToggleOptionControlProps<CheckboxProps>;
+export type CheckboxOptionProps = CommonProps<'style'> & ToggleOptionControlProps<CheckboxProps>;
 
 /**
  * A control that allows users to choose one or more items from a list or turn an feature on or off.
@@ -36,6 +37,7 @@ export function CheckboxOption({
     description,
     disabled,
     readOnly,
+    style,
     ...checkboxProps
 }: CheckboxOptionProps) {
     const label = labelProp || description;
@@ -48,6 +50,7 @@ export function CheckboxOption({
                 disabled={disabled}
                 label={label}
                 readOnly={readOnly}
+                style={style}
             >
                 <Checkbox {...checkboxProps} aria-label={ariaLabel} disabled={disabled} readOnly={readOnly} />
             </ToggleOption>

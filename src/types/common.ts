@@ -13,6 +13,7 @@ import {
     AriaRole,
     ChangeEvent,
     KeyboardEvent,
+    CSSProperties,
 } from 'react';
 
 export type AlertVariant = 'error' | 'informational' | 'success' | 'warning';
@@ -30,6 +31,10 @@ export type ElementConstructorProps<
     E extends JSXElementConstructor<unknown> | keyof JSX.IntrinsicElements,
     O extends string = '',
 > = Omit<ComponentPropsWithoutRef<E>, O>;
+
+type CSSVariables = `--${string}`;
+
+export type CSSWithVariables = CSSProperties | (CSSProperties & { [key in CSSVariables]: unknown });
 
 export type DataProps = Record<`data-${string}`, string>;
 
@@ -129,6 +134,12 @@ export type CommonPropsLibrary = {
      * @type string
      */
     role?: AriaRole;
+    /**
+     * Inline styles to apply to the element.
+     *
+     * Allows for CSS variables to be passed in as well.
+     */
+    style?: CSSWithVariables;
 };
 
 export type CommonProps<K extends keyof CommonPropsLibrary> = Pick<CommonPropsLibrary, K>;

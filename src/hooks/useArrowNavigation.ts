@@ -39,9 +39,7 @@ type UseArrowNavigationProps = {
  * A hook to manage arrow key navigation for a list of elements.
  *
  * @example
- *     ```tsx
  *     const { activeElementId, setActiveElementId, arrowKeyCallbacks } = useArrowNavigation(['id1', 'id2', 'id3']);
- *     ```;
  *
  * @returns An object containing:
  *

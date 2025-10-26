@@ -125,8 +125,6 @@
         "./ListItem/*": "./dist/components/ListItem/*.js",
         "./Menu": "./dist/components/Menu/index.js",
         "./Menu/*": "./dist/components/Menu/*.js",
-        "./MenuButton": "./dist/components/MenuButton/index.js",
-        "./MenuButton/*": "./dist/components/MenuButton/*.js",
         "./Modal": "./dist/components/Modal/index.js",
         "./Modal/*": "./dist/components/Modal/*.js",
         "./OTPInput": "./dist/components/OTPInput/index.js",

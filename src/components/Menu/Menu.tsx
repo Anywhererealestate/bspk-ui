@@ -7,7 +7,7 @@ export function menuItemId(menuId: string, index: number) {
     return `menu-${menuId}-item-${index}`;
 }
 
-export type MenuProps<As extends ElementType = ElementType> = CommonProps<'id' | 'owner' | 'role'> & {
+export type MenuProps<As extends ElementType = ElementType> = CommonProps<'id' | 'owner' | 'role' | 'style'> & {
     /** A ref to the inner div element. */
     innerRef?: SetRef<HTMLDivElement>;
     /**
@@ -29,6 +29,13 @@ export type MenuProps<As extends ElementType = ElementType> = CommonProps<'id' |
      * @type ElementType
      */
     as?: As;
+    /**
+     * The width of the menu.
+     *
+     * @type HTMLElement.style.width
+     * @exampleType string
+     */
+    width?: HTMLElement['style']['width'];
 };
 
 /**
@@ -65,6 +72,7 @@ export function Menu({ as, innerRef, id: idProp, children, owner, label, ...prop
             data-bspk-utility="menu"
             id={menuId}
             ref={innerRef}
+            style={{ ...props.style, width: props.width }}
         >
             {children}
         </As>

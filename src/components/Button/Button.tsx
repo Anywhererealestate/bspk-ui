@@ -5,7 +5,7 @@ import { ButtonSize, CommonProps, ElementProps, SetRef } from '-/types/common';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'tertiary';
 
-export type ButtonProps<As extends ElementType = 'button'> = CommonProps<'disabled' | 'owner'> & {
+export type ButtonProps<As extends ElementType = ElementType> = CommonProps<'disabled' | 'owner'> & {
     /**
      * The label of the button.
      *
@@ -98,7 +98,7 @@ export type ButtonProps<As extends ElementType = 'button'> = CommonProps<'disabl
  * @name Button
  * @phase UXReview
  */
-export function Button<As extends ElementType = 'button'>(
+export function Button<As extends ElementType = ElementType>(
     props: AriaAttributes & ElementProps<ButtonProps<As>, As>,
 ): JSX.Element {
     const {

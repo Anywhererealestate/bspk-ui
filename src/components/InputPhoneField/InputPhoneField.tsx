@@ -18,10 +18,17 @@ export function InputPhoneField({
     helperText,
     labelTrailing,
     errorMessage,
+    style,
     ...controlProps
 }: InputPhoneFieldProps) {
     return (
-        <FormField errorMessage={errorMessage} helperText={helperText} label={label} labelTrailing={labelTrailing}>
+        <FormField
+            errorMessage={errorMessage}
+            helperText={helperText}
+            label={label}
+            labelTrailing={labelTrailing}
+            style={style}
+        >
             <InputPhone {...controlProps} />
         </FormField>
     );
