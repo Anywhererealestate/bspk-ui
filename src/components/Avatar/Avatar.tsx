@@ -161,7 +161,7 @@ export function Avatar({
             data-color={color}
             data-size={size}
             onClickCapture={disabled ? undefined : onClick}
-            role={onClick ? 'button' : ''}
+            role={onClick ? 'button' : 'img'}
             tabIndex={onClick && !disabled ? 0 : undefined}
         >
             {children}
