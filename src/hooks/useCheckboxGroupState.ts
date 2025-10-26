@@ -6,22 +6,19 @@ import { CheckboxProps } from '-/components/Checkbox';
  * A hook to manage the state of a group of checkboxes. Used alongside the CheckboxGroup component.
  *
  * @example
- *     import { Checkbox } from "@bspk/ui/Checkbox";
- *     import { useCheckboxGroupState } from "@bspk/ui/hooks/useCheckboxGroupState";
+ *     import { Checkbox } from '@bspk/ui/Checkbox';
+ *     import { useCheckboxGroupState } from '@bspk/ui/hooks/useCheckboxGroupState';
  *
  *     function Example() {
- *     const allValues = ["Red", "Orange", "Yellow", "Green"];
- *
- *     const { allCheckboxProps, checkboxProps, values } = useCheckboxGroupState(allValues, "fruits");
- *
+ *     const allValues = ['Red', 'Orange', 'Yellow', 'Green'];
+ *     const { allCheckboxProps, checkboxProps, values } = useCheckboxGroupState(allValues, 'fruits');
  *     return (
- *     <>
- *     <pre>Selected Values: {values.join(", ")}</pre>
- *     <Checkbox aria-label="All" {...allCheckboxProps} />
+ *     <div>
+ *     <pre>Selected Values: {values.join(', ')}</pre> <Checkbox aria-label="All" {...allCheckboxProps} />{' '}
  *     {allValues.map((value) => (
  *     <Checkbox key={value} aria-label={value} {...checkboxProps(value)} />
  *     ))}
- *     </>
+ *     </div>
  *     );
  *     }
  *

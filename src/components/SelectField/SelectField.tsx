@@ -13,9 +13,22 @@ export type SelectFieldProps = FormFieldControlProps<SelectProps>;
  *
  * @generated
  */
-export function SelectField({ label, helperText, labelTrailing, errorMessage, ...controlProps }: SelectFieldProps) {
+export function SelectField({
+    label,
+    helperText,
+    labelTrailing,
+    errorMessage,
+    style,
+    ...controlProps
+}: SelectFieldProps) {
     return (
-        <FormField errorMessage={errorMessage} helperText={helperText} label={label} labelTrailing={labelTrailing}>
+        <FormField
+            errorMessage={errorMessage}
+            helperText={helperText}
+            label={label}
+            labelTrailing={labelTrailing}
+            style={style}
+        >
             <Select {...controlProps} />
         </FormField>
     );

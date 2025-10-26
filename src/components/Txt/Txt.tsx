@@ -4,7 +4,7 @@ import { SkeletonText } from '-/components/SkeletonText';
 import { ElementProps } from '-/types/common';
 import { TxtVariant } from '-/utils/txtVariants';
 
-export type TxtProps<As extends ElementType = 'span'> = {
+export type TxtProps<As extends ElementType = ElementType> = {
     /**
      * The element type to render as.
      *
@@ -56,7 +56,7 @@ export type TxtProps<As extends ElementType = 'span'> = {
  * @name Txt
  * @phase UXReview
  */
-export function Txt<As extends ElementType = 'span'>({
+export function Txt<As extends ElementType = ElementType>({
     children,
     as,
     variant = 'body-base',

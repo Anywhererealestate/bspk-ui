@@ -3,7 +3,7 @@ import { SvgKeyboardArrowDown } from '@bspk/icons/KeyboardArrowDown';
 import { useMemo, KeyboardEvent, MouseEvent } from 'react';
 import { useFieldInit } from '-/components/Field';
 import { ListItem, ListItemProps } from '-/components/ListItem';
-import { Menu } from '-/components/Menu';
+import { Menu, MenuProps } from '-/components/Menu';
 import { useArrowNavigation } from '-/hooks/useArrowNavigation';
 import { useFloating } from '-/hooks/useFloating';
 import { useOutsideClick } from '-/hooks/useOutsideClick';
@@ -18,7 +18,7 @@ import { scrollListItemsStyle, ScrollListItemsStyleProps } from '-/utils/scrollL
  * Essentially the props of ListItemProps.
  */
 export type SelectOption = CommonProps<'disabled'> &
-    Omit<ListItemProps, 'id' | 'onClick' | 'subText' | 'value'> & { value: string };
+    Omit<ListItemProps, 'id' | 'onClick' | 'value'> & { value: string };
 
 export type SelectItem = SelectOption & { id: string };
 
@@ -52,6 +52,12 @@ export type SelectProps = CommonProps<'size'> &
          * @default Select one
          */
         placeholder?: string;
+        /**
+         * The width of the menu.
+         *
+         * If not provided, the menu will match the width of the select control.
+         */
+        menuWidth?: MenuProps['width'];
     };
 
 /**
@@ -126,6 +132,7 @@ export function Select({
     scrollLimit,
     required = false,
     'aria-label': ariaLabel,
+    menuWidth,
     ...elementProps
 }: ElementProps<SelectProps, 'button'>) {
     const { id, ariaDescribedBy, ariaErrorMessage, invalid } = useFieldInit({
@@ -162,7 +169,8 @@ export function Select({
     const { elements, floatingStyles } = useFloating({
         hide: !open,
         offsetOptions: 4,
-        refWidth: true,
+        //match reference width if menuWidth not provided
+        refWidth: !menuWidth,
     });
 
     useOutsideClick({
@@ -266,6 +274,7 @@ export function Select({
                     ...floatingStyles,
                 }}
                 tabIndex={-1}
+                width={menuWidth}
             >
                 {items.map((item) => {
                     const isActive = activeElementId === item.id;

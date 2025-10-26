@@ -41,7 +41,7 @@ export type CheckboxGroupProps = FieldControlProps<string[]> & {
  *     import { CheckboxGroup } from '@bspk/ui/CheckboxGroup';
  *
  *     function Example() {
- *         const [values, setValues] = React.useState<string[]>([]);
+ *         const [value, setValue] = React.useState<string[]>([]);
  *
  *         return (
  *             <CheckboxGroup
@@ -52,9 +52,9 @@ export type CheckboxGroupProps = FieldControlProps<string[]> & {
  *                     { label: 'Option 2', value: 'option2' },
  *                     { label: 'Option 3', value: 'option3' },
  *                 ]}
- *                 values={values}
- *                 onChange={(nextValues: string[]) => {
- *                     setValues(nextValues);
+ *                 value={value}
+ *                 onChange={(nextValue: string[]) => {
+ *                     setValue(nextValue);
  *                 }}
  *             />
  *         );

@@ -6,7 +6,7 @@ import { ElementProps } from '-/types/common';
 
 export type FabVariant = 'neutral' | 'primary' | 'secondary';
 
-export type FabProps<As extends ElementType = 'button'> = Pick<
+export type FabProps<As extends ElementType = ElementType> = Pick<
     ButtonProps<As>,
     'as' | 'icon' | 'iconOnly' | 'onClick' | 'toolTip'
 > &
@@ -52,7 +52,7 @@ export type FabProps<As extends ElementType = 'button'> = Pick<
  * @name Fab
  * @phase UXReview
  */
-export function Fab<As extends ElementType = 'button'>(props: AriaAttributes & ElementProps<FabProps<As>, As>) {
+export function Fab<As extends ElementType = ElementType>(props: AriaAttributes & ElementProps<FabProps<As>, As>) {
     const {
         size = 'small',
         variant = 'primary',

@@ -13,9 +13,22 @@ export type PasswordFieldProps = FormFieldControlProps<PasswordProps>;
  *
  * @generated
  */
-export function PasswordField({ label, helperText, labelTrailing, errorMessage, ...controlProps }: PasswordFieldProps) {
+export function PasswordField({
+    label,
+    helperText,
+    labelTrailing,
+    errorMessage,
+    style,
+    ...controlProps
+}: PasswordFieldProps) {
     return (
-        <FormField errorMessage={errorMessage} helperText={helperText} label={label} labelTrailing={labelTrailing}>
+        <FormField
+            errorMessage={errorMessage}
+            helperText={helperText}
+            label={label}
+            labelTrailing={labelTrailing}
+            style={style}
+        >
             <Password {...controlProps} />
         </FormField>
     );

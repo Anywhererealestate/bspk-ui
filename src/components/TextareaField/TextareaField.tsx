@@ -13,9 +13,22 @@ export type TextareaFieldProps = FormFieldControlProps<TextareaProps>;
  *
  * @generated
  */
-export function TextareaField({ label, helperText, labelTrailing, errorMessage, ...controlProps }: TextareaFieldProps) {
+export function TextareaField({
+    label,
+    helperText,
+    labelTrailing,
+    errorMessage,
+    style,
+    ...controlProps
+}: TextareaFieldProps) {
     return (
-        <FormField errorMessage={errorMessage} helperText={helperText} label={label} labelTrailing={labelTrailing}>
+        <FormField
+            errorMessage={errorMessage}
+            helperText={helperText}
+            label={label}
+            labelTrailing={labelTrailing}
+            style={style}
+        >
             <Textarea {...controlProps} />
         </FormField>
     );

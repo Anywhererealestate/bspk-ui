@@ -18,10 +18,17 @@ export function InputNumberField({
     helperText,
     labelTrailing,
     errorMessage,
+    style,
     ...controlProps
 }: InputNumberFieldProps) {
     return (
-        <FormField errorMessage={errorMessage} helperText={helperText} label={label} labelTrailing={labelTrailing}>
+        <FormField
+            errorMessage={errorMessage}
+            helperText={helperText}
+            label={label}
+            labelTrailing={labelTrailing}
+            style={style}
+        >
             <InputNumber {...controlProps} />
         </FormField>
     );
