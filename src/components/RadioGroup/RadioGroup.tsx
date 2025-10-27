@@ -68,6 +68,7 @@ export function RadioGroup({
     name,
     value: groupValue,
     disabled = false,
+    readOnly,
     invalid: invalidProp,
     required,
     id: idProp,
@@ -79,6 +80,7 @@ export function RadioGroup({
         idProp,
         required,
         disabled,
+        readOnly,
         invalidProp,
     });
 

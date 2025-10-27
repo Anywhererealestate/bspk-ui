@@ -16,6 +16,12 @@ export type SwitchProps = CommonProps<'aria-label' | 'disabled' | 'name'> & {
      * @required
      */
     onChange: (checked: boolean, event: ChangeEvent<HTMLInputElement>) => void;
+    /**
+     * Only exists as a alias for `disabled` and to match other input properties.
+     *
+     * @default false
+     */
+    readOnly?: boolean;
     /** The value of the switch. */
     value: string;
 };
@@ -47,7 +53,9 @@ export type SwitchProps = CommonProps<'aria-label' | 'disabled' | 'name'> & {
  * @name Switch
  * @phase UXReview
  */
-export function Switch({ checked = false, disabled = false, ...props }: SwitchProps) {
+export function Switch({ checked = false, disabled: disabledProp = false, readOnly, ...props }: SwitchProps) {
+    const disabled = readOnly || disabledProp;
+
     return (
         <span data-bspk="switch">
             <input
