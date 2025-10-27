@@ -35,8 +35,8 @@ export type AvatarGroupProps = CommonProps<'style'> & {
      * Recommended to set this to a value between 3 and 5 for optimal display.
      *
      * @default 5
-     * @min 1
-     * @max 5
+     * @minimum 1
+     * @maximum 5
      */
     max?: number;
     /**

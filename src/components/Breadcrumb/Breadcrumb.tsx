@@ -1,6 +1,6 @@
 import './breadcrumb.scss';
 import { SvgChevronRight } from '@bspk/icons/ChevronRight';
-import { BreadcrumbDropdown, BreadcrumbItem } from './BreadcumbDropdown';
+import { BreadcrumbDropdown, BreadcrumbItem } from './BreadcrumbDropdown';
 import { Link } from '-/components/Link';
 import { Txt } from '-/components/Txt';
 import { useId } from '-/hooks/useId';

@@ -15,7 +15,7 @@ import { TimePicker } from '-/components/TimePicker';
 import { FieldControlProps } from '-/types/common';
 import { ComponentExample, Preset, Syntax } from '-/utils/demo';
 
-type ExampleProps = Partial<FieldControlProps & FormFieldProps>;
+export type ExampleProps = Partial<FieldControlProps & FormFieldProps>;
 
 export const presets: Preset<Partial<ExampleProps>>[] = [
     {

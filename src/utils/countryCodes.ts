@@ -4,7 +4,7 @@ import { CountryCode } from 'libphonenumber-js';
 
 export type SupportedCountryCode = keyof CountryCodeData;
 
-type CountryCodeData = Omit<
+export type CountryCodeData = Omit<
     Record<CountryCode, { name: string; flagIconName: IconName }>,
     | 'AC'
     | 'CI'
