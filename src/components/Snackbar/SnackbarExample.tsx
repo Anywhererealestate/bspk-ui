@@ -13,6 +13,5 @@ export const SnackbarExample: ComponentExample<SnackbarProps> = {
             <Button label="open snackbar" onClick={() => setState({ open: true })} size="medium" title="Snackbar" />
         </>
     ),
-    sections: [],
     variants: false,
 };

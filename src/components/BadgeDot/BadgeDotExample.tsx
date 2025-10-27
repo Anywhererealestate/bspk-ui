@@ -18,7 +18,6 @@ export const BadgeDotExample: ComponentExample<BadgeDotProps> = {
             </Component>
         );
     },
-    sections: [],
     variants: {
         outline: { size: { options: [6, 8, 10, 12] } },
     },

@@ -72,6 +72,5 @@ export const ButtonDockExample: ComponentExampleFn<ButtonDockProps> = ({ action 
         }
         return <Component {...newProps} />;
     },
-    sections: [],
     variants: false,
 });

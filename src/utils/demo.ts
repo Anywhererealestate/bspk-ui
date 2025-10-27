@@ -108,12 +108,7 @@ export type ComponentExample<Props = Record<string, unknown>, PropName extends k
     /** The sections of the example. */
     sections?: {
         title: string;
-        content: (params: {
-            Component: React.ComponentType<Props>;
-            props: Props;
-            CodeExample: CodeExample;
-            Syntax: Syntax;
-        }) => React.ReactNode;
+        content: (params: { props: Props; CodeExample: CodeExample; Syntax: Syntax }) => React.ReactNode;
         location?: 'afterDemo' | 'beforeDemo';
     }[];
 };

@@ -24,7 +24,6 @@ export const CalendarExample: ComponentExample<CalendarProps> = {
     disableProps: ['focusTrap'],
     presets,
     render: ({ props, Component }) => <Component {...props} />,
-    sections: [],
     variants: {
         focusTrap: false,
     },

@@ -31,6 +31,5 @@ export const PageControlExample: ComponentExample<PageControlProps> = {
     disableProps: [],
     presets,
     render: ({ props, Component }) => <Component {...props} />,
-    sections: [],
     variants: {},
 };

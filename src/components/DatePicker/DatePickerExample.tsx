@@ -7,6 +7,5 @@ export const DatePickerExample: ComponentExample<DatePickerProps> = {
         'aria-label': 'Select date',
     },
     disableProps: [],
-    sections: [],
     variants: false,
 };

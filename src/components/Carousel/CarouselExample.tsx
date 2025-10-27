@@ -38,7 +38,6 @@ export const CarouselExample: ComponentExampleFn<CarouselProps & { slideCount: n
                 ))}
             </Component>
         ),
-        sections: [],
         variants: false,
         presets: [
             {

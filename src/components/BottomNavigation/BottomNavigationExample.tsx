@@ -116,6 +116,5 @@ export const BottomNavigationExample: ComponentExample<BottomNavigationProps> = 
     disableProps: [],
     presets,
     render: ({ props, Component }) => <Component {...props} />,
-    sections: [],
     variants: false,
 };

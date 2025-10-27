@@ -26,5 +26,4 @@ export const OTPInputExample: ComponentExample<OTPInputProps> = {
     disableProps: [],
     presets,
     render: ({ props, Component }) => <Component {...props} />,
-    sections: [],
 };

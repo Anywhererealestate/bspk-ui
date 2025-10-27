@@ -17,9 +17,7 @@ export const generateExampleFile = (componentName: string) => {
         defaultState: {},
         disableProps: [],
         presets,
-        render: ({ props, Component }) => <Component {...props} />,
-        sections: [],
-        variants: {},
+        render: ({ props, Component }) => <Component {...props} />,        variants: {},
     };
     `;
 };
