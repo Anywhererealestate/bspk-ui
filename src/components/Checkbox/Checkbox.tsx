@@ -2,7 +2,7 @@ import './checkbox.scss';
 import { ChangeEvent, useEffect, useRef } from 'react';
 import { ElementProps, FieldControlProps } from '-/types/common';
 
-export type CheckboxProps = Omit<FieldControlProps, 'onChange' | 'value'> & {
+export type CheckboxProps = Omit<FieldControlProps, 'onChange' | 'readOnly' | 'value'> & {
     /**
      * If the checkbox is partially checked or
      * [indeterminate](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#indeterminate_state_checkboxes).
@@ -64,7 +64,6 @@ export function Checkbox({
     indeterminate: indeterminateProp,
     invalid,
     disabled,
-    readOnly,
     required,
     ...props
 }: ElementProps<CheckboxProps, 'input'>) {
@@ -79,10 +78,7 @@ export function Checkbox({
     }, [indeterminate]);
 
     return (
-        <span
-            //
-            data-bspk="checkbox"
-        >
+        <span data-bspk="checkbox">
             <input
                 {...props}
                 aria-describedby={props['aria-describedby'] || undefined}
@@ -90,9 +86,8 @@ export function Checkbox({
                 aria-invalid={invalid || undefined}
                 checked={checked}
                 data-indeterminate={indeterminate || undefined}
-                disabled={disabled || readOnly || undefined}
+                disabled={disabled || undefined}
                 onChange={(event) => props.onChange(!!event.target.checked, event)}
-                readOnly={readOnly}
                 ref={(node) => {
                     if (!node) return;
                     inputRef.current = node;
