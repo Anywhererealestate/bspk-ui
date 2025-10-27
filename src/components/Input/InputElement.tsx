@@ -13,7 +13,7 @@ export const DEFAULT = {
     autoComplete: 'off',
 } as const;
 
-type InputElementBaseProps = CommonProps<'owner' | 'size'> &
+export type InputElementBaseProps = CommonProps<'owner' | 'size'> &
     FieldControlProps &
     Pick<FieldContextProps, 'ariaDescribedBy' | 'ariaErrorMessage'> & {
         /** The ref of the container. */

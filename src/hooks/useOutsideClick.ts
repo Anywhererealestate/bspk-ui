@@ -24,16 +24,12 @@ import { useEffect } from 'react';
  *     </>
  *     );
  *     }
- *
- * @param elements - The elements to check if the click occurred outside of.
- * @param callback - The callback to call when a click occurs outside of the ref.
- * @param disabled - Whether the hook should be disabled. Defaults to false.
  */
 export function useOutsideClick({
-    elements,
-    callback,
-    disabled,
-    handleTabs = false,
+    elements, // The elements to check if the click occurred outside of.
+    callback, // The callback to call when a click occurs outside of the ref.
+    disabled, // Whether the hook should be disabled. Defaults to false.
+    handleTabs = false, // Whether to handle tab key presses as outside clicks.
 }: {
     elements: (HTMLElement | null)[] | null;
     callback: (event?: KeyboardEvent | MouseEvent) => void;

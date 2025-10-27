@@ -8,11 +8,7 @@ export type PortalProps = {
      * @required
      */
     children: ReactNode;
-    /**
-     * The container to render the portal in.
-     *
-     * @optional
-     */
+    /** The container to render the portal in. */
     container?: HTMLElement;
 };
 

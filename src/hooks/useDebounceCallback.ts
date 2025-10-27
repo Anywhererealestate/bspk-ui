@@ -1,6 +1,6 @@
 import { useTimeout } from './useTimeout';
 
-type Fn = (...args: unknown[]) => void;
+export type Fn = (...args: unknown[]) => void;
 
 /**
  * A hook that debounces a function call, ensuring that the function is not called again until a specified delay

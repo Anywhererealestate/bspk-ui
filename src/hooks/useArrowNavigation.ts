@@ -3,7 +3,7 @@ import { getElementById } from '-/utils/dom';
 import { KeysCallback } from '-/utils/handleKeyDown';
 import { KeyboardEventCode } from '-/utils/keyboard';
 
-type ArrowKeyNames = Extract<KeyboardEventCode, `Arrow${string}`>;
+export type ArrowKeyNames = Extract<KeyboardEventCode, `Arrow${string}`>;
 
 const ARROW_KEYS: ArrowKeyNames[] = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'];
 
@@ -14,7 +14,7 @@ export type ArrowKeyNavigationCallbackParams = {
     increment: number;
 };
 
-type UseArrowNavigationProps = {
+export type UseArrowNavigationProps = {
     /**
      * An array of string IDs representing the navigable elements. These IDs should correspond to the `id` attributes of
      * the elements in the DOM. Ensure the elements are not disabled.

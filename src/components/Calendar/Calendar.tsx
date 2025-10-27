@@ -28,10 +28,10 @@ import { useId } from '-/hooks/useId';
 import { getElementById } from '-/utils/dom';
 import { handleKeyDown } from '-/utils/handleKeyDown';
 
-type Direction = '<' | '<<' | '>' | '>>';
-type Kind = 'day' | 'month' | 'year';
+export type Direction = '<' | '<<' | '>' | '>>';
+export type Kind = 'day' | 'month' | 'year';
 
-type ConfigKind = {
+export type ConfigKind = {
     header: Record<
         Direction,
         {

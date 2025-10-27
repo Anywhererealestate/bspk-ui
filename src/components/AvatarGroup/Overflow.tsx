@@ -9,7 +9,7 @@ import { handleKeyDown } from '-/utils/handleKeyDown';
 import { scrollListItemsStyle } from '-/utils/scrollListItemsStyle';
 import { useIds } from '-/utils/useIds';
 
-type AvatarGroupOverflowProps = {
+export type AvatarGroupOverflowProps = {
     /** The number of overflow avatars */
     overflow: number;
     /** The size of the avatar group */
