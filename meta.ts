@@ -212,6 +212,7 @@ function generateComponentMeta({
         phase: (COMPONENT_PHASE_ORDER.includes(componentDoc.phase as ComponentPhase)
             ? componentDoc.phase
             : 'Backlog') as ComponentPhase,
+        generated: 'generated' in componentDoc,
     } as ComponentMeta;
 }
 
@@ -222,17 +223,17 @@ async function generateUtilityMeta(utilityFile: string): Promise<UtilityMeta | n
 
     const utility = fileName;
 
-    const comment = content.match(/\/\*\*[\s\S]+?\*\//);
+    const comment = content.match(/\/\*\*\s*\n([^*]|(\*(?!\/)))*\*\//g)?.map(jsDocParse);
 
     if (!comment?.[0]) {
         // console.info(`No JSDoc found for hook ${utility} for ${hooksDir}/${utility}.tsx`);
         return null;
     }
 
-    const utilityDoc = jsDocParse(comment[0]);
+    const utilityDoc = comment.find((doc) => doc.example);
 
-    if (!utilityDoc.example) {
-        // console.info(`No example found for hook ${utility} for ${hooksDir}/${utility}.tsx`);
+    if (!utilityDoc?.example) {
+        // console.info(`No example found for hook ${utility} for ${hooksDir}/${utility}.tsx`, comment[0]);
         return null;
     }
 

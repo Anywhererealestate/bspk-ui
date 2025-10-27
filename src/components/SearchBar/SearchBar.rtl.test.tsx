@@ -21,9 +21,8 @@ const TestBed = () => {
         <SearchBar
             aria-label="Example aria-label"
             items={items}
-            name="Example name"
+            name="example-name"
             onChange={() => {}}
-            onSelect={() => {}}
             placeholder="Search"
             value=""
         />
@@ -34,8 +33,8 @@ describe('SearchBar (RTL)', () => {
     it('has no basic a11y issues', hasNoBasicA11yIssues(<TestBed />));
 
     it('renders', () => {
-        const { getByLabelText } = render(<TestBed />);
+        const { getByPlaceholderText } = render(<TestBed />);
 
-        expect(getByLabelText('Example aria-label')).toBeInTheDocument();
+        expect(getByPlaceholderText('Search')).toBeInTheDocument();
     });
 });

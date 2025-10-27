@@ -1,22 +1,54 @@
 [data-bspk='snackbar'] {
-    pointer-events: auto;
+    position: fixed;
+    z-index: var(--z-index-dialog);
     display: flex;
-    flex-direction: row;
+    flex-direction: column-reverse;
+    max-height: 100%;
+    overflow: hidden;
+    inset: 0;
     align-items: center;
-    justify-content: space-between;
-    border-radius: var(--radius-md);
-    padding: var(--spacing-sizing-02) var(--spacing-sizing-02) var(--spacing-sizing-02) var(--spacing-sizing-04);
-    gap: var(--spacing-sizing-03);
-    width: 600px;
-    max-width: 100%;
-    box-shadow:
-        0 0 1px 0 var(--shadow-variant-05),
-        0 0 12px 0 var(--shadow-variant-03);
-    background-color: var(--surface-neutral-inverse);
-    color: var(--foreground-neutral-on-inverse-surface);
-    height: var(--spacing-sizing-14);
+    gap: var(--spacing-sizing-02);
+    pointer-events: none;
+    padding: var(--spacing-sizing-02);
 
-    [data-bspk='button'][data-variant='tertiary'] {
-        color: inherit;
+    [data-snackbar-content] {
+        pointer-events: auto;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        border-radius: var(--radius-md);
+        padding: var(--spacing-sizing-02) var(--spacing-sizing-02) var(--spacing-sizing-02) var(--spacing-sizing-04);
+        gap: var(--spacing-sizing-03);
+        width: 600px;
+        box-shadow:
+            0 0 1px 0 var(--shadow-variant-05),
+            0 0 12px 0 var(--shadow-variant-03);
+        background-color: var(--surface-neutral-inverse);
+        color: var(--foreground-neutral-on-inverse-surface);
+        height: var(--spacing-sizing-14);
+
+        [data-snackbar-icon-text] {
+            flex: 1 1 0; // allow to grow and shrink, but not overflow
+            min-width: 0; // Prevent overflow from long content
+            max-width: 100%;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sizing-03);
+        }
+
+        [data-snackbar-icon] {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: var(--spacing-sizing-05);
+            height: var(--spacing-sizing-05);
+        }
+
+        [data-bspk='button'][data-variant='tertiary'] {
+            flex: 0 0 auto; // prevent button from shrinking
+            color: inherit;
+        }
     }
 }

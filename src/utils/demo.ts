@@ -97,8 +97,14 @@ export type ComponentExample<Props = Record<string, unknown>, PropName extends k
      * If you only need to update the props of the component, you can use renderProps.
      */
     render?: ComponentExampleRender<Props>;
-    /** We may not want certain props editable in the props table. */
-    disableProps?: PropName[];
+    /**
+     * We may not want certain props editable in the props table.
+     *
+     * Setting this to true will disable all props.
+     *
+     * Or you can pass an array of prop names to disable specific props.
+     */
+    disableProps?: PropName[] | true;
     /** The sections of the example. */
     sections?: {
         title: string;
@@ -108,6 +114,7 @@ export type ComponentExample<Props = Record<string, unknown>, PropName extends k
             CodeExample: CodeExample;
             Syntax: Syntax;
         }) => React.ReactNode;
+        location?: 'afterDemo' | 'beforeDemo';
     }[];
 };
 

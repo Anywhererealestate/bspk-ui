@@ -6,7 +6,15 @@
  * @bspk/ui/Txt".
  */
 
-import { JSXElementConstructor, ReactNode, ComponentPropsWithoutRef, AriaRole } from 'react';
+import {
+    JSXElementConstructor,
+    ReactNode,
+    ComponentPropsWithoutRef,
+    AriaRole,
+    ChangeEvent,
+    KeyboardEvent,
+    CSSProperties,
+} from 'react';
 
 export type AlertVariant = 'error' | 'informational' | 'success' | 'warning';
 
@@ -23,6 +31,10 @@ export type ElementConstructorProps<
     E extends JSXElementConstructor<unknown> | keyof JSX.IntrinsicElements,
     O extends string = '',
 > = Omit<ComponentPropsWithoutRef<E>, O>;
+
+type CSSVariables = `--${string}`;
+
+export type CSSWithVariables = CSSProperties | (CSSProperties & { [key in CSSVariables]: unknown });
 
 export type DataProps = Record<`data-${string}`, string>;
 
@@ -47,9 +59,9 @@ export type CallToActionButton = {
 
 export type CommonPropsLibrary = {
     /**
-     * Marks the element as invalid and displays error state theme.
+     * Indicates that the element is in an invalid state and displays the error theme.
      *
-     * If the errorMessage is empty the error state theme will not appear.
+     * If set to true, an accompanying error message should be provided.
      *
      * @default false
      */
@@ -103,13 +115,13 @@ export type CommonPropsLibrary = {
      *
      * @required
      */
-    value?: string;
+    optionValue?: string;
     /**
      * The aria-label for the element.
      *
      * @required
      */
-    'aria-label': string;
+    'aria-label'?: string;
     /**
      * Identifies the parent component. Helps with styling, debugging, and/or testing purposes.
      *
@@ -122,17 +134,34 @@ export type CommonPropsLibrary = {
      * @type string
      */
     role?: AriaRole;
+    /**
+     * Inline styles to apply to the element.
+     *
+     * Allows for CSS variables to be passed in as well.
+     */
+    style?: CSSWithVariables;
 };
 
 export type CommonProps<K extends keyof CommonPropsLibrary> = Pick<CommonPropsLibrary, K>;
 
 export type RequiredCommonProps<K extends keyof CommonPropsLibrary> = Required<Pick<CommonPropsLibrary, K>>;
 
-export type FormFieldControlProps = {
-    /** The id of the control description. */
-    'aria-describedby'?: string;
-    /** The id of the error message */
-    'aria-errormessage'?: string;
+export type FieldControlProps<
+    ValueType = string,
+    ChangeContext = ChangeEvent<HTMLElement> | KeyboardEvent | undefined,
+> = CommonProps<'aria-label' | 'disabled' | 'id' | 'invalid' | 'name' | 'readOnly' | 'required'> & {
+    /**
+     * The value of the field control.
+     *
+     * @required
+     */
+    value: ValueType | undefined;
+    /**
+     * The function to call when the value changes.
+     *
+     * @required
+     */
+    onChange: (next: ValueType | undefined, event?: ChangeContext) => void;
 };
 
 export type Brand =

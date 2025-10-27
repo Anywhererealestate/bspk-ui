@@ -1,15 +1,17 @@
 import './avatar-group.scss';
+import { AvatarGroupOverflow } from './Overflow';
 import { Avatar, AvatarProps, SizeVariant } from '-/components/Avatar';
+import { CommonProps } from '-/types/common';
 
 export type AvatarItem = Pick<AvatarProps, 'color' | 'image' | 'initials' | 'name' | 'showIcon'>;
 
-export type AvatarGroupProps = {
+export type AvatarGroupProps = CommonProps<'style'> & {
     /**
      * The avatars to display in the group.
      *
      * @example
      *     [
-     *         { name: 'Fezzik', image: '/profile.jpg' },
+     *         { name: 'Fezzik', image: '/avatar-01.png' },
      *         { name: 'Inigo Montoya', initials: 'IM', color: 'blue' },
      *         { name: 'Miracle Max', initials: 'MM', color: 'green' },
      *         { name: 'Princess Buttercup', showIcon: true },
@@ -24,19 +26,23 @@ export type AvatarGroupProps = {
      *
      * @default small
      */
-    size?: Extract<SizeVariant, 'large' | 'medium' | 'small' | 'x-small'>;
+    size?: SizeVariant;
     /**
-     * The maximum number of avatars to display before showing the overflowCount.
+     * The maximum number of avatars to display before showing the overflow menu.
      *
      * This is used to limit the number of avatars displayed in the group.
      *
      * Recommended to set this to a value between 3 and 5 for optimal display.
+     *
+     * @default 5
+     * @min 1
+     * @max 5
      */
     max?: number;
     /**
      * The variant of the avatar group.
      *
-     * @default spread
+     * @default auto
      */
     variant?: 'spread' | 'stacked';
 };
@@ -47,7 +53,7 @@ export type AvatarGroupProps = {
  * @example
  *     import { AvatarGroup } from '@bspk/ui/AvatarGroup';
  *
- *     export function Example() {
+ *     function Example() {
  *         return (
  *             <AvatarGroup
  *                 items={[
@@ -62,28 +68,18 @@ export type AvatarGroupProps = {
  * @name AvatarGroup
  * @phase UXReview
  */
-export function AvatarGroup({ items, size = 'small', max = 5, variant }: AvatarGroupProps) {
-    if (!Array.isArray(items) || !items?.length) return null;
+export function AvatarGroup({ items, size = 'small', max: maxProp = 5, variant = 'spread', style }: AvatarGroupProps) {
+    const max = maxProp > items.length ? items.length : maxProp;
+    const overflowItems = items.slice(max);
 
-    const overFlowCount = items.length - max;
-    const small = size === 'x-small' || size === 'small';
-
-    return (
-        <div data-bspk="avatar-group" data-max={max} data-size={size} data-variant={variant}>
-            <div data-gap={variant === 'spread' ? (small ? '01' : '02') : undefined} data-wrap>
+    return !Array.isArray(items) || !items?.length ? null : (
+        <div data-bspk="avatar-group" data-max={max} data-size={size} data-variant={variant} style={style}>
+            <div data-wrap>
                 {items.slice(0, max).map((item, index) => (
-                    <Avatar
-                        data-stacked={variant === 'stacked' ? (small ? '01' : '02') : undefined}
-                        key={index}
-                        {...item}
-                        size={size}
-                    />
+                    <Avatar key={index} {...item} onClick={() => {}} size={size} />
                 ))}
-
-                {overFlowCount > 0 && (
-                    <div aria-hidden data-bspk="avatar" data-color="white" data-size={size}>
-                        <span data-overflow-count>+{overFlowCount}</span>
-                    </div>
+                {overflowItems.length > 0 && (
+                    <AvatarGroupOverflow items={overflowItems} overflow={overflowItems.length} size={size} />
                 )}
             </div>
         </div>

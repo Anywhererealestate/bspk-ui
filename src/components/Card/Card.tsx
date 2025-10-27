@@ -1,5 +1,6 @@
 import './card.scss';
 import { ReactNode } from 'react';
+import { ElementProps } from '-/types/common';
 
 export type CardProps = {
     /**
@@ -9,17 +10,11 @@ export type CardProps = {
      */
     children: ReactNode;
     /**
-     * Determines if the padding should be hidden.
-     *
-     * @default true
-     */
-    showPadding?: boolean;
-    /**
      * Determines how the card border will appear.
      *
      * @default elevated
      */
-    variant?: 'elevated' | 'filled' | 'outlined';
+    variant?: 'elevated' | 'outlined';
 };
 
 /**
@@ -44,9 +39,9 @@ export type CardProps = {
  * @name Card
  * @phase UXReview
  */
-export function Card({ children, showPadding, variant = 'elevated' }: CardProps) {
+export function Card({ children, variant = 'elevated', ...props }: ElementProps<CardProps, 'div'>) {
     return (
-        <div data-bspk="card" data-hide-padding={showPadding === false || undefined} data-variant={variant}>
+        <div {...props} data-bspk="card" data-variant={variant}>
             {children}
         </div>
     );

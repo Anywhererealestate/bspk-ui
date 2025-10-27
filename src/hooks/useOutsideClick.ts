@@ -8,7 +8,7 @@ import { useEffect } from 'react';
  *     import { useOutsideClick } from '@bspk/ui/hooks/useOutsideClick';
  *     import React, { useRef, useState } from 'react';
  *
- *     export function Example() {
+ *     function Example() {
  *     const [isOpen, setIsOpen] = useState(false);
  *     const containerRef = useRef<HTMLDivElement>(null);
  *
@@ -33,10 +33,12 @@ export function useOutsideClick({
     elements,
     callback,
     disabled,
+    handleTabs = false,
 }: {
     elements: (HTMLElement | null)[] | null;
-    callback: (event?: MouseEvent) => void;
-    disabled?: boolean;
+    callback: (event?: KeyboardEvent | MouseEvent) => void;
+    disabled: boolean;
+    handleTabs?: boolean;
 }) {
     useEffect(() => {
         if (!elements?.length || disabled) return;
@@ -46,11 +48,22 @@ export function useOutsideClick({
             callback(event);
         };
 
+        const handleOutsideTab = (event: KeyboardEvent) => {
+            if (!handleTabs || event.key !== 'Tab' || disabled) return;
+
+            setTimeout(() => {
+                if (elements?.some?.((element) => element?.contains?.(document.activeElement))) return;
+                callback(event);
+            }, 0);
+        };
+
         document.addEventListener('mousedown', handleClickOutside);
+        document.addEventListener('keydown', handleOutsideTab);
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
+            document.removeEventListener('keydown', handleOutsideTab);
         };
-    }, [callback, disabled, elements]);
+    }, [callback, disabled, elements, handleTabs]);
 }
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

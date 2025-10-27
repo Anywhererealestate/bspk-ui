@@ -1,7 +1,10 @@
 import { useRef, useEffect } from 'react';
 import { BRANDS_CSS } from './brandsCss';
+import { EXAMPLE_CSS } from './exampleCss';
 import { Brand } from '-/types/common';
 import '-/styles/base.scss';
+
+const THEME_CSS = { ...BRANDS_CSS, ...EXAMPLE_CSS };
 
 export type StylesProviderDemoProps = {
     /**
@@ -9,7 +12,7 @@ export type StylesProviderDemoProps = {
      *
      * @default anywhere
      */
-    brand?: Brand;
+    brand?: Brand | 'example';
 };
 
 /**
@@ -34,7 +37,7 @@ export function StylesProviderDemo({ brand = 'anywhere' }: StylesProviderDemoPro
             document.head.appendChild(styleElement.current);
         }
 
-        styleElement.current.textContent = (brand && BRANDS_CSS[brand]) || BRANDS_CSS.anywhere;
+        styleElement.current.textContent = (brand && THEME_CSS[brand]) || THEME_CSS.anywhere;
 
         return () => {
             if (!styleElement.current) return;

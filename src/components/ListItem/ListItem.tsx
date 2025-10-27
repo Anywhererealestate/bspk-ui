@@ -7,15 +7,14 @@ import {
     AriaAttributes,
     HTMLAttributes,
     AriaRole,
+    ComponentProps,
 } from 'react';
 import { ListItemButton } from './ListItemButton';
 import { Truncated } from '-/components/Truncated';
 import { useId } from '-/hooks/useId';
 import { CommonProps, ElementProps, SetRef } from '-/types/common';
 
-export type ListItemProps<As extends ElementType = ElementType> = CommonProps<
-    'active' | 'disabled' | 'owner' | 'readOnly'
-> &
+export type ListItemProps<As extends ElementType = ElementType> = CommonProps<'active' | 'owner' | 'style'> &
     Pick<AriaAttributes, 'aria-label'> & {
         /**
          * The element type to render as.
@@ -33,12 +32,16 @@ export type ListItemProps<As extends ElementType = ElementType> = CommonProps<
          * @options Icon, Img, Avatar
          */
         leading?: ReactNode;
+        /** Props to pass to the leading element wrapper span. */
+        leadingProps?: ComponentProps<'span'>;
         /**
          * The label to display in the ListItem.
          *
          * @required
          */
         label: string;
+        /** Props to pass to the label wrapper span. */
+        labelProps?: ComponentProps<'span'>;
         /** The subtext to display in the ListItem. */
         subText?: string;
         /**
@@ -51,6 +54,8 @@ export type ListItemProps<As extends ElementType = ElementType> = CommonProps<
          * @options Checkbox, Icon, ListItemButton, Radio, Switch, Tag, Txt
          */
         trailing?: ReactNode;
+        /** Props to pass to the trailing element wrapper span. */
+        trailingProps?: ComponentProps<'span'>;
         /**
          * The [href](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/a#href) of the list item.
          *
@@ -78,17 +83,20 @@ export type ListItemProps<As extends ElementType = ElementType> = CommonProps<
          */
         id?: string;
         /**
-         * Whether to hide the label from screen readers. Use this when the label is redundant with other context, such
-         * as within a ListItemMenu or Label.
-         *
-         * @default false
-         */
-        hideAriaLabel?: boolean;
-        /**
          * Indicates the current "selected" state of the list item when used in a selectable context, such as within a
          * ListItemMenu.
          */
         'aria-selected'?: boolean;
+        /**
+         * Determines how the ListItem uses horizontal space.
+         *
+         * If set to 'fill', options expand to fill the container's width.
+         *
+         * If set to 'hug', options only take up as much space as the content requires.
+         *
+         * @default fill
+         */
+        width?: 'fill' | 'hug';
     };
 
 /**
@@ -109,7 +117,7 @@ export type ListItemProps<As extends ElementType = ElementType> = CommonProps<
  *     import { SvgSquare } from '@bspk/icons/Square';
  *     import { ListItem } from '@bspk/ui/ListItem';
  *
- *     export function Example() {
+ *     function Example() {
  *         return (
  *             <ListItem
  *                 label="Example label"
@@ -126,19 +134,22 @@ export type ListItemProps<As extends ElementType = ElementType> = CommonProps<
 function ListItem<As extends ElementType = ElementType>({
     active,
     as,
-    disabled,
     innerRef,
     label,
+    labelProps,
     leading,
-    readOnly,
+    leadingProps,
     owner,
     role: roleProp,
     subText,
     trailing,
+    trailingProps,
     id: idProp,
     'aria-label': ariaLabel,
     'aria-selected': ariaSelected,
-    hideAriaLabel,
+    'aria-disabled': ariaDisabled,
+    'aria-readonly': ariaReadonly,
+    width,
     ...props
 }: ElementProps<ListItemProps<As>, As>) {
     const id = useId(idProp);
@@ -146,35 +157,46 @@ function ListItem<As extends ElementType = ElementType>({
     if (!label) return null;
 
     const As = asLogic(as, props);
-    const role = roleLogic(roleProp, { as: As, props });
-    const actionable = (props.href || props.onClick) && !props.disabled && !props.readOnly;
+
+    const isReadOnly = Boolean(props.readOnly || ariaReadonly);
+    const isDisabled = Boolean(props.disabled || ariaDisabled);
+
+    const actionable = !!(props.href || props.onClick || as === 'button') && !isReadOnly && !isDisabled;
+
+    const role = roleLogic(roleProp, { as: As, props, actionable });
 
     return (
         <As
             {...props}
-            aria-disabled={disabled || undefined}
             aria-label={ariaLabel || undefined}
             aria-selected={ariaSelected}
             data-action={actionable || undefined}
             data-active={active || undefined}
             data-bspk="list-item"
             data-bspk-owner={owner || undefined}
-            data-readonly={readOnly || undefined}
+            data-disabled={isDisabled || undefined}
+            data-readonly={isReadOnly || undefined}
+            data-width={width === 'hug' ? 'hug' : undefined}
             id={id}
+            onClick={isReadOnly || isDisabled ? undefined : props.onClick}
             ref={innerRef}
             role={role}
-            tabIndex={props.tabIndex || (actionable ? 0 : undefined)}
+            tabIndex={props.tabIndex || (actionable ? 0 : -1)}
         >
             {leading && (
-                <span aria-hidden data-leading>
+                <span {...leadingProps} data-leading>
                     {leading}
                 </span>
             )}
-            <span aria-hidden={hideAriaLabel ? true : undefined} data-item-label>
+            <span {...labelProps} data-item-label>
                 <Truncated data-text>{label}</Truncated>
                 {subText && <span data-sub-text>{subText}</span>}
             </span>
-            {trailing && <span data-trailing>{trailing}</span>}
+            {trailing && (
+                <span {...trailingProps} data-trailing>
+                    {trailing}
+                </span>
+            )}
         </As>
     );
 }
@@ -190,18 +212,21 @@ function asLogic<As extends ElementType>(as: As | undefined, props: Partial<List
 }
 
 function roleLogic(
+    /** User provided role prop */
     existingRole: AriaRole | undefined,
     {
         as: As,
         props,
+        actionable,
     }: {
         as: ElementType;
         props: Partial<ListItemProps>;
+        actionable?: boolean;
     },
 ): HTMLAttributes<HTMLElement>['role'] | undefined {
     if (existingRole) return existingRole;
 
-    if (props.href) return As !== 'a' ? 'link' : undefined;
+    if (!actionable) return undefined;
 
     if (props.onClick && As !== 'button' && As !== 'label') return 'button';
 

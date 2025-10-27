@@ -45,7 +45,7 @@
         color: var(--color);
     }
 
-    input[type='checkbox']:not(:checked, :indeterminate, :disabled) {
+    input[type='checkbox']:not(:checked, :indeterminate, [disabled], [readOnly]) {
         &:hover + span {
             background-color: var(--interactions-neutral-hover-opacity);
         }
@@ -61,7 +61,8 @@
         --background: var(--surface-brand-primary);
     }
 
-    input[type='checkbox']:disabled {
+    input[type='checkbox'][disabled],
+    input[type='checkbox'][readOnly] {
         cursor: not-allowed;
 
         & + span {
@@ -75,7 +76,7 @@
         }
     }
 
-    input[type='checkbox'][aria-invalid]:not(:disabled) {
+    input[type='checkbox'][aria-invalid]:not([disabled], [readOnly]) {
         &:checked + span,
         &:indeterminate + span {
             --background: var(--status-error);

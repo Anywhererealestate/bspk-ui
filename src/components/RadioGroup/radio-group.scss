@@ -1,6 +1,8 @@
 [data-bspk='radio-group'] {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-sizing-01);
+    gap: 0;
     max-width: 100%;
+
+    --list-item-height: 'auto';
 }

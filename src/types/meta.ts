@@ -89,6 +89,7 @@ export type ComponentMeta = BaseMeta & {
         description?: string;
     };
     phase: ComponentPhase;
+    generated?: boolean;
 };
 
 export type UtilityMeta = BaseMeta & {

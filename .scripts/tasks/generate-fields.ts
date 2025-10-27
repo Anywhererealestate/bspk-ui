@@ -1,0 +1,106 @@
+/**
+ * This script generates Field components for various input types.
+ *
+ * $ npx tsx .scripts/tasks/generate-fields.ts
+ */
+import { execSync } from 'child_process';
+import fs from 'fs';
+
+const CONTROLS = [
+    //
+    'CheckboxGroup',
+];
+
+CONTROLS.map((name) => {
+    // delete existing Field component if it exists
+    const fieldPath = `./src/components/${name}/Field.tsx`;
+    // ensure index file does not export the Field component
+    const indexPath = `./src/components/${name}/index.tsx`;
+
+    if (fs.existsSync(fieldPath)) {
+        fs.unlinkSync(fieldPath);
+    }
+
+    const indexContent = fs.readFileSync(indexPath, 'utf8');
+
+    const exportStatement = `export * from './Field';\n`;
+
+    if (indexContent.includes(exportStatement)) {
+        fs.writeFileSync(indexPath, indexContent.replace(exportStatement, ''), 'utf8');
+    }
+
+    // make new component folder
+
+    execSync(`mkdir -p ./src/components/${name}Field`);
+
+    // write Field component file
+
+    const content = `import { FormField, FormFieldControlProps } from '-/components/FormField';
+import { ${name}, ${name}Props } from '-/components/${name}';
+
+export type ${name}FieldProps = FormFieldControlProps<${name}Props>;
+
+/**
+ * A field wrapper for the ${name} component.
+ *
+ * This component takes properties from the FormField and ${name} components.
+ *
+ * @name ${name}Field
+ * @phase UXReview
+ *
+ * @generated
+ */
+export function ${name}Field({ label, helperText, labelTrailing, errorMessage, style, ...controlProps }: ${name}FieldProps) {
+    return (
+        <FormField errorMessage={errorMessage} helperText={helperText} label={label} labelTrailing={labelTrailing} style={style}>
+            <${name} {...controlProps} />
+        </FormField>
+    );
+}
+
+/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
+`;
+
+    const testContent = `import { ${name}Field } from '.';
+import { hasNoBasicA11yIssues } from '-/rtl/hasNoBasicA11yIssues';
+import { render } from '-/rtl/util';
+
+const TestBed = () => (
+    <>
+        <${name}Field label="Example field label" name="example-field-name" onChange={() => {}} value="" />
+    </>
+);
+
+describe('${name}Field (RTL)', () => {
+    it('has no basic a11y issues', hasNoBasicA11yIssues(<TestBed />));
+
+    it('renders', () => {
+        const { getAllByLabelText } = render(<TestBed />);
+
+        expect(getAllByLabelText('Example field label')[0]).toBeInTheDocument();
+    });
+});
+`;
+
+    const path = `./src/components/${name}Field/${name}Field.tsx`;
+
+    fs.writeFileSync(path, content, 'utf8');
+
+    // write test file
+
+    const testPath = `./src/components/${name}Field/${name}Field.rtl.test.tsx`;
+
+    fs.writeFileSync(testPath, testContent, 'utf8');
+
+    // update index file to export new Field component
+
+    const newIndexPath = `./src/components/${name}Field/index.tsx`;
+    fs.writeFileSync(
+        newIndexPath,
+        `
+        export * from './${name}Field';`,
+        'utf8',
+    );
+});
+
+execSync('npx prettier --write ./src');

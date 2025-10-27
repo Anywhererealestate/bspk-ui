@@ -1,87 +1,35 @@
-import { FormFieldWrapProps, FormField } from '-/components/FormField';
-import { TextareaProps, Textarea } from '-/components/Textarea';
-import { Txt } from '-/components/Txt';
-import { tryIntParse } from '-/utils/tryIntPsrse';
+import { FormField, FormFieldControlProps } from '-/components/FormField';
+import { Textarea, TextareaProps } from '-/components/Textarea';
 
-export type TextareaFieldProps = FormFieldWrapProps<TextareaProps> & {
-    /**
-     * Whether the character count should be displayed.
-     *
-     * @default true
-     */
-    characterCount?: boolean;
-};
+export type TextareaFieldProps = FormFieldControlProps<TextareaProps>;
 
 /**
- * A component that allows users to input large amounts of text that could span multiple lines.
+ * A field wrapper for the Textarea component.
  *
  * This component takes properties from the FormField and Textarea components.
  *
- * @example
- *     import { useState } from 'react';
- *     import { TextareaField } from '@bspk/ui/TextareaField';
- *
- *     export function Example() {
- *         const [value, setValue] = useState<string>();
- *
- *         return (
- *             <TextareaField
- *                 aria-label="Example aria-label"
- *                 controlId="Example controlId"
- *                 label="Example label"
- *                 name="Example name"
- *                 onChange={setValue}
- *                 value={value}
- *             />
- *         );
- *     }
- *
  * @name TextareaField
  * @phase UXReview
+ *
+ * @generated
  */
 export function TextareaField({
     label,
-    errorMessage,
     helperText,
-    controlId,
-    required,
-    invalid,
-    characterCount,
-    ...inputProps
+    labelTrailing,
+    errorMessage,
+    style,
+    ...controlProps
 }: TextareaFieldProps) {
-    const maxLength = tryIntParse(inputProps.maxLength) || -1;
-
     return (
         <FormField
-            controlId={controlId}
-            data-bspk="textarea-field"
             errorMessage={errorMessage}
             helperText={helperText}
-            invalid={invalid}
             label={label}
-            labelTrailing={
-                // If characterCount is falsey, we don't want to show the labelTrailing
-                characterCount && (
-                    <Txt
-                        style={{
-                            color: 'var(--foreground-neutral-on-surface-variant-02)',
-                        }}
-                        variant="body-small"
-                    >
-                        {`${inputProps?.value?.length || 0}${maxLength > 0 ? `/${maxLength}` : ''}`}
-                    </Txt>
-                )
-            }
-            required={required}
+            labelTrailing={labelTrailing}
+            style={style}
         >
-            {(fieldProps) => (
-                <Textarea
-                    //
-                    {...inputProps}
-                    {...fieldProps}
-                    invalid={invalid}
-                />
-            )}
+            <Textarea {...controlProps} />
         </FormField>
     );
 }

@@ -1,22 +1,21 @@
 import './radio.scss';
 import { ChangeEvent } from 'react';
-import { ElementProps, CommonProps } from '-/types/common';
+import { ElementProps, FieldControlProps } from '-/types/common';
 
-export type RadioProps = CommonProps<'aria-label' | 'disabled' | 'invalid' | 'name'> &
-    Required<CommonProps<'value'>> & {
-        /**
-         * Marks the radio as checked.
-         *
-         * @default false
-         */
-        checked?: boolean;
-        /**
-         * The function to call when the radio is checked.
-         *
-         * @required
-         */
-        onChange: (checked: boolean, event: ChangeEvent<HTMLInputElement>) => void;
-    };
+export type RadioProps = Omit<FieldControlProps<string, ChangeEvent<HTMLInputElement>>, 'onChange' | 'readOnly'> & {
+    /**
+     * Marks the radio as checked.
+     *
+     * @default false
+     */
+    checked?: boolean;
+    /**
+     * The function to call when the radio is checked.
+     *
+     * @required
+     */
+    onChange: (checked: boolean, event: ChangeEvent<HTMLInputElement>) => void;
+};
 
 /**
  * A round control that allows user to choose one option from a set. This is the base element and if used directly you

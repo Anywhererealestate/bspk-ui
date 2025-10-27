@@ -2,7 +2,7 @@ import { ElementType, ReactNode } from 'react';
 
 import { ElementProps } from '-/types/common';
 
-export type LayoutProps<As extends ElementType = 'div'> = {
+export type LayoutProps<As extends ElementType = ElementType> = {
     /**
      * The content of the Layout.
      *
@@ -44,14 +44,14 @@ export type LayoutProps<As extends ElementType = 'div'> = {
  * @example
  *     import { Layout } from '@bspk/ui/Layout';
  *
- *     export function Example() {
+ *     function Example() {
  *         return <Layout>Low effort example</Layout>;
  *     }
  *
  * @name Layout
  * @phase Utility
  */
-export function Layout<As extends ElementType = 'div'>({
+export function Layout<As extends ElementType = ElementType>({
     children,
     column,
     gap = '16',

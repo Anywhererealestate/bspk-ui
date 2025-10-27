@@ -31,7 +31,7 @@ ul[data-bspk-utility='tab-list'] {
         --icon-size: var(--spacing-sizing-06);
     }
 
-    &:focus-within {
+    &:has(:focus-visible) {
         outline: 2px solid var(--stroke-neutral-focus);
         outline-offset: -1px;
         position: relative;
@@ -66,6 +66,18 @@ ul[data-bspk-utility='tab-list'] {
 
         svg {
             width: var(--icon-size);
+        }
+    }
+
+    &:not([data-bspk]):focus-within {
+        li:not([aria-disabled]) {
+            &[data-active] {
+                background-color: var(--interactions-neutral-hover-opacity);
+            }
+
+            &[aria-selected='true'] {
+                background-color: var(--surface-brand-primary-highlight);
+            }
         }
     }
 }

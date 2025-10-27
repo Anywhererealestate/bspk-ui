@@ -21,7 +21,7 @@ export type TabGroupProps = Omit<TabListProps<TabOption>, 'iconsOnly'> & {
  *     import { useState } from 'react';
  *     import { TabGroup } from '@bspk/ui/TabGroup';
  *
- *     export function Example() {
+ *     function Example() {
  *         const [selectedTab, setSelectedTab] = useState<string>();
  *
  *         return (
@@ -49,7 +49,7 @@ export function TabGroup({
     showTrail = false,
     ...containerProps
 }: ElementProps<TabGroupProps, 'ul'>) {
-    if (!Array.isArray(options) || options.length < 2) return <></>;
+    if (!Array.isArray(options) || options.length < 2) return null;
     return (
         <TabList
             data-bspk="tab-group"

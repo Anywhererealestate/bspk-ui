@@ -5,7 +5,7 @@ import { ButtonSize, CommonProps, ElementProps, SetRef } from '-/types/common';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'tertiary';
 
-export type ButtonProps<As extends ElementType = 'button'> = CommonProps<'disabled' | 'owner'> & {
+export type ButtonProps<As extends ElementType = ElementType> = CommonProps<'disabled' | 'owner'> & {
     /**
      * The label of the button.
      *
@@ -53,7 +53,11 @@ export type ButtonProps<As extends ElementType = 'button'> = CommonProps<'disabl
      */
     variant?: ButtonVariant;
     /**
-     * The width of the button.
+     * Determines how the button uses horizontal space.
+     *
+     * If set to 'fill', options expand to fill the container's width.
+     *
+     * If set to 'hug', options only take up as much space as the content requires.
      *
      * @default hug
      */
@@ -94,7 +98,7 @@ export type ButtonProps<As extends ElementType = 'button'> = CommonProps<'disabl
  * @name Button
  * @phase UXReview
  */
-export function Button<As extends ElementType = 'button'>(
+export function Button<As extends ElementType = ElementType>(
     props: AriaAttributes & ElementProps<ButtonProps<As>, As>,
 ): JSX.Element {
     const {
@@ -111,6 +115,7 @@ export function Button<As extends ElementType = 'button'>(
         children,
         innerRef,
         owner,
+        role,
         ...containerProps
     } = props;
     const label = typeof children === 'string' ? children : labelProp || '';
@@ -123,6 +128,7 @@ export function Button<As extends ElementType = 'button'>(
 
     const button = (triggerProps: TooltipTriggerProps) => (
         <As
+            type={As === 'button' ? 'button' : undefined}
             {...containerProps}
             {...triggerProps}
             aria-label={label}
@@ -151,6 +157,7 @@ export function Button<As extends ElementType = 'button'>(
                 containerProps.onMouseOver?.(e);
             }}
             ref={innerRef}
+            role={role || (As !== 'button' ? 'button' : undefined)}
         >
             {children && typeof children !== 'string' ? (
                 children

@@ -92,8 +92,11 @@ export type TabListProps<O extends TabOption = TabOption> = {
      */
     size?: TabSize;
     /**
-     * When 'fill' the options will fill the width of the container. When 'hug', the options will be as wide as their
-     * content.
+     * Determines how the tab options use horizontal space.
+     *
+     * If set to 'fill', options expand to fill the container's width.
+     *
+     * If set to 'hug', options only take up as much space as the content requires.
      *
      * @default hug
      */
@@ -124,7 +127,7 @@ export type TabListProps<O extends TabOption = TabOption> = {
  *     import { useState } from 'react';
  *     import { TabList } from '@bspk/ui/TabList';
  *
- *     export function Example() {
+ *     function Example() {
  *         const [selectedTab, setSelectedTab] = useState<string>();
  *
  *         return (
@@ -160,7 +163,8 @@ export function TabList({
     const options = useIds(`tab-list-${id}`, optionsProp);
 
     const { activeElementId, setActiveElementId, arrowKeyCallbacks } = useArrowNavigation({
-        ids: options.map((opt) => opt.id),
+        ids: options.filter((o) => !o.disabled).map((o) => o.id),
+        defaultActiveId: options.find((opt) => opt.value === valueProp)?.id,
     });
 
     const value = useMemo(() => {
@@ -175,6 +179,14 @@ export function TabList({
         setActiveElementId(item.id);
         if (!item.disabled) onChange(item.value);
     };
+
+    // ensure an option is always focusable
+    const focusableOption = useMemo(
+        () =>
+            options.find((item) => (activeElementId ? activeElementId === item.id : item.value === value)) ||
+            options[0],
+        [activeElementId, options, value],
+    );
 
     return (
         <ul
@@ -223,7 +235,7 @@ export function TabList({
                                     id={item.id}
                                     onClick={item.disabled ? undefined : handleClick(item)}
                                     role="tab"
-                                    tabIndex={isActive ? 0 : -1}
+                                    tabIndex={focusableOption.id === item.id ? 0 : -1}
                                 >
                                     {icon && <span aria-hidden="true">{icon}</span>}
                                     {!iconsOnly && <Truncated data-label>{item.label}</Truncated>}

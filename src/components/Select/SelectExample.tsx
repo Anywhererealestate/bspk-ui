@@ -27,26 +27,45 @@ export const presets: Preset<SelectProps>[] = [
     {
         label: 'Simple',
         propState: {
-            label: 'Demo Select',
             options: DEFAULT_OPTIONS,
-            isMulti: false,
             name: 'demo-select',
+            value: '',
+            menuWidth: '',
         },
     },
     {
-        label: 'Multi',
+        label: 'SubText',
         propState: {
-            label: 'Demo Select Multi',
-            options: DEFAULT_OPTIONS,
-            isMulti: true,
-            name: 'demo-select-multi',
+            options: [
+                {
+                    value: 'Claude 3.7 Sonnet',
+                    label: 'Claude 3.7 Sonnet',
+                    subText: 'bedrock • us.anthropic.claude-3-7-sonnet-20250219-v1:0',
+                },
+                {
+                    value: 'Claude 4 Sonnet',
+                    label: 'Claude 4 Sonnet',
+                    subText: 'bedrock • us.anthropic.claude-sonnet-4-20250514-v1:0',
+                },
+                {
+                    value: 'Claude 4.5 Sonnet',
+                    label: 'Claude 4.5 Sonnet',
+                    subText: 'bedrock • us.anthropic.claude-sonnet-4-5-20250929-v1:0',
+                },
+                {
+                    value: 'GPT 4.1',
+                    label: 'GPT 4.1',
+                    subText: 'azure • gpt-41',
+                },
+            ],
+            name: 'demo-select-long',
+            value: '',
+            menuWidth: '600px',
         },
     },
     {
         label: 'Long text',
         propState: {
-            label: 'Demo Select',
-            isMulti: false,
             options: [
                 { value: '1', label: 'This is a very long option that should truncate' },
                 { value: '2', label: 'This is another long option that should truncate' },
@@ -54,13 +73,13 @@ export const presets: Preset<SelectProps>[] = [
                 { value: '4', label: 'Another short option' },
             ],
             name: 'demo-select-long',
+            value: '',
+            menuWidth: '',
         },
     },
     {
         label: 'Trailing Tags',
         propState: {
-            label: 'Demo Select',
-            isMulti: false,
             options: [
                 //
                 {
@@ -77,13 +96,13 @@ export const presets: Preset<SelectProps>[] = [
                 { value: 'd', label: 'Package D' },
             ],
             name: 'demo-select-tags',
+            value: 'a',
+            menuWidth: '',
         },
     },
     {
         label: 'Trailing Text',
         propState: {
-            label: 'Demo Select',
-            isMulti: false,
             options: [
                 {
                     value: '1',
@@ -95,13 +114,13 @@ export const presets: Preset<SelectProps>[] = [
                 { value: '4', label: 'Option D', trailing: <TrailingPrice price={2000} /> },
             ],
             name: 'demo-select-trailing',
+            value: '',
+            menuWidth: '',
         },
     },
     {
         label: 'Leading Avatar',
         propState: {
-            label: 'Select user',
-            isMulti: false,
             options: [
                 //
                 {
@@ -126,15 +145,18 @@ export const presets: Preset<SelectProps>[] = [
                 },
             ],
             name: 'demo-select-avatar',
+            value: '',
+            menuWidth: '',
         },
     },
 ];
 
 export const SelectExample: ComponentExample<SelectProps> = {
     defaultState: {
-        label: 'Demo Select',
         options: DEFAULT_OPTIONS,
+        scrollLimit: 5,
+        value: '',
     },
+    render: ({ props, Component, preset }) => <Component key={preset?.label} {...props} />,
     presets,
-    variants: false,
 };
