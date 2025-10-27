@@ -4,7 +4,7 @@ import { Tooltip, TooltipTriggerProps } from '-/components/Tooltip';
 import { useTruncatedText } from '-/hooks/useTruncatedText';
 import { ElementConstructorProps } from '-/types/common';
 
-export type TruncatedProps<As extends ElementType = 'span'> = {
+export type TruncatedProps<As extends ElementType = ElementType> = {
     /**
      * The element type to render as.
      *
@@ -35,7 +35,7 @@ export type TruncatedProps<As extends ElementType = 'span'> = {
  * @name Truncated
  * @phase Utility
  */
-export function Truncated<As extends ElementType = 'span'>({
+export function Truncated<As extends ElementType = ElementType>({
     children,
     label,
     ...props

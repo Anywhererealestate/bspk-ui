@@ -1,9 +1,13 @@
 [data-bspk='avatar'] {
+    /*! 
+    --avatar-border: is set via inline style 
+    */
+
     --height: var(--spacing-sizing-10);
     --font: var(--labels-base);
     --svg-size: var(--spacing-sizing-10);
 
-    border: unset;
+    border: var(--avatar-border);
 
     &:not([data-color]) {
         --foreground: var(--foreground-neutral-on-surface);
@@ -128,6 +132,7 @@
 
     &:focus:not(:active) {
         outline: 2px solid var(--stroke-neutral-focus);
+        outline-offset: -2px;
     }
 }
 

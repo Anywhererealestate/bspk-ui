@@ -50,9 +50,9 @@ export type ${name}FieldProps = FormFieldControlProps<${name}Props>;
  *
  * @generated
  */
-export function ${name}Field({ label, helperText, labelTrailing, errorMessage, ...controlProps }: ${name}FieldProps) {
+export function ${name}Field({ label, helperText, labelTrailing, errorMessage, style, ...controlProps }: ${name}FieldProps) {
     return (
-        <FormField errorMessage={errorMessage} helperText={helperText} label={label} labelTrailing={labelTrailing}>
+        <FormField errorMessage={errorMessage} helperText={helperText} label={label} labelTrailing={labelTrailing} style={style}>
             <${name} {...controlProps} />
         </FormField>
     );

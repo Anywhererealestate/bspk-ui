@@ -92,26 +92,24 @@ export function RadioGroup({
             id={id}
             role="radiogroup"
         >
-            <div role="presentation">
-                {options.map(({ label, description, value, ...option }, index) => {
-                    return (
-                        <RadioOption
-                            aria-describedby={ariaDescribedByProp || ariaDescribedBy || undefined}
-                            aria-errormessage={ariaErrorMessageProp || ariaErrorMessage || undefined}
-                            checked={groupValue === value}
-                            description={description}
-                            disabled={disabled || option.disabled}
-                            invalid={invalid || undefined}
-                            key={`radio-option-${value || index}`}
-                            label={label}
-                            name={name}
-                            onChange={(checked) => checked && onChange(value)}
-                            required={required}
-                            value={value}
-                        />
-                    );
-                })}
-            </div>
+            {options.map(({ label, description, value, ...option }, index) => {
+                return (
+                    <RadioOption
+                        aria-describedby={ariaDescribedByProp || ariaDescribedBy || undefined}
+                        aria-errormessage={ariaErrorMessageProp || ariaErrorMessage || undefined}
+                        checked={groupValue === value}
+                        description={description}
+                        disabled={disabled || option.disabled}
+                        invalid={invalid || undefined}
+                        key={`radio-option-${value || index}`}
+                        label={label}
+                        name={name}
+                        onChange={(checked) => checked && onChange(value)}
+                        required={required}
+                        value={value}
+                    />
+                );
+            })}
         </div>
     );
 }

@@ -13,9 +13,22 @@ export type InputFieldProps = FormFieldControlProps<InputProps>;
  *
  * @generated
  */
-export function InputField({ label, helperText, labelTrailing, errorMessage, ...controlProps }: InputFieldProps) {
+export function InputField({
+    label,
+    helperText,
+    labelTrailing,
+    errorMessage,
+    style,
+    ...controlProps
+}: InputFieldProps) {
     return (
-        <FormField errorMessage={errorMessage} helperText={helperText} label={label} labelTrailing={labelTrailing}>
+        <FormField
+            errorMessage={errorMessage}
+            helperText={helperText}
+            label={label}
+            labelTrailing={labelTrailing}
+            style={style}
+        >
             <Input {...controlProps} />
         </FormField>
     );

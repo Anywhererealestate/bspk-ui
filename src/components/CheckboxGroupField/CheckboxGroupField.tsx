@@ -19,11 +19,12 @@ export function CheckboxGroupField({
     helperText,
     labelTrailing,
     errorMessage,
+    style,
     ...controlProps
 }: CheckboxGroupFieldProps) {
     return (
-        <Field as="fieldset">
-            <FieldLabel as="legend" labelTrailing={labelTrailing}>
+        <Field as="fieldset" style={style}>
+            <FieldLabel as="legend" labelTrailing={labelTrailing} style={style}>
                 {label}
             </FieldLabel>
             <CheckboxGroup {...controlProps} />

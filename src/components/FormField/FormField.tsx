@@ -1,10 +1,11 @@
 import { ElementType, ReactNode } from 'react';
 import { Field, FieldLabel, FieldDescription, FieldError } from '-/components/Field';
+import { CommonProps } from '-/types/common';
 
 export type FormFieldControlProps<P extends Record<string, unknown>> = Omit<FormFieldProps, 'children'> &
     Omit<P, keyof FormFieldProps>;
 
-export type FormFieldProps<As extends ElementType = ElementType> = {
+export type FormFieldProps<As extends ElementType = ElementType> = CommonProps<'style'> & {
     /** Displays an error message and marks the field as invalid. */
     errorMessage?: string;
     /**
@@ -77,12 +78,21 @@ export type FormFieldProps<As extends ElementType = ElementType> = {
  * @name FormField
  * @phase Utility
  */
-export function FormField({ label, errorMessage, helperText, children, labelTrailing, required, as }: FormFieldProps) {
+export function FormField({
+    label,
+    errorMessage,
+    helperText,
+    children,
+    labelTrailing,
+    required,
+    as,
+    style,
+}: FormFieldProps) {
     const fieldAs = as || 'div';
 
     const labelAs = fieldAs === 'fieldset' ? 'legend' : undefined;
     return (
-        <Field as={fieldAs}>
+        <Field as={fieldAs} style={style}>
             <FieldLabel as={labelAs} labelTrailing={labelTrailing} required={required}>
                 {label}
             </FieldLabel>

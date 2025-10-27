@@ -18,10 +18,17 @@ export function DatePickerField({
     helperText,
     labelTrailing,
     errorMessage,
+    style,
     ...controlProps
 }: DatePickerFieldProps) {
     return (
-        <FormField errorMessage={errorMessage} helperText={helperText} label={label} labelTrailing={labelTrailing}>
+        <FormField
+            errorMessage={errorMessage}
+            helperText={helperText}
+            label={label}
+            labelTrailing={labelTrailing}
+            style={style}
+        >
             <DatePicker {...controlProps} />
         </FormField>
     );

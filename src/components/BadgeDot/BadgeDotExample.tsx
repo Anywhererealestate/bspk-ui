@@ -13,7 +13,7 @@ export const BadgeDotExample: ComponentExample<BadgeDotProps> = {
                 {props.outline === true ? (
                     <Button label="Button" size="large" />
                 ) : (
-                    <Avatar image="/profile.jpg" name="Andre Giant" />
+                    <Avatar image="/avatar-01.png" name="Andre Giant" />
                 )}
             </Component>
         );

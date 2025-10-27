@@ -41,7 +41,7 @@ export const presets: Preset<AvatarProps>[] = [
         label: 'With Image',
         propState: {
             name: 'Andre Giant',
-            image: '/profile.jpg',
+            image: '/avatar-01.png',
             showIcon: false,
         },
     },

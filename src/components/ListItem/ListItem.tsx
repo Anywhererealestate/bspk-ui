@@ -14,7 +14,7 @@ import { Truncated } from '-/components/Truncated';
 import { useId } from '-/hooks/useId';
 import { CommonProps, ElementProps, SetRef } from '-/types/common';
 
-export type ListItemProps<As extends ElementType = ElementType> = CommonProps<'active' | 'owner'> &
+export type ListItemProps<As extends ElementType = ElementType> = CommonProps<'active' | 'owner' | 'style'> &
     Pick<AriaAttributes, 'aria-label'> & {
         /**
          * The element type to render as.

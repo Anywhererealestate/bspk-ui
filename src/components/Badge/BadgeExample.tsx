@@ -6,7 +6,7 @@ export const BadgeExample: ComponentExample<BadgeProps> = {
     render: ({ props, Component }) => {
         return (
             <Component {...props}>
-                <Avatar image="/profile.jpg" name="Andre Giant" />
+                <Avatar image="/avatar-01.png" name="Andre Giant" />
             </Component>
         );
     },

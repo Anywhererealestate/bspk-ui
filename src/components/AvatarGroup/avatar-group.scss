@@ -1,28 +1,48 @@
 [data-bspk='avatar-group'] {
-    width: 100%;
+    width: fit-content;
+    max-width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
 
     [data-wrap] {
-        width: 100%;
+        min-width: fit-content;
         display: flex;
         flex-direction: row;
-        align-items: end;
-        justify-content: end;
-        overflow: hidden;
+        align-items: center;
+        justify-content: center;
     }
 
-    [data-gap='01'] {
-        gap: var(--spacing-sizing-01);
+    // data-gap={variant === 'spread' ? (small ? '01' : '02') : undefined}
+
+    [data-bspk='avatar'] {
+        z-index: 1;
+
+        &:hover {
+            z-index: 2;
+        }
+
+        &[data-bspk-owner='avatar-overflow'] {
+            --avatar-border: solid 1px var(--stroke-neutral-low);
+
+            background-color: var(--surface-neutral-t1-base);
+        }
     }
 
-    [data-gap='02'] {
-        gap: var(--spacing-sizing-02);
+    &[data-variant='spread'] {
+        --avatar-border: none;
+
+        [data-bspk='avatar'] + [data-bspk='avatar'] {
+            margin-left: var(--spacing-sizing-02);
+        }
     }
 
-    [data-stacked='02']:not(:last-child) {
-        margin-right: -8px;
-    }
+    &[data-variant='stacked'] {
+        --avatar-border: solid 1px var(--stroke-neutral-low);
 
-    [data-stacked='01']:not(:last-child) {
-        margin-right: -4px;
+        [data-bspk='avatar'] + [data-bspk='avatar'] {
+            margin-left: calc(var(--spacing-sizing-02) * -1);
+        }
     }
 }

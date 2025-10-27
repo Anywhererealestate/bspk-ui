@@ -48,7 +48,7 @@ export type SkeletonTextProps = {
  * @name SkeletonText
  * @phase UXReview
  */
-export function SkeletonText({ lines = 3, variant, children = null }: SkeletonTextProps) {
+export function SkeletonText({ lines = 3, variant = 'body-base', children = null }: SkeletonTextProps) {
     return children !== null && children !== undefined && children !== false ? (
         children
     ) : (
