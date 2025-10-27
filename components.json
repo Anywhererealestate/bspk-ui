@@ -1,0 +1,1259 @@
+[
+    {
+        "description": "A vertical stack of collapsible panels or that allows customers to expand or collapse each panel individually to reveal or hide their content.",
+        "file": "/components/Accordion/Accordion.tsx",
+        "name": "Accordion",
+        "slug": "accordion",
+        "dependencies": [],
+        "usage": {
+            "code": "import { Accordion } from '@bspk/ui/Accordion';\n\nfunction Example() {\nreturn <Accordion items={[{ id: 1, title: 'Section', children: 'Example content' }]} />;\n}"
+        },
+        "css": "[data-bspk='accordion'] {\n    width: 100%;\n    padding: var(--spacing-sizing-02);\n\n    > section {\n        --border-bottom-color: var(--stroke-neutral-base);\n\n        display: flex;\n        flex-direction: column;\n        justify-content: center;\n        color: var(--foreground-neutral-on-surface);\n\n        &[data-disabled] {\n            --border-bottom-color: var(--stroke-neutral-disabled-light);\n\n            background:\n                linear-gradient(var(--interactions-disabled-opacity), var(--interactions-disabled-opacity)),\n                linear-gradient(var(--surface-neutral-t1-base), var(--surface-neutral-t1-base));\n            color: var(--foreground-neutral-disabled-on-surface);\n        }\n\n        button[data-header] {\n            display: flex;\n            flex-direction: row;\n            align-items: center;\n            background: none;\n            color: inherit;\n            border: none;\n            padding: 0 var(--spacing-sizing-02);\n            gap: var(--spacing-sizing-02);\n            font: inherit;\n            cursor: pointer;\n            outline: none;\n            min-height: var(--spacing-sizing-12);\n\n            [data-title-subtitle] {\n                display: flex;\n                flex-direction: column;\n                align-items: flex-start;\n                flex: 1;\n\n                [data-title] {\n                    font: var(--labels-base);\n                }\n\n                [data-subtitle] {\n                    font: var(--body-x-small);\n                    color: var(--foreground-neutral-on-surface-variant-01);\n                }\n            }\n\n            [data-arrow] {\n                display: flex;\n                align-items: center;\n                justify-content: center;\n                margin-left: var(--spacing-sizing-02);\n            }\n\n            &:not(:disabled) {\n                &:hover {\n                    background-image:\n                        linear-gradient(\n                            var(--interactions-neutral-hover-opacity),\n                            var(--interactions-neutral-hover-opacity)\n                        ),\n                        linear-gradient(var(--surface-neutral-t1-base), var(--surface-neutral-t1-base));\n                }\n\n                &:active {\n                    background-image:\n                        linear-gradient(\n                            var(--interactions-neutral-press-opacity),\n                            var(--interactions-neutral-press-opacity)\n                        ),\n                        linear-gradient(var(--surface-neutral-t1-base), var(--surface-neutral-t1-base));\n                }\n            }\n\n            &:disabled {\n                cursor: not-allowed;\n                color: var(--foreground-neutral-disabled-on-surface);\n                border-color: var(--stroke-neutral-disabled-light);\n            }\n        }\n\n        &:has(:focus-visible) {\n            outline: 2px solid var(--stroke-neutral-focus);\n            border-color: var(--stroke-neutral-focus);\n            margin-bottom: 1px;\n        }\n\n        [data-content] {\n            padding: var(--spacing-sizing-01) var(--spacing-sizing-02) var(--spacing-sizing-04);\n        }\n    }\n\n    [data-divider] {\n        display: block;\n        height: 1px;\n        width: calc(100% - var(--spacing-sizing-04));\n        margin: -1px var(--spacing-sizing-02) 0;\n        background-color: var(--border-bottom-color);\n    }\n}\n\n/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */\n",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": false
+    },
+    {
+        "description": "An avatar is a visual representation of a user or entity. It can be used to display an initials, icon, or image.",
+        "file": "/components/Avatar/Avatar.tsx",
+        "name": "Avatar",
+        "slug": "avatar",
+        "dependencies": [],
+        "usage": {
+            "code": "import { Avatar } from '@bspk/ui/Avatar';\nimport { SvgPerson } from '@bspk/icons/Person';\n\nfunction Example() {\nreturn (\n<Avatar\ncolor=\"blue\"\nicon={<SvgPerson />}\nimage=\"/avatar-01.png\"\ninitials=\"AR\"\nname=\"Andre Giant\"\nshowTooltip\nsize=\"large\"\n/>\n);\n}",
+            "description": "The image if provided is displayed first, followed by the icon if provided, and finally the initials. If no initials are provided, the first two letters of the name will be used as initials."
+        },
+        "css": "[data-bspk='avatar'] {\n    /*! \n    --avatar-border: is set via inline style \n    */\n\n    --height: var(--spacing-sizing-10);\n    --font: var(--labels-base);\n    --svg-size: var(--spacing-sizing-10);\n\n    border: var(--avatar-border);\n\n    &:not([data-color]) {\n        --foreground: var(--foreground-neutral-on-surface);\n        --background: var(--surface-neutral-t3-low);\n    }\n\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n    padding: 0;\n    height: var(--height);\n    width: var(--height);\n    aspect-ratio: 1 / 1;\n    border-radius: var(--radius-full);\n    background-color: var(--background);\n    color: var(--foreground);\n    font: var(--font);\n    flex-shrink: 0;\n    flex-grow: 0;\n    position: relative;\n\n    &:has(img) {\n        overflow: hidden;\n        align-items: start;\n        justify-content: start;\n    }\n\n    img {\n        vertical-align: top;\n        max-width: 100%;\n        height: auto;\n    }\n\n    svg {\n        width: var(--svg-size);\n        height: var(--svg-size);\n    }\n\n    [data-icon] {\n        display: flex;\n        align-items: center;\n        justify-content: center;\n    }\n\n    &[data-size='x-small'] {\n        --height: var(--spacing-sizing-06);\n        --font: var(--labels-x-small);\n        --svg-size: var(--spacing-sizing-04);\n    }\n\n    &[data-size='small'] {\n        --height: var(--spacing-sizing-08);\n        --font: var(--labels-small);\n        --svg-size: var(--spacing-sizing-05);\n    }\n\n    &[data-size='medium'] {\n        --height: var(--spacing-sizing-10);\n        --font: var(--labels-base);\n        --svg-size: var(--spacing-sizing-05);\n    }\n\n    &[data-size='large'] {\n        --height: var(--spacing-sizing-12);\n        --font: var(--labels-large);\n        --svg-size: var(--spacing-sizing-06);\n    }\n\n    &[data-size='x-large'] {\n        --height: var(--spacing-sizing-14);\n        --font: var(--subheader-x-large);\n        --svg-size: var(--spacing-sizing-08);\n    }\n\n    &[data-size='xx-large'] {\n        --height: var(--spacing-sizing-17);\n        --font: var(--subheader-xx-large);\n        --svg-size: var(--spacing-sizing-12);\n    }\n\n    &[data-size='xxx-large'] {\n        --height: var(--spacing-sizing-19);\n        --font: var(--display-regular-small);\n        --svg-size: var(--spacing-sizing-15);\n    }\n\n    &[data-size='xxxx-large'] {\n        --height: var(--spacing-sizing-21);\n        --font: var(--display-regular-medium);\n        --svg-size: var(--spacing-sizing-17);\n    }\n\n    &[data-size='xxxxx-large'] {\n        --height: var(--spacing-sizing-23);\n        --font: var(--display-regular-large);\n        --svg-size: var(--spacing-sizing-18);\n    }\n\n    --state-background: transparent;\n\n    &::after {\n        content: '';\n        position: absolute;\n        display: block;\n        inset: 0;\n        border-radius: var(--radius-full);\n        background: var(--state-background);\n    }\n\n    &:hover {\n        --state-background: var(--interactions-neutral-hover-opacity);\n    }\n\n    &:active {\n        --state-background: var(--interactions-neutral-press-opacity);\n    }\n\n    &[disabled] {\n        opacity: 0.5;\n    }\n\n    &:focus:not(:active) {\n        outline: 2px solid var(--stroke-neutral-focus);\n        outline-offset: -2px;\n    }\n}\n\n/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */\n",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": false
+    },
+    {
+        "description": "AvatarGroup component displays a group of avatars.",
+        "file": "/components/AvatarGroup/AvatarGroup.tsx",
+        "name": "AvatarGroup",
+        "slug": "avatar-group",
+        "dependencies": [],
+        "usage": {
+            "code": "import { AvatarGroup } from '@bspk/ui/AvatarGroup';\n\nfunction Example() {\nreturn (\n<AvatarGroup\nitems={[\n{ name: 'Andre Giant', image: '/path/to/image.jpg' },\n{ name: 'John Smith', initials: 'JS' },\n{ name: 'Princess Buttercup' },\n]}\n/>\n);\n}"
+        },
+        "css": "[data-bspk='avatar-group'] {\n    width: fit-content;\n    max-width: 100%;\n    display: flex;\n    flex-direction: row;\n    align-items: center;\n    justify-content: center;\n\n    [data-wrap] {\n        min-width: fit-content;\n        display: flex;\n        flex-direction: row;\n        align-items: center;\n        justify-content: center;\n    }\n\n    // data-gap={variant === 'spread' ? (small ? '01' : '02') : undefined}\n\n    [data-bspk='avatar'] {\n        z-index: 1;\n\n        &:hover {\n            z-index: 2;\n        }\n\n        &[data-bspk-owner='avatar-overflow'] {\n            --avatar-border: solid 1px var(--stroke-neutral-low);\n\n            background-color: var(--surface-neutral-t1-base);\n        }\n    }\n\n    &[data-variant='spread'] {\n        --avatar-border: none;\n\n        [data-bspk='avatar'] + [data-bspk='avatar'] {\n            margin-left: var(--spacing-sizing-02);\n        }\n    }\n\n    &[data-variant='stacked'] {\n        --avatar-border: solid 1px var(--stroke-neutral-low);\n\n        [data-bspk='avatar'] + [data-bspk='avatar'] {\n            margin-left: calc(var(--spacing-sizing-02) * -1);\n        }\n    }\n}\n",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": false
+    },
+    {
+        "description": "Visual indicator for new items within a parent page represented with a numerical count of new items.",
+        "file": "/components/Badge/Badge.tsx",
+        "name": "Badge",
+        "slug": "badge",
+        "dependencies": [],
+        "usage": {
+            "code": "import { Badge } from '@bspk/ui/Badge';\n\nfunction Example() {\nreturn <Badge count={5} size=\"small\" color=\"primary\" />;\n}",
+            "description": "This example shows a badge with a count of 5, size small, and primary variant."
+        },
+        "css": "[data-bspk='badge'] {\n    --size: var(--spacing-sizing-06);\n\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    border-radius: var(--radius-full);\n    height: var(--size);\n    width: fit-content;\n    min-width: var(--size);\n    font: var(--labels-x-small);\n    padding: 0 var(--spacing-sizing-02);\n    background-color: var(--background);\n    color: var(--foreground);\n\n    &[data-color='primary'] {\n        --foreground: var(--foreground-brand-on-primary);\n        --background: var(--foreground-brand-primary);\n    }\n\n    &[data-color='secondary'] {\n        --foreground: var(--foreground-brand-on-secondary);\n        --background: var(--foreground-brand-secondary);\n    }\n\n    &[data-size='x-small'] {\n        --size: var(--spacing-sizing-05);\n\n        padding: 2px var(--spacing-sizing-01);\n    }\n\n    &[data-variant='notification'] {\n        --size: 6px;\n\n        padding: 0;\n        display: block;\n    }\n\n    &[data-surface-border] {\n        border: 2px solid var(--surface-neutral-t1-base);\n    }\n}\n\n/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */\n",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": false
+    },
+    {
+        "description": "A non-numeric badge used to indicate something new or its current status.",
+        "file": "/components/BadgeDot/BadgeDot.tsx",
+        "name": "BadgeDot",
+        "slug": "badge-dot",
+        "dependencies": [],
+        "usage": {
+            "code": "import { BadgeDot } from '@bspk/ui/BadgeDot';\n\nfunction Example() {\nreturn <BadgeDot color=\"primary\" />;\n}",
+            "description": "This example shows a badge-dot with a count of 5, size small, and primary variant."
+        },
+        "css": "[data-bspk='badge-dot'] {\n    /*! \n    --size: is set via inline style \n    --outline-width: is set via inline style\n    */\n\n    display: block;\n    width: var(--size, 6px);\n    height: var(--size, 6px);\n    border-radius: var(--radius-full);\n    background-color: var(--background);\n\n    &[data-color='primary'] {\n        --background: var(--foreground-brand-primary);\n    }\n\n    &[data-color='secondary'] {\n        --background: var(--foreground-brand-secondary);\n    }\n\n    &[data-outline] {\n        border: var(--outline-width) solid var(--surface-neutral-t1-base);\n    }\n}\n\n/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */\n",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": false
+    },
+    {
+        "description": "A visual and contextual message used to communicate an important message or notification to users relating to a status or the body content of a page.",
+        "file": "/components/BannerAlert/BannerAlert.tsx",
+        "name": "BannerAlert",
+        "slug": "banner-alert",
+        "dependencies": [],
+        "usage": {
+            "code": "import { BannerAlert } from '@bspk/ui/BannerAlert';\n\nfunction Example() {\n<BannerAlert\nvariant=\"error\"\nheader=\"Error\"\nbody=\"There was an error processing your request.\"\nonClose={() => console.log('Alert closed')}\ncallToAction={{\nlabel = 'Click me',\nonClick = () => action('Call to action clicked!'),\n}}\n/>;\n}",
+            "description": "This example shows how to use the BannerAlert component with an error variant, a header, and a body message."
+        },
+        "css": "[data-bspk='banner-alert'] {\n    --color: var(--status-information);\n    --on-color: var(--status-on-information);\n\n    display: flex;\n    flex-direction: row;\n    border: 2px solid var(--color);\n    border-radius: var(--radius-md);\n    background-color: var(--surface-neutral-t1-base);\n    width: 100%;\n\n    &[data-variant='error'] {\n        --color: var(--status-error);\n        --on-color: var(--status-on-error);\n    }\n\n    &[data-variant='success'] {\n        --color: var(--status-success);\n        --on-color: var(--status-on-success);\n    }\n\n    &[data-variant='warning'] {\n        --color: var(--status-warning);\n        --on-color: var(--status-on-warning);\n    }\n\n    &[data-elevated] {\n        box-shadow: var(--drop-shadow-raise);\n    }\n\n    [data-icon-bar] {\n        flex: 1;\n        padding: var(--spacing-sizing-04) var(--spacing-sizing-03);\n        background: var(--color);\n        color: var(--on-color);\n\n        svg {\n            width: var(--spacing-sizing-06);\n            height: var(--spacing-sizing-06);\n        }\n    }\n\n    [data-content] {\n        flex: 100%;\n        display: flex;\n        flex-direction: column;\n        padding: var(--spacing-sizing-02) var(--spacing-sizing-02) var(--spacing-sizing-02) var(--spacing-sizing-04);\n\n        header {\n            display: flex;\n            flex-direction: row;\n            gap: var(--spacing-sizing-03);\n            height: var(--spacing-sizing-12);\n            align-items: center;\n\n            span {\n                flex: 1;\n                display: flex;\n                align-items: center;\n                color: var(--foreground-neutral-on-surface);\n                font: var(--heading-h6);\n\n                @media (any-pointer: coarse) {\n                    font: var(--heading-h6);\n                }\n            }\n        }\n\n        [data-body] {\n            display: flex;\n            flex-direction: column;\n            gap: var(--spacing-sizing-02);\n            padding: 0 var(--spacing-sizing-02) var(--spacing-sizing-02) 0;\n\n            span {\n                font: var(--body-base);\n            }\n\n            button {\n                margin-left: auto;\n            }\n        }\n    }\n}\n\n/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */\n",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": false
+    },
+    {
+        "description": "A bottom bar displaying three to five top level destinations at the bottom of screen for a mobile application.",
+        "file": "/components/BottomNavigation/BottomNavigation.tsx",
+        "name": "BottomNavigation",
+        "slug": "bottom-navigation",
+        "dependencies": [],
+        "usage": {
+            "code": "import { BottomNavigation } from '@bspk/ui/BottomNavigation';\nimport { useState } from 'react';\n\nfunction Example() {\nconst [value, setValue] = useState<string>('1');\n\nreturn (\n<BottomNavigation\nvalue={value}\nonChange={onChange}\noptions={[\n{\nvalue: '1',\nlabel: 'Item 1',\nicon: <SvgSettings />,\niconSelected: <SvgSettingsFill />,\n},\n{\nvalue: '2',\nlabel: 'Item 2',\nicon: <SvgCloud />,\niconSelected: <SvgCloudFill />,\n},\n]}\n/>\n);\n}"
+        },
+        "css": "ul[data-bspk-utility='tab-list'][data-bspk='bottom-navigation'] {\n    width: 100%;\n    border-top: solid 1px var(--stroke-neutral-low);\n    box-sizing: border-box;\n    background-color: var(--background-base);\n    height: var(--spacing-sizing-13);\n\n    &[data-variant='elevated'] {\n        box-shadow: var(--drop-shadow-north);\n    }\n\n    &:has(:focus-visible) {\n        outline: none;\n    }\n\n    li {\n        flex: 1;\n        position: relative;\n        height: var(--spacing-sizing-13);\n        color: var(--foreground-neutral-on-surface-variant-02);\n        font: var(--labels-x-small);\n        flex-direction: column;\n        gap: 0;\n        overflow: hidden;\n\n        &[data-pseudo='focus'] > &,\n        &:focus-visible {\n            outline: solid 2px var(--stroke-neutral-focus);\n        }\n\n        &[aria-selected='true'] {\n            color: var(--foreground-brand-primary);\n        }\n\n        &[aria-selected='true']::after {\n            content: '';\n            position: absolute;\n            top: 0;\n            width: var(--spacing-sizing-06);\n            height: 2px;\n            border-radius: 0 0 2px 2px;\n            background-color: var(--foreground-brand-primary);\n        }\n\n        &[aria-disabled='true'] {\n            color: var(--foreground-neutral-disabled-on-surface);\n        }\n\n        &:not([aria-disabled='true']) {\n            [data-pseudo='hover'] &,\n            &:hover {\n                background-color: var(--interactions-neutral-hover-opacity);\n            }\n\n            [data-pseudo='active'] &,\n            &:active {\n                background-color: var(--interactions-neutral-press-opacity);\n            }\n        }\n    }\n\n    &[data-mode='fixed'] {\n        position: fixed;\n        bottom: 0;\n        right: 0;\n        left: 0;\n        background: var(--surface-neutral-t1-base);\n        box-shadow: var(--drop-shadow-north);\n        z-index: var(--z-index-button-dock);\n    }\n}\n\n@media (width >= 640px) {\n    ul[data-bspk-utility='tab-list'][data-bspk='bottom-navigation'] {\n        li {\n            flex-direction: row;\n            align-items: center;\n            gap: var(--spacing-sizing-02);\n\n            &[data-active='true']::after {\n                width: var(--spacing-sizing-12);\n            }\n        }\n    }\n}\n\n/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */\n",
+        "hasTouchTarget": false,
+        "phase": "Dev",
+        "generated": false
+    },
+    {
+        "description": "Used to indicate the current page's location within a navigational hierarchy.",
+        "file": "/components/Breadcrumb/Breadcrumb.tsx",
+        "name": "Breadcrumb",
+        "slug": "breadcrumb",
+        "dependencies": [],
+        "usage": {
+            "code": "import { Breadcrumb } from '@bspk/ui/breadcrumb';\n\nfunction Example() {\nreturn (\n<Breadcrumb\nitems={[\n{ label: 'level 1', href: 'https://bspk.anywhere.re' },\n{ label: 'level 2', href: 'https://bspk.anywhere.re' },\n{ label: 'level 3', href: 'https://bspk.anywhere.re' },\n{ label: 'level 4', href: 'https://bspk.anywhere.re' },\n{ label: 'level 5', href: 'https://bspk.anywhere.re' },\n{ label: 'level 6', href: 'https://bspk.anywhere.re' },\n{ label: 'level 7', href: 'https://bspk.anywhere.re' },\n{ label: 'level 8', href: 'https://bspk.anywhere.re' },\n{ label: 'level 9', href: 'https://bspk.anywhere.re' },\n{ label: 'level 10', href: 'https://bspk.anywhere.re' },\n]}\n/>\n);\n}"
+        },
+        "css": "[data-bspk='breadcrumb'] {\n    width: 100%;\n\n    ol {\n        display: flex;\n        align-items: center;\n        flex-flow: row wrap;\n        list-style: none;\n        gap: var(--spacing-sizing-02);\n\n        li {\n            display: flex;\n            gap: var(--spacing-sizing-02);\n        }\n    }\n}\n",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": false
+    },
+    {
+        "description": "A clickable component that allows users to perform an action, make a choice or trigger a change in state.",
+        "file": "/components/Button/Button.tsx",
+        "name": "Button",
+        "slug": "button",
+        "dependencies": [],
+        "usage": {
+            "code": "import { Button } from '@bspk/ui/Button';\nimport { SvgPerson } from '@bspk/icons/Person';\n\nfunction Example() {\nreturn (\n<Button\nlabel=\"Click Me\"\nsize=\"medium\"\nvariant=\"primary\"\nonClick={() => console.log('Button clicked')}\nicon={<SvgPerson />}\n/>\n);\n}"
+        },
+        "css": "[data-bspk='button'] {\n    flex-direction: row;\n    gap: var(--spacing-sizing-02);\n    border: none;\n    cursor: pointer;\n    background: transparent;\n    text-decoration: none;\n    width: fit-content;\n    font-family: var(--typeface);\n\n    [data-touch-target] {\n        min-width: var(--spacing-sizing-12);\n        min-height: var(--spacing-sizing-12);\n    }\n\n    &[data-width='hug'] {\n        width: fit-content;\n    }\n\n    &[data-width='fill'] {\n        width: 100%;\n    }\n\n    &[data-size='x-small'] {\n        font-size: var(--typography-size-xs);\n        line-height: var(--typography-line-height-lh-1);\n        height: var(--spacing-sizing-06);\n        min-width: var(--spacing-sizing-06);\n        gap: var(--spacing-sizing-02);\n\n        &:has([data-button-label]),\n        &[data-override] {\n            padding: 0 var(--spacing-sizing-02);\n        }\n\n        [data-button-icon] {\n            width: var(--spacing-sizing-04);\n            height: var(--spacing-sizing-04);\n        }\n    }\n\n    &[data-size='small'] {\n        font-size: var(--typography-size-sm);\n        line-height: var(--typography-line-height-lh-2);\n        height: var(--spacing-sizing-08);\n        min-width: var(--spacing-sizing-08);\n\n        &:has([data-button-label]),\n        &[data-override] {\n            padding: 6px var(--spacing-sizing-04);\n        }\n\n        [data-button-icon] {\n            width: var(--spacing-sizing-05);\n            height: var(--spacing-sizing-05);\n        }\n    }\n\n    &[data-size='medium'] {\n        font-size: var(--typography-size-base);\n        line-height: var(--typography-line-height-lh-2);\n        height: var(--spacing-sizing-10);\n        min-width: var(--spacing-sizing-10);\n\n        &:has([data-button-label]),\n        &[data-override] {\n            padding: var(--spacing-sizing-02) var(--spacing-sizing-04);\n        }\n\n        [data-button-icon] {\n            width: var(--spacing-sizing-05);\n            height: var(--spacing-sizing-05);\n        }\n    }\n\n    &[data-size='large'] {\n        font-size: var(--typography-size-bp-md);\n        line-height: var(--typography-line-height-lh-4);\n        height: var(--spacing-sizing-12);\n        min-width: var(--spacing-sizing-12);\n\n        &:has([data-button-label]),\n        &[data-override] {\n            padding: var(--spacing-sizing-03) var(--spacing-sizing-04);\n        }\n\n        [data-button-icon] {\n            width: var(--spacing-sizing-06);\n            height: var(--spacing-sizing-06);\n        }\n    }\n\n    &[disabled] {\n        cursor: not-allowed;\n    }\n\n    [data-button-icon] {\n        display: flex;\n        flex-direction: column;\n        align-items: center;\n    }\n\n    [data-button-label] {\n        display: flex;\n        flex-direction: row;\n        align-items: center;\n    }\n\n    &[data-variant='primary'] {\n        --primary-background: var(--surface-brand-primary);\n\n        background-color: var(--primary-background);\n        color: var(--foreground-brand-on-primary);\n        border-radius: var(--button-border-radius);\n\n        &[disabled] {\n            color: var(--foreground-neutral-disabled-on-surface);\n            background: var(--interactions-disabled-opacity);\n        }\n\n        &:not([disabled]) {\n            [data-pseudo='hover'] > &,\n            &:hover {\n                background:\n                    linear-gradient(var(--interactions-brand-hover-opacity), var(--interactions-brand-hover-opacity)),\n                    linear-gradient(var(--primary-background), var(--primary-background));\n            }\n\n            [data-pseudo='active'] > &,\n            &:active {\n                background:\n                    linear-gradient(var(--interactions-brand-press-opacity), var(--interactions-brand-press-opacity)),\n                    linear-gradient(var(--primary-background), var(--primary-background));\n            }\n\n            [data-pseudo='focus'] > &,\n            &:focus-visible {\n                outline: solid 2px var(--stroke-neutral-focus);\n            }\n        }\n\n        &[data-destructive] {\n            --primary-background: var(--status-error);\n\n            color: var(--foreground-brand-on-primary);\n        }\n    }\n\n    &[data-variant='secondary'] {\n        border: solid var(--button-border-width) var(--stroke-neutral-base);\n        border-radius: var(--button-border-radius);\n        color: var(--foreground-neutral-on-surface-variant-01);\n\n        &[disabled] {\n            color: var(--foreground-neutral-disabled-on-surface);\n            border: solid var(--button-border-width) var(--stroke-neutral-disabled-light);\n        }\n\n        &:not([disabled]) {\n            [data-pseudo='hover'] > &,\n            &:hover {\n                background-color: var(--interactions-neutral-hover-opacity);\n            }\n\n            [data-pseudo='active'] > &,\n            &:active {\n                background-color: var(--interactions-neutral-press-opacity);\n            }\n\n            [data-pseudo='focus'] > &,\n            &:focus-visible {\n                outline: solid 2px var(--stroke-neutral-focus);\n            }\n        }\n\n        &[data-destructive] {\n            background: transparent;\n            color: var(--status-error);\n            border: solid var(--button-border-width) var(--status-error);\n        }\n    }\n\n    &[data-variant='tertiary'] {\n        background: transparent;\n        color: var(--foreground-neutral-on-surface-variant-01);\n\n        &[disabled] {\n            color: var(--foreground-neutral-disabled-on-surface);\n        }\n\n        &:not([disabled]) {\n            [data-pseudo='hover'] > &,\n            &:hover {\n                background: var(--interactions-neutral-hover-opacity);\n            }\n\n            [data-pseudo='active'] > &,\n            &:active {\n                background: var(--interactions-neutral-press-opacity);\n            }\n\n            [data-pseudo='focus'] > &,\n            &:focus-visible {\n                outline: solid 2px var(--stroke-neutral-focus);\n            }\n        }\n\n        &[data-destructive] {\n            color: var(--status-error);\n        }\n    }\n}\n\n/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */\n",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": false
+    },
+    {
+        "description": "A sticky or fixed bar containing action buttons that are to remain on the screen while the page scrolls. Alternative option to house the bar within the bottom of a page’s body content.",
+        "file": "/components/ButtonDock/ButtonDock.tsx",
+        "name": "ButtonDock",
+        "slug": "button-dock",
+        "dependencies": [],
+        "usage": {
+            "code": "import { ButtonDock } from '@bspk/ui/ButtonDock';\n\nfunction Example() {\nreturn (\n<ButtonDock\nprimaryButton={{\nchildren: 'Send',\nlabel: 'send',\n}}\nsecondaryButton={{\nchildren: 'Cancel',\nlabel: 'cancel',\n}}\n/>\n);\n}"
+        },
+        "css": "[data-bspk='button-dock'] {\n    display: flex;\n    flex-direction: row;\n    justify-content: center;\n    align-items: center;\n    width: 100%;\n    padding: var(--spacing-sizing-02) var(--spacing-sizing-04);\n    gap: var(--spacing-sizing-04);\n\n    &[data-arrangement='fill'] {\n        display: flex;\n\n        [data-bspk='button'] {\n            flex: 1;\n        }\n    }\n\n    &[data-arrangement='spread'] {\n        display: grid;\n        grid-template-columns: max-content 1fr max-content;\n        align-items: center;\n        width: 100%;\n\n        [data-bspk='button'] {\n            min-width: var(--spacing-sizing-12);\n            justify-self: stretch;\n        }\n\n        [data-bspk='button']:first-child {\n            grid-column: 1;\n        }\n\n        [data-bspk='button']:last-child {\n            grid-column: 3;\n        }\n    }\n\n    &[data-mode='fixed'] {\n        position: fixed;\n        bottom: 0;\n        right: 0;\n        left: 0;\n        background: var(--surface-neutral-t1-base);\n        box-shadow: var(--drop-shadow-north);\n        z-index: var(--z-index-button-dock);\n    }\n}\n\n/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */\n",
+        "hasTouchTarget": false,
+        "phase": "Dev",
+        "generated": false
+    },
+    {
+        "description": "Allows customers to select the date, month, and year.",
+        "file": "/components/Calendar/Calendar.tsx",
+        "name": "Calendar",
+        "slug": "calendar",
+        "dependencies": [],
+        "css": "[data-bspk='calendar'] {\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    font: var(--labels-base);\n    width: 360px;\n    color: var(--foreground-neutral-on-surface);\n    gap: var(--spacing-sizing-01);\n    background: var(--surface-neutral-t1-base);\n    padding: var(--spacing-sizing-02);\n\n    &[data-variant='elevated'] {\n        border-radius: var(--radius-lg);\n        box-shadow: var(--drop-shadow-float);\n    }\n\n    [data-header] {\n        display: flex;\n        justify-content: space-between;\n        align-items: center;\n        padding: 0;\n        border-bottom: 1px solid var(--stroke-neutral-low);\n\n        [data-title] {\n            flex-grow: 1;\n            display: flex;\n            align-items: center;\n            justify-content: center;\n\n            [data-bspk='button'] {\n                font: inherit;\n\n                &[data-month] {\n                    padding-right: var(--spacing-sizing-01);\n                }\n\n                &[data-year] {\n                    padding-left: var(--spacing-sizing-01);\n                }\n            }\n        }\n    }\n\n    [data-day-headers] {\n        display: grid;\n        grid-template-columns: repeat(7, 1fr);\n        text-align: center;\n        color: var(--foreground-neutral-on-surface-variant-01);\n\n        span {\n            height: var(--spacing-sizing-12);\n            line-height: var(--spacing-sizing-12);\n        }\n    }\n\n    [data-body] {\n        display: grid;\n\n        [data-bspk='button'] {\n            margin: auto;\n        }\n\n        [data-non-month-day] {\n            color: var(--foreground-neutral-on-surface-variant-02);\n        }\n    }\n\n    &[data-kind='day'] {\n        padding: var(--spacing-sizing-01);\n\n        [data-body] {\n            grid-template-columns: repeat(7, calc(100% / 7));\n        }\n    }\n\n    &[data-kind='month'] {\n        [data-body] {\n            grid-template-columns: repeat(3, calc(100% / 3));\n        }\n    }\n\n    &[data-kind='year'] {\n        [data-body] {\n            grid-template-columns: repeat(4, calc(100% / 4));\n        }\n    }\n}\n\n/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */\n",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": false
+    },
+    {
+        "description": "Cards are often rectangular and contain various content, such as text, images, icons, multimedia, and interactive elements.\n\nThey are similar in size and shape to playing cards and are intended to encourage users to click or tap to view more details.",
+        "file": "/components/Card/Card.tsx",
+        "name": "Card",
+        "slug": "card",
+        "dependencies": [],
+        "usage": {
+            "code": "import { Card } from '@bspk/ui/card';\n\nfunction Example() {\nreturn (\n<Card variant=\"elevated\" showPadding={false}>\n<h3>Card Title</h3>\n<p>This is some content inside the card.</p>\n</Card>\n);\n}"
+        },
+        "css": "[data-bspk='card'] {\n    display: block;\n    background: var(--surface-neutral-t1-base);\n    border-radius: var(--radius-md);\n    overflow: hidden;\n\n    &[data-variant='outlined'] {\n        border: solid 1px var(--stroke-neutral-low);\n    }\n\n    &[data-variant='elevated'] {\n        box-shadow:\n            0 1px 2px 0 var(--shadow-32),\n            0 1px 3px 1px var(--shadow-15);\n    }\n}\n\n/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */\n",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": false
+    },
+    {
+        "description": "A carousel component for displaying a horizontal list of items with navigation controls.",
+        "file": "/components/Carousel/Carousel.tsx",
+        "name": "Carousel",
+        "slug": "carousel",
+        "dependencies": [],
+        "usage": {
+            "code": "import { Carousel } from '@bspk/ui/Carousel';\n\nfunction Example() {\nreturn (\n<Carousel label=\"Example Carousel\" width=\"1/2\">\n<div>child 1</div>\n<div>child 2</div>\n<div>child 3</div>\n<div>child 4</div>\n<div>child 5</div>\n<div>child 6</div>\n<div>child 7</div>\n</Carousel>\n);\n}"
+        },
+        "css": "[data-bspk='carousel'] {\n    /*! \n    --gap: is set via inline style\n    --item-width: is set via inline style\n    */\n\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    width: 100%;\n    position: relative;\n    background: #fff;\n    gap: var(--spacing-sizing-02);\n\n    [data-items-container] {\n        width: 100%;\n        overflow: hidden;\n    }\n\n    [data-items-track] {\n        display: flex;\n        align-items: center;\n        gap: var(--gap);\n        min-width: 0;\n    }\n\n    [data-item-wrapper] {\n        min-width: var(--item-width);\n        overflow: hidden;\n    }\n\n    [data-controls] {\n        display: flex;\n        align-items: center;\n        gap: var(--spacing-sizing-02);\n    }\n}\n\n/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */\n",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": false
+    },
+    {
+        "description": "A control that allows users to choose one or more items from a list or turn an feature on or off. This is the base element and if used directly you must wrap it with a label. This will more often be used in the CheckboxOption or CheckboxGroup component.",
+        "file": "/components/Checkbox/Checkbox.tsx",
+        "name": "Checkbox",
+        "slug": "checkbox",
+        "dependencies": [],
+        "usage": {
+            "code": "import { Checkbox } from '@bspk/ui/Checkbox';\n\nfunction Example() {\nconst [checked, setChecked] = React.useState(false);\n\nreturn (\n<label htmlFor=\"sample-checkbox\">\n<Checkbox\naria-label=\"Sample\"\nchecked={checked}\nid=\"sample-checkbox\"\nname=\"sample-checkbox\"\nonChange={(nextChecked) => setChecked(nextChecked)}\nvalue=\"sample\"\n/>\nCheckbox Label\n</label>\n);\n}"
+        },
+        "css": "[data-bspk='checkbox'] {\n    display: block;\n    position: relative;\n    width: var(--spacing-sizing-06);\n    aspect-ratio: 1/1;\n    padding: 2px;\n\n    input[type='checkbox'] {\n        position: absolute;\n        opacity: 0;\n        z-index: 2;\n        width: 100%;\n        height: 100%;\n        top: 0;\n        left: 0;\n        cursor: pointer;\n    }\n\n    span {\n        --stroke: var(--stroke-neutral-base);\n        --inner: none;\n        --background: none;\n        --color: var(--foreground-brand-on-primary);\n\n        display: flex;\n        width: 20px;\n        aspect-ratio: 1/1;\n        cursor: pointer;\n        border-radius: 2px;\n        border: 2px solid var(--stroke);\n        align-items: center;\n        flex-direction: column;\n        justify-content: center;\n        position: relative;\n        background: var(--background);\n\n        svg[data-checked] {\n            width: 14px;\n        }\n\n        svg[data-indeterminate] {\n            width: 12px;\n        }\n\n        color: var(--color);\n    }\n\n    input[type='checkbox']:not(:checked, :indeterminate, [disabled], [readOnly]) {\n        &:hover + span {\n            background-color: var(--interactions-neutral-hover-opacity);\n        }\n\n        &:active + span {\n            background-color: var(--interactions-neutral-press-opacity);\n        }\n    }\n\n    input[type='checkbox']:checked + span,\n    input[type='checkbox']:indeterminate + span {\n        --stroke: var(--stroke-brand-primary);\n        --background: var(--surface-brand-primary);\n    }\n\n    input[type='checkbox'][disabled],\n    input[type='checkbox'][readOnly] {\n        cursor: not-allowed;\n\n        & + span {\n            --stroke: var(--stroke-neutral-interactions-disabled-light);\n        }\n\n        &:is(:checked, :indeterminate) + span {\n            --stroke: transparent;\n            --background: var(--interactions-disabled-opacity);\n            --color: var(--foreground-neutral-disabled-on-surface);\n        }\n    }\n\n    input[type='checkbox'][aria-invalid]:not([disabled], [readOnly]) {\n        &:checked + span,\n        &:indeterminate + span {\n            --background: var(--status-error);\n        }\n\n        & + span {\n            --stroke: var(--status-error);\n        }\n    }\n}\n\n/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */\n",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": false
+    },
+    {
+        "description": "A group of checkboxes that allows users to choose one or more items from a list or turn an feature on or off.",
+        "file": "/components/CheckboxGroup/CheckboxGroup.tsx",
+        "name": "CheckboxGroup",
+        "slug": "checkbox-group",
+        "dependencies": [],
+        "usage": {
+            "code": "import { CheckboxGroup } from '@bspk/ui/CheckboxGroup';\n\nfunction Example() {\nconst [value, setValue] = React.useState<string[]>([]);\n\nreturn (\n<CheckboxGroup\naria-label=\"Example Checkbox Group\"\nname=\"example-checkbox-group\"\noptions={[\n{ label: 'Option 1', value: 'option1' },\n{ label: 'Option 2', value: 'option2' },\n{ label: 'Option 3', value: 'option3' },\n]}\nvalue={value}\nonChange={(nextValue: string[]) => {\nsetValue(nextValue);\n}}\n/>\n);\n}"
+        },
+        "css": "[data-bspk='checkbox-group'] {\n    display: flex;\n    flex-direction: column;\n    gap: 0;\n    max-width: 100%;\n\n    --list-item-height: 'auto';\n}\n",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": false
+    },
+    {
+        "description": "A field wrapper for the CheckboxGroup component.\n\nThis component takes properties from the FormField and CheckboxGroup components.",
+        "file": "/components/CheckboxGroupField/CheckboxGroupField.tsx",
+        "name": "CheckboxGroupField",
+        "slug": "checkbox-group-field",
+        "dependencies": [],
+        "css": "",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": true
+    },
+    {
+        "description": "A control that allows users to choose one or more items from a list or turn an feature on or off.\n\nIf only a Checkbox is needed, consider using the Checkbox component directly.",
+        "file": "/components/CheckboxOption/CheckboxOption.tsx",
+        "name": "CheckboxOption",
+        "slug": "checkbox-option",
+        "dependencies": [],
+        "usage": {
+            "code": "import { CheckboxOption } from '@bspk/ui/CheckboxOption';\n\nfunction Example() {\nconst [checked, setChecked] = React.useState(false);\nreturn (\n<CheckboxOption\nchecked={checked}\ndescription=\"This is an example checkbox option.\"\nlabel=\"Example Checkbox\"\nname=\"example-checkbox-name\"\nonChange={(nextChecked, event) => {\nsetChecked(nextChecked);\nconsole.log('Checkbox changed:', nextChecked, event);\n}}\nvalue=\"example-checkbox-value\"\n/>\n);\n}"
+        },
+        "css": "",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": false
+    },
+    {
+        "description": "Dynamically generated options that are suggested to the user as responses or prompts.",
+        "file": "/components/Chip/Chip.tsx",
+        "name": "Chip",
+        "slug": "chip",
+        "dependencies": [],
+        "usage": {
+            "code": "import { Chip } from '@bspk/ui/Chip';\n\nfunction Example() {\nreturn (\n<Chip label=\"Label\" onClick={() => console.log('Chip clicked!')}>\nExample Chip\n</Chip>\n);\n}"
+        },
+        "css": "[data-bspk='chip'] {\n    flex-direction: row;\n    gap: var(--spacing-sizing-02);\n    height: var(--spacing-sizing-08);\n    text-wrap: nowrap;\n    font: var(--labels-small);\n    color: var(--foreground-neutral-on-surface-variant-01);\n    background-color: var(--surface-neutral-t1-base);\n    border: 1px solid var(--stroke-neutral-low);\n    border-radius: var(--radius-sm);\n    padding: 0 var(--spacing-sizing-03);\n\n    [data-touch-target] {\n        min-width: var(--spacing-sizing-12);\n        min-height: var(--spacing-sizing-12);\n    }\n\n    &:not([data-flat]) {\n        box-shadow: var(--drop-shadow-raise);\n    }\n\n    &[data-variant='filter'] {\n        cursor: pointer;\n    }\n\n    &[data-disabled] {\n        color: var(--foreground-neutral-disabled-on-surface);\n        cursor: not-allowed;\n        border-color: var(--stroke-neutral-disabled-light);\n        background-color: var(--interactions-disabled-opacity);\n    }\n\n    &:not([data-disabled]) {\n        &:hover {\n            background-color: var(--interactions-neutral-hover-opacity);\n        }\n\n        &:active {\n            background-color: var(--interactions-neutral-press-opacity);\n        }\n\n        &:focus {\n            outline: 1px solid var(--stroke-neutral-focus);\n            border-color: var(--stroke-neutral-focus);\n        }\n    }\n\n    &[data-selected] {\n        background-color: var(--surface-brand-primary-highlight);\n        border-color: var(--stroke-brand-primary);\n    }\n\n    [data-chip-icon] {\n        display: flex;\n        align-items: center;\n    }\n}\n\n/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */\n",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": false
+    },
+    {
+        "description": "A component that manages the layout of a group of chips.",
+        "file": "/components/ChipGroup/ChipGroup.tsx",
+        "name": "ChipGroup",
+        "slug": "chip-group",
+        "dependencies": [],
+        "usage": {
+            "code": "import { ChipGroup } from '@bspk/ui/ChipGroup';\nimport { Chip } from '@bspk/ui/Chip';\n\nfunction Example() {\nreturn (\n<ChipGroup wrap={false}>\n<Chip label=\"chip 1\" onClick={() => console.log('Chip 1')} />\n<Chip label=\"chip 2\" onClick={() => console.log('Chip 2')} />\n<Chip label=\"chip 3\" onClick={() => console.log('Chip 3')} />\n</ChipGroup>\n);\n}"
+        },
+        "css": "[data-bspk='chip-group'] {\n    display: flex;\n    gap: var(--spacing-sizing-02);\n    width: 100%;\n    overflow: auto;\n\n    &[data-wrap] {\n        flex-flow: row wrap;\n    }\n}\n\n/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */\n",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": false
+    },
+    {
+        "description": "An input that allows a customer to manually type in a specific date or triggers a the Calendar component to select a date.\n\nFor a more complete example with field usage, see the DatePickerField component.",
+        "file": "/components/DatePicker/DatePicker.tsx",
+        "name": "DatePicker",
+        "slug": "date-picker",
+        "dependencies": [],
+        "usage": {
+            "code": "import { DatePicker } from '@bspk/ui/DatePicker';\nimport { Field, FieldLabel } from '@bspk/ui/Field';\nimport { useState } from 'react';\n\nfunction ExampleStandalone() {\nconst [date, setDate] = useState<Date | undefined>(new Date());\nreturn <DatePicker aria-label=\"Date\" name=\"date2\" value={date} onChange={setDate} />;\n}\n\nfunction ExampleWithField() {\nconst [date, setDate] = useState<Date | undefined>(new Date());\n\nreturn (\n<Field>\n<FieldLabel>Date</FieldLabel>\n<DatePicker name=\"date1\" value={date} onChange={setDate} />\n<FieldDescription>The date picker allows you to select a date.</FieldDescription>\n</Field>\n);\n}"
+        },
+        "css": "[data-bspk='date-picker'] {\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    width: 100%;\n\n    [data-bspk='input'] {\n        padding-right: 0;\n    }\n}\n\n/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */\n",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": false
+    },
+    {
+        "description": "A field wrapper for the DatePicker component.\n\nThis component takes properties from the FormField and DatePicker components.",
+        "file": "/components/DatePickerField/DatePickerField.tsx",
+        "name": "DatePickerField",
+        "slug": "date-picker-field",
+        "dependencies": [],
+        "css": "",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": true
+    },
+    {
+        "description": "Dialogs display important information that users need to acknowledge. They appear over the interface and block further interactions until an action is selected.",
+        "file": "/components/Dialog/Dialog.tsx",
+        "name": "Dialog",
+        "slug": "dialog",
+        "dependencies": [],
+        "usage": {
+            "code": "import { Dialog } from '@bspk/ui/Dialog';\nimport { Button } from '@bspk/ui/Button';\n\nfunction Example() {\nconst [open, setOpen] = React.useState(false);\n\nreturn (\n<>\n<Button label=\"Open Dialog\" onClick={() => setOpen(true)} />\n<Dialog open={open} onClose={() => setOpen(false)}>\n<h1>Dialog Title</h1>\n<p>This is the content of the dialog.</p>\n<button onClick={() => setOpen(false)}>Close</button>\n</Dialog>\n</>\n);\n}"
+        },
+        "css": "[data-bspk='dialog'] {\n    position: fixed;\n    inset: 0;\n    z-index: var(--z-index-dialog);\n    display: flex;\n    pointer-events: none; // makes scrim clickable\n\n    [data-dialog-box] {\n        pointer-events: all; // allow pointer events on the dialog box\n        text-align: start;\n        position: relative;\n        box-shadow: var(--drop-shadow-float);\n        background: var(--surface-neutral-t1-base);\n        color: var(--foreground-neutral-on-surface);\n        max-height: calc(100vh - var(--spacing-sizing-24));\n        z-index: 2;\n        width: calc(100% - var(--spacing-sizing-08));\n        animation-name: var(--box-animation-name);\n        animation-duration: 0.5s;\n        animation-iteration-count: 1;\n        animation-fill-mode: forwards;\n\n        > :first-of-type {\n            margin-top: 0;\n        }\n\n        > :last-child {\n            margin-bottom: 0;\n        }\n\n        // we make the width responsive to the viewport\n        @media (width >= 640px) {\n            width: 90%;\n        }\n\n        @media (width >= 768px) {\n            width: 80%;\n        }\n\n        @media (width >= 1024px) {\n            width: 60%;\n        }\n\n        @media (width >= 1280px) {\n            width: 50%;\n        }\n    }\n\n    &[data-placement='center'] {\n        --box-animation-name: fade-in;\n\n        justify-content: center;\n        align-items: center;\n\n        [data-dialog-box] {\n            border-radius: var(--radius-lg);\n        }\n    }\n\n    &[data-placement='bottom'] {\n        --box-animation-name: placement-bottom;\n\n        justify-content: center;\n        align-items: end;\n\n        [data-dialog-box] {\n            border-top-left-radius: var(--radius-lg);\n            border-top-right-radius: var(--radius-lg);\n        }\n    }\n\n    &[data-placement='top'] {\n        --box-animation-name: placement-top;\n\n        justify-content: center;\n        align-items: start;\n\n        [data-dialog-box] {\n            border-bottom-left-radius: var(--radius-lg);\n            border-bottom-right-radius: var(--radius-lg);\n        }\n    }\n\n    &[data-placement='left'] {\n        --box-animation-name: placement-left;\n\n        justify-content: flex-start;\n\n        [data-dialog-box] {\n            max-height: unset;\n            width: 280px;\n            height: 100vh;\n            border-bottom-right-radius: var(--radius-lg);\n            border-top-right-radius: var(--radius-lg);\n        }\n    }\n\n    &[data-placement='right'] {\n        --box-animation-name: placement-right;\n\n        justify-content: flex-end;\n\n        [data-dialog-box] {\n            max-height: unset;\n            width: 280px;\n            height: 100vh;\n            border-bottom-left-radius: var(--radius-lg);\n            border-top-left-radius: var(--radius-lg);\n        }\n    }\n\n    [data-width-full='true'] {\n        width: 100%;\n    }\n}\n\n/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */\n",
+        "hasTouchTarget": false,
+        "phase": "Utility",
+        "generated": false
+    },
+    {
+        "description": "Horizontal thin lines that separates grouped content in a list or other containers with an optional section/group label.\n\nVertical thin lines that separates grouped content or other visual elements within a container.",
+        "file": "/components/Divider/Divider.tsx",
+        "name": "Divider",
+        "slug": "divider",
+        "dependencies": [],
+        "usage": {
+            "code": "import { Divider } from '@bspk/ui/Divider';\n\nfunction Example() {\nreturn (\n<div>\n<p>Content above the divider</p>\n<Divider orientation=\"horizontal\" />\n<p>Content below the divider</p>\n</div>\n);\n}"
+        },
+        "css": "[data-bspk='divider'] {\n    /*! --inset: is set via inline style */\n\n    display: flex;\n    background-color: var(--stroke-neutral-low);\n    align-self: stretch;\n    place-content: stretch stretch;\n    margin: 0;\n    padding: 0;\n    content: '';\n\n    --length: calc(100% - var(--inset) * 2);\n\n    &,\n    &[data-thickness='light'] {\n        --line-thickness: 1px;\n        --padding: var(--spacing-sizing-02);\n    }\n\n    &[data-thickness='heavy'] {\n        --line-thickness: 2px;\n        --padding: var(--spacing-sizing-04);\n\n        border-radius: var(--radius-full);\n    }\n\n    &, // default\n  &[data-orientation='horizontal'] {\n        min-height: var(--line-thickness);\n        min-width: var(--length);\n        margin: var(--padding) var(--inset);\n    }\n\n    &[data-orientation='vertical'] {\n        min-width: var(--line-thickness);\n        min-height: var(--length);\n        margin: var(--inset) var(--padding);\n    }\n\n    &[data-hide-padding] {\n        --padding: 0;\n    }\n}\n\n/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */\n",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": false
+    },
+    {
+        "description": "Drawer component displays a panel that slides in from the edge of the screen. It can be used to show additional content or actions without navigating away from the current view.",
+        "file": "/components/Drawer/Drawer.tsx",
+        "name": "Drawer",
+        "slug": "drawer",
+        "dependencies": [],
+        "usage": {
+            "code": "import React from 'react';\n\nimport { Button } from '@bspk/ui/Button';\nimport { Drawer } from '@bspk/ui/Drawer';\n\nfunction Example() {\nconst [open, setOpen] = React.useState(false);\n\nreturn (\n<>\n<Button label=\"Open Drawer\" onClick={() => setOpen(true)} />\n<Drawer\nid=\"exampleId\"\nonClose={() => setOpen(false)}\nopen={open}\nplacement=\"right\"\nmodal={false}\nheader=\"Example Drawer\"\ncloseButton={true}\n>\nExample Drawer\n</Drawer>\n</>\n);\n}"
+        },
+        "css": "[data-bspk='drawer'] {\n    padding: var(--spacing-sizing-03);\n    color: var(--foreground-neutral-on-surface);\n    background: var(--surface-neutral-t1-base);\n\n    &[data-no-portal] {\n        box-shadow: var(--drop-shadow-float);\n        animation-name: var(--box-animation-name);\n        animation-duration: 0.5s;\n        animation-iteration-count: 1;\n        animation-fill-mode: forwards;\n\n        &[data-persistent-placement='top'] {\n            --box-animation-name: placement-top;\n\n            position: absolute;\n            top: 0;\n            width: 100%;\n            border-bottom-left-radius: var(--radius-lg);\n            border-bottom-right-radius: var(--radius-lg);\n        }\n\n        &[data-persistent-placement='right'] {\n            --box-animation-name: placement-right;\n\n            position: absolute;\n            right: 0;\n            height: 100%;\n            border-top-left-radius: var(--radius-lg);\n            border-bottom-left-radius: var(--radius-lg);\n        }\n\n        &[data-persistent-placement='bottom'] {\n            --box-animation-name: placement-bottom;\n\n            position: absolute;\n            bottom: 0;\n            width: 100%;\n            border-top-left-radius: var(--radius-lg);\n            border-top-right-radius: var(--radius-lg);\n        }\n\n        &[data-persistent-placement='left'] {\n            --box-animation-name: placement-left;\n\n            position: absolute;\n            left: 0;\n            height: 100%;\n            border-top-right-radius: var(--radius-lg);\n            border-bottom-right-radius: var(--radius-lg);\n        }\n    }\n\n    [data-drawer-header] {\n        display: flex;\n        width: 100%;\n        justify-content: space-between;\n        align-items: center;\n        gap: var(--spacing-sizing-04);\n\n        &[data-drawer-close-only='true'] {\n            justify-content: flex-end;\n        }\n    }\n}\n\n/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */\n",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": false
+    },
+    {
+        "description": "A design pattern component that indicates to users that system has no content to display.",
+        "file": "/components/EmptyState/EmptyState.tsx",
+        "name": "EmptyState",
+        "slug": "empty-state",
+        "dependencies": [],
+        "usage": {
+            "code": "import { EmptyState } from '@bspk/ui/EmptyState';\n\nfunction Example() {\nreturn (\n<EmptyState body=\"Example body\" header=\"Example header\">\nExample EmptyState\n</EmptyState>\n);\n}"
+        },
+        "css": "",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": false
+    },
+    {
+        "description": "A utility component that serves as a placeholder for examples.",
+        "file": "/components/ExamplePlaceholder/ExamplePlaceholder.tsx",
+        "name": "ExamplePlaceholder",
+        "slug": "example-placeholder",
+        "dependencies": [],
+        "css": "",
+        "hasTouchTarget": false,
+        "phase": "Utility",
+        "generated": false
+    },
+    {
+        "description": "A button that highlights a primary action that is elevated above the body content of a page; normally fixed to the bottom right of a screen.",
+        "file": "/components/Fab/Fab.tsx",
+        "name": "Fab",
+        "slug": "fab",
+        "dependencies": [],
+        "usage": {
+            "code": "import { SvgBolt } from '@bspk/icons/Bolt';\nimport { Fab } from '@bspk/ui/Fab';\n\nfunction Example() {\nreturn <Fab icon={<SvgBolt />} label=\"Example label\" placement=\"bottom-right\" variant=\"neutral\" />;\n}"
+        },
+        "css": "[data-bspk='fab'] {\n    --placement-offset: var(--spacing-sizing-04);\n\n    display: flex;\n    flex-direction: row;\n    align-items: center;\n    justify-content: center;\n    gap: var(--spacing-sizing-02);\n    border: none;\n    cursor: pointer;\n    text-decoration: none;\n    z-index: var(--z-index-fab);\n    box-shadow: var(--drop-shadow-float);\n    border-radius: var(--radius-sm);\n\n    &[data-container='page'] {\n        position: fixed;\n    }\n\n    &[data-container='local'] {\n        position: absolute;\n    }\n\n    &[data-placement='top-right'] {\n        top: var(--placement-offset);\n        right: var(--placement-offset);\n    }\n\n    &[data-placement='bottom-right'] {\n        bottom: var(--placement-offset);\n        right: var(--placement-offset);\n    }\n\n    &[data-placement='top-left'] {\n        top: var(--placement-offset);\n        left: var(--placement-offset);\n    }\n\n    &[data-placement='bottom-left'] {\n        bottom: var(--placement-offset);\n        left: var(--placement-offset);\n    }\n\n    > [data-fab-icon] {\n        display: flex;\n        flex-direction: column;\n        align-items: center;\n    }\n\n    > [data-fab-label] {\n        display: flex;\n        flex-direction: row;\n        align-items: center;\n    }\n\n    &[data-size='small'] {\n        font: var(--labels-base);\n        height: var(--spacing-sizing-10);\n        padding: 0 var(--spacing-sizing-04);\n\n        > [data-fab-icon] {\n            width: var(--spacing-sizing-05);\n        }\n    }\n\n    &[data-size='medium'] {\n        font: var(--labels-large);\n        height: var(--spacing-sizing-14);\n        padding: 0 var(--spacing-sizing-07);\n\n        > [data-fab-icon] {\n            width: var(--spacing-sizing-06);\n        }\n    }\n\n    &[data-variant='primary'] {\n        --variant-background: var(--surface-brand-primary);\n        --variant-foreground: var(--foreground-brand-on-primary);\n    }\n\n    &[data-variant='secondary'] {\n        --variant-background: var(--surface-brand-secondary);\n        --variant-foreground: var(--foreground-brand-on-secondary);\n    }\n\n    &[data-variant='neutral'] {\n        --variant-background: var(--surface-neutral-t1-base);\n        --variant-foreground: var(--foreground-neutral-on-surface-variant-01);\n    }\n\n    background: var(--variant-background);\n    color: var(--variant-foreground);\n\n    --variant-gradient: linear-gradient(var(--variant-background), var(--variant-background));\n\n    [data-pseudo='hover'] > &,\n    &:hover {\n        background:\n            linear-gradient(var(--interactions-brand-hover-opacity), var(--interactions-brand-hover-opacity)),\n            var(--variant-gradient);\n    }\n\n    [data-pseudo='active'] > &,\n    &:active {\n        background:\n            linear-gradient(var(--interactions-brand-press-opacity), var(--interactions-brand-press-opacity)),\n            var(--variant-gradient);\n    }\n\n    [data-pseudo='focus'] > &,\n    &:focus-visible {\n        outline: solid 2px var(--stroke-neutral-focus);\n    }\n\n    &[data-round] {\n        border-radius: var(--radius-full);\n        aspect-ratio: 1/1;\n        padding: 0;\n    }\n}\n\n/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */\n",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": false
+    },
+    {
+        "description": "Wrapper component for form controls.\n\nChildren should be one of the following: DatePicker, Input, InputNumber, InputPhone, Password, Select, Textarea, or TimePicker.",
+        "file": "/components/Field/Field.tsx",
+        "name": "Field",
+        "slug": "field",
+        "dependencies": [],
+        "usage": {
+            "code": "import { Input } from '@bspk/ui/Input';\nimport { Field, FieldLabel, FieldDescription, FieldError } from '@bspk/ui/Field';\n\nfunction Example() {\nconst [state, setState] = React.useState<string | undefined>(undefined);\nconst [error, setError] = React.useState<string | undefined>(undefined);\n\nreturn (\n<Field label=\"Example label\">\n<FieldLabel>Example label</FieldLabel>\n<Input\naria-label=\"example aria-label\"\nname=\"example-text\"\nonChange={(next) => {\nsetState(next);\n}}\nvalue={state}\n{...fieldProps}\n/>\n<FieldDescription>This is an example description.</FieldDescription>\n{error && <FieldError>{error}</FieldError>}\n</Field>\n);\n}"
+        },
+        "css": "[data-bspk-utility='field'] {\n    width: 100%;\n    display: flex;\n    flex-direction: column;\n    gap: var(--spacing-sizing-01);\n    border: none;\n}\n\n[data-bspk='field-label'] {\n    display: flex;\n    flex-direction: row;\n    align-items: center;\n    gap: var(--spacing-sizing-01);\n\n    span {\n        font: var(--labels-small);\n        color: var(--foreground-neutral-on-surface);\n\n        &[data-required] {\n            font: var(--body-small);\n            color: var(--foreground-neutral-on-surface-variant-01);\n        }\n\n        &[data-trailing] {\n            font: var(--body-small);\n            color: var(--foreground-neutral-on-surface-variant-02);\n            margin-left: auto;\n        }\n    }\n}\n\n[data-bspk='field-description'] {\n    font: var(--body-small);\n    color: var(--foreground-neutral-on-surface-variant-01);\n    margin: 0;\n    padding: 0;\n}\n\n[data-bspk-owner='field-error'] {\n    // Styles for FieldError component when used inside Field\n}\n\n/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */\n",
+        "hasTouchTarget": false,
+        "phase": "Utility",
+        "generated": false
+    },
+    {
+        "description": "A widget that allows customers to upload and attach one or more files.",
+        "file": "/components/FileUpload/FileUpload.tsx",
+        "name": "FileUpload",
+        "slug": "file-upload",
+        "dependencies": [],
+        "usage": {
+            "code": "import { FileUpload } from '@bspk/ui/FileUpload';\n\nfunction Example() {\nconst [files, setFiles] = useState([]);\nreturn (\n<FileUpload\ndragAndDrop\nmultipleFiles\nacceptedFileTypes={['image/png', 'image/gif', 'image/svg+xml']}\nfiles={files}\nmaxFileSize={5}\nonError={(errorFiles) => console.log('Upload error:', errorFiles)}\nonUpload={(uploadFiles) => setFiles(uploadFiles)}\nuploadSubtitle=\"SVG, PNG, JPG or GIF (max. 5MB)\"\n/>\n);\n}"
+        },
+        "css": "[data-bspk='file-upload'] {\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n    gap: var(--spacing-sizing-04);\n    width: 100%;\n    padding: var(--spacing-sizing-04);\n    border: 1px dashed var(--stroke-neutral-base);\n    border-radius: var(--spacing-sizing-02);\n    background-color: var(--surface-neutral-t2-lowest);\n}\n\n[data-bspk-owner='file-upload'][data-file-entries] {\n    display: flex;\n    flex-direction: column;\n    width: 100%;\n}\n\n/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */\n",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": false
+    },
+    {
+        "description": "A component that represents an uploaded item and its status.\n\nUsually used with FileUpload to display individual files being uploaded.",
+        "file": "/components/FileUploadItem/FileUploadItem.tsx",
+        "name": "FileUploadItem",
+        "slug": "file-upload-item",
+        "dependencies": [],
+        "usage": {
+            "code": "import { FileUploadItem } from '@bspk/ui/FileUploadItem';\n\nfunction Example() {\nreturn (\n<FileUploadItem\nfileName=\"dunder-mifflin-paper-co.jpg\"\nfileSize=\"1.43 mb\"\nstatus=\"Uploading\"\nonCancel={() => console.log('Cancel item clicked!')}\n/>\n);\n}"
+        },
+        "css": "[data-bspk='file-upload-item'] {\n    display: flex;\n    flex-direction: column;\n    width: 100%;\n\n    [data-row] {\n        display: flex;\n        flex-direction: row;\n        width: 100%;\n        align-items: center;\n        padding: var(--spacing-sizing-02) var(--spacing-sizing-04);\n        gap: var(--spacing-sizing-04);\n    }\n\n    [data-icon] {\n        padding: var(--spacing-sizing-02);\n        width: fit-content;\n        display: flex;\n        flex: 0 0 auto;\n    }\n\n    [data-info] {\n        display: flex;\n        flex-direction: column;\n        flex: 1 1 0;\n        min-width: 0;\n    }\n\n    [data-file-name] {\n        width: 100%;\n        font: var(--body-small);\n    }\n\n    [data-file-details] {\n        color: var(--foreground-neutral-on-surface-variant-01);\n        font: var(--body-x-small);\n    }\n\n    @media (width >= 640px) {\n        [data-status] {\n            padding: 0 var(--spacing-sizing-18);\n        }\n    }\n}\n\n/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */\n",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": false
+    },
+    {
+        "description": "Wrapper component for form controls.\n\nChildren should be one of the following: DatePicker, Input, InputNumber, InputPhone, Password, Select, Textarea, or TimePicker.",
+        "file": "/components/FormField/FormField.tsx",
+        "name": "FormField",
+        "slug": "form-field",
+        "dependencies": [],
+        "usage": {
+            "code": "import { Input } from '@bspk/ui/Input';\nimport { FormField } from '@bspk/ui/FormField';\n\nfunction Example() {\nconst [state, setState] = React.useState<string | undefined>(undefined);\nreturn (\n<FormField controlId=\"Example controlId\" label=\"Example label\">\n{(fieldProps) => {\nreturn (\n<Input\naria-label=\"example aria-label\"\nname=\"example-text\"\nonChange={(next) => {\nsetState(next);\n}}\nvalue={state}\n{...fieldProps}\n/>\n);\n}}\n</FormField>\n);\n}"
+        },
+        "css": "",
+        "hasTouchTarget": false,
+        "phase": "Utility",
+        "generated": false
+    },
+    {
+        "description": "The Img component is used to display images on the page.",
+        "file": "/components/Img/Img.tsx",
+        "name": "Img",
+        "slug": "img",
+        "dependencies": [],
+        "usage": {
+            "code": "import { Img } from '@bspk/ui/Img';\n\nfunction Example() {\nreturn <Img alt=\"Example alt\" src=\"Example src\" />;\n}"
+        },
+        "css": "",
+        "hasTouchTarget": false,
+        "phase": "Backlog",
+        "generated": false
+    },
+    {
+        "description": "Inline alerts provide contextual feedback messages for typical user actions with a handful of available and flexible alert messages.",
+        "file": "/components/InlineAlert/InlineAlert.tsx",
+        "name": "InlineAlert",
+        "slug": "inline-alert",
+        "dependencies": [],
+        "usage": {
+            "code": "import { InlineAlert } from '@bspk/ui/InlineAlert';\n\nfunction Example() {\nreturn <InlineAlert variant=\"informational\">Example informational inline alert</InlineAlert>;\n}"
+        },
+        "css": "[data-bspk='inline-alert'] {\n    display: flex;\n    align-items: start;\n    justify-content: start;\n    flex-direction: row;\n    gap: var(--spacing-sizing-02);\n\n    [data-txt] {\n        flex: 1;\n    }\n\n    &[data-variant='error'] {\n        color: var(--status-error);\n\n        --first-tone: var(--status-error);\n        --second-tone: var(--status-on-information);\n    }\n\n    &[data-variant='success'] {\n        color: var(--status-success);\n\n        --first-tone: var(--status-success);\n        --second-tone: var(--status-on-success);\n    }\n\n    &[data-variant='warning'] {\n        color: var(--foreground-neutral-on-surface);\n\n        --first-tone: var(--status-warning);\n        --second-tone: var(--status-on-warning);\n    }\n\n    &[data-variant='informational'] {\n        color: var(--status-information);\n\n        --first-tone: var(--status-information);\n        --second-tone: var(--status-on-information);\n    }\n\n    svg {\n        color: var(--first-tone);\n        width: var(--spacing-sizing-05);\n        height: var(--spacing-sizing-05);\n        flex: 0 0 auto;\n\n        [data-second-tone] {\n            fill: var(--second-tone);\n        }\n    }\n}\n\n/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */\n",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": false
+    },
+    {
+        "description": "An input that allows users to enter text, numbers or symbols in a singular line.\n\nFor a more complete example with field usage, see the InputField component.",
+        "file": "/components/Input/Input.tsx",
+        "name": "Input",
+        "slug": "input",
+        "dependencies": [],
+        "usage": {
+            "code": "import { useState } from 'react';\nimport { Input } from '@bspk/ui/Input';\nimport { Field, FieldLabel } from '@bspk/ui/Field';\n\nfunction Example() {\nconst [value, setValue] = useState('');\n\nreturn (\n<Field>\n<FieldLabel>Example Label</FieldLabel>\n<Input name=\"example-name\" onChange={setValue} value={value} />\n<FieldDescription>This is an example input field.</FieldDescription>\n</Field>\n);\n}\n\nfunction ExampleWithAriaLabel() {\nconst [value, setValue] = useState('');\n\nreturn <Input aria-label=\"Example Input\" name=\"example-name\" onChange={setValue} value={value} />;\n}"
+        },
+        "css": "[data-bspk='input'] {\n    --border-color: var(--stroke-neutral-base);\n\n    display: flex;\n    flex-flow: row nowrap;\n    background-color: var(--surface-neutral-t1-base);\n    border: solid 1px var(--border-color);\n    height: var(--field-height);\n    border-radius: var(--radius-sm);\n    padding: 0 var(--field-padding);\n    gap: var(--spacing-sizing-01);\n    width: 100%;\n\n    &[data-show-clear-button] {\n        padding-right: 0;\n    }\n\n    & > * {\n        display: flex;\n        justify-content: center;\n        align-items: center;\n        height: var(--field-height);\n        font: var(--field-font);\n        color: var(--foreground-neutral-on-surface);\n        min-width: 0;\n    }\n\n    &:hover:not(:focus-within) {\n        background:\n            linear-gradient(var(--interactions-hover-opacity), var(--interactions-hover-opacity)),\n            linear-gradient(var(--surface-neutral-t1-base), var(--surface-neutral-t1-base));\n    }\n\n    &:active:not(:focus-within) {\n        background:\n            linear-gradient(var(--interactions-press-opacity), var(--interactions-press-opacity)),\n            linear-gradient(var(--surface-neutral-t1-base), var(--surface-neutral-t1-base));\n    }\n\n    &[data-readonly] {\n        --border-color: var(--stroke-neutral-disabled-light);\n\n        background:\n            linear-gradient(var(--interactions-disabled-opacity), var(--interactions-disabled-opacity)),\n            linear-gradient(var(--surface-neutral-t1-base), var(--surface-neutral-t1-base));\n    }\n\n    &[data-disabled],\n    &:has([data-main-input][disabled]) {\n        --border-color: var(--stroke-neutral-disabled-light);\n\n        background:\n            linear-gradient(var(--interactions-disabled-opacity), var(--interactions-disabled-opacity)),\n            linear-gradient(var(--surface-neutral-t1-base), var(--surface-neutral-t1-base));\n\n        & > * {\n            color: var(--foreground-neutral-disabled-on-surface);\n        }\n    }\n\n    &[data-invalid] {\n        --border-color: var(--status-error);\n    }\n\n    &:focus-within {\n        --border-color: var(--stroke-neutral-focus);\n\n        outline: 1px solid var(--stroke-neutral-focus);\n    }\n\n    &[data-size='small'] {\n        --field-padding: var(--spacing-sizing-02);\n        --field-height: var(--spacing-sizing-08);\n        --field-font: var(--body-small);\n        --field-icon-width: var(--spacing-sizing-04);\n        --field-clear-width: var(--spacing-sizing-05);\n    }\n\n    &[data-size='medium'] {\n        --field-padding: var(--spacing-sizing-03);\n        --field-height: var(--spacing-sizing-10);\n        --field-font: var(--body-base);\n        --field-icon-width: var(--spacing-sizing-05);\n        --field-clear-width: var(--spacing-sizing-05);\n    }\n\n    &[data-size='large'] {\n        --field-padding: var(--spacing-sizing-03);\n        --field-height: var(--spacing-sizing-12);\n        --field-font: var(--body-large);\n        --field-icon-width: var(--spacing-sizing-06);\n        --field-clear-width: var(--spacing-sizing-06);\n    }\n\n    [data-leading],\n    [data-trailing] {\n        position: relative;\n\n        svg {\n            width: var(--field-icon-width);\n        }\n    }\n\n    label {\n        font: var(--labels-small);\n        color: var(--foreground-neutral-on-surface-variant-01);\n    }\n\n    [data-main-input] {\n        flex: 1;\n        background-color: transparent !important;\n        border: none;\n        outline: none;\n        padding: 0;\n        pointer-events: all;\n        text-overflow: ellipsis;\n\n        &[type='number']::-webkit-inner-spin-button,\n        &[type='number']::-webkit-outer-spin-button {\n            display: none;\n        }\n    }\n}\n\n/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */\n",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": false
+    },
+    {
+        "description": "An input that allows users to enter text, numbers or symbols in a singular line. This is a utility element and is not intended to be used directly but rather through the Input, and other components.",
+        "file": "/components/Input/InputElement.tsx",
+        "name": "InputElement",
+        "slug": "input-element",
+        "dependencies": [],
+        "usage": {
+            "code": "import { useState } from 'react';\nimport { InputElement } from '@bspk/ui/InputElement';\nimport { Field, FieldLabel } from '@bspk/ui/Field';\n\nfunction Example() {\nconst [value, setValue] = useState('');\n\nreturn (\n<Field>\n<FieldLabel>Example Label</FieldLabel>\n<InputElement name=\"example-name\" onChange={setValue} value={value} />\n</Field>\n);\n}"
+        },
+        "css": "",
+        "hasTouchTarget": false,
+        "phase": "Utility",
+        "generated": false
+    },
+    {
+        "description": "A field wrapper for the Input component.\n\nThis component takes properties from the FormField and Input components.",
+        "file": "/components/InputField/InputField.tsx",
+        "name": "InputField",
+        "slug": "input-field",
+        "dependencies": [],
+        "css": "",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": true
+    },
+    {
+        "description": "A input element that allows users to either input a numerical value or singularly increase or decrease the values by pressing the (+) or (-).\n\nThe value of the input is a number. The value is clamped to the min and max values if they are provided.\n\nFor a more complete example with field usage, see the InputNumberField component.",
+        "file": "/components/InputNumber/InputNumber.tsx",
+        "name": "InputNumber",
+        "slug": "input-number",
+        "dependencies": [],
+        "usage": {
+            "code": "import { InputNumber } from '@bspk/ui/InputNumber';\n\nfunction ExampleStandalone() {\nconst [state, setState] = React.useState<number | undefined>();\n\nreturn (\n<InputNumber\naria-label=\"Example aria-label\"\nname=\"example-name\"\nonChange={(nextValue) => setState(nextValue)}\nvalue={state}\n/>\n);\n}\n\nfunction ExampleWithField() {\nconst [state, setState] = React.useState<number | undefined>();\n\nreturn (\n<Field>\n<FieldLabel>Example Input Number</FieldLabel>\n<InputNumber\naria-label=\"Example aria-label\"\nname=\"example-name\"\nonChange={(nextValue) => setState(nextValue)}\nvalue={state}\n/>\n<FieldDescription>The input number allows you to increment or decrement a value.</FieldDescription>\n</Field>\n);\n}"
+        },
+        "css": "[data-bspk='input-number'] {\n    // medium is the default size\n    --font: var(--body-base);\n    --height: var(--spacing-sizing-10);\n    --svg-width: var(--spacing-sizing-05);\n    --color: var(--foreground-neutral-on-surface);\n\n    width: 100%;\n    display: flex;\n    flex-flow: row nowrap;\n    font: var(--font);\n    height: var(--height);\n    border: 1px solid var(--stroke-neutral-base);\n    border-radius: var(--radius-sm);\n    background: var(--surface-neutral-t1-base);\n\n    &:focus-within {\n        outline: solid 2px var(--stroke-neutral-focus);\n    }\n\n    [data-divider] {\n        width: 1px;\n        background: var(--stroke-neutral-base);\n        margin: 3px 0;\n\n        // account for border - 3(margin)  * 2 + 2(border)\n        height: calc(var(--height) - 8px);\n    }\n\n    button {\n        width: var(--height);\n        height: calc(var(--height) - 2px);\n        background: none;\n        border: none;\n        cursor: pointer;\n        font: var(--font);\n        flex-shrink: 0;\n\n        svg {\n            width: var(--svg-width);\n        }\n\n        &:focus {\n            outline: none;\n        }\n\n        display: flex;\n        justify-content: center;\n        align-items: center;\n        color: var(--color);\n\n        &:disabled {\n            cursor: not-allowed;\n            color: var(--foreground-neutral-disabled-on-surface);\n        }\n    }\n\n    input {\n        color: var(--color);\n        min-width: 0;\n        display: block;\n        font: var(--font);\n        text-align: center;\n        padding: 0 var(--spacing-sizing-03);\n        background: transparent;\n        border: none;\n        flex-grow: 1;\n\n        &:focus {\n            outline: none;\n        }\n\n        &::-webkit-outer-spin-button,\n        &::-webkit-inner-spin-button {\n            appearance: none;\n            margin: 0;\n        }\n\n        &[type='number'] {\n            appearance: textfield;\n        }\n    }\n\n    &:not([data-disabled], [data-readonly]) {\n        input,\n        button:not(:disabled) {\n            &:hover {\n                background-color: var(--interactions-hover-opacity);\n            }\n\n            &:active {\n                background-color: var(--interactions-press-opacity);\n            }\n        }\n\n        &[data-invalid] {\n            border-color: var(--status-error);\n            outline-color: var(--status-error);\n        }\n    }\n\n    &[data-disabled],\n    &[data-readonly] {\n        --color: var(--foreground-neutral-disabled-on-surface);\n\n        border-color: var(--stroke-neutral-disabled-light);\n        background:\n            linear-gradient(var(--interactions-disabled-opacity), var(--interactions-disabled-opacity)),\n            linear-gradient(var(--surface-neutral-t1-base), var(--surface-neutral-t1-base));\n\n        [data-divider] {\n            border-color: var(--stroke-neutral-disabled-light);\n        }\n    }\n\n    &[data-readonly] {\n        input {\n            color: var(--foreground-neutral-on-surface) !important;\n        }\n    }\n\n    &[data-size='small'] {\n        --font: var(--body-small);\n        --height: var(--spacing-sizing-08);\n    }\n\n    &[data-size='large'] {\n        --font: var(--body-large);\n        --height: var(--spacing-sizing-12);\n        --svg-width: var(--spacing-sizing-06);\n    }\n}\n\n/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */\n",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": false
+    },
+    {
+        "description": "A field wrapper for the InputNumber component.\n\nThis component takes properties from the FormField and InputNumber components.",
+        "file": "/components/InputNumberField/InputNumberField.tsx",
+        "name": "InputNumberField",
+        "slug": "input-number-field",
+        "dependencies": [],
+        "css": "",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": true
+    },
+    {
+        "description": "An input that allows users to enter text phone numbers and select country codes for the phone number.\n\nThis is the base element and if used must contain the field label contextually.\n\nFor a more complete example with field usage, see the InputPhoneField component.",
+        "file": "/components/InputPhone/InputPhone.tsx",
+        "name": "InputPhone",
+        "slug": "input-phone",
+        "dependencies": [],
+        "usage": {
+            "code": "import { InputPhone } from '@bspk/ui/InputPhone';\n\nfunction ExampleStandalone() {\nconst [value, onChange] = React.useState<number | undefined>();\n\nreturn <InputPhone aria-label=\"Phone Number\" initialCountryCode=\"US\" value={value} onChange={onChange} />;\n}\n\nfunction ExampleWithField() {\nconst [value, onChange] = React.useState<number | undefined>();\n\nreturn (\n<Field>\n<FieldLabel>Example Input Phone</FieldLabel>\n<InputPhone aria-label=\"Phone Number\" initialCountryCode=\"US\" value={value} onChange={onChange} />\n<FieldDescription>\nThe phone input allows you to enter a phone number with country code.\n</FieldDescription>\n</Field>\n);\n}"
+        },
+        "css": "[data-bspk='input-phone'] {\n    position: relative;\n    width: 100%;\n}\n\n[data-bspk-owner='input-phone'][data-bspk='input'] {\n    padding-left: 0;\n\n    &:focus-within {\n        outline: none;\n    }\n\n    input:focus-visible {\n        outline: solid 2px var(--stroke-neutral-focus);\n        border-radius: var(--radius-sm);\n    }\n\n    [data-bspk='divider'] {\n        margin: 0 var(--spacing-sizing-02) 0 0;\n    }\n\n    [data-leading] {\n        position: relative;\n\n        [data-bspk='button'] {\n            gap: var(--spacing-sizing-02);\n            padding: 0 var(--spacing-sizing-03);\n            min-height: 100%;\n            margin-right: var(--spacing-sizing-02);\n            position: relative;\n            z-index: 2;\n\n            &::after {\n                content: '';\n                position: absolute;\n                top: var(--spacing-sizing-01);\n                bottom: var(--spacing-sizing-01);\n                right: 0;\n                width: 1px;\n                background-color: var(--stroke-neutral-base);\n                pointer-events: none;\n            }\n        }\n    }\n\n    &[data-size='small'] {\n        [data-leading] {\n            [data-bspk='button'] {\n                padding-left: var(--spacing-sizing-02);\n            }\n        }\n    }\n}\n",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": false
+    },
+    {
+        "description": "A field wrapper for the InputPhone component.\n\nThis component takes properties from the FormField and InputPhone components.",
+        "file": "/components/InputPhoneField/InputPhoneField.tsx",
+        "name": "InputPhoneField",
+        "slug": "input-phone-field",
+        "dependencies": [],
+        "css": "",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": true
+    },
+    {
+        "description": "Utility component used within other components for layout purposes.",
+        "file": "/components/Layout/Layout.tsx",
+        "name": "Layout",
+        "slug": "layout",
+        "dependencies": [],
+        "usage": {
+            "code": "import { Layout } from '@bspk/ui/Layout';\n\nfunction Example() {\nreturn <Layout>Low effort example</Layout>;\n}"
+        },
+        "css": "",
+        "hasTouchTarget": false,
+        "phase": "Utility",
+        "generated": false
+    },
+    {
+        "description": "This is the standalone link component. Inline links can use the native",
+        "file": "/components/Link/Link.tsx",
+        "name": "Link",
+        "slug": "link",
+        "dependencies": [],
+        "usage": {
+            "code": "import { Link } from '@bspk/ui/Link';\n\nfunction Example() {\nreturn <Link href=\"https://bspk.dev\" label=\"Example label\" trailingIcon=\"external\" />;\n}"
+        },
+        "css": "[data-bspk='link'] {\n    display: inline-flex;\n    flex-direction: row;\n    align-items: center;\n    gap: var(--spacing-sizing-01);\n    font: var(--labels-base);\n\n    &[data-size='large'] {\n        font: var(--labels-large);\n    }\n\n    &[data-size='small'] {\n        font: var(--labels-small);\n    }\n\n    svg {\n        width: var(--spacing-sizing-05);\n    }\n}\n\n/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */\n",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": false
+    },
+    {
+        "description": "A hybrid interactive component that is used frequently to organize content and offers a wide range of control and navigation in most experiences.\n\nWith its flexible and simple structure, the list item element is core and can meet the needs of many uses cases.\n\nThe ListItem has three main elements: leading element, label, and trailing element.\n\nLeading elements should be one of the following [Icon](/icons), Img, Avatar.\n\nTrailing elements should be one of the following [Icon](/icons), Checkbox, ListItemButton, Radio, Switch, Tag, Txt.\n\nThe ListItemButton is a more limited Button with context specific options.",
+        "file": "/components/ListItem/ListItem.tsx",
+        "name": "ListItem",
+        "slug": "list-item",
+        "dependencies": [],
+        "usage": {
+            "code": "import { SvgSquare } from '@bspk/icons/Square';\nimport { ListItem } from '@bspk/ui/ListItem';\n\nfunction Example() {\nreturn (\n<ListItem\nlabel=\"Example label\"\nleading={<SvgSquare />}\nsubText=\"Example subtest\"\ntrailing={<ListItem.Button label=\"Click me\" onClick={() => console.log('Hello world')} />}\n/>\n);\n}"
+        },
+        "css": "[data-bspk='list-item'] {\n    display: flex;\n    user-select: none;\n    color: var(--foreground-neutral-on-surface);\n    background-color: var(--surface-neutral-t1-base);\n    height: 100%;\n    overflow: hidden;\n    min-height: var(--list-item-height);\n    flex-direction: row;\n    gap: var(--spacing-sizing-03);\n    padding: var(--spacing-sizing-02);\n    justify-items: stretch;\n    border: unset;\n    margin: unset;\n    text-decoration: unset;\n    width: 100%;\n\n    &[data-width='hug'] {\n        width: auto;\n        max-width: 100%;\n    }\n\n    [data-pseudo='focus'] &,\n    &:focus-visible,\n    &:has(*:focus-visible) {\n        outline: solid 2px var(--stroke-neutral-focus);\n\n        [data-inner] {\n            border-color: transparent;\n        }\n    }\n\n    &:not([data-disabled], [data-readonly]) {\n        &[data-action],\n        &:is(label) {\n            &[data-active],\n            [data-pseudo='hover'] &,\n            &:hover {\n                background-color: var(--interactions-neutral-hover-opacity);\n            }\n\n            [data-pseudo='active'] &,\n        // pressed state\n        &:active {\n                background-color: var(--interactions-neutral-press-opacity);\n            }\n        }\n    }\n\n    [data-leading],\n    [data-item-label],\n    [data-trailing] {\n        min-height: 100%;\n        display: flex;\n        flex-direction: column;\n        justify-content: space-around;\n        flex: 1 1 0;\n        min-width: 0;\n\n        svg {\n            width: 24px;\n            max-width: unset;\n        }\n    }\n\n    [data-leading],\n    [data-trailing] {\n        width: fit-content;\n        flex: 0 0 auto;\n    }\n\n    [data-item-label] {\n        text-align: left;\n\n        [data-text] {\n            width: 100%;\n            font: var(--labels-base);\n            color: var(--foreground-neutral-on-surface);\n        }\n\n        [data-sub-text] {\n            width: 100%;\n            font: var(--body-small);\n            color: var(--foreground-neutral-on-surface-variant-01);\n        }\n    }\n\n    [data-trailing]:has(input) {\n        pointer-events: none;\n    }\n\n    img {\n        height: 36px;\n        width: 36px;\n        max-width: unset;\n    }\n\n    &:is(label) {\n        [data-inner] {\n            border-bottom: 0;\n            gap: var(--spacing-sizing-02);\n        }\n    }\n\n    &[aria-selected='true'] {\n        background-color: var(--surface-brand-primary-highlight);\n    }\n\n    &[data-disabled],\n    &[data-readonly] {\n        [data-text],\n        [data-sub-text] {\n            color: var(--foreground-neutral-disabled-on-surface);\n            cursor: not-allowed;\n        }\n    }\n}\n\n/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */\n",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": false
+    },
+    {
+        "description": "A container housing a simple list of options presented to the customer to select one option at a time.",
+        "file": "/components/Menu/Menu.tsx",
+        "name": "Menu",
+        "slug": "menu",
+        "dependencies": [],
+        "usage": {
+            "code": "import React from 'react';\n\nimport { Menu } from '@bspk/ui/Menu';\n\nfunction Example() {\nreturn (\n<Menu>\n<ListItem label=\"List Item\" />\n<ListItem label=\"List Item\" />\n<ListItem label=\"List Item\" />\n</Menu>\n);\n}"
+        },
+        "css": "[data-bspk-utility='menu'] {\n    --overflow-y: hidden;\n\n    width: 332px;\n    box-sizing: border-box;\n    border: 1px solid var(--stroke-neutral-low);\n    background-color: var(--surface-neutral-t1-base);\n    box-shadow: var(--drop-shadow-float);\n    border-radius: var(--radius-lg);\n    display: flex;\n    flex-direction: column;\n    overflow: hidden auto;\n    height: fit-content;\n    z-index: var(--z-index-dropdown);\n}\n\n/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */\n",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": false
+    },
+    {
+        "description": "Modals display important information that users need to acknowledge. They appear over the interface and block further interactions until an action is selected. Modal is a wrapper around the Dialog component that provides a header and footer for the dialog.",
+        "file": "/components/Modal/Modal.tsx",
+        "name": "Modal",
+        "slug": "modal",
+        "dependencies": [],
+        "usage": {
+            "code": "import React from 'react';\n\nimport { Button } from '@bspk/ui/Button';\nimport { Modal } from '@bspk/ui/Modal';\n\nfunction Example() {\nconst [open, setOpen] = React.useState(false);\n\nreturn (\n<>\n<Button label=\"Open Modal\" onClick={() => setOpen(true)} />\n<Modal\ndescription=\"Example description\"\nheader=\"Example header\"\nonClose={() => setOpen(false)}\nopen={open}\n>\nExample Modal\n</Modal>\n</>\n);\n}"
+        },
+        "css": "[data-bspk='modal'] {\n    max-height: 100%;\n    display: flex;\n    flex-direction: column;\n    gap: var(--spacing-sizing-02);\n    padding: var(--spacing-sizing-05);\n\n    [data-screen-size='small'] & {\n        padding: var(--spacing-sizing-04);\n    }\n\n    > [data-modal-header] {\n        display: flex;\n        flex-direction: row;\n        justify-content: space-between;\n        align-items: center;\n        gap: var(--spacing-sizing-04);\n    }\n\n    [data-modal-main] {\n        flex: 1;\n        overflow-y: auto;\n        max-height: fit-content;\n    }\n\n    > [data-modal-footer] {\n        display: flex;\n        flex-direction: row-reverse;\n        justify-content: flex-start;\n        gap: var(--spacing-sizing-04);\n    }\n}\n\n/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */\n",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": false
+    },
+    {
+        "description": "A row of input fields that are used to input a temporary secure pin code sent to the customer.",
+        "file": "/components/OTPInput/OTPInput.tsx",
+        "name": "OTPInput",
+        "slug": "otp-input",
+        "dependencies": [],
+        "usage": {
+            "code": "import { OTPInput } from '@bspk/ui/OTPInput';\n\nfunction Example() {\nreturn <OTPInput name=\"2-auth-otp\" length={4} value={otpValue} onChange={setOtpValue} />;\n}"
+        },
+        "css": "[data-bspk='otp-input'] {\n    display: flex;\n    flex-direction: row;\n    justify-content: center;\n    gap: var(--spacing-sizing-02);\n    font: var(--font);\n    width: fit-content;\n\n    [data-digit] {\n        display: flex;\n        align-items: center;\n        justify-content: center;\n        border-radius: var(--radius-sm);\n        border: 1px solid var(--stroke-neutral-base);\n        flex-grow: 1;\n        aspect-ratio: 1;\n        width: var(--width);\n        position: relative;\n        outline: none;\n\n        &:hover:not(:focus)::after {\n            background: var(--interaction-hover-opacity);\n            content: '';\n            position: absolute;\n            inset: 0;\n            border-radius: var(--radius-sm);\n        }\n\n        &:active::after {\n            background: var(--interaction-press-opacity);\n            content: '';\n            position: absolute;\n            inset: 0;\n            border-radius: var(--radius-sm);\n        }\n\n        &:focus:not(:active) {\n            outline: solid 2px var(--stroke-neutral-focus);\n\n            &:empty::before {\n                // caret\n                content: '';\n                width: 2px;\n                height: calc(var(--caret-height) - 8px);\n                background: var(--stroke-neutral-high);\n                animation: blink-caret 1s step-end infinite;\n\n                @keyframes blink-caret {\n                    0%,\n                    100% {\n                        opacity: 0;\n                    }\n\n                    50% {\n                        opacity: 1;\n                    }\n                }\n            }\n        }\n    }\n\n    &[data-size='small'] {\n        --width: var(--spacing-sizing-08);\n        --font: var(--subheader-medium);\n        --caret-height: var(--subheader-medium-line-height);\n    }\n\n    &[data-size='medium'] {\n        --width: var(--spacing-sizing-10);\n        --font: var(--subheader-large);\n        --caret-height: var(--subheader-large-line-height);\n    }\n\n    &[data-size='large'] {\n        --width: var(--spacing-sizing-12);\n        --font: var(--subheader-x-large);\n        --caret-height: var(--subheader-x-large-line-height);\n    }\n\n    &[data-invalid] {\n        [data-digit] {\n            border-color: var(--status-error);\n        }\n    }\n}\n\n/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */\n",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": false
+    },
+    {
+        "description": "A visual indicator that displays a series of dots representing the number of pages or elements within a moving carousel or flow. The active page is often differentiated with a usage of a high contrasting color.",
+        "file": "/components/PageControl/PageControl.tsx",
+        "name": "PageControl",
+        "slug": "page-control",
+        "dependencies": [],
+        "usage": {
+            "code": "import { PageControl } from '@bspk/ui/PageControl';\n\nfunction Example() {\nreturn <PageControl value={1} numPages={3} />;\n}"
+        },
+        "css": "[data-bspk='page-control'] {\n    display: flex;\n    flex-direction: row;\n    align-items: center;\n    border-radius: var(--radius-full);\n    border: 1px solid var(--stroke-neutral-low);\n    padding: var(--spacing-sizing-02);\n    gap: var(--spacing-sizing-02);\n    width: fit-content;\n    background-color: var(--surface-neutral-t1-base);\n\n    [data-dot] {\n        background-color: var(--surface-neutral-t3-low);\n        border-radius: var(--radius-full);\n        width: var(--spacing-sizing-02);\n        height: var(--spacing-sizing-02);\n\n        &[data-active] {\n            background-color: var(--foreground-brand-primary);\n        }\n\n        &[data-size='x-small'] {\n            width: var(--spacing-sizing-01);\n            height: var(--spacing-sizing-01);\n        }\n\n        &[data-size='small'] {\n            width: 6px;\n            height: 6px;\n        }\n    }\n\n    &[data-variant='floating'] {\n        box-shadow: var(--drop-shadow-float);\n    }\n}\n\n/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */\n",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": false
+    },
+    {
+        "description": "A navigation component that allows customers to move between a range of listed content within a page into smaller multiple micro pages.",
+        "file": "/components/Pagination/Pagination.tsx",
+        "name": "Pagination",
+        "slug": "pagination",
+        "dependencies": [],
+        "usage": {
+            "code": "import { Pagination } from '@bspk/ui/Pagination';\nimport { usePaginationState } from '@bspk/ui/hooks/usePaginationState';\n\nfunction Example() {\nconst numPages = 10;\n\nconst { currentPage, setCurrentPage } = usePaginationState(numPages);\n\nreturn <Pagination value={currentPage} onChange={setCurrentPage} numPages={numPages} />;\n}"
+        },
+        "css": "[data-bspk='pagination'] {\n    display: flex;\n    flex-direction: row;\n    align-items: center;\n    justify-content: center;\n    gap: var(--spacing-sizing-01);\n    flex: 1;\n\n    [data-bspk='page-input'] {\n        display: flex;\n        flex-direction: row;\n        align-items: center;\n        justify-content: center;\n        gap: var(--spacing-sizing-01);\n\n        [data-bspk='txt'] {\n            color: var(--foreground-neutral-on-surface-variant-02);\n            text-wrap: nowrap;\n        }\n\n        [data-bspk='text-input'] {\n            width: var(--spacing-sizing-12);\n\n            input {\n                text-align: center;\n                flex: 1;\n            }\n        }\n    }\n\n    button[data-bspk-owner='pagination'][data-bspk='button'][data-size='small'] {\n        padding: 6px 0;\n    }\n}\n\n/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */\n",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": false
+    },
+    {
+        "description": "An input field that is specifically built with a show/hide toggle for entering security passwords.\n\nFor a more complete example with field usage, see the PasswordField component.",
+        "file": "/components/Password/Password.tsx",
+        "name": "Password",
+        "slug": "password",
+        "dependencies": [],
+        "usage": {
+            "code": "import { Password } from '@bspk/ui/Password';\nimport { useState } from 'react';\n\nfunction ExampleStandalone() {\nconst [value, setValue] = useState('');\n\nreturn (\n<Password\naria-label=\"Enter password\"\nvalue={value}\nonChange={setValue}\naria-label=\"password\"\nname=\"password\"\n/>\n);\n}\n\nfunction ExampleWithField() {\nconst [value, setValue] = useState('');\nreturn (\n<Field>\n<FieldLabel>Password</FieldLabel>\n<Password value={value} onChange={setValue} aria-label=\"password\" name=\"password\" />\n<FieldDescription>The password field allows you to enter a secure password.</FieldDescription>\n</Field>\n);\n}"
+        },
+        "css": "[data-bspk-owner='password'] {\n    [data-bspk='input'] {\n        padding-right: 0;\n\n        [data-toggle-visibility-button] {\n            font: var(--button-font);\n            height: 100%;\n        }\n\n        &[data-disabled],\n        &[data-readonly] {\n            [data-toggle-visibility-button] {\n                cursor: default;\n            }\n        }\n\n        &[data-size='small'] {\n            --button-font: var(--labels-small);\n        }\n\n        &[data-size='medium'] {\n            --button-font: var(--labels-base);\n        }\n\n        &[data-size='large'] {\n            --button-font: var(--labels-large);\n        }\n    }\n}\n\n/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */\n",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": false
+    },
+    {
+        "description": "A field wrapper for the Password component.\n\nThis component takes properties from the FormField and Password components.",
+        "file": "/components/PasswordField/PasswordField.tsx",
+        "name": "PasswordField",
+        "slug": "password-field",
+        "dependencies": [],
+        "css": "",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": true
+    },
+    {
+        "description": "Brief message that provide additional guidance and helps users perform an action if needed.",
+        "file": "/components/Popover/Popover.tsx",
+        "name": "Popover",
+        "slug": "popover",
+        "dependencies": [],
+        "usage": {
+            "code": "import { useState } from 'react';\nimport { Popover } from '@bspk/ui/Popover';\nimport { Button } from '@bspk/ui/Button';\n\nfunction Example() {\nconst [showPopover, setShowPopover] = useState<boolean>(false);\n\nconst togglePopover = () => setShowPopover(!showPopover);\nconst onPopoverCallToActionClick = () => alert('Action clicked');\n\nreturn (\n<Popover\nplacement=\"bottom\"\ncontent=\"This is a popover content\"\nheader=\"Popover Header\"\ncallToAction={{\nlabel: 'Action',\nonClick: onPopoverCallToActionClick,\n}}\n>\n<Button label=\"Toggle popover\" onClick={togglePopover} />\n</Popover>\n);\n}"
+        },
+        "css": "[data-bspk='popover'] {\n    position: absolute;\n    z-index: var(--z-index-tooltip-popover);\n    background: var(--surface-neutral-t1-base);\n    box-shadow: var(--drop-shadow-float);\n    padding: var(--spacing-sizing-04);\n    border-radius: var(--radius-lg);\n    display: flex;\n    flex-direction: column;\n    max-width: 300px;\n\n    header {\n        display: flex;\n        justify-content: space-between;\n        align-items: center;\n        margin-bottom: var(--spacing-sizing-02);\n        gap: var(--spacing-sizing-04);\n\n        [data-bspk='button'][data-close] {\n            margin-right: calc(var(--spacing-sizing-02) * -1);\n            margin-top: calc(var(--spacing-sizing-02) * -1);\n        }\n    }\n\n    --arrow-size: var(--spacing-sizing-02);\n    --arrow-offset: calc(var(--arrow-size) * -2);\n    --arrow-background-color: var(--surface-neutral-t1-base);\n    --position-left: 0px;\n    --position-top: 0px;\n\n    [data-arrow] {\n        z-index: 1;\n        position: absolute;\n        width: 0;\n        height: 0;\n        border-style: solid;\n        border-width: var(--arrow-size) var(--arrow-size) var(--arrow-size) var(--arrow-size);\n        border-color: transparent;\n    }\n\n    &[data-placement^='top'] {\n        [data-arrow] {\n            bottom: var(--arrow-offset);\n            left: var(--position-left);\n            border-top-color: var(--arrow-background-color);\n            filter: drop-shadow(0 1px 1px var(--shadow-10));\n        }\n    }\n\n    &[data-placement^='right'] {\n        [data-arrow] {\n            top: var(--position-top);\n            margin-left: calc(var(--arrow-offset) * 2);\n            border-right-color: var(--arrow-background-color);\n            filter: drop-shadow(-1px 0 1px var(--shadow-10));\n        }\n    }\n\n    &[data-placement^='bottom'] {\n        [data-arrow] {\n            left: var(--position-left);\n            top: -15px;\n            border-bottom-color: var(--arrow-background-color);\n            filter: drop-shadow(0 -1px 1px var(--shadow-10));\n        }\n    }\n\n    &[data-placement^='left'] {\n        [data-arrow] {\n            top: var(--position-top);\n            right: var(--arrow-offset);\n            border-left-color: var(--arrow-background-color);\n            filter: drop-shadow(1px 0 1px var(--shadow-10));\n        }\n    }\n\n    [data-content] {\n        gap: var(--spacing-sizing-04);\n        display: flex;\n        flex-direction: column;\n    }\n\n    [data-cta-row] {\n        display: flex;\n        align-items: end;\n        gap: var(--spacing-sizing-02);\n        margin: 0 0 0 auto;\n    }\n}\n\n/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */\n",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": false
+    },
+    {
+        "description": "Utility component to render children in the portals container provided by the BaseProvider.\n\nInitial SRR is supported.",
+        "file": "/components/Portal/Portal.tsx",
+        "name": "Portal",
+        "slug": "portal",
+        "dependencies": [],
+        "css": "",
+        "hasTouchTarget": false,
+        "phase": "Utility",
+        "generated": false
+    },
+    {
+        "description": "A progress bar is a horizontal visual indicator that let’s the user know the progression of a task or operation occurring in the background.",
+        "file": "/components/ProgressBar/ProgressBar.tsx",
+        "name": "ProgressBar",
+        "slug": "progress-bar",
+        "dependencies": [],
+        "usage": {
+            "code": "import { ProgressBar } from '@bspk/ui/ProgressBar';\n\nfunction Example() {\nreturn <ProgressBar label=\"Example label\" completion={50} />;\n}"
+        },
+        "css": "[data-bspk='progress-bar'] {\n    /*! --width: is set via inline style */\n\n    display: flex;\n    flex-direction: column;\n    width: 100%;\n    gap: var(--spacing-sizing-01);\n\n    progress {\n        opacity: 0;\n        position: absolute;\n    }\n\n    [data-bar] {\n        width: 100%;\n        height: var(--spacing-sizing-02);\n        background-color: var(--surface-neutral-t3-low);\n        border-radius: var(--radius-sm);\n\n        &::after {\n            content: '';\n            display: block;\n            height: 100%;\n            background-color: var(--foreground-brand-primary);\n            border-radius: var(--radius-sm);\n            width: var(--width);\n            transition: width 0.3s;\n        }\n    }\n\n    &[data-size='small'] {\n        [data-bar] {\n            height: var(--spacing-sizing-01);\n        }\n    }\n\n    &[data-success='color'] {\n        [data-bar]::after {\n            background-color: var(--status-success);\n        }\n    }\n\n    label {\n        font-size: var(--labels-small);\n        width: 100%;\n        text-align: center;\n    }\n\n    &[data-align='left'] label {\n        text-align: left;\n    }\n}\n\n/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */\n",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": false
+    },
+    {
+        "description": "Rotating circle or pill that indicates the status or state of completion for a process that’s part of a user flow.",
+        "file": "/components/ProgressCircle/ProgressCircle.tsx",
+        "name": "ProgressCircle",
+        "slug": "progress-circle",
+        "dependencies": [],
+        "usage": {
+            "code": "import { ProgressCircle } from '@bspk/ui/ProgressCircle';\n\nfunction Example() {\nreturn <ProgressCircle label=\"Example label\" />;\n}"
+        },
+        "css": "[data-bspk='progress-circle'] {\n    --animation-speed: 1.5s;\n\n    display: flex;\n    flex-direction: column;\n    gap: var(--spacing-sizing-02);\n    align-items: center;\n    justify-content: center;\n    width: fit-content;\n    max-width: 100%;\n\n    &[data-label-position='top'] {\n        flex-direction: column-reverse;\n    }\n\n    &[data-label-position='left'] {\n        flex-direction: row-reverse;\n    }\n\n    &[data-label-position='right'] {\n        flex-direction: row;\n    }\n\n    svg {\n        color: var(--foreground-brand-secondary);\n        animation: spin var(--animation-speed) linear infinite;\n    }\n\n    @keyframes spin {\n        100% {\n            transform: rotate(360deg);\n        }\n\n        0% {\n            transform: rotate(0deg);\n        }\n    }\n\n    &[data-size='small'] {\n        svg {\n            width: 32px;\n        }\n    }\n\n    &[data-size='medium'] {\n        svg {\n            width: 40px;\n        }\n    }\n\n    &[data-size='large'] {\n        svg {\n            width: 48px;\n        }\n    }\n}\n\n/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */\n",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": false
+    },
+    {
+        "description": "A progress stepper is a horizontal visual indicator that let’s the user know the progression of the current process.",
+        "file": "/components/ProgressionStepper/ProgressionStepper.tsx",
+        "name": "ProgressionStepper",
+        "slug": "progression-stepper",
+        "dependencies": [],
+        "usage": {
+            "code": "import { ProgressionStepper } from '@bspk/ui/ProgressionStepper';\n\nfunction Example() {\nreturn <ProgressionStepper steps={[{ name: 'Step 1' }, { name: 'Step 2' }, { name: 'Step 3' }]} />;\n}"
+        },
+        "css": "[data-bspk='progression-stepper'] {\n    width: 100%;\n\n    --circle-width: var(--spacing-sizing-09);\n    --active-background-color: var(--surface-brand-primary);\n    --active-foreground-color: var(--foreground-brand-on-primary);\n    --inactive-background-color: var(--surface-neutral-t3-low);\n    --inactive-foreground-color: var(--foreground-neutral-on-surface);\n\n    ol {\n        display: flex;\n        flex-direction: row;\n        width: 100%;\n        margin: 0;\n        padding: 0;\n\n        li {\n            display: flex;\n            flex-direction: column;\n            list-style: none;\n            margin: 0;\n            padding: 0;\n            gap: var(--spacing-sizing-02);\n            flex-grow: 1;\n\n            [data-line-circle] {\n                display: flex;\n                justify-content: center;\n                align-items: center;\n                flex-direction: row;\n\n                [data-line] {\n                    background-color: var(--inactive-background-color);\n                    height: 2px;\n                    flex-grow: 1;\n                }\n\n                [data-circle] {\n                    display: flex;\n                    justify-content: center;\n                    align-items: center;\n                    width: var(--circle-width);\n                    height: var(--circle-width);\n                    border-radius: 50%;\n                    background-color: none;\n                    border: 2px solid var(--inactive-background-color);\n                    font: var(--labels-large);\n\n                    svg {\n                        display: none;\n                        width: var(--spacing-sizing-06);\n                        height: var(--spacing-sizing-06);\n                    }\n                }\n            }\n\n            [data-content] {\n                display: flex;\n                flex-direction: row;\n                align-items: center;\n                justify-content: center;\n\n                [data-variant='horizontal'] & {\n                    align-items: center;\n                    justify-content: center;\n                    width: 100%;\n                }\n\n                padding: 0 var(--spacing-sizing-10);\n                font: var(--body-small);\n                text-align: center;\n            }\n\n            &:first-of-type {\n                [data-line='before'] {\n                    visibility: hidden;\n                }\n            }\n\n            &:last-of-type {\n                [data-line='after'] {\n                    visibility: hidden;\n                }\n            }\n\n            &[data-status='complete'] {\n                [data-line] {\n                    background-color: var(--active-background-color);\n                }\n\n                [data-circle] {\n                    background-color: var(--active-background-color);\n                    border: 1px solid var(--active-background-color);\n                    color: var(--active-foreground-color);\n\n                    span {\n                        display: none;\n                    }\n\n                    svg {\n                        display: block;\n                    }\n                }\n            }\n\n            &[data-status='current'] {\n                [data-line='before'] {\n                    background-color: var(--active-background-color);\n                }\n\n                [data-circle] {\n                    border-color: var(--active-background-color);\n                }\n            }\n        }\n    }\n\n    &[data-variant='vertical'] {\n        ol {\n            flex-direction: column;\n        }\n\n        li {\n            flex-direction: row;\n\n            [data-line-circle] {\n                flex-direction: column;\n                width: var(--circle-width);\n\n                [data-line] {\n                    width: 2px;\n                    height: auto;\n                }\n            }\n\n            [data-content] {\n                flex-direction: column;\n                padding: var(--spacing-sizing-10) 0;\n            }\n        }\n    }\n\n    &[data-variant='widget'] {\n        --circle-width: var(--spacing-sizing-05);\n\n        label {\n            display: flex;\n            flex-direction: column;\n            gap: var(--spacing-sizing-02);\n            margin-bottom: var(--spacing-sizing-03);\n            font: var(--body-small);\n\n            [data-title] {\n                font: var(--labels-base);\n                color: var(--foreground-neutral-on-surface);\n            }\n\n            [data-subtitle] {\n                font: var(--body-x-small);\n                color: var(--foreground-neutral-on-surface-variant-02);\n            }\n        }\n\n        ol {\n            align-items: center;\n            min-height: var(--spacing-sizing-09);\n\n            li {\n                flex-grow: 1;\n\n                [data-line-circle] {\n                    [data-line='after'] {\n                        flex-grow: 1;\n                    }\n\n                    [data-line='before'] {\n                        display: none;\n                    }\n                }\n\n                &:last-of-type {\n                    flex-grow: 0;\n\n                    [data-line='after'] {\n                        display: none;\n                    }\n                }\n\n                &[data-status='current'] {\n                    --circle-width: var(--spacing-sizing-09);\n                }\n\n                &[data-status='incomplete'] {\n                    [data-circle] {\n                        span {\n                            display: none;\n                        }\n                    }\n                }\n            }\n        }\n    }\n}\n\n/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */\n",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": false
+    },
+    {
+        "description": "Component description coming soon.",
+        "file": "/components/ProgressionStepperBar/ProgressionStepperBar.tsx",
+        "name": "ProgressionStepperBar",
+        "slug": "progression-stepper-bar",
+        "dependencies": [],
+        "css": "[data-bspk='progression-stepper-bar'] {\n    &[data-size='large'] {\n        --height: var(--spacing-sizing-02);\n    }\n\n    &[data-size='small'] {\n        --height: var(--spacing-sizing-01);\n    }\n\n    display: flex;\n    width: 100%;\n    flex-direction: column;\n    gap: var(--spacing-sizing-01);\n\n    [data-steps] {\n        display: flex;\n        flex-direction: row;\n        gap: var(--spacing-sizing-01);\n        height: var(--height);\n\n        [data-step] {\n            width: 100%;\n            height: var(--height);\n            min-width: var(--spacing-sizing-02);\n            border-radius: var(--radius-sm);\n            background: var(--surface-neutral-t3-low);\n\n            &[data-complete] {\n                background: var(--surface-brand-primary);\n            }\n        }\n    }\n\n    [data-label] {\n        font: var(--labels-small);\n    }\n}\n\n/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */\n",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": false
+    },
+    {
+        "description": "A round control that allows user to choose one option from a set. This is the base element and if used directly you must wrap it with a label. This will more often be used in the RadioOption or RadioGroup component.",
+        "file": "/components/Radio/Radio.tsx",
+        "name": "Radio",
+        "slug": "radio",
+        "dependencies": [],
+        "css": "[data-bspk='radio'] {\n    display: block;\n    position: relative;\n    width: var(--spacing-sizing-06);\n    aspect-ratio: 1/1;\n    padding: 2px;\n\n    input[type='radio'] {\n        position: absolute;\n        opacity: 0;\n        z-index: 2;\n        width: 100%;\n        height: 100%;\n        top: 0;\n        left: 0;\n        cursor: pointer;\n    }\n\n    span {\n        --stroke: var(--stroke-neutral-base);\n        --inner: var(--foreground-brand-primary);\n        --background: none;\n\n        position: relative;\n        z-index: 1;\n        display: flex;\n        width: var(--spacing-sizing-05);\n        aspect-ratio: 1/1;\n        border-radius: 50%;\n        border: 2px solid var(--stroke);\n        align-items: center;\n        flex-direction: column;\n        justify-content: center;\n        background: var(--background);\n\n        &::before {\n            content: '';\n            display: block;\n            width: var(--spacing-sizing-03);\n            aspect-ratio: 1/1;\n            background: var(--inner);\n            border-radius: var(--radius-full);\n            opacity: 0;\n        }\n    }\n\n    input[type='radio']:not(:disabled) {\n        &:hover + span {\n            --background: var(--interactions-neutral-hover-opacity);\n        }\n\n        &:active + span {\n            --background: var(--interactions-neutral-press-opacity);\n        }\n\n        &[data-invalid] + span {\n            --stroke: var(--status-error);\n            --inner: var(--status-error);\n        }\n    }\n\n    input[type='radio']:checked + span {\n        --stroke: var(--stroke-brand-primary);\n\n        &::before {\n            opacity: 1;\n        }\n    }\n\n    input[type='radio']:disabled {\n        pointer-events: none;\n\n        & + span {\n            --stroke: var(--stroke-neutral-interactions-disabled-light);\n            --inner: var(--foreground-neutral-disabled-on-surface);\n        }\n    }\n}\n\n/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */\n",
+        "hasTouchTarget": false,
+        "phase": "Utility",
+        "generated": false
+    },
+    {
+        "description": "A group of radios that allows users to choose one or more items from a list or turn an feature on or off.",
+        "file": "/components/RadioGroup/RadioGroup.tsx",
+        "name": "RadioGroup",
+        "slug": "radio-group",
+        "dependencies": [],
+        "usage": {
+            "code": "import { useState } from 'react';\nimport { RadioGroup } from '@bspk/ui/RadioGroup';\n\nfunction Example() {\nconst [selectedOption, setSelectedOption] = useState<string>('1');\n\nreturn (\n<RadioGroup\nname=\"example-name\"\nonChange={(nextValue) => setSelectedOption(nextValue)}\noptions={[\n{\nvalue: '1',\nlabel: 'Option 1',\ndescription: 'Description here',\n},\n{ value: '2', label: 'Option 2' },\n{ value: '3', label: 'Option 3' },\n]}\nvalue={selectedOption}\n/>\n);\n}"
+        },
+        "css": "[data-bspk='radio-group'] {\n    display: flex;\n    flex-direction: column;\n    gap: 0;\n    max-width: 100%;\n\n    --list-item-height: 'auto';\n}\n",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": false
+    },
+    {
+        "description": "A field wrapper for the RadioGroup component.\n\nThis component takes properties from the FormField and RadioGroup components.",
+        "file": "/components/RadioGroupField/RadioGroupField.tsx",
+        "name": "RadioGroupField",
+        "slug": "radio-group-field",
+        "dependencies": [],
+        "css": "",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": true
+    },
+    {
+        "description": "A control that allows users to choose one or more items from a list or turn an feature on or off.\n\nIf only a radio button is needed, consider using the Radio component directly.",
+        "file": "/components/RadioOption/RadioOption.tsx",
+        "name": "RadioOption",
+        "slug": "radio-option",
+        "dependencies": [],
+        "css": "",
+        "hasTouchTarget": false,
+        "phase": "Utility",
+        "generated": false
+    },
+    {
+        "description": "Descriptive and interactive controls that allow customers to indicate their feelings about an experience or product on a scale of 1 to 5. Half sizes are displayed when interactive is false.",
+        "file": "/components/Rating/Rating.tsx",
+        "name": "Rating",
+        "slug": "rating",
+        "dependencies": [],
+        "usage": {
+            "code": "import { Rating } from '@bspk/ui/Rating';\n\nfunction Example() {\nreturn <Rating value={4.5} />;\n}"
+        },
+        "css": "[data-bspk='rating'] {\n    display: flex;\n    flex-direction: row;\n    align-items: center;\n    width: fit-content;\n\n    &[data-size='small'] {\n        [data-star] {\n            width: var(--spacing-sizing-06);\n            height: var(--spacing-sizing-06);\n        }\n\n        svg {\n            width: var(--spacing-sizing-04);\n            height: var(--spacing-sizing-04);\n        }\n    }\n\n    &[data-size='medium'] {\n        [data-star] {\n            width: var(--spacing-sizing-08);\n            height: var(--spacing-sizing-08);\n        }\n\n        svg {\n            width: var(--spacing-sizing-06);\n            height: var(--spacing-sizing-06);\n        }\n    }\n\n    &[data-size='large'] {\n        [data-star] {\n            width: var(--spacing-sizing-10);\n            height: var(--spacing-sizing-10);\n        }\n\n        svg {\n            width: var(--spacing-sizing-08);\n            height: var(--spacing-sizing-08);\n        }\n    }\n\n    [data-star] {\n        outline: none;\n        cursor: default;\n        background: none;\n        border: none;\n        display: flex;\n        align-items: center;\n        justify-content: center;\n        position: relative;\n        color: var(--surface-neutral-t3-low);\n\n        &:is(button) {\n            cursor: pointer;\n\n            &:hover {\n                transform: scale(1.2);\n            }\n\n            &:focus-visible {\n                outline: 1px solid var(--stroke-neutral-focus);\n                border-color: var(--stroke-neutral-focus);\n                margin-bottom: 1px;\n            }\n        }\n\n        &[data-fill='full'] {\n            color: var(--status-warning);\n        }\n\n        // half star fill\n        [data-fill-half] {\n            position: absolute;\n            inset: 0 50% 0 0;\n            overflow: hidden;\n\n            [data-star] {\n                color: var(--status-warning);\n            }\n        }\n    }\n}\n\n/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */\n",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": false
+    },
+    {
+        "description": "A temporary effect or overlay that can be applied to a user interface to make content less prominent or to draw attention to a modal or sheet.",
+        "file": "/components/Scrim/Scrim.tsx",
+        "name": "Scrim",
+        "slug": "scrim",
+        "dependencies": [],
+        "css": "[data-bspk='scrim'] {\n    position: fixed;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    z-index: var(--z-index-scrim);\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    background-color: var(--background-scrim);\n    animation-name: fade-in;\n    animation-duration: 1s;\n    animation-iteration-count: 1;\n    animation-fill-mode: forwards;\n\n    @keyframes fade-in {\n        0% {\n            opacity: 0;\n        }\n\n        100% {\n            opacity: 1;\n        }\n    }\n}\n\n/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */\n",
+        "hasTouchTarget": false,
+        "phase": "Utility",
+        "generated": false
+    },
+    {
+        "description": "An input field that allows customers to input search queries and retrieve results.",
+        "file": "/components/SearchBar/SearchBar.tsx",
+        "name": "SearchBar",
+        "slug": "search-bar",
+        "dependencies": [],
+        "usage": {
+            "code": "import { useState } from 'react';\nimport { SearchBar } from '@bspk/ui/SearchBar';\n\nfunction Example() {\nconst [searchText, setSearchText] = useState('');\n\nreturn (\n<SearchBar\naria-label=\"Example aria-label\"\nitems={[\n{ label: 'Apple Pie' },\n{ label: 'Banana Split' },\n{ label: 'Cherry Tart' },\n{ label: 'Dragonfruit Sorbet' },\n{ label: 'Elderberry Jam' },\n{ label: 'Fig Newton' },\n{ label: 'Grape Soda' },\n{ label: 'Honeydew Smoothie' },\n{ label: 'Ice Cream Sandwich' },\n{ label: 'Jackfruit Pudding' },\n]}\nname=\"example-name\"\nplaceholder=\"Search\"\nvalue={searchText}\nonChange={setSearchText}\n/>\n);\n}"
+        },
+        "css": "[data-bspk='search-bar'] {\n    display: flex;\n    width: 100%;\n    min-width: 100px;\n}\n\n[data-bspk='no-items-found'] {\n    display: flex;\n    flex-direction: column;\n    padding: var(--spacing-sizing-08) var(--spacing-sizing-04);\n    align-items: center;\n    justify-content: center;\n    gap: var(--spacing-sizing-03);\n}\n\n/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */\n",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": false
+    },
+    {
+        "description": "Navigation tool that organizes content across different screens and views.",
+        "file": "/components/SegmentedControl/SegmentedControl.tsx",
+        "name": "SegmentedControl",
+        "slug": "segmented-control",
+        "dependencies": [],
+        "usage": {
+            "code": "import { useState } from 'react';\nimport { SegmentedControl } from '@bspk/ui/SegmentedControl';\n\nfunction Example() {\nconst [selectedOption, setSelectedOption] = useState<string>();\n\nreturn (\n<SegmentedControl\nonChange={setSelectedOption}\noptions={[\n{ value: '1', label: 'Option 1' },\n{ value: '2', label: 'Option 2' },\n{ value: '3', label: 'Option 3' },\n]}\nvalue={selectedOption}\n/>\n);\n}"
+        },
+        "css": "ul[data-bspk='segmented-control'] {\n    background: var(--surface-neutral-t3-low);\n    border-radius: var(--radius-sm);\n    padding: var(--spacing-sizing-01);\n\n    &[data-width='fill'] {\n        margin: 0 var(--spacing-sizing-04);\n    }\n\n    --padding: var(--spacing-sizing-04);\n\n    &[data-size='small'] {\n        --padding: var(--spacing-sizing-03);\n    }\n\n    &[data-size='large'] {\n        --padding: var(--spacing-sizing-05);\n    }\n\n    %active {\n        background: var(--interactions-neutral-hover-opacity);\n\n        &[aria-selected='true'] {\n            background:\n                linear-gradient(var(--interactions-neutral-hover-opacity), var(--interactions-neutral-hover-opacity)),\n                linear-gradient(var(--surface-neutral-t1-base), var(--surface-neutral-t1-base));\n        }\n    }\n\n    li {\n        color: var(--foreground-neutral-on-surface);\n        padding: 0 var(--padding);\n        border-radius: var(--radius-sm);\n\n        &:has([data-icon]) {\n            // smaller padding for icon-only items\n            padding: 0 calc(var(--padding) - var(--spacing-sizing-01));\n\n            &:has([data-label]) {\n                padding-right: var(--padding);\n            }\n        }\n\n        &:not([aria-disabled]) {\n            &[aria-selected='true'] {\n                background: var(--surface-neutral-t1-base);\n                box-shadow:\n                    0 0 1px 0 var(--shadow-variant-03),\n                    0 1px 1px 0 var(--shadow-variant-05);\n            }\n\n            &:hover {\n                @extend %active;\n            }\n\n            &:active {\n                background: var(--interactions-neutral-press-opacity);\n            }\n        }\n\n        &[aria-disabled] {\n            color: var(--foreground-neutral-disabled-on-surface);\n            cursor: not-allowed;\n        }\n    }\n\n    &:focus-within {\n        li:not([aria-disabled])[data-active] {\n            @extend %active;\n        }\n    }\n}\n\n// /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */\n",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": false
+    },
+    {
+        "description": "A field element that allows users to select one option from a list of available choices.\n\nFor a more complete example with field usage, see the SelectField component.",
+        "file": "/components/Select/Select.tsx",
+        "name": "Select",
+        "slug": "select",
+        "dependencies": [],
+        "usage": {
+            "code": "import { Select } from '@bspk/ui/Select';\n\nconst OPTIONS = [\n{ id: '1', label: 'Option 1' },\n{ id: '2', label: 'Option 2' },\n{ id: '3', label: 'Option 3' },\n{ id: '4', label: 'Option 4' },\n{ id: '5', label: 'Option 5' },\n{ id: '6', label: 'Option 6' },\n];\n\nfunction ExampleStandalone() {\nconst [selected, setSelected] = React.useState<string[]>([]);\n\nreturn (\n<Select\naria-label=\"Select an option\"\nitemCount={5}\nname=\"example-select\"\nonChange={setSelected}\noptions={OPTIONS}\nplaceholder=\"Select an option\"\nsize=\"medium\"\nvalue={selected}\n/>\n);\n}\n\nfunction ExampleWithField() {\nconst [selected, setSelected] = React.useState<string[]>([]);\nreturn (\n<Field>\n<FieldLabel>Select an option</FieldLabel>\n<Select\nitemCount={5}\nname=\"example-select\"\nonChange={setSelected}\noptions={OPTIONS}\nplaceholder=\"Select an option\"\nsize=\"medium\"\nvalue={selected}\n/>\n<FieldDescription>\nThe select allows you to choose one option from a list of options.\n</FieldDescription>\n</Field>\n);\n}"
+        },
+        "css": "[data-bspk='select'] {\n    // default -- size medium not disabled or readonly\n\n    --select-background: var(--surface-neutral-t1-base);\n    --select-border-color: var(--stroke-neutral-base);\n    --select-text-color: var(--foreground-neutral-on-surface);\n    --select-height: var(--spacing-sizing-10);\n    --select-font: var(--body-base);\n    --select-clear-height: var(--spacing-sizing-05);\n    --select-padding: var(--spacing-sizing-03);\n    --select-icon-width: var(--spacing-sizing-05);\n\n    overflow: hidden;\n    position: relative;\n    width: 100%;\n    outline: unset;\n    min-height: var(--select-height);\n    max-height: var(--select-height);\n    display: flex;\n    flex-direction: row;\n    align-items: center;\n    gap: var(--spacing-sizing-02);\n    flex-grow: 0;\n    flex-shrink: 0;\n    text-align: left;\n    font: var(--select-font);\n    border: 1px solid var(--select-border-color);\n    border-radius: var(--radius-sm);\n    background: var(--select-background);\n    padding: 0 var(--select-padding);\n    cursor: pointer;\n\n    [data-input] {\n        position: absolute;\n        opacity: 0;\n        inset: 0;\n        cursor: pointer;\n    }\n\n    [data-bspk='list-item'] {\n        background: transparent;\n    }\n\n    [data-bspk='list-item'] [data-item-label] [data-text] {\n        font: var(--select-font);\n        color: var(--select-text-color);\n    }\n\n    [data-icon] {\n        display: flex;\n        flex-direction: column;\n        justify-content: center;\n        pointer-events: none;\n\n        svg {\n            transform: rotate(90deg);\n            width: var(--select-icon-width);\n        }\n    }\n\n    &[data-size='small'] {\n        --select-height: var(--spacing-sizing-08);\n        --select-font: var(--body-small);\n        --select-clear-height: var(--spacing-sizing-05);\n        --select-padding: var(--spacing-sizing-02);\n        --select-icon-width: var(--spacing-sizing-05);\n    }\n\n    &[data-size='large'] {\n        --select-height: var(--spacing-sizing-12);\n        --select-font: var(--body-large);\n        --select-clear-height: var(--spacing-sizing-06);\n        --select-icon-width: var(--spacing-sizing-06);\n    }\n\n    &[aria-disabled],\n    &[aria-readonly]:not([data-empty]) {\n        --select-text-color: var(--foreground-neutral-disabled-on-surface);\n        --select-border-color: var(--stroke-neutral-disabled-light);\n        --select-background:\n            linear-gradient(var(--interactions-disabled-opacity), var(--interactions-disabled-opacity)),\n            linear-gradient(var(--surface-neutral-t1-base), var(--surface-neutral-t1-base));\n\n        cursor: not-allowed;\n\n        &[aria-readonly]:not([data-empty]) {\n            --select-text-color: var(--foreground-neutral-on-surface);\n        }\n    }\n\n    &:not([aria-disabled], [aria-readonly]) {\n        &:focus-within {\n            --select-border-color: var(--stroke-neutral-focus);\n\n            border-width: 1px;\n            outline: 1px solid var(--stroke-neutral-focus);\n        }\n\n        &:hover {\n            --select-background:\n                linear-gradient(var(--interactions-neutral-hover-opacity), var(--interactions-neutral-hover-opacity)),\n                linear-gradient(var(--surface-neutral-t1-base), var(--surface-neutral-t1-base));\n        }\n\n        &:active {\n            --select-background:\n                linear-gradient(var(--interactions-neutral-press-opacity), var(--interactions-neutral-press-opacity)),\n                linear-gradient(var(--surface-neutral-t1-base), var(--surface-neutral-t1-base));\n        }\n    }\n\n    &[data-invalid] {\n        --select-border-color: var(--status-error);\n    }\n}\n\n/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */\n",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": false
+    },
+    {
+        "description": "A field wrapper for the Select component.\n\nThis component takes properties from the FormField and Select components.",
+        "file": "/components/SelectField/SelectField.tsx",
+        "name": "SelectField",
+        "slug": "select-field",
+        "dependencies": [],
+        "css": "",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": true
+    },
+    {
+        "description": "A visual placeholder for an element while it is in a loading state.\n\nThe data for your components might not be immediately available. You can improve the perceived responsiveness of the page by using skeletons. It feels like things are happening immediately, then the information is incrementally displayed on the screen.\n\nThis component can be used to create skeletons for various types of content, such as images or profiles.\n\nYou can use this component directly or use the specific use case components: SkeletonPhoto, SkeletonProfile, SkeletonRectangular, SkeletonText, SkeletonThumbnail, SkeletonCircular.",
+        "file": "/components/Skeleton/Skeleton.tsx",
+        "name": "Skeleton",
+        "slug": "skeleton",
+        "dependencies": [],
+        "usage": {
+            "code": "import { Skeleton } from '@bspk/ui/skeleton';\n\nfunction Example(item: { title: string; src: string } | null) {\nreturn (\n<Skeleton variant=\"photo\" width={210} height={118}>\n<img\nstyle={{\nwidth: 210,\nheight: 118,\n}}\nalt={item.title}\nsrc={item.src}\n/>\n</Skeleton>\n);\n}",
+            "description": "This example shows a skeleton loading state for an image but can be used for any element."
+        },
+        "css": "",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": false
+    },
+    {
+        "description": "A visual placeholder for an text while it is in a loading state.",
+        "file": "/components/SkeletonText/SkeletonText.tsx",
+        "name": "SkeletonText",
+        "slug": "skeleton-text",
+        "dependencies": [],
+        "usage": {
+            "code": "import { SkeletonText } from '@bspk/ui/SkeletonText';\n\nfunction Example(item: { content: string } | null) {\nreturn (\n<SkeletonText textLines={1} textVariant=\"body-base\">\n<Txt as=\"p\" variant=\"body-base\">\n{item?.content}\n</Txt>\n</SkeletonText>\n);\n}",
+            "description": "This example shows a skeleton loading state for some text but can be used for any element."
+        },
+        "css": "",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": false
+    },
+    {
+        "description": "A control element that allows customers to select a value or adjust a setting by moving the handle along a horizontal track.",
+        "file": "/components/Slider/Slider.tsx",
+        "name": "Slider",
+        "slug": "slider",
+        "dependencies": [],
+        "usage": {
+            "code": "import { Slider } from '@bspk/ui/Slider';\nimport { useState } from 'react';\n\nfunction Example() {\nconst [value, setValue] = useState(50);\n\nreturn <Slider value={value} min={0} max={100} label=\"Slider Example\" onChange={setValue} />;\n}"
+        },
+        "css": "[data-bspk='slider'],\n[data-bspk='range-slider'] {\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    width: 100%;\n    gap: 10px;\n\n    [data-top-labels],\n    [data-bottom-labels] {\n        display: flex;\n        flex-direction: row;\n        justify-content: space-between;\n        user-select: none;\n    }\n\n    [data-top-labels] {\n        color: var(--foreground-neutral-on-surface-variant-01);\n    }\n\n    [data-bottom-labels] {\n        color: var(--foreground-neutral-on-surface-variant-02);\n    }\n\n    [data-slider-parent] {\n        display: flex;\n        flex-direction: column;\n        justify-content: center;\n        position: relative;\n    }\n\n    [data-slider-body] {\n        position: relative;\n        display: flex;\n        flex-direction: row;\n        align-items: center;\n    }\n\n    [data-slider-background] {\n        position: absolute;\n        background: var(--surface-neutral-t3-low);\n        height: var(--spacing-sizing-01);\n        border-radius: 2px;\n        left: 0;\n        right: 0;\n        cursor: pointer;\n    }\n\n    [data-slider-fill] {\n        position: absolute;\n        height: var(--spacing-sizing-01);\n        background-color: var(--foreground-brand-primary);\n        border-radius: 2px;\n        left: 0;\n        cursor: pointer;\n    }\n\n    [data-slider-knob] {\n        position: absolute;\n        border: 1px solid var(--stroke-neutral-low);\n        border-radius: 50%;\n        width: var(--spacing-sizing-04);\n        height: var(--spacing-sizing-04);\n        background-color: white;\n        box-sizing: border-box;\n        box-shadow: 0 0 3px 0 rgba(0 0 0 / 32%);\n        cursor: pointer;\n    }\n\n    [data-slider-knob]:focus-visible {\n        outline: 2px solid var(--stroke-neutral-focus);\n    }\n\n    [data-interval-dot] {\n        position: absolute;\n        width: 2px;\n        height: 2px;\n        background-color: var(--foreground-neutral-on-surface-variant-01);\n        transform: translate(-50%) rotate(45deg);\n    }\n\n    [data-interval-dot][data-filled-section] {\n        background-color: var(--foreground-brand-on-primary);\n    }\n\n    &[data-disabled],\n    &[data-readonly] {\n        [data-slider-knob] {\n            cursor: default;\n        }\n\n        [data-interval-dot] {\n            background-color: var(--foreground-neutral-disabled-on-surface);\n        }\n\n        [data-interval-dot][data-filled-section] {\n            background-color: var(--foreground-brand-on-primary);\n        }\n\n        [data-slider-fill] {\n            background-color: var(--foreground-neutral-disabled-on-surface);\n            cursor: default;\n        }\n\n        [data-slider-background] {\n            background: var(--interactions-disabled-opacity);\n            cursor: default;\n        }\n    }\n\n    &[data-disabled] {\n        [data-bottom-labels] {\n            color: var(--foreground-neutral-disabled-on-surface);\n        }\n\n        [data-value-label] {\n            color: var(--foreground-neutral-disabled-on-surface);\n        }\n    }\n}\n\n/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */\n",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": false
+    },
+    {
+        "description": "Snackbars are intended to provide feedback about an action. Because of focus trap these will interrupt the customer experience.",
+        "file": "/components/Snackbar/Snackbar.tsx",
+        "name": "Snackbar",
+        "slug": "snackbar",
+        "dependencies": [],
+        "usage": {
+            "code": "import { Snackbar } from '@bspk/ui/Snackbar';\nimport { Button } from '@bspk/ui/Button';\nimport { useState } from 'react';\n\nfunction ExampleComponent(props) {\nconst [snackbarOpen, setSnackbarOpen] = useState(false);\n\nreturn (\n<>\n<Button label=\"Show snackbar\" onClick={() => setSnackbarOpen(true)} size=\"medium\" title=\"Snackbar\" />\n<Snackbar text=\"I am an example.\" open={snackbarOpen} onClose={() => setSnackbarOpen(false)} />\n</>\n);\n}"
+        },
+        "css": "[data-bspk='snackbar'] {\n    position: fixed;\n    z-index: var(--z-index-dialog);\n    display: flex;\n    flex-direction: column-reverse;\n    max-height: 100%;\n    overflow: hidden;\n    inset: 0;\n    align-items: center;\n    gap: var(--spacing-sizing-02);\n    pointer-events: none;\n    padding: var(--spacing-sizing-02);\n\n    [data-snackbar-content] {\n        pointer-events: auto;\n        display: flex;\n        flex-direction: row;\n        align-items: center;\n        justify-content: space-between;\n        border-radius: var(--radius-md);\n        padding: var(--spacing-sizing-02) var(--spacing-sizing-02) var(--spacing-sizing-02) var(--spacing-sizing-04);\n        gap: var(--spacing-sizing-03);\n        width: 600px;\n        box-shadow:\n            0 0 1px 0 var(--shadow-variant-05),\n            0 0 12px 0 var(--shadow-variant-03);\n        background-color: var(--surface-neutral-inverse);\n        color: var(--foreground-neutral-on-inverse-surface);\n        height: var(--spacing-sizing-14);\n\n        [data-snackbar-icon-text] {\n            flex: 1 1 0; // allow to grow and shrink, but not overflow\n            min-width: 0; // Prevent overflow from long content\n            max-width: 100%;\n            overflow: hidden;\n            display: flex;\n            align-items: center;\n            gap: var(--spacing-sizing-03);\n        }\n\n        [data-snackbar-icon] {\n            display: flex;\n            align-items: center;\n            justify-content: center;\n            width: var(--spacing-sizing-05);\n            height: var(--spacing-sizing-05);\n        }\n\n        [data-bspk='button'][data-variant='tertiary'] {\n            flex: 0 0 auto; // prevent button from shrinking\n            color: inherit;\n        }\n    }\n}\n",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": false
+    },
+    {
+        "description": "Utility to provide the Anywhere styles to the application.",
+        "file": "/components/StylesProviderAnywhere/StylesProviderAnywhere.tsx",
+        "name": "StylesProviderAnywhere",
+        "slug": "styles-provider-anywhere",
+        "dependencies": [],
+        "css": "",
+        "hasTouchTarget": false,
+        "phase": "Utility",
+        "generated": true
+    },
+    {
+        "description": "Utility to provide the Better Homes & Gardens styles to the application.",
+        "file": "/components/StylesProviderBetterHomesGardens/StylesProviderBetterHomesGardens.tsx",
+        "name": "StylesProviderBetterHomesGardens",
+        "slug": "styles-provider-better-homes-gardens",
+        "dependencies": [],
+        "css": "",
+        "hasTouchTarget": false,
+        "phase": "Utility",
+        "generated": true
+    },
+    {
+        "description": "Utility to provide the Cartus styles to the application.",
+        "file": "/components/StylesProviderCartus/StylesProviderCartus.tsx",
+        "name": "StylesProviderCartus",
+        "slug": "styles-provider-cartus",
+        "dependencies": [],
+        "css": "",
+        "hasTouchTarget": false,
+        "phase": "Utility",
+        "generated": true
+    },
+    {
+        "description": "Utility to provide the Century 21 styles to the application.",
+        "file": "/components/StylesProviderCentury21/StylesProviderCentury21.tsx",
+        "name": "StylesProviderCentury21",
+        "slug": "styles-provider-century21",
+        "dependencies": [],
+        "css": "",
+        "hasTouchTarget": false,
+        "phase": "Utility",
+        "generated": true
+    },
+    {
+        "description": "Utility to provide the Coldwell Banker styles to the application.",
+        "file": "/components/StylesProviderColdwellBanker/StylesProviderColdwellBanker.tsx",
+        "name": "StylesProviderColdwellBanker",
+        "slug": "styles-provider-coldwell-banker",
+        "dependencies": [],
+        "css": "",
+        "hasTouchTarget": false,
+        "phase": "Utility",
+        "generated": true
+    },
+    {
+        "description": "Utility to provide the Corcoran styles to the application.",
+        "file": "/components/StylesProviderCorcoran/StylesProviderCorcoran.tsx",
+        "name": "StylesProviderCorcoran",
+        "slug": "styles-provider-corcoran",
+        "dependencies": [],
+        "css": "",
+        "hasTouchTarget": false,
+        "phase": "Utility",
+        "generated": true
+    },
+    {
+        "description": "Used only on the demo site to switch between different brands styles.",
+        "file": "/components/StylesProviderDemo/StylesProviderDemo.tsx",
+        "name": "StylesProviderDemo",
+        "slug": "styles-provider-demo",
+        "dependencies": [],
+        "usage": {
+            "code": "import { StylesProviderDemo } from '@bspk/ui/StylesProviderDemo';\n\nfunction Example() {\nreturn <StylesProviderDemo brand=\"anywhere\" />;\n}"
+        },
+        "css": "",
+        "hasTouchTarget": false,
+        "phase": "Utility",
+        "generated": false
+    },
+    {
+        "description": "Utility to provide the Denali Boss styles to the application.",
+        "file": "/components/StylesProviderDenaliBoss/StylesProviderDenaliBoss.tsx",
+        "name": "StylesProviderDenaliBoss",
+        "slug": "styles-provider-denali-boss",
+        "dependencies": [],
+        "css": "",
+        "hasTouchTarget": false,
+        "phase": "Utility",
+        "generated": true
+    },
+    {
+        "description": "Utility to provide the ERA styles to the application.",
+        "file": "/components/StylesProviderEra/StylesProviderEra.tsx",
+        "name": "StylesProviderEra",
+        "slug": "styles-provider-era",
+        "dependencies": [],
+        "css": "",
+        "hasTouchTarget": false,
+        "phase": "Utility",
+        "generated": true
+    },
+    {
+        "description": "Utility to provide the Sotheby's styles to the application.",
+        "file": "/components/StylesProviderSothebys/StylesProviderSothebys.tsx",
+        "name": "StylesProviderSothebys",
+        "slug": "styles-provider-sothebys",
+        "dependencies": [],
+        "css": "",
+        "hasTouchTarget": false,
+        "phase": "Utility",
+        "generated": true
+    },
+    {
+        "description": "A control element that allows users to toggle between two states, typically representing on/off and inherits immediate reaction in each state. This is the base element and if used directly you must wrap it with a label. This will more often be used in the SwitchOption component.",
+        "file": "/components/Switch/Switch.tsx",
+        "name": "Switch",
+        "slug": "switch",
+        "dependencies": [],
+        "usage": {
+            "code": "import { useState } from 'react';\nimport { Switch } from '@bspk/ui/Switch';\n\nfunction Example() {\nconst [isChecked, setIsChecked] = useState<boolean>(false);\n\nreturn (\n<Switch\naria-label=\"Example aria-label\"\nname=\"example-name\"\nonChange={setIsChecked}\nchecked={isChecked}\n/>\n);\n}"
+        },
+        "css": "[data-bspk='switch'] {\n    --track-width: var(--spacing-sizing-09);\n    --toggle-width: var(--spacing-sizing-04);\n    --track-bg: var(--surface-neutral-t4-high);\n    --toggle-bg: var(--foreground-neutral-on-color);\n\n    display: block;\n    margin: 2px;\n\n    input[type='checkbox'] {\n        position: absolute;\n        opacity: 0;\n        width: 100%;\n        height: 100%;\n        top: 0;\n        left: 0;\n        z-index: 2;\n        cursor: pointer;\n    }\n\n    width: var(--track-width);\n    height: var(--spacing-sizing-05);\n    border-radius: var(--spacing-sizing-05);\n    background-color: var(--track-bg);\n    position: relative;\n    z-index: 1;\n\n    span {\n        display: block;\n        width: var(--toggle-width);\n        height: var(--toggle-width);\n        border-radius: var(--radius-full);\n        background-color: var(--toggle-bg);\n        transition: left 0.2s;\n        box-shadow: var(--drop-shadow-raise);\n        left: 2px;\n        top: 2px;\n        position: absolute;\n    }\n\n    &:has(input[type='checkbox']:checked) {\n        --track-bg: var(--foreground-brand-primary);\n\n        span {\n            left: calc(var(--track-width) - var(--toggle-width) - 2px);\n        }\n    }\n\n    &:has(input[type='checkbox']:disabled) {\n        input[type='checkbox'] {\n            pointer-events: none;\n        }\n\n        --track-bg: var(--interactions-disabled-opacity);\n        --toggle-bg: var(--foreground-neutral-disabled-on-surface);\n\n        &:has(input[type='checkbox']:checked) span {\n            --toggle-bg: var(--foreground-neutral-disabled-on-color-surface);\n        }\n    }\n}\n\n/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */\n",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": false
+    },
+    {
+        "description": "A control that allows users to choose one or more items from a list or turn an feature on or off.\n\nIf only a switch is needed, consider using the Switch component directly.",
+        "file": "/components/SwitchOption/SwitchOption.tsx",
+        "name": "SwitchOption",
+        "slug": "switch-option",
+        "dependencies": [],
+        "css": "",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": false
+    },
+    {
+        "description": "Navigation tool that organizes content across different screens and views.",
+        "file": "/components/TabGroup/TabGroup.tsx",
+        "name": "TabGroup",
+        "slug": "tab-group",
+        "dependencies": [],
+        "usage": {
+            "code": "import { useState } from 'react';\nimport { TabGroup } from '@bspk/ui/TabGroup';\n\nfunction Example() {\nconst [selectedTab, setSelectedTab] = useState<string>();\n\nreturn (\n<TabGroup\nonChange={setSelectedTab}\noptions={[\n{ value: '1', label: 'Option 1' },\n{ value: '2', label: 'Option 2' },\n{ value: '3', label: 'Option 3' },\n]}\nvalue={selectedTab}\n/>\n);\n}"
+        },
+        "css": "ul[data-bspk='tab-group'] {\n    border-bottom: none;\n\n    li {\n        border: 0;\n        color: var(--foreground-neutral-on-surface-variant-02);\n        background: none;\n        border-bottom: 1px solid var(--stroke-neutral-low);\n        position: relative;\n        padding: 0 var(--spacing-sizing-04);\n\n        &:not([aria-disabled]) {\n            &:active {\n                background: var(--interactions-neutral-press-opacity);\n            }\n        }\n\n        &[aria-disabled] {\n            color: var(--foreground-neutral-disabled-on-surface);\n        }\n\n        &[aria-selected='true'] {\n            color: var(--foreground-brand-primary);\n\n            &::after {\n                content: '';\n                display: block;\n                width: calc(100% - var(--spacing-sizing-04) * 2);\n                height: 2px;\n                background-color: var(--stroke-brand-primary);\n                bottom: -1px;\n                position: absolute;\n                border-top-right-radius: 2px;\n                border-top-left-radius: 2px;\n            }\n\n            svg {\n                color: var(--surface-brand-primary);\n            }\n        }\n    }\n\n    &[data-show-trail][data-width='hug'] {\n        width: 100%;\n        border-bottom: 1px solid var(--stroke-neutral-low);\n\n        li {\n            border-bottom: none;\n        }\n    }\n\n    &:focus-within {\n        li:not([aria-disabled])[data-active] {\n            background: var(--interactions-neutral-hover-opacity);\n        }\n    }\n}\n\n/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */\n",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": false
+    },
+    {
+        "description": "A container for displaying tabular data.\n\nThe table supports sorting and custom column definitions.",
+        "file": "/components/Table/Table.tsx",
+        "name": "Table",
+        "slug": "table",
+        "dependencies": [],
+        "usage": {
+            "code": "import { Table } from '@bspk/ui/Table';\n\nfunction Example() {\nreturn (\n<Table\ncolumns={[\n{ key: 'state', label: 'State', width: '100px' },\n{ key: 'capital', label: 'Capital', width: '1fr' },\n]}\ndata={[\n{ state: 'New Jersey', capital: 'Trenton' },\n{ state: 'New York', capital: 'Albany' },\n{ state: 'California', capital: 'Sacramento' },\n]}\ntitle=\"State Capitals\"\n/>\n);\n}"
+        },
+        "css": "[data-bspk='table'] {\n    /*! --template-columns: is set via inline style */\n\n    --white-background: var(--surface-neutral-t1-base);\n    --grey-background: var(--surface-neutral-t2-lowest);\n    --icon-size: var(--spacing-sizing-05);\n\n    min-width: 100%;\n    overflow: auto hidden;\n    border-collapse: separate;\n    text-align: left;\n    border-spacing: 2rem 0.125rem;\n    color: var(--foreground-neutral-on-surface);\n    font: var(--labels-base);\n    border-radius: var(--radius-md);\n    border: 1px solid var(--stroke-neutral-low);\n    background: var(--white-background);\n\n    /* [data-size='medium'] */\n    --min-height: var(--spacing-sizing-10);\n    --padding-y: var(--spacing-sizing-02);\n\n    &[data-size='x-large'] {\n        --min-height: var(--spacing-sizing-14);\n        --padding-y: var(--spacing-sizing-04);\n    }\n\n    &[data-size='large'] {\n        --min-height: var(--spacing-sizing-12);\n        --padding-y: var(--spacing-sizing-03);\n    }\n\n    &[data-size='small'] {\n        --min-height: var(--spacing-sizing-08);\n        --padding-y: var(--spacing-sizing-01);\n    }\n\n    [data-scroll-container] {\n        width: fit-content;\n        min-width: 100%;\n        border-radius: var(--radius-md);\n    }\n\n    table {\n        display: grid;\n        grid-template-columns: var(--template-columns);\n        border-collapse: collapse;\n        min-width: 100%;\n        user-select: none;\n\n        tr,\n        tbody,\n        thead {\n            display: contents;\n        }\n\n        caption {\n            grid-column: 1 / -1;\n            background: var(--grey-background);\n            border-bottom: 1px solid var(--stroke-neutral-low);\n            display: flex;\n            flex-direction: row;\n            justify-content: start;\n            align-items: center;\n            font: var(--labels-small);\n            min-height: var(--min-height);\n            padding: calc(var(--padding-y) + 2px) var(--spacing-sizing-04);\n            overflow: hidden;\n        }\n\n        th {\n            display: flex;\n            min-height: var(--min-height);\n            overflow: hidden;\n            flex-direction: row;\n            background: var(--grey-background);\n            font: var(--labels-small);\n            border-bottom: 1px solid var(--stroke-neutral-base);\n            white-space: nowrap;\n            z-index: 1;\n            position: relative;\n\n            &:not([data-sortable]) {\n                padding: calc(var(--padding-y) + 2px) var(--spacing-sizing-04);\n                pointer-events: none;\n            }\n\n            &[data-sortable] {\n                button {\n                    display: flex;\n                    min-height: var(--min-height);\n                    border: none;\n                    overflow: hidden;\n                    flex-direction: row;\n                    padding: calc(var(--padding-y) + 2px) var(--spacing-sizing-04);\n                    background: var(--grey-background);\n                    align-items: center;\n                    justify-content: space-between;\n                    gap: var(--spacing-sizing-02);\n                    width: 100%;\n                    cursor: pointer;\n                    font: inherit;\n                    outline: none;\n                    position: relative;\n\n                    &:hover {\n                        background:\n                            linear-gradient(\n                                var(--interactions-neutral-hover-opacity),\n                                var(--interactions-neutral-hover-opacity)\n                            ),\n                            linear-gradient(var(--grey-background), var(--grey-background));\n                    }\n\n                    &:active {\n                        background:\n                            linear-gradient(\n                                var(--interactions-neutral-press-opacity),\n                                var(--interactions-neutral-press-opacity)\n                            ),\n                            linear-gradient(var(--grey-background), var(--grey-background));\n                    }\n\n                    [data-sort-icon] {\n                        display: flex;\n                        flex-direction: row;\n                        align-items: center;\n\n                        svg {\n                            width: var(--icon-size);\n                        }\n                    }\n\n                    &:focus-visible {\n                        position: absolute;\n                        z-index: var(--z-index-focus);\n                        inset: 0;\n                        outline: solid 2px var(--stroke-neutral-focus);\n                        outline-offset: -2px;\n                    }\n                }\n            }\n\n            &[data-align='right'] {\n                align-items: flex-end;\n\n                button {\n                    justify-content: flex-end;\n                }\n            }\n\n            &[data-align='center'] {\n                align-items: center;\n\n                button {\n                    justify-content: center;\n                }\n            }\n\n            &[data-align='left'] {\n                align-items: flex-start;\n\n                button {\n                    justify-content: space-between;\n                }\n            }\n        }\n\n        td {\n            display: flex;\n            min-height: var(--min-height);\n            overflow: hidden;\n            padding: calc(var(--padding-y) + 2px) var(--spacing-sizing-04);\n            flex-direction: column;\n            font: var(--body-small);\n\n            &[data-align='right'] {\n                align-items: flex-end;\n            }\n\n            &[data-align='center'] {\n                align-items: center;\n            }\n\n            &[data-align='left'] {\n                align-items: flex-start;\n            }\n\n            &[data-valign='top'] {\n                justify-content: flex-start;\n            }\n\n            &[data-valign='bottom'] {\n                justify-content: flex-end;\n            }\n\n            &[data-valign='center'] {\n                justify-content: center;\n            }\n\n            p {\n                margin: 0;\n                padding: 0;\n                font: var(--body-small);\n            }\n\n            &[data-action]:hover {\n                background:\n                    linear-gradient(\n                        var(--interactions-neutral-hover-opacity),\n                        var(--interactions-neutral-hover-opacity)\n                    ),\n                    linear-gradient(var(--white-background), var(--white-background));\n            }\n        }\n\n        tr:nth-child(even) td {\n            background: var(--grey-background);\n\n            &[data-action]:hover {\n                background:\n                    linear-gradient(\n                        var(--interactions-neutral-hover-opacity),\n                        var(--interactions-neutral-hover-opacity)\n                    ),\n                    linear-gradient(var(--grey-background), var(--grey-background));\n            }\n        }\n    }\n\n    [data-pagination] {\n        display: flex;\n        flex-direction: row;\n        justify-content: space-between;\n        align-items: center;\n        padding: var(--spacing-sizing-03) var(--spacing-sizing-04);\n        width: 100%;\n\n        [data-pagination-label] {\n            font: var(--body-small);\n            min-width: fit-content;\n        }\n\n        [data-bspk='pagination'] {\n            flex-grow: 0;\n        }\n    }\n}\n\n/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */\n",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": false
+    },
+    {
+        "description": "Navigation tool that organizes content across different screens and views.\n\nSee TabGroup or SegmentedControl for examples.",
+        "file": "/components/TabList/TabList.tsx",
+        "name": "TabList",
+        "slug": "tab-list",
+        "dependencies": [],
+        "usage": {
+            "code": "import { useState } from 'react';\nimport { TabList } from '@bspk/ui/TabList';\n\nfunction Example() {\nconst [selectedTab, setSelectedTab] = useState<string>();\n\nreturn (\n<TabList\nonChange={setSelectedTab}\noptions={[\n{ value: '1', label: 'Option 1' },\n{ value: '2', label: 'Option 2' },\n{ value: '3', label: 'Option 3' },\n]}\nvalue={selectedTab}\n/>\n);\n}"
+        },
+        "css": "ul[data-bspk-utility='tab-list'] {\n    --item-flex-grow: 0;\n\n    display: flex;\n    flex-direction: row;\n    list-style: none;\n    width: 100%;\n    height: var(--height);\n    font: var(--font);\n\n    &[data-width='fill'] {\n        align-items: stretch;\n        width: 100%;\n\n        --item-flex-grow: 1;\n    }\n\n    --icon-size: var(--spacing-sizing-05);\n    --font: var(--labels-base);\n    --height: var(--spacing-sizing-10);\n\n    &[data-size='small'] {\n        --font: var(--labels-small);\n        --height: var(--spacing-sizing-08);\n        --icon-size: var(--spacing-sizing-04);\n    }\n\n    &[data-size='large'] {\n        --font: var(--labels-large);\n        --height: var(--spacing-sizing-12);\n        --icon-size: var(--spacing-sizing-06);\n    }\n\n    &:has(:focus-visible) {\n        outline: 2px solid var(--stroke-neutral-focus);\n        outline-offset: -1px;\n        position: relative;\n        z-index: var(--z-index-focus);\n    }\n\n    li {\n        list-style: none;\n        cursor: pointer;\n        font: var(--font);\n        white-space: nowrap;\n        outline: none;\n        user-select: none;\n        display: flex;\n        flex-direction: row;\n        align-items: center;\n        gap: var(--spacing-sizing-02);\n        min-width: 0; // Prevent overflow from long content\n\n        &[aria-disabled] {\n            cursor: not-allowed;\n        }\n\n        span {\n            pointer-events: none;\n        }\n\n        [data-label][style] {\n            justify-content: left;\n            max-width: 200px;\n        }\n\n        svg {\n            width: var(--icon-size);\n        }\n    }\n\n    &:not([data-bspk]):focus-within {\n        li:not([aria-disabled]) {\n            &[data-active] {\n                background-color: var(--interactions-neutral-hover-opacity);\n            }\n\n            &[aria-selected='true'] {\n                background-color: var(--surface-brand-primary-highlight);\n            }\n        }\n    }\n}\n\n/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */\n",
+        "hasTouchTarget": false,
+        "phase": "Utility",
+        "generated": false
+    },
+    {
+        "description": "A non-interactive visual indicators to draw attention or categorization of a component.",
+        "file": "/components/Tag/Tag.tsx",
+        "name": "Tag",
+        "slug": "tag",
+        "dependencies": [],
+        "usage": {
+            "code": "import { Tag } from '@bspk/ui/Tag';\n\nfunction Example() {\nreturn <Tag label=\"Example Tag\" variant=\"flat\" color=\"primary\" />;\n}"
+        },
+        "css": "[data-bspk='tag'] {\n    display: inline-flex;\n    align-items: center;\n    position: relative;\n    padding: 0 var(--spacing-sizing-03);\n    border-radius: var(--radius-sm);\n    color: var(--foreground) !important;\n    background: var(--background);\n    font: unset;\n    max-width: 200px;\n    flex-shrink: 0;\n    flex-grow: 0;\n    width: fit-content;\n\n    &[data-variant='pill'] {\n        border-radius: var(--radius-full);\n    }\n\n    &[data-variant='corner-wrap'] {\n        border-bottom-right-radius: 0;\n    }\n\n    &[data-size='small'] {\n        font: var(--labels-small);\n        height: var(--spacing-sizing-08);\n    }\n\n    &[data-size='x-small'] {\n        font: var(--labels-x-small);\n        height: var(--spacing-sizing-06);\n    }\n\n    &[data-color='white'] {\n        box-shadow: var(--drop-shadow-south);\n    }\n\n    [data-triangle] {\n        position: absolute;\n        bottom: -12px;\n        right: 0;\n        width: 0;\n        height: 0;\n        border-style: solid;\n        border-width: 12px 12px 0 0;\n        border-color: var(--foreground) transparent transparent transparent;\n        transform: rotate(0deg);\n    }\n}\n\n/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */\n",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": false
+    },
+    {
+        "description": "A component that allows users to input large amounts of text that could span multiple lines.\n\nThis component gives you a textarea HTML element that automatically adjusts its height to match the length of the content within maximum and minimum rows. A character counter when a maxLength is set to show the number of characters remaining below the limit.\n\nFor a more complete example with field usage, see the TextareaField component.",
+        "file": "/components/Textarea/Textarea.tsx",
+        "name": "Textarea",
+        "slug": "textarea",
+        "dependencies": [],
+        "usage": {
+            "code": "import { useState } from 'react';\nimport { Textarea } from '@bspk/ui/Textarea';\n\nfunction ExampleWithField() {\nconst [value, setValue] = useState('');\nreturn (\n<Field>\n<FieldLabel>Example Textarea</FieldLabel>\n<Textarea name=\"example-name\" onChange={setValue} value={value} />\n<FieldDescription>This is an example textarea field.</FieldDescription>\n</Field>\n);\n}\n\nfunction ExampleStandalone() {\nconst [value, setValue] = useState('');\n\nreturn <Textarea aria-label=\"Enter text\" name=\"example-name\" onChange={setValue} value={value} />;\n}"
+        },
+        "css": "[data-bspk='textarea'] {\n    /*! \n    --min-rows: is set via inline style \n    --max-rows: is set via inline style\n    */\n\n    display: grid;\n    width: 100%;\n    border: 1px solid var(--border-color);\n    border-radius: var(--radius-sm);\n    overflow: hidden;\n    color: var(--foreground-neutral-on-surface);\n    background-color: var(--surface-neutral-t1-base);\n\n    --border-color: var(--stroke-neutral-base);\n\n    // &[data-size='medium']\n    --font: var(--body-base);\n    --line-height: 20px;\n    --padding: var(--spacing-sizing-03);\n\n    &[data-size='small'] {\n        --font: var(--body-small);\n        --line-height: 20px;\n        --padding: var(--spacing-sizing-02);\n    }\n\n    &[data-size='large'] {\n        --font: var(--body-large);\n        --line-height: 24px;\n        --padding: var(--spacing-sizing-03);\n    }\n\n    &:has(textarea:focus-within) {\n        --border-color: var(--stroke-neutral-focus);\n    }\n\n    &:has(textarea[aria-invalid]) {\n        --border-color: var(--status-error);\n    }\n\n    [data-replicated-value] {\n        white-space: pre-wrap;\n        visibility: hidden;\n        overflow-y: hidden;\n    }\n\n    textarea,\n    [data-replicated-value] {\n        width: 100%;\n        font: var(--font);\n        padding: var(--padding);\n        border: none;\n        background: transparent;\n        grid-area: 1 / 1 / 2 / 2;\n        min-height: calc((var(--line-height) * var(--min-rows)) + (var(--padding) * 2));\n        max-height: calc((var(--line-height) * var(--max-rows)) + (var(--padding) * 2));\n        max-width: 100%;\n    }\n\n    textarea {\n        text-wrap: break-word;\n\n        &::placeholder {\n            color: var(--foreground-neutral-on-surface-variant-03);\n        }\n\n        resize: none;\n        color: inherit;\n        background-color: inherit;\n        outline: none;\n    }\n\n    &:hover:not(:focus-within) {\n        background:\n            linear-gradient(var(--interactions-hover-opacity), var(--interactions-hover-opacity)),\n            linear-gradient(var(--surface-neutral-t1-base), var(--surface-neutral-t1-base));\n    }\n\n    &:active:not(:focus-within) {\n        background:\n            linear-gradient(var(--interactions-press-opacity), var(--interactions-press-opacity)),\n            linear-gradient(var(--surface-neutral-t1-base), var(--surface-neutral-t1-base));\n    }\n\n    &[data-readonly] {\n        --border-color: var(--stroke-neutral-disabled-light);\n\n        background:\n            linear-gradient(var(--interactions-disabled-opacity), var(--interactions-disabled-opacity)),\n            linear-gradient(var(--surface-neutral-t1-base), var(--surface-neutral-t1-base));\n    }\n\n    &[data-disabled],\n    &:has([data-main-input][disabled]) {\n        --border-color: var(--stroke-neutral-disabled-light);\n\n        background:\n            linear-gradient(var(--interactions-disabled-opacity), var(--interactions-disabled-opacity)),\n            linear-gradient(var(--surface-neutral-t1-base), var(--surface-neutral-t1-base));\n\n        & > * {\n            color: var(--foreground-neutral-disabled-on-surface);\n        }\n    }\n\n    &[data-invalid] {\n        --border-color: var(--status-error);\n    }\n\n    &:focus-within {\n        --border-color: var(--stroke-neutral-focus);\n\n        outline: 1px solid var(--stroke-neutral-focus);\n    }\n}\n\n/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */\n",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": false
+    },
+    {
+        "description": "A field wrapper for the Textarea component.\n\nThis component takes properties from the FormField and Textarea components.",
+        "file": "/components/TextareaField/TextareaField.tsx",
+        "name": "TextareaField",
+        "slug": "textarea-field",
+        "dependencies": [],
+        "css": "",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": true
+    },
+    {
+        "description": "An input field that allows a customer to manually type in a specific time or triggers a time picker combobox to select a date.\n\nFor a more complete example with field usage, see the TimePickerField component.",
+        "file": "/components/TimePicker/TimePicker.tsx",
+        "name": "TimePicker",
+        "slug": "time-picker",
+        "dependencies": [],
+        "usage": {
+            "code": "import { TimePicker } from '@bspk/ui/TimePicker';\n\nfunction ExampleStandalone() {\nconst [value, onChange] = React.useState('');\n\nreturn <TimePicker aria-label=\"Time\" name=\"time\" value={value} onChange={onChange} />;\n}\n\nfunction ExampleWithField() {\nconst [value, onChange] = React.useState('');\n\nreturn (\n<Field>\n<FieldLabel>Time</FieldLabel>\n<TimePicker value={value} onChange={onChange} />\n<FieldDescription>The time picker allows you to select a time.</FieldDescription>\n</Field>\n);\n}"
+        },
+        "css": "[data-bspk='time-picker'] {\n    --border-color: var(--stroke-neutral-base);\n\n    display: flex;\n    flex-flow: row;\n    background-color: var(--surface-neutral-t1-base);\n    border: solid 1px var(--border-color);\n    height: var(--field-height);\n    border-radius: var(--radius-sm);\n    padding: 0 0 0 var(--field-padding, var(--spacing-sizing-02));\n    width: 100%;\n    justify-content: flex-start;\n    align-items: center;\n\n    &:hover:not(:focus-within, [data-disabled], [data-readonly]) {\n        background:\n            linear-gradient(var(--interactions-hover-opacity), var(--interactions-hover-opacity)),\n            linear-gradient(var(--surface-neutral-t1-base), var(--surface-neutral-t1-base));\n    }\n\n    &:active:not(:focus-within, [data-disabled], [data-readonly]) {\n        background:\n            linear-gradient(var(--interactions-press-opacity), var(--interactions-press-opacity)),\n            linear-gradient(var(--surface-neutral-t1-base), var(--surface-neutral-t1-base));\n    }\n\n    &[data-readonly] {\n        --border-color: var(--stroke-neutral-disabled-light);\n\n        pointer-events: none;\n        background:\n            linear-gradient(var(--interactions-disabled-opacity), var(--interactions-disabled-opacity)),\n            linear-gradient(var(--surface-neutral-t1-base), var(--surface-neutral-t1-base));\n    }\n\n    &[data-disabled],\n    &:has(input[disabled]) {\n        --border-color: var(--stroke-neutral-disabled-light);\n\n        pointer-events: none;\n        background:\n            linear-gradient(var(--interactions-disabled-opacity), var(--interactions-disabled-opacity)),\n            linear-gradient(var(--surface-neutral-t1-base), var(--surface-neutral-t1-base));\n\n        & > * {\n            color: var(--foreground-neutral-disabled-on-surface);\n        }\n    }\n\n    &[data-invalid] {\n        --border-color: var(--status-error);\n    }\n\n    &[data-size='small'] {\n        --field-padding: var(--spacing-sizing-02);\n        --field-height: var(--spacing-sizing-08);\n        --field-font: var(--body-small);\n    }\n\n    &[data-size='medium'] {\n        --field-padding: var(--spacing-sizing-03);\n        --field-height: var(--spacing-sizing-10);\n        --field-font: var(--body-base);\n    }\n\n    &[data-size='large'] {\n        --field-padding: var(--spacing-sizing-03);\n        --field-height: var(--spacing-sizing-12);\n        --field-font: var(--body-large);\n    }\n\n    [aria-hidden] {\n        font: var(--field-font);\n    }\n\n    [data-input] {\n        background-color: transparent !important;\n        border: none;\n        outline: none;\n        padding: 0;\n        height: var(--field-height);\n        font: var(--field-font);\n        min-width: 0;\n        text-align: right;\n        line-height: var(--field-height);\n        width: fit-content;\n\n        &[data-type='meridiem'] {\n            text-transform: uppercase;\n            margin-left: 0.25em;\n        }\n\n        * {\n            pointer-events: none;\n        }\n    }\n\n    [data-bspk='button'] {\n        margin-left: auto;\n\n        &:focus {\n            outline-offset: -4px;\n            border-radius: var(--radius-md);\n        }\n    }\n\n    &:focus-within,\n    &[data-open] {\n        --border-color: var(--stroke-neutral-focus);\n\n        outline: 1px solid var(--stroke-neutral-focus);\n    }\n}\n\n[data-bspk-owner='time-picker'][data-bspk-utility='menu'] {\n    overflow: hidden;\n    height: 324px;\n\n    [data-scroll-values] {\n        display: flex;\n        flex-direction: row;\n        width: 100%;\n        height: 100%;\n        overflow: hidden;\n        justify-content: center;\n        align-items: start;\n        gap: var(--spacing-sizing-04);\n        padding: var(--spacing-sizing-04);\n\n        [data-scroll-column] {\n            padding: 0 var(--spacing-sizing-01);\n            display: flex;\n            flex-direction: column;\n            height: 100%;\n            overflow: hidden auto;\n            font: var(--labels-base);\n            gap: var(--spacing-sizing-02);\n            align-items: center;\n            justify-content: start;\n\n            span {\n                display: flex;\n                cursor: pointer;\n                align-items: center;\n                justify-content: center;\n                width: var(--spacing-sizing-13);\n                flex: 0;\n                border-radius: var(--radius-sm);\n                font: var(--labels-base);\n                line-height: var(--spacing-sizing-10);\n\n                &[aria-selected='true'] {\n                    background: var(--surface-brand-primary);\n                    color: var(--foreground-brand-on-primary);\n                }\n            }\n\n            &:focus {\n                outline: 2px solid var(--stroke-neutral-focus);\n                border-radius: var(--radius-sm);\n\n                span[data-active] {\n                    background: var(--interactions-neutral-hover-opacity);\n                    outline: 2px solid var(--interactions-neutral-hover-opacity);\n                    outline-offset: -2px;\n\n                    &[aria-selected='true'] {\n                        background: var(--surface-brand-primary);\n                        color: var(--foreground-brand-on-primary);\n                    }\n                }\n            }\n        }\n    }\n}\n\n/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */\n\n/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */\n",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": false
+    },
+    {
+        "description": "A field wrapper for the TimePicker component.\n\nThis component takes properties from the FormField and TimePicker components.",
+        "file": "/components/TimePickerField/TimePickerField.tsx",
+        "name": "TimePickerField",
+        "slug": "time-picker-field",
+        "dependencies": [],
+        "css": "",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": true
+    },
+    {
+        "description": "A utility component that wraps a checkbox, radio, and switch.",
+        "file": "/components/ToggleOption/ToggleOption.tsx",
+        "name": "ToggleOption",
+        "slug": "toggle-option",
+        "dependencies": [],
+        "css": "[data-bspk='toggle-option'] {\n    display: grid;\n    width: 100%;\n    grid-template-columns: auto 1fr;\n    grid-column-gap: var(--spacing-sizing-02);\n    user-select: none;\n    background: unset;\n    border: unset;\n    cursor: pointer;\n    min-height: var(--spacing-sizing-08);\n    max-width: 100%;\n    padding: var(--spacing-sizing-01);\n\n    &:has([data-description]) {\n        align-items: unset;\n    }\n\n    // this media query targets touch devices\n    @media (any-pointer: coarse) {\n        min-height: var(--spacing-sizing-12);\n    }\n\n    [data-control],\n    [data-label],\n    [data-description] {\n        display: flex;\n        flex-direction: row;\n        align-items: center;\n        justify-content: start;\n    }\n\n    [data-label] {\n        color: var(--foreground-neutral-on-surface);\n        font: var(--labels-base);\n    }\n\n    [data-description] {\n        grid-column-start: 2;\n        font: var(--body-small);\n        color: var(--foreground-neutral-on-surface-variant-01);\n    }\n\n    &:not([aria-disabled]) {\n        [data-pseudo='focus'] &,\n        &:focus-visible,\n        &:has(*:focus-visible) {\n            outline: var(--stroke-neutral-focus) 2px solid;\n        }\n    }\n\n    &[aria-disabled] {\n        cursor: not-allowed;\n\n        [data-label] {\n            color: var(--foreground-neutral-disabled-on-surface);\n        }\n\n        [data-description] {\n            color: var(--foreground-neutral-disabled-on-surface);\n        }\n    }\n}\n\n/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */\n",
+        "hasTouchTarget": false,
+        "phase": "Utility",
+        "generated": false
+    },
+    {
+        "description": "Brief message that provide additional guidance and helps users perform an action if needed.",
+        "file": "/components/Tooltip/Tooltip.tsx",
+        "name": "Tooltip",
+        "slug": "tooltip",
+        "dependencies": [],
+        "usage": {
+            "code": "import { Tooltip } from '@bspk/ui/Tooltip';\nimport { Button } from '@bspk/ui/Button';\n\nfunction Example() {\nreturn (\n<Tooltip label=\"I explain what this button does\" placement=\"top\">\n{(triggerProps) => <Button {...triggerProps}>Click me</Button>}\n</Tooltip>\n);\n}"
+        },
+        "css": "[data-bspk='tooltip'] {\n    position: fixed;\n    pointer-events: none;\n    z-index: var(--z-index-tooltip-popover);\n\n    [data-text] {\n        display: block;\n        z-index: 2;\n        position: relative;\n        background-color: var(--surface-neutral-inverse);\n        border-radius: var(--radius-sm);\n        color: var(--foreground-neutral-on-inverse-surface);\n        box-shadow: var(--drop-shadow-float);\n        font: var(--labels-small);\n        padding: var(--spacing-sizing-01) var(--spacing-sizing-02);\n        border: none;\n        transition: opacity 0.2s ease-in-out;\n    }\n\n    --arrow-size: var(--spacing-sizing-01);\n    --arrow-offset: calc(var(--arrow-size) * -2);\n    --arrow-color: var(--surface-neutral-inverse);\n\n    [data-arrow] {\n        display: block;\n        z-index: 1;\n        position: absolute;\n        width: 0;\n        height: 0;\n        border-style: solid;\n        border-width: var(--arrow-size) var(--arrow-size) var(--arrow-size) var(--arrow-size);\n        border-color: transparent;\n    }\n\n    &[data-placement='bottom'] {\n        [data-arrow] {\n            top: var(--arrow-offset);\n            border-bottom-color: var(--arrow-color);\n        }\n    }\n\n    &[data-placement='top'] {\n        [data-arrow] {\n            border-top-color: var(--arrow-color);\n        }\n    }\n\n    &[data-placement='right'] {\n        [data-arrow] {\n            margin-left: var(--arrow-offset);\n            border-right-color: var(--arrow-color);\n        }\n    }\n\n    &[data-placement='left'] {\n        [data-arrow] {\n            right: var(--arrow-offset);\n            border-left-color: var(--arrow-color);\n        }\n    }\n}\n\n/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */\n",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": false
+    },
+    {
+        "description": "Component description coming soon.",
+        "file": "/components/TopNavigation/TopNavigation.tsx",
+        "name": "TopNavigation",
+        "slug": "top-navigation",
+        "dependencies": [],
+        "css": "[data-bspk='top-navigation'] {\n    display: flex;\n}\n\n/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */\n",
+        "hasTouchTarget": false,
+        "phase": "Backlog",
+        "generated": false
+    },
+    {
+        "description": "A utility component that displays a tooltip with the full text when hovered when text is truncated.",
+        "file": "/components/Truncated/Truncated.tsx",
+        "name": "Truncated",
+        "slug": "truncated",
+        "dependencies": [],
+        "css": "[data-bspk-utility='truncated'] {\n    max-width: 100%;\n    display: inline-block;\n    overflow: hidden;\n    text-overflow: ellipsis;\n    white-space: nowrap;\n    background-color: transparent;\n}\n",
+        "hasTouchTarget": false,
+        "phase": "Utility",
+        "generated": false
+    },
+    {
+        "description": "A text component that applies the correct font styles based on the variant and size. variant",
+        "file": "/components/Txt/Txt.tsx",
+        "name": "Txt",
+        "slug": "txt",
+        "dependencies": [],
+        "usage": {
+            "code": "import { Txt } from '@bspk/ui/Txt';\n\nfunction Example() {\nreturn <Txt>Example Txt</Txt>;\n}"
+        },
+        "css": "",
+        "hasTouchTarget": false,
+        "phase": "UXReview",
+        "generated": false
+    },
+    {
+        "description": "UIProvider is a React context provider that manages the UI state.\n\nUI state includes, theme, setTheme, responsive state, aria live messages\n\nThis provider should wrap the root of your application to ensure that all components have access to the UI context.",
+        "file": "/components/UIProvider/UIProvider.tsx",
+        "name": "UIProvider",
+        "slug": "ui-provider",
+        "dependencies": [],
+        "css": "",
+        "hasTouchTarget": false,
+        "phase": "Utility",
+        "generated": false
+    }
+]
