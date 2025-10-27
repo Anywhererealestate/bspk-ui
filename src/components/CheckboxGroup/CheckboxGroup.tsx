@@ -71,7 +71,6 @@ export function CheckboxGroup({
     selectAll,
     selectAllProps,
     disabled = false,
-    readOnly,
     invalid: invalidProp,
     required,
     id: idProp,
@@ -83,7 +82,6 @@ export function CheckboxGroup({
         idProp,
         required,
         disabled,
-        readOnly,
         invalidProp,
     });
 
@@ -96,7 +94,7 @@ export function CheckboxGroup({
             role="group"
         >
             {selectAll && (
-                <ToggleOption label={selectAllProps?.label || ALL_LABEL} readOnly={readOnly}>
+                <ToggleOption label={selectAllProps?.label || ALL_LABEL}>
                     <Checkbox
                         aria-errormessage={ariaErrorMessageProp || ariaErrorMessage || undefined}
                         aria-label={selectAllProps?.label || ALL_LABEL}
@@ -107,7 +105,6 @@ export function CheckboxGroup({
                         invalid={invalid || undefined}
                         name={name}
                         onChange={(checked) => onChange(checked ? options.map((o) => o.value) : [])}
-                        readOnly={readOnly}
                         value="all"
                     />
                 </ToggleOption>
@@ -118,7 +115,6 @@ export function CheckboxGroup({
                     disabled={disabled || optionDisabled}
                     key={optionValue}
                     label={label}
-                    readOnly={readOnly}
                 >
                     <Checkbox
                         aria-errormessage={ariaErrorMessageProp || ariaErrorMessage || undefined}
@@ -130,7 +126,6 @@ export function CheckboxGroup({
                         onChange={(checked) => {
                             onChange(checked ? [...value, optionValue] : value.filter((v) => v !== optionValue));
                         }}
-                        readOnly={readOnly}
                         value={optionValue}
                     />
                 </ToggleOption>
