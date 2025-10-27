@@ -1,7 +1,7 @@
 import { InputProps } from '.';
 import { ComponentExample } from '-/utils/demo';
 
-type InputExampleProps = InputProps & { label: string; description?: string };
+export type InputExampleProps = InputProps & { label: string; description?: string };
 
 export const InputExample: ComponentExample<InputExampleProps> = {
     defaultState: {

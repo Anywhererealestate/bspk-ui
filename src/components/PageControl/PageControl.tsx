@@ -9,7 +9,7 @@ export type PageControlProps = {
      * @example
      *     1;
      *
-     * @min 1
+     * @minimum 1
      * @required
      */
     currentPage: number;
@@ -19,7 +19,7 @@ export type PageControlProps = {
      * @example
      *     5;
      *
-     * @min 1
+     * @minimum 1
      * @required
      */
     numPages: number;
@@ -31,7 +31,7 @@ export type PageControlProps = {
     variant?: 'flat' | 'floating';
 };
 
-type DotSize = 'medium' | 'small' | 'x-small';
+export type DotSize = 'medium' | 'small' | 'x-small';
 
 /**
  * A visual indicator that displays a series of dots representing the number of pages or elements within a moving

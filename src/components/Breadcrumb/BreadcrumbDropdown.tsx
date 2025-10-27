@@ -32,7 +32,7 @@ export type BreadcrumbItem = {
     href: string;
 };
 
-type BreadcrumbDropdownProps = ScrollListItemsStyleProps & {
+export type BreadcrumbDropdownProps = ScrollListItemsStyleProps & {
     items: BreadcrumbItem[];
     id: string;
 };

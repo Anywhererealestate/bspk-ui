@@ -4,7 +4,7 @@ import { PaginationProps } from './Pagination';
 import { Input } from '-/components/Input';
 import { Txt } from '-/components/Txt';
 
-type PageInputProps = Pick<PaginationProps, 'numPages' | 'onChange' | 'value'>;
+export type PageInputProps = Pick<PaginationProps, 'numPages' | 'onChange' | 'value'>;
 
 export const PageInput: FC<PageInputProps> = ({ numPages, onChange, value }) => {
     const [page, setPage] = useState<string>(String(value));

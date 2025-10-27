@@ -1,6 +1,6 @@
 import { useRef, useEffect, useMemo } from 'react';
 
-type TimeoutHook = {
+export type TimeoutHook = {
     clear: () => void;
     set: (callback: () => void, ms?: number) => void;
     ref: React.MutableRefObject<ReturnType<typeof setTimeout> | null>;

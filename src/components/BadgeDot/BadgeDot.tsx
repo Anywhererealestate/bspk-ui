@@ -2,7 +2,7 @@ import './badge-dot.scss';
 import { ReactNode } from 'react';
 import { cssWithVars } from '-/utils/cwv';
 
-type BadgeDotSize = 6 | 8 | 10 | 12;
+export type BadgeDotSize = 6 | 8 | 10 | 12;
 
 const OUTLINE_WIDTHS: Record<BadgeDotSize, number> = {
     6: 1,

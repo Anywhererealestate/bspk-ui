@@ -132,8 +132,6 @@ export type ModalProps = Pick<
  *         );
  *     }
  *
- * @ignoreRefs ButtonProps
- *
  * @name Modal
  * @phase UXReview
  */
