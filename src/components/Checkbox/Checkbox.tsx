@@ -57,7 +57,7 @@ export type CheckboxProps = Omit<FieldControlProps, 'onChange' | 'value'> & {
  * @element
  *
  * @name Checkbox
- * @phase UXReview
+ * @phase Utility
  */
 export function Checkbox({
     checked: checkedProp = false,
