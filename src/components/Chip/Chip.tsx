@@ -29,7 +29,7 @@ export type ChipProps = {
     /** The function to call when the chip is clicked. */
     onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
     /**
-     * Whether the chip is currently selected.
+     * Visual indication of whether the chip is currently selected.
      *
      * @default false
      */
