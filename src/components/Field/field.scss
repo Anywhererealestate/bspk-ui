@@ -4,6 +4,8 @@
     flex-direction: column;
     gap: var(--spacing-sizing-01);
     border: none;
+    max-width: 100%;
+    min-inline-size: unset;
 }
 
 [data-bspk='field-label'] {

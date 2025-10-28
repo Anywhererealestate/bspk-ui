@@ -5,7 +5,7 @@ import { ComponentExample, Preset } from '-/utils/demo';
 export const presets: Preset<RadioGroupFieldProps>[] = radioGroupExample.presets!.map((preset) => ({
     ...preset,
     propState: {
-        label: 'Checkbox Group Field',
+        label: 'Radio Group Field',
         ...preset.propState,
     },
 }));
