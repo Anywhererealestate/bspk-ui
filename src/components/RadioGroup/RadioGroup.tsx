@@ -7,7 +7,7 @@ import { ElementProps, FieldControlProps } from '-/types/common';
 export type RadioGroupOption = Pick<RadioOptionProps, 'checked' | 'description' | 'disabled' | 'label'> &
     Pick<RadioProps, 'value'>;
 
-export type RadioGroupProps = FieldControlProps & {
+export type RadioGroupProps = Omit<FieldControlProps, 'readOnly'> & {
     /**
      * The options for the radios.
      *
@@ -33,6 +33,8 @@ export type RadioGroupProps = FieldControlProps & {
 
 /**
  * A group of radios that allows users to choose one or more items from a list or turn an feature on or off.
+ *
+ * For a more complete example with field usage, see the RadioGroupField component.
  *
  * @example
  *     import { useState } from 'react';
