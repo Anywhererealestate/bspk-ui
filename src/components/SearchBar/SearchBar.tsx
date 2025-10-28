@@ -23,7 +23,10 @@ import { useIds } from '-/utils/useIds';
  */
 export type SearchBarOption = Pick<ListItemProps, 'label' | 'leading' | 'trailing'>;
 
-export type SearchBarProps<O extends SearchBarOption = SearchBarOption> = FieldControlProps<string, O> &
+export type SearchBarProps<O extends SearchBarOption = SearchBarOption> = Omit<
+    FieldControlProps<string, O>,
+    'invalid' | 'readOnly' | 'required'
+> &
     Pick<InputProps, 'inputRef' | 'size' | 'trailing'> &
     ScrollListItemsStyleProps & {
         /**
@@ -111,6 +114,7 @@ export function SearchBar<O extends SearchBarOption>({
     disabled = false,
     scrollLimit,
     trailing,
+    'aria-label': ariaLabel,
 }: SearchBarProps<O>) {
     const id = useId(idProp);
     const menuId = `${id}-menu`;
@@ -176,6 +180,7 @@ export function SearchBar<O extends SearchBarOption>({
         <>
             <div data-bspk="search-bar">
                 <Input
+                    aria-label={ariaLabel}
                     autoComplete="off"
                     containerRef={elements.setReference}
                     disabled={disabled}
