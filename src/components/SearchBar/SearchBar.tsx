@@ -114,6 +114,7 @@ export function SearchBar<O extends SearchBarOption>({
 }: SearchBarProps<O>) {
     const id = useId(idProp);
     const menuId = `${id}-menu`;
+    const noResultsId = `${id}-no-results`;
 
     const items = useIds(`search-bar-${id}`, itemsProp || []);
 
@@ -162,18 +163,14 @@ export function SearchBar<O extends SearchBarOption>({
     };
 
     useEffect(() => {
-        if (!hasFocus) {
-            setActiveElementId(null);
-            return;
-        }
+        if (!hasFocus) return setActiveElementId(null);
+
+        if (!filteredItems.length) return setActiveElementId(noResultsId);
 
         if (activeElementId) return;
 
-        // If we have focus but no active element, set the first item as active (if there is one)
-        if (filteredItems.length) {
-            setActiveElementId(value?.trim().length ? filteredItems[0].id : null);
-        }
-    }, [hasFocus, filteredItems, activeElementId, setActiveElementId, value]);
+        setActiveElementId(value?.trim().length ? filteredItems[0].id : null);
+    }, [hasFocus, filteredItems, activeElementId, setActiveElementId, value, noResultsId]);
 
     return (
         <>
@@ -242,8 +239,8 @@ export function SearchBar<O extends SearchBarOption>({
                 }}
                 tabIndex={-1}
             >
-                {!!value?.length && !items?.length && (
-                    <div data-bspk="no-items-found">
+                {activeElementId === noResultsId && (
+                    <div data-bspk="no-items-found" id={noResultsId}>
                         <Txt as="div" variant="heading-h5">
                             No results found
                         </Txt>
