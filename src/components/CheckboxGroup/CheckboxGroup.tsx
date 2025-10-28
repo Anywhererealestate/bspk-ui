@@ -9,7 +9,7 @@ const ALL_LABEL = 'All';
 export type CheckboxGroupOption = Pick<CheckboxProps, 'value'> &
     Pick<ToggleOptionProps, 'description' | 'disabled' | 'label'>;
 
-export type CheckboxGroupProps = FieldControlProps<string[]> & {
+export type CheckboxGroupProps = Omit<FieldControlProps<string[]>, 'readOnly'> & {
     /**
      * The options for the checkboxes.
      *
@@ -36,6 +36,8 @@ export type CheckboxGroupProps = FieldControlProps<string[]> & {
 
 /**
  * A group of checkboxes that allows users to choose one or more items from a list or turn an feature on or off.
+ *
+ * For a more complete example with field usage, see the CheckboxGroupField component.
  *
  * @example
  *     import { CheckboxGroup } from '@bspk/ui/CheckboxGroup';
