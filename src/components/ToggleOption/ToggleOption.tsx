@@ -34,8 +34,8 @@ export function ToggleOption({ label, description, children, disabled, ...props 
     return (
         <ListItem
             {...props}
+            aria-disabled={disabled || undefined}
             as="label"
-            data-disabled={disabled}
             label={label}
             leading={children}
             subText={description}
