@@ -32,7 +32,7 @@ export type ElementConstructorProps<
     O extends string = '',
 > = Omit<ComponentPropsWithoutRef<E>, O>;
 
-type CSSVariables = `--${string}`;
+export type CSSVariables = `--${string}`;
 
 export type CSSWithVariables = CSSProperties | (CSSProperties & { [key in CSSVariables]: unknown });
 
@@ -119,14 +119,12 @@ export type CommonPropsLibrary = {
     /**
      * The aria-label for the element.
      *
-     * @required
+     * This is used to provide an accessible name for the element when a visible label is not present.
+     *
+     * Ensure this is provided when using the element in isolation to maintain accessibility.
      */
     'aria-label'?: string;
-    /**
-     * Identifies the parent component. Helps with styling, debugging, and/or testing purposes.
-     *
-     * @utility
-     */
+    /** Identifies the parent component. Helps with styling, debugging, and/or testing purposes. */
     owner?: string;
     /**
      * The ARIA role of the element.

@@ -9,7 +9,7 @@ export const NUMBER_PLACEHOLDER = '--' as const;
 
 export type TimePickerType = 'hours' | 'meridiem' | 'minutes';
 
-type TimePickerSegmentProps<T extends string> = {
+export type TimePickerSegmentProps<T extends string> = {
     disabled?: boolean;
     name: string;
     readOnly?: boolean;

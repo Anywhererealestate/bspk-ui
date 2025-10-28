@@ -36,7 +36,6 @@ export function CheckboxOption({
     label: labelProp,
     description,
     disabled,
-    readOnly,
     style,
     ...checkboxProps
 }: CheckboxOptionProps) {
@@ -49,10 +48,9 @@ export function CheckboxOption({
                 description={description}
                 disabled={disabled}
                 label={label}
-                readOnly={readOnly}
                 style={style}
             >
-                <Checkbox {...checkboxProps} aria-label={ariaLabel} disabled={disabled} readOnly={readOnly} />
+                <Checkbox {...checkboxProps} aria-label={ariaLabel} disabled={disabled} />
             </ToggleOption>
         )
     );

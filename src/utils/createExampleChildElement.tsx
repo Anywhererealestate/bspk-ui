@@ -11,7 +11,7 @@ import { Switch } from '-/components/Switch';
 import { Tag } from '-/components/Tag';
 import { Txt } from '-/components/Txt';
 
-type ExampleChildElementProps = {
+export type ExampleChildElementProps = {
     exampleState: Record<string, any>;
     name: string;
     setState: DemoSetState;

@@ -1,6 +1,6 @@
 import { SliderProps, SliderValue } from './Slider';
 
-type IntervalDotProps = Pick<SliderProps<SliderValue>, 'max' | 'min' | 'value'> & {
+export type IntervalDotProps = Pick<SliderProps<SliderValue>, 'max' | 'min' | 'value'> & {
     step: number;
 };
 

@@ -55,7 +55,7 @@ export type ComponentExampleRender<Props = Record<string, unknown>> = (
     params: ComponentExampleRenderProps<Props>,
 ) => React.ReactNode;
 
-type ComponentVariantOverride<Props> = {
+export type ComponentVariantOverride<Props> = {
     [K in keyof Props]?: Props[K] | { options: Props[K][] };
 };
 

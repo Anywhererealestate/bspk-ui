@@ -3,13 +3,13 @@ import { useArrowNavigation } from '-/hooks/useArrowNavigation';
 import { getElementById } from '-/utils/dom';
 import { handleKeyDown } from '-/utils/handleKeyDown';
 
-type Option = {
+export type Option = {
     id: string;
     value: string;
     label: string;
 };
 
-type TimePickerListboxProps = {
+export type TimePickerListboxProps = {
     options: Option[];
     selectedValue?: string;
     type: TimePickerType;

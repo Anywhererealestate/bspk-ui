@@ -52,7 +52,7 @@ export function useFieldInit({
     idProp: string | undefined;
     required: boolean | undefined;
     disabled: boolean | undefined;
-    readOnly: boolean | undefined;
+    readOnly?: boolean | undefined;
     invalidProp: boolean | undefined;
 }): Pick<FieldContext, 'ariaDescribedBy' | 'ariaErrorMessage'> & { invalid: boolean; id: string } {
     const context = useContext(fieldContext);
