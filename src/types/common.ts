@@ -119,7 +119,9 @@ export type CommonPropsLibrary = {
     /**
      * The aria-label for the element.
      *
-     * @required
+     * This is used to provide an accessible name for the element when a visible label is not present.
+     *
+     * Ensure this is provided then using the element in isolation to maintain accessibility.
      */
     'aria-label'?: string;
     /** Identifies the parent component. Helps with styling, debugging, and/or testing purposes. */

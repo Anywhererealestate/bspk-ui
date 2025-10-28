@@ -424,6 +424,8 @@ function generateTypes() {
                 );
             }
 
+            properties.sort((a, b) => a.name.localeCompare(b.name));
+
             nextTypes.push({
                 file: componentFile?.filePath.split(srcDir)[1] || '',
                 name: definitionName,

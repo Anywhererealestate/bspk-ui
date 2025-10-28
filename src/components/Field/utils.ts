@@ -37,6 +37,14 @@ export function useFieldContext(): FieldContext {
     );
 }
 
+export type UseFieldInitProps = {
+    idProp: string | undefined;
+    required: boolean | undefined;
+    disabled: boolean | undefined;
+    readOnly?: boolean | undefined;
+    invalidProp: boolean | undefined;
+};
+
 /**
  * Initializes field-related attributes and state for a form control component.
  *
@@ -48,13 +56,7 @@ export function useFieldInit({
     disabled,
     readOnly,
     invalidProp,
-}: {
-    idProp: string | undefined;
-    required: boolean | undefined;
-    disabled: boolean | undefined;
-    readOnly?: boolean | undefined;
-    invalidProp: boolean | undefined;
-}): Pick<FieldContext, 'ariaDescribedBy' | 'ariaErrorMessage'> & { invalid: boolean; id: string } {
+}: UseFieldInitProps): Pick<FieldContext, 'ariaDescribedBy' | 'ariaErrorMessage'> & { invalid: boolean; id: string } {
     const context = useContext(fieldContext);
     const controlId = useId(idProp || context?.htmlFor);
 

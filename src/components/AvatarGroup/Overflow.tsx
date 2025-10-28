@@ -14,7 +14,11 @@ export type AvatarGroupOverflowProps = {
     overflow: number;
     /** The size of the avatar group */
     size: SizeVariant;
-    /** The avatars in the overflow */
+    /**
+     * The avatars in the overflow
+     *
+     * @type Array<AvatarProps>
+     */
     items: AvatarProps[];
 };
 

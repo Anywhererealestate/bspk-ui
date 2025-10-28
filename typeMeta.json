@@ -1,0 +1,2341 @@
+[
+    {
+        "file": "/components/Accordion/Accordion.tsx",
+        "name": "AccordionProps",
+        "properties": [
+            {
+                "name": "items",
+                "required": true,
+                "description": "Array of accordion sections",
+                "type": "Array<AccordionSection>"
+            },
+            {
+                "name": "singleOpen",
+                "required": false,
+                "description": "If true only one accordion section can be opened at a time",
+                "default": true,
+                "type": "boolean"
+            }
+        ],
+        "id": "accordion-props",
+        "components": ["Accordion"],
+        "references": ["AccordionSection"]
+    },
+    {
+        "file": "/components/Accordion/Accordion.tsx",
+        "name": "AccordionSection",
+        "properties": [
+            {
+                "name": "children",
+                "required": true,
+                "description": "The content of the accordion.",
+                "type": "React.ReactNode"
+            },
+            {
+                "name": "disabled",
+                "required": false,
+                "description": "Indicates whether the accordion is disabled.",
+                "default": false,
+                "type": "boolean"
+            },
+            {
+                "name": "id",
+                "required": false,
+                "description": "The unique identifier for the accordion item.\n\nIf not provided it will be generated automatically.",
+                "type": "string"
+            },
+            {
+                "name": "isOpen",
+                "required": false,
+                "description": "If the accordion is initially open.\n\nThis is ignored if the accordion section disabled property is true.",
+                "default": false,
+                "type": "boolean"
+            },
+            {
+                "name": "leading",
+                "required": false,
+                "description": "The leading element to display in the accordion header.",
+                "type": "React.ReactNode"
+            },
+            {
+                "name": "subtitle",
+                "required": false,
+                "description": "The subtitle of the accordion.",
+                "type": "string"
+            },
+            {
+                "name": "title",
+                "required": true,
+                "description": "The title of the accordion.",
+                "type": "string"
+            },
+            {
+                "name": "trailing",
+                "required": false,
+                "description": "The trailing element to display in the accordion header.",
+                "type": "React.ReactNode"
+            }
+        ],
+        "id": "accordion-section",
+        "components": ["Accordion"],
+        "references": []
+    },
+    {
+        "file": "/components/AvatarGroup/Overflow.tsx",
+        "name": "AvatarGroupOverflowProps",
+        "properties": [
+            {
+                "name": "items",
+                "required": false,
+                "description": "The avatars in the overflow",
+                "type": "Array<AvatarProps>"
+            },
+            {
+                "name": "overflow",
+                "required": false,
+                "description": "The number of overflow avatars",
+                "type": "number"
+            },
+            {
+                "name": "size",
+                "required": false,
+                "description": "The size of the avatar group",
+                "type": "SizeVariant"
+            }
+        ],
+        "id": "avatar-group-overflow-props",
+        "components": ["AvatarGroup"],
+        "references": ["AvatarProps"]
+    },
+    {
+        "file": "/components/AvatarGroup/AvatarGroup.tsx",
+        "name": "AvatarGroupProps",
+        "properties": [],
+        "id": "avatar-group-props",
+        "components": ["AvatarGroup"],
+        "references": []
+    },
+    {
+        "file": "/components/Avatar/Avatar.tsx",
+        "name": "AvatarProps",
+        "properties": [],
+        "id": "avatar-props",
+        "components": ["Avatar"],
+        "references": []
+    },
+    {
+        "file": "/components/Avatar/Avatar.tsx",
+        "name": "AvatarProps",
+        "properties": [],
+        "id": "avatar-props",
+        "components": ["Avatar"],
+        "references": []
+    },
+    {
+        "file": "/components/BadgeDot/BadgeDot.tsx",
+        "name": "BadgeDotProps",
+        "properties": [
+            {
+                "name": "children",
+                "required": false,
+                "description": "The context for which the badge-dot is applied.\n\nCould be a button, link, or any other element that the badge-dot is associated with.",
+                "type": "React.ReactNode"
+            },
+            {
+                "name": "color",
+                "required": false,
+                "description": "The color variant of the badge-dot.",
+                "default": "primary",
+                "type": ""
+            },
+            {
+                "name": "outline",
+                "required": false,
+                "description": "Whether the badge-dot should have an outline.",
+                "default": false,
+                "type": "boolean"
+            },
+            {
+                "name": "size",
+                "required": false,
+                "description": "The size of the badge-dot.",
+                "default": "6",
+                "type": "BadgeDotSize"
+            }
+        ],
+        "id": "badge-dot-props",
+        "components": ["BadgeDot"],
+        "references": []
+    },
+    {
+        "file": "/components/Badge/Badge.tsx",
+        "name": "BadgeProps",
+        "properties": [
+            {
+                "name": "children",
+                "required": false,
+                "description": "The context for which the badge is applied.\n\nCould be a button, link, or any other element that the badge is associated with.",
+                "type": "React.ReactNode"
+            },
+            {
+                "name": "color",
+                "required": false,
+                "description": "The color variant of the badge.",
+                "default": "primary",
+                "type": ""
+            },
+            {
+                "name": "count",
+                "required": false,
+                "description": "The content of the badge. If larger than 99, the badge will display '99+'.",
+                "default": "1",
+                "type": "number"
+            },
+            {
+                "name": "size",
+                "required": false,
+                "description": "The size of the badge.",
+                "default": "small",
+                "type": ""
+            },
+            {
+                "name": "surfaceBorder",
+                "required": false,
+                "description": "Whether the badge should have a border that matches the surface color.",
+                "default": false,
+                "type": "boolean"
+            }
+        ],
+        "id": "badge-props",
+        "components": ["Badge"],
+        "references": []
+    },
+    {
+        "file": "/components/BannerAlert/BannerAlert.tsx",
+        "name": "BannerAlertProps",
+        "properties": [
+            {
+                "name": "body",
+                "required": true,
+                "description": "The body of the banner alert.",
+                "type": "string"
+            },
+            {
+                "name": "callToAction",
+                "required": false,
+                "description": "This property may be undefined or an object containing required CallToActionButton properties.",
+                "type": "CallToActionButton"
+            },
+            {
+                "name": "elevated",
+                "required": false,
+                "description": "Is the alert elevated. If true a drop shadow is added.",
+                "default": false,
+                "type": "boolean"
+            },
+            {
+                "name": "header",
+                "required": true,
+                "description": "The header of the banner alert.",
+                "type": "string"
+            },
+            {
+                "name": "onClose",
+                "required": false,
+                "description": "The function to call when the banner alert is closed. If not included the close button will not be displayed.",
+                "type": ""
+            },
+            {
+                "name": "variant",
+                "required": false,
+                "description": "The color variant of the banner alert.",
+                "default": "informational",
+                "type": "AlertVariant"
+            }
+        ],
+        "id": "banner-alert-props",
+        "components": ["BannerAlert"],
+        "references": []
+    },
+    {
+        "file": "/components/BottomNavigation/BottomNavigation.tsx",
+        "name": "BottomNavigationProps",
+        "properties": [],
+        "id": "bottom-navigation-props",
+        "components": ["BottomNavigation"],
+        "references": []
+    },
+    {
+        "file": "/components/Breadcrumb/BreadcrumbDropdown.tsx",
+        "name": "BreadcrumbDropdownProps",
+        "properties": [],
+        "id": "breadcrumb-dropdown-props",
+        "components": ["Breadcrumb"],
+        "references": []
+    },
+    {
+        "file": "/components/Breadcrumb/Breadcrumb.tsx",
+        "name": "BreadcrumbProps",
+        "properties": [],
+        "id": "breadcrumb-props",
+        "components": ["Breadcrumb"],
+        "references": []
+    },
+    {
+        "file": "/components/ButtonDock/ButtonDock.tsx",
+        "name": "ButtonDockProps",
+        "properties": [
+            {
+                "name": "arrangement",
+                "required": false,
+                "description": "If more than one button is provided defines how the buttons should be arranged.",
+                "default": "fill",
+                "type": ""
+            },
+            {
+                "name": "mode",
+                "required": false,
+                "description": "If the dock should render inline or fixed to the bottom of the viewport.",
+                "default": "inline",
+                "type": ""
+            },
+            {
+                "name": "primaryButton",
+                "required": true,
+                "description": "The primary button in the dock. If a secondary button is provided the primary will render on the right side.",
+                "type": "ButtonProps"
+            },
+            {
+                "name": "secondaryButton",
+                "required": true,
+                "description": "Secondary button. If provided will render on the left side.",
+                "type": "ButtonProps"
+            }
+        ],
+        "id": "button-dock-props",
+        "components": ["ButtonDock"],
+        "references": []
+    },
+    {
+        "file": "/components/Button/Button.tsx",
+        "name": "ButtonProps",
+        "properties": [],
+        "id": "button-props",
+        "components": ["Button"],
+        "references": []
+    },
+    {
+        "file": "/components/Calendar/Calendar.tsx",
+        "name": "CalendarProps",
+        "properties": [
+            {
+                "name": "focusTrap",
+                "required": false,
+                "description": "If focus trap should be enabled within the calendar component.\n\nOnly applicable if the Calendar is used in a popover like in DatePicker.",
+                "default": false,
+                "type": "boolean"
+            },
+            {
+                "name": "onChange",
+                "required": false,
+                "description": "Fires when the date changes with the new date",
+                "type": ""
+            },
+            {
+                "name": "value",
+                "required": false,
+                "description": "The currently selected date",
+                "type": ""
+            },
+            {
+                "name": "variant",
+                "required": false,
+                "description": "Determines how the Calendar will appear.",
+                "default": "flat",
+                "type": ""
+            }
+        ],
+        "id": "calendar-props",
+        "components": ["Calendar"],
+        "references": []
+    },
+    {
+        "file": "/components/Card/Card.tsx",
+        "name": "CardProps",
+        "properties": [
+            {
+                "name": "children",
+                "required": true,
+                "description": "The content of the card.",
+                "type": "React.ReactNode"
+            },
+            {
+                "name": "variant",
+                "required": false,
+                "description": "Determines how the card border will appear.",
+                "default": "elevated",
+                "type": ""
+            }
+        ],
+        "id": "card-props",
+        "components": ["Card"],
+        "references": []
+    },
+    {
+        "file": "/components/Carousel/Carousel.tsx",
+        "name": "CarouselProps",
+        "properties": [
+            {
+                "name": "children",
+                "required": true,
+                "description": "The content of the carousel.",
+                "type": "React.ReactNode"
+            },
+            {
+                "name": "gap",
+                "required": false,
+                "description": "The gap between items in pixels.",
+                "default": "16",
+                "type": "number"
+            },
+            {
+                "name": "itemWidth",
+                "required": false,
+                "description": "The width of each item/child.\n\nIf number is provided, it is treated as pixels.\n\nIf string is provided, it is treated as a CSS width value (%, px, em, rem, etc).\n\nIf a percentage (%) is provided, the item is sized based on the carousel container's width",
+                "default": "80%",
+                "type": ""
+            },
+            {
+                "name": "label",
+                "required": true,
+                "description": "A label for the carousel for screen readers.",
+                "type": "string"
+            },
+            {
+                "name": "style",
+                "required": false,
+                "description": "Additional styles to apply to the carousel container.",
+                "type": "CSSProperties"
+            }
+        ],
+        "id": "carousel-props",
+        "components": ["Carousel"],
+        "references": []
+    },
+    {
+        "file": "/components/CheckboxGroupField/CheckboxGroupField.tsx",
+        "name": "CheckboxGroupFieldProps",
+        "properties": [],
+        "id": "checkbox-group-field-props",
+        "components": ["CheckboxGroupField"],
+        "references": []
+    },
+    {
+        "file": "/components/CheckboxGroup/CheckboxGroup.tsx",
+        "name": "CheckboxGroupProps",
+        "properties": [],
+        "id": "checkbox-group-props",
+        "components": ["CheckboxGroup"],
+        "references": []
+    },
+    {
+        "file": "/components/CheckboxOption/CheckboxOption.tsx",
+        "name": "CheckboxOptionProps",
+        "properties": [],
+        "id": "checkbox-option-props",
+        "components": ["CheckboxOption"],
+        "references": []
+    },
+    {
+        "file": "/components/Checkbox/Checkbox.tsx",
+        "name": "CheckboxProps",
+        "properties": [],
+        "id": "checkbox-props",
+        "components": ["Checkbox"],
+        "references": []
+    },
+    {
+        "file": "/components/ChipGroup/ChipGroup.tsx",
+        "name": "ChipGroupProps",
+        "properties": [
+            {
+                "name": "children",
+                "required": false,
+                "description": "Only Chip components should be used as children.",
+                "type": "React.ReactNode"
+            },
+            {
+                "name": "wrap",
+                "required": false,
+                "description": "To allow chips to wrap. If set to false chips will scroll.",
+                "default": true,
+                "type": "boolean"
+            }
+        ],
+        "id": "chip-group-props",
+        "components": ["ChipGroup"],
+        "references": []
+    },
+    {
+        "file": "/components/Chip/Chip.tsx",
+        "name": "ChipProps",
+        "properties": [
+            {
+                "name": "disabled",
+                "required": false,
+                "description": "Is the chip disabled.",
+                "default": false,
+                "type": "boolean"
+            },
+            {
+                "name": "flat",
+                "required": false,
+                "description": "Is the chip elevated or flat. If flat the drop shadow is removed.",
+                "default": false,
+                "type": "boolean"
+            },
+            {
+                "name": "label",
+                "required": true,
+                "description": "The label of the chip.",
+                "type": "string"
+            },
+            {
+                "name": "leadingIcon",
+                "required": false,
+                "description": "The leading icon of the chip.",
+                "type": "React.ReactNode"
+            },
+            {
+                "name": "onClick",
+                "required": false,
+                "description": "The function to call when the chip is clicked.",
+                "type": ""
+            },
+            {
+                "name": "selected",
+                "required": false,
+                "description": "Whether the chip is currently selected.",
+                "default": false,
+                "type": "boolean"
+            },
+            {
+                "name": "trailingBadge",
+                "required": false,
+                "description": "The trailing Badge for use in the ChipFilter.\n\nIf a trailingIcon is provided the Badge will **not** be visible.",
+                "type": "BadgeItem"
+            },
+            {
+                "name": "trailingIcon",
+                "required": false,
+                "description": "The trailing icon of the chip.\n\nYou can only have one of the trailing options, trailingIcon **or** trailingBadge. If both are present the trailingIcon will be visible.",
+                "type": "React.ReactNode"
+            }
+        ],
+        "id": "chip-props",
+        "components": ["Chip"],
+        "references": []
+    },
+    {
+        "file": "/types/common.ts",
+        "name": "CommonProps",
+        "properties": [],
+        "id": "common-props",
+        "components": [],
+        "references": []
+    },
+    {
+        "file": "/utils/demo.ts",
+        "name": "ComponentExampleRenderProps",
+        "properties": [
+            {
+                "name": "Component",
+                "required": false,
+                "type": "React.ComponentType"
+            },
+            {
+                "name": "id",
+                "required": false,
+                "type": "string"
+            },
+            {
+                "name": "preset",
+                "required": false,
+                "type": "DemoPreset"
+            },
+            {
+                "name": "props",
+                "required": false,
+                "type": "Props"
+            },
+            {
+                "name": "setState",
+                "required": false,
+                "type": "DemoSetState"
+            },
+            {
+                "name": "variant",
+                "required": false,
+                "type": ""
+            }
+        ],
+        "id": "component-example-render-props",
+        "components": [],
+        "references": []
+    },
+    {
+        "file": "/types/common.ts",
+        "name": "DataProps",
+        "properties": [],
+        "id": "data-props",
+        "components": [],
+        "references": []
+    },
+    {
+        "file": "/components/DatePickerField/DatePickerField.tsx",
+        "name": "DatePickerFieldProps",
+        "properties": [],
+        "id": "date-picker-field-props",
+        "components": ["DatePickerField"],
+        "references": []
+    },
+    {
+        "file": "/components/DatePicker/DatePicker.tsx",
+        "name": "DatePickerProps",
+        "properties": [],
+        "id": "date-picker-props",
+        "components": ["DatePicker"],
+        "references": []
+    },
+    {
+        "file": "/components/Dialog/Dialog.tsx",
+        "name": "DialogProps",
+        "properties": [],
+        "id": "dialog-props",
+        "components": ["Dialog"],
+        "references": []
+    },
+    {
+        "file": "/utils/demo.ts",
+        "name": "disableProps",
+        "properties": [],
+        "id": "disable-props",
+        "components": [],
+        "references": []
+    },
+    {
+        "file": "/components/Divider/Divider.tsx",
+        "name": "DividerProps",
+        "properties": [
+            {
+                "name": "inset",
+                "required": false,
+                "description": "The inset (margin) of the divider. The value is a number between 0 and 12, which corresponds to the spacing sizing variables defined in the theme. The inset is applied to the left and right sides of the divider when the orientation is horizontal, and to the top and bottom when the orientation is vertical.",
+                "default": "0",
+                "type": ""
+            },
+            {
+                "name": "orientation",
+                "required": false,
+                "description": "The orientation of the divider.",
+                "default": "horizontal",
+                "type": ""
+            },
+            {
+                "name": "padding",
+                "required": false,
+                "description": "If the divider padding is shown.",
+                "default": true,
+                "type": "boolean"
+            },
+            {
+                "name": "thickness",
+                "required": false,
+                "description": "The thickness of the divider.",
+                "default": "light",
+                "type": ""
+            }
+        ],
+        "id": "divider-props",
+        "components": ["Divider"],
+        "references": []
+    },
+    {
+        "file": "/components/Drawer/Drawer.tsx",
+        "name": "DrawerProps",
+        "properties": [],
+        "id": "drawer-props",
+        "components": ["Drawer"],
+        "references": []
+    },
+    {
+        "file": "/types/common.ts",
+        "name": "ElementConstructorProps",
+        "properties": [],
+        "id": "element-constructor-props",
+        "components": [],
+        "references": []
+    },
+    {
+        "file": "/types/common.ts",
+        "name": "ElementProps",
+        "properties": [],
+        "id": "element-props",
+        "components": [],
+        "references": []
+    },
+    {
+        "file": "/components/EmptyState/EmptyState.tsx",
+        "name": "EmptyStateProps",
+        "properties": [
+            {
+                "name": "body",
+                "required": true,
+                "description": "The body of the empty state.",
+                "type": "string"
+            },
+            {
+                "name": "bodyAlign",
+                "required": false,
+                "description": "The text alignment of the body.",
+                "default": "center",
+                "type": ""
+            },
+            {
+                "name": "callToAction",
+                "required": false,
+                "description": "Optional CallToActionButton properties.",
+                "type": "CallToActionButton"
+            },
+            {
+                "name": "children",
+                "required": false,
+                "description": "The image or icon to display in the empty state.",
+                "type": "React.ReactNode"
+            },
+            {
+                "name": "header",
+                "required": true,
+                "description": "The header of the empty state.",
+                "type": "string"
+            }
+        ],
+        "id": "empty-state-props",
+        "components": ["EmptyState"],
+        "references": []
+    },
+    {
+        "file": "/utils/createExampleChildElement.tsx",
+        "name": "ExampleChildElementProps",
+        "properties": [
+            {
+                "name": "action",
+                "required": false,
+                "type": "DemoAction"
+            },
+            {
+                "name": "exampleState",
+                "required": false,
+                "type": "Record"
+            },
+            {
+                "name": "id",
+                "required": false,
+                "type": "string"
+            },
+            {
+                "name": "name",
+                "required": false,
+                "type": "string"
+            },
+            {
+                "name": "setState",
+                "required": false,
+                "type": "DemoSetState"
+            }
+        ],
+        "id": "example-child-element-props",
+        "components": [],
+        "references": []
+    },
+    {
+        "file": "/components/ExamplePlaceholder/ExamplePlaceholder.tsx",
+        "name": "ExamplePlaceholderProps",
+        "properties": [
+            {
+                "name": "direction",
+                "required": false,
+                "description": "The direction of the placeholder.",
+                "default": "'row'",
+                "type": ""
+            },
+            {
+                "name": "height",
+                "required": false,
+                "description": "The height of the placeholder.",
+                "default": "100",
+                "type": ""
+            },
+            {
+                "name": "hideSize",
+                "required": false,
+                "description": "Whether to hide the size text.",
+                "default": false,
+                "type": "boolean"
+            },
+            {
+                "name": "width",
+                "required": false,
+                "description": "The width of the placeholder.",
+                "default": "100%",
+                "type": ""
+            }
+        ],
+        "id": "example-placeholder-props",
+        "components": ["ExamplePlaceholder"],
+        "references": []
+    },
+    {
+        "file": "/components/FormField/FormFieldExample.tsx",
+        "name": "ExampleProps",
+        "properties": [],
+        "id": "example-props",
+        "components": ["FormField"],
+        "references": []
+    },
+    {
+        "file": "/components/Fab/Fab.tsx",
+        "name": "FabProps",
+        "properties": [],
+        "id": "fab-props",
+        "components": ["Fab"],
+        "references": []
+    },
+    {
+        "file": "/components/Field/utils.ts",
+        "name": "FieldContextProps",
+        "properties": [],
+        "id": "field-context-props",
+        "components": ["Field"],
+        "references": []
+    },
+    {
+        "file": "/types/common.ts",
+        "name": "FieldControlProps",
+        "properties": [],
+        "id": "field-control-props",
+        "components": [],
+        "references": []
+    },
+    {
+        "file": "/components/Field/FieldError.tsx",
+        "name": "FieldErrorProps",
+        "properties": [
+            {
+                "name": "children",
+                "required": false,
+                "description": "The error message text.",
+                "type": "string"
+            }
+        ],
+        "id": "field-error-props",
+        "components": ["Field"],
+        "references": []
+    },
+    {
+        "file": "/components/Field/FieldLabel.tsx",
+        "name": "FieldLabelProps",
+        "properties": [],
+        "id": "field-label-props",
+        "components": ["Field"],
+        "references": []
+    },
+    {
+        "file": "/components/Field/Field.tsx",
+        "name": "FieldProps",
+        "properties": [
+            {
+                "name": "as",
+                "required": false,
+                "description": "The element type to render the field as.",
+                "default": "div",
+                "type": "As"
+            },
+            {
+                "name": "children",
+                "required": true,
+                "description": "The children of the form field. This should be a control such as DatePicker, Input, InputNumber, InputPhone, Password, Select, Textarea, or TimePicker.",
+                "type": "React.ReactNode"
+            },
+            {
+                "name": "id",
+                "required": false,
+                "description": "The unique id for the field.",
+                "type": "string"
+            }
+        ],
+        "id": "field-props",
+        "components": ["Field"],
+        "references": []
+    },
+    {
+        "file": "/components/FileUploadItem/FileUploadItem.tsx",
+        "name": "FileUploadItemProps",
+        "properties": [],
+        "id": "file-upload-item-props",
+        "components": ["FileUploadItem"],
+        "references": []
+    },
+    {
+        "file": "/components/FileUpload/FileUpload.tsx",
+        "name": "FileUploadProps",
+        "properties": [],
+        "id": "file-upload-props",
+        "components": ["FileUpload"],
+        "references": []
+    },
+    {
+        "file": "/components/FormField/FormField.tsx",
+        "name": "FormFieldControlProps",
+        "properties": [],
+        "id": "form-field-control-props",
+        "components": ["FormField"],
+        "references": []
+    },
+    {
+        "file": "/components/FormField/FormField.tsx",
+        "name": "FormFieldProps",
+        "properties": [],
+        "id": "form-field-props",
+        "components": ["FormField"],
+        "references": []
+    },
+    {
+        "file": "/components/Img/Img.tsx",
+        "name": "ImgProps",
+        "properties": [
+            {
+                "name": "alt",
+                "required": true,
+                "description": "The alternative text for the image.",
+                "type": "string"
+            },
+            {
+                "name": "src",
+                "required": true,
+                "description": "The URL of the image.",
+                "type": "string"
+            }
+        ],
+        "id": "img-props",
+        "components": ["Img"],
+        "references": []
+    },
+    {
+        "file": "/components/InputNumber/IncrementButton.tsx",
+        "name": "IncrementButtonProps",
+        "properties": [
+            {
+                "name": "disabled",
+                "required": false,
+                "type": "boolean"
+            },
+            {
+                "name": "increment",
+                "required": false,
+                "type": ""
+            },
+            {
+                "name": "inputId",
+                "required": false,
+                "type": "string"
+            },
+            {
+                "name": "onIncrement",
+                "required": false,
+                "type": ""
+            }
+        ],
+        "id": "increment-button-props",
+        "components": ["InputNumber"],
+        "references": []
+    },
+    {
+        "file": "node_modules/@testing-library/react/types/index.d.ts",
+        "name": "initialProps",
+        "properties": [],
+        "id": "initial-props",
+        "components": [],
+        "references": []
+    },
+    {
+        "file": "node_modules/@testing-library/react/types/index.d.ts",
+        "name": "initialProps",
+        "properties": [],
+        "id": "initial-props",
+        "components": [],
+        "references": []
+    },
+    {
+        "file": "node_modules/@testing-library/react/types/index.d.ts",
+        "name": "initialProps",
+        "properties": [],
+        "id": "initial-props",
+        "components": [],
+        "references": []
+    },
+    {
+        "file": "/components/InlineAlert/InlineAlert.tsx",
+        "name": "InlineAlertProps",
+        "properties": [],
+        "id": "inline-alert-props",
+        "components": ["InlineAlert"],
+        "references": []
+    },
+    {
+        "file": "/components/Input/InputElement.tsx",
+        "name": "InputElementBaseProps",
+        "properties": [],
+        "id": "input-element-base-props",
+        "components": ["Input"],
+        "references": []
+    },
+    {
+        "file": "/components/Input/InputElement.tsx",
+        "name": "InputElementProps",
+        "properties": [],
+        "id": "input-element-props",
+        "components": ["Input"],
+        "references": []
+    },
+    {
+        "file": "/components/Input/InputExample.tsx",
+        "name": "InputExampleProps",
+        "properties": [],
+        "id": "input-example-props",
+        "components": ["Input"],
+        "references": []
+    },
+    {
+        "file": "/components/InputField/InputField.tsx",
+        "name": "InputFieldProps",
+        "properties": [],
+        "id": "input-field-props",
+        "components": ["InputField"],
+        "references": []
+    },
+    {
+        "file": "/components/InputNumberField/InputNumberField.tsx",
+        "name": "InputNumberFieldProps",
+        "properties": [],
+        "id": "input-number-field-props",
+        "components": ["InputNumberField"],
+        "references": []
+    },
+    {
+        "file": "/components/InputNumber/InputNumber.tsx",
+        "name": "InputNumberProps",
+        "properties": [],
+        "id": "input-number-props",
+        "components": ["InputNumber"],
+        "references": []
+    },
+    {
+        "file": "/components/InputPhoneField/InputPhoneField.tsx",
+        "name": "InputPhoneFieldProps",
+        "properties": [],
+        "id": "input-phone-field-props",
+        "components": ["InputPhoneField"],
+        "references": []
+    },
+    {
+        "file": "/components/InputPhone/InputPhone.tsx",
+        "name": "InputPhoneProps",
+        "properties": [],
+        "id": "input-phone-props",
+        "components": ["InputPhone"],
+        "references": []
+    },
+    {
+        "file": "/components/Input/Input.tsx",
+        "name": "InputProps",
+        "properties": [],
+        "id": "input-props",
+        "components": ["Input"],
+        "references": []
+    },
+    {
+        "file": "/components/Slider/SliderIntervalDots.tsx",
+        "name": "IntervalDotProps",
+        "properties": [],
+        "id": "interval-dot-props",
+        "components": ["Slider"],
+        "references": []
+    },
+    {
+        "file": "/components/Layout/Layout.tsx",
+        "name": "LayoutProps",
+        "properties": [
+            {
+                "name": "align",
+                "required": false,
+                "description": "The alignment style to apply to the Layout.",
+                "default": "flex-start",
+                "type": ""
+            },
+            {
+                "name": "as",
+                "required": false,
+                "description": "The element type to render as.",
+                "default": "div",
+                "type": "As"
+            },
+            {
+                "name": "children",
+                "required": true,
+                "description": "The content of the Layout.",
+                "type": "React.ReactNode"
+            },
+            {
+                "name": "column",
+                "required": false,
+                "description": "Determines if the flex-direction should be displayed as a column.",
+                "default": false,
+                "type": "boolean"
+            },
+            {
+                "name": "gap",
+                "required": false,
+                "description": "The gap between the children.",
+                "type": ""
+            },
+            {
+                "name": "justify",
+                "required": false,
+                "description": "The justification style to apply to the Layout.",
+                "default": "flex-start",
+                "type": ""
+            }
+        ],
+        "id": "layout-props",
+        "components": ["Layout"],
+        "references": []
+    },
+    {
+        "file": "/components/Link/Link.tsx",
+        "name": "LinkProps",
+        "properties": [],
+        "id": "link-props",
+        "components": ["Link"],
+        "references": []
+    },
+    {
+        "file": "/components/ListItem/ListItem.tsx",
+        "name": "ListItemProps",
+        "properties": [],
+        "id": "list-item-props",
+        "components": ["ListItem"],
+        "references": []
+    },
+    {
+        "file": "/components/Menu/Menu.tsx",
+        "name": "MenuProps",
+        "properties": [],
+        "id": "menu-props",
+        "components": ["Menu"],
+        "references": []
+    },
+    {
+        "file": "/components/Modal/Modal.tsx",
+        "name": "ModalProps",
+        "properties": [],
+        "id": "modal-props",
+        "components": ["Modal"],
+        "references": []
+    },
+    {
+        "file": "/components/TimePicker/Listbox.tsx",
+        "name": "Option",
+        "properties": [
+            {
+                "name": "id",
+                "required": false,
+                "type": "string"
+            },
+            {
+                "name": "label",
+                "required": false,
+                "type": "string"
+            },
+            {
+                "name": "value",
+                "required": false,
+                "type": "string"
+            }
+        ],
+        "id": "option",
+        "components": ["TimePicker"],
+        "references": []
+    },
+    {
+        "file": "/components/Calendar/Calendar.tsx",
+        "name": "optionProps",
+        "properties": [],
+        "id": "option-props",
+        "components": ["Calendar"],
+        "references": []
+    },
+    {
+        "file": "/components/OTPInput/OTPInput.tsx",
+        "name": "OTPInputProps",
+        "properties": [],
+        "id": "otp-input-props",
+        "components": ["OTPInput"],
+        "references": []
+    },
+    {
+        "file": "/components/PageControl/PageControl.tsx",
+        "name": "PageControlProps",
+        "properties": [
+            {
+                "name": "currentPage",
+                "required": true,
+                "description": "The current page (NOT zero-based).",
+                "type": "number"
+            },
+            {
+                "name": "numPages",
+                "required": true,
+                "description": "The total number of pages.",
+                "type": "number"
+            },
+            {
+                "name": "variant",
+                "required": false,
+                "description": "The variant of the page-control.",
+                "default": "flat",
+                "type": ""
+            }
+        ],
+        "id": "page-control-props",
+        "components": ["PageControl"],
+        "references": []
+    },
+    {
+        "file": "/components/Pagination/PageInput.tsx",
+        "name": "PageInputProps",
+        "properties": [],
+        "id": "page-input-props",
+        "components": ["Pagination"],
+        "references": []
+    },
+    {
+        "file": "/components/Pagination/PageList.tsx",
+        "name": "PageListProps",
+        "properties": [],
+        "id": "page-list-props",
+        "components": ["Pagination"],
+        "references": []
+    },
+    {
+        "file": "/components/Pagination/Pagination.tsx",
+        "name": "PaginationProps",
+        "properties": [
+            {
+                "name": "numPages",
+                "required": false,
+                "description": "The number of pages to display in the pagination component.",
+                "default": "1",
+                "type": "number"
+            },
+            {
+                "name": "onChange",
+                "required": false,
+                "description": "Called when the page changes.",
+                "type": ""
+            },
+            {
+                "name": "value",
+                "required": false,
+                "description": "The current page number.",
+                "default": "1",
+                "type": "number"
+            }
+        ],
+        "id": "pagination-props",
+        "components": ["Pagination"],
+        "references": []
+    },
+    {
+        "file": "/components/PasswordField/PasswordField.tsx",
+        "name": "PasswordFieldProps",
+        "properties": [],
+        "id": "password-field-props",
+        "components": ["PasswordField"],
+        "references": []
+    },
+    {
+        "file": "/components/Password/Password.tsx",
+        "name": "PasswordProps",
+        "properties": [],
+        "id": "password-props",
+        "components": ["Password"],
+        "references": []
+    },
+    {
+        "file": "/components/Popover/Popover.tsx",
+        "name": "PopoverProps",
+        "properties": [],
+        "id": "popover-props",
+        "components": ["Popover"],
+        "references": []
+    },
+    {
+        "file": "/components/Popover/Popover.tsx",
+        "name": "PopoverTriggerProps",
+        "properties": [
+            {
+                "name": "aria-describedby",
+                "required": false,
+                "type": "string"
+            },
+            {
+                "name": "onClick",
+                "required": false,
+                "type": ""
+            }
+        ],
+        "id": "popover-trigger-props",
+        "components": ["Popover"],
+        "references": []
+    },
+    {
+        "file": "/components/Portal/Portal.tsx",
+        "name": "PortalProps",
+        "properties": [
+            {
+                "name": "children",
+                "required": true,
+                "description": "The content to render in the portal.",
+                "type": "React.ReactNode"
+            },
+            {
+                "name": "container",
+                "required": false,
+                "description": "The container to render the portal in.",
+                "type": "HTMLElement"
+            }
+        ],
+        "id": "portal-props",
+        "components": ["Portal"],
+        "references": []
+    },
+    {
+        "file": "/components/ProgressBar/ProgressBar.tsx",
+        "name": "ProgressBarProps",
+        "properties": [
+            {
+                "name": "align",
+                "required": false,
+                "description": "The label alignment of the progressbar.",
+                "default": "center",
+                "type": ""
+            },
+            {
+                "name": "completion",
+                "required": true,
+                "description": "The current progress of the progressbar.",
+                "default": "0",
+                "type": "number"
+            },
+            {
+                "name": "label",
+                "required": false,
+                "description": "The label of the progressbar.",
+                "type": "string"
+            },
+            {
+                "name": "size",
+                "required": false,
+                "description": "The size of the progressbar.",
+                "default": "large",
+                "type": ""
+            },
+            {
+                "name": "successColor",
+                "required": false,
+                "description": "If true and completion = 100, displays the progress bar in the success color.",
+                "default": false,
+                "type": "boolean"
+            },
+            {
+                "name": "successHidden",
+                "required": false,
+                "description": "Whether to hide the success color when the progress bar is complete.",
+                "default": false,
+                "type": "boolean"
+            }
+        ],
+        "id": "progress-bar-props",
+        "components": ["ProgressBar"],
+        "references": []
+    },
+    {
+        "file": "/components/ProgressCircle/ProgressCircle.tsx",
+        "name": "ProgressCircleProps",
+        "properties": [
+            {
+                "name": "label",
+                "required": false,
+                "description": "The label of the progress circle.",
+                "type": "string"
+            },
+            {
+                "name": "labelPosition",
+                "required": false,
+                "description": "The position of the label in relation to the progress circle.",
+                "default": "bottom",
+                "type": ""
+            },
+            {
+                "name": "size",
+                "required": false,
+                "description": "The size of the label and progress circle.",
+                "default": "medium",
+                "type": ""
+            }
+        ],
+        "id": "progress-circle-props",
+        "components": ["ProgressCircle"],
+        "references": []
+    },
+    {
+        "file": "/components/ProgressionStepperBar/ProgressionStepperBar.tsx",
+        "name": "ProgressionStepperBarProps",
+        "properties": [
+            {
+                "name": "size",
+                "required": false,
+                "description": "The size of the progress bar.",
+                "default": "large",
+                "type": ""
+            },
+            {
+                "name": "stepCompleted",
+                "required": false,
+                "description": "The last step completed.",
+                "default": "0",
+                "type": "number"
+            },
+            {
+                "name": "stepCount",
+                "required": true,
+                "description": "The number of steps in the progress bar.",
+                "type": "number"
+            }
+        ],
+        "id": "progression-stepper-bar-props",
+        "components": ["ProgressionStepperBar"],
+        "references": []
+    },
+    {
+        "file": "/components/ProgressionStepper/ProgressionStepper.tsx",
+        "name": "ProgressionStepperItem",
+        "properties": [
+            {
+                "name": "name",
+                "required": true,
+                "description": "The name of the step.",
+                "type": "string"
+            },
+            {
+                "name": "subtext",
+                "required": false,
+                "description": "The subtext of the step.",
+                "type": "string"
+            },
+            {
+                "name": "touchLink",
+                "required": false,
+                "description": "The link to navigate to when the step is clicked.",
+                "type": ""
+            }
+        ],
+        "id": "progression-stepper-item",
+        "components": ["ProgressionStepper"],
+        "references": []
+    },
+    {
+        "file": "/components/ProgressionStepper/ProgressionStepper.tsx",
+        "name": "ProgressionStepperProps",
+        "properties": [
+            {
+                "name": "completedStep",
+                "required": false,
+                "description": "The last completed step in the progress bar. This is only applicable for the 'widget' variant.",
+                "default": "0",
+                "type": "number"
+            },
+            {
+                "name": "steps",
+                "required": true,
+                "description": "The steps to display in the progress bar.",
+                "type": "Array<ProgressionStepperItem>"
+            },
+            {
+                "name": "variant",
+                "required": false,
+                "description": "The variant of the progress bar. Can be either horizontal, vertical, or widget.\n\nWhen on small width screens, the default will automatically switch to widget.",
+                "default": "horizontal",
+                "type": ""
+            }
+        ],
+        "id": "progression-stepper-props",
+        "components": ["ProgressionStepper"],
+        "references": ["ProgressionStepperItem"]
+    },
+    {
+        "file": "/components/RadioGroupField/RadioGroupField.tsx",
+        "name": "RadioGroupFieldProps",
+        "properties": [],
+        "id": "radio-group-field-props",
+        "components": ["RadioGroupField"],
+        "references": []
+    },
+    {
+        "file": "/components/RadioGroup/RadioGroup.tsx",
+        "name": "RadioGroupProps",
+        "properties": [],
+        "id": "radio-group-props",
+        "components": ["RadioGroup"],
+        "references": []
+    },
+    {
+        "file": "/components/RadioOption/RadioOption.tsx",
+        "name": "RadioOptionProps",
+        "properties": [],
+        "id": "radio-option-props",
+        "components": ["RadioOption"],
+        "references": []
+    },
+    {
+        "file": "/components/Radio/Radio.tsx",
+        "name": "RadioProps",
+        "properties": [],
+        "id": "radio-props",
+        "components": ["Radio"],
+        "references": []
+    },
+    {
+        "file": "/components/Rating/Rating.tsx",
+        "name": "RatingProps",
+        "properties": [
+            {
+                "name": "onChange",
+                "required": false,
+                "description": "If included the component is in interactive mode and this callback is fired when a star is selected.",
+                "type": ""
+            },
+            {
+                "name": "size",
+                "required": false,
+                "description": "The size of the rating.",
+                "default": "medium",
+                "type": "RatingSize"
+            },
+            {
+                "name": "value",
+                "required": false,
+                "description": "The value of the rating between 0 and 5.",
+                "type": "number"
+            }
+        ],
+        "id": "rating-props",
+        "components": ["Rating"],
+        "references": []
+    },
+    {
+        "file": "/types/common.ts",
+        "name": "RequiredCommonProps",
+        "properties": [],
+        "id": "required-common-props",
+        "components": [],
+        "references": []
+    },
+    {
+        "file": "/components/Scrim/Scrim.tsx",
+        "name": "ScrimProps",
+        "properties": [],
+        "id": "scrim-props",
+        "components": ["Scrim"],
+        "references": []
+    },
+    {
+        "file": "/utils/scrollListItemsStyle.ts",
+        "name": "ScrollListItemsStyleProps",
+        "properties": [
+            {
+                "name": "scrollLimit",
+                "required": false,
+                "description": "The maximum number of ListItems to show before scrolling is enabled.\n\nUsed in conjunction with scrollListItemsStyle utility.",
+                "type": "number"
+            }
+        ],
+        "id": "scroll-list-items-style-props",
+        "components": [],
+        "references": []
+    },
+    {
+        "file": "/components/SearchBar/SearchBar.tsx",
+        "name": "SearchBarProps",
+        "properties": [],
+        "id": "search-bar-props",
+        "components": ["SearchBar"],
+        "references": []
+    },
+    {
+        "file": "/components/SegmentedControl/SegmentedControl.tsx",
+        "name": "SegmentedControlProps",
+        "properties": [],
+        "id": "segmented-control-props",
+        "components": ["SegmentedControl"],
+        "references": []
+    },
+    {
+        "file": "/components/SelectField/SelectField.tsx",
+        "name": "SelectFieldProps",
+        "properties": [],
+        "id": "select-field-props",
+        "components": ["SelectField"],
+        "references": []
+    },
+    {
+        "file": "/components/Select/Select.tsx",
+        "name": "SelectProps",
+        "properties": [],
+        "id": "select-props",
+        "components": ["Select"],
+        "references": []
+    },
+    {
+        "file": "/components/Skeleton/Skeleton.tsx",
+        "name": "SkeletonProps",
+        "properties": [
+            {
+                "name": "children",
+                "required": false,
+                "description": "The content of the skeleton.\n\nWhen the value is undefined, null or false the skeleton will appear.\n\nIf the value is provided, the skeleton will not appear and the content will be displayed instead.",
+                "type": ""
+            },
+            {
+                "name": "height",
+                "required": false,
+                "description": "The height of the skeleton. This is ignored when variant is 'profile' or 'thumbnail'.",
+                "default": "100",
+                "type": ""
+            },
+            {
+                "name": "variant",
+                "required": false,
+                "description": "The variant of the skeleton that best hints the content being loaded.",
+                "default": "rectangular",
+                "type": "SkeletonVariant"
+            },
+            {
+                "name": "width",
+                "required": false,
+                "description": "The width of the skeleton. This is ignored when variant is 'profile' or 'thumbnail'.",
+                "default": "200",
+                "type": ""
+            }
+        ],
+        "id": "skeleton-props",
+        "components": ["Skeleton"],
+        "references": []
+    },
+    {
+        "file": "/components/SkeletonText/SkeletonText.tsx",
+        "name": "SkeletonTextProps",
+        "properties": [
+            {
+                "name": "children",
+                "required": false,
+                "description": "The content of the skeleton.\n\nWhen the value is undefined, null or false the skeleton will appear.\n\nIf the value is provided, the skeleton will not appear and the content will be displayed instead.",
+                "type": ""
+            },
+            {
+                "name": "lines",
+                "required": false,
+                "description": "The number of lines showing.",
+                "default": "3",
+                "type": "number"
+            },
+            {
+                "name": "variant",
+                "required": false,
+                "description": "The variant of the text being loaded.",
+                "default": "body-base",
+                "type": "TxtVariant"
+            }
+        ],
+        "id": "skeleton-text-props",
+        "components": ["SkeletonText"],
+        "references": []
+    },
+    {
+        "file": "/components/Slider/Slider.tsx",
+        "name": "SliderProps",
+        "properties": [],
+        "id": "slider-props",
+        "components": ["Slider"],
+        "references": []
+    },
+    {
+        "file": "/components/Snackbar/Snackbar.tsx",
+        "name": "SnackbarProps",
+        "properties": [],
+        "id": "snackbar-props",
+        "components": ["Snackbar"],
+        "references": []
+    },
+    {
+        "file": "/components/StylesProviderDemo/StylesProviderDemo.tsx",
+        "name": "StylesProviderDemoProps",
+        "properties": [
+            {
+                "name": "brand",
+                "required": false,
+                "description": "The current brand variant.",
+                "default": "anywhere",
+                "type": ""
+            }
+        ],
+        "id": "styles-provider-demo-props",
+        "components": ["StylesProviderDemo"],
+        "references": []
+    },
+    {
+        "file": "/components/SwitchOption/SwitchOption.tsx",
+        "name": "SwitchOptionProps",
+        "properties": [],
+        "id": "switch-option-props",
+        "components": ["SwitchOption"],
+        "references": []
+    },
+    {
+        "file": "/components/Switch/Switch.tsx",
+        "name": "SwitchProps",
+        "properties": [],
+        "id": "switch-props",
+        "components": ["Switch"],
+        "references": []
+    },
+    {
+        "file": "/components/TabGroup/TabGroup.tsx",
+        "name": "TabGroupProps",
+        "properties": [],
+        "id": "tab-group-props",
+        "components": ["TabGroup"],
+        "references": []
+    },
+    {
+        "file": "/components/Table/Table.tsx",
+        "name": "TableProps",
+        "properties": [
+            {
+                "name": "columns",
+                "required": false,
+                "description": "The column definitions of the table.",
+                "type": "Array<undefined>"
+            },
+            {
+                "name": "data",
+                "required": false,
+                "description": "The data of the table.\n\nArray<TableRow>",
+                "type": "Array<R>"
+            },
+            {
+                "name": "pageSize",
+                "required": false,
+                "description": "The number of rows per page.\n\nIf the number of rows exceeds the page size, pagination controls will be displayed.",
+                "default": "10",
+                "type": "number"
+            },
+            {
+                "name": "size",
+                "required": false,
+                "description": "The size of the table.",
+                "default": "medium",
+                "type": "TableSize"
+            },
+            {
+                "name": "title",
+                "required": false,
+                "description": "The title of the table.",
+                "type": "string"
+            }
+        ],
+        "id": "table-props",
+        "components": ["Table"],
+        "references": ["R"]
+    },
+    {
+        "file": "/components/TabList/TabList.tsx",
+        "name": "TabListProps",
+        "properties": [
+            {
+                "name": "iconsOnly",
+                "required": false,
+                "description": "Determines if the labels of the options should be displayed. If icons are not provided for every option this is ignored and labels are shown.",
+                "default": false,
+                "type": "boolean"
+            },
+            {
+                "name": "id",
+                "required": false,
+                "description": "The id of the tab utility, used for accessibility.",
+                "type": "string"
+            },
+            {
+                "name": "label",
+                "required": true,
+                "description": "The label for the tab utility, used for accessibility.",
+                "type": "string"
+            },
+            {
+                "name": "onChange",
+                "required": true,
+                "description": "The function to call when the tab is clicked.",
+                "type": ""
+            },
+            {
+                "name": "options",
+                "required": true,
+                "description": "The tabs to display.\n\nIf **less than 2** items are provided, the component will not render.",
+                "type": "Array<O>"
+            },
+            {
+                "name": "size",
+                "required": false,
+                "description": "The size of the tabs.",
+                "default": "medium",
+                "type": "TabSize"
+            },
+            {
+                "name": "value",
+                "required": true,
+                "description": "The value of the selected tab.",
+                "type": ""
+            },
+            {
+                "name": "width",
+                "required": false,
+                "description": "Determines how the tab options use horizontal space.\n\nIf set to 'fill', options expand to fill the container's width.\n\nIf set to 'hug', options only take up as much space as the content requires.",
+                "default": "hug",
+                "type": ""
+            }
+        ],
+        "id": "tab-list-props",
+        "components": ["TabList"],
+        "references": ["O"]
+    },
+    {
+        "file": "/components/Tag/Tag.tsx",
+        "name": "TagProps",
+        "properties": [
+            {
+                "name": "color",
+                "required": false,
+                "description": "The color of the tag.",
+                "default": "grey",
+                "type": "ColorVariant"
+            },
+            {
+                "name": "label",
+                "required": true,
+                "description": "The label of the tag.",
+                "type": "string"
+            },
+            {
+                "name": "size",
+                "required": false,
+                "description": "The size of the tag.",
+                "default": "small",
+                "type": ""
+            },
+            {
+                "name": "variant",
+                "required": false,
+                "description": "The display variant of the tag.",
+                "default": "flat",
+                "type": ""
+            }
+        ],
+        "id": "tag-props",
+        "components": ["Tag"],
+        "references": []
+    },
+    {
+        "file": "/components/TextareaField/TextareaField.tsx",
+        "name": "TextareaFieldProps",
+        "properties": [],
+        "id": "textarea-field-props",
+        "components": ["TextareaField"],
+        "references": []
+    },
+    {
+        "file": "/components/Textarea/Textarea.tsx",
+        "name": "TextareaProps",
+        "properties": [],
+        "id": "textarea-props",
+        "components": ["Textarea"],
+        "references": []
+    },
+    {
+        "file": "/components/TimePickerField/TimePickerField.tsx",
+        "name": "TimePickerFieldProps",
+        "properties": [],
+        "id": "time-picker-field-props",
+        "components": ["TimePickerField"],
+        "references": []
+    },
+    {
+        "file": "/components/TimePicker/Listbox.tsx",
+        "name": "TimePickerListboxProps",
+        "properties": [
+            {
+                "name": "onSelect",
+                "required": false,
+                "type": ""
+            },
+            {
+                "name": "onTab",
+                "required": false,
+                "type": ""
+            },
+            {
+                "name": "options",
+                "required": false,
+                "type": "Array<Option>"
+            },
+            {
+                "name": "selectedValue",
+                "required": false,
+                "type": "string"
+            },
+            {
+                "name": "type",
+                "required": false,
+                "type": "TimePickerType"
+            }
+        ],
+        "id": "time-picker-listbox-props",
+        "components": ["TimePicker"],
+        "references": ["Option"]
+    },
+    {
+        "file": "/components/TimePicker/TimePicker.tsx",
+        "name": "TimePickerProps",
+        "properties": [],
+        "id": "time-picker-props",
+        "components": ["TimePicker"],
+        "references": []
+    },
+    {
+        "file": "/components/TimePicker/Segment.tsx",
+        "name": "TimePickerSegmentProps",
+        "properties": [
+            {
+                "name": "disabled",
+                "required": false,
+                "type": "boolean"
+            },
+            {
+                "name": "name",
+                "required": false,
+                "type": "string"
+            },
+            {
+                "name": "onChange",
+                "required": false,
+                "type": ""
+            },
+            {
+                "name": "readOnly",
+                "required": false,
+                "type": "boolean"
+            },
+            {
+                "name": "setRef",
+                "required": false,
+                "type": ""
+            },
+            {
+                "name": "type",
+                "required": false,
+                "type": "TimePickerType"
+            },
+            {
+                "name": "value",
+                "required": false,
+                "type": "T"
+            }
+        ],
+        "id": "time-picker-segment-props",
+        "components": ["TimePicker"],
+        "references": []
+    },
+    {
+        "file": "/components/ToggleOption/ToggleOption.tsx",
+        "name": "ToggleOptionControlProps",
+        "properties": [],
+        "id": "toggle-option-control-props",
+        "components": ["ToggleOption"],
+        "references": []
+    },
+    {
+        "file": "/components/ToggleOption/ToggleOption.tsx",
+        "name": "ToggleOptionProps",
+        "properties": [],
+        "id": "toggle-option-props",
+        "components": ["ToggleOption"],
+        "references": []
+    },
+    {
+        "file": "/components/Tooltip/Tooltip.tsx",
+        "name": "TooltipProps",
+        "properties": [
+            {
+                "name": "children",
+                "required": true,
+                "description": "A callback to render the trigger element.",
+                "type": ""
+            },
+            {
+                "name": "disabled",
+                "required": false,
+                "description": "Determines if the tooltip is disabled.",
+                "type": "boolean"
+            },
+            {
+                "name": "label",
+                "required": false,
+                "description": "The tooltip content.",
+                "type": "string"
+            },
+            {
+                "name": "placement",
+                "required": false,
+                "description": "The placement of the tooltip.",
+                "default": "top",
+                "type": "Extract"
+            },
+            {
+                "name": "showTail",
+                "required": false,
+                "description": "Determines if the tooltip should hide the tail.",
+                "default": true,
+                "type": "boolean"
+            }
+        ],
+        "id": "tooltip-props",
+        "components": ["Tooltip"],
+        "references": []
+    },
+    {
+        "file": "/components/Tooltip/Tooltip.tsx",
+        "name": "TooltipTriggerProps",
+        "properties": [
+            {
+                "name": "aria-labelledby",
+                "required": false,
+                "type": "string"
+            },
+            {
+                "name": "onBlur",
+                "required": false,
+                "type": ""
+            },
+            {
+                "name": "onFocus",
+                "required": false,
+                "type": ""
+            },
+            {
+                "name": "onMouseLeave",
+                "required": false,
+                "type": ""
+            },
+            {
+                "name": "onMouseOver",
+                "required": false,
+                "type": ""
+            }
+        ],
+        "id": "tooltip-trigger-props",
+        "components": ["Tooltip"],
+        "references": []
+    },
+    {
+        "file": "/components/TopNavigation/TopNavigation.tsx",
+        "name": "TopNavigationProps",
+        "properties": [
+            {
+                "name": "children",
+                "required": false,
+                "description": "The content of the top navigation.",
+                "type": "string"
+            }
+        ],
+        "id": "top-navigation-props",
+        "components": ["TopNavigation"],
+        "references": []
+    },
+    {
+        "file": "/components/Truncated/Truncated.tsx",
+        "name": "TruncatedProps",
+        "properties": [
+            {
+                "name": "as",
+                "required": false,
+                "description": "The element type to render as.",
+                "default": "span",
+                "type": "As"
+            },
+            {
+                "name": "children",
+                "required": true,
+                "description": "The content to render.",
+                "type": "string"
+            },
+            {
+                "name": "label",
+                "required": false,
+                "description": "The label to display in the tooltip when the text is truncated.\n\nIf not provided, the children will be used as the label.",
+                "type": "string"
+            }
+        ],
+        "id": "truncated-props",
+        "components": ["Truncated"],
+        "references": []
+    },
+    {
+        "file": "/components/Txt/Txt.tsx",
+        "name": "TxtProps",
+        "properties": [
+            {
+                "name": "as",
+                "required": false,
+                "description": "The element type to render as.",
+                "default": "span",
+                "type": "As"
+            },
+            {
+                "name": "children",
+                "required": true,
+                "description": "The content to render.",
+                "type": "unknown"
+            },
+            {
+                "name": "id",
+                "required": false,
+                "description": "The id of the element.",
+                "type": "string"
+            },
+            {
+                "name": "inherit",
+                "required": false,
+                "description": "Inherit style and not set font style.",
+                "default": false,
+                "type": "boolean"
+            },
+            {
+                "name": "skeletonLines",
+                "required": false,
+                "description": "The number of lines to display for skeleton text.\n\nIf not provided, it defaults to 0, meaning no skeleton lines will be shown.",
+                "default": "0",
+                "type": "number"
+            },
+            {
+                "name": "variant",
+                "required": false,
+                "description": "The variant to use.",
+                "default": "body-base",
+                "type": "TxtVariant"
+            }
+        ],
+        "id": "txt-props",
+        "components": ["Txt"],
+        "references": []
+    },
+    {
+        "file": "/utils/uiContext.ts",
+        "name": "UIContextProps",
+        "properties": [
+            {
+                "name": "isDesktop",
+                "required": false,
+                "type": "boolean"
+            },
+            {
+                "name": "isMobile",
+                "required": false,
+                "type": "boolean"
+            },
+            {
+                "name": "isTablet",
+                "required": false,
+                "type": "boolean"
+            },
+            {
+                "name": "sendAriaLiveMessage",
+                "required": false,
+                "type": ""
+            },
+            {
+                "name": "setTheme",
+                "required": false,
+                "type": ""
+            },
+            {
+                "name": "theme",
+                "required": false,
+                "type": "ColorTheme"
+            }
+        ],
+        "id": "ui-context-props",
+        "components": [],
+        "references": []
+    },
+    {
+        "file": "/components/UIProvider/UIProvider.tsx",
+        "name": "UIProviderProps",
+        "properties": [
+            {
+                "name": "children",
+                "required": true,
+                "description": "The children elements that will have access to the UI context.",
+                "type": "React.ReactNode"
+            }
+        ],
+        "id": "ui-provider-props",
+        "components": ["UIProvider"],
+        "references": []
+    },
+    {
+        "file": "/hooks/useArrowNavigation.ts",
+        "name": "UseArrowNavigationProps",
+        "properties": [
+            {
+                "name": "callback",
+                "required": false,
+                "description": "An optional callback function that is invoked when an arrow key is pressed. This function receives the key name, the keyboard event, and the next active element ID. If the function returns \n`true` , the default navigation behavior is prevented; if it returns \n`false`\n or is not provided, the default behavior proceeds.",
+                "type": ""
+            },
+            {
+                "name": "defaultActiveId",
+                "required": false,
+                "description": "The ID of the element that should be active by default. If not provided, the first ID in the \n`ids`\n array will be used.",
+                "type": ""
+            },
+            {
+                "name": "ids",
+                "required": false,
+                "description": "An array of string IDs representing the navigable elements. These IDs should correspond to the \n`id`\n attributes of the elements in the DOM. Ensure the elements are not disabled.",
+                "type": "Array<string>"
+            },
+            {
+                "name": "increments",
+                "required": false,
+                "description": "Optional configuration to set navigation direction increments.",
+                "type": "Record"
+            }
+        ],
+        "id": "use-arrow-navigation-props",
+        "components": [],
+        "references": []
+    },
+    {
+        "file": "/components/Field/utils.ts",
+        "name": "UseFieldInitProps",
+        "properties": [
+            {
+                "name": "disabled",
+                "required": false,
+                "type": ""
+            },
+            {
+                "name": "idProp",
+                "required": false,
+                "type": ""
+            },
+            {
+                "name": "invalidProp",
+                "required": false,
+                "type": ""
+            },
+            {
+                "name": "readOnly",
+                "required": false,
+                "type": "boolean"
+            },
+            {
+                "name": "required",
+                "required": false,
+                "type": ""
+            }
+        ],
+        "id": "use-field-init-props",
+        "components": ["Field"],
+        "references": []
+    },
+    {
+        "file": "/hooks/useFloating.ts",
+        "name": "UseFloatingProps",
+        "properties": [
+            {
+                "name": "arrowRef",
+                "required": false,
+                "description": "A ref object for the arrow element.",
+                "type": "React.MutableRefObject"
+            },
+            {
+                "name": "hide",
+                "required": false,
+                "description": "Whether to hide the floating element.",
+                "type": "boolean"
+            },
+            {
+                "name": "offsetOptions",
+                "required": false,
+                "description": "The offset options for the floating element.",
+                "default": "0",
+                "type": "OffsetOptions"
+            },
+            {
+                "name": "placement",
+                "required": false,
+                "description": "The preferred placement of the floating element.\n\nThis determines where the floating element will be positioned relative to the reference element.",
+                "default": "bottom-start",
+                "type": "Placement"
+            },
+            {
+                "name": "refWidth",
+                "required": false,
+                "description": "When set to true, the width of the floating element will match the width of the reference element.",
+                "default": false,
+                "type": "boolean"
+            },
+            {
+                "name": "strategy",
+                "required": false,
+                "description": "The positioning strategy ('absolute' or 'fixed').\n\nWhen set to 'fixed', the floating element will be positioned relative to the viewport.\n\nWhen set to 'absolute', the floating element will be positioned relative to the nearest positioned ancestor.",
+                "default": "fixed",
+                "type": "Strategy"
+            }
+        ],
+        "id": "use-floating-props",
+        "components": [],
+        "references": []
+    }
+]

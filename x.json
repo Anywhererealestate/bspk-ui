@@ -1,0 +1,254 @@
+{
+    "id": 849,
+    "name": "AvatarGroupProps",
+    "variant": "declaration",
+    "kind": 2097152,
+    "flags": {},
+    "sources": [
+        {
+            "fileName": "src/components/AvatarGroup/AvatarGroup.tsx",
+            "line": 8,
+            "character": 12,
+            "url": "https://github.com/Anywhererealestate/bspk-ui/blob/1b15b3b2ed023c3f9b652e02940d450afb0d95b8/src/components/AvatarGroup/AvatarGroup.tsx#L8"
+        }
+    ],
+    "type": {
+        "type": "intersection",
+        "types": [
+            {
+                "type": "reference",
+                "target": 423,
+                "typeArguments": [
+                    {
+                        "type": "literal",
+                        "value": "style"
+                    }
+                ],
+                "name": "CommonProps",
+                "package": "@bspk/ui"
+            },
+            {
+                "type": "reflection",
+                "declaration": {
+                    "id": 850,
+                    "name": "__type",
+                    "variant": "declaration",
+                    "kind": 65536,
+                    "flags": {},
+                    "children": [
+                        {
+                            "id": 851,
+                            "name": "items",
+                            "variant": "declaration",
+                            "kind": 1024,
+                            "flags": {},
+                            "comment": {
+                                "summary": [
+                                    {
+                                        "kind": "text",
+                                        "text": "The avatars to display in the group."
+                                    }
+                                ],
+                                "blockTags": [
+                                    {
+                                        "tag": "@example",
+                                        "content": [
+                                            {
+                                                "kind": "code",
+                                                "text": "```ts\n[\n        { name: 'Fezzik', image: '/avatar-01.png' },\n        { name: 'Inigo Montoya', initials: 'IM', color: 'blue' },\n        { name: 'Miracle Max', initials: 'MM', color: 'green' },\n        { name: 'Princess Buttercup', showIcon: true },\n    ];\n```"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "tag": "@required",
+                                        "content": []
+                                    }
+                                ]
+                            },
+                            "sources": [
+                                {
+                                    "fileName": "src/components/AvatarGroup/AvatarGroup.tsx",
+                                    "line": 23,
+                                    "character": 4,
+                                    "url": "https://github.com/Anywhererealestate/bspk-ui/blob/1b15b3b2ed023c3f9b652e02940d450afb0d95b8/src/components/AvatarGroup/AvatarGroup.tsx#L23"
+                                }
+                            ],
+                            "type": {
+                                "type": "array",
+                                "elementType": {
+                                    "type": "reference",
+                                    "target": 848,
+                                    "name": "AvatarItem",
+                                    "package": "@bspk/ui"
+                                }
+                            }
+                        },
+                        {
+                            "id": 853,
+                            "name": "max",
+                            "variant": "declaration",
+                            "kind": 1024,
+                            "flags": {
+                                "isOptional": true
+                            },
+                            "comment": {
+                                "summary": [
+                                    {
+                                        "kind": "text",
+                                        "text": "The maximum number of avatars to display before showing the overflow menu.\n\nThis is used to limit the number of avatars displayed in the group.\n\nRecommended to set this to a value between 3 and 5 for optimal display."
+                                    }
+                                ],
+                                "blockTags": [
+                                    {
+                                        "tag": "@default",
+                                        "content": [
+                                            {
+                                                "kind": "code",
+                                                "text": "```ts\n5\n```"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "tag": "@minimum",
+                                        "content": [
+                                            {
+                                                "kind": "text",
+                                                "text": "1"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "tag": "@maximum",
+                                        "content": [
+                                            {
+                                                "kind": "text",
+                                                "text": "5"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            "sources": [
+                                {
+                                    "fileName": "src/components/AvatarGroup/AvatarGroup.tsx",
+                                    "line": 41,
+                                    "character": 4,
+                                    "url": "https://github.com/Anywhererealestate/bspk-ui/blob/1b15b3b2ed023c3f9b652e02940d450afb0d95b8/src/components/AvatarGroup/AvatarGroup.tsx#L41"
+                                }
+                            ],
+                            "type": {
+                                "type": "intrinsic",
+                                "name": "number"
+                            }
+                        },
+                        {
+                            "id": 852,
+                            "name": "size",
+                            "variant": "declaration",
+                            "kind": 1024,
+                            "flags": {
+                                "isOptional": true
+                            },
+                            "comment": {
+                                "summary": [
+                                    {
+                                        "kind": "text",
+                                        "text": "Size of the avatar group."
+                                    }
+                                ],
+                                "blockTags": [
+                                    {
+                                        "tag": "@default",
+                                        "content": [
+                                            {
+                                                "kind": "code",
+                                                "text": "```ts\nsmall\n```"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            "sources": [
+                                {
+                                    "fileName": "src/components/AvatarGroup/AvatarGroup.tsx",
+                                    "line": 29,
+                                    "character": 4,
+                                    "url": "https://github.com/Anywhererealestate/bspk-ui/blob/1b15b3b2ed023c3f9b652e02940d450afb0d95b8/src/components/AvatarGroup/AvatarGroup.tsx#L29"
+                                }
+                            ],
+                            "type": {
+                                "type": "reference",
+                                "target": 832,
+                                "name": "SizeVariant",
+                                "package": "@bspk/ui"
+                            }
+                        },
+                        {
+                            "id": 854,
+                            "name": "variant",
+                            "variant": "declaration",
+                            "kind": 1024,
+                            "flags": {
+                                "isOptional": true
+                            },
+                            "comment": {
+                                "summary": [
+                                    {
+                                        "kind": "text",
+                                        "text": "The variant of the avatar group."
+                                    }
+                                ],
+                                "blockTags": [
+                                    {
+                                        "tag": "@default",
+                                        "content": [
+                                            {
+                                                "kind": "code",
+                                                "text": "```ts\nauto\n```"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            "sources": [
+                                {
+                                    "fileName": "src/components/AvatarGroup/AvatarGroup.tsx",
+                                    "line": 47,
+                                    "character": 4,
+                                    "url": "https://github.com/Anywhererealestate/bspk-ui/blob/1b15b3b2ed023c3f9b652e02940d450afb0d95b8/src/components/AvatarGroup/AvatarGroup.tsx#L47"
+                                }
+                            ],
+                            "type": {
+                                "type": "union",
+                                "types": [
+                                    {
+                                        "type": "literal",
+                                        "value": "spread"
+                                    },
+                                    {
+                                        "type": "literal",
+                                        "value": "stacked"
+                                    }
+                                ]
+                            }
+                        }
+                    ],
+                    "groups": [
+                        {
+                            "title": "Properties",
+                            "children": [851, 853, 852, 854]
+                        }
+                    ],
+                    "sources": [
+                        {
+                            "fileName": "src/components/AvatarGroup/AvatarGroup.tsx",
+                            "line": 8,
+                            "character": 54,
+                            "url": "https://github.com/Anywhererealestate/bspk-ui/blob/1b15b3b2ed023c3f9b652e02940d450afb0d95b8/src/components/AvatarGroup/AvatarGroup.tsx#L8"
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+}

@@ -41,7 +41,7 @@ export type LinkProps = Pick<CommonPropsLibrary, 'disabled'> & {
 };
 
 /**
- * This is the standalone link component. Inline links can use the native `a` element.
+ * This is the standalone link component. Inline links can use the native anchor element.
  *
  * @example
  *     import { Link } from '@bspk/ui/Link';
