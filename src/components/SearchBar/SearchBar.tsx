@@ -23,7 +23,10 @@ import { useIds } from '-/utils/useIds';
  */
 export type SearchBarOption = Pick<ListItemProps, 'label' | 'leading' | 'trailing'>;
 
-export type SearchBarProps<O extends SearchBarOption = SearchBarOption> = FieldControlProps<string, O> &
+export type SearchBarProps<O extends SearchBarOption = SearchBarOption> = Omit<
+    FieldControlProps<string, O>,
+    'invalid' | 'readOnly' | 'required'
+> &
     Pick<InputProps, 'inputRef' | 'size' | 'trailing'> &
     ScrollListItemsStyleProps & {
         /**
@@ -111,9 +114,11 @@ export function SearchBar<O extends SearchBarOption>({
     disabled = false,
     scrollLimit,
     trailing,
+    'aria-label': ariaLabel,
 }: SearchBarProps<O>) {
     const id = useId(idProp);
     const menuId = `${id}-menu`;
+    const noResultsId = `${id}-no-results`;
 
     const items = useIds(`search-bar-${id}`, itemsProp || []);
 
@@ -162,23 +167,20 @@ export function SearchBar<O extends SearchBarOption>({
     };
 
     useEffect(() => {
-        if (!hasFocus) {
-            setActiveElementId(null);
-            return;
-        }
+        if (!hasFocus) return setActiveElementId(null);
+
+        if (!filteredItems.length) return setActiveElementId(noResultsId);
 
         if (activeElementId) return;
 
-        // If we have focus but no active element, set the first item as active (if there is one)
-        if (filteredItems.length) {
-            setActiveElementId(value?.trim().length ? filteredItems[0].id : null);
-        }
-    }, [hasFocus, filteredItems, activeElementId, setActiveElementId, value]);
+        setActiveElementId(value?.trim().length ? filteredItems[0].id : null);
+    }, [hasFocus, filteredItems, activeElementId, setActiveElementId, value, noResultsId]);
 
     return (
         <>
             <div data-bspk="search-bar">
                 <Input
+                    aria-label={ariaLabel}
                     autoComplete="off"
                     containerRef={elements.setReference}
                     disabled={disabled}
@@ -242,8 +244,8 @@ export function SearchBar<O extends SearchBarOption>({
                 }}
                 tabIndex={-1}
             >
-                {!!value?.length && !items?.length && (
-                    <div data-bspk="no-items-found">
+                {activeElementId === noResultsId && (
+                    <div data-bspk="no-items-found" id={noResultsId}>
                         <Txt as="div" variant="heading-h5">
                             No results found
                         </Txt>
