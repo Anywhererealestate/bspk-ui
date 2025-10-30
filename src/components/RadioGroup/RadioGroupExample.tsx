@@ -1,3 +1,4 @@
+import { randomString } from '../../utils/random';
 import { RadioGroupProps } from '.';
 import { ComponentExample, Preset } from '-/utils/demo';
 
@@ -57,6 +58,10 @@ export const presets: Preset<RadioGroupProps>[] = [
 
 export const RadioGroupExample: ComponentExample<RadioGroupProps> = {
     presets,
+    render: ({ props, Component }) => {
+        const id = randomString();
+        return <Component {...props} id={id} name={props.name + id} />;
+    },
     defaultState: {
         value: 'option3',
         options: [

@@ -36,7 +36,8 @@
         &::before {
             content: '';
             display: block;
-            width: var(--spacing-sizing-03);
+            width: 100%;
+            scale: 0.7;
             aspect-ratio: 1/1;
             background: var(--inner);
             border-radius: var(--radius-full);
