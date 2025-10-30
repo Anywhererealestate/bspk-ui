@@ -1,6 +1,6 @@
-import { randomString } from '../../utils/random';
 import { RadioGroupProps } from '.';
 import { ComponentExample, Preset } from '-/utils/demo';
+import { randomString } from '-/utils/random';
 
 export const presets: Preset<RadioGroupProps>[] = [
     {
