@@ -1,7 +1,8 @@
 import { ComponentExample, createUid } from '-/utils/demo';
 
 export const RadioExample: ComponentExample = {
-    render: ({ props, Component }) => (
-        <Component {...props} aria-label={props['aria-label'] || 'radio aria-label'} name={createUid('radio')} />
-    ),
+    defaultState: {
+        'aria-label': 'radio aria-label',
+    },
+    render: ({ props, Component }) => <Component {...props} name={createUid('radio')} />,
 };

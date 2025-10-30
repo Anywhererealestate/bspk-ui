@@ -6,6 +6,7 @@ export type InputExampleProps = InputProps & { label: string; description?: stri
 export const InputExample: ComponentExample<InputExampleProps> = {
     defaultState: {
         label: 'Property Description',
+        'aria-label': 'input aria-label',
         description: 'This is a description of the property.',
         placeholder: 'Waterfront condo with great views',
     },

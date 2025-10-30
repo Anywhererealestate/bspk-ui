@@ -156,6 +156,7 @@ export const SelectExample: ComponentExample<SelectProps> = {
         options: DEFAULT_OPTIONS,
         scrollLimit: 5,
         value: '',
+        'aria-label': 'select aria-label',
     },
     render: ({ props, Component, preset }) => <Component key={preset?.label} {...props} />,
     presets,
