@@ -45,31 +45,31 @@ export const presets: Preset<BottomNavigationProps>[] = [
             options: [
                 {
                     value: '1',
-                    label: 'Item 1',
+                    label: 'Item 1 With Longer Label',
                     icon: <SvgSettings />,
                     iconSelected: <SvgSettingsFill />,
                 },
                 {
                     value: '2',
-                    label: 'Item 2',
+                    label: 'Item 2 With Longer Label',
                     icon: <SvgCloud />,
                     iconSelected: <SvgCloudFill />,
                 },
                 {
                     value: '3',
-                    label: 'Item 3',
+                    label: 'Item 3 With Longer Label',
                     icon: <SvgSmartphone />,
                     iconSelected: <SvgSmartphoneFill />,
                 },
                 {
                     value: '4',
-                    label: 'Item 4',
+                    label: 'Item 4 With Longer Label',
                     icon: <SvgEvent />,
                     iconSelected: <SvgEventFill />,
                 },
                 {
                     value: '5',
-                    label: 'Item 5',
+                    label: 'Item 5 With Longer Label',
                     icon: <SvgPerson />,
                     iconSelected: <SvgPersonFill />,
                 },
