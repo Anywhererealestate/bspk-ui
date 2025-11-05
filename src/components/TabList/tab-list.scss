@@ -4,7 +4,7 @@ ul[data-bspk-utility='tab-list'] {
     display: flex;
     flex-direction: row;
     list-style: none;
-    width: 100%;
+    max-width: fit-content;
     height: var(--height);
     font: var(--font);
 

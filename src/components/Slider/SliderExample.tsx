@@ -48,18 +48,29 @@ export const SliderExample: ComponentExample<SliderProps<number | [number, numbe
             },
         },
         {
-            label: 'Undefined Value',
+            label: 'Continuous Slider',
             propState: {
-                label: 'undefined',
-                min: 50,
-                max: 150,
+                label: 'Continuous option',
+                min: 0,
+                max: 100,
+                value: 50,
                 step: 1,
-                value: null as unknown as [number, number],
-                formatNumber: (num, context) => {
-                    if (context === 'max') return `${num}% Passing`;
-                    return `${num}%`;
-                },
-                name: 'undefined-slider',
+                formatNumber: (num) => num.toFixed(0),
+                name: 'continuous-slider',
+                marks: false,
+            },
+        },
+        {
+            label: 'Discrete Slider',
+            propState: {
+                label: 'Discrete option',
+                min: 0,
+                max: 10,
+                step: 1,
+                value: 4,
+                formatNumber: (num) => num.toString(),
+                name: 'discrete-slider',
+                marks: true,
             },
         },
     ],

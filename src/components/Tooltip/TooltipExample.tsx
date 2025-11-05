@@ -1,17 +1,29 @@
 import { TooltipProps } from './Tooltip';
-import { Button } from '-/components/Button';
 import { ComponentExample } from '-/utils/demo';
 
 export const TooltipExample: ComponentExample<TooltipProps> = {
-    render: ({ props: state, Component }) => {
-        return (
-            <Component
-                {...state}
-                label={`Hover over me ${state.label || ''}`}
-                placement={[state.placement].flat()[0] || 'top'}
-            >
-                {(triggerProps) => <Button {...triggerProps} label="Hover over me" variant="secondary" />}
-            </Component>
-        );
+    defaultState: {
+        children: (triggerProps) => <span {...triggerProps}>Hover me</span>,
+    },
+    presets: [
+        {
+            label: 'Long Label Tooltip',
+            propState: {
+                label: 'This is a longer tooltip label to demonstrate how the tooltip handles more content.',
+                placement: 'top',
+                children: (triggerProps) => <span {...triggerProps}>Long Tooltip Label</span>,
+            },
+        },
+        {
+            label: 'No Label',
+            propState: {
+                label: '',
+                placement: 'top',
+                children: (triggerProps) => <span {...triggerProps}>No Label</span>,
+            },
+        },
+    ],
+    render: ({ props, Component }) => {
+        return <Component {...props}>{props.children || (() => <span>No Hover</span>)}</Component>;
     },
 };

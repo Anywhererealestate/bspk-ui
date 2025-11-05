@@ -60,7 +60,12 @@ export type ComponentVariantOverride<Props> = {
 };
 
 export type ComponentVariantOverrides<Props = Record<string, unknown>, PropName extends keyof Props = keyof Props> = {
-    [Key in PropName]?: ComponentVariantOverride<Props> | false | ((props: Props) => ComponentVariantOverride<Props>);
+    /**
+     * Hide the variant entirely by setting to false.
+     *
+     * Set specific prop overrides for the variant. e.g. when demoing iconOnly, we want to set the icon prop.
+     */
+    [Key in PropName]?: ComponentVariantOverride<Props> | false;
 };
 
 export type ComponentExample<Props = Record<string, unknown>, PropName extends keyof Props = keyof Props> = {
@@ -148,6 +153,7 @@ export type ComponentExampleFn<Props = Record<string, unknown>> = (params: {
 export type OnHandlers = `on${string}`;
 
 export type Preset<Props> = {
+    designPattern?: string;
     /** The name of the preset. This is used to display the preset in the UI. */
     label: string;
     /** The props of the component. This is used to set props of the component. These values can't be changed in the UI. */
