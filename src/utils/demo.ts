@@ -153,6 +153,10 @@ export type ComponentExampleFn<Props = Record<string, unknown>> = (params: {
 export type OnHandlers = `on${string}`;
 
 export type Preset<Props> = {
+    /**
+     * A description of the design pattern this preset demonstrates. When applied, it showcases the specific use case or
+     * behavior of the component.
+     */
     designPattern?: string;
     /** The name of the preset. This is used to display the preset in the UI. */
     label: string;
