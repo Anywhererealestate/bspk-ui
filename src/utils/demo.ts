@@ -122,7 +122,7 @@ export type ComponentExample<Props = Record<string, unknown>, PropName extends k
      */
     disableProps?: PropName[] | true;
     /** The sections of the example. */
-    sections?: ComponentPageSection[];
+    sections?: ComponentPageSection<Props>[];
 };
 
 export type Syntax = (params: {
