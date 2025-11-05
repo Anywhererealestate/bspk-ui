@@ -59,6 +59,17 @@ export type ComponentVariantOverride<Props> = {
     [K in keyof Props]?: Props[K] | { options: Props[K][] };
 };
 
+export type ComponentPageSection<Props = Record<string, unknown>> = {
+    title: string;
+    content: (params: {
+        Component?: React.ComponentType<Props>;
+        props: Props;
+        CodeExample: CodeExample;
+        Syntax: Syntax;
+    }) => React.ReactNode;
+    location?: 'afterDemo' | 'beforeDemo';
+};
+
 export type ComponentVariantOverrides<Props = Record<string, unknown>, PropName extends keyof Props = keyof Props> = {
     /**
      * Hide the variant entirely by setting to false.
@@ -111,16 +122,7 @@ export type ComponentExample<Props = Record<string, unknown>, PropName extends k
      */
     disableProps?: PropName[] | true;
     /** The sections of the example. */
-    sections?: {
-        title: string;
-        content: (params: {
-            Component: React.ComponentType<Props>;
-            props: Props;
-            CodeExample: CodeExample;
-            Syntax: Syntax;
-        }) => React.ReactNode;
-        location?: 'afterDemo' | 'beforeDemo';
-    }[];
+    sections?: ComponentPageSection[];
 };
 
 export type Syntax = (params: {
