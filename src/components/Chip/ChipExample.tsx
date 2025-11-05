@@ -6,6 +6,9 @@ export const presets: Preset<ChipProps>[] = [
         label: 'Basic',
         propState: {
             label: 'chip',
+            leadingIcon: '',
+            trailingIcon: '',
+            trailingBadge: undefined,
         },
     },
     {
@@ -14,6 +17,7 @@ export const presets: Preset<ChipProps>[] = [
             label: 'chip',
             leadingIcon: 'Add',
             trailingIcon: '',
+            trailingBadge: undefined,
         },
     },
     {
@@ -22,6 +26,7 @@ export const presets: Preset<ChipProps>[] = [
             label: 'chip',
             leadingIcon: '',
             trailingIcon: 'Add',
+            trailingBadge: undefined,
         },
     },
     {
@@ -30,6 +35,7 @@ export const presets: Preset<ChipProps>[] = [
             label: 'chip',
             leadingIcon: 'Add',
             trailingIcon: 'Add',
+            trailingBadge: undefined,
         },
     },
     {
@@ -38,6 +44,7 @@ export const presets: Preset<ChipProps>[] = [
             label: 'chip',
             leadingIcon: 'Bumblebee',
             trailingIcon: 'Rabbit',
+            trailingBadge: undefined,
         },
     },
     {
@@ -62,6 +69,8 @@ export const presets: Preset<ChipProps>[] = [
         propState: {
             label: 'Assist Chip',
             leadingIcon: 'Cloud',
+            trailingIcon: '',
+            trailingBadge: undefined,
         },
         designPattern:
             'A dynamic action element that helps trigger and perform an action for the customer. A supplement option to buttons. ',
@@ -72,6 +81,7 @@ export const presets: Preset<ChipProps>[] = [
             label: 'Filter Chip',
             leadingIcon: 'Cloud',
             trailingIcon: 'KeyboardArrowDown',
+            trailingBadge: undefined,
         },
         designPattern: 'Short form descriptive words that filter out content or represent active filter setting.',
     },
@@ -81,6 +91,7 @@ export const presets: Preset<ChipProps>[] = [
             label: 'Input Chip',
             leadingIcon: 'Cloud',
             trailingIcon: 'Close',
+            trailingBadge: undefined,
         },
         designPattern:
             'A range of short form key words or pieces of information a customer enters within multi entry field.',
@@ -89,6 +100,9 @@ export const presets: Preset<ChipProps>[] = [
         label: 'Suggest Chip',
         propState: {
             label: 'Suggest Chip',
+            leadingIcon: '',
+            trailingIcon: '',
+            trailingBadge: undefined,
         },
         designPattern: 'Dynamically generated options that are suggested to the customer as responses or prompts. ',
     },
