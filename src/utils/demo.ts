@@ -59,8 +59,24 @@ export type ComponentVariantOverride<Props> = {
     [K in keyof Props]?: Props[K] | { options: Props[K][] };
 };
 
+export type ComponentPageSection<Props = Record<string, unknown>> = {
+    title: string;
+    content: (params: {
+        Component?: React.ComponentType<Props>;
+        props: Props;
+        CodeExample: CodeExample;
+        Syntax: Syntax;
+    }) => React.ReactNode;
+    location?: 'afterDemo' | 'beforeDemo';
+};
+
 export type ComponentVariantOverrides<Props = Record<string, unknown>, PropName extends keyof Props = keyof Props> = {
-    [Key in PropName]?: ComponentVariantOverride<Props> | false | ((props: Props) => ComponentVariantOverride<Props>);
+    /**
+     * Hide the variant entirely by setting to false.
+     *
+     * Set specific prop overrides for the variant. e.g. when demoing iconOnly, we want to set the icon prop.
+     */
+    [Key in PropName]?: ComponentVariantOverride<Props> | false;
 };
 
 export type ComponentExample<Props = Record<string, unknown>, PropName extends keyof Props = keyof Props> = {
@@ -106,16 +122,7 @@ export type ComponentExample<Props = Record<string, unknown>, PropName extends k
      */
     disableProps?: PropName[] | true;
     /** The sections of the example. */
-    sections?: {
-        title: string;
-        content: (params: {
-            Component: React.ComponentType<Props>;
-            props: Props;
-            CodeExample: CodeExample;
-            Syntax: Syntax;
-        }) => React.ReactNode;
-        location?: 'afterDemo' | 'beforeDemo';
-    }[];
+    sections?: ComponentPageSection<Props>[];
 };
 
 export type Syntax = (params: {
@@ -148,6 +155,11 @@ export type ComponentExampleFn<Props = Record<string, unknown>> = (params: {
 export type OnHandlers = `on${string}`;
 
 export type Preset<Props> = {
+    /**
+     * A description of the design pattern this preset demonstrates. When applied, it showcases the specific use case or
+     * behavior of the component.
+     */
+    designPattern?: string;
     /** The name of the preset. This is used to display the preset in the UI. */
     label: string;
     /** The props of the component. This is used to set props of the component. These values can't be changed in the UI. */

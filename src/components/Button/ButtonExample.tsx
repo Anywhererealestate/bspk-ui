@@ -32,6 +32,6 @@ export const presets: Preset<ButtonProps>[] = [
 export const ButtonExample: ComponentExample<ButtonProps> = {
     presets,
     variants: {
-        iconOnly: () => ({ icon: <SvgPerson />, label: 'Person' }),
+        iconOnly: { icon: <SvgPerson />, label: 'Person' },
     },
 };

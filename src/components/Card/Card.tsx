@@ -1,6 +1,6 @@
 import './card.scss';
 import { ReactNode } from 'react';
-import { ElementProps } from '-/types/common';
+import { ElementProps, SetRef } from '-/types/common';
 
 export type CardProps = {
     /**
@@ -15,6 +15,8 @@ export type CardProps = {
      * @default elevated
      */
     variant?: 'elevated' | 'outlined';
+    /** A ref to the list item div element. */
+    innerRef?: SetRef<HTMLElement>;
 };
 
 /**
@@ -39,9 +41,9 @@ export type CardProps = {
  * @name Card
  * @phase UXReview
  */
-export function Card({ children, variant = 'elevated', ...props }: ElementProps<CardProps, 'div'>) {
+export function Card({ children, variant = 'elevated', innerRef, ...props }: ElementProps<CardProps, 'div'>) {
     return (
-        <div {...props} data-bspk="card" data-variant={variant}>
+        <div {...props} data-bspk="card" data-variant={variant} ref={innerRef}>
             {children}
         </div>
     );
