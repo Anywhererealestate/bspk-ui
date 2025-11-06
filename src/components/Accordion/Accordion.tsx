@@ -68,9 +68,7 @@ export type AccordionProps = {
  * @example
  *     import { Accordion } from '@bspk/ui/Accordion';
  *
- *     function Example() {
- *         return <Accordion items={[{ id: 1, title: 'Section', children: 'Example content' }]} />;
- *     }
+ *     <Accordion items={[{ id: 1, title: 'Section', children: 'Example content' }]} />;
  *
  * @name Accordion
  * @phase UXReview

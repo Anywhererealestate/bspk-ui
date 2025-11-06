@@ -17,6 +17,9 @@ export const presets: Preset<ChipGroupProps>[] = [
 ];
 
 export const ChipGroupExample: ComponentExampleFn<ChipGroupProps> = ({ action }) => ({
+    scope: {
+        Chip,
+    },
     presets,
     render: ({ props, Component }) => {
         const handleChipInputClick = () => action('Chip clicked!');

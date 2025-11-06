@@ -123,6 +123,8 @@ export type ComponentExample<Props = Record<string, unknown>, PropName extends k
     disableProps?: PropName[] | true;
     /** The sections of the example. */
     sections?: ComponentPageSection<Props>[];
+    /** The scope to pass to the renderer for live editing. */
+    scope?: Record<string, unknown>;
 };
 
 export type Syntax = (params: {
