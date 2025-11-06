@@ -12,17 +12,17 @@ export type RatingProps = {
      */
     value?: number;
     /**
-     * The size of the rating.
-     *
-     * @default medium
-     */
-    size?: RatingSize;
-    /**
      * If included the component is interactive and this callback is fired when the user selects a new rating value.
      *
      * @param value - The new value of the rating.
      */
     onChange?: (value: number) => void;
+    /**
+     * The size of the rating.
+     *
+     * @default medium
+     */
+    size?: RatingSize;
 };
 
 const MAX_STARS = 5;
