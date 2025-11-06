@@ -5,7 +5,7 @@ export const presets: Preset<RatingProps>[] = [
     {
         label: 'Interactive',
         propState: {
-            interactive: true,
+            onChange: () => {},
         },
         designPattern:
             'Descriptive and interactive control that allow customers to indicate their feelings about an experience or product on a scale of 1 to 5.',
@@ -13,7 +13,7 @@ export const presets: Preset<RatingProps>[] = [
     {
         label: 'Visual',
         propState: {
-            interactive: false,
+            onChange: undefined,
             value: 4.5,
         },
         designPattern: 'A non interactive representation of ratings Non interactive, a scale of 1 to 5.',

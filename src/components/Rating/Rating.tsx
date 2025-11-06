@@ -20,11 +20,11 @@ export type RatingProps = {
      */
     size?: RatingSize;
     /**
-     * If true the rating is interactive and the user can select a value. If false the rating is read only.
+     * If included the component is interactive and this callback is fired when the user selects a new rating value.
      *
-     * @default true
+     * @param value - The new value of the rating.
      */
-    interactive?: boolean;
+    onChange?: (value: number) => void;
 };
 
 const MAX_STARS = 5;
@@ -48,18 +48,18 @@ const iconWidths: Record<RatingSize, number> = {
  * @name Rating
  * @phase UXReview
  */
-export function Rating({ size = 'medium', value: valueProp, interactive = true }: RatingProps) {
+export function Rating({ size = 'medium', value: valueProp, onChange }: RatingProps) {
     const [localValue, setLocalValue] = useState(valueProp ?? 0);
-    const value = interactive ? localValue : valueProp;
+    const value = onChange ? localValue : valueProp;
 
-    const As: ElementType = interactive ? 'button' : 'div';
+    const As: ElementType = onChange ? 'button' : 'div';
 
     return (
         <div
-            aria-label={!interactive ? 'Select a star rating' : value ? `${value} out of ${MAX_STARS} stars` : 'Rating'}
+            aria-label={!onChange ? 'Select a star rating' : value ? `${value} out of ${MAX_STARS} stars` : 'Rating'}
             data-bspk="rating"
             data-size={size}
-            role={interactive ? 'radiogroup' : 'img'}
+            role={onChange ? 'radiogroup' : 'img'}
         >
             {Array.from({ length: MAX_STARS }, (_, index) => {
                 const fill = getFill(index + 1, value);
@@ -67,14 +67,14 @@ export function Rating({ size = 'medium', value: valueProp, interactive = true }
                 return (
                     <As
                         aria-checked={selected}
-                        aria-hidden={!interactive}
-                        aria-label={interactive ? `Rate ${index + 1}` : undefined}
+                        aria-hidden={!onChange}
+                        aria-label={onChange ? `Rate ${index + 1}` : undefined}
                         data-fill={fill}
                         data-star
                         key={index}
-                        onClick={interactive ? () => setLocalValue(index + 1) : undefined}
-                        role={interactive ? 'radio' : 'presentation'}
-                        tabIndex={interactive ? (selected ? 0 : -1) : -1}
+                        onClick={onChange ? () => setLocalValue(index + 1) : undefined}
+                        role={onChange ? 'radio' : 'presentation'}
+                        tabIndex={onChange ? (selected ? 0 : -1) : -1}
                         type="button"
                     >
                         <SvgStarFill width={iconWidths[size]} />
