@@ -19,11 +19,11 @@ export type RatingProps = {
      */
     size?: RatingSize;
     /**
-     * If true the rating is interactive and the user can select a value. If false the rating is read only.
+     * If included the component is interactive and this callback is fired when the user selects a new rating value.
      *
-     * @default true
+     * @param value - The new value of the rating.
      */
-    interactive?: boolean;
+    onChange?: (value: number) => void;
 };
 
 const MAX_STARS = 5;
