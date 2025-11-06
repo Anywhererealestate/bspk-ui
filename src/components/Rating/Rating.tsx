@@ -73,7 +73,12 @@ export function Rating({ size = 'medium', value, onChange }: RatingProps) {
         );
 
     return (
-        <div aria-label="Select a star rating" data-bspk="rating" data-size={size} role="radiogroup">
+        <div
+            aria-label={value ? `${value} out of ${MAX_STARS} stars` : 'Select a star rating'}
+            data-bspk="rating"
+            data-size={size}
+            role="radiogroup"
+        >
             {Array.from({ length: MAX_STARS }, (_, index) => {
                 const fill = getFill(index + 1, value);
                 const selected = value !== undefined && Math.floor(value) === index;
