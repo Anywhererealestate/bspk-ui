@@ -4,6 +4,8 @@ import { SvgStarFill } from '@bspk/icons/StarFill';
 export type RatingSize = 'large' | 'medium' | 'small';
 export type RatingProps = {
     /**
+     * Can only manually apply when interactive is false.
+     *
      * The value of the rating between 0 and 5.
      *
      * @minimum 0
@@ -11,17 +13,17 @@ export type RatingProps = {
      */
     value?: number;
     /**
-     * If included the component is in interactive mode and this callback is fired when a star is selected.
-     *
-     * @param value - The new value of the rating.
-     */
-    onChange?: (value: number) => void;
-    /**
      * The size of the rating.
      *
      * @default medium
      */
     size?: RatingSize;
+    /**
+     * If true the rating is interactive and the user can select a value. If false the rating is read only.
+     *
+     * @default true
+     */
+    interactive?: boolean;
 };
 
 const MAX_STARS = 5;
