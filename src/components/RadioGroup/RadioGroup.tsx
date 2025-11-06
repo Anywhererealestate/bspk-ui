@@ -41,25 +41,24 @@ export type RadioGroupProps = Omit<FieldControlProps, 'readOnly'> & {
  *     import { RadioGroup } from '@bspk/ui/RadioGroup';
  *
  *     function Example() {
- *         const [selectedOption, setSelectedOption] = useState<string>('1');
+ *     const [selectedOption, setSelectedOption] = useState<string>('1');
  *
- *         return (
- *             <RadioGroup
- *                 name="example-name"
- *                 onChange={(nextValue) => setSelectedOption(nextValue)}
- *                 options={[
- *                     {
- *                         value: '1',
- *                         label: 'Option 1',
- *                         description: 'Description here',
- *                     },
- *                     { value: '2', label: 'Option 2' },
- *                     { value: '3', label: 'Option 3' },
- *                 ]}
- *                 value={selectedOption}
- *             />
- *         );
- *     }
+ *     return (
+ *     <RadioGroup
+ *     name="example-name"
+ *     onChange={(nextValue) => setSelectedOption(nextValue)}
+ *     options={[
+ *     {
+ *     value: '1',
+ *     label: 'Option 1',
+ *     description: 'Description here',
+ *     },
+ *     { value: '2', label: 'Option 2' },
+ *     { value: '3', label: 'Option 3' },
+ *     ]}
+ *     value={selectedOption}
+ *     />
+ *     );
  *
  * @name RadioGroup
  * @phase UXReview

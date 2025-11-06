@@ -54,18 +54,16 @@ export type BannerAlertProps = {
  * @example
  *     import { BannerAlert } from '@bspk/ui/BannerAlert';
  *
- *     function Example() {
- *         <BannerAlert
- *             variant="error"
- *             header="Error"
- *             body="There was an error processing your request."
- *             onClose={() => console.log('Alert closed')}
- *             callToAction={{
- *                 label = 'Click me',
- *                 onClick = () => action('Call to action clicked!'),
- *             }}
- *         />;
- *     }
+ *     <BannerAlert
+ *         variant="error"
+ *         header="Error"
+ *         body="There was an error processing your request."
+ *         onClose={() => console.log('Alert closed')}
+ *         callToAction={{
+ *             label = 'Click me',
+ *             onClick = () => action('Call to action clicked!'),
+ *         }}
+ *     />;
  *
  * @exampleDescription This example shows how to use the BannerAlert component with an error variant, a header, and a body message.
  *

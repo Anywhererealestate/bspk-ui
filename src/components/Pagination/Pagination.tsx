@@ -35,12 +35,11 @@ export type PaginationProps = {
  *     import { usePaginationState } from '@bspk/ui/hooks/usePaginationState';
  *
  *     function Example() {
- *         const numPages = 10;
+ *     const numPages = 10;
  *
- *         const { currentPage, setCurrentPage } = usePaginationState(numPages);
+ *     const { currentPage, setCurrentPage } = usePaginationState(numPages);
  *
- *         return <Pagination value={currentPage} onChange={setCurrentPage} numPages={numPages} />;
- *     }
+ *     return <Pagination value={currentPage} onChange={setCurrentPage} numPages={numPages} />;
  *
  * @name Pagination
  * @phase UXReview

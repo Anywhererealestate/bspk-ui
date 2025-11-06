@@ -49,20 +49,16 @@ export type SkeletonProps = {
  * @example
  *     import { Skeleton } from '@bspk/ui/skeleton';
  *
- *     function Example(item: { title: string; src: string } | null) {
- *         return (
- *             <Skeleton variant="photo" width={210} height={118}>
- *                 <img
- *                     style={{
- *                         width: 210,
- *                         height: 118,
- *                     }}
- *                     alt={item.title}
- *                     src={item.src}
- *                 />
- *             </Skeleton>
- *         );
- *     }
+ *     <Skeleton variant="photo" width={210} height={118}>
+ *         <img
+ *             style={{
+ *                 width: 210,
+ *                 height: 118,
+ *             }}
+ *             alt={'A cool photo'}
+ *             src={'https://example.com/cool-photo.jpg'}
+ *         />
+ *     </Skeleton>;
  *
  * @exampleDescription This example shows a skeleton loading state for an image but can be used for any element.
  *

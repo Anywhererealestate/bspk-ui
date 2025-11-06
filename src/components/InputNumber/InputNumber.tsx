@@ -52,34 +52,33 @@ export type InputNumberProps = CommonProps<'size'> &
  *     import { InputNumber } from '@bspk/ui/InputNumber';
  *
  *     function ExampleStandalone() {
- *         const [state, setState] = React.useState<number | undefined>();
+ *     const [state, setState] = React.useState<number | undefined>();
  *
- *         return (
- *             <InputNumber
- *                 aria-label="Example aria-label"
- *                 name="example-name"
- *                 onChange={(nextValue) => setState(nextValue)}
- *                 value={state}
- *             />
- *         );
+ *     return (
+ *     <InputNumber
+ *     aria-label="Example aria-label"
+ *     name="example-name"
+ *     onChange={(nextValue) => setState(nextValue)}
+ *     value={state}
+ *     />
+ *     );
  *     }
  *
  *     function ExampleWithField() {
- *         const [state, setState] = React.useState<number | undefined>();
+ *     const [state, setState] = React.useState<number | undefined>();
  *
- *         return (
- *             <Field>
- *                 <FieldLabel>Example Input Number</FieldLabel>
- *                 <InputNumber
- *                     aria-label="Example aria-label"
- *                     name="example-name"
- *                     onChange={(nextValue) => setState(nextValue)}
- *                     value={state}
- *                 />
- *                 <FieldDescription>The input number allows you to increment or decrement a value.</FieldDescription>
- *             </Field>
- *         );
- *     }
+ *     return (
+ *     <Field>
+ *     <FieldLabel>Example Input Number</FieldLabel>
+ *     <InputNumber
+ *     aria-label="Example aria-label"
+ *     name="example-name"
+ *     onChange={(nextValue) => setState(nextValue)}
+ *     value={state}
+ *     />
+ *     <FieldDescription>The input number allows you to increment or decrement a value.</FieldDescription>
+ *     </Field>
+ *     );
  *
  * @name InputNumber
  * @phase UXReview

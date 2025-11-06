@@ -51,19 +51,15 @@ export type CarouselProps = {
  * @example
  *     import { Carousel } from '@bspk/ui/Carousel';
  *
- *     function Example() {
- *         return (
- *             <Carousel label="Example Carousel" width="1/2">
- *                 <div>child 1</div>
- *                 <div>child 2</div>
- *                 <div>child 3</div>
- *                 <div>child 4</div>
- *                 <div>child 5</div>
- *                 <div>child 6</div>
- *                 <div>child 7</div>
- *             </Carousel>
- *         );
- *     }
+ *     <Carousel label="Example Carousel" width="1/2">
+ *         <div>child 1</div>
+ *         <div>child 2</div>
+ *         <div>child 3</div>
+ *         <div>child 4</div>
+ *         <div>child 5</div>
+ *         <div>child 6</div>
+ *         <div>child 7</div>
+ *     </Carousel>;
  *
  * @name Carousel
  * @phase UXReview

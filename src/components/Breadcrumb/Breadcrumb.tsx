@@ -41,24 +41,20 @@ export type BreadcrumbProps = CommonProps<'id'> &
  * @example
  *     import { Breadcrumb } from '@bspk/ui/breadcrumb';
  *
- *     function Example() {
- *         return (
- *             <Breadcrumb
- *                 items={[
- *                     { label: 'level 1', href: 'https://bspk.anywhere.re' },
- *                     { label: 'level 2', href: 'https://bspk.anywhere.re' },
- *                     { label: 'level 3', href: 'https://bspk.anywhere.re' },
- *                     { label: 'level 4', href: 'https://bspk.anywhere.re' },
- *                     { label: 'level 5', href: 'https://bspk.anywhere.re' },
- *                     { label: 'level 6', href: 'https://bspk.anywhere.re' },
- *                     { label: 'level 7', href: 'https://bspk.anywhere.re' },
- *                     { label: 'level 8', href: 'https://bspk.anywhere.re' },
- *                     { label: 'level 9', href: 'https://bspk.anywhere.re' },
- *                     { label: 'level 10', href: 'https://bspk.anywhere.re' },
- *                 ]}
- *             />
- *         );
- *     }
+ *     <Breadcrumb
+ *         items={[
+ *             { label: 'level 1', href: 'https://bspk.anywhere.re' },
+ *             { label: 'level 2', href: 'https://bspk.anywhere.re' },
+ *             { label: 'level 3', href: 'https://bspk.anywhere.re' },
+ *             { label: 'level 4', href: 'https://bspk.anywhere.re' },
+ *             { label: 'level 5', href: 'https://bspk.anywhere.re' },
+ *             { label: 'level 6', href: 'https://bspk.anywhere.re' },
+ *             { label: 'level 7', href: 'https://bspk.anywhere.re' },
+ *             { label: 'level 8', href: 'https://bspk.anywhere.re' },
+ *             { label: 'level 9', href: 'https://bspk.anywhere.re' },
+ *             { label: 'level 10', href: 'https://bspk.anywhere.re' },
+ *         ]}
+ *     />;
  *
  * @name Breadcrumb
  * @phase UXReview

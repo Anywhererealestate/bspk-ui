@@ -128,20 +128,19 @@ export type TabListProps<O extends TabOption = TabOption> = {
  *     import { TabList } from '@bspk/ui/TabList';
  *
  *     function Example() {
- *         const [selectedTab, setSelectedTab] = useState<string>();
+ *     const [selectedTab, setSelectedTab] = useState<string>();
  *
- *         return (
- *             <TabList
- *                 onChange={setSelectedTab}
- *                 options={[
- *                     { value: '1', label: 'Option 1' },
- *                     { value: '2', label: 'Option 2' },
- *                     { value: '3', label: 'Option 3' },
- *                 ]}
- *                 value={selectedTab}
- *             />
- *         );
- *     }
+ *     return (
+ *     <TabList
+ *     onChange={setSelectedTab}
+ *     options={[
+ *     { value: '1', label: 'Option 1' },
+ *     { value: '2', label: 'Option 2' },
+ *     { value: '3', label: 'Option 3' },
+ *     ]}
+ *     value={selectedTab}
+ *     />
+ *     );
  *
  * @name TabList
  * @phase Utility

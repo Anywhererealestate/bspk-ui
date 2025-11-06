@@ -32,9 +32,7 @@ export type InlineAlertProps = CommonProps<'owner'> & {
  * @example
  *     import { InlineAlert } from '@bspk/ui/InlineAlert';
  *
- *     function Example() {
- *         return <InlineAlert variant="informational">Example informational inline alert</InlineAlert>;
- *     }
+ *     <InlineAlert variant="informational">Example informational inline alert</InlineAlert>;
  *
  * @name InlineAlert
  * @phase UXReview

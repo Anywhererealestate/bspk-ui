@@ -21,9 +21,7 @@ export type ImgProps = {
  * @example
  *     import { Img } from '@bspk/ui/Img';
  *
- *     function Example() {
- *         return <Img alt="Example alt" src="Example src" />;
- *     }
+ *     <Img alt="Example alt" src="Example src" />;
  *
  * @name Img
  * @phase Backlog

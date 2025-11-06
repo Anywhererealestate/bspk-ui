@@ -72,22 +72,18 @@ export type TableProps<R extends TableRow> = {
  * @example
  *     import { Table } from '@bspk/ui/Table';
  *
- *     function Example() {
- *         return (
- *             <Table
- *                 columns={[
- *                     { key: 'state', label: 'State', width: '100px' },
- *                     { key: 'capital', label: 'Capital', width: '1fr' },
- *                 ]}
- *                 data={[
- *                     { state: 'New Jersey', capital: 'Trenton' },
- *                     { state: 'New York', capital: 'Albany' },
- *                     { state: 'California', capital: 'Sacramento' },
- *                 ]}
- *                 title="State Capitals"
- *             />
- *         );
- *     }
+ *     <Table
+ *         columns={[
+ *             { key: 'state', label: 'State', width: '100px' },
+ *             { key: 'capital', label: 'Capital', width: '1fr' },
+ *         ]}
+ *         data={[
+ *             { state: 'New Jersey', capital: 'Trenton' },
+ *             { state: 'New York', capital: 'Albany' },
+ *             { state: 'California', capital: 'Sacramento' },
+ *         ]}
+ *         title="State Capitals"
+ *     />;
  *
  * @name Table
  * @phase UXReview

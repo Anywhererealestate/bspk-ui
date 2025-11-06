@@ -17,29 +17,28 @@ export type PasswordProps = FieldControlProps & Pick<InputProps, 'containerRef' 
  *     import { useState } from 'react';
  *
  *     function ExampleStandalone() {
- *         const [value, setValue] = useState('');
+ *     const [value, setValue] = useState('');
  *
- *         return (
- *             <Password
- *                 aria-label="Enter password"
- *                 value={value}
- *                 onChange={setValue}
- *                 aria-label="password"
- *                 name="password"
- *             />
- *         );
+ *     return (
+ *     <Password
+ *     aria-label="Enter password"
+ *     value={value}
+ *     onChange={setValue}
+ *     aria-label="password"
+ *     name="password"
+ *     />
+ *     );
  *     }
  *
  *     function ExampleWithField() {
- *         const [value, setValue] = useState('');
- *         return (
- *             <Field>
- *                 <FieldLabel>Password</FieldLabel>
- *                 <Password value={value} onChange={setValue} aria-label="password" name="password" />
- *                 <FieldDescription>The password field allows you to enter a secure password.</FieldDescription>
- *             </Field>
- *         );
- *     }
+ *     const [value, setValue] = useState('');
+ *     return (
+ *     <Field>
+ *     <FieldLabel>Password</FieldLabel>
+ *     <Password value={value} onChange={setValue} aria-label="password" name="password" />
+ *     <FieldDescription>The password field allows you to enter a secure password.</FieldDescription>
+ *     </Field>
+ *     );
  *
  * @name Password
  * @phase UXReview

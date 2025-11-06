@@ -30,16 +30,12 @@ export type FileUploadItemProps = FileEntry & {
  * @example
  *     import { FileUploadItem } from '@bspk/ui/FileUploadItem';
  *
- *     function Example() {
- *         return (
- *             <FileUploadItem
- *                 fileName="dunder-mifflin-paper-co.jpg"
- *                 fileSize="1.43 mb"
- *                 status="Uploading"
- *                 onCancel={() => console.log('Cancel item clicked!')}
- *             />
- *         );
- *     }
+ *     <FileUploadItem
+ *         fileName="dunder-mifflin-paper-co.jpg"
+ *         fileSize="1.43 mb"
+ *         status="Uploading"
+ *         onCancel={() => console.log('Cancel item clicked!')}
+ *     />;
  *
  * @name FileUploadItem
  * @phase UXReview

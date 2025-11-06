@@ -41,21 +41,20 @@ export type DatePickerProps = FieldControlProps<Date | undefined> &
  *     import { useState } from 'react';
  *
  *     function ExampleStandalone() {
- *         const [date, setDate] = useState<Date | undefined>(new Date());
- *         return <DatePicker aria-label="Date" name="date2" value={date} onChange={setDate} />;
+ *     const [date, setDate] = useState<Date | undefined>(new Date());
+ *     return <DatePicker aria-label="Date" name="date2" value={date} onChange={setDate} />;
  *     }
  *
  *     function ExampleWithField() {
- *         const [date, setDate] = useState<Date | undefined>(new Date());
+ *     const [date, setDate] = useState<Date | undefined>(new Date());
  *
- *         return (
- *             <Field>
- *                 <FieldLabel>Date</FieldLabel>
- *                 <DatePicker name="date1" value={date} onChange={setDate} />
- *                 <FieldDescription>The date picker allows you to select a date.</FieldDescription>
- *             </Field>
- *         );
- *     }
+ *     return (
+ *     <Field>
+ *     <FieldLabel>Date</FieldLabel>
+ *     <DatePicker name="date1" value={date} onChange={setDate} />
+ *     <FieldDescription>The date picker allows you to select a date.</FieldDescription>
+ *     </Field>
+ *     );
  *
  * @name DatePicker
  * @phase UXReview

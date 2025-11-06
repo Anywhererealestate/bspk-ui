@@ -53,8 +53,8 @@ export type AvatarGroupProps = CommonProps<'style'> & {
  * @example
  *     import { AvatarGroup } from '@bspk/ui/AvatarGroup';
  *
- *     function Example() {
- *         const items = [
+ *     <AvatarGroup
+ *         items={[
  *             {
  *                 name: 'Alice Johnson',
  *                 image: '/avatar-01.png',
@@ -67,10 +67,8 @@ export type AvatarGroupProps = CommonProps<'style'> & {
  *                 name: 'Charlie Brown',
  *                 image: '/avatar-03.png',
  *             },
- *         ];
- *
- *         return <AvatarGroup items={items} />;
- *     }
+ *         ]}
+ *     />;
  *
  * @name AvatarGroup
  * @phase UXReview

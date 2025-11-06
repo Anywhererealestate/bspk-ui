@@ -44,9 +44,7 @@ export type BadgeDotProps = {
  * @example
  *     import { BadgeDot } from '@bspk/ui/BadgeDot';
  *
- *     function Example() {
- *         return <BadgeDot color="primary" />;
- *     }
+ *     <BadgeDot color="primary" />;
  *
  * @exampleDescription This example shows a badge-dot with a count of 5, size small, and primary variant.
  *

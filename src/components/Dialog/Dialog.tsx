@@ -62,19 +62,18 @@ export type DialogProps = CommonProps<'id' | 'owner'> &
  *     import { Button } from '@bspk/ui/Button';
  *
  *     function Example() {
- *         const [open, setOpen] = React.useState(false);
+ *     const [open, setOpen] = React.useState(false);
  *
- *         return (
- *             <>
- *                 <Button label="Open Dialog" onClick={() => setOpen(true)} />
- *                 <Dialog open={open} onClose={() => setOpen(false)}>
- *                     <h1>Dialog Title</h1>
- *                     <p>This is the content of the dialog.</p>
- *                     <button onClick={() => setOpen(false)}>Close</button>
- *                 </Dialog>
- *             </>
- *         );
- *     }
+ *     return (
+ *     <>
+ *     <Button label="Open Dialog" onClick={() => setOpen(true)} />
+ *     <Dialog open={open} onClose={() => setOpen(false)}>
+ *     <h1>Dialog Title</h1>
+ *     <p>This is the content of the dialog.</p>
+ *     <button onClick={() => setOpen(false)}>Close</button>
+ *     </Dialog>
+ *     </>
+ *     );
  *
  * @name Dialog
  * @phase Utility

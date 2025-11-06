@@ -43,24 +43,23 @@ export type CheckboxGroupProps = Omit<FieldControlProps<string[]>, 'readOnly'> &
  *     import { CheckboxGroup } from '@bspk/ui/CheckboxGroup';
  *
  *     function Example() {
- *         const [value, setValue] = React.useState<string[]>([]);
+ *     const [value, setValue] = React.useState<string[]>([]);
  *
- *         return (
- *             <CheckboxGroup
- *                 aria-label="Example Checkbox Group"
- *                 name="example-checkbox-group"
- *                 options={[
- *                     { label: 'Option 1', value: 'option1' },
- *                     { label: 'Option 2', value: 'option2' },
- *                     { label: 'Option 3', value: 'option3' },
- *                 ]}
- *                 value={value}
- *                 onChange={(nextValue: string[]) => {
- *                     setValue(nextValue);
- *                 }}
- *             />
- *         );
- *     }
+ *     return (
+ *     <CheckboxGroup
+ *     aria-label="Example Checkbox Group"
+ *     name="example-checkbox-group"
+ *     options={[
+ *     { label: 'Option 1', value: 'option1' },
+ *     { label: 'Option 2', value: 'option2' },
+ *     { label: 'Option 3', value: 'option3' },
+ *     ]}
+ *     value={value}
+ *     onChange={(nextValue: string[]) => {
+ *     setValue(nextValue);
+ *     }}
+ *     />
+ *     );
  *
  * @name CheckboxGroup
  * @phase UXReview

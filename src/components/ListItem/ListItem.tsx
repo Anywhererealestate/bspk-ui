@@ -117,16 +117,12 @@ export type ListItemProps<As extends ElementType = ElementType> = CommonProps<'a
  *     import { SvgSquare } from '@bspk/icons/Square';
  *     import { ListItem } from '@bspk/ui/ListItem';
  *
- *     function Example() {
- *         return (
- *             <ListItem
- *                 label="Example label"
- *                 leading={<SvgSquare />}
- *                 subText="Example subtest"
- *                 trailing={<ListItem.Button label="Click me" onClick={() => console.log('Hello world')} />}
- *             />
- *         );
- *     }
+ *     <ListItem
+ *         label="Example label"
+ *         leading={<SvgSquare />}
+ *         subText="Example subtest"
+ *         trailing={<ListItem.Button label="Click me" onClick={() => console.log('Hello world')} />}
+ *     />;
  *
  * @name ListItem
  * @phase UXReview

@@ -22,20 +22,19 @@ export type TabGroupProps = Omit<TabListProps<TabOption>, 'iconsOnly'> & {
  *     import { TabGroup } from '@bspk/ui/TabGroup';
  *
  *     function Example() {
- *         const [selectedTab, setSelectedTab] = useState<string>();
+ *     const [selectedTab, setSelectedTab] = useState<string>();
  *
- *         return (
- *             <TabGroup
- *                 onChange={setSelectedTab}
- *                 options={[
- *                     { value: '1', label: 'Option 1' },
- *                     { value: '2', label: 'Option 2' },
- *                     { value: '3', label: 'Option 3' },
- *                 ]}
- *                 value={selectedTab}
- *             />
- *         );
- *     }
+ *     return (
+ *     <TabGroup
+ *     onChange={setSelectedTab}
+ *     options={[
+ *     { value: '1', label: 'Option 1' },
+ *     { value: '2', label: 'Option 2' },
+ *     { value: '3', label: 'Option 3' },
+ *     ]}
+ *     value={selectedTab}
+ *     />
+ *     );
  *
  * @name TabGroup
  * @phase UXReview

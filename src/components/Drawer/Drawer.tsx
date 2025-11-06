@@ -53,25 +53,24 @@ export type DrawerProps = Pick<DialogProps, 'container' | 'disableFocusTrap' | '
  *     import { Drawer } from '@bspk/ui/Drawer';
  *
  *     function Example() {
- *         const [open, setOpen] = React.useState(false);
+ *     const [open, setOpen] = React.useState(false);
  *
- *         return (
- *             <>
- *                 <Button label="Open Drawer" onClick={() => setOpen(true)} />
- *                 <Drawer
- *                     id="exampleId"
- *                     onClose={() => setOpen(false)}
- *                     open={open}
- *                     placement="right"
- *                     modal={false}
- *                     header="Example Drawer"
- *                     closeButton={true}
- *                 >
- *                     Example Drawer
- *                 </Drawer>
- *             </>
- *         );
- *     }
+ *     return (
+ *     <>
+ *     <Button label="Open Drawer" onClick={() => setOpen(true)} />
+ *     <Drawer
+ *     id="exampleId"
+ *     onClose={() => setOpen(false)}
+ *     open={open}
+ *     placement="right"
+ *     modal={false}
+ *     header="Example Drawer"
+ *     closeButton={true}
+ *     >
+ *     Example Drawer
+ *     </Drawer>
+ *     </>
+ *     );
  *
  * @name Drawer
  * @phase UXReview

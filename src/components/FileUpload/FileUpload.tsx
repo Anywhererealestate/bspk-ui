@@ -74,20 +74,19 @@ export type FileUploadProps = Pick<FileUploadItemProps, 'cancelButtonLabel' | 'o
  *     import { FileUpload } from '@bspk/ui/FileUpload';
  *
  *     function Example() {
- *         const [files, setFiles] = useState([]);
- *         return (
- *             <FileUpload
- *                 dragAndDrop
- *                 multipleFiles
- *                 acceptedFileTypes={['image/png', 'image/gif', 'image/svg+xml']}
- *                 files={files}
- *                 maxFileSize={5}
- *                 onError={(errorFiles) => console.log('Upload error:', errorFiles)}
- *                 onUpload={(uploadFiles) => setFiles(uploadFiles)}
- *                 uploadSubtitle="SVG, PNG, JPG or GIF (max. 5MB)"
- *             />
- *         );
- *     }
+ *     const [files, setFiles] = useState([]);
+ *     return (
+ *     <FileUpload
+ *     dragAndDrop
+ *     multipleFiles
+ *     acceptedFileTypes={['image/png', 'image/gif', 'image/svg+xml']}
+ *     files={files}
+ *     maxFileSize={5}
+ *     onError={(errorFiles) => console.log('Upload error:', errorFiles)}
+ *     onUpload={(uploadFiles) => setFiles(uploadFiles)}
+ *     uploadSubtitle="SVG, PNG, JPG or GIF (max. 5MB)"
+ *     />
+ *     );
  *
  * @name FileUpload
  * @phase UXReview

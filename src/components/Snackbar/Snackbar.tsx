@@ -76,15 +76,14 @@ export type SnackbarProps = CommonProps<'id'> & {
  *     import { useState } from 'react';
  *
  *     function ExampleComponent(props) {
- *         const [snackbarOpen, setSnackbarOpen] = useState(false);
+ *     const [snackbarOpen, setSnackbarOpen] = useState(false);
  *
- *         return (
- *             <>
- *                 <Button label="Show snackbar" onClick={() => setSnackbarOpen(true)} size="medium" title="Snackbar" />
- *                 <Snackbar text="I am an example." open={snackbarOpen} onClose={() => setSnackbarOpen(false)} />
- *             </>
- *         );
- *     }
+ *     return (
+ *     <>
+ *     <Button label="Show snackbar" onClick={() => setSnackbarOpen(true)} size="medium" title="Snackbar" />
+ *     <Snackbar text="I am an example." open={snackbarOpen} onClose={() => setSnackbarOpen(false)} />
+ *     </>
+ *     );
  *
  * @name Snackbar
  *
