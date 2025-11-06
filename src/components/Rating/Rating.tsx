@@ -54,7 +54,7 @@ export function Rating({ size = 'medium', value: valueProp, onChange }: RatingPr
 
     return (
         <div
-            aria-label={!onChange ? 'Select a star rating' : value ? `${value} out of ${MAX_STARS} stars` : 'Rating'}
+            aria-label={onChange ? 'Select a star rating' : value ? `${value} out of ${MAX_STARS} stars` : 'Rating'}
             data-bspk="rating"
             data-size={size}
             role={onChange ? 'radiogroup' : 'img'}
