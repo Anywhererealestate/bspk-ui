@@ -5,8 +5,6 @@ import { ElementType, useState } from 'react';
 export type RatingSize = 'large' | 'medium' | 'small';
 export type RatingProps = {
     /**
-     * Can only manually apply when interactive is false.
-     *
      * The value of the rating between 0 and 5.
      *
      * @minimum 0
