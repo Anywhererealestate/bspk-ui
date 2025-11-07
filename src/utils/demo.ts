@@ -2,22 +2,7 @@
 
 import { CSSProperties, ReactNode } from 'react';
 import { AlertVariant, DataProps } from '-/types/common';
-import { ComponentMeta } from '-/types/meta';
-
-export type TypeProperty = {
-    name: string;
-    description?: string;
-    type?: string[] | string;
-    default?: unknown;
-    required?: boolean;
-    options?: number[] | string[];
-    variants?: string[];
-    references?: string[];
-    minimum?: number;
-    maximum?: number;
-    example?: string;
-    exampleType?: string;
-};
+import { ComponentMeta, TypeProperty } from '-/types/meta';
 
 export type DemoAction = (message: string, variant?: AlertVariant) => void;
 

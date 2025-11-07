@@ -1,9 +1,3 @@
-import { SvgCircle } from '@bspk/icons/Circle';
-import { SvgDiamond } from '@bspk/icons/Diamond';
-import { SvgDiamondFill } from '@bspk/icons/DiamondFill';
-import { SvgSquare } from '@bspk/icons/Square';
-import { SvgSquareFill } from '@bspk/icons/SquareFill';
-
 import { TabGroupProps } from '.';
 import { ComponentExample, Preset } from '-/utils/demo';
 
@@ -34,17 +28,17 @@ const PRESET_OPTIONS: TabGroupProps['options'] = [
 
 const OPTION_ICONS = [
     {
-        icon: <SvgDiamond />,
-        iconSelected: <SvgDiamondFill />,
+        icon: 'Diamond',
+        iconSelected: 'DiamondFill',
     },
 
     {
-        icon: <SvgCircle />,
+        icon: 'Circle',
         iconSelected: undefined,
     },
     {
-        icon: <SvgSquare />,
-        iconSelected: <SvgSquareFill />,
+        icon: 'Square',
+        iconSelected: 'SquareFill',
     },
 ];
 

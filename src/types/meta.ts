@@ -77,6 +77,7 @@ export type TypeProperty = {
     minimum?: number;
     maximum?: number;
     example?: string;
+    arrayType?: string;
 };
 
 export type ComponentMeta = BaseMeta & {

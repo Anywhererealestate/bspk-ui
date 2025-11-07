@@ -1,4 +1,3 @@
-import { SvgMenuBook } from '@bspk/icons/MenuBook';
 import { FabProps } from './Fab';
 import { ButtonExample } from '-/components/Button/ButtonExample';
 import { ComponentExample } from '-/utils/demo';
@@ -23,7 +22,7 @@ export const FabExample: ComponentExample<FabProps> = {
         container: false,
         placement: false,
         iconOnly: {
-            icon: <SvgMenuBook />,
+            icon: 'MenuBook',
             label: 'Menu Book',
         },
     },
