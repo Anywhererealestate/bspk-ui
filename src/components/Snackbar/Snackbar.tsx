@@ -110,7 +110,7 @@ export type SnackbarProps = CommonProps<'id'> & {
 export function Snackbar({
     id: propId,
     text,
-    timeout = 5000,
+    timeout,
     closeButton = true,
     closeButtonLabel = 'Dismiss',
     icon,
