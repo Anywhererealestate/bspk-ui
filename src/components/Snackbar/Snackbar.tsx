@@ -69,19 +69,20 @@ export type SnackbarProps = CommonProps<'id'> & {
 };
 
 /**
- * Snackbars are intended to provide feedback about an action. Because of focus trap these will interrupt the customer
- * experience.
+ * Snackbars provide brief feedback about user actions. Because they use a focus trap, they interrupt the user's
+ * workflow and should be used sparingly.
  *
  * #### Inline
  *
- * Inline snackbars are added inside the component that triggers them. They are controlled via props and state. These
- * are useful for smaller applications that do not require global state management.
+ * Render the Snackbar inside the component that triggers it and control visibility with local state/props. This is
+ * simple and useful for small or isolated components, but can lead to duplicate snackbars or inadvertent render loops
+ * if state is not managed carefully.
  *
  * #### Managed
  *
- * Managed snackbars are controlled via the SnackbarManager component and the sendSnackBar and clearSnackBar functions.
- * This allows snackbars to be triggered from anywhere in the application without needing to pass props or state down
- * and prevents duplicate snackbars from being shown.
+ * Use the SnackbarManager together with `sendSnackBar` and `clearSnackBar` to control snackbars globally. This lets any
+ * part of the app trigger snackbars without prop drilling and helps avoid duplicates. and prevents duplicate snackbars
+ * from being shown.
  *
  * @example
  *     import { Snackbar } from '@bspk/ui/Snackbar';
