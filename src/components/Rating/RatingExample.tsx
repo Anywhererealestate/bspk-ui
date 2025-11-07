@@ -3,18 +3,27 @@ import { ComponentExampleFn, Preset } from '-/utils/demo';
 
 export const presets: Preset<RatingProps>[] = [
     {
-        label: 'Interactive',
-        propState: {},
-        designPattern:
-            'Descriptive and interactive control that allow customers to indicate their feelings about an experience or product on a scale of 1 to 5.',
-    },
-    {
-        label: 'Visual',
+        label: 'Read Only, No Value',
         propState: {
             onChange: undefined,
-            value: 3.5,
+            value: undefined,
         },
-        designPattern: 'A non interactive representation of ratings Non interactive, a scale of 1 to 5.',
+    },
+    {
+        label: 'Read Only',
+        propState: {
+            onChange: undefined,
+            value: 4.5,
+        },
+        designPattern: 'A read only representation of ratings, a scale of 1 to 5.',
+    },
+    {
+        label: 'Interactive',
+        propState: {
+            onChange: () => {},
+        },
+        designPattern:
+            'Interactive control that allow customers to indicate their feelings about an experience or product on a scale of 1 to 5.',
     },
 ];
 
