@@ -1,6 +1,5 @@
 import './rating.scss';
 import { SvgStarFill } from '@bspk/icons/StarFill';
-import { ElementType } from 'react';
 
 export type RatingSize = 'large' | 'medium' | 'small';
 export type RatingProps = {
@@ -12,7 +11,7 @@ export type RatingProps = {
      */
     value?: number;
     /**
-     * If included the component is in interactive mode and this callback is fired when a star is selected.
+     * If included the component is interactive and this callback is fired when the user selects a new rating value.
      *
      * @param value - The new value of the rating.
      */
@@ -45,29 +44,52 @@ const iconWidths: Record<RatingSize, number> = {
  * @phase UXReview
  */
 export function Rating({ size = 'medium', value, onChange }: RatingProps) {
-    const As: ElementType = onChange ? 'button' : 'div';
+    if (!onChange)
+        return (
+            <div
+                aria-label={value ? `${value} out of ${MAX_STARS} stars` : 'Rating'}
+                data-bspk="rating"
+                data-size={size}
+                role="img"
+            >
+                {Array.from({ length: MAX_STARS }, (_, index) => {
+                    const fill = getFill(index + 1, value);
+                    return (
+                        <div data-fill={fill} data-star key={index} role="presentation" tabIndex={-1}>
+                            <SvgStarFill width={iconWidths[size]} />
+                            {fill === 'half' && (
+                                <div data-fill-half>
+                                    <div data-star>
+                                        <SvgStarFill width={iconWidths[size]} />
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    );
+                })}
+            </div>
+        );
 
     return (
         <div
-            aria-label={onChange ? 'Select a star rating' : value ? `${value} out of ${MAX_STARS} stars` : 'Rating'}
+            aria-label={value ? `${value} out of ${MAX_STARS} stars` : 'Select a star rating'}
             data-bspk="rating"
             data-size={size}
-            role={onChange ? 'radiogroup' : 'img'}
+            role="radiogroup"
         >
             {Array.from({ length: MAX_STARS }, (_, index) => {
                 const fill = getFill(index + 1, value);
                 const selected = value !== undefined && Math.floor(value) === index;
                 return (
-                    <As
+                    <button
                         aria-checked={selected}
-                        aria-hidden={!onChange}
-                        aria-label={onChange ? `Rate ${index + 1}` : undefined}
+                        aria-label={`Rate ${index + 1}`}
                         data-fill={fill}
                         data-star
                         key={index}
                         onClick={() => onChange?.(index + 1)}
-                        role={onChange ? 'radio' : 'presentation'}
-                        tabIndex={onChange ? (selected ? 0 : -1) : -1}
+                        role="radio"
+                        tabIndex={selected ? 0 : -1}
                         type="button"
                     >
                         <SvgStarFill width={iconWidths[size]} />
@@ -78,7 +100,7 @@ export function Rating({ size = 'medium', value, onChange }: RatingProps) {
                                 </div>
                             </div>
                         )}
-                    </As>
+                    </button>
                 );
             })}
         </div>
