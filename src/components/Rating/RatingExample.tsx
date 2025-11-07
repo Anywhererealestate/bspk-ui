@@ -3,7 +3,7 @@ import { ComponentExampleFn, Preset } from '-/utils/demo';
 
 export const presets: Preset<RatingProps>[] = [
     {
-        label: 'Visual No Value',
+        label: 'Non-interactive, No Value',
         propState: {
             onChange: undefined,
             value: undefined,
@@ -23,7 +23,7 @@ export const presets: Preset<RatingProps>[] = [
             onChange: () => {},
         },
         designPattern:
-            'Descriptive and interactive control that allow customers to indicate their feelings about an experience or product on a scale of 1 to 5.',
+            'Interactive control that allow customers to indicate their feelings about an experience or product on a scale of 1 to 5.',
     },
 ];
 
