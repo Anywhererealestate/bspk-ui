@@ -87,7 +87,7 @@ export type ModalProps = Pick<
      */
     callToAction?: ModalCallToAction;
     /**
-     * The format of the buttons in the footer. Ignored if not mobile.
+     * The format of the buttons in the footer. Vertical applies only on screen widths less than or equal to 640px.
      *
      * @default horizontal
      */
@@ -200,7 +200,12 @@ export function Modal({
                 {Array.isArray(buttons) && buttons.length > 0 && (
                     <div data-button-format={buttonFormat} data-modal-footer>
                         {buttons.map((buttonProps, idx) => (
-                            <Button key={idx} {...buttonProps} size={isMobile ? 'medium' : 'small'} />
+                            <Button
+                                key={idx}
+                                {...buttonProps}
+                                size={isMobile ? 'medium' : 'small'}
+                                width={buttonFormat === 'vertical' && isMobile ? 'fill' : 'hug'}
+                            />
                         ))}
                     </div>
                 )}
