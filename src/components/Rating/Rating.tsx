@@ -11,7 +11,7 @@ export type RatingProps = {
      */
     value?: number;
     /**
-     * If included the component is in interactive mode and this callback is fired when a star is selected.
+     * If included the component is interactive and this callback is fired when the user selects a new rating value.
      *
      * @param value - The new value of the rating.
      */
@@ -73,7 +73,12 @@ export function Rating({ size = 'medium', value, onChange }: RatingProps) {
         );
 
     return (
-        <div aria-label="Select a star rating" data-bspk="rating" data-size={size} role="radiogroup">
+        <div
+            aria-label={value ? `${value} out of ${MAX_STARS} stars` : 'Select a star rating'}
+            data-bspk="rating"
+            data-size={size}
+            role="radiogroup"
+        >
             {Array.from({ length: MAX_STARS }, (_, index) => {
                 const fill = getFill(index + 1, value);
                 const selected = value !== undefined && Math.floor(value) === index;
