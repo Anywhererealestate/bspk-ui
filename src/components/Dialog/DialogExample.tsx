@@ -5,6 +5,7 @@ import { ComponentExample, Preset } from '-/utils/demo';
 export const presets: Preset<DialogProps>[] = [];
 
 export const DialogExample: ComponentExample<DialogProps> = {
+    scope: { Button },
     render: ({ props, setState, Component }) => {
         const label = 'Open Dialog';
         return (

@@ -57,23 +57,29 @@ export type DialogProps = CommonProps<'id' | 'owner'> &
  * Dialogs display important information that users need to acknowledge. They appear over the interface and block
  * further interactions until an action is selected.
  *
+ * This is a low-level component that provides the container and functionality for dialogs. You will typically want to
+ * use a higher-level component that provides a consistent UI and behavior for dialogs such as Modal.
+ *
  * @example
  *     import { Dialog } from '@bspk/ui/Dialog';
  *     import { Button } from '@bspk/ui/Button';
  *
- *     function Example() {
- *     const [open, setOpen] = React.useState(false);
+ *     () => {
+ *         const [open, setOpen] = useState(false);
  *
- *     return (
- *     <>
- *     <Button label="Open Dialog" onClick={() => setOpen(true)} />
- *     <Dialog open={open} onClose={() => setOpen(false)}>
- *     <h1>Dialog Title</h1>
- *     <p>This is the content of the dialog.</p>
- *     <button onClick={() => setOpen(false)}>Close</button>
- *     </Dialog>
- *     </>
- *     );
+ *         return (
+ *             <>
+ *                 <Button label="Open Dialog" onClick={() => setOpen(true)} />
+ *                 <Dialog open={open} onClose={() => setOpen(false)}>
+ *                     <div style={{ padding: 'var(--spacing-sizing-04)' }}>
+ *                         <h1>Dialog Title</h1>
+ *                         <p>This is the content of the dialog.</p>
+ *                         <Button label="Cancel" variant="secondary" onClick={() => setOpen(false)} />
+ *                     </div>
+ *                 </Dialog>
+ *             </>
+ *         );
+ *     };
  *
  * @name Dialog
  * @phase Utility

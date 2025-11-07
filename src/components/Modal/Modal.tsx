@@ -114,22 +114,23 @@ export type ModalProps = Pick<
  *     import { Button } from '@bspk/ui/Button';
  *     import { Modal } from '@bspk/ui/Modal';
  *
- *     function Example() {
- *     const [open, setOpen] = React.useState(false);
+ *     () => {
+ *         const [open, setOpen] = useState(false);
  *
- *     return (
- *     <>
- *     <Button label="Open Modal" onClick={() => setOpen(true)} />
- *     <Modal
- *     description="Example description"
- *     header="Example header"
- *     onClose={() => setOpen(false)}
- *     open={open}
- *     >
- *     Example Modal
- *     </Modal>
- *     </>
- *     );
+ *         return (
+ *             <>
+ *                 <Button label="Open Modal" onClick={() => setOpen(true)} />
+ *                 <Modal
+ *                     description="Example description"
+ *                     header="Example header"
+ *                     onClose={() => setOpen(false)}
+ *                     open={open}
+ *                 >
+ *                     Example Modal
+ *                 </Modal>
+ *             </>
+ *         );
+ *     };
  *
  * @name Modal
  * @phase UXReview

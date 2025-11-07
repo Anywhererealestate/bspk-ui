@@ -74,10 +74,11 @@ export type SliderProps<Value> = Pick<CommonPropsLibrary, 'disabled' | 'readOnly
  *     import { Slider } from '@bspk/ui/Slider';
  *     import { useState } from 'react';
  *
- *     function Example() {
- *     const [value, setValue] = useState(50);
+ *     () => {
+ *         const [value, setValue] = useState(50);
  *
- *     return <Slider value={value} min={0} max={100} label="Slider Example" onChange={setValue} />;
+ *         return <Slider value={value} min={0} max={100} label="Slider Example" onChange={setValue} />;
+ *     };
  *
  * @name Slider
  * @phase UXReview

@@ -42,7 +42,7 @@ export type AvatarGroupProps = CommonProps<'style'> & {
     /**
      * The variant of the avatar group.
      *
-     * @default auto
+     * @default stacked
      */
     variant?: 'spread' | 'stacked';
 };
@@ -54,6 +54,10 @@ export type AvatarGroupProps = CommonProps<'style'> & {
  *     import { AvatarGroup } from '@bspk/ui/AvatarGroup';
  *
  *     <AvatarGroup
+ *         style={{ marginLeft: 'var(--spacing-sizing-12)' }}
+ *         size="medium"
+ *         max={4}
+ *         variant="stacked"
  *         items={[
  *             {
  *                 name: 'Alice Johnson',
@@ -67,13 +71,21 @@ export type AvatarGroupProps = CommonProps<'style'> & {
  *                 name: 'Charlie Brown',
  *                 image: '/avatar-03.png',
  *             },
+ *             {
+ *                 name: 'Diana Prince',
+ *                 image: '/avatar-04.png',
+ *             },
+ *             {
+ *                 name: 'Ethan Hunt',
+ *                 image: '/avatar-05.png',
+ *             },
  *         ]}
  *     />;
  *
  * @name AvatarGroup
  * @phase UXReview
  */
-export function AvatarGroup({ items, size = 'small', max: maxProp = 5, variant = 'spread', style }: AvatarGroupProps) {
+export function AvatarGroup({ items, size = 'small', max: maxProp = 5, variant = 'stacked', style }: AvatarGroupProps) {
     const max = maxProp > items.length ? items.length : maxProp;
     const overflowItems = items.slice(max);
 

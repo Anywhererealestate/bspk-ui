@@ -5,6 +5,7 @@ import { ListItem } from '-/components/ListItem';
 import { ComponentExampleFn } from '-/utils/demo';
 
 export const ModalExample: ComponentExampleFn<ModalProps> = ({ action }) => ({
+    scope: { Modal, Button, ListItem, Checkbox },
     variants: false,
     render: ({ props, setState }) => {
         const label = 'Open Modal';

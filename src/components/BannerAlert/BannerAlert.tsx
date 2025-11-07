@@ -55,6 +55,7 @@ export type BannerAlertProps = {
  *     import { BannerAlert } from '@bspk/ui/BannerAlert';
  *
  *     <BannerAlert
+ *         elevated={true}
  *         variant="error"
  *         header="Error"
  *         body="There was an error processing your request."

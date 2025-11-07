@@ -69,50 +69,50 @@ export type SelectProps = CommonProps<'size'> &
  *     import { Select } from '@bspk/ui/Select';
  *
  *     const OPTIONS = [
- *     { id: '1', label: 'Option 1' },
- *     { id: '2', label: 'Option 2' },
- *     { id: '3', label: 'Option 3' },
- *     { id: '4', label: 'Option 4' },
- *     { id: '5', label: 'Option 5' },
- *     { id: '6', label: 'Option 6' },
+ *         { id: '1', label: 'Option 1' },
+ *         { id: '2', label: 'Option 2' },
+ *         { id: '3', label: 'Option 3' },
+ *         { id: '4', label: 'Option 4' },
+ *         { id: '5', label: 'Option 5' },
+ *         { id: '6', label: 'Option 6' },
  *     ];
  *
- *     function ExampleStandalone() {
- *     const [selected, setSelected] = React.useState<string[]>([]);
+ *     () => {
+ *         const [selected, setSelected] = useState<string[]>([]);
  *
- *     return (
- *     <Select
- *     aria-label="Select an option"
- *     itemCount={5}
- *     name="example-select"
- *     onChange={setSelected}
- *     options={OPTIONS}
- *     placeholder="Select an option"
- *     size="medium"
- *     value={selected}
- *     />
- *     );
- *     }
- *
- *     function ExampleWithField() {
- *     const [selected, setSelected] = React.useState<string[]>([]);
- *     return (
- *     <Field>
- *     <FieldLabel>Select an option</FieldLabel>
- *     <Select
- *     itemCount={5}
- *     name="example-select"
- *     onChange={setSelected}
- *     options={OPTIONS}
- *     placeholder="Select an option"
- *     size="medium"
- *     value={selected}
- *     />
- *     <FieldDescription>
- *     The select allows you to choose one option from a list of options.
- *     </FieldDescription>
- *     </Field>
- *     );
+ *         return (
+ *             <>
+ *                 // standalone select example
+ *                 <Select
+ *                     aria-label="Select an option"
+ *                     itemCount={5}
+ *                     name="example-select"
+ *                     onChange={setSelected}
+ *                     options={OPTIONS}
+ *                     placeholder="Select an option"
+ *                     size="medium"
+ *                     value={selected}
+ *                 />
+ *                 <br />
+ *                 // select used within a field
+ *                 <Field>
+ *                     <FieldLabel>Select an option</FieldLabel>
+ *                     <Select
+ *                         itemCount={5}
+ *                         name="example-select"
+ *                         onChange={setSelected}
+ *                         options={OPTIONS}
+ *                         placeholder="Select an option"
+ *                         size="medium"
+ *                         value={selected}
+ *                     />
+ *                     <FieldDescription>
+ *                         The select allows you to choose one option from a list of options.
+ *                     </FieldDescription>
+ *                 </Field>
+ *             </>
+ *         );
+ *     };
  *
  * @name Select
  * @phase UXReview

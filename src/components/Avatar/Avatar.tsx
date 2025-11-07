@@ -94,6 +94,10 @@ export type AvatarProps = CommonProps<'disabled'> & {
  *         name="Andre Giant"
  *         hideTooltip
  *         size="large"
+ *         disabled={false}
+ *         onClick={() => action('Launch avatar popover')}
+ *         showIcon={false}
+ *         hideTooltip={true}
  *     />;
  *
  * @exampleDescription The image if provided is displayed first, followed by the icon if provided, and finally the initials. If no initials are provided, the first two letters of the name will be used as initials.

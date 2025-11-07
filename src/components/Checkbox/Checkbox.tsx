@@ -36,11 +36,14 @@ export type CheckboxProps = Omit<FieldControlProps, 'onChange' | 'readOnly' | 'v
  * @example
  *     import { Checkbox } from '@bspk/ui/Checkbox';
  *
- *     function Example() {
- *         const [checked, setChecked] = React.useState(false);
+ *     () => {
+ *         const [checked, setChecked] = useState(false);
  *
  *         return (
- *             <label htmlFor="sample-checkbox">
+ *             <label
+ *                 htmlFor="sample-checkbox"
+ *                 style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-sizing-02)' }}
+ *             >
  *                 <Checkbox
  *                     aria-label="Sample"
  *                     checked={checked}
@@ -52,7 +55,7 @@ export type CheckboxProps = Omit<FieldControlProps, 'onChange' | 'readOnly' | 'v
  *                 Checkbox Label
  *             </label>
  *         );
- *     }
+ *     };
  *
  * @element
  *

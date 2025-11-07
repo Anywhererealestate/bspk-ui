@@ -83,13 +83,7 @@ export type ButtonProps<As extends ElementType = ElementType> = CommonProps<'dis
  *     import { Button } from '@bspk/ui/Button';
  *     import { SvgPerson } from '@bspk/icons/Person';
  *
- *     <Button
- *         label="Click Me"
- *         size="medium"
- *         variant="primary"
- *         onClick={() => console.log('Button clicked')}
- *         icon={<SvgPerson />}
- *     />;
+ *     <Button label="Click Me" size="medium" onClick={() => action('Button clicked')} icon={<SvgPerson />} />;
  *
  * @name Button
  * @phase UXReview

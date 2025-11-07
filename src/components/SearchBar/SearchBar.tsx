@@ -72,30 +72,31 @@ export type SearchBarProps<O extends SearchBarOption = SearchBarOption> = Omit<
  *     import { useState } from 'react';
  *     import { SearchBar } from '@bspk/ui/SearchBar';
  *
- *     function Example() {
- *     const [searchText, setSearchText] = useState('');
+ *     () => {
+ *         const [searchText, setSearchText] = useState('');
  *
- *     return (
- *     <SearchBar
- *     aria-label="Example aria-label"
- *     items={[
- *     { label: 'Apple Pie' },
- *     { label: 'Banana Split' },
- *     { label: 'Cherry Tart' },
- *     { label: 'Dragonfruit Sorbet' },
- *     { label: 'Elderberry Jam' },
- *     { label: 'Fig Newton' },
- *     { label: 'Grape Soda' },
- *     { label: 'Honeydew Smoothie' },
- *     { label: 'Ice Cream Sandwich' },
- *     { label: 'Jackfruit Pudding' },
- *     ]}
- *     name="example-name"
- *     placeholder="Search"
- *     value={searchText}
- *     onChange={setSearchText}
- *     />
- *     );
+ *         return (
+ *             <SearchBar
+ *                 aria-label="Example aria-label"
+ *                 items={[
+ *                     { label: 'Apple Pie' },
+ *                     { label: 'Banana Split' },
+ *                     { label: 'Cherry Tart' },
+ *                     { label: 'Dragonfruit Sorbet' },
+ *                     { label: 'Elderberry Jam' },
+ *                     { label: 'Fig Newton' },
+ *                     { label: 'Grape Soda' },
+ *                     { label: 'Honeydew Smoothie' },
+ *                     { label: 'Ice Cream Sandwich' },
+ *                     { label: 'Jackfruit Pudding' },
+ *                 ]}
+ *                 name="example-name"
+ *                 placeholder="Search"
+ *                 value={searchText}
+ *                 onChange={setSearchText}
+ *             />
+ *         );
+ *     };
  *
  * @name SearchBar
  * @phase UXReview
