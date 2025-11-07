@@ -2,8 +2,15 @@ import { useState } from 'react';
 import { SnackbarProps, Snackbar } from './Snackbar';
 import { useEventListener } from '-/hooks/useAddEventListener';
 import { useTimeout } from '-/hooks/useTimeout';
+import { BspkIcon } from '-/types/common';
 
 const CUSTOM_EVENT_NAME = 'bspk-snackbar-event';
+
+// make onClose optional
+export type SendSnackbarProps = Omit<SnackbarProps, 'icon' | 'onClose'> & {
+    onClose?: SnackbarProps['onClose'];
+    icon?: BspkIcon;
+};
 
 export type SnackbarManagerProps = {
     /**
@@ -67,6 +74,3 @@ export function sendSnackBar(props: SendSnackbarProps) {
 export function clearSnackBar() {
     document.dispatchEvent(new CustomEvent(CUSTOM_EVENT_NAME, { detail: 'clear' }));
 }
-
-// make onClose optional
-export type SendSnackbarProps = Omit<SnackbarProps, 'onClose'> & { onClose?: SnackbarProps['onClose'] };

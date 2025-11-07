@@ -5,7 +5,7 @@ import { Button } from '-/components/Button';
 import { Portal } from '-/components/Portal';
 import { Truncated } from '-/components/Truncated';
 import { useId } from '-/hooks/useId';
-import { BspkIcon, CommonProps, SetRef } from '-/types/common';
+import { CommonProps, SetRef } from '-/types/common';
 
 export type SnackbarProps = CommonProps<'id'> & {
     /**
@@ -34,7 +34,7 @@ export type SnackbarProps = CommonProps<'id'> & {
      *
      * @type BspkIcon
      */
-    icon?: BspkIcon | ReactNode;
+    icon?: ReactNode;
     /**
      * Callback when the snackbar is dismissed
      *
@@ -45,12 +45,8 @@ export type SnackbarProps = CommonProps<'id'> & {
      * Time in milliseconds after which the snackbar will auto dismiss.
      *
      * If no timeout is provided, and closeButton is set to false the snackbar will not be dismissable.
-     *
-     * By default this is set to 5000 milliseconds (5 seconds). To disable auto-dismissal, set this to 0 or false.
-     *
-     * @default 5000
      */
-    timeout?: number | false;
+    timeout?: number;
     /**
      * If the snackbar is open or not.
      *
