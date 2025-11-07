@@ -6,6 +6,7 @@
  * @bspk/ui/Txt".
  */
 
+import { IconName } from '@bspk/icons';
 import {
     JSXElementConstructor,
     ReactNode,
@@ -39,6 +40,9 @@ export type CSSWithVariables = CSSProperties | (CSSProperties & { [key in CSSVar
 export type DataProps = Record<`data-${string}`, string>;
 
 export type ButtonSize = 'large' | 'medium' | 'small' | 'x-small';
+
+/** The name of an icon in the Bspk icon library. */
+export type BspkIcon = IconName;
 
 export type CallToActionButton = {
     /**

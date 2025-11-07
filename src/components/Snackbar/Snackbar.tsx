@@ -5,7 +5,7 @@ import { Button } from '-/components/Button';
 import { Portal } from '-/components/Portal';
 import { Truncated } from '-/components/Truncated';
 import { useId } from '-/hooks/useId';
-import { CommonProps, SetRef } from '-/types/common';
+import { BspkIcon, CommonProps, SetRef } from '-/types/common';
 
 export type SnackbarProps = CommonProps<'id'> & {
     /**
@@ -34,21 +34,23 @@ export type SnackbarProps = CommonProps<'id'> & {
      *
      * @type BspkIcon
      */
-    icon?: ReactNode;
+    icon?: BspkIcon | ReactNode;
     /**
      * Callback when the snackbar is dismissed
      *
      * @required
      */
     onClose: () => void;
-    /** Content to be rendered inside the snack bar provider, the snackbar trigger element. */
-    // children: ReactNode;
     /**
      * Time in milliseconds after which the snackbar will auto dismiss.
      *
      * If no timeout is provided, and closeButton is set to false the snackbar will not be dismissable.
+     *
+     * By default this is set to 5000 milliseconds (5 seconds). To disable auto-dismissal, set this to 0 or false.
+     *
+     * @default 5000
      */
-    timeout?: number;
+    timeout?: number | false;
     /**
      * If the snackbar is open or not.
      *
@@ -70,18 +72,36 @@ export type SnackbarProps = CommonProps<'id'> & {
  * Snackbars are intended to provide feedback about an action. Because of focus trap these will interrupt the customer
  * experience.
  *
+ * #### Inline
+ *
+ * Inline snackbars are added inside the component that triggers them. They are controlled via props and state. These
+ * are useful for smaller applications that do not require global state management.
+ *
+ * #### Managed
+ *
+ * Managed snackbars are controlled via the SnackbarManager component and the sendSnackBar and clearSnackBar functions.
+ * This allows snackbars to be triggered from anywhere in the application without needing to pass props or state down
+ * and prevents duplicate snackbars from being shown.
+ *
  * @example
  *     import { Snackbar } from '@bspk/ui/Snackbar';
  *     import { Button } from '@bspk/ui/Button';
  *     import { useState } from 'react';
+ *     import { sendSnackBar } from '@bspk/ui/Snackbar/Manager';
  *
  *     function ExampleComponent(props) {
  *         const [snackbarOpen, setSnackbarOpen] = useState(false);
  *
  *         return (
  *             <>
+ *                 // -- inline snackbar
  *                 <Button label="Show snackbar" onClick={() => setSnackbarOpen(true)} size="medium" title="Snackbar" />
  *                 <Snackbar text="I am an example." open={snackbarOpen} onClose={() => setSnackbarOpen(false)} />
+ *                 // -- managed snackbar
+ *                 <Button
+ *                     label="Show managed snackbar"
+ *                     onClick={() => sendSnackBar({ text: 'I am a managed snackbar!' })}
+ *                 />
  *             </>
  *         );
  *     }
@@ -93,7 +113,7 @@ export type SnackbarProps = CommonProps<'id'> & {
 export function Snackbar({
     id: propId,
     text,
-    timeout,
+    timeout = 5000,
     closeButton = true,
     closeButtonLabel = 'Dismiss',
     icon,
