@@ -1,13 +1,14 @@
+import { IconName } from '@bspk/icons';
+import { SvgIcon } from '@bspk/icons/SvgIcon';
 import { useState } from 'react';
 import { SnackbarProps, Snackbar } from './Snackbar';
-import { useEventListener } from '-/hooks/useAddEventListener';
-import { useTimeout } from '-/hooks/useTimeout';
 import { BspkIcon } from '-/types/common';
+import { createCustomEvent } from '-/utils/createCustomEvent';
 
 const CUSTOM_EVENT_NAME = 'bspk-snackbar-event';
 
 // make onClose optional
-export type SendSnackbarProps = Omit<SnackbarProps, 'icon' | 'onClose'> & {
+export type SendSnackbarProps = Omit<SnackbarProps, 'icon' | 'innerRef' | 'onClose'> & {
     onClose?: SnackbarProps['onClose'];
     icon?: BspkIcon;
 };
@@ -20,6 +21,8 @@ export type SnackbarManagerProps = {
      */
     defaultTimeout?: number;
 };
+
+const SnackBarEvent = createCustomEvent<SendSnackbarProps | 'clear'>(CUSTOM_EVENT_NAME);
 
 /**
  * SnackbarManager is a single use component that listens for snackbar events and displays them to the user.
@@ -35,29 +38,19 @@ export type SnackbarManagerProps = {
  */
 export function SnackbarManager({ defaultTimeout = 5000 }: SnackbarManagerProps) {
     const [snackbarProps, setSnackbarProps] = useState<SendSnackbarProps | undefined>();
+    const { useEventListener } = SnackBarEvent;
 
-    const timeout = useTimeout();
-
-    useEventListener(
-        CUSTOM_EVENT_NAME,
-        (event: CustomEvent) => {
-            const detail = event.detail as SendSnackbarProps | string;
-
-            // Clear any existing snackbar to ensure that screen readers read the new message
-            setSnackbarProps(undefined);
-
-            if (typeof detail === 'string') return; // 'clear' command or invalid payload
-            timeout.set(
-                () => setSnackbarProps({ ...detail, timeout: 'timeout' in detail ? detail.timeout : defaultTimeout }),
-                10,
-            );
-        },
-        document,
-    );
+    useEventListener((detail) => {
+        setSnackbarProps(
+            // handle 'clear' event and invalid details OR set
+            typeof detail === 'string' ? undefined : { ...detail, timeout: detail.timeout || defaultTimeout },
+        );
+    });
 
     return snackbarProps ? (
         <Snackbar
             {...snackbarProps}
+            icon={snackbarProps.icon ? <SvgIcon name={snackbarProps.icon as IconName} /> : undefined}
             onClose={() => {
                 setSnackbarProps(undefined);
                 snackbarProps?.onClose?.();
@@ -67,10 +60,6 @@ export function SnackbarManager({ defaultTimeout = 5000 }: SnackbarManagerProps)
     ) : null;
 }
 
-export function sendSnackBar(props: SendSnackbarProps) {
-    document.dispatchEvent(new CustomEvent(CUSTOM_EVENT_NAME, { detail: props }));
-}
+export const sendSnackBar = (props: SendSnackbarProps) => SnackBarEvent.send(props);
 
-export function clearSnackBar() {
-    document.dispatchEvent(new CustomEvent(CUSTOM_EVENT_NAME, { detail: 'clear' }));
-}
+export const clearSnackBar = () => SnackBarEvent.send('clear');

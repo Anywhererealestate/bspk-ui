@@ -1,3 +1,4 @@
+import { IconName } from '@bspk/icons';
 import { clearSnackBar, sendSnackBar } from './Manager';
 import { Snackbar, SnackbarProps } from './Snackbar';
 import { Button } from '-/components/Button';
@@ -8,24 +9,32 @@ export const SnackbarExample: ComponentExample<SnackbarProps> = {
     defaultState: {},
     disableProps: [],
     presets: [],
-    render: ({ props, setState }) => (
-        <>
-            <Snackbar {...props} onClose={() => setState({ open: false })} />
-            <Button
-                label="Launch Inline Snackbar"
-                onClick={() => setState({ open: true })}
-                size="medium"
-                title="Snackbar"
-            />
-            <br />
-            <Button
-                label="Launch Managed Snackbar"
-                onClick={() => sendSnackBar({ ...props, text: `Managed: ${props.text}` })}
-            />
-            <br />
-            <Button label="Clear Managed Snackbar" onClick={() => clearSnackBar()} />
-        </>
-    ),
+    render: ({ props, setState }) => {
+        return (
+            <>
+                <Snackbar {...props} onClose={() => setState({ open: false })} />
+                <Button
+                    label="Launch Inline Snackbar"
+                    onClick={() => setState({ open: true })}
+                    size="medium"
+                    title="Snackbar"
+                />
+                <br />
+                <Button
+                    label="Launch Managed Snackbar"
+                    onClick={() =>
+                        sendSnackBar({
+                            ...props,
+                            text: `Managed: ${props.text}`,
+                            icon: 'icon:icon-name' in props ? (props['icon:icon-name'] as IconName) : undefined,
+                        })
+                    }
+                />
+                <br />
+                <Button label="Clear Managed Snackbar" onClick={() => clearSnackBar()} />
+            </>
+        );
+    },
     sections: [],
     variants: false,
 };
