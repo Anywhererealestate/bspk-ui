@@ -18,7 +18,10 @@ export const SnackbarExample: ComponentExample<SnackbarProps> = {
                 title="Snackbar"
             />
             <br />
-            <Button label="Launch Managed Snackbar" onClick={() => sendSnackBar({ text: 'Managed Snackbar' })} />
+            <Button
+                label="Launch Managed Snackbar"
+                onClick={() => sendSnackBar({ ...props, text: `Managed: ${props.text}` })}
+            />
             <br />
             <Button label="Clear Managed Snackbar" onClick={() => clearSnackBar()} />
         </>
