@@ -101,7 +101,12 @@ export const BottomNavigationExample: ComponentExample<BottomNavigationProps> = 
     },
     defaultState: {
         value: '1',
-        options: presets[0].propState.options,
+        options: presets[0].propState.options.map((option) => ({
+            ...option,
+            icon: undefined,
+            iconSelected: undefined,
+        })),
+        label: 'Single Icon',
     },
     disableProps: [],
     presets,
