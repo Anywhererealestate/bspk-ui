@@ -6,8 +6,8 @@ export const presets: Preset<ChipProps>[] = [
         label: 'Basic',
         propState: {
             label: 'chip',
-            leadingIcon: '',
-            trailingIcon: '',
+            leadingIcon: undefined,
+            trailingIcon: undefined,
             trailingBadge: undefined,
         },
     },
@@ -16,7 +16,7 @@ export const presets: Preset<ChipProps>[] = [
         propState: {
             label: 'chip',
             leadingIcon: 'Add',
-            trailingIcon: '',
+            trailingIcon: undefined,
             trailingBadge: undefined,
         },
     },
@@ -24,7 +24,7 @@ export const presets: Preset<ChipProps>[] = [
         label: 'Trailing Icon',
         propState: {
             label: 'chip',
-            leadingIcon: '',
+            leadingIcon: undefined,
             trailingIcon: 'Add',
             trailingBadge: undefined,
         },
@@ -52,7 +52,7 @@ export const presets: Preset<ChipProps>[] = [
         propState: {
             label: 'chip',
             leadingIcon: 'Add',
-            trailingIcon: '',
+            trailingIcon: undefined,
             trailingBadge: { count: 2, size: 'x-small' as BadgeItem['size'] },
         },
     },
@@ -69,7 +69,7 @@ export const presets: Preset<ChipProps>[] = [
         propState: {
             label: 'Assist Chip',
             leadingIcon: 'Cloud',
-            trailingIcon: '',
+            trailingIcon: undefined,
             trailingBadge: undefined,
         },
         designPattern:
@@ -100,8 +100,8 @@ export const presets: Preset<ChipProps>[] = [
         label: 'Suggest Chip',
         propState: {
             label: 'Suggest Chip',
-            leadingIcon: '',
-            trailingIcon: '',
+            leadingIcon: undefined,
+            trailingIcon: undefined,
             trailingBadge: undefined,
         },
         designPattern: 'Dynamically generated options that are suggested to the customer as responses or prompts. ',
