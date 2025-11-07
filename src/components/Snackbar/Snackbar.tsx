@@ -41,8 +41,6 @@ export type SnackbarProps = CommonProps<'id'> & {
      * @required
      */
     onClose: () => void;
-    /** Content to be rendered inside the snack bar provider, the snackbar trigger element. */
-    // children: ReactNode;
     /**
      * Time in milliseconds after which the snackbar will auto dismiss.
      *
@@ -67,21 +65,40 @@ export type SnackbarProps = CommonProps<'id'> & {
 };
 
 /**
- * Snackbars are intended to provide feedback about an action. Because of focus trap these will interrupt the customer
- * experience.
+ * Snackbars provide brief feedback about user actions. Because they use a focus trap, they interrupt the user's
+ * workflow and should be used sparingly.
+ *
+ * #### Inline
+ *
+ * Render the Snackbar inside the component that triggers it and control visibility with local state/props. This is
+ * simple and useful for small or isolated components, but can lead to duplicate snackbars or inadvertent render loops
+ * if state is not managed carefully.
+ *
+ * #### Managed
+ *
+ * Use the SnackbarManager together with `sendSnackBar` and `clearSnackBar` to control snackbars globally. This lets any
+ * part of the app trigger snackbars without prop drilling and helps avoid duplicates. and prevents duplicate snackbars
+ * from being shown.
  *
  * @example
  *     import { Snackbar } from '@bspk/ui/Snackbar';
  *     import { Button } from '@bspk/ui/Button';
  *     import { useState } from 'react';
+ *     import { sendSnackBar } from '@bspk/ui/Snackbar/Manager';
  *
  *     function ExampleComponent(props) {
  *         const [snackbarOpen, setSnackbarOpen] = useState(false);
  *
  *         return (
  *             <>
+ *                 // -- inline snackbar
  *                 <Button label="Show snackbar" onClick={() => setSnackbarOpen(true)} size="medium" title="Snackbar" />
  *                 <Snackbar text="I am an example." open={snackbarOpen} onClose={() => setSnackbarOpen(false)} />
+ *                 // -- managed snackbar
+ *                 <Button
+ *                     label="Show managed snackbar"
+ *                     onClick={() => sendSnackBar({ text: 'I am a managed snackbar!' })}
+ *                 />
  *             </>
  *         );
  *     }

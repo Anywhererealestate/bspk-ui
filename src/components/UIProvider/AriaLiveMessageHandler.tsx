@@ -3,8 +3,10 @@ import { useEventListener } from '-/hooks/useAddEventListener';
 import { useTimeout } from '-/hooks/useTimeout';
 import { AriaLiveMessage } from '-/utils/uiContext';
 
+const CUSTOM_EVENT_NAME = 'bspk-aria-live';
+
 export function sendAriaLiveMessage(message: string, live: 'assertive' | 'polite' = 'polite') {
-    document.dispatchEvent(new CustomEvent('aria-live', { detail: { message, live } }));
+    document.dispatchEvent(new CustomEvent(CUSTOM_EVENT_NAME, { detail: { message, live } }));
 }
 
 /**
@@ -24,7 +26,7 @@ export function AriaLiveMessageHandler() {
     const timeout = useTimeout();
 
     useEventListener(
-        'aria-live',
+        CUSTOM_EVENT_NAME,
         (event: CustomEvent) => {
             const { message, live } = event.detail;
             // Clear any existing message to ensure that screen readers read the new message
