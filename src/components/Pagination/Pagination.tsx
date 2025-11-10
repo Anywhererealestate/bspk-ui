@@ -12,7 +12,9 @@ export type PaginationProps = {
     /**
      * The number of pages to display in the pagination component.
      *
-     * @default 1
+     * If there is only one page, the component will not render.
+     *
+     * @default 2
      */
     numPages: number;
     /**
@@ -53,11 +55,6 @@ export function Pagination({ numPages, value, onChange, ...ariaProps }: AriaAttr
         if (value > 1) onChange(value - 1);
     };
 
-    const isFirstPage = value === 1;
-    const isLastPage = value === numPages;
-    const isOutOfBoundsValue = value < 1 || value > numPages;
-    const isOneOrFewerPages = numPages <= 1;
-
     const [inputValue, setInputValue] = useState<string | undefined>(`${value}`);
 
     useEffect(() => setInputValue(`${value}`), [value]);
@@ -66,20 +63,25 @@ export function Pagination({ numPages, value, onChange, ...ariaProps }: AriaAttr
         const parsedValue = parseInt(inputValue || '', 10);
         if (isNaN(parsedValue)) return setInputValue(`${value}`);
 
-        if (parsedValue < 1) return onChange(1);
+        let next = parsedValue;
+        if (parsedValue < 1) next = 1;
+        if (parsedValue > numPages) next = numPages;
 
-        if (parsedValue > numPages) return onChange(numPages);
-
-        onChange(parsedValue);
+        onChange(next);
+        if (next !== parsedValue) setInputValue(`${next}`);
     };
+
+    const inBounds = (n: number) => n >= 1 && n <= numPages;
+
+    if (numPages <= 1) return null;
 
     return (
         <span data-bspk="pagination" role="group" {...ariaProps}>
             <Button
-                disabled={isOutOfBoundsValue || isOneOrFewerPages || isFirstPage}
+                disabled={!inBounds(value - 1)}
                 icon={<SvgIcon name="ChevronLeft" />}
                 iconOnly
-                label={isFirstPage ? 'First page' : `Previous page (${value - 1})`}
+                label={value === 1 ? 'First page' : `Previous page (${value - 1})`}
                 onClick={previousPage}
                 owner="pagination"
                 size="small"
@@ -109,10 +111,10 @@ export function Pagination({ numPages, value, onChange, ...ariaProps }: AriaAttr
             )}
 
             <Button
-                disabled={isOutOfBoundsValue || isOneOrFewerPages || isLastPage}
+                disabled={!inBounds(value + 1)}
                 icon={<SvgIcon name="ChevronRight" />}
                 iconOnly
-                label={isLastPage ? 'Last page' : `Next page (${value + 1})`}
+                label={value === numPages ? 'Last page' : `Next page (${value + 1})`}
                 onClick={nextPage}
                 owner="pagination"
                 size="small"
