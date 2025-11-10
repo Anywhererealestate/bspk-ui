@@ -1,9 +1,9 @@
 import './pagination.scss';
 import { SvgIcon } from '@bspk/icons/SvgIcon';
-import { AriaAttributes } from 'react';
-import { PageInput } from './PageInput';
+import { AriaAttributes, useEffect, useState } from 'react';
 import { PageList } from './PageList';
 import { Button } from '-/components/Button';
+import { InputElement } from '-/components/Input';
 
 // After this point the manual input renders. With equal or fewer pages the individual page buttons render instead.
 const INPUT_TYPE_THRESHOLD = 7;
@@ -12,7 +12,9 @@ export type PaginationProps = {
     /**
      * The number of pages to display in the pagination component.
      *
-     * @default 1
+     * If there is only one page, the component will not render.
+     *
+     * @default 2
      */
     numPages: number;
     /**
@@ -32,14 +34,9 @@ export type PaginationProps = {
  *
  * @example
  *     import { Pagination } from '@bspk/ui/Pagination';
- *     import { usePaginationState } from '@bspk/ui/hooks/usePaginationState';
  *
  *     function Example() {
- *         const numPages = 10;
- *
- *         const { currentPage, setCurrentPage } = usePaginationState(numPages);
- *
- *         return <Pagination value={currentPage} onChange={setCurrentPage} numPages={numPages} />;
+ *         return <Pagination value={currentPage} onChange={setCurrentPage} numPages={10} />;
  *     }
  *
  * @name Pagination
@@ -47,46 +44,73 @@ export type PaginationProps = {
  */
 export function Pagination({ numPages, value, onChange, ...ariaProps }: AriaAttributes & PaginationProps) {
     const nextPage = () => {
-        if (value < numPages) {
-            onChange(value + 1);
-        }
+        if (value < numPages) onChange(value + 1);
     };
 
     const previousPage = () => {
-        if (value > 1) {
-            onChange(value - 1);
-        }
+        if (value > 1) onChange(value - 1);
     };
 
-    const isFirstPage = value === 1;
-    const isLastPage = value === numPages;
-    const isOutOfBoundsValue = value < 1 || value > numPages;
-    const isOneOrFewerPages = numPages <= 1;
+    const [inputValue, setInputValue] = useState<string | undefined>(`${value}`);
+
+    useEffect(() => setInputValue(`${value}`), [value]);
+
+    const submitInputChange = () => {
+        const parsedValue = parseInt(inputValue || '', 10);
+        if (isNaN(parsedValue)) return setInputValue(`${value}`);
+
+        let next = parsedValue;
+        if (parsedValue < 1) next = 1;
+        if (parsedValue > numPages) next = numPages;
+
+        onChange(next);
+        if (next !== parsedValue) setInputValue(`${next}`);
+    };
+
+    const inBounds = (n: number) => n >= 1 && n <= numPages;
+
+    if (numPages <= 1) return null;
 
     return (
         <span data-bspk="pagination" role="group" {...ariaProps}>
             <Button
-                disabled={isOutOfBoundsValue || isOneOrFewerPages || isFirstPage}
+                disabled={!inBounds(value - 1)}
                 icon={<SvgIcon name="ChevronLeft" />}
                 iconOnly
-                label={isFirstPage ? 'First page' : `Previous page (${value - 1})`}
+                label={value === 1 ? 'First page' : `Previous page (${value - 1})`}
                 onClick={previousPage}
                 owner="pagination"
                 size="small"
                 variant="tertiary"
             />
-
             {numPages > INPUT_TYPE_THRESHOLD ? (
-                <PageInput numPages={numPages} onChange={onChange} value={value} />
+                <form
+                    data-input-form
+                    onSubmit={(e) => {
+                        e.preventDefault();
+                        submitInputChange();
+                    }}
+                >
+                    <InputElement
+                        name="page-number"
+                        onBlur={() => submitInputChange()}
+                        onChange={setInputValue}
+                        owner="pagination"
+                        showClearButton={false}
+                        type="number"
+                        value={inputValue}
+                    />
+                    of {numPages}
+                </form>
             ) : (
                 <PageList numPages={numPages} onChange={onChange} value={value} />
             )}
 
             <Button
-                disabled={isOutOfBoundsValue || isOneOrFewerPages || isLastPage}
+                disabled={!inBounds(value + 1)}
                 icon={<SvgIcon name="ChevronRight" />}
                 iconOnly
-                label={isLastPage ? 'Last page' : `Next page (${value + 1})`}
+                label={value === numPages ? 'Last page' : `Next page (${value + 1})`}
                 onClick={nextPage}
                 owner="pagination"
                 size="small"
