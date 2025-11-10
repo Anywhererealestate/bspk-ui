@@ -6,25 +6,15 @@
     gap: var(--spacing-sizing-01);
     flex: 1;
 
-    [data-bspk='page-input'] {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-        gap: var(--spacing-sizing-01);
+    [data-input-form] {
+        display: contents;
+    }
 
-        [data-bspk='txt'] {
-            color: var(--foreground-neutral-on-surface-variant-02);
-            text-wrap: nowrap;
-        }
+    [data-bspk='input'] {
+        max-width: var(--spacing-sizing-12);
 
-        [data-bspk='text-input'] {
-            width: var(--spacing-sizing-12);
-
-            input {
-                text-align: center;
-                flex: 1;
-            }
+        input {
+            text-align: center;
         }
     }
 
