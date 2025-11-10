@@ -1,11 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */ import { SvgContentCopy } from '@bspk/icons/ContentCopy';
 import { SvgDiamond } from '@bspk/icons/Diamond';
 import { DemoAction, DemoSetState } from './demo';
-
 import { Avatar } from '-/components/Avatar';
+import { Button } from '-/components/Button';
 import { Checkbox } from '-/components/Checkbox';
 import { Img } from '-/components/Img';
-import { ListItem } from '-/components/ListItem';
 import { Radio } from '-/components/Radio';
 import { Switch } from '-/components/Switch';
 import { Tag } from '-/components/Tag';
@@ -55,14 +54,10 @@ export function createExampleChildElement({ exampleState, name, setState, action
         };
     }
 
-    if (componentName === 'ListItemButton')
+    if (componentName === 'Button')
         return {
             element: (
-                <ListItem.Button
-                    icon={<SvgContentCopy />}
-                    label="LI Button"
-                    onClick={() => action('ListItem button clicked')}
-                />
+                <Button icon={<SvgContentCopy />} label="LI Button" onClick={() => action('ListItem button clicked')} />
             ),
             componentName,
         };

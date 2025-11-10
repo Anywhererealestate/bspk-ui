@@ -1,5 +1,5 @@
 import { IconName } from '@bspk/icons';
-import { clearSnackBar, sendSnackBar } from './Manager';
+import { clearSnackbar, sendSnackbar } from './Manager';
 import { Snackbar, SnackbarProps } from './Snackbar';
 import { Button } from '-/components/Button';
 import { ComponentExample } from '-/utils/demo';
@@ -23,7 +23,7 @@ export const SnackbarExample: ComponentExample<SnackbarProps> = {
                 <Button
                     label="Launch Managed Snackbar"
                     onClick={() =>
-                        sendSnackBar({
+                        sendSnackbar({
                             ...props,
                             text: `Managed: ${props.text}`,
                             icon: 'icon:icon-name' in props ? (props['icon:icon-name'] as IconName) : undefined,
@@ -31,7 +31,7 @@ export const SnackbarExample: ComponentExample<SnackbarProps> = {
                     }
                 />
                 <br />
-                <Button label="Clear Managed Snackbar" onClick={() => clearSnackBar()} />
+                <Button label="Clear Managed Snackbar" onClick={() => clearSnackbar()} />
             </>
         );
     },

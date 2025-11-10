@@ -1,10 +1,9 @@
-import { Popover, PopoverProps } from '.';
+import { PopoverProps } from '.';
 import { Button } from '-/components/Button';
 import { Txt } from '-/components/Txt';
 import { ComponentExampleFn } from '-/utils/demo';
 
 export const PopoverExample: ComponentExampleFn<PopoverProps> = ({ action }) => ({
-    scope: { Popover, Button },
     containerStyle: { width: '100%' },
     render: ({ props, Component }) => {
         return (

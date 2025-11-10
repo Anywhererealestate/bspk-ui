@@ -63,7 +63,7 @@ export type ChipProps = {
  * @example
  *     import { Chip } from '@bspk/ui/Chip';
  *
- *     <Chip label="Label" onClick={() => console.log('Chip clicked!')}>
+ *     <Chip label="Label" onClick={() => sendSnackbar('Chip clicked!')}>
  *         Example Chip
  *     </Chip>;
  *

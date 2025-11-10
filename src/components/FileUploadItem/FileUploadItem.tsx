@@ -34,7 +34,7 @@ export type FileUploadItemProps = FileEntry & {
  *         fileName="dunder-mifflin-paper-co.jpg"
  *         fileSize="1.43 mb"
  *         status="Uploading"
- *         onCancel={() => console.log('Cancel item clicked!')}
+ *         onCancel={() => sendSnackbar('Cancel item clicked!')}
  *     />;
  *
  * @name FileUploadItem

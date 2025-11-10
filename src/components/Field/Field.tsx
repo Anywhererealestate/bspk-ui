@@ -56,7 +56,6 @@ const isComponentName = (
  *                         setState(next);
  *                     }}
  *                     value={state}
- *                     {...fieldProps}
  *                 />
  *                 <FieldDescription>This is an example description.</FieldDescription>
  *                 {error && <FieldError>{error}</FieldError>}

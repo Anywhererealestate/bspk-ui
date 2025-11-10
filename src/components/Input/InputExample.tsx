@@ -1,11 +1,9 @@
-import { Input, InputProps } from '.';
-import { Field, FieldDescription, FieldError, FieldLabel } from '-/components/Field';
+import { InputProps } from '.';
 import { ComponentExample } from '-/utils/demo';
 
 export type InputExampleProps = InputProps & { label: string; description?: string };
 
 export const InputExample: ComponentExample<InputExampleProps> = {
-    scope: { Field, FieldLabel, FieldDescription, FieldError, Input },
     defaultState: {
         label: 'Property Description',
         'aria-label': 'input aria-label',

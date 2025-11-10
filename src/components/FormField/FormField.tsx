@@ -59,19 +59,7 @@ export type FormFieldProps<As extends ElementType = ElementType> = CommonProps<'
  *
  *         return (
  *             <FormField controlId="Example controlId" label="Example label">
- *                 {(fieldProps) => {
- *                     return (
- *                         <Input
- *                             aria-label="example aria-label"
- *                             name="example-text"
- *                             onChange={(next) => {
- *                                 setState(next);
- *                             }}
- *                             value={state}
- *                             {...fieldProps}
- *                         />
- *                     );
- *                 }}
+ *                 <Input name="example-text" onChange={(next) => setState(next)} value={state} />
  *             </FormField>
  *         );
  *     };
