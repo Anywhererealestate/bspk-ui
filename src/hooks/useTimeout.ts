@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useMemo } from 'react';
 
 export type TimeoutHook = {
     clear: () => void;
@@ -32,16 +32,19 @@ export function useTimeout(durationMs = 1000): TimeoutHook {
         if (timeoutRef.current) clearTimeout(timeoutRef.current);
     }, []);
 
-    return {
-        clear: () => {
-            if (timeoutRef.current) clearTimeout(timeoutRef.current);
-        },
-        set: (callback: () => void, ms = durationMs) => {
-            if (timeoutRef.current) clearTimeout(timeoutRef.current);
-            timeoutRef.current = setTimeout(callback, ms);
-        },
-        ref: timeoutRef,
-    };
+    return useMemo(
+        () => ({
+            clear: () => {
+                if (timeoutRef.current) clearTimeout(timeoutRef.current);
+            },
+            set: (callback: () => void, ms = durationMs) => {
+                if (timeoutRef.current) clearTimeout(timeoutRef.current);
+                timeoutRef.current = setTimeout(callback, ms);
+            },
+            ref: timeoutRef,
+        }),
+        [durationMs],
+    );
 }
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
