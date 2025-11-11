@@ -25,9 +25,21 @@
 
     > [data-modal-footer] {
         display: flex;
+        gap: var(--spacing-sizing-04);
+    }
+
+    [data-button-format='horizontal'] {
         flex-direction: row-reverse;
         justify-content: flex-start;
-        gap: var(--spacing-sizing-04);
+    }
+
+    [data-button-format='vertical'] {
+        flex-direction: column;
+
+        @media (width >= 640px) {
+            flex-direction: row-reverse;
+            justify-content: flex-start;
+        }
     }
 }
 
