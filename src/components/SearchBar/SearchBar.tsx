@@ -72,7 +72,7 @@ export type SearchBarProps<O extends SearchBarOption = SearchBarOption> = Omit<
  *     import { useState } from 'react';
  *     import { SearchBar } from '@bspk/ui/SearchBar';
  *
- *     function Example() {
+ *     () => {
  *         const [searchText, setSearchText] = useState('');
  *
  *         return (
@@ -96,7 +96,7 @@ export type SearchBarProps<O extends SearchBarOption = SearchBarOption> = Omit<
  *                 onChange={setSearchText}
  *             />
  *         );
- *     }
+ *     };
  *
  * @name SearchBar
  * @phase UXReview

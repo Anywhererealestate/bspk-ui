@@ -5,7 +5,7 @@ import { SnackbarProps, Snackbar } from './Snackbar';
 import { BspkIcon } from '-/types/common';
 import { createCustomEvent } from '-/utils/createCustomEvent';
 
-const CUSTOM_EVENT_NAME = 'bspk-snackbar-event';
+const CLEAR_EVENT = 'bspk-snackbar-clear' as const;
 
 // make onClose optional
 export type SendSnackbarProps = Omit<SnackbarProps, 'icon' | 'innerRef' | 'onClose'> & {
@@ -22,7 +22,7 @@ export type SnackbarManagerProps = {
     defaultTimeout?: number;
 };
 
-const SnackBarEvent = createCustomEvent<SendSnackbarProps | 'clear'>(CUSTOM_EVENT_NAME);
+const SnackbarEvent = createCustomEvent<SendSnackbarProps | string | typeof CLEAR_EVENT>('bspk-snackbar-event');
 
 /**
  * SnackbarManager is a single use component that listens for snackbar events and displays them to the user.
@@ -38,13 +38,12 @@ const SnackBarEvent = createCustomEvent<SendSnackbarProps | 'clear'>(CUSTOM_EVEN
  */
 export function SnackbarManager({ defaultTimeout = 5000 }: SnackbarManagerProps) {
     const [snackbarProps, setSnackbarProps] = useState<SendSnackbarProps | undefined>();
-    const { useEventListener } = SnackBarEvent;
+    const { useEventListener } = SnackbarEvent;
 
     useEventListener((detail) => {
-        setSnackbarProps(
-            // handle 'clear' event and invalid details OR set
-            typeof detail === 'string' ? undefined : { ...detail, timeout: detail.timeout || defaultTimeout },
-        );
+        if (detail === CLEAR_EVENT || !detail) return setSnackbarProps(undefined);
+
+        setSnackbarProps(typeof detail === 'string' ? { text: detail, timeout: defaultTimeout } : detail);
     });
 
     return snackbarProps ? (
@@ -60,6 +59,6 @@ export function SnackbarManager({ defaultTimeout = 5000 }: SnackbarManagerProps)
     ) : null;
 }
 
-export const sendSnackBar = (props: SendSnackbarProps) => SnackBarEvent.send(props);
+export const sendSnackbar = (props: SendSnackbarProps | string) => SnackbarEvent.send(props);
 
-export const clearSnackBar = () => SnackBarEvent.send('clear');
+export const clearSnackbar = () => SnackbarEvent.send(CLEAR_EVENT);

@@ -40,9 +40,7 @@ export type DotSize = 'medium' | 'small' | 'x-small';
  * @example
  *     import { PageControl } from '@bspk/ui/PageControl';
  *
- *     function Example() {
- *         return <PageControl value={1} numPages={3} />;
- *     }
+ *     <PageControl value={1} numPages={3} />;
  *
  * @name PageControl
  * @phase UXReview

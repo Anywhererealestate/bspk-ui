@@ -72,22 +72,59 @@ export type TableProps<R extends TableRow> = {
  * @example
  *     import { Table } from '@bspk/ui/Table';
  *
- *     function Example() {
- *         return (
- *             <Table
- *                 columns={[
- *                     { key: 'state', label: 'State', width: '100px' },
- *                     { key: 'capital', label: 'Capital', width: '1fr' },
- *                 ]}
- *                 data={[
- *                     { state: 'New Jersey', capital: 'Trenton' },
- *                     { state: 'New York', capital: 'Albany' },
- *                     { state: 'California', capital: 'Sacramento' },
- *                 ]}
- *                 title="State Capitals"
- *             />
- *         );
- *     }
+ *     <Table
+ *         columns={[
+ *             { key: 'state', label: 'State', width: '160px' },
+ *             { key: 'capital', label: 'Capital', width: '140px' },
+ *             { key: 'population', label: 'Population', width: '140px' },
+ *             { key: 'nickname', label: 'Nickname', width: '1fr' },
+ *         ]}
+ *         data={[
+ *             {
+ *                 id: 'ca',
+ *                 state: 'California',
+ *                 capital: 'Sacramento',
+ *                 population: '39,512,223',
+ *                 nickname: 'The Golden State',
+ *             },
+ *             {
+ *                 id: 'ny',
+ *                 state: 'New York',
+ *                 capital: 'Albany',
+ *                 population: '19,299,981',
+ *                 nickname: 'The Empire State',
+ *             },
+ *             {
+ *                 id: 'nj',
+ *                 state: 'New Jersey',
+ *                 capital: 'Trenton',
+ *                 population: '8,882,190',
+ *                 nickname: 'The Garden State',
+ *             },
+ *             {
+ *                 id: 'tx',
+ *                 state: 'Texas',
+ *                 capital: 'Austin',
+ *                 population: '29,183,290',
+ *                 nickname: 'The Lone Star State',
+ *             },
+ *             {
+ *                 id: 'hi',
+ *                 state: 'Hawaii',
+ *                 capital: 'Honolulu',
+ *                 population: '1,415,872',
+ *                 nickname: 'The Aloha State',
+ *             },
+ *             {
+ *                 id: 'ak',
+ *                 state: 'Alaska',
+ *                 capital: 'Juneau',
+ *                 population: '731,545',
+ *                 nickname: 'The Last Frontier',
+ *             },
+ *         ]}
+ *         title="U.S. States — Capitals & Quick Facts"
+ *     />;
  *
  * @name Table
  * @phase UXReview

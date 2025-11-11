@@ -23,18 +23,29 @@ export type ChipGroupProps = {
  * A component that manages the layout of a group of chips.
  *
  * @example
- *     import { ChipGroup } from '@bspk/ui/ChipGroup';
  *     import { Chip } from '@bspk/ui/Chip';
+ *     import { ChipGroup } from '@bspk/ui/ChipGroup';
  *
- *     function Example() {
- *         return (
- *             <ChipGroup wrap={false}>
- *                 <Chip label="chip 1" onClick={() => console.log('Chip 1')} />
- *                 <Chip label="chip 2" onClick={() => console.log('Chip 2')} />
- *                 <Chip label="chip 3" onClick={() => console.log('Chip 3')} />
- *             </ChipGroup>
- *         );
- *     }
+ *     <ChipGroup wrap={false}>
+ *         <Chip
+ *             label="chip 1"
+ *             leadingIcon={<SvgLightbulb />}
+ *             onClick={() => action('Chip clicked!')}
+ *             trailingIcon={<SvgChevronRight />}
+ *         />
+ *         <Chip
+ *             label="chip 2"
+ *             leadingIcon={<SvgIcecream />}
+ *             onClick={() => action('Chip clicked!')}
+ *             trailingIcon={<SvgChevronRight />}
+ *         />
+ *         <Chip
+ *             label="chip 3"
+ *             leadingIcon={<SvgSignLanguage />}
+ *             onClick={() => action('Chip clicked!')}
+ *             trailingIcon={<SvgClose />}
+ *         />
+ *     </ChipGroup>;
  *
  * @name ChipGroup
  * @phase UXReview

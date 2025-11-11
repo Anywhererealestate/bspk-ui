@@ -84,7 +84,7 @@ async function main() {
 
             if (stateType === 'multiline') stateType = 'string';
 
-            reactStuff = `const [state, setState] = React.useState<${stateType}>();`;
+            reactStuff = `const [state, setState] = useState<${stateType}>();`;
         }
 
         return `

@@ -9,7 +9,6 @@ const PURPLE = COLOR_VARIANTS[10];
 export const presets: Preset<AvatarGroupProps>[] = [
     {
         label: 'Stacked',
-        designPattern: 'Stacked avatars with no overflow',
         propState: {
             items: [
                 { name: 'Fezzik', image: '/avatar-01.png' },
@@ -23,7 +22,6 @@ export const presets: Preset<AvatarGroupProps>[] = [
     },
     {
         label: 'Stacked With Overflow',
-        designPattern: 'Stacked avatars with overflow',
         propState: {
             items: [
                 {

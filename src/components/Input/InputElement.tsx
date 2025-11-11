@@ -67,16 +67,22 @@ export type InputElementProps = InputElementBaseProps & {
  *     import { InputElement } from '@bspk/ui/InputElement';
  *     import { Field, FieldLabel } from '@bspk/ui/Field';
  *
- *     function Example() {
+ *     () => {
  *         const [value, setValue] = useState('');
  *
  *         return (
- *             <Field>
- *                 <FieldLabel>Example Label</FieldLabel>
+ *             <>
+ *                 // standalone input element example
  *                 <InputElement name="example-name" onChange={setValue} value={value} />
- *             </Field>
+ *                 <br />
+ *                 // input element used within a field
+ *                 <Field>
+ *                     <FieldLabel>Example Label</FieldLabel>
+ *                     <InputElement name="example-name" onChange={setValue} value={value} />
+ *                 </Field>
+ *             </>
  *         );
- *     }
+ *     };
  *
  * @name InputElement
  * @phase Utility

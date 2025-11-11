@@ -85,21 +85,20 @@ export type AvatarProps = CommonProps<'disabled'> & {
  *
  * @example
  *     import { Avatar } from '@bspk/ui/Avatar';
- *     import { SvgPerson } from '@bspk/icons/Person';
  *
- *     function Example() {
- *         return (
- *             <Avatar
- *                 color="blue"
- *                 icon={<SvgPerson />}
- *                 image="/avatar-01.png"
- *                 initials="AR"
- *                 name="Andre Giant"
- *                 showTooltip
- *                 size="large"
- *             />
- *         );
- *     }
+ *     <Avatar
+ *         color="blue"
+ *         showIcon
+ *         image="/avatar-01.png"
+ *         initials="AR"
+ *         name="Andre Giant"
+ *         hideTooltip
+ *         size="large"
+ *         disabled={false}
+ *         onClick={() => action('Launch avatar popover')}
+ *         showIcon={false}
+ *         hideTooltip={true}
+ *     />;
  *
  * @exampleDescription The image if provided is displayed first, followed by the icon if provided, and finally the initials. If no initials are provided, the first two letters of the name will be used as initials.
  *

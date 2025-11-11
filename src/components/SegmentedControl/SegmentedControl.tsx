@@ -12,8 +12,8 @@ export type SegmentedControlProps = TabListProps<SegmentedControlOption>;
  *     import { useState } from 'react';
  *     import { SegmentedControl } from '@bspk/ui/SegmentedControl';
  *
- *     function Example() {
- *         const [selectedOption, setSelectedOption] = useState<string>();
+ *     () => {
+ *         const [selectedOption, setSelectedOption] = useState<string>('');
  *
  *         return (
  *             <SegmentedControl
@@ -26,7 +26,7 @@ export type SegmentedControlProps = TabListProps<SegmentedControlOption>;
  *                 value={selectedOption}
  *             />
  *         );
- *     }
+ *     };
  *
  * @name SegmentedControl
  * @phase UXReview

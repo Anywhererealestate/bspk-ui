@@ -33,15 +33,11 @@ export type SkeletonTextProps = {
  * @example
  *     import { SkeletonText } from '@bspk/ui/SkeletonText';
  *
- *     function Example(item: { content: string } | null) {
- *         return (
- *             <SkeletonText textLines={1} textVariant="body-base">
- *                 <Txt as="p" variant="body-base">
- *                     {item?.content}
- *                 </Txt>
- *             </SkeletonText>
- *         );
- *     }
+ *     <SkeletonText textLines={1} textVariant="body-base">
+ *         <Txt as="p" variant="body-base">
+ *             {'This is the loaded text content that was previously loading.'}
+ *         </Txt>
+ *     </SkeletonText>;
  *
  * @exampleDescription This example shows a skeleton loading state for some text but can be used for any element.
  *

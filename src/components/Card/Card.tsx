@@ -29,14 +29,10 @@ export type CardProps = {
  * @example
  *     import { Card } from '@bspk/ui/card';
  *
- *     function Example() {
- *         return (
- *             <Card variant="elevated" showPadding={false}>
- *                 <h3>Card Title</h3>
- *                 <p>This is some content inside the card.</p>
- *             </Card>
- *         );
- *     }
+ *     <Card variant="elevated" style={{ padding: 'var(--spacing-sizing-04)', maxWidth: '100%', width: '400px' }}>
+ *         <h3>Card Title</h3>
+ *         <p>This is some content inside the card.</p>
+ *     </Card>;
  *
  * @name Card
  * @phase UXReview

@@ -38,9 +38,7 @@ const iconWidths: Record<RatingSize, number> = {
  * @example
  *     import { Rating } from '@bspk/ui/Rating';
  *
- *     function Example() {
- *         return <Rating value={4.5} />;
- *     }
+ *     <Rating value={4.5} size="large" />;
  *
  * @name Rating
  * @phase UXReview

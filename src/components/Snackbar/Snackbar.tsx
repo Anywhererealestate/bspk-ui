@@ -76,7 +76,7 @@ export type SnackbarProps = CommonProps<'id'> & {
  *
  * #### Managed
  *
- * Use the SnackbarManager together with `sendSnackBar` and `clearSnackBar` to control snackbars globally. This lets any
+ * Use the SnackbarManager together with `sendSnackbar` and `clearSnackbar` to control snackbars globally. This lets any
  * part of the app trigger snackbars without prop drilling and helps avoid duplicates. and prevents duplicate snackbars
  * from being shown.
  *
@@ -84,9 +84,9 @@ export type SnackbarProps = CommonProps<'id'> & {
  *     import { Snackbar } from '@bspk/ui/Snackbar';
  *     import { Button } from '@bspk/ui/Button';
  *     import { useState } from 'react';
- *     import { sendSnackBar } from '@bspk/ui/Snackbar/Manager';
+ *     import { sendSnackbar } from '@bspk/ui/Snackbar/Manager';
  *
- *     function ExampleComponent(props) {
+ *     () => {
  *         const [snackbarOpen, setSnackbarOpen] = useState(false);
  *
  *         return (
@@ -97,11 +97,11 @@ export type SnackbarProps = CommonProps<'id'> & {
  *                 // -- managed snackbar
  *                 <Button
  *                     label="Show managed snackbar"
- *                     onClick={() => sendSnackBar({ text: 'I am a managed snackbar!' })}
+ *                     onClick={() => sendSnackbar({ text: 'I am a managed snackbar!' })}
  *                 />
  *             </>
  *         );
- *     }
+ *     };
  *
  * @name Snackbar
  *

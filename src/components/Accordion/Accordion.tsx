@@ -1,3 +1,4 @@
+/* eslint-disable @cspell/spellchecker */
 import './accordion.scss';
 import { SvgKeyboardArrowDown } from '@bspk/icons/KeyboardArrowDown';
 import { SvgKeyboardArrowUp } from '@bspk/icons/KeyboardArrowUp';
@@ -68,9 +69,25 @@ export type AccordionProps = {
  * @example
  *     import { Accordion } from '@bspk/ui/Accordion';
  *
- *     function Example() {
- *         return <Accordion items={[{ id: 1, title: 'Section', children: 'Example content' }]} />;
- *     }
+ *     <Accordion
+ *         singleOpen={true}
+ *         items={[
+ *             {
+ *                 id: 1,
+ *                 title: 'Lawrence Welk',
+ *                 subtitle: 'The Champagne Music Maker',
+ *                 children:
+ *                     'Lawrence Welk was an American accordionist, bandleader, and television impresario, who hosted The Lawrence Welk Show from 1951 to 1982.',
+ *             },
+ *             {
+ *                 id: 2,
+ *                 title: 'Myron Floren',
+ *                 subtitle: 'The Happy Norwegian',
+ *                 children:
+ *                     'Myron Floren was an American accordionist best known as the featured accordionist on The Lawrence Welk Show.',
+ *             },
+ *         ]}
+ *     />;
  *
  * @name Accordion
  * @phase UXReview

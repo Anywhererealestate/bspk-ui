@@ -42,9 +42,9 @@ const isComponentName = (
  *     import { Input } from '@bspk/ui/Input';
  *     import { Field, FieldLabel, FieldDescription, FieldError } from '@bspk/ui/Field';
  *
- *     function Example() {
- *         const [state, setState] = React.useState<string | undefined>(undefined);
- *         const [error, setError] = React.useState<string | undefined>(undefined);
+ *     () => {
+ *         const [state, setState] = useState<string | undefined>(undefined);
+ *         const [error, setError] = useState<string | undefined>(undefined);
  *
  *         return (
  *             <Field label="Example label">
@@ -56,13 +56,12 @@ const isComponentName = (
  *                         setState(next);
  *                     }}
  *                     value={state}
- *                     {...fieldProps}
  *                 />
  *                 <FieldDescription>This is an example description.</FieldDescription>
  *                 {error && <FieldError>{error}</FieldError>}
  *             </Field>
  *         );
- *     }
+ *     };
  *
  * @name Field
  * @phase Utility

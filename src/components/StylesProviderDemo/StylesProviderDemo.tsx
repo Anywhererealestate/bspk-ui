@@ -21,9 +21,7 @@ export type StylesProviderDemoProps = {
  * @example
  *     import { StylesProviderDemo } from '@bspk/ui/StylesProviderDemo';
  *
- *     function Example() {
- *         return <StylesProviderDemo brand="anywhere" />;
- *     }
+ *     <StylesProviderDemo brand="anywhere" />;
  *
  * @name StylesProviderDemo
  * @phase Utility
