@@ -25,15 +25,11 @@ export type TimeoutHook = {
  *
  * @returns A ref object that can be used to store a timeout id.
  */
-export function useTimeout(): TimeoutHook;
-export function useTimeout(initialCallback: () => void, durationMs: number): TimeoutHook;
-export function useTimeout(initialCallback?: () => void, durationMs = 1000): TimeoutHook {
+export function useTimeout(durationMs = 1000): TimeoutHook {
     const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     useEffect(() => {
         if (timeoutRef.current) clearTimeout(timeoutRef.current);
-        if (initialCallback) timeoutRef.current = setTimeout(initialCallback, durationMs);
-        // eslint-disable-next-line react-hooks/exhaustive-deps -- only run at mount
     }, []);
 
     return useMemo(

@@ -41,13 +41,9 @@ export type EmptyStateProps = {
  * @example
  *     import { EmptyState } from '@bspk/ui/EmptyState';
  *
- *     function Example() {
- *         return (
- *             <EmptyState body="Example body" header="Example header">
- *                 Example EmptyState
- *             </EmptyState>
- *         );
- *     }
+ *     <EmptyState body="Example body" header="Example header">
+ *         Example EmptyState
+ *     </EmptyState>;
  *
  * @name EmptyState
  * @phase UXReview

@@ -22,19 +22,21 @@ export const SliderExample: ComponentExample<SliderProps<number | [number, numbe
     },
     presets: [
         {
-            label: 'Basic Slider',
+            label: 'Formatted Number',
             propState: {
-                label: 'Basic option',
-                min: 20,
-                max: 80,
-                step: 1,
-                value: 30,
+                label: 'Price option',
+                min: 0,
+                max: 100,
+                step: 5,
+                value: 50,
                 formatNumber: (num) => `$${num}`,
-                name: 'basic-slider',
+                name: 'formatted-number-slider',
             },
         },
         {
             label: 'Range Slider',
+            designPattern:
+                'A control element that allows customers to select a value or adjust a setting by moving the handle along a horizontal track.',
             propState: {
                 label: 'Range option',
                 min: 0,
@@ -48,19 +50,42 @@ export const SliderExample: ComponentExample<SliderProps<number | [number, numbe
             },
         },
         {
-            label: 'Undefined Value',
+            label: 'Continuous Slider',
+            designPattern: 'Continuous sliders allow users to select a value along a subjective range.',
             propState: {
-                label: 'undefined',
-                min: 50,
-                max: 150,
+                label: 'What is the purpose of life?',
+                min: 0,
+                max: 100,
+                value: 42,
                 step: 1,
-                value: null as unknown as [number, number],
-                formatNumber: (num, context) => {
-                    if (context === 'max') return `${num}% Passing`;
-                    return `${num}%`;
-                },
-                name: 'undefined-slider',
+                formatNumber: (num) => num.toFixed(0),
+                name: 'continuous-slider',
+                marks: false,
+            },
+        },
+        {
+            label: 'Discrete Slider',
+            designPattern:
+                'Discrete sliders can be adjusted to a specific value by referencing its value indicator. You can generate a mark for each step with marks={true}.',
+            propState: {
+                label: 'Discrete option',
+                min: 0,
+                max: 100,
+                step: 10,
+                value: 40,
+                formatNumber: (num) => num.toString(),
+                name: 'discrete-slider',
+                marks: true,
             },
         },
     ],
+    defaultState: {
+        label: 'Basic option',
+        min: 20,
+        max: 80,
+        step: 1,
+        value: 30,
+        formatNumber: (num) => `$${num}`,
+        name: 'basic-slider',
+    },
 };

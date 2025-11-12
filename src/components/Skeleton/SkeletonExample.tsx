@@ -1,8 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { SkeletonProps, SkeletonVariant } from '.';
 import { Avatar } from '-/components/Avatar';
 import { ExamplePlaceholder } from '-/components/ExamplePlaceholder';
-import { useTimeout } from '-/hooks/useTimeout';
 import { ComponentExample, ComponentExampleRenderProps, Preset } from '-/utils/demo';
 
 export const presets: Preset<SkeletonProps>[] = [
@@ -29,7 +28,10 @@ function SkeletonTransition({
     props,
 }: Pick<ComponentExampleRenderProps<SkeletonProps>, 'Component' | 'props'>) {
     const [loaded, setLoaded] = useState(false);
-    useTimeout(() => setLoaded(true), 3000);
+
+    useEffect(() => {
+        setTimeout(() => setLoaded(true), 3000);
+    }, []);
 
     return <Component {...props}>{loaded && PROP_VARIANT_CHILDREN[props!.variant as SkeletonVariant]}</Component>;
 }

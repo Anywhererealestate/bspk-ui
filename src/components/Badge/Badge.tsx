@@ -49,9 +49,7 @@ export type BadgeProps = {
  * @example
  *     import { Badge } from '@bspk/ui/Badge';
  *
- *     function Example() {
- *         return <Badge count={5} size="small" color="primary" />;
- *     }
+ *     <Badge count={5} size="small" color="primary" surfaceBorder={true} />;
  *
  * @exampleDescription This example shows a badge with a count of 5, size small, and primary variant.
  *

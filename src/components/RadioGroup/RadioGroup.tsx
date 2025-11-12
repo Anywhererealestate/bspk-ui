@@ -40,7 +40,7 @@ export type RadioGroupProps = Omit<FieldControlProps, 'readOnly'> & {
  *     import { useState } from 'react';
  *     import { RadioGroup } from '@bspk/ui/RadioGroup';
  *
- *     function Example() {
+ *     () => {
  *         const [selectedOption, setSelectedOption] = useState<string>('1');
  *
  *         return (
@@ -59,7 +59,7 @@ export type RadioGroupProps = Omit<FieldControlProps, 'readOnly'> & {
  *                 value={selectedOption}
  *             />
  *         );
- *     }
+ *     };
  *
  * @name RadioGroup
  * @phase UXReview

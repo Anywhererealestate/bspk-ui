@@ -60,26 +60,17 @@ export type PopoverProps = CommonProps<'disabled'> &
  *     import { Popover } from '@bspk/ui/Popover';
  *     import { Button } from '@bspk/ui/Button';
  *
- *     function Example() {
- *         const [showPopover, setShowPopover] = useState<boolean>(false);
- *
- *         const togglePopover = () => setShowPopover(!showPopover);
- *         const onPopoverCallToActionClick = () => alert('Action clicked');
- *
- *         return (
- *             <Popover
- *                 placement="bottom"
- *                 content="This is a popover content"
- *                 header="Popover Header"
- *                 callToAction={{
- *                     label: 'Action',
- *                     onClick: onPopoverCallToActionClick,
- *                 }}
- *             >
- *                 <Button label="Toggle popover" onClick={togglePopover} />
- *             </Popover>
- *         );
- *     }
+ *     <Popover
+ *         placement="bottom"
+ *         content="This is a popover content"
+ *         header="Popover Header"
+ *         callToAction={{
+ *             label: 'Action',
+ *             onClick: () => action('Action clicked'),
+ *         }}
+ *     >
+ *         {(triggerProps) => <Button {...triggerProps} label="Toggle popover" />}
+ *     </Popover>;
  *
  * @name Popover
  * @phase UXReview

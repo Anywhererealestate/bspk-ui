@@ -1,4 +1,3 @@
-import { SvgPerson } from '@bspk/icons/Person';
 import { ButtonProps } from '.';
 import { ComponentExample, Preset } from '-/utils/demo';
 
@@ -32,6 +31,6 @@ export const presets: Preset<ButtonProps>[] = [
 export const ButtonExample: ComponentExample<ButtonProps> = {
     presets,
     variants: {
-        iconOnly: () => ({ icon: <SvgPerson />, label: 'Person' }),
+        iconOnly: { icon: 'Person', label: 'Person' },
     },
 };

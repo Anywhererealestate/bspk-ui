@@ -35,20 +35,16 @@ export type ButtonDockProps = {
  * @example
  *     import { ButtonDock } from '@bspk/ui/ButtonDock';
  *
- *     function Example() {
- *         return (
- *             <ButtonDock
- *                 primaryButton={{
- *                     children: 'Send',
- *                     label: 'send',
- *                 }}
- *                 secondaryButton={{
- *                     children: 'Cancel',
- *                     label: 'cancel',
- *                 }}
- *             />
- *         );
- *     }
+ *     <ButtonDock
+ *         primaryButton={{
+ *             children: 'Send',
+ *             label: 'send',
+ *         }}
+ *         secondaryButton={{
+ *             children: 'Cancel',
+ *             label: 'cancel',
+ *         }}
+ *     />;
  *
  * @name ButtonDock
  * @phase Dev

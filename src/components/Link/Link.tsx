@@ -46,9 +46,7 @@ export type LinkProps = Pick<CommonPropsLibrary, 'disabled'> & {
  * @example
  *     import { Link } from '@bspk/ui/Link';
  *
- *     function Example() {
- *         return <Link href="https://bspk.dev" label="Example label" trailingIcon="external" />;
- *     }
+ *     <Link href="https://bspk.dev" label="Example label" trailingIcon="external" />;
  *
  * @name Link
  * @phase UXReview

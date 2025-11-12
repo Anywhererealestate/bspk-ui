@@ -59,25 +59,30 @@ export type InputPhoneProps = FieldControlProps<string, SupportedCountryCode> &
  * @example
  *     import { InputPhone } from '@bspk/ui/InputPhone';
  *
- *     function ExampleStandalone() {
- *         const [value, onChange] = React.useState<number | undefined>();
- *
- *         return <InputPhone aria-label="Phone Number" initialCountryCode="US" value={value} onChange={onChange} />;
- *     }
- *
- *     function ExampleWithField() {
- *         const [value, onChange] = React.useState<number | undefined>();
+ *     () => {
+ *         const [value, onChange] = useState<number | undefined>();
  *
  *         return (
- *             <Field>
- *                 <FieldLabel>Example Input Phone</FieldLabel>
- *                 <InputPhone aria-label="Phone Number" initialCountryCode="US" value={value} onChange={onChange} />
- *                 <FieldDescription>
- *                     The phone input allows you to enter a phone number with country code.
- *                 </FieldDescription>
- *             </Field>
+ *             <>
+ *                 // standalone input phone example
+ *                 <InputPhone aria-label="Phone Number" initialCountryCode="US" value={value} onChange={onChange} />;
+ *                 <br />
+ *                 // input phone used within a field
+ *                 <Field>
+ *                     <FieldLabel>Example Input Phone</FieldLabel>
+ *                     <InputPhone
+ *                         aria-label="Phone Number"
+ *                         initialCountryCode="US"
+ *                         value={value}
+ *                         onChange={onChange}
+ *                     />
+ *                     <FieldDescription>
+ *                         The phone input allows you to enter a phone number with country code.
+ *                     </FieldDescription>
+ *                 </Field>
+ *             </>
  *         );
- *     }
+ *     };
  *
  * @name InputPhone
  * @phase UXReview

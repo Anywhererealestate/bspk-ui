@@ -54,26 +54,15 @@ export type FormFieldProps<As extends ElementType = ElementType> = CommonProps<'
  *     import { Input } from '@bspk/ui/Input';
  *     import { FormField } from '@bspk/ui/FormField';
  *
- *     function Example() {
- *         const [state, setState] = React.useState<string | undefined>(undefined);
+ *     () => {
+ *         const [state, setState] = useState<string | undefined>(undefined);
+ *
  *         return (
  *             <FormField controlId="Example controlId" label="Example label">
- *                 {(fieldProps) => {
- *                     return (
- *                         <Input
- *                             aria-label="example aria-label"
- *                             name="example-text"
- *                             onChange={(next) => {
- *                                 setState(next);
- *                             }}
- *                             value={state}
- *                             {...fieldProps}
- *                         />
- *                     );
- *                 }}
+ *                 <Input name="example-text" onChange={(next) => setState(next)} value={state} />
  *             </FormField>
  *         );
- *     }
+ *     };
  *
  * @name FormField
  * @phase Utility

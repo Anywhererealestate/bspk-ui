@@ -87,7 +87,7 @@ export type ModalProps = Pick<
      */
     callToAction?: ModalCallToAction;
     /**
-     * The format of the buttons in the footer. Ignored if not mobile.
+     * The format of the buttons in the footer. Vertical applies only on screen widths less than or equal to 640px.
      *
      * @default horizontal
      */
@@ -114,8 +114,8 @@ export type ModalProps = Pick<
  *     import { Button } from '@bspk/ui/Button';
  *     import { Modal } from '@bspk/ui/Modal';
  *
- *     function Example() {
- *         const [open, setOpen] = React.useState(false);
+ *     () => {
+ *         const [open, setOpen] = useState(false);
  *
  *         return (
  *             <>
@@ -130,7 +130,7 @@ export type ModalProps = Pick<
  *                 </Modal>
  *             </>
  *         );
- *     }
+ *     };
  *
  * @name Modal
  * @phase UXReview
@@ -200,7 +200,12 @@ export function Modal({
                 {Array.isArray(buttons) && buttons.length > 0 && (
                     <div data-button-format={buttonFormat} data-modal-footer>
                         {buttons.map((buttonProps, idx) => (
-                            <Button key={idx} {...buttonProps} size={isMobile ? 'medium' : 'small'} />
+                            <Button
+                                key={idx}
+                                {...buttonProps}
+                                size={isMobile ? 'medium' : 'small'}
+                                width={buttonFormat === 'vertical' && isMobile ? 'fill' : 'hug'}
+                            />
                         ))}
                     </div>
                 )}

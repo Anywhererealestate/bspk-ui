@@ -52,8 +52,8 @@ export type DrawerProps = Pick<DialogProps, 'container' | 'disableFocusTrap' | '
  *     import { Button } from '@bspk/ui/Button';
  *     import { Drawer } from '@bspk/ui/Drawer';
  *
- *     function Example() {
- *         const [open, setOpen] = React.useState(false);
+ *     () => {
+ *         const [open, setOpen] = useState(false);
  *
  *         return (
  *             <>
@@ -71,7 +71,7 @@ export type DrawerProps = Pick<DialogProps, 'container' | 'disableFocusTrap' | '
  *                 </Drawer>
  *             </>
  *         );
- *     }
+ *     };
  *
  * @name Drawer
  * @phase UXReview

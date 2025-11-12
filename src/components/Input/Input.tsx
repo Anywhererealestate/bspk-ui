@@ -15,23 +15,23 @@ export type InputProps = Omit<InputElementProps, 'ariaDescribedBy' | 'ariaErrorM
  *     import { Input } from '@bspk/ui/Input';
  *     import { Field, FieldLabel } from '@bspk/ui/Field';
  *
- *     function Example() {
+ *     () => {
  *         const [value, setValue] = useState('');
  *
  *         return (
- *             <Field>
- *                 <FieldLabel>Example Label</FieldLabel>
- *                 <Input name="example-name" onChange={setValue} value={value} />
- *                 <FieldDescription>This is an example input field.</FieldDescription>
- *             </Field>
+ *             <>
+ *                 // standalone input example
+ *                 <Input aria-label="Example Input" name="example-name" onChange={setValue} value={value} />
+ *                 <br />
+ *                 // input used within a field
+ *                 <Field>
+ *                     <FieldLabel>Example Label</FieldLabel>
+ *                     <Input name="example-name" onChange={setValue} value={value} />
+ *                     <FieldDescription>This is an example input field.</FieldDescription>
+ *                 </Field>
+ *             </>
  *         );
- *     }
- *
- *     function ExampleWithAriaLabel() {
- *         const [value, setValue] = useState('');
- *
- *         return <Input aria-label="Example Input" name="example-name" onChange={setValue} value={value} />;
- *     }
+ *     };
  *
  * @name Input
  * @phase UXReview

@@ -44,16 +44,18 @@ export type BadgeDotProps = {
  * @example
  *     import { BadgeDot } from '@bspk/ui/BadgeDot';
  *
- *     function Example() {
- *         return <BadgeDot color="primary" />;
- *     }
+ *     <BadgeDot color="secondary" size={12} outline={true}>
+ *         <Button>Messages</Button>
+ *     </BadgeDot>;
  *
  * @exampleDescription This example shows a badge-dot with a count of 5, size small, and primary variant.
  *
  * @name BadgeDot
  * @phase UXReview
  */
-export function BadgeDot({ children, color = 'primary', size = 6, outline = false }: BadgeDotProps) {
+export function BadgeDot({ children, color = 'primary', size: sizeProp = 6, outline = false }: BadgeDotProps) {
+    const size = sizeProp in OUTLINE_WIDTHS ? sizeProp : 6;
+
     const badgeDot = (
         <sup
             data-attachment={!!children || undefined}

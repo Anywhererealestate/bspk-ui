@@ -26,5 +26,22 @@ export const DividerExample: ComponentExample<DividerProps> = {
             </div>
         );
     },
-    presets,
+    presets: [
+        {
+            label: 'Divider - Horizontal',
+            designPattern:
+                'Horizontal thin line that separates grouped content in a list or other containers with the option to include a section/group label.',
+            propState: {
+                orientation: 'horizontal',
+            },
+        },
+        {
+            label: 'Divider - Vertical',
+            designPattern:
+                'Vertical thin line that separates grouped content or other visual elements within a container.',
+            propState: {
+                orientation: 'vertical',
+            },
+        },
+    ],
 };

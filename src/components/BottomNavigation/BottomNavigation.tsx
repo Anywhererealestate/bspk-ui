@@ -23,13 +23,16 @@ export type BottomNavigationProps = Pick<TabListProps, 'label' | 'onChange' | 'o
  *     import { BottomNavigation } from '@bspk/ui/BottomNavigation';
  *     import { useState } from 'react';
  *
- *     function Example() {
+ *     () => {
  *         const [value, setValue] = useState<string>('1');
  *
  *         return (
  *             <BottomNavigation
+ *                 variant="elevated"
+ *                 mode="inline"
+ *                 label="Bottom Navigation Example"
  *                 value={value}
- *                 onChange={onChange}
+ *                 onChange={(next) => setValue(next)}
  *                 options={[
  *                     {
  *                         value: '1',
@@ -46,7 +49,7 @@ export type BottomNavigationProps = Pick<TabListProps, 'label' | 'onChange' | 'o
  *                 ]}
  *             />
  *         );
- *     }
+ *     };
  *
  * @name BottomNavigation
  * @phase Dev

@@ -9,7 +9,6 @@ import {
     AriaRole,
     ComponentProps,
 } from 'react';
-import { ListItemButton } from './ListItemButton';
 import { Truncated } from '-/components/Truncated';
 import { useId } from '-/hooks/useId';
 import { CommonProps, ElementProps, SetRef } from '-/types/common';
@@ -47,11 +46,11 @@ export type ListItemProps<As extends ElementType = ElementType> = CommonProps<'a
         /**
          * The trailing element to display in the ListItem.
          *
-         * Trailing elements should only be one of the following [Icon](/icons), Checkbox, ListItemButton, Radio,
-         * Switch, Tag, Txt.
+         * Trailing elements should only be one of the following [Icon](/icons), Checkbox, Button, Radio, Switch, Tag,
+         * Txt.
          *
          * @exampleType select
-         * @options Checkbox, Icon, ListItemButton, Radio, Switch, Tag, Txt
+         * @options Checkbox, Icon, Button, Radio, Switch, Tag, Txt
          */
         trailing?: ReactNode;
         /** Props to pass to the trailing element wrapper span. */
@@ -109,24 +108,29 @@ export type ListItemProps<As extends ElementType = ElementType> = CommonProps<'a
  *
  * Leading elements should be one of the following [Icon](/icons), Img, Avatar.
  *
- * Trailing elements should be one of the following [Icon](/icons), Checkbox, ListItemButton, Radio, Switch, Tag, Txt.
- *
- * The ListItemButton is a more limited Button with context specific options.
+ * Trailing elements should be one of the following [Icon](/icons), Checkbox, Button, Radio, Switch, Tag, Txt.
  *
  * @example
- *     import { SvgSquare } from '@bspk/icons/Square';
+ *     import { SvgFolder } from '@bspk/icons/Folder';
+ *     import { SvgChevronRight } from '@bspk/icons/ChevronRight';
  *     import { ListItem } from '@bspk/ui/ListItem';
  *
- *     function Example() {
- *         return (
- *             <ListItem
- *                 label="Example label"
- *                 leading={<SvgSquare />}
- *                 subText="Example subtest"
- *                 trailing={<ListItem.Button label="Click me" onClick={() => console.log('Hello world')} />}
- *             />
- *         );
- *     }
+ *     <div style={{ width: 300 }}>
+ *         <ListItem
+ *             leading={<SvgDelete />}
+ *             label="File 13"
+ *             subText="Last modified: Jan 21, 2024"
+ *             trailing={<SvgChevronRight />}
+ *             onClick={() => sendSnackbar('Clicked Open Folder button')}
+ *         />
+ *         <ListItem
+ *             leading={<SvgFolder />}
+ *             label="Death Star Plans"
+ *             subText="Last modified: May 25, 1977"
+ *             trailing={<SvgChevronRight />}
+ *             onClick={() => sendSnackbar('Downloading blueprints...')}
+ *         />
+ *     </div>;
  *
  * @name ListItem
  * @phase UXReview
@@ -200,8 +204,6 @@ function ListItem<As extends ElementType = ElementType>({
         </As>
     );
 }
-
-ListItem.Button = ListItemButton;
 
 export { ListItem };
 

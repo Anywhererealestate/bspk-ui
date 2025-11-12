@@ -12,8 +12,9 @@ export type CheckboxOptionProps = CommonProps<'style'> & ToggleOptionControlProp
  * @example
  *     import { CheckboxOption } from '@bspk/ui/CheckboxOption';
  *
- *     function Example() {
- *         const [checked, setChecked] = React.useState(false);
+ *     () => {
+ *         const [checked, setChecked] = useState(false);
+ *
  *         return (
  *             <CheckboxOption
  *                 checked={checked}
@@ -22,12 +23,11 @@ export type CheckboxOptionProps = CommonProps<'style'> & ToggleOptionControlProp
  *                 name="example-checkbox-name"
  *                 onChange={(nextChecked, event) => {
  *                     setChecked(nextChecked);
- *                     console.log('Checkbox changed:', nextChecked, event);
  *                 }}
  *                 value="example-checkbox-value"
  *             />
  *         );
- *     }
+ *     };
  *
  * @name CheckboxOption
  * @phase UXReview

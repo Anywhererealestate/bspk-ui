@@ -1,13 +1,3 @@
-import { SvgCloud } from '@bspk/icons/Cloud';
-import { SvgCloudFill } from '@bspk/icons/CloudFill';
-import { SvgEvent } from '@bspk/icons/Event';
-import { SvgEventFill } from '@bspk/icons/EventFill';
-import { SvgPerson } from '@bspk/icons/Person';
-import { SvgPersonFill } from '@bspk/icons/PersonFill';
-import { SvgSettings } from '@bspk/icons/Settings';
-import { SvgSettingsFill } from '@bspk/icons/SettingsFill';
-import { SvgSmartphone } from '@bspk/icons/Smartphone';
-import { SvgSmartphoneFill } from '@bspk/icons/SmartphoneFill';
 import { BottomNavigationProps } from '.';
 import { ComponentExample, Preset } from '-/utils/demo';
 
@@ -19,20 +9,20 @@ export const presets: Preset<BottomNavigationProps>[] = [
                 {
                     value: '1',
                     label: 'Item 1',
-                    icon: <SvgSettings />,
-                    iconSelected: <SvgSettingsFill />,
+                    icon: 'Settings',
+                    iconSelected: 'SettingsFill',
                 },
                 {
                     value: '2',
                     label: 'Item 2',
-                    icon: <SvgCloud />,
-                    iconSelected: <SvgCloudFill />,
+                    icon: 'Cloud',
+                    iconSelected: 'CloudFill',
                 },
                 {
                     value: '3',
                     label: 'Item 3',
-                    icon: <SvgSmartphone />,
-                    iconSelected: <SvgSmartphoneFill />,
+                    icon: 'Smartphone',
+                    iconSelected: 'SmartphoneFill',
                 },
             ],
             value: '1',
@@ -45,33 +35,33 @@ export const presets: Preset<BottomNavigationProps>[] = [
             options: [
                 {
                     value: '1',
-                    label: 'Item 1',
-                    icon: <SvgSettings />,
-                    iconSelected: <SvgSettingsFill />,
+                    label: 'Item 1 With Longer Label',
+                    icon: 'Settings',
+                    iconSelected: 'SettingsFill',
                 },
                 {
                     value: '2',
-                    label: 'Item 2',
-                    icon: <SvgCloud />,
-                    iconSelected: <SvgCloudFill />,
+                    label: 'Item 2 With Longer Label',
+                    icon: 'Cloud',
+                    iconSelected: 'CloudFill',
                 },
                 {
                     value: '3',
-                    label: 'Item 3',
-                    icon: <SvgSmartphone />,
-                    iconSelected: <SvgSmartphoneFill />,
+                    label: 'Item 3 With Longer Label',
+                    icon: 'Smartphone',
+                    iconSelected: 'SmartphoneFill',
                 },
                 {
                     value: '4',
-                    label: 'Item 4',
-                    icon: <SvgEvent />,
-                    iconSelected: <SvgEventFill />,
+                    label: 'Item 4 With Longer Label',
+                    icon: 'Event',
+                    iconSelected: 'EventFill',
                 },
                 {
                     value: '5',
-                    label: 'Item 5',
-                    icon: <SvgPerson />,
-                    iconSelected: <SvgPersonFill />,
+                    label: 'Item 5 With Longer Label',
+                    icon: 'Person',
+                    iconSelected: 'PersonFill',
                 },
             ],
             value: '1',
@@ -85,14 +75,14 @@ export const presets: Preset<BottomNavigationProps>[] = [
                 {
                     value: '1',
                     label: 'Item 1',
-                    icon: <SvgSettings />,
-                    iconSelected: <SvgSettingsFill />,
+                    icon: 'Settings',
+                    iconSelected: 'SettingsFill',
                 },
                 {
                     value: '2',
                     label: 'Item 2',
-                    icon: <SvgCloud />,
-                    iconSelected: <SvgCloudFill />,
+                    icon: 'Cloud',
+                    iconSelected: 'CloudFill',
                     disabled: true,
                 },
             ],
@@ -111,7 +101,12 @@ export const BottomNavigationExample: ComponentExample<BottomNavigationProps> = 
     },
     defaultState: {
         value: '1',
-        options: presets[0].propState.options,
+        options: presets[0].propState.options.map((option) => ({
+            ...option,
+            icon: undefined,
+            iconSelected: undefined,
+        })),
+        label: 'Single Icon',
     },
     disableProps: [],
     presets,

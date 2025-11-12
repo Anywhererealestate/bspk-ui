@@ -49,9 +49,7 @@ export type TxtProps<As extends ElementType = ElementType> = {
  * @example
  *     import { Txt } from '@bspk/ui/Txt';
  *
- *     function Example() {
- *         return <Txt>Example Txt</Txt>;
- *     }
+ *     <Txt>Example Txt</Txt>;
  *
  * @name Txt
  * @phase UXReview

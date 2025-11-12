@@ -77,29 +77,14 @@ export type SelectProps = CommonProps<'size'> &
  *         { id: '6', label: 'Option 6' },
  *     ];
  *
- *     function ExampleStandalone() {
- *         const [selected, setSelected] = React.useState<string[]>([]);
+ *     () => {
+ *         const [selected, setSelected] = useState<string[]>([]);
  *
  *         return (
- *             <Select
- *                 aria-label="Select an option"
- *                 itemCount={5}
- *                 name="example-select"
- *                 onChange={setSelected}
- *                 options={OPTIONS}
- *                 placeholder="Select an option"
- *                 size="medium"
- *                 value={selected}
- *             />
- *         );
- *     }
- *
- *     function ExampleWithField() {
- *         const [selected, setSelected] = React.useState<string[]>([]);
- *         return (
- *             <Field>
- *                 <FieldLabel>Select an option</FieldLabel>
+ *             <>
+ *                 // standalone select example
  *                 <Select
+ *                     aria-label="Select an option"
  *                     itemCount={5}
  *                     name="example-select"
  *                     onChange={setSelected}
@@ -108,12 +93,26 @@ export type SelectProps = CommonProps<'size'> &
  *                     size="medium"
  *                     value={selected}
  *                 />
- *                 <FieldDescription>
- *                     The select allows you to choose one option from a list of options.
- *                 </FieldDescription>
- *             </Field>
+ *                 <br />
+ *                 // select used within a field
+ *                 <Field>
+ *                     <FieldLabel>Select an option</FieldLabel>
+ *                     <Select
+ *                         itemCount={5}
+ *                         name="example-select"
+ *                         onChange={setSelected}
+ *                         options={OPTIONS}
+ *                         placeholder="Select an option"
+ *                         size="medium"
+ *                         value={selected}
+ *                     />
+ *                     <FieldDescription>
+ *                         The select allows you to choose one option from a list of options.
+ *                     </FieldDescription>
+ *                 </Field>
+ *             </>
  *         );
- *     }
+ *     };
  *
  * @name Select
  * @phase UXReview

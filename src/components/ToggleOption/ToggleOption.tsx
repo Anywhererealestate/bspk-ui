@@ -38,6 +38,7 @@ export function ToggleOption({ label, description, children, disabled, ...props 
             as="label"
             label={label}
             leading={children}
+            owner="toggle-option"
             subText={description}
             width="hug"
         />

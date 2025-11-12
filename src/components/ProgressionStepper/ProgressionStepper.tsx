@@ -59,9 +59,7 @@ export type ProgressionStepperProps = {
  * @example
  *     import { ProgressionStepper } from '@bspk/ui/ProgressionStepper';
  *
- *     function Example() {
- *         return <ProgressionStepper steps={[{ name: 'Step 1' }, { name: 'Step 2' }, { name: 'Step 3' }]} />;
- *     }
+ *     <ProgressionStepper steps={[{ name: 'Step 1' }, { name: 'Step 2' }, { name: 'Step 3' }]} />;
  *
  * @name ProgressionStepper
  * @phase UXReview

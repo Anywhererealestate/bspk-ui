@@ -4,11 +4,13 @@ import { ButtonProps } from '-/components/Button';
 import { Tooltip, TooltipTriggerProps } from '-/components/Tooltip';
 import { ElementProps } from '-/types/common';
 
+export type FabSize = 'medium' | 'small';
+
 export type FabVariant = 'neutral' | 'primary' | 'secondary';
 
 export type FabProps<As extends ElementType = ElementType> = Pick<
     ButtonProps<As>,
-    'as' | 'icon' | 'iconOnly' | 'onClick' | 'toolTip'
+    'as' | 'icon' | 'iconOnly' | 'innerRef' | 'onClick' | 'toolTip'
 > &
     Required<Pick<ButtonProps<As>, 'label'>> & {
         /**
@@ -16,7 +18,7 @@ export type FabProps<As extends ElementType = ElementType> = Pick<
          *
          * @default small
          */
-        size?: 'medium' | 'small';
+        size?: FabSize;
         /**
          * The style variant of the button.
          *
@@ -45,9 +47,7 @@ export type FabProps<As extends ElementType = ElementType> = Pick<
  *     import { SvgBolt } from '@bspk/icons/Bolt';
  *     import { Fab } from '@bspk/ui/Fab';
  *
- *     function Example() {
- *         return <Fab icon={<SvgBolt />} label="Example label" placement="bottom-right" variant="neutral" />;
- *     }
+ *     <Fab icon={<SvgBolt />} label="Example label" placement="bottom-right" variant="neutral" />;
  *
  * @name Fab
  * @phase UXReview
@@ -63,6 +63,7 @@ export function Fab<As extends ElementType = ElementType>(props: AriaAttributes 
         label,
         icon,
         toolTip,
+        innerRef,
         ...otherProps
     } = props;
 
@@ -77,6 +78,7 @@ export function Fab<As extends ElementType = ElementType>(props: AriaAttributes 
             data-bspk="fab"
             data-container={container}
             data-placement={placement}
+            data-position={container === 'page' ? 'fixed' : 'absolute'}
             data-round={iconOnly || undefined}
             data-size={size}
             data-variant={variant}
@@ -96,6 +98,7 @@ export function Fab<As extends ElementType = ElementType>(props: AriaAttributes 
                 triggerProps.onMouseOver?.();
                 otherProps.onMouseOver?.(e);
             }}
+            ref={innerRef}
         >
             {!!icon && isValidElement(icon) && (
                 <span aria-hidden={true} data-fab-icon>

@@ -332,17 +332,22 @@ function generateTypes() {
             ? context.componentFile?.jsDocs?.find(({ id }) => id === kebabCase(definition.description!))
             : undefined;
 
+        const type = definition.type?.toString();
+
+        const arrayType = type?.match(/Array<(.+)>/)?.[1];
+
         const next: TypeProperty = {
             name,
             required: required?.includes(name),
             description: jsDoc?.description || definition.description,
             default: definition.default === 'undefined' ? undefined : definition.default,
-            type: definition.type?.toString(),
+            type,
             exampleType: jsDoc?.exampleType,
             minimum: definition.minimum,
             maximum: definition.maximum,
             options: jsDoc?.options?.split(',').map((o) => o.trim()),
             example: jsDoc?.example,
+            arrayType,
         };
 
         if (next.name.match(/^on[A-Z]/)) next.type = 'function';

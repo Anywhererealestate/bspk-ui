@@ -42,8 +42,8 @@ export type CheckboxGroupProps = Omit<FieldControlProps<string[]>, 'readOnly'> &
  * @example
  *     import { CheckboxGroup } from '@bspk/ui/CheckboxGroup';
  *
- *     function Example() {
- *         const [value, setValue] = React.useState<string[]>([]);
+ *     () => {
+ *         const [value, setValue] = useState<string[]>([]);
  *
  *         return (
  *             <CheckboxGroup
@@ -60,7 +60,7 @@ export type CheckboxGroupProps = Omit<FieldControlProps<string[]>, 'readOnly'> &
  *                 }}
  *             />
  *         );
- *     }
+ *     };
  *
  * @name CheckboxGroup
  * @phase UXReview

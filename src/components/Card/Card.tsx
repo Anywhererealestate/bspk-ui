@@ -1,6 +1,6 @@
 import './card.scss';
 import { ReactNode } from 'react';
-import { ElementProps } from '-/types/common';
+import { ElementProps, SetRef } from '-/types/common';
 
 export type CardProps = {
     /**
@@ -15,6 +15,8 @@ export type CardProps = {
      * @default elevated
      */
     variant?: 'elevated' | 'outlined';
+    /** A ref to the list item div element. */
+    innerRef?: SetRef<HTMLElement>;
 };
 
 /**
@@ -27,21 +29,17 @@ export type CardProps = {
  * @example
  *     import { Card } from '@bspk/ui/card';
  *
- *     function Example() {
- *         return (
- *             <Card variant="elevated" showPadding={false}>
- *                 <h3>Card Title</h3>
- *                 <p>This is some content inside the card.</p>
- *             </Card>
- *         );
- *     }
+ *     <Card variant="elevated" style={{ padding: 'var(--spacing-sizing-04)', maxWidth: '100%', width: '400px' }}>
+ *         <h3>Card Title</h3>
+ *         <p>This is some content inside the card.</p>
+ *     </Card>;
  *
  * @name Card
  * @phase UXReview
  */
-export function Card({ children, variant = 'elevated', ...props }: ElementProps<CardProps, 'div'>) {
+export function Card({ children, variant = 'elevated', innerRef, ...props }: ElementProps<CardProps, 'div'>) {
     return (
-        <div {...props} data-bspk="card" data-variant={variant}>
+        <div {...props} data-bspk="card" data-variant={variant} ref={innerRef}>
             {children}
         </div>
     );
