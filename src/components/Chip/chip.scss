@@ -17,6 +17,7 @@
 
     &:not([data-flat]) {
         box-shadow: var(--drop-shadow-raise);
+        margin: 1px 2px 2px 1px;
     }
 
     &[data-variant='filter'] {
