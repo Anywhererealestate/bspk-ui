@@ -17,6 +17,12 @@ export type TimePickerListboxProps = {
     onTab?: (e: React.KeyboardEvent) => void;
 };
 
+/**
+ * TimePickerListbox component displays a listbox for selecting time values.
+ *
+ * @name TimePickerListbox
+ * @parent TimePicker
+ */
 export function TimePickerListbox({ options, selectedValue, type: kind, onSelect, onTab }: TimePickerListboxProps) {
     const { activeElementId, arrowKeyCallbacks } = useArrowNavigation({
         ids: options.map((option) => option.id),

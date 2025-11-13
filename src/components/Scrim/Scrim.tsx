@@ -23,7 +23,6 @@ export type ScrimProps = CommonProps<'owner'> & {
  * attention to a modal or sheet.
  *
  * @name Scrim
- *
  * @phase Utility
  */
 export function Scrim({ visible = true, owner, ...props }: ScrimProps) {

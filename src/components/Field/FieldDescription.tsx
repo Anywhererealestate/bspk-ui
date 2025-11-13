@@ -1,6 +1,12 @@
 import { useFieldContext, describedById } from './utils';
 
-function FieldDescription({ children }: { children?: string }) {
+/**
+ * FieldDescription component displays a description associated with a form field.
+ *
+ * @name FieldDescription
+ * @parent Field
+ */
+export function FieldDescription({ children }: { children?: string }) {
     const { id } = useFieldContext();
 
     return children ? (
@@ -9,7 +15,3 @@ function FieldDescription({ children }: { children?: string }) {
         </p>
     ) : null;
 }
-
-FieldDescription.displayName = 'FieldDescription';
-
-export { FieldDescription };

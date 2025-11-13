@@ -9,6 +9,12 @@ export type IncrementButtonProps = {
     inputId: string;
 };
 
+/**
+ * IncrementButton component displays a button to increment or decrement a number input.
+ *
+ * @name IncrementButton
+ * @parent InputNumber
+ */
 export function IncrementButton({ increment, disabled, onIncrement, inputId }: IncrementButtonProps) {
     const add = increment === 1;
 

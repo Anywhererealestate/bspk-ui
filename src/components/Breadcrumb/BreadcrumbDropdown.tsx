@@ -37,6 +37,12 @@ export type BreadcrumbDropdownProps = ScrollListItemsStyleProps & {
     id: string;
 };
 
+/**
+ * The BreadcrumbDropdown component is used to display a dropdown menu within a breadcrumb navigation.
+ *
+ * @name BreadcrumbDropdown
+ * @parent Breadcrumb
+ */
 export function BreadcrumbDropdown({ items: itemsProp, id, scrollLimit }: BreadcrumbDropdownProps) {
     const menuId = `${id}-menu`;
 

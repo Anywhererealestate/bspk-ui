@@ -33,7 +33,6 @@ const SnackbarEvent = createCustomEvent<SendSnackbarProps | string | typeof CLEA
  * context. :)
  *
  * @name SnackbarManager
- *
  * @phase UXReview
  */
 export function SnackbarManager({ defaultTimeout = 5000 }: SnackbarManagerProps) {
