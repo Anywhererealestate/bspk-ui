@@ -30,11 +30,31 @@ export const presets: Preset<ChipGroupProps>[] = [
         propState: {
             overflow: 'scroll',
             items: [
-                { flat: true, label: 'chip 1', leadingIcon: <SvgLightbulb /> },
-                { flat: true, label: 'chip 2', trailingIcon: <SvgChevronRight /> },
-                { flat: true, label: 'chip 3', leadingIcon: <SvgSignLanguage /> },
-                { flat: true, label: 'chip 4', trailingIcon: <SvgClose /> },
-                { flat: true, label: 'chip 5', trailingIcon: <SvgKeyboardArrowDown /> },
+                {
+                    flat: true,
+                    label: 'chip 1',
+                    leadingIcon: <SvgLightbulb />,
+                    trailingBadge: { count: 9, size: 'x-small' },
+                },
+                {
+                    flat: true,
+                    label: 'chip 2',
+                    leadingIcon: <SvgIcecream />,
+                    trailingBadge: { count: 2, size: 'x-small' },
+                },
+                { flat: true, label: 'chip 3', leadingIcon: <SvgSignLanguage />, trailingIcon: <SvgClose /> },
+                {
+                    flat: true,
+                    label: 'chip 4',
+                    leadingIcon: <SvgOpportunities />,
+                    trailingBadge: { count: 5, size: 'x-small' },
+                },
+                {
+                    flat: true,
+                    label: 'chip 5',
+                    leadingIcon: <SvgCloud />,
+                    trailingBadge: { count: 3, size: 'x-small' },
+                },
             ],
         },
     },
