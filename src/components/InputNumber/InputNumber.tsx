@@ -1,14 +1,16 @@
 import './input-number.scss';
-import { useMemo } from 'react';
+import { useEffect, useRef } from 'react';
 import { IncrementButton } from './IncrementButton';
 import { useFieldInit } from '-/components/Field';
 import { useId } from '-/hooks/useId';
 import { CommonProps, FieldControlProps } from '-/types/common';
 
-function isNumber(value: unknown, fallbackValue: number | undefined = undefined): number | undefined {
+function isNumber(value: unknown): number | undefined;
+function isNumber(value: unknown, fallbackValue: number): number;
+function isNumber(value: unknown, fallbackValue?: number): number | undefined {
     if (typeof value === 'number') return value;
     if (typeof value !== 'string') return fallbackValue;
-    const num = Number(value);
+    const num = parseFloat(value);
     return isNaN(num) ? fallbackValue : num;
 }
 
@@ -108,14 +110,25 @@ export function InputNumber({
         readOnly,
         invalidProp,
     });
-
     const max = typeof maxProp === 'number' && maxProp >= min ? maxProp : Number.MAX_SAFE_INTEGER;
     const centered = align !== 'left';
     const inputId = useId(id);
-    const value = useMemo(() => isNumber(valueProp) || 0, [valueProp]);
+    const value = isNumber(valueProp, min);
+    const removeDisabled = disabled || value + step * -1 < min;
+    const addDisabled = disabled || value + step > max;
 
-    const handleIncrement = (increment: -1 | 1) => {
-        onChange(value + increment * step);
+    const valueRef = useRef(value);
+
+    useEffect(() => {
+        valueRef.current = value;
+    }, [value]);
+
+    const incrementHandler = (kind: 'add' | 'remove') => {
+        const increment = kind === 'add' ? step : step * -1;
+        const next = valueRef.current + increment;
+        if (next < min || next > max) return false;
+        onChange(next);
+        return true;
     };
 
     return (
@@ -128,14 +141,6 @@ export function InputNumber({
             data-size={size}
             data-stepper-input
         >
-            {!!centered && (
-                <IncrementButton
-                    disabled={disabled ? true : value + -1 < min}
-                    increment={-1}
-                    inputId={inputId}
-                    onIncrement={handleIncrement}
-                />
-            )}
             <input
                 {...inputElementProps}
                 aria-describedby={ariaDescribedBy || undefined}
@@ -151,32 +156,29 @@ export function InputNumber({
                 max={max}
                 min={min}
                 name={name}
+                onBlur={(e) => {
+                    const next = isNumber(e.target.value, min);
+                    e.target.value = next?.toString() || '';
+                    onChange(next);
+                }}
                 onChange={(e) => {
-                    onChange(isNumber(e.target.value));
+                    const next = isNumber(e.target.value, min);
+                    onChange(next);
                 }}
                 readOnly={readOnly}
                 required={required}
                 step={step}
                 type="number"
-                value={value}
+                value={value !== undefined ? value : ''}
             />
-            {!centered && (
-                <>
-                    <div aria-hidden data-divider />
-                    <IncrementButton
-                        disabled={!!disabled || value + -1 < min}
-                        increment={-1}
-                        inputId={inputId}
-                        onIncrement={handleIncrement}
-                    />
-                </>
-            )}
+            <div aria-hidden data-divider />
             <IncrementButton
-                disabled={!!disabled || value + 1 > max}
-                increment={1}
+                disabled={removeDisabled}
                 inputId={inputId}
-                onIncrement={handleIncrement}
+                kind="remove"
+                triggerIncrement={incrementHandler}
             />
+            <IncrementButton disabled={addDisabled} inputId={inputId} kind="add" triggerIncrement={incrementHandler} />
         </div>
     );
 }
