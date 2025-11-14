@@ -68,16 +68,16 @@ export type SelectProps = CommonProps<'size'> &
  * @example
  *     import { Select } from '@bspk/ui/Select';
  *
- *     const OPTIONS = [
- *         { id: '1', label: 'Option 1' },
- *         { id: '2', label: 'Option 2' },
- *         { id: '3', label: 'Option 3' },
- *         { id: '4', label: 'Option 4' },
- *         { id: '5', label: 'Option 5' },
- *         { id: '6', label: 'Option 6' },
- *     ];
- *
  *     () => {
+ *         const OPTIONS = [
+ *             { id: '1', label: 'Option 1' },
+ *             { id: '2', label: 'Option 2' },
+ *             { id: '3', label: 'Option 3' },
+ *             { id: '4', label: 'Option 4' },
+ *             { id: '5', label: 'Option 5' },
+ *             { id: '6', label: 'Option 6' },
+ *         ];
+ *
  *         const [selected, setSelected] = useState<string[]>([]);
  *
  *         return (
@@ -85,7 +85,7 @@ export type SelectProps = CommonProps<'size'> &
  *                 // standalone select example
  *                 <Select
  *                     aria-label="Select an option"
- *                     itemCount={5}
+ *                     scrollLimit={5}
  *                     name="example-select"
  *                     onChange={setSelected}
  *                     options={OPTIONS}
@@ -98,7 +98,7 @@ export type SelectProps = CommonProps<'size'> &
  *                 <Field>
  *                     <FieldLabel>Select an option</FieldLabel>
  *                     <Select
- *                         itemCount={5}
+ *                         scrollLimit={5}
  *                         name="example-select"
  *                         onChange={setSelected}
  *                         options={OPTIONS}

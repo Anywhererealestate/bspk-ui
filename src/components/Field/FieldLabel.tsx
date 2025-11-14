@@ -14,6 +14,12 @@ export type FieldLabelProps<As extends ElementType = ElementType> = Pick<FieldCo
     as?: As;
 };
 
+/**
+ * FieldLabel component displays a label associated with a form field.
+ *
+ * @name FieldLabel
+ * @parent Field
+ */
 export function FieldLabel<As extends ElementType = ElementType>({
     children,
     labelTrailing,

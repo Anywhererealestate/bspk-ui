@@ -76,7 +76,6 @@ export type DrawerProps = Pick<DialogProps, 'container' | 'disableFocusTrap' | '
  * @name Drawer
  * @phase UXReview
  */
-
 export function Drawer({
     header,
     children,

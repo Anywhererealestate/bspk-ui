@@ -1,5 +1,11 @@
 import { Pagination } from '-/components/Pagination';
 
+/**
+ * TableFooter component displays pagination controls and information for a table.
+ *
+ * @name TableFooter
+ * @parent Table
+ */
 export function TableFooter({
     pageIndex,
     pageSize,

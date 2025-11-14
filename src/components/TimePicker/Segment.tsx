@@ -19,6 +19,12 @@ export type TimePickerSegmentProps<T extends string> = {
     setRef?: (element: HTMLElement | null) => void;
 };
 
+/**
+ * TimePickerSegment component displays an individual segment of a time picker (hours, minutes, or meridiem).
+ *
+ * @name TimePickerSegment
+ * @parent TimePicker
+ */
 export function TimePickerSegment<T extends string>({
     disabled,
     name,
