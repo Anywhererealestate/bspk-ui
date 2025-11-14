@@ -179,6 +179,15 @@ body[data-bspk] {
     left: auto;
 }
 
+[data-truncated] {
+    max-width: 100%;
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    background-color: transparent;
+}
+
 [data-sr-only] {
     height: 1px;
     overflow: hidden;

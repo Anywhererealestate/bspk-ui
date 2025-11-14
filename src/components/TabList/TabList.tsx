@@ -2,7 +2,6 @@ import './tab-list.scss';
 import { Fragment, ReactNode, useMemo } from 'react';
 import { Badge, BadgeProps } from '-/components/Badge';
 import { Tooltip } from '-/components/Tooltip';
-import { Truncated } from '-/components/Truncated';
 import { useArrowNavigation } from '-/hooks/useArrowNavigation';
 import { useId } from '-/hooks/useId';
 import { ElementProps } from '-/types/common';
@@ -238,7 +237,7 @@ export function TabList({
                                     tabIndex={focusableOption.id === item.id ? 0 : -1}
                                 >
                                     {icon && <span aria-hidden="true">{icon}</span>}
-                                    {!iconsOnly && <Truncated data-label>{item.label}</Truncated>}
+                                    {!iconsOnly && <span data-label>{item.label}</span>}
                                     {item.badge && !item.disabled && (
                                         <Badge count={item.badge} size={TAB_BADGE_SIZES[size]} />
                                     )}
