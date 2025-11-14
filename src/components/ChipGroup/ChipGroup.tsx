@@ -4,11 +4,12 @@ import { Chip, ChipProps } from '-/components/Chip';
 
 export type ChipGroupProps = {
     /**
-     * To allow chips to wrap. If set to false chips will scroll.
+     * Controls the overflow behavior of the chip group. If set to `scroll`, the chip group will be scrollable
+     * horizontally. If set to `wrap`, the chip group will wrap to multiple lines as needed.
      *
-     * @default true
+     * @default wrap
      */
-    wrap?: boolean;
+    overflow?: 'scroll' | 'wrap';
     /** Only Chip components should be used as items. */
     items?: ChipProps[];
 };
@@ -20,7 +21,7 @@ export type ChipGroupProps = {
  *     import { ChipGroup } from '@bspk/ui/ChipGroup';
  *
  *     <ChipGroup
- *         wrap={false}
+ *         overflow="scroll"
  *         items={[
  *             { label: 'chip 1', leadingIcon: <SvgLightbulb />, onClick: () => {}, trailingIcon: <SvgChevronRight /> },
  *             { label: 'chip 2', leadingIcon: <SvgIcecream />, onClick: () => {}, trailingIcon: <SvgChevronRight /> },
@@ -31,9 +32,9 @@ export type ChipGroupProps = {
  * @name ChipGroup
  * @phase UXReview
  */
-export function ChipGroup({ wrap = true, items }: ChipGroupProps) {
+export function ChipGroup({ overflow = 'wrap', items }: ChipGroupProps) {
     return (
-        <div data-bspk="chip-group" data-scroll={wrap === false ? true : undefined}>
+        <div data-bspk="chip-group" data-scroll={overflow === 'scroll' || undefined}>
             {items?.length ? items.map((item, idx) => <Chip {...item} key={item.label ?? idx} />) : null}
         </div>
     );

@@ -13,22 +13,9 @@ import { ComponentExampleFn, Preset } from '-/utils/demo';
 
 export const presets: Preset<ChipGroupProps>[] = [
     {
-        label: 'Basic',
-        propState: {
-            wrap: true,
-            items: [
-                { label: 'chip 1', leadingIcon: <SvgLightbulb />, trailingIcon: <SvgChevronRight /> },
-                { label: 'chip 2', leadingIcon: <SvgIcecream />, trailingIcon: <SvgChevronRight /> },
-                { label: 'chip 3', leadingIcon: <SvgSignLanguage />, trailingIcon: <SvgClose /> },
-                { label: 'chip 4', leadingIcon: <SvgOpportunities />, trailingIcon: <SvgClose /> },
-                { label: 'chip 5', leadingIcon: <SvgCloud />, trailingIcon: <SvgKeyboardArrowDown /> },
-            ],
-        },
-    },
-    {
         label: 'Scroll',
         propState: {
-            wrap: false,
+            overflow: 'scroll',
             items: [
                 { label: 'chip 1', leadingIcon: <SvgLightbulb />, trailingIcon: <SvgChevronRight /> },
                 { label: 'chip 2', leadingIcon: <SvgIcecream />, trailingIcon: <SvgChevronRight /> },
@@ -41,7 +28,7 @@ export const presets: Preset<ChipGroupProps>[] = [
     {
         label: 'Scroll: Flat chips',
         propState: {
-            wrap: false,
+            overflow: 'scroll',
             items: [
                 { flat: true, label: 'chip 1', leadingIcon: <SvgLightbulb /> },
                 { flat: true, label: 'chip 2', trailingIcon: <SvgChevronRight /> },
@@ -56,6 +43,16 @@ export const presets: Preset<ChipGroupProps>[] = [
 export const ChipGroupExample: ComponentExampleFn<ChipGroupProps> = ({ action }) => ({
     containerStyle: { width: '600px' },
     presets,
+    defaultState: {
+        overflow: 'wrap',
+        items: [
+            { label: 'chip 1', leadingIcon: <SvgLightbulb />, trailingIcon: <SvgChevronRight /> },
+            { label: 'chip 2', leadingIcon: <SvgIcecream />, trailingIcon: <SvgChevronRight /> },
+            { label: 'chip 3', leadingIcon: <SvgSignLanguage />, trailingIcon: <SvgClose /> },
+            { label: 'chip 4', leadingIcon: <SvgOpportunities />, trailingIcon: <SvgClose /> },
+            { label: 'chip 5', leadingIcon: <SvgCloud />, trailingIcon: <SvgKeyboardArrowDown /> },
+        ],
+    },
     render: ({ props, Component }) => {
         const handleChipInputClick = () => action('Chip clicked!');
         const itemsWithClick = props.items?.map((item) => ({
