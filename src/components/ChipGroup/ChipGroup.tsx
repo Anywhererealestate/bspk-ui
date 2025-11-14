@@ -1,6 +1,5 @@
 import './chip-group.scss';
 
-// import { ReactNode } from 'react';
 import { Chip, ChipProps } from '-/components/Chip';
 
 export type ChipGroupProps = {

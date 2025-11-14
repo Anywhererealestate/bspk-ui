@@ -43,24 +43,11 @@ export const presets: Preset<ChipGroupProps>[] = [
         propState: {
             wrap: false,
             items: [
-                { flat: true, label: 'chip 1', leadingIcon: <SvgLightbulb />, trailingIcon: <SvgChevronRight /> },
-                { flat: true, label: 'chip 2', leadingIcon: <SvgIcecream />, trailingIcon: <SvgChevronRight /> },
-                { flat: true, label: 'chip 3', leadingIcon: <SvgSignLanguage />, trailingIcon: <SvgClose /> },
-                { flat: true, label: 'chip 4', leadingIcon: <SvgOpportunities />, trailingIcon: <SvgClose /> },
-                { flat: true, label: 'chip 5', leadingIcon: <SvgCloud />, trailingIcon: <SvgKeyboardArrowDown /> },
-            ],
-        },
-    },
-    {
-        label: 'Scroll: Flat & Elevated Chips',
-        propState: {
-            wrap: false,
-            items: [
-                { flat: true, label: 'chip 1', leadingIcon: <SvgLightbulb />, trailingIcon: <SvgChevronRight /> },
-                { flat: false, label: 'chip 2', leadingIcon: <SvgIcecream />, trailingIcon: <SvgChevronRight /> },
-                { flat: true, label: 'chip 3', leadingIcon: <SvgSignLanguage />, trailingIcon: <SvgClose /> },
-                { label: 'chip 4', leadingIcon: <SvgOpportunities />, trailingIcon: <SvgClose /> },
-                { flat: true, label: 'chip 5', leadingIcon: <SvgCloud />, trailingIcon: <SvgKeyboardArrowDown /> },
+                { flat: true, label: 'chip 1', leadingIcon: <SvgLightbulb /> },
+                { flat: true, label: 'chip 2', trailingIcon: <SvgChevronRight /> },
+                { flat: true, label: 'chip 3', leadingIcon: <SvgSignLanguage /> },
+                { flat: true, label: 'chip 4', trailingIcon: <SvgClose /> },
+                { flat: true, label: 'chip 5', trailingIcon: <SvgKeyboardArrowDown /> },
             ],
         },
     },
