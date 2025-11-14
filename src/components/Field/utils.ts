@@ -28,6 +28,11 @@ export type FieldContext = FieldContextProps & {
 
 export const fieldContext = createContext<FieldContext | null>(null);
 
+/**
+ * Retrieves the current Field context.
+ *
+ * Will return a default context if used outside of a Field component.
+ */
 export function useFieldContext(): FieldContext {
     return (
         useContext(fieldContext) || {

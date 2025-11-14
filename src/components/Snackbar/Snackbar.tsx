@@ -104,7 +104,6 @@ export type SnackbarProps = CommonProps<'id'> & {
  *     };
  *
  * @name Snackbar
- *
  * @phase UXReview
  */
 export function Snackbar({

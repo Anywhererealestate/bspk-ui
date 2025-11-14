@@ -4,6 +4,12 @@ export type IntervalDotProps = Pick<SliderProps<SliderValue>, 'max' | 'min' | 'v
     step: number;
 };
 
+/**
+ * SliderIntervalDots component displays interval dots along a slider track.
+ *
+ * @name SliderIntervalDots
+ * @parent Slider
+ */
 export function SliderIntervalDots({ step, max, min, value }: IntervalDotProps) {
     if (step <= 0) return null;
 

@@ -6,6 +6,12 @@ export type FieldErrorProps = {
     children?: string;
 };
 
+/**
+ * FieldError component displays an error message associated with a form field.
+ *
+ * @name FieldError
+ * @parent Field
+ */
 export function FieldError({ children }: FieldErrorProps) {
     const { id } = useFieldContext();
 

@@ -22,7 +22,6 @@ export type UIProviderProps = {
  * This provider should wrap the root of your application to ensure that all components have access to the UI context.
  *
  * @name UIProvider
- *
  * @phase Utility
  */
 export function UIProvider({ children }: UIProviderProps) {

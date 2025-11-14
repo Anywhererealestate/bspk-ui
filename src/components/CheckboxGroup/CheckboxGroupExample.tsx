@@ -58,6 +58,7 @@ export const presets: Preset<CheckboxGroupProps>[] = [
 export const CheckboxGroupExample: ComponentExample<CheckboxGroupProps> = {
     presets,
     defaultState: {
+        selectAll: true,
         options: [
             { label: 'Option 1', value: 'option1', description: 'Description for option 1' },
             {
