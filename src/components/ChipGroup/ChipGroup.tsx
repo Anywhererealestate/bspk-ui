@@ -1,8 +1,7 @@
 import './chip-group.scss';
 
-import { ReactNode } from 'react';
-
-import { ChipProps } from '-/components/Chip';
+// import { ReactNode } from 'react';
+import { Chip, ChipProps } from '-/components/Chip';
 
 export type ChipGroupItem = Pick<
     ChipProps,
@@ -13,11 +12,11 @@ export type ChipGroupProps = {
     /**
      * To allow chips to wrap. If set to false chips will scroll.
      *
-     * @default true
+     * @default false
      */
-    wrap?: boolean;
-    /** Only Chip components should be used as children. */
-    children?: ReactNode;
+    scroll?: boolean;
+    /** Only Chip components should be used as items. */
+    items?: ChipGroupItem[];
 };
 /**
  * A component that manages the layout of a group of chips.
@@ -50,10 +49,25 @@ export type ChipGroupProps = {
  * @name ChipGroup
  * @phase UXReview
  */
-export function ChipGroup({ children, wrap = true }: ChipGroupProps) {
+export function ChipGroup({ scroll = false, items }: ChipGroupProps) {
+    const anyFlatFalse = items?.some((item) => item.flat === false || item.flat === undefined);
     return (
-        <div data-bspk="chip-group" data-wrap={wrap || undefined}>
-            {children}
+        <div data-bspk="chip-group" data-elevated-chips={anyFlatFalse ? true : null} data-scroll={scroll || undefined}>
+            {items?.length
+                ? items.map((item, idx) => (
+                      <Chip
+                          disabled={item.disabled ?? false}
+                          flat={item.flat ?? false}
+                          key={item.label ?? idx}
+                          label={item.label}
+                          leadingIcon={item.leadingIcon}
+                          onClick={item.onClick}
+                          selected={item.selected ?? false}
+                          trailingBadge={item.trailingBadge}
+                          trailingIcon={item.trailingIcon}
+                      />
+                  ))
+                : null}
         </div>
     );
 }

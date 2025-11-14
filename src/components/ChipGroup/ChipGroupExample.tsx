@@ -7,13 +7,63 @@ import { SvgLightbulb } from '@bspk/icons/Lightbulb';
 import { SvgOpportunities } from '@bspk/icons/Opportunities';
 import { SvgSignLanguage } from '@bspk/icons/SignLanguage';
 
-import { Chip } from '-/components/Chip';
+// import { Chip } from '-/components/Chip';
 import { ChipGroupProps } from '-/components/ChipGroup';
 import { ComponentExampleFn, Preset } from '-/utils/demo';
 
 export const presets: Preset<ChipGroupProps>[] = [
-    { label: 'scroll', propState: { wrap: false } },
-    { label: 'wrap', propState: { wrap: true } },
+    {
+        label: 'Basic',
+        propState: {
+            scroll: false,
+            items: [
+                { label: 'chip 1', leadingIcon: <SvgLightbulb />, trailingIcon: <SvgChevronRight /> },
+                { label: 'chip 2', leadingIcon: <SvgIcecream />, trailingIcon: <SvgChevronRight /> },
+                { label: 'chip 3', leadingIcon: <SvgSignLanguage />, trailingIcon: <SvgClose /> },
+                { label: 'chip 4', leadingIcon: <SvgOpportunities />, trailingIcon: <SvgClose /> },
+                { label: 'chip 5', leadingIcon: <SvgCloud />, trailingIcon: <SvgKeyboardArrowDown /> },
+            ],
+        },
+    },
+    {
+        label: 'Scroll',
+        propState: {
+            scroll: true,
+            items: [
+                { label: 'chip 1', leadingIcon: <SvgLightbulb />, trailingIcon: <SvgChevronRight /> },
+                { label: 'chip 2', leadingIcon: <SvgIcecream />, trailingIcon: <SvgChevronRight /> },
+                { label: 'chip 3', leadingIcon: <SvgSignLanguage />, trailingIcon: <SvgClose /> },
+                { label: 'chip 4', leadingIcon: <SvgOpportunities />, trailingIcon: <SvgClose /> },
+                { label: 'chip 5', leadingIcon: <SvgCloud />, trailingIcon: <SvgKeyboardArrowDown /> },
+            ],
+        },
+    },
+    {
+        label: 'Scroll: Flat chips',
+        propState: {
+            scroll: true,
+            items: [
+                { flat: true, label: 'chip 1', leadingIcon: <SvgLightbulb />, trailingIcon: <SvgChevronRight /> },
+                { flat: true, label: 'chip 2', leadingIcon: <SvgIcecream />, trailingIcon: <SvgChevronRight /> },
+                { flat: true, label: 'chip 3', leadingIcon: <SvgSignLanguage />, trailingIcon: <SvgClose /> },
+                { flat: true, label: 'chip 4', leadingIcon: <SvgOpportunities />, trailingIcon: <SvgClose /> },
+                { flat: true, label: 'chip 5', leadingIcon: <SvgCloud />, trailingIcon: <SvgKeyboardArrowDown /> },
+            ],
+        },
+    },
+    {
+        label: 'Scroll: Flat & Elevated Chips',
+        propState: {
+            scroll: true,
+            items: [
+                { flat: true, label: 'chip 1', leadingIcon: <SvgLightbulb />, trailingIcon: <SvgChevronRight /> },
+                { flat: false, label: 'chip 2', leadingIcon: <SvgIcecream />, trailingIcon: <SvgChevronRight /> },
+                { flat: true, label: 'chip 3', leadingIcon: <SvgSignLanguage />, trailingIcon: <SvgClose /> },
+                { label: 'chip 4', leadingIcon: <SvgOpportunities />, trailingIcon: <SvgClose /> },
+                { flat: true, label: 'chip 5', leadingIcon: <SvgCloud />, trailingIcon: <SvgKeyboardArrowDown /> },
+            ],
+        },
+    },
 ];
 
 export const ChipGroupExample: ComponentExampleFn<ChipGroupProps> = ({ action }) => ({
@@ -21,9 +71,17 @@ export const ChipGroupExample: ComponentExampleFn<ChipGroupProps> = ({ action })
     presets,
     render: ({ props, Component }) => {
         const handleChipInputClick = () => action('Chip clicked!');
-        return (
-            <Component {...props}>
-                <Chip
+        const itemsWithClick =
+            props.items?.map((item) => ({
+                ...item,
+                onClick: handleChipInputClick,
+            })) ?? undefined;
+        return <Component {...props} items={itemsWithClick} />;
+    },
+});
+
+{
+    /* <Chip
                     label="chip 1"
                     leadingIcon={<SvgLightbulb />}
                     onClick={handleChipInputClick}
@@ -52,8 +110,5 @@ export const ChipGroupExample: ComponentExampleFn<ChipGroupProps> = ({ action })
                     leadingIcon={<SvgCloud />}
                     onClick={handleChipInputClick}
                     trailingIcon={<SvgKeyboardArrowDown />}
-                />
-            </Component>
-        );
-    },
-});
+                /> */
+}
