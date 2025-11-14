@@ -1,4 +1,3 @@
-import './truncated.scss';
 import { ElementType } from 'react';
 import { Tooltip, TooltipTriggerProps } from '-/components/Tooltip';
 import { useTruncatedText } from '-/hooks/useTruncatedText';
@@ -45,7 +44,7 @@ export function Truncated<As extends ElementType = ElementType>({
     const span = (triggerProps: TooltipTriggerProps) => (
         <span
             {...props}
-            data-bspk-utility="truncated"
+            data-truncated
             ref={(node) => setElement(node)}
             {...triggerProps}
             role={isTruncated ? 'note' : props.role}
