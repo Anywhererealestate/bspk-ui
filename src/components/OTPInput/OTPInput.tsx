@@ -34,7 +34,11 @@ export type OTPInputProps = CommonProps<'id' | 'invalid' | 'name' | 'size'> & {
  * @example
  *     import { OTPInput } from '@bspk/ui/OTPInput';
  *
- *     <OTPInput name="2-auth-otp" length={4} value={otpValue} onChange={setOtpValue} />;
+ *     () => {
+ *         const [otpValue, setOtpValue] = useState('');
+ *
+ *         <OTPInput name="2-auth" length={4} value={otpValue} onChange={setOtpValue} />;
+ *     };
  *
  * @name OTPInput
  * @phase UXReview

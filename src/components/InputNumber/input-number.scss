@@ -129,6 +129,16 @@
         --height: var(--spacing-sizing-12);
         --svg-width: var(--spacing-sizing-06);
     }
+
+    &[data-centered] {
+        button:first-of-type {
+            order: -1;
+        }
+
+        [data-divider] {
+            display: none;
+        }
+    }
 }
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

@@ -56,13 +56,13 @@ export type BannerAlertProps = {
  *
  *     <BannerAlert
  *         elevated={true}
- *         variant="error"
- *         header="Error"
- *         body="There was an error processing your request."
+ *         variant="success"
+ *         header="Success"
+ *         body="Your request was processed successfully."
  *         onClose={() => sendSnackbar('Alert closed')}
  *         callToAction={{
- *             label = 'Click me',
- *             onClick = () => action('Call to action clicked!'),
+ *             label: 'Click me',
+ *             onClick: () => action('Call to action clicked!'),
  *         }}
  *     />;
  *

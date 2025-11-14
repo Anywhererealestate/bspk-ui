@@ -3,35 +3,39 @@ import { SvgRemove } from '@bspk/icons/Remove';
 import { useLongPress } from '-/hooks/useLongPress';
 
 export type IncrementButtonProps = {
+    /** Whether the button is disabled. */
     disabled: boolean;
-    increment: -1 | 1;
-    onIncrement: (increment: -1 | 1) => void;
+    /** The kind of increment button, either 'add' or 'remove'. */
+    kind: 'add' | 'remove';
+    /** The ID of the associated input element. */
     inputId: string;
+    /** Function to trigger the increment action. */
+    triggerIncrement: (kind: 'add' | 'remove') => boolean;
 };
 
 /**
- * IncrementButton component displays a button to increment or decrement a number input.
+ * A button component for incrementing or decrementing the InputNumber.
  *
  * @name IncrementButton
  * @parent InputNumber
  */
-export function IncrementButton({ increment, disabled, onIncrement, inputId }: IncrementButtonProps) {
-    const add = increment === 1;
-
-    const { setTriggerElement, ...handlers } = useLongPress(() => onIncrement(increment), disabled);
+export function IncrementButton({ inputId, kind, disabled, triggerIncrement }: IncrementButtonProps) {
+    const { ...pressHandlers } = useLongPress({
+        callback: () => triggerIncrement(kind),
+    });
 
     return (
         <button
-            {...handlers}
+            {...pressHandlers}
             aria-controls={inputId}
-            aria-hidden="true"
-            data-increment={increment}
+            aria-label={kind === 'add' ? 'Increase value' : 'Decrease value'}
+            data-bspk="input-number--increment-button"
+            data-kind={kind}
             disabled={disabled}
-            ref={setTriggerElement}
             tabIndex={-1}
             type="button"
         >
-            {add ? <SvgAdd /> : <SvgRemove />}
+            {kind === 'add' ? <SvgAdd aria-hidden /> : <SvgRemove aria-hidden />}
         </button>
     );
 }
