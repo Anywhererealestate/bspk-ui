@@ -1,23 +1,17 @@
 import './chip-group.scss';
 
-import { ReactNode } from 'react';
-
-import { ChipProps } from '-/components/Chip';
-
-export type ChipGroupItem = Pick<
-    ChipProps,
-    'disabled' | 'flat' | 'label' | 'leadingIcon' | 'onClick' | 'selected' | 'trailingBadge' | 'trailingIcon'
->;
+import { Chip, ChipProps } from '-/components/Chip';
 
 export type ChipGroupProps = {
     /**
-     * To allow chips to wrap. If set to false chips will scroll.
+     * Controls the overflow behavior of the chip group. If set to `scroll`, the chip group will be scrollable
+     * horizontally. If set to `wrap`, the chip group will wrap to multiple lines as needed.
      *
-     * @default true
+     * @default wrap
      */
-    wrap?: boolean;
-    /** Only Chip components should be used as children. */
-    children?: ReactNode;
+    overflow?: 'scroll' | 'wrap';
+    /** Only Chip components should be used as items. */
+    items?: ChipProps[];
 };
 /**
  * A component that manages the layout of a group of chips.
@@ -26,34 +20,22 @@ export type ChipGroupProps = {
  *     import { Chip } from '@bspk/ui/Chip';
  *     import { ChipGroup } from '@bspk/ui/ChipGroup';
  *
- *     <ChipGroup wrap={false}>
- *         <Chip
- *             label="chip 1"
- *             leadingIcon={<SvgLightbulb />}
- *             onClick={() => action('Chip clicked!')}
- *             trailingIcon={<SvgChevronRight />}
- *         />
- *         <Chip
- *             label="chip 2"
- *             leadingIcon={<SvgIcecream />}
- *             onClick={() => action('Chip clicked!')}
- *             trailingIcon={<SvgChevronRight />}
- *         />
- *         <Chip
- *             label="chip 3"
- *             leadingIcon={<SvgSignLanguage />}
- *             onClick={() => action('Chip clicked!')}
- *             trailingIcon={<SvgClose />}
- *         />
- *     </ChipGroup>;
+ *     <ChipGroup
+ *         overflow="scroll"
+ *         items={[
+ *             { label: 'chip 1', leadingIcon: <SvgLightbulb />, onClick: () => {}, trailingIcon: <SvgChevronRight /> },
+ *             { label: 'chip 2', leadingIcon: <SvgIcecream />, onClick: () => {}, trailingIcon: <SvgChevronRight /> },
+ *             { label: 'chip 3', leadingIcon: <SvgSignLanguage />, onClick: () => {}, trailingIcon: <SvgClose /> },
+ *         ]}
+ *     />;
  *
  * @name ChipGroup
  * @phase UXReview
  */
-export function ChipGroup({ children, wrap = true }: ChipGroupProps) {
+export function ChipGroup({ overflow = 'wrap', items }: ChipGroupProps) {
     return (
-        <div data-bspk="chip-group" data-wrap={wrap || undefined}>
-            {children}
+        <div data-bspk="chip-group" data-scroll={overflow === 'scroll' || undefined}>
+            {items?.length ? items.map((item, idx) => <Chip {...item} key={item.label ?? idx} />) : null}
         </div>
     );
 }
