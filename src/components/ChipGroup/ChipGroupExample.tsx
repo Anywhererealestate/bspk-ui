@@ -15,7 +15,7 @@ export const presets: Preset<ChipGroupProps>[] = [
     {
         label: 'Basic',
         propState: {
-            scroll: false,
+            wrap: true,
             items: [
                 { label: 'chip 1', leadingIcon: <SvgLightbulb />, trailingIcon: <SvgChevronRight /> },
                 { label: 'chip 2', leadingIcon: <SvgIcecream />, trailingIcon: <SvgChevronRight /> },
@@ -28,7 +28,7 @@ export const presets: Preset<ChipGroupProps>[] = [
     {
         label: 'Scroll',
         propState: {
-            scroll: true,
+            wrap: false,
             items: [
                 { label: 'chip 1', leadingIcon: <SvgLightbulb />, trailingIcon: <SvgChevronRight /> },
                 { label: 'chip 2', leadingIcon: <SvgIcecream />, trailingIcon: <SvgChevronRight /> },
@@ -41,7 +41,7 @@ export const presets: Preset<ChipGroupProps>[] = [
     {
         label: 'Scroll: Flat chips',
         propState: {
-            scroll: true,
+            wrap: false,
             items: [
                 { flat: true, label: 'chip 1', leadingIcon: <SvgLightbulb />, trailingIcon: <SvgChevronRight /> },
                 { flat: true, label: 'chip 2', leadingIcon: <SvgIcecream />, trailingIcon: <SvgChevronRight /> },
@@ -54,7 +54,7 @@ export const presets: Preset<ChipGroupProps>[] = [
     {
         label: 'Scroll: Flat & Elevated Chips',
         propState: {
-            scroll: true,
+            wrap: false,
             items: [
                 { flat: true, label: 'chip 1', leadingIcon: <SvgLightbulb />, trailingIcon: <SvgChevronRight /> },
                 { flat: false, label: 'chip 2', leadingIcon: <SvgIcecream />, trailingIcon: <SvgChevronRight /> },
@@ -79,36 +79,3 @@ export const ChipGroupExample: ComponentExampleFn<ChipGroupProps> = ({ action })
         return <Component {...props} items={itemsWithClick} />;
     },
 });
-
-{
-    /* <Chip
-                    label="chip 1"
-                    leadingIcon={<SvgLightbulb />}
-                    onClick={handleChipInputClick}
-                    trailingIcon={<SvgChevronRight />}
-                />
-                <Chip
-                    label="chip 2"
-                    leadingIcon={<SvgIcecream />}
-                    onClick={handleChipInputClick}
-                    trailingIcon={<SvgChevronRight />}
-                />
-                <Chip
-                    label="chip 3"
-                    leadingIcon={<SvgSignLanguage />}
-                    onClick={handleChipInputClick}
-                    trailingIcon={<SvgClose />}
-                />
-                <Chip
-                    label="chip 4"
-                    leadingIcon={<SvgOpportunities />}
-                    onClick={handleChipInputClick}
-                    trailingIcon={<SvgClose />}
-                />
-                <Chip
-                    label="chip 5"
-                    leadingIcon={<SvgCloud />}
-                    onClick={handleChipInputClick}
-                    trailingIcon={<SvgKeyboardArrowDown />}
-                /> */
-}

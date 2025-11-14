@@ -3,14 +3,11 @@
     gap: var(--spacing-sizing-02);
     width: 100%;
     flex-flow: row wrap;
+    padding-bottom: var(--spacing-sizing-01);
 
     &[data-scroll] {
         overflow: auto;
         flex-wrap: nowrap;
-    }
-
-    &[data-elevated-chips] {
-        padding: 1px 2px 2px 1px;
     }
 }
 

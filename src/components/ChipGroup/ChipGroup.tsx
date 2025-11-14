@@ -3,20 +3,15 @@ import './chip-group.scss';
 // import { ReactNode } from 'react';
 import { Chip, ChipProps } from '-/components/Chip';
 
-export type ChipGroupItem = Pick<
-    ChipProps,
-    'disabled' | 'flat' | 'label' | 'leadingIcon' | 'onClick' | 'selected' | 'trailingBadge' | 'trailingIcon'
->;
-
 export type ChipGroupProps = {
     /**
      * To allow chips to wrap. If set to false chips will scroll.
      *
-     * @default false
+     * @default true
      */
-    scroll?: boolean;
+    wrap?: boolean;
     /** Only Chip components should be used as items. */
-    items?: ChipGroupItem[];
+    items?: ChipProps[];
 };
 /**
  * A component that manages the layout of a group of chips.
@@ -25,49 +20,22 @@ export type ChipGroupProps = {
  *     import { Chip } from '@bspk/ui/Chip';
  *     import { ChipGroup } from '@bspk/ui/ChipGroup';
  *
- *     <ChipGroup wrap={false}>
- *         <Chip
- *             label="chip 1"
- *             leadingIcon={<SvgLightbulb />}
- *             onClick={() => action('Chip clicked!')}
- *             trailingIcon={<SvgChevronRight />}
- *         />
- *         <Chip
- *             label="chip 2"
- *             leadingIcon={<SvgIcecream />}
- *             onClick={() => action('Chip clicked!')}
- *             trailingIcon={<SvgChevronRight />}
- *         />
- *         <Chip
- *             label="chip 3"
- *             leadingIcon={<SvgSignLanguage />}
- *             onClick={() => action('Chip clicked!')}
- *             trailingIcon={<SvgClose />}
- *         />
- *     </ChipGroup>;
+ *     <ChipGroup
+ *         wrap={false}
+ *         items={[
+ *             { label: 'chip 1', leadingIcon: <SvgLightbulb />, onClick: () => {}, trailingIcon: <SvgChevronRight /> },
+ *             { label: 'chip 2', leadingIcon: <SvgIcecream />, onClick: () => {}, trailingIcon: <SvgChevronRight /> },
+ *             { label: 'chip 3', leadingIcon: <SvgSignLanguage />, onClick: () => {}, trailingIcon: <SvgClose /> },
+ *         ]}
+ *     />;
  *
  * @name ChipGroup
  * @phase UXReview
  */
-export function ChipGroup({ scroll = false, items }: ChipGroupProps) {
-    const anyFlatFalse = items?.some((item) => item.flat === false || item.flat === undefined);
+export function ChipGroup({ wrap = true, items }: ChipGroupProps) {
     return (
-        <div data-bspk="chip-group" data-elevated-chips={anyFlatFalse ? true : null} data-scroll={scroll || undefined}>
-            {items?.length
-                ? items.map((item, idx) => (
-                      <Chip
-                          disabled={item.disabled ?? false}
-                          flat={item.flat ?? false}
-                          key={item.label ?? idx}
-                          label={item.label}
-                          leadingIcon={item.leadingIcon}
-                          onClick={item.onClick}
-                          selected={item.selected ?? false}
-                          trailingBadge={item.trailingBadge}
-                          trailingIcon={item.trailingIcon}
-                      />
-                  ))
-                : null}
+        <div data-bspk="chip-group" data-scroll={wrap === false ? true : undefined}>
+            {items?.length ? items.map((item, idx) => <Chip {...item} key={item.label ?? idx} />) : null}
         </div>
     );
 }
