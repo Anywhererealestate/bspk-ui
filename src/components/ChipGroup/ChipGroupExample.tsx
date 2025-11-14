@@ -58,11 +58,10 @@ export const ChipGroupExample: ComponentExampleFn<ChipGroupProps> = ({ action })
     presets,
     render: ({ props, Component }) => {
         const handleChipInputClick = () => action('Chip clicked!');
-        const itemsWithClick =
-            props.items?.map((item) => ({
-                ...item,
-                onClick: handleChipInputClick,
-            })) ?? undefined;
+        const itemsWithClick = props.items?.map((item) => ({
+            ...item,
+            onClick: handleChipInputClick,
+        }));
         return <Component {...props} items={itemsWithClick} />;
     },
 });
