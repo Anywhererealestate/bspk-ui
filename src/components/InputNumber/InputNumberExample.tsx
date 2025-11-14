@@ -6,4 +6,5 @@ export const InputNumberExample: ComponentExample<InputNumberProps> = {
         'aria-label': 'input number aria-label',
     },
     render: ({ props, Component }) => <Component {...props} />,
+    variants: false,
 };
