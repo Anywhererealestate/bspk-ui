@@ -2,10 +2,12 @@
     display: flex;
     gap: var(--spacing-sizing-02);
     width: 100%;
-    overflow: auto;
+    flex-flow: row wrap;
+    padding-bottom: var(--spacing-sizing-01);
 
-    &[data-wrap] {
-        flex-flow: row wrap;
+    &[data-scroll] {
+        overflow: auto;
+        flex-wrap: nowrap;
     }
 }
 
