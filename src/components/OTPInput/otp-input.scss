@@ -1,61 +1,66 @@
 [data-bspk='otp-input'] {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    gap: var(--spacing-sizing-02);
-    font: var(--font);
     width: fit-content;
+    position: relative;
 
-    [data-digit] {
+    input[inputMode] {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        border: none;
+        caret-color: transparent;
+    }
+
+    [data-digits] {
         display: flex;
-        align-items: center;
+        flex-direction: row;
         justify-content: center;
-        border-radius: var(--radius-sm);
-        border: 1px solid var(--stroke-neutral-base);
-        flex-grow: 1;
-        aspect-ratio: 1;
-        width: var(--width);
+        gap: var(--spacing-sizing-02);
+        font: var(--font);
+        width: fit-content;
         position: relative;
-        outline: none;
+        pointer-events: none;
 
-        &:hover:not(:focus)::after {
-            background: var(--interaction-hover-opacity);
-            content: '';
-            position: absolute;
-            inset: 0;
+        [data-digit] {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
             border-radius: var(--radius-sm);
+            border: 1px solid var(--stroke-neutral-base);
+            flex-grow: 1;
+            aspect-ratio: 1;
+            width: var(--width);
+            position: relative;
+            outline: none;
+            text-align: center;
         }
+    }
 
-        &:active::after {
-            background: var(--interaction-press-opacity);
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: var(--radius-sm);
-        }
+    input[inputMode]:focus + [data-digits] {
+        [data-digit] {
+            &[data-active] {
+                outline: solid 2px var(--stroke-neutral-focus);
 
-        &:focus:not(:active) {
-            outline: solid 2px var(--stroke-neutral-focus);
-
-            &:empty::before {
-                // caret
-                content: '';
-                width: 2px;
-                height: calc(var(--caret-height) - 8px);
-                background: var(--stroke-neutral-high);
-                animation: blink-caret 1s step-end infinite;
-
-                @keyframes blink-caret {
-                    0%,
-                    100% {
-                        opacity: 0;
-                    }
-
-                    50% {
-                        opacity: 1;
-                    }
+                &:empty::before {
+                    // caret
+                    content: '';
+                    width: 2px;
+                    height: calc(var(--caret-height) - 8px);
+                    background: var(--stroke-neutral-high);
+                    animation: blink-caret 1s step-end infinite;
                 }
             }
+        }
+    }
+
+    @keyframes blink-caret {
+        0%,
+        100% {
+            opacity: 0;
+        }
+
+        50% {
+            opacity: 1;
         }
     }
 
