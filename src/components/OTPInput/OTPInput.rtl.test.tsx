@@ -12,8 +12,10 @@ describe('OTPInput (RTL)', () => {
     });
 
     it('renders', () => {
-        const { getByLabelText } = render(<OTPInput onChange={() => {}} {...presets[0].propState} />);
+        const { getByLabelText } = render(
+            <OTPInput aria-label="OTP input" onChange={() => {}} {...presets[0].propState} />,
+        );
 
-        expect(getByLabelText('OTP digit 1')).toBeInTheDocument();
+        expect(getByLabelText('OTP input')).toBeInTheDocument();
     });
 });
