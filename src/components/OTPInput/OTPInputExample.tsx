@@ -22,7 +22,12 @@ export const presets: Preset<OTPInputProps>[] = [
 
 export const OTPInputExample: ComponentExample<OTPInputProps> = {
     containerStyle: { width: '100%' },
-    defaultState: {},
+    defaultState: {
+        value: '',
+        length: 6,
+        name: 'OTP Input',
+        alphanumeric: false,
+    },
     disableProps: [],
     presets,
     render: ({ props, Component }) => <Component {...props} />,
