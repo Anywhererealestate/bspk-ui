@@ -114,7 +114,7 @@ export function Avatar({
     name,
     hideTooltip = false,
     onClick,
-    disabled,
+    disabled = false,
     ...props
 }: AvatarProps) {
     const children = useMemo(() => {
@@ -167,7 +167,7 @@ export function Avatar({
         </div>
     );
 
-    return !hideTooltip ? <Tooltip label={name}>{avatar}</Tooltip> : avatar({});
+    return !disabled && !hideTooltip ? <Tooltip label={name}>{avatar}</Tooltip> : avatar({});
 }
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
