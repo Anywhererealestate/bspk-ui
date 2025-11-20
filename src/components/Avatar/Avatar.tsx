@@ -92,7 +92,6 @@ export type AvatarProps = CommonProps<'disabled'> & {
  *         image="/avatar-01.png"
  *         initials="AR"
  *         name="Andre Giant"
- *         hideTooltip
  *         size="large"
  *         disabled={false}
  *         onClick={() => action('Launch avatar popover')}
