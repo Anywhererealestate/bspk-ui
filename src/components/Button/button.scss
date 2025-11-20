@@ -140,9 +140,11 @@
         }
 
         &[data-destructive] {
-            --primary-background: var(--status-error);
+            &:not([disabled]) {
+                --primary-background: var(--status-error);
 
-            color: var(--foreground-brand-on-primary);
+                color: var(--foreground-brand-on-primary);
+            }
         }
     }
 
@@ -174,9 +176,11 @@
         }
 
         &[data-destructive] {
-            background: transparent;
-            color: var(--status-error);
-            border: solid var(--button-border-width) var(--status-error);
+            &:not([disabled]) {
+                background: transparent;
+                color: var(--status-error);
+                border: solid var(--button-border-width) var(--status-error);
+            }
         }
     }
 
@@ -206,7 +210,9 @@
         }
 
         &[data-destructive] {
-            color: var(--status-error);
+            &:not([disabled]) {
+                color: var(--status-error);
+            }
         }
     }
 }
