@@ -340,7 +340,7 @@ export function HeaderButton({
                 iconOnly={true}
                 key={direction}
                 label={header.label}
-                onClick={() => setActiveDate(header.incrementFn(activeDate, direction.startsWith('<') ? -1 : 1))}
+                onClick={() => setActiveDate(header.incrementFn(activeDate, direction.startsWith('prev') ? -1 : 1))}
                 size="large"
                 variant="tertiary"
             />

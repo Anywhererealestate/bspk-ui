@@ -12,7 +12,7 @@ import { useOutsideClick } from '-/hooks/useOutsideClick';
 import { FieldControlProps } from '-/types/common';
 import { getElementById } from '-/utils/dom';
 
-export type DatePickerProps = Omit<FieldControlProps, 'onChange' | 'value'> &
+export type DatePickerProps = Omit<FieldControlProps, 'aria-label' | 'onChange' | 'value'> &
     Pick<InputProps, 'size'> & {
         /**
          * If the calendar should close when a date is selected.
@@ -36,6 +36,12 @@ export type DatePickerProps = Omit<FieldControlProps, 'onChange' | 'value'> &
         value?: string;
         /** Fires when the date changes with the new date */
         onChange: (next: string) => void;
+        /**
+         * The aria-label attribute for the date input field.
+         *
+         * @default Enter or choose date
+         */
+        'aria-label'?: string;
     };
 
 /**
@@ -96,6 +102,7 @@ export function DatePicker({
     required = false,
     size,
     id: idProp,
+    'aria-label': ariaLabel = 'Enter or choose date',
 }: DatePickerProps) {
     const { id, ariaDescribedBy, ariaErrorMessage, invalid } = useFieldInit({
         idProp,
@@ -134,7 +141,7 @@ export function DatePicker({
             <InputElement
                 aria-describedby={ariaDescribedBy || undefined}
                 aria-errormessage={ariaErrorMessage || undefined}
-                aria-label="Enter or Choose date"
+                aria-label={ariaLabel}
                 disabled={disabled || undefined}
                 id={id}
                 invalid={invalid || undefined}
