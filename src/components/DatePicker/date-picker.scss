@@ -6,24 +6,6 @@
 
     [data-bspk='input'] {
         padding-right: 0;
-
-        + [data-bspk='button'] {
-            position: absolute;
-            right: var(--spacing-sizing-03);
-            top: 50%;
-            transform: translateY(-50%);
-            padding: var(--spacing-sizing-01) var(--spacing-sizing-02);
-            border-radius: var(--radius-sm);
-            background: transparent;
-            border: none;
-            cursor: pointer;
-
-            svg {
-                width: var(--icon-size-16);
-                height: var(--icon-size-16);
-                color: var(--foreground-neutral-on-surface-variant-02);
-            }
-        }
     }
 
     [data-bspk='calendar-popup'] {
