@@ -167,7 +167,7 @@ export function Avatar({
         </div>
     );
 
-    return !disabled && !hideTooltip ? <Tooltip label={name}>{avatar}</Tooltip> : avatar({});
+    return !hideTooltip ? <Tooltip label={name}>{avatar}</Tooltip> : avatar({});
 }
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
