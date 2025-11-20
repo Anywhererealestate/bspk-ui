@@ -184,7 +184,7 @@ export function FormFieldExampleRender({ ...props }: ExampleProps & { syntax?: S
                         onChange={(next) => setValue({ 'date-picker': next })}
                         placeholder="Example input"
                         required={required}
-                        value={value['date-picker'] as Date}
+                        value={value['date-picker'] as string}
                     />
                 </FormField>
                 <FormField {...props} {...internalProps('Input')}>

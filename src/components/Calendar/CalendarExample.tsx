@@ -21,11 +21,11 @@ export const CalendarExample: ComponentExample<CalendarProps> = {
     defaultState: {
         value: undefined,
     },
-    disableProps: ['focusTrap'],
+    disableProps: ['focusInit'],
     presets,
     render: ({ props, Component }) => <Component {...props} />,
     sections: [],
     variants: {
-        focusTrap: false,
+        focusInit: false,
     },
 };
