@@ -90,13 +90,12 @@ export function Calendar({ id, value: valueProp, onChange, focusTrap = false }: 
         <div data-bspk="calendar" id={baseId}>
             <div data-header>
                 <Button
-                    as="button"
                     icon={<SvgKeyboardDoubleArrowLeft />}
                     iconOnly={true}
                     innerRef={(node) => (firstButtonRef.current = node)}
                     label="Previous Year"
                     onClick={() => setActiveDate(addYears(activeDate, -1))}
-                    onKeyDown={(event) => {
+                    onKeyDown={(event: React.KeyboardEvent) => {
                         if (focusTrap && getEventCode(event) === 'Shift+Tab') {
                             event.preventDefault();
                             event.stopPropagation();
