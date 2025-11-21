@@ -43,10 +43,6 @@
         display: flex;
         flex-direction: column;
 
-        thead {
-            display: none;
-        }
-
         tr {
             display: contents;
         }
@@ -60,64 +56,37 @@
             font-weight: inherit;
         }
 
+        thead {
+            display: grid;
+            grid-template-columns: repeat(7, calc(100% / 7));
+            text-align: center;
+
+            th {
+                color: var(--foreground-neutral-on-surface-variant-01);
+            }
+        }
+
         tbody {
             display: grid;
+            grid-template-columns: repeat(7, calc(100% / 7));
 
             [data-non-month-day] {
                 color: var(--foreground-neutral-on-surface-variant-02);
             }
 
             td {
-                &:hover {
+                &:hover,
+                &:focus-visible {
                     cursor: pointer;
-                    outline: 2px solid var(--stroke-neutral-low-contrast);
+                    outline: 2px solid var(--stroke-neutral-focus);
                     outline-offset: -2px;
-
-                    &:focus-visible {
-                        outline-color: var(--stroke-neutral-focus);
-                    }
                 }
 
                 &[data-selected] {
                     background: var(--surface-brand-primary);
                     color: var(--foreground-brand-on-primary);
-
-                    &:not(:hover) {
-                        outline: none;
-                    }
-
-                    &:hover {
-                        outline-offset: 2px;
-                    }
+                    outline-offset: 2px;
                 }
-            }
-        }
-
-        &[data-kind='day'] {
-            tbody {
-                grid-template-columns: repeat(7, calc(100% / 7));
-            }
-
-            thead {
-                display: grid;
-                grid-template-columns: repeat(7, calc(100% / 7));
-                text-align: center;
-
-                th {
-                    color: var(--foreground-neutral-on-surface-variant-01);
-                }
-            }
-        }
-
-        &[data-kind='month'] {
-            tbody {
-                grid-template-columns: repeat(3, calc(100% / 3));
-            }
-        }
-
-        &[data-kind='year'] {
-            tbody {
-                grid-template-columns: repeat(4, calc(100% / 4));
             }
         }
     }
