@@ -1,16 +1,14 @@
 import './date-picker.scss';
 import { SvgEvent } from '@bspk/icons/Event';
 import { format, startOfToday } from 'date-fns';
-import { FocusTrap } from 'focus-trap-react';
 import { useMemo, useState } from 'react';
 import { Button } from '-/components/Button';
-import { Calendar, optionIdGenerator, parseDate } from '-/components/Calendar';
+import { Calendar, parseDate } from '-/components/Calendar';
 import { useFieldInit } from '-/components/Field';
 import { InputElement, InputProps } from '-/components/Input';
 import { useFloating } from '-/hooks/useFloating';
 import { useOutsideClick } from '-/hooks/useOutsideClick';
 import { FieldControlProps } from '-/types/common';
-import { getElementById } from '-/utils/dom';
 
 export type DatePickerProps = Omit<FieldControlProps, 'aria-label' | 'onChange' | 'value'> &
     Pick<InputProps, 'size'> & {
@@ -167,32 +165,24 @@ export function DatePicker({
                 value={typeof value === 'string' ? value : ''}
             />
             {calendarVisible && (
-                <FocusTrap
-                    focusTrapOptions={{
-                        fallbackFocus: () => getElementById(optionIdGenerator(calendarId)(activeDate))!,
-                        clickOutsideDeactivates: true,
-                    }}
+                <div
+                    aria-label="Choose Date"
+                    aria-modal="true"
+                    data-bspk="calendar-popup"
+                    ref={(node) => elements.setFloating(node)}
+                    role="dialog"
+                    style={{ ...floatingStyles }}
                 >
-                    <div
-                        aria-label="Choose Date"
-                        aria-modal="true"
-                        data-bspk="calendar-popup"
-                        ref={(node) => elements.setFloating(node)}
-                        role="dialog"
-                        style={{ ...floatingStyles }}
-                    >
-                        <Calendar
-                            focusInit
-                            id={calendarId}
-                            key={activeDate.toString()}
-                            onChange={(next) => {
-                                if (closeCalendarOnChange) setCalendarVisible(false);
-                                onChange(format(next, 'MM/dd/yyyy'));
-                            }}
-                            value={activeDate}
-                        />
-                    </div>
-                </FocusTrap>
+                    <Calendar
+                        focusTrap
+                        id={calendarId}
+                        onChange={(next) => {
+                            if (closeCalendarOnChange) setCalendarVisible(false);
+                            onChange(format(next, 'MM/dd/yyyy'));
+                        }}
+                        value={activeDate}
+                    />
+                </div>
             )}
         </div>
     );

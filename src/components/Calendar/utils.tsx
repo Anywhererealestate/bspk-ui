@@ -22,30 +22,37 @@ export function optionIdGenerator(baseId: string) {
     return (date: Date) => `${baseId}-option-${format(date, 'MM-dd-yyyy')}`;
 }
 
+type Direction = 'down' | 'left' | 'right' | 'up';
+
+const DIRECTION_INCREMENT: Record<Direction, number> = {
+    // same day next week
+    down: 1 * COLUMNS_COUNT,
+    // next day
+    right: 1,
+    // same day previous week
+    up: -1 * COLUMNS_COUNT,
+    // previous day
+    left: -1,
+};
+
 export const useKeyDownCaptures = ({
     activeDate,
     setActiveDate,
     rows,
+    focusActiveDay,
 }: {
     activeDate: Date;
     setActiveDate: (date: Date) => void;
     rows: Date[][];
+    focusActiveDay: () => void;
 }) => {
-    const handleItemArrows = (direction: 'down' | 'left' | 'right' | 'up') => () => {
-        // Determine the direction and amount to move the base date
-        // down/right is positive, up/left is negative
-        const multiplier = direction === 'down' || direction === 'right' ? 1 : -1;
-        // Moving left/right moves one increment, moving up/down moves the number of columns
-        // (e.g. in day mode, left/right moves one day, up/down moves 7 days)
-        // In month mode, left/right moves one month, up/down moves 3 months
-        // In year mode, left/right moves one year, up/down moves 4 years
-        // This is determined by the number of columns in the grid for each mode
-        const amount = direction === 'left' || direction === 'right' ? 1 : COLUMNS_COUNT;
-        const next = addDays(activeDate, amount * multiplier);
+    const handleItemArrows = (direction: Direction) => () => {
+        const next = addDays(activeDate, DIRECTION_INCREMENT[direction]);
         setActiveDate(next);
+        focusActiveDay();
     };
 
-    const enterSpaceHandler = (event: React.KeyboardEvent) => {
+    const handleEnterOrSpace = (event: React.KeyboardEvent) => {
         const target = event.target as HTMLElement;
         if (target.nodeName === 'TD') target.click();
     };
@@ -59,16 +66,28 @@ export const useKeyDownCaptures = ({
                 ArrowRight: handleItemArrows('right'),
                 End: () => {
                     const next = rows.find((r) => r.some((d) => isSameDay(d, activeDate)))?.[COLUMNS_COUNT - 1];
-                    if (next) setActiveDate(next);
+                    if (!next || isSameDay(next, activeDate)) return;
+
+                    setActiveDate(next);
+                    focusActiveDay();
                 },
                 Home: () => {
                     const next = rows.find((r) => r.some((d) => isSameDay(d, activeDate)))?.[0];
-                    if (next) setActiveDate(next);
+                    if (!next || isSameDay(next, activeDate)) return;
+
+                    setActiveDate(next);
+                    focusActiveDay();
                 },
-                PageDown: () => setActiveDate(addMonths(activeDate, 1)),
-                PageUp: () => setActiveDate(addMonths(activeDate, -1)),
-                Space: enterSpaceHandler,
-                Enter: enterSpaceHandler,
+                PageDown: () => {
+                    setActiveDate(addMonths(activeDate, 1));
+                    focusActiveDay();
+                },
+                PageUp: () => {
+                    setActiveDate(addMonths(activeDate, -1));
+                    focusActiveDay();
+                },
+                Space: handleEnterOrSpace,
+                Enter: handleEnterOrSpace,
             },
             {
                 preventDefault: true,

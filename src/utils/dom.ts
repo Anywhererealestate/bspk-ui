@@ -4,3 +4,11 @@ export function getElementById<T extends HTMLElement = HTMLElement>(id?: string 
     if (!id) return null;
     return document.querySelector<T>(`[id="${id}"]`);
 }
+
+export function getElement<T extends HTMLElement = HTMLElement>(
+    selector: string,
+    parent: HTMLElement | ParentNode = document,
+): T | null {
+    if (typeof parent === 'undefined') return null;
+    return parent.querySelector<T>(selector);
+}

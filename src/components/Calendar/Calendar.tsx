@@ -16,11 +16,11 @@ import {
     startOfToday,
     startOfWeek,
 } from 'date-fns';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { useKeyDownCaptures, optionIdGenerator } from './utils';
 import { Button } from '-/components/Button';
 import { useId } from '-/hooks/useId';
-import { getElementById } from '-/utils/dom';
+import { getEventCode } from '-/utils/handleKeyDown';
 
 export type CalendarProps = {
     /**
@@ -38,7 +38,7 @@ export type CalendarProps = {
      *
      * @default false
      */
-    focusInit?: boolean;
+    focusTrap?: boolean;
     /** The id of the calendar component. */
     id?: string;
 };
@@ -49,19 +49,23 @@ export type CalendarProps = {
  * @name Calendar
  * @phase UXReview
  */
-export function Calendar({ id, value: valueProp, onChange, focusInit = false }: CalendarProps) {
+export function Calendar({ id, value: valueProp, onChange, focusTrap = false }: CalendarProps) {
     const baseId = useId(id);
+    const gridId = `${baseId}-grid`;
+    const generateOptionId = useMemo(() => optionIdGenerator(baseId), [baseId]);
+
+    const firstButtonRef = useRef<HTMLButtonElement | null>(null);
+    const lastButtonRef = useRef<HTMLButtonElement | null>(null);
+    const gridRef = useRef<HTMLTableSectionElement | null>(null);
 
     const [activeDate, setActiveDate] = useState<Date>(valueProp && isValid(valueProp) ? valueProp : startOfToday());
 
-    // we don't need to recreate the rows unless the active month changes
-    const activeMonth = useMemo(() => startOfMonth(activeDate), [activeDate]);
     const rows = useMemo(
         () =>
             // generate all days to be shown in the month view
             eachDayOfInterval({
-                start: startOfWeek(activeMonth, { weekStartsOn: 0 }),
-                end: endOfWeek(endOfMonth(activeMonth), { weekStartsOn: 0 }),
+                start: startOfWeek(startOfMonth(activeDate)!, { weekStartsOn: 0 }),
+                end: endOfWeek(endOfMonth(activeDate!), { weekStartsOn: 0 }),
             })
                 // create groups of 7 for each week
                 .reduce<Date[][]>((row, item) => {
@@ -70,31 +74,35 @@ export function Calendar({ id, value: valueProp, onChange, focusInit = false }: 
                     previousRow.push(item);
                     return row;
                 }, []),
-        [activeMonth],
+        [activeDate],
     );
+
+    const [focusDay, setFocusDay] = useState<boolean>(focusTrap);
 
     const { handleKeyDownCapture } = useKeyDownCaptures({
         activeDate,
         setActiveDate,
         rows,
+        focusActiveDay: () => setFocusDay(true),
     });
-
-    const generateOptionId = useMemo(() => optionIdGenerator(baseId), [baseId]);
-
-    const [isDayFocused, setIsDayFocused] = useState<boolean>(false);
-
-    useEffect(() => {
-        if (isDayFocused) getElementById(generateOptionId(activeDate))?.focus({ preventScroll: true });
-    }, [activeDate, isDayFocused, generateOptionId]);
 
     return (
         <div data-bspk="calendar" id={baseId}>
             <div data-header>
                 <Button
+                    as="button"
                     icon={<SvgKeyboardDoubleArrowLeft />}
                     iconOnly={true}
+                    innerRef={(node) => (firstButtonRef.current = node)}
                     label="Previous Year"
                     onClick={() => setActiveDate(addYears(activeDate, -1))}
+                    onKeyDown={(event) => {
+                        if (focusTrap && getEventCode(event) === 'Shift+Tab') {
+                            event.preventDefault();
+                            event.stopPropagation();
+                            setFocusDay(true);
+                        }
+                    }}
                     size="large"
                     variant="tertiary"
                 />
@@ -118,6 +126,7 @@ export function Calendar({ id, value: valueProp, onChange, focusInit = false }: 
                 <Button
                     icon={<SvgKeyboardDoubleArrowRight />}
                     iconOnly={true}
+                    innerRef={(node) => (lastButtonRef.current = node)}
                     label="Next Year"
                     onClick={() => setActiveDate(addYears(activeDate, 1))}
                     size="large"
@@ -151,12 +160,19 @@ export function Calendar({ id, value: valueProp, onChange, focusInit = false }: 
                     </tr>
                 </thead>
                 <tbody
-                    onBlurCapture={() => setIsDayFocused(false)}
-                    onFocusCapture={() => setIsDayFocused(true)}
-                    onKeyDownCapture={handleKeyDownCapture}
+                    id={gridId}
+                    onKeyDownCapture={(event) => {
+                        handleKeyDownCapture(event);
+                        if (focusTrap && getEventCode(event) === 'Tab') {
+                            event.preventDefault();
+                            event.stopPropagation();
+                            firstButtonRef.current?.focus();
+                        }
+                    }}
+                    ref={(node) => (gridRef.current = node)}
                 >
-                    {rows.map((week, weekIndex) => (
-                        <tr key={weekIndex}>
+                    {rows.map((week) => (
+                        <tr key={`week${week[0].toString()}`}>
                             {week.map((date) => {
                                 const label = format(date, 'd');
                                 const optionId = generateOptionId(date);
@@ -169,11 +185,11 @@ export function Calendar({ id, value: valueProp, onChange, focusInit = false }: 
                                         key={date.toString()}
                                         onClick={() => onChange(date)}
                                         ref={(node) => {
-                                            if (focusInit && isActive && node) {
-                                                setTimeout(() => {
-                                                    node.focus({ preventScroll: true });
-                                                }, 0);
-                                            }
+                                            if (!focusDay || !isActive || !node) return;
+                                            setTimeout(() => {
+                                                node.focus({ preventScroll: true });
+                                            }, 0);
+                                            setFocusDay(false);
                                         }}
                                         role={isActive ? 'gridcell' : undefined}
                                         tabIndex={isActive ? 0 : -1}

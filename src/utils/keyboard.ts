@@ -136,8 +136,11 @@ export type KeyboardEventKey =
 
 export type KeyboardEventCodeCustom = 'Ctrl+Option+Space';
 
-export type KeyboardEventCode =
-    | KeyboardEventCodeCustom
+export type KeyboardEventCodeShift = `Shift+${KeyboardEventCodeBase}`;
+
+export type KeyboardEventCode = KeyboardEventCodeBase | KeyboardEventCodeCustom | KeyboardEventCodeShift;
+
+export type KeyboardEventCodeBase =
     | 'AltLeft'
     | 'AltRight'
     | 'ArrowDown'
