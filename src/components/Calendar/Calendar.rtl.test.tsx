@@ -15,7 +15,7 @@ describe('Calendar (RTL)', () => {
     it('renders', () => {
         const { getByText } = render(<Calendar {...presets[0].propState} onChange={() => {}} />);
 
-        expect(getByText(format(presets[0].propState.value!, 'MMMM'))).toBeInTheDocument();
+        expect(getByText(format(presets[0].propState.value!, 'MMMM yyyy'))).toBeInTheDocument();
     });
 });
 
