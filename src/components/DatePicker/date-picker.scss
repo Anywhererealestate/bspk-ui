@@ -7,6 +7,17 @@
     [data-bspk='input'] {
         padding-right: 0;
     }
+
+    [data-bspk='calendar-popup'] {
+        border-radius: var(--radius-lg);
+        box-shadow: var(--drop-shadow-float);
+        z-index: var(--z-index-dropdown);
+        width: fit-content;
+    }
+
+    [data-bspk='inline-alert'] {
+        margin-top: var(--spacing-sizing-01);
+    }
 }
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

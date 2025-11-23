@@ -4,203 +4,23 @@ import { SvgChevronRight } from '@bspk/icons/ChevronRight';
 import { SvgKeyboardDoubleArrowLeft } from '@bspk/icons/KeyboardDoubleArrowLeft';
 import { SvgKeyboardDoubleArrowRight } from '@bspk/icons/KeyboardDoubleArrowRight';
 import {
-    addDays,
     addMonths,
     addYears,
+    eachDayOfInterval,
     endOfMonth,
     endOfWeek,
     format,
-    startOfDecade,
-    startOfMonth,
-    startOfWeek,
-    isValid,
     isSameDay,
-    isSameMonth,
-    isSameYear,
-    setMonth,
-    endOfDecade,
+    isValid,
+    startOfMonth,
+    startOfToday,
+    startOfWeek,
 } from 'date-fns';
-import { FocusTrap } from 'focus-trap-react';
-import { useMemo, useState, KeyboardEvent, ReactNode, useEffect } from 'react';
-import { Button, ButtonProps } from '-/components/Button';
-import { ListItemProps } from '-/components/ListItem';
+import { useMemo, useRef, useState } from 'react';
+import { useKeyDownCaptures, optionIdGenerator } from './utils';
+import { Button } from '-/components/Button';
 import { useId } from '-/hooks/useId';
-import { getElementById } from '-/utils/dom';
-import { handleKeyDown } from '-/utils/handleKeyDown';
-
-export type Direction = '<' | '<<' | '>' | '>>';
-export type Kind = 'day' | 'month' | 'year';
-
-export type ConfigKind = {
-    header: Record<
-        Direction,
-        {
-            label: string;
-            incrementFn: (date: Date, amount: number) => Date;
-        } | null
-    > & {
-        label: (baseDate: Date, setKind: (next: Kind) => void) => ReactNode;
-    };
-    columns: number;
-    range: {
-        start: (date: Date) => Date;
-        end: (date: Date) => Date;
-    };
-    compare: (dateLeft: Date, dateRight: Date) => boolean;
-    incrementFn: (date: Date, amount: number) => Date;
-    optionFormatStr: string;
-    listboxLabel: string;
-    listBoxHeader?: ReactNode;
-    ariaFormatStr: string;
-    optionProps?: (params: {
-        baseDate: Date;
-        date: Date;
-        isActive: boolean;
-        isSelected: boolean;
-        onChange: (next: Date) => void;
-        setBaseDate: (next: Date) => void;
-        setKind: (next: Kind) => void;
-    }) => Partial<ButtonProps>;
-};
-
-/**
- * Configuration for each of the calendar picker modes (day, month, year)
- *
- * This helps keep the main component cleaner and easier to read and avoid lots of conditionals.
- */
-const CONFIG: Record<Kind, ConfigKind> = {
-    day: {
-        header: {
-            '<<': { label: 'Previous Year', incrementFn: addYears },
-            '<': { label: 'Previous Month', incrementFn: addMonths },
-            label: (baseDate, setKind) => (
-                <>
-                    <Button
-                        aria-label={`Change Month, currently ${format(baseDate, 'MMMM')}`}
-                        data-month
-                        iconOnly
-                        label={format(baseDate, 'MMMM')}
-                        onClick={() => setKind('month')}
-                        size="large"
-                        variant="tertiary"
-                    />
-                    <Button
-                        aria-label={`Change Year, currently ${baseDate.getFullYear()}`}
-                        data-year
-                        iconOnly
-                        label={`${baseDate.getFullYear()}`}
-                        onClick={() => setKind('year')}
-                        size="large"
-                        variant="tertiary"
-                    />
-                </>
-            ),
-            '>': { label: 'Next Month', incrementFn: addMonths },
-            '>>': { label: 'Next Year', incrementFn: addYears },
-        },
-        columns: 7,
-        range: {
-            start: (date: Date) => startOfWeek(startOfMonth(date), { weekStartsOn: 0 }),
-            end: (date: Date) => endOfWeek(endOfMonth(date), { weekStartsOn: 0 }),
-        },
-        compare: isSameDay,
-        incrementFn: addDays,
-        optionFormatStr: 'd',
-        listboxLabel: 'Select Date',
-        ariaFormatStr: 'do MMMM yyyy',
-        listBoxHeader: (
-            <div data-day-headers>
-                <span>Sun</span>
-                <span>Mon</span>
-                <span>Tue</span>
-                <span>Wed</span>
-                <span>Thu</span>
-                <span>Fri</span>
-                <span>Sat</span>
-            </div>
-        ),
-        optionProps: ({ date, baseDate, isSelected, setBaseDate, onChange, isActive }) => ({
-            'data-non-month-day': date.getMonth() !== baseDate.getMonth() ? true : undefined,
-            onClick: () => {
-                setBaseDate(date);
-                onChange(date);
-            },
-            variant: isSelected ? 'primary' : isActive ? 'secondary' : 'tertiary',
-        }),
-    },
-    month: {
-        header: {
-            '<': { label: 'Previous Year', incrementFn: addYears },
-            '<<': null,
-            label: (baseDate, setKind) => (
-                <Button
-                    aria-label={`Change Year, currently ${baseDate.getFullYear()}`}
-                    iconOnly
-                    label={`${baseDate.getFullYear()}`}
-                    onClick={() => setKind('year')}
-                    size="large"
-                    variant="tertiary"
-                />
-            ),
-            '>>': null,
-            '>': { label: 'Next Year', incrementFn: addYears },
-        },
-        columns: 3,
-        range: {
-            start: (date: Date) => setMonth(date, 0),
-            end: (date: Date) => setMonth(date, 11),
-        },
-        incrementFn: addMonths,
-        compare: isSameMonth,
-        optionFormatStr: 'MMM',
-        listboxLabel: 'Select Month',
-        ariaFormatStr: 'MMMM yyyy',
-        optionProps: ({ date, setBaseDate, setKind, isActive }) => ({
-            onClick: () => {
-                setBaseDate(date);
-                setKind('day');
-            },
-            variant: isActive ? 'secondary' : 'tertiary',
-        }),
-    },
-    year: {
-        header: {
-            '<': { label: 'Earlier Years', incrementFn: (d) => addYears(d, -10) },
-            '<<': null,
-            label: (baseDate, setKind) => (
-                <Button
-                    aria-label={`Change Decade, currently ${startOfDecade(baseDate).getFullYear()} to ${endOfDecade(
-                        baseDate,
-                    ).getFullYear()}`}
-                    iconOnly
-                    label={`${startOfDecade(baseDate).getFullYear() - 1} - ${startOfDecade(baseDate).getFullYear() + 10}`}
-                    onClick={() => setKind('year')}
-                    size="large"
-                    variant="tertiary"
-                />
-            ),
-            '>>': null,
-            '>': { label: 'Later Years', incrementFn: (d) => addYears(d, 10) },
-        },
-        columns: 4,
-        range: {
-            start: (date: Date) => addYears(startOfDecade(date), -1),
-            end: (date: Date) => addYears(endOfDecade(date), 1),
-        },
-        compare: isSameYear,
-        incrementFn: addYears,
-        optionFormatStr: 'yyyy',
-        listboxLabel: 'Select Year',
-        ariaFormatStr: 'yyyy',
-        optionProps: ({ date, setBaseDate, setKind, isActive }) => ({
-            onClick: () => {
-                setBaseDate(date);
-                setKind('month');
-            },
-            variant: isActive ? 'secondary' : 'tertiary',
-        }),
-    },
-};
+import { getEventCode } from '-/utils/handleKeyDown';
 
 export type CalendarProps = {
     /**
@@ -212,19 +32,15 @@ export type CalendarProps = {
     /** Fires when the date changes with the new date */
     onChange: (newDate: Date) => void;
     /**
-     * Determines how the Calendar will appear.
-     *
-     * @default flat
-     */
-    variant?: 'elevated' | 'flat';
-    /**
-     * If focus trap should be enabled within the calendar component.
+     * When true, keyboard focus is trapped within the calendar component on initial render.
      *
      * Only applicable if the Calendar is used in a popover like in DatePicker.
      *
      * @default false
      */
     focusTrap?: boolean;
+    /** The id of the calendar component. */
+    id?: string;
 };
 
 /**
@@ -233,190 +49,159 @@ export type CalendarProps = {
  * @name Calendar
  * @phase UXReview
  */
-export function Calendar({ value: valueProp, onChange, variant = 'flat', focusTrap = false }: CalendarProps) {
-    const baseId = useId();
-    const [kind, setKind] = useState<Kind>('day');
-    const config = useMemo(() => CONFIG[kind], [kind]);
-    const value = useMemo(() => (valueProp && isValid(valueProp) ? valueProp : new Date()), [valueProp]);
+export function Calendar({ id, value: valueProp, onChange, focusTrap = false }: CalendarProps) {
+    const baseId = useId(id);
+    const gridId = `${baseId}-grid`;
+    const generateOptionId = useMemo(() => optionIdGenerator(baseId), [baseId]);
 
-    const [baseDate, setBaseDate] = useState<Date>(value);
-    useEffect(() => setBaseDate(value), [value]);
+    const firstButtonRef = useRef<HTMLButtonElement | null>(null);
+    const lastButtonRef = useRef<HTMLButtonElement | null>(null);
+    const gridRef = useRef<HTMLTableSectionElement | null>(null);
 
-    const { items } = useItemsAndRange(config, baseDate, baseId);
+    const [activeDate, setActiveDate] = useState<Date>(valueProp && isValid(valueProp) ? valueProp : startOfToday());
 
-    const { handleKeyDownCapture } = useKeyDownCaptures({ config, baseDate, setBaseDate });
-
-    const calendar = (
-        <div data-bspk="calendar" data-kind={kind} data-variant={variant || 'flat'}>
-            <div data-header>
-                <HeaderButton
-                    baseDate={baseDate}
-                    config={config.header['<<']}
-                    direction="<<"
-                    setBaseDate={setBaseDate}
-                />
-                <HeaderButton baseDate={baseDate} config={config.header['<']} direction="<" setBaseDate={setBaseDate} />
-                <span data-title>{config.header.label(baseDate, setKind)}</span>
-                <HeaderButton baseDate={baseDate} config={config.header['>']} direction=">" setBaseDate={setBaseDate} />
-                <HeaderButton
-                    baseDate={baseDate}
-                    config={config.header['>>']}
-                    direction=">>"
-                    setBaseDate={setBaseDate}
-                />
-            </div>
-            {config.listBoxHeader}
-            <div
-                aria-label={config.listboxLabel}
-                data-body
-                onKeyDownCapture={handleKeyDownCapture}
-                ref={(node) => {
-                    if (!focusTrap) return;
-
-                    const idToFocus = items.find(({ value: date }) => config.compare(date, baseDate))?.id;
-                    node?.querySelector<HTMLElement>(`[id="${idToFocus}"]`)?.focus();
-                }}
-                role="listbox"
-            >
-                {items.map(({ value: date, label, id, 'aria-label': ariaLabel }) => {
-                    const isSelected = config.compare(date, value);
-                    const isActive = config.compare(date, baseDate);
-                    const isFocusable = isActive || (!baseDate && isSelected);
-                    return (
-                        <Button
-                            aria-label={ariaLabel}
-                            aria-selected={isSelected || undefined}
-                            data-active={isActive || undefined}
-                            id={id}
-                            innerRef={(node) => {
-                                if (isFocusable && focusTrap) node?.focus();
-                            }}
-                            key={date.toString()}
-                            label={label}
-                            role="option"
-                            size="large"
-                            tabIndex={isFocusable ? 0 : -1}
-                            width="hug"
-                            {...config.optionProps?.({
-                                date,
-                                baseDate,
-                                isSelected,
-                                isActive,
-                                setBaseDate,
-                                onChange,
-                                setKind,
-                            })}
-                        />
-                    );
-                })}
-            </div>
-        </div>
+    const rows = useMemo(
+        () =>
+            // generate all days to be shown in the month view
+            eachDayOfInterval({
+                start: startOfWeek(startOfMonth(activeDate)!, { weekStartsOn: 0 }),
+                end: endOfWeek(endOfMonth(activeDate!), { weekStartsOn: 0 }),
+            })
+                // create groups of 7 for each week
+                .reduce<Date[][]>((row, item) => {
+                    const previousRow = row[row.length - 1];
+                    if (row.length === 0 || previousRow.length === 7) return [...row, [item]];
+                    previousRow.push(item);
+                    return row;
+                }, []),
+        [activeDate],
     );
 
-    return focusTrap ? (
-        <FocusTrap
-            focusTrapOptions={{
-                fallbackFocus: () => {
-                    const idToFocus = items.find(({ value: date }) => config.compare(date, baseDate))?.id;
-                    return getElementById(idToFocus)!;
-                },
-                clickOutsideDeactivates: true,
-            }}
-        >
-            {calendar}
-        </FocusTrap>
-    ) : (
-        calendar
-    );
-}
+    const [focusDay, setFocusDay] = useState<boolean>(focusTrap);
 
-/** Generates the items (days, months, years) to display based on the grid and the range start and end */
-function useItemsAndRange(config: ConfigKind, value: Date, baseId: string) {
-    return useMemo(() => {
-        const start = config.range.start(value);
-        const end = config.range.end(value);
-        const nextItems: (ListItemProps & { value: Date })[] = [];
+    const { handleKeyDownCapture } = useKeyDownCaptures({
+        activeDate,
+        setActiveDate,
+        rows,
+        focusActiveDay: () => setFocusDay(true),
+    });
 
-        for (let date = start; date <= end; date = config.incrementFn(date, 1)) {
-            const label = format(date, config.optionFormatStr);
-            nextItems.push({
-                value: date,
-                label,
-                'aria-label': format(date, config.ariaFormatStr),
-                id: `${baseId}-option-${format(date, 'MM-dd-yyyy')}`,
-            });
-        }
-
-        return { items: nextItems, range: { start, end } };
-    }, [config, value, baseId]);
-}
-
-const useKeyDownCaptures = ({
-    config,
-    baseDate,
-    setBaseDate,
-}: {
-    config: ConfigKind;
-    baseDate: Date;
-    setBaseDate: (date: Date) => void;
-}) => {
-    const handleItemArrows = (direction: 'down' | 'left' | 'right' | 'up') => (event: KeyboardEvent) => {
-        event.preventDefault();
-        event.stopPropagation();
-        // Determine the direction and amount to move the base date
-        // down/right is positive, up/left is negative
-        const multiplier = direction === 'down' || direction === 'right' ? 1 : -1;
-        // Moving left/right moves one increment, moving up/down moves the number of columns
-        // (e.g. in day mode, left/right moves one day, up/down moves 7 days)
-        // In month mode, left/right moves one month, up/down moves 3 months
-        // In year mode, left/right moves one year, up/down moves 4 years
-        // This is determined by the number of columns in the grid for each mode
-        const amount = direction === 'left' || direction === 'right' ? 1 : config.columns;
-        const next = config.incrementFn(baseDate, amount * multiplier);
-        setBaseDate(next);
-    };
-
-    return {
-        handleKeyDownCapture: handleKeyDown({
-            ArrowDown: handleItemArrows('down'),
-            ArrowUp: handleItemArrows('up'),
-            ArrowLeft: handleItemArrows('left'),
-            ArrowRight: handleItemArrows('right'),
-        }),
-    };
-};
-
-const HEADER_DIRECTION_ICONS: Record<Direction, ReactNode> = {
-    '<': <SvgChevronLeft />,
-    '<<': <SvgKeyboardDoubleArrowLeft />,
-    '>': <SvgChevronRight />,
-    '>>': <SvgKeyboardDoubleArrowRight />,
-};
-
-// eslint-disable-next-line react/no-multi-comp
-function HeaderButton({
-    direction,
-    config,
-    setBaseDate,
-    baseDate,
-}: {
-    direction: Direction;
-    config: ConfigKind['header'][Direction];
-    setBaseDate: (date: Date) => void;
-    baseDate: Date;
-}) {
     return (
-        config && (
-            <Button
-                icon={HEADER_DIRECTION_ICONS[direction]}
-                iconOnly={true}
-                key={direction}
-                label={config.label}
-                onClick={() => setBaseDate(config.incrementFn(baseDate, direction.startsWith('<') ? -1 : 1))}
-                size="large"
-                variant="tertiary"
-            />
-        )
+        <div data-bspk="calendar" id={baseId}>
+            <div data-header>
+                <Button
+                    icon={<SvgKeyboardDoubleArrowLeft />}
+                    iconOnly={true}
+                    innerRef={(node) => (firstButtonRef.current = node)}
+                    label="Previous Year"
+                    onClick={() => setActiveDate(addYears(activeDate, -1))}
+                    onKeyDown={(event: React.KeyboardEvent) => {
+                        if (focusTrap && getEventCode(event) === 'Shift+Tab') {
+                            event.preventDefault();
+                            event.stopPropagation();
+                            setFocusDay(true);
+                        }
+                    }}
+                    size="large"
+                    variant="tertiary"
+                />
+                <Button
+                    icon={<SvgChevronLeft />}
+                    iconOnly={true}
+                    label="Previous Month"
+                    onClick={() => setActiveDate(addMonths(activeDate, -1))}
+                    size="large"
+                    variant="tertiary"
+                />
+                <span data-title>{format(activeDate, 'MMMM yyyy')}</span>
+                <Button
+                    icon={<SvgChevronRight />}
+                    iconOnly={true}
+                    label="Next Month"
+                    onClick={() => setActiveDate(addMonths(activeDate, 1))}
+                    size="large"
+                    variant="tertiary"
+                />
+                <Button
+                    icon={<SvgKeyboardDoubleArrowRight />}
+                    iconOnly={true}
+                    innerRef={(node) => (lastButtonRef.current = node)}
+                    label="Next Year"
+                    onClick={() => setActiveDate(addYears(activeDate, 1))}
+                    size="large"
+                    variant="tertiary"
+                />
+            </div>
+            <table role="grid">
+                <thead>
+                    <tr>
+                        <th abbr="Sunday" scope="col">
+                            Sun
+                        </th>
+                        <th abbr="Monday" scope="col">
+                            Mon
+                        </th>
+                        <th abbr="Tuesday" scope="col">
+                            Tue
+                        </th>
+                        <th abbr="Wednesday" scope="col">
+                            Wed
+                        </th>
+                        <th abbr="Thursday" scope="col">
+                            Thu
+                        </th>
+                        <th abbr="Friday" scope="col">
+                            Fri
+                        </th>
+                        <th abbr="Saturday" scope="col">
+                            Sat
+                        </th>
+                    </tr>
+                </thead>
+                <tbody
+                    id={gridId}
+                    onKeyDownCapture={(event) => {
+                        handleKeyDownCapture(event);
+                        if (focusTrap && getEventCode(event) === 'Tab') {
+                            event.preventDefault();
+                            event.stopPropagation();
+                            firstButtonRef.current?.focus();
+                        }
+                    }}
+                    ref={(node) => (gridRef.current = node)}
+                >
+                    {rows.map((week) => (
+                        <tr key={`week${week[0].toString()}`}>
+                            {week.map((date) => {
+                                const label = format(date, 'd');
+                                const optionId = generateOptionId(date);
+                                const isActive = isSameDay(date, activeDate);
+                                return (
+                                    <td
+                                        aria-label={format(date, 'do MMMM yyyy')}
+                                        data-selected={isActive || undefined}
+                                        id={optionId}
+                                        key={date.toString()}
+                                        onClick={() => onChange(date)}
+                                        ref={(node) => {
+                                            if (!focusDay || !isActive || !node) return;
+                                            setTimeout(() => {
+                                                node.focus({ preventScroll: true });
+                                            }, 0);
+                                            setFocusDay(false);
+                                        }}
+                                        role={isActive ? 'gridcell' : undefined}
+                                        tabIndex={isActive ? 0 : -1}
+                                    >
+                                        {label}
+                                    </td>
+                                );
+                            })}
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        </div>
     );
 }
 

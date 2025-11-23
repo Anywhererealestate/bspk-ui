@@ -1,19 +1,16 @@
 import './date-picker.scss';
 import { SvgEvent } from '@bspk/icons/Event';
-import { format, isValid, parse } from 'date-fns';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { format, startOfToday } from 'date-fns';
+import { useMemo, useState } from 'react';
 import { Button } from '-/components/Button';
-import { Calendar } from '-/components/Calendar';
+import { Calendar, parseDate } from '-/components/Calendar';
 import { useFieldInit } from '-/components/Field';
 import { InputElement, InputProps } from '-/components/Input';
-import { Portal } from '-/components/Portal';
 import { useFloating } from '-/hooks/useFloating';
 import { useOutsideClick } from '-/hooks/useOutsideClick';
 import { FieldControlProps } from '-/types/common';
 
-const parsableDate = (dateString: string) => /^\d{1,2}\/\d{1,2}\/\d{4}$/.test(dateString);
-
-export type DatePickerProps = FieldControlProps<Date | undefined> &
+export type DatePickerProps = Omit<FieldControlProps, 'aria-label' | 'onChange' | 'value'> &
     Pick<InputProps, 'size'> & {
         /**
          * If the calendar should close when a date is selected.
@@ -27,6 +24,22 @@ export type DatePickerProps = FieldControlProps<Date | undefined> &
          * @default mm/dd/yyyy
          */
         placeholder?: string;
+        /**
+         * The currently selected date
+         *
+         * String formatted as 'MM/dd/yyyy'.
+         *
+         * @type string
+         */
+        value?: string;
+        /** Fires when the date changes with the new date */
+        onChange: (next: string) => void;
+        /**
+         * The aria-label attribute for the date input field.
+         *
+         * @default Enter or choose date
+         */
+        'aria-label'?: string;
     };
 
 /**
@@ -41,18 +54,32 @@ export type DatePickerProps = FieldControlProps<Date | undefined> &
  *     import { useState } from 'react';
  *
  *     () => {
- *         const [date, setDate] = useState<Date | undefined>(new Date());
+ *         const [standaloneDate, setStandaloneDate] = useState<Date | undefined>();
+ *         const [standaloneError, setStandaloneError] = useState<string | undefined>();
+ *
+ *         const [fieldDate, setFieldDate] = useState<Date | undefined>(new Date());
  *
  *         return (
  *             <>
  *                 // standalone date picker example
- *                 <DatePicker aria-label="Date" name="date2" value={date} onChange={setDate} />
+ *                 <DatePicker
+ *                     aria-label="Date"
+ *                     name="date2"
+ *                     value={standaloneDate}
+ *                     onChange={setStandaloneDate}
+ *                     onError={setStandaloneError}
+ *                     invalid={!!standaloneError}
+ *                     required
+ *                     aria-errormessage={standaloneError ? 'standalone-error' : undefined}
+ *                 />
+ *                 {standaloneError && <div id="standalone-error">{standaloneError}</div>}
  *                 <br />
  *                 // date picker used within a field
  *                 <Field>
  *                     <FieldLabel>Date</FieldLabel>
- *                     <DatePicker name="date1" value={date} onChange={setDate} />
+ *                     <DatePicker required name="date1" value={fieldDate} onChange={setFieldDate} />
  *                     <FieldDescription>The date picker allows you to select a date.</FieldDescription>
+ *                     <FieldError />
  *                 </Field>
  *             </>
  *         );
@@ -62,7 +89,7 @@ export type DatePickerProps = FieldControlProps<Date | undefined> &
  * @phase UXReview
  */
 export function DatePicker({
-    value: valueProp,
+    value,
     onChange,
     disabled,
     readOnly,
@@ -73,7 +100,7 @@ export function DatePicker({
     required = false,
     size,
     id: idProp,
-    'aria-label': ariaLabel = 'Date picker',
+    'aria-label': ariaLabel = 'Enter or choose date',
 }: DatePickerProps) {
     const { id, ariaDescribedBy, ariaErrorMessage, invalid } = useFieldInit({
         idProp,
@@ -83,74 +110,29 @@ export function DatePicker({
         invalidProp,
     });
 
-    const value = useMemo(() => {
-        if (typeof valueProp === 'string') {
-            const parsedDate = new Date(valueProp);
-            return isValid(parsedDate) ? parsedDate : undefined;
-        }
-        return valueProp instanceof Date && isValid(valueProp) ? valueProp : undefined;
-    }, [valueProp]);
-
-    useEffect(() => {
-        const formattedValue = value ? format(value, 'MM/dd/yyyy') : '';
-        setTextValue(formattedValue);
-    }, [value]);
-    const [textValue, setTextValue] = useState(() => (value ? format(value, 'MM/dd/yyyy') : ''));
-
     const [calendarVisible, setCalendarVisible] = useState(false);
-    const containerRef = useRef<HTMLSpanElement | null>(null);
 
     const { elements, floatingStyles } = useFloating({
-        placement: 'bottom',
+        placement: 'bottom-start',
         strategy: 'absolute',
         offsetOptions: 4,
-        refWidth: true,
+        refWidth: false,
     });
 
     useOutsideClick({
-        elements: [elements.floating, containerRef.current],
+        elements: [elements.floating],
         callback: () => setCalendarVisible(false),
         disabled: !calendarVisible,
     });
 
-    const isValidDate = (next: string) => {
-        const parsedDate = parse(next, 'MM/dd/yyyy', new Date());
-        return isValid(parsedDate) ? parsedDate : undefined;
-    };
+    const calendarId = `${id}-calendar`;
 
-    const validate = () => {
-        let nextDate: Date | undefined;
-        let nextTextValue = '';
-
-        if (parsableDate(textValue)) {
-            nextDate = isValidDate(textValue);
-            if (nextDate) nextTextValue = format(nextDate, 'MM/dd/yyyy');
-        }
-
-        setTextValue(nextTextValue);
-        onChange(nextDate);
-    };
-
-    const handleTextChange = (nextValue: string) => {
-        // Add slashes as the user types
-        if (/^\d{2}$/.test(nextValue) || /^\d{1,2}\/\d{2}$/.test(nextValue)) nextValue = `${nextValue}/`;
-
-        // Remove extra slashes
-        if (nextValue.endsWith('//')) nextValue = nextValue.slice(0, -1);
-
-        setTextValue(nextValue);
-
-        if (parsableDate(nextValue)) {
-            const next = isValidDate(nextValue);
-            if (next) onChange(next);
-        }
-    };
+    const activeDate = useMemo(() => parseDate(value) || startOfToday(), [value]);
 
     return (
         <div
             data-bspk="date-picker"
             ref={(node) => {
-                containerRef.current = node;
                 elements.setReference(node);
             }}
         >
@@ -162,25 +144,7 @@ export function DatePicker({
                 id={id}
                 invalid={invalid || undefined}
                 name={name}
-                onBlur={() => validate()}
-                onChange={handleTextChange}
-                onKeyDown={(event) => {
-                    // allow select all and other keyboard shortcuts
-                    if (event.ctrlKey || event.metaKey) {
-                        return;
-                    }
-
-                    // handle backspace and delete to remove the slash and the number before it
-                    if (event.key === 'Backspace' || (event.key === 'Delete' && textValue.endsWith('/'))) {
-                        event.preventDefault();
-                        setTextValue((prev) => prev.slice(0, -2));
-                    }
-
-                    // if a single key and not a number or forward slash ignore
-                    if (event.key.length === 1 && !/[0-9/]/.test(event.key)) {
-                        event.preventDefault();
-                    }
-                }}
+                onChange={onChange}
                 placeholder={placeholder || 'mm/dd/yyyy'}
                 readOnly={readOnly}
                 required={required}
@@ -198,28 +162,27 @@ export function DatePicker({
                         />
                     )
                 }
-                value={textValue}
+                value={typeof value === 'string' ? value : ''}
             />
             {calendarVisible && (
-                <Portal>
-                    <div
-                        data-placement="bottom"
-                        ref={(node) => {
-                            elements.setFloating(node);
+                <div
+                    aria-label="Choose Date"
+                    aria-modal="true"
+                    data-bspk="calendar-popup"
+                    ref={(node) => elements.setFloating(node)}
+                    role="dialog"
+                    style={{ ...floatingStyles }}
+                >
+                    <Calendar
+                        focusTrap
+                        id={calendarId}
+                        onChange={(next) => {
+                            if (closeCalendarOnChange) setCalendarVisible(false);
+                            onChange(format(next, 'MM/dd/yyyy'));
                         }}
-                        style={{ ...floatingStyles, zIndex: 'var( --z-index-dropdown)' }}
-                    >
-                        <Calendar
-                            focusTrap={true}
-                            onChange={(next) => {
-                                if (closeCalendarOnChange) setCalendarVisible(false);
-                                onChange(next);
-                            }}
-                            value={value}
-                            variant="elevated"
-                        />
-                    </div>
-                </Portal>
+                        value={activeDate}
+                    />
+                </div>
             )}
         </div>
     );

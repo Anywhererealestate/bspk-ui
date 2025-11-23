@@ -3,6 +3,14 @@ import { KeyboardEventCode } from './keyboard';
 
 export type KeysCallback = Partial<Record<KeyboardEventCode, ((event: KeyboardEvent) => void) | null>>;
 
+export const getEventCode = (event: KeyboardEvent) => {
+    let eventCode = event.code as KeyboardEventCode;
+    if (event.ctrlKey && event.altKey && event.code === 'Space') eventCode = 'Ctrl+Option+Space';
+    if (event.shiftKey && !eventCode.startsWith('Shift')) eventCode = `Shift+${event.code}` as KeyboardEventCode;
+
+    return eventCode;
+};
+
 /**
  * Handles multiple keydown events with specific callbacks for each key.
  *
@@ -14,9 +22,7 @@ export function handleKeyDown(
     { stopPropagation = false, preventDefault = false }: { stopPropagation?: boolean; preventDefault?: boolean } = {},
 ) {
     return (event: KeyboardEvent) => {
-        let eventCode = event.code as KeyboardEventCode;
-        if (event.ctrlKey && event.altKey && event.code === 'Space') eventCode = 'Ctrl+Option+Space';
-
+        const eventCode = getEventCode(event);
         const callback = keysCallback[eventCode];
 
         if (callback) {
