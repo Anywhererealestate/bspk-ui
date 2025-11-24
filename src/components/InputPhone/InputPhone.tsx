@@ -65,7 +65,7 @@ export type InputPhoneProps = FieldControlProps<string, SupportedCountryCode> &
  *         return (
  *             <>
  *                 // standalone input phone example
- *                 <InputPhone aria-label="Phone Number" initialCountryCode="US" value={value} onChange={onChange} />;
+ *                 <InputPhone aria-label="Phone Number" initialCountryCode="US" value={value} onChange={onChange} />
  *                 <br />
  *                 // input phone used within a field
  *                 <Field>
