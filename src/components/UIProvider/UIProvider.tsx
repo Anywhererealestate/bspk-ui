@@ -1,5 +1,4 @@
 import { useState, ReactNode } from 'react';
-import { AriaLiveMessageHandler, sendAriaLiveMessage } from './AriaLiveMessageHandler';
 import { useEventListener } from '-/hooks/useAddEventListener';
 import { useDebounceState } from '-/hooks/useDebounceState';
 import { useIsomorphicEffect } from '-/hooks/useIsomorphicEffect';
@@ -51,11 +50,9 @@ export function UIProvider({ children }: UIProviderProps) {
                 isMobile: deviceWidth < 640,
                 isTablet: deviceWidth > 640 && deviceWidth < 1024,
                 isDesktop: deviceWidth >= 1024,
-                sendAriaLiveMessage,
             }}
         >
             {children}
-            <AriaLiveMessageHandler />
         </UIContext.Provider>
     );
 }

@@ -1,4 +1,5 @@
 import { isValidElement, ReactNode, useMemo, useState } from 'react';
+import { sendAriaLiveMessage } from '-/utils/sendAriaLiveMessage';
 
 const parseDateTime = (val: TableCellValue) => {
     if (val instanceof Date) return val.getTime();
@@ -163,13 +164,22 @@ export function useTable<R extends TableRow>({
             setSorting((prev) => {
                 const nextArr = [...prev];
                 const prevIndex = nextArr.findIndex((sort) => sort.key === key);
+
+                let order: SortOrder | undefined = 'asc';
+
                 if (prevIndex !== -1) {
-                    const order = SORT_PREV_NEXT_STATE[nextArr[prevIndex].order];
+                    order = SORT_PREV_NEXT_STATE[nextArr[prevIndex].order];
                     if (order === undefined) nextArr.splice(prevIndex, 1);
-                    else nextArr[prevIndex] = { key, order: order };
+                    else nextArr[prevIndex] = { key, order };
                 } else {
-                    nextArr.push({ key, order: 'asc' });
+                    nextArr.push({ key, order });
                 }
+
+                const columnLabel = columns?.find((col) => col.key === key)?.label || key;
+
+                sendAriaLiveMessage(
+                    order ? `Sorting ${order} by ${columnLabel} column` : `Removed sorting by ${columnLabel} column`,
+                );
                 return nextArr;
             });
         },

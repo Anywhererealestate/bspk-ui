@@ -1,6 +1,7 @@
 import './table.scss';
-import { SvgAZAscend } from '@bspk/icons/AZAscend';
-import { SvgAZDescend } from '@bspk/icons/AZDescend';
+import { SvgArrowDownward } from '@bspk/icons/ArrowDownward';
+import { SvgArrowUpward } from '@bspk/icons/ArrowUpward';
+import { SvgSwapVert } from '@bspk/icons/SwapVert';
 import { AriaAttributes, useEffect, useState } from 'react';
 import { TableFooter } from './Footer';
 import { formatCell, SortOrder, TableColumn, TableRow, TableSize, useTable } from './utils';
@@ -11,23 +12,23 @@ import { cssWithVars } from '-/utils/cwv';
 const SORT_META: Record<
     SortOrder | 'none',
     {
-        icon: JSX.Element | null;
+        icon: JSX.Element;
         label: string;
         aria: AriaAttributes['aria-sort'];
     }
 > = {
     asc: {
-        icon: <SvgAZAscend />,
+        icon: <SvgArrowUpward />,
         label: 'sorted ascending',
         aria: 'ascending',
     },
     desc: {
-        icon: <SvgAZDescend />,
+        icon: <SvgArrowDownward />,
         label: 'sorted descending',
         aria: 'descending',
     },
     none: {
-        icon: null,
+        icon: <SvgSwapVert />,
         label: 'not sorted',
         aria: 'none',
     },
@@ -74,7 +75,7 @@ export type TableProps<R extends TableRow> = {
  *
  *     <Table
  *         columns={[
- *             { key: 'state', label: 'State', width: '160px' },
+ *             { key: 'state', label: 'State', width: '160px', sort: 'string' },
  *             { key: 'capital', label: 'Capital', width: '140px' },
  *             { key: 'population', label: 'Population', width: '140px' },
  *             { key: 'nickname', label: 'Nickname', width: '1fr' },
@@ -194,15 +195,8 @@ export function Table<R extends TableRow>({
                                         {sortMeta ? (
                                             <button onClick={() => toggleSorting(column.key)} type="button">
                                                 {column.label}
-                                                {sortMeta?.icon && (
-                                                    <span aria-hidden data-sort-icon>
-                                                        {sortMeta?.icon}
-                                                    </span>
-                                                )}
-                                                <span data-sr-only>
-                                                    <span aria-live="polite" role="status">
-                                                        {sortMeta.label}
-                                                    </span>
+                                                <span aria-hidden data-sort-icon>
+                                                    {sortMeta.icon}
                                                 </span>
                                             </button>
                                         ) : (

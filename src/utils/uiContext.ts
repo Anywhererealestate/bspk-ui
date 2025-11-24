@@ -12,7 +12,6 @@ export type UIContextProps = {
     isMobile: boolean;
     isTablet: boolean;
     isDesktop: boolean;
-    sendAriaLiveMessage: (message: string, live?: AriaLiveMessage['live']) => void;
 };
 
 export const UIContext = createContext<UIContextProps | undefined>(undefined);
