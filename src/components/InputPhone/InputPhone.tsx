@@ -65,7 +65,7 @@ export type InputPhoneProps = FieldControlProps<string, SupportedCountryCode> &
  *         return (
  *             <>
  *                 // standalone input phone example
- *                 <InputPhone aria-label="Phone Number" initialCountryCode="US" value={value} onChange={onChange} />;
+ *                 <InputPhone aria-label="Phone Number" initialCountryCode="US" value={value} onChange={onChange} />
  *                 <br />
  *                 // input phone used within a field
  *                 <Field>
@@ -155,15 +155,15 @@ export function InputPhone({
     }, [countryCode]);
 
     const handleChange = (newValue: string) => {
-        let rawNumber = newValue.replace(/\D/g, '');
-        if (rawNumber === value) return;
+        const numericChange = value?.replace(/\D/g, '') !== newValue?.replace(/\D/g, '');
 
-        if (!disableFormatting) {
+        // only format if the numeric value has changed
+        if (!disableFormatting && numericChange) {
             const formatter = new AsYouType(countryCode);
-            rawNumber = formatter.input(`${rawNumber}`);
+            newValue = formatter.input(`${newValue}`);
         }
 
-        onChange(rawNumber, countryCode);
+        onChange(newValue, countryCode);
     };
 
     const { sendAriaLiveMessage } = useUIContext();
@@ -186,6 +186,7 @@ export function InputPhone({
                     containerRef={elements.setReference}
                     disabled={disabled}
                     id={id}
+                    inputMode="tel"
                     inputRef={(node) => {
                         inputRef?.(node);
                         inputInternalRef.current = node;
@@ -239,6 +240,10 @@ export function InputPhone({
                     }
                     name={name}
                     onChange={handleChange}
+                    onKeyDown={(event) => {
+                        // ignore non numeric keys
+                        if (event.key.length === 1 && !/[0-9]/.test(event.key)) event.preventDefault();
+                    }}
                     owner="input-phone"
                     readOnly={readOnly}
                     required={required}
