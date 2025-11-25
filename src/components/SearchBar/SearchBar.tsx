@@ -9,11 +9,11 @@ import { useArrowNavigation } from '-/hooks/useArrowNavigation';
 import { useFloating } from '-/hooks/useFloating';
 import { useId } from '-/hooks/useId';
 import { useOutsideClick } from '-/hooks/useOutsideClick';
-import { useUIContext } from '-/hooks/useUIContext';
 import { FieldControlProps } from '-/types/common';
 import { getElementById } from '-/utils/dom';
 import { handleKeyDown } from '-/utils/handleKeyDown';
 import { scrollListItemsStyle, ScrollListItemsStyleProps } from '-/utils/scrollListItemsStyle';
+import { sendAriaLiveMessage } from '-/utils/sendAriaLiveMessage';
 import { useIds } from '-/utils/useIds';
 
 /**
@@ -128,8 +128,6 @@ export function SearchBar<O extends SearchBarOption>({
         const valueStr = value?.toString().trim().toLowerCase() || '';
         return items.filter((item) => !valueStr || item.label.toLowerCase().includes(valueStr));
     }, [items, value]);
-
-    const { sendAriaLiveMessage } = useUIContext();
 
     useEffect(() => {
         if (!items.length) sendAriaLiveMessage('No results found', 'assertive');

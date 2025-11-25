@@ -10,13 +10,13 @@ import { Menu } from '-/components/Menu';
 import { useArrowNavigation } from '-/hooks/useArrowNavigation';
 import { useFloating } from '-/hooks/useFloating';
 import { useOutsideClick } from '-/hooks/useOutsideClick';
-import { useUIContext } from '-/hooks/useUIContext';
 import { FieldControlProps } from '-/types/common';
 import { countryCodeData, countryCodes, SupportedCountryCode } from '-/utils/countryCodes';
 import { getElementById } from '-/utils/dom';
 import { guessUserCountryCode } from '-/utils/guessUserCountryCode';
 import { handleKeyDown } from '-/utils/handleKeyDown';
 import { scrollListItemsStyle, ScrollListItemsStyleProps } from '-/utils/scrollListItemsStyle';
+import { sendAriaLiveMessage } from '-/utils/sendAriaLiveMessage';
 import { useIds } from '-/utils/useIds';
 
 const SELECT_OPTIONS = countryCodes.map((code) => {
@@ -165,8 +165,6 @@ export function InputPhone({
 
         onChange(rawNumber, countryCode);
     };
-
-    const { sendAriaLiveMessage } = useUIContext();
 
     return (
         <>
