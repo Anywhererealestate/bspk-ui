@@ -94,8 +94,13 @@
         --field-clear-width: var(--spacing-sizing-06);
     }
 
-    svg {
-        width: var(--field-icon-width);
+    [data-leading],
+    [data-trailing] {
+        position: relative;
+
+        svg {
+            width: var(--field-icon-width);
+        }
     }
 
     label {
