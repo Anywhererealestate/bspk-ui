@@ -1,8 +1,7 @@
 import './table.scss';
 import { SvgArrowDownward } from '@bspk/icons/ArrowDownward';
 import { SvgArrowUpward } from '@bspk/icons/ArrowUpward';
-import { SvgSwapVert } from '@bspk/icons/SwapVert';
-import { AriaAttributes, useEffect, useState } from 'react';
+import { AriaAttributes, ReactNode, useEffect, useState } from 'react';
 import { TableFooter } from './Footer';
 import { formatCell, SortOrder, TableColumn, TableRow, TableSize, useTable } from './utils';
 import { useId } from '-/hooks/useId';
@@ -12,7 +11,7 @@ import { cssWithVars } from '-/utils/cwv';
 const SORT_META: Record<
     SortOrder | 'none',
     {
-        icon: JSX.Element;
+        icon: ReactNode;
         label: string;
         aria: AriaAttributes['aria-sort'];
     }
@@ -28,7 +27,7 @@ const SORT_META: Record<
         aria: 'descending',
     },
     none: {
-        icon: <SvgSwapVert />,
+        icon: false,
         label: 'not sorted',
         aria: 'none',
     },
@@ -195,9 +194,11 @@ export function Table<R extends TableRow>({
                                         {sortMeta ? (
                                             <button onClick={() => toggleSorting(column.key)} type="button">
                                                 {column.label}
-                                                <span aria-hidden data-sort-icon>
-                                                    {sortMeta.icon}
-                                                </span>
+                                                {sortMeta.icon && (
+                                                    <span aria-hidden data-sort-icon>
+                                                        {sortMeta.icon}
+                                                    </span>
+                                                )}
                                             </button>
                                         ) : (
                                             column.label

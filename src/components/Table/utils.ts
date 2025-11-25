@@ -1,15 +1,17 @@
+import { isValid } from 'date-fns';
 import { isValidElement, ReactNode, useMemo, useState } from 'react';
 import { sendAriaLiveMessage } from '-/utils/sendAriaLiveMessage';
 
 const parseDateTime = (val: TableCellValue) => {
-    if (val instanceof Date) return val.getTime();
-    if (typeof val === 'string' || typeof val === 'number') return new Date(val).getTime();
-    return 0;
+    let dateValue = val;
+    if (typeof val === 'string' || typeof val === 'number') dateValue = new Date(val).getTime();
+
+    return dateValue instanceof Date && isValid(dateValue) ? dateValue.getTime() : 0;
 };
 
 export type BuiltInColumnSorters = 'boolean' | 'date' | 'number' | 'string';
 
-const BUILT_IN_COLUMN_SORTERS: Record<BuiltInColumnSorters, TableColumnSortingFn> = {
+export const BUILT_IN_COLUMN_SORTERS: Record<BuiltInColumnSorters, TableColumnSortingFn> = {
     string: (a: TableCellValue, b: TableCellValue) => `${a}`.localeCompare(`${b}`),
     number: (a: TableCellValue, b: TableCellValue) => {
         const aNum = typeof a === 'number' ? a : Number(a) || 0;
@@ -24,7 +26,7 @@ const BUILT_IN_COLUMN_SORTERS: Record<BuiltInColumnSorters, TableColumnSortingFn
 
 export type TableSize = 'large' | 'medium' | 'small' | 'x-large';
 
-export type TableCellValue = ReactNode;
+export type TableCellValue = unknown;
 
 export type TableRow = {
     [key: string]: TableCellValue | TableCellValue[];
@@ -176,10 +178,7 @@ export function useTable<R extends TableRow>({
                 }
 
                 const columnLabel = columns?.find((col) => col.key === key)?.label || key;
-
-                sendAriaLiveMessage(
-                    order ? `Sorting ${order} by ${columnLabel} column` : `Removed sorting by ${columnLabel} column`,
-                );
+                sendAriaLiveMessage(`${order ? `Sorted ${order}` : 'Removed sorting'} by ${columnLabel}`);
                 return nextArr;
             });
         },
