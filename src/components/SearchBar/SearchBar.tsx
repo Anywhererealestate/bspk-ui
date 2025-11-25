@@ -131,7 +131,7 @@ export function SearchBar<O extends SearchBarOption>({
 
     useEffect(() => {
         if (!items.length) sendAriaLiveMessage('No results found', 'assertive');
-    }, [items.length, sendAriaLiveMessage, value]);
+    }, [items.length, value]);
 
     const { activeElementId, setActiveElementId, arrowKeyCallbacks } = useArrowNavigation({
         ids: filteredItems.map((i) => i.id),
