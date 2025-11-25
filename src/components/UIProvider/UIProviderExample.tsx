@@ -1,6 +1,4 @@
 import { UIProviderProps } from '.';
-import { Button } from '-/components/Button';
-import { useUIContext } from '-/hooks/useUIContext';
 import { ComponentExample, Preset } from '-/utils/demo';
 
 export const presets: Preset<UIProviderProps>[] = [];
@@ -61,86 +59,6 @@ export function ResponsiveComponent() {
                 </div>
             ),
         },
-        {
-            title: 'ARIA Live Messages',
-            content: ({ Syntax }) => (
-                <div style={{}}>
-                    <p>
-                        Example usage of sending ARIA live messages. This allows for dynamic updates to assistive
-                        technologies, such as screen readers.
-                    </p>
-                    <AriaLiveExample />
-                    <Syntax
-                        code={`// Example usage of sending ARIA live messages
-import { useContext } from 'react';
-import { useUIContext } from '-/hooks/useUIContext';
-
-export function AriaLiveExample() {
-    const {sendAriaLiveMessage} = useUIContext();
-
-    const handleClick = () => {
-        sendAriaLiveMessage('Action completed successfully', 'polite');
-    };
-
-    return (
-        <div>
-            <button onClick={handleClick}>Perform Action</button>
-        </div>
-    );
-}`}
-                        language="typescript"
-                    />
-                </div>
-            ),
-        },
     ],
     variants: {},
 };
-
-export function AriaLiveExample() {
-    const { sendAriaLiveMessage } = useUIContext();
-
-    return (
-        <p>
-            <Button
-                data-bspk="link"
-                label="Send a polite ARIA Live Message "
-                onClick={() => {
-                    sendAriaLiveMessage?.(
-                        `Action completed successfully at ${new Date().toLocaleTimeString()}`,
-                        'polite',
-                    );
-                }}
-                style={{
-                    padding: 0,
-                    margin: 0,
-                    border: 'none',
-                    background: 'none',
-                    color: 'inherit',
-                    cursor: 'pointer',
-                }}
-                variant="tertiary"
-            />
-
-            <Button
-                data-bspk="link"
-                label="Send an assertive ARIA Live Message "
-                onClick={() => {
-                    sendAriaLiveMessage?.(
-                        `Critical update occurred at ${new Date().toLocaleTimeString()}`,
-                        'assertive',
-                    );
-                }}
-                style={{
-                    padding: 0,
-                    margin: 0,
-                    border: 'none',
-                    background: 'none',
-                    color: 'inherit',
-                    cursor: 'pointer',
-                }}
-                variant="tertiary"
-            />
-        </p>
-    );
-}
