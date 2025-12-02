@@ -94,12 +94,6 @@ export type SortOrder = 'asc' | 'desc';
 
 export type SortState = { key: string; order: SortOrder }[];
 
-export const SORT_PREV_NEXT_STATE: Record<SortOrder | 'none', SortOrder | undefined> = {
-    asc: 'desc',
-    desc: undefined,
-    none: 'asc',
-};
-
 export function formatCell(value: TableCellValue): ReactNode {
     if (isValidElement(value)) return value;
 
@@ -164,25 +158,33 @@ export function useTable<R extends TableRow>({
         sorting,
         toggleSorting: (key: string) => {
             setSorting((prev) => {
-                const nextArr = [...prev];
-                const prevIndex = nextArr.findIndex((sort) => sort.key === key);
+                let nextArr: SortState = [];
 
-                let order: SortOrder | undefined = 'asc';
+                const exists = prev.find((sort) => sort.key === key);
+                const order: SortOrder | undefined = getNextOrder(exists?.order);
 
-                if (prevIndex !== -1) {
-                    order = SORT_PREV_NEXT_STATE[nextArr[prevIndex].order];
-                    if (order === undefined) nextArr.splice(prevIndex, 1);
-                    else nextArr[prevIndex] = { key, order };
-                } else {
-                    nextArr.push({ key, order });
-                }
+                // update to nextOrder
+                if (order && exists) nextArr = prev.map((sort) => (sort.key === key ? { ...sort, order } : sort));
+
+                // add nextOrder
+                if (order && !exists) nextArr = [...prev, { key, order }];
+
+                // remove sorting
+                if (!order && exists) nextArr = prev.filter((sort) => sort.key !== key);
 
                 const columnLabel = columns?.find((col) => col.key === key)?.label || key;
-                sendAriaLiveMessage(`${order ? `Sorted ${order}` : 'Removed sorting'} by ${columnLabel}`);
+                sendAriaLiveMessage(`${order ? `Sorted ${order}ending` : 'Removed sorting'} by ${columnLabel}`);
+
                 return nextArr;
             });
         },
         totalColumns: columns?.length || 0,
         totalPages: Math.ceil(data.length / pageSize),
     };
+}
+
+function getNextOrder(currentOrder: SortOrder | undefined): SortOrder | undefined {
+    if (!currentOrder) return 'asc';
+    if (currentOrder === 'asc') return 'desc';
+    return undefined;
 }
