@@ -10,7 +10,7 @@ export type FabVariant = 'neutral' | 'primary' | 'secondary';
 
 export type FabProps<As extends ElementType = ElementType> = Pick<
     ButtonProps<As>,
-    'as' | 'icon' | 'iconOnly' | 'innerRef' | 'onClick' | 'toolTip'
+    'as' | 'icon' | 'iconOnly' | 'innerRef' | 'onClick' | 'tooltip'
 > &
     Required<Pick<ButtonProps<As>, 'label'>> & {
         /**
@@ -62,7 +62,7 @@ export function Fab<As extends ElementType = ElementType>(props: AriaAttributes 
         container = 'local',
         label,
         icon,
-        toolTip,
+        tooltip,
         innerRef,
         ...otherProps
     } = props;
@@ -109,9 +109,9 @@ export function Fab<As extends ElementType = ElementType>(props: AriaAttributes 
         </As>
     );
 
-    if (toolTip || iconOnly)
+    if (tooltip || iconOnly)
         return (
-            <Tooltip label={toolTip || label} placement="top">
+            <Tooltip label={tooltip || label} placement="top">
                 {button}
             </Tooltip>
         );
