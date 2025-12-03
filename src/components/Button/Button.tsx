@@ -69,7 +69,7 @@ export type ButtonProps<As extends ElementType = ElementType> = CommonProps<'ari
      */
     children?: ReactNode;
     /** The tool tip text that appears when hovered. */
-    toolTip?: string;
+    tooltip?: string;
     /** The function to call when the button is clicked. */
     onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
     /** A ref to the Button element. */
@@ -101,7 +101,7 @@ export function Button<As extends ElementType = ElementType>(
         label: labelProp,
         icon,
         iconOnly: iconOnlyProp = false,
-        toolTip: toolTipProp,
+        tooltip: tooltipProp,
         children,
         innerRef,
         owner,
@@ -114,8 +114,8 @@ export function Button<As extends ElementType = ElementType>(
     // ignore iconOnly if there is no icon
     const iconOnly = iconOnlyProp === true && !!icon;
 
-    // if toolTip text is not provided and iconOnly is true, toolTip text should be label
-    const toolTip = toolTipProp || (iconOnly ? label : undefined);
+    // if tooltip text is not provided and iconOnly is true, tooltip text should be label
+    const tooltip = tooltipProp || (iconOnly ? label : undefined);
 
     const button = (triggerProps: TooltipTriggerProps) => (
         <As
@@ -166,9 +166,9 @@ export function Button<As extends ElementType = ElementType>(
         </As>
     );
 
-    if (toolTip)
+    if (tooltip)
         return (
-            <Tooltip label={toolTip} placement="top">
+            <Tooltip label={tooltip} placement="top">
                 {button}
             </Tooltip>
         );

@@ -44,16 +44,12 @@ export const presets: Preset<ButtonProps>[] = [
             ),
             icon: 'Add',
             iconOnly: false,
-            toolTip: 'Hello world',
+            tooltip: 'Hello world',
             variant: 'secondary',
         },
-        // designPattern: 'Leveraging aria-labels for custom icons',
     },
 ];
 
 export const ButtonExample: ComponentExample<ButtonProps> = {
     presets,
-    // variants: {
-    //     iconOnly: { icon: 'Person', label: 'Person' },
-    // },
 };
