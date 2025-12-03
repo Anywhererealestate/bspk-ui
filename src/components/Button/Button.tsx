@@ -5,7 +5,7 @@ import { ButtonSize, CommonProps, ElementProps, SetRef } from '-/types/common';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'tertiary';
 
-export type ButtonProps<As extends ElementType = ElementType> = CommonProps<'disabled' | 'owner'> & {
+export type ButtonProps<As extends ElementType = ElementType> = CommonProps<'aria-label' | 'disabled' | 'owner'> & {
     /**
      * The label of the button.
      *
@@ -106,6 +106,7 @@ export function Button<As extends ElementType = ElementType>(
         innerRef,
         owner,
         role,
+        'aria-label': ariaLabel,
         ...containerProps
     } = props;
     const label = typeof children === 'string' ? children : labelProp || '';
@@ -121,7 +122,7 @@ export function Button<As extends ElementType = ElementType>(
             type={As === 'button' ? 'button' : undefined}
             {...containerProps}
             {...triggerProps}
-            aria-label={label}
+            aria-label={ariaLabel ?? label}
             data-bspk="button"
             data-bspk-owner={owner || undefined}
             data-destructive={destructive || undefined}
