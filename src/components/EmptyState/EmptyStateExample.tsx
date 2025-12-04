@@ -23,7 +23,7 @@ export const presets: Preset<EmptyStateProps>[] = [
 ];
 
 export const EmptyStateExample: ComponentExampleFn<EmptyStateProps> = ({ action }) => ({
-    containerStyle: { width: '100%' },
+    containerStyle: { width: '400px' },
     render: ({ props: { children, ...props }, Component }) => <Component {...props}>{children}</Component>,
     presets: [
         {

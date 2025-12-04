@@ -1,9 +1,9 @@
-import { LayoutProps } from './Layout';
+import { FlexProps } from './Flex';
 import { ComponentExample, Preset } from '-/utils/demo';
 
-export const presets: Preset<LayoutProps>[] = [];
+export const presets: Preset<FlexProps>[] = [];
 
-export const LayoutExample: ComponentExample<LayoutProps> = {
+export const FlexExample: ComponentExample<FlexProps> = {
     render: ({ props, Component }) => {
         return (
             <Component {...props}>

@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 
 import { Button } from '-/components/Button';
-import { Layout } from '-/components/Layout';
+import { Flex } from '-/components/Flex';
 import { Txt } from '-/components/Txt';
 import { CallToActionButton } from '-/types/common';
 
@@ -50,14 +50,16 @@ export type EmptyStateProps = {
  */
 export function EmptyState({ children, header, body, callToAction, bodyAlign = 'center' }: EmptyStateProps) {
     return (
-        <Layout align="center" data-bspk="empty-state" direction="column" gap="16">
+        <Flex align="center" data-bspk="empty-state" direction="column" gap="16">
             {children}
-            <Layout align="center" direction="column" gap="4">
-                <Txt variant="heading-h5">{header}</Txt>
+            <Flex align="center" direction="column" gap="4">
+                <Txt style={{ textAlign: bodyAlign }} variant="heading-h5">
+                    {header}
+                </Txt>
                 <Txt style={{ textAlign: bodyAlign }} variant="body-base">
                     {body}
                 </Txt>
-            </Layout>
+            </Flex>
             {callToAction && (
                 <Button
                     label={callToAction.label}
@@ -66,7 +68,7 @@ export function EmptyState({ children, header, body, callToAction, bodyAlign = '
                     variant="primary"
                 />
             )}
-        </Layout>
+        </Flex>
     );
 }
 

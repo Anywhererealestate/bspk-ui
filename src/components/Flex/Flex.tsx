@@ -2,9 +2,9 @@ import { ElementType, ReactNode } from 'react';
 import { ElementProps } from '-/types/common';
 import { SizingPixels, numToSizingVar } from '-/utils/sizing';
 
-export type LayoutProps<As extends ElementType = ElementType> = {
+export type FlexProps<As extends ElementType = ElementType> = {
     /**
-     * The content of the Layout.
+     * The content of the Flex.
      *
      * @required
      */
@@ -19,20 +19,20 @@ export type LayoutProps<As extends ElementType = ElementType> = {
      */
     as?: As;
     /**
-     * The align-items style to apply to the Layout.
+     * The align-items style to apply to the Flex.
      *
      * @default flex-start
      */
     align?: 'center' | 'end' | 'flex-end' | 'flex-start' | 'start' | 'stretch';
     /**
-     * The justification style to apply to the Layout.
+     * The justification style to apply to the Flex.
      *
      * @default flex-start
      */
     justify?: 'center' | 'flex-end' | 'flex-start' | 'stretch';
-    /** The flex-wrap style to apply to the Layout. */
+    /** The flex-wrap style to apply to the Flex. */
     wrap?: 'nowrap' | 'wrap-reverse' | 'wrap';
-    /** The flex-direction style to apply to the Layout. */
+    /** The flex-direction style to apply to the Flex. */
     direction?: 'column-reverse' | 'column' | 'row-reverse' | 'row';
 };
 
@@ -40,14 +40,14 @@ export type LayoutProps<As extends ElementType = ElementType> = {
  * Utility component used within other components for layout purposes.
  *
  * @example
- *     import { Layout } from '@bspk/ui/Layout';
+ *     import { Flex } from '@bspk/ui/Flex';
  *
- *     <Layout>Low effort example</Layout>;
+ *     <Flex>Low effort example</Flex>;
  *
- * @name Layout
+ * @name Flex
  * @phase Utility
  */
-export function Layout<As extends ElementType = ElementType>({
+export function Flex<As extends ElementType = ElementType>({
     children,
     gap,
     style,
@@ -57,7 +57,7 @@ export function Layout<As extends ElementType = ElementType>({
     wrap,
     direction = 'row',
     ...props
-}: ElementProps<LayoutProps<As>, As>) {
+}: ElementProps<FlexProps<As>, As>) {
     const As: ElementType = as || 'div';
 
     const alignItems = align === 'start' ? 'flex-start' : align === 'end' ? 'flex-end' : align;

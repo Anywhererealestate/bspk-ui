@@ -1,10 +1,10 @@
-import { Layout } from './Layout';
+import { Flex } from './Flex';
 import { hasNoBasicA11yIssues } from '-/rtl/hasNoBasicA11yIssues';
 import { render } from '-/rtl/util';
 
-const TestBed = () => <Layout>Example layout</Layout>;
+const TestBed = () => <Flex>Example layout</Flex>;
 
-describe('Layout (RTL)', () => {
+describe('Flex (RTL)', () => {
     it('has no basic a11y issues', hasNoBasicA11yIssues(<TestBed />));
 
     it('renders', () => {
