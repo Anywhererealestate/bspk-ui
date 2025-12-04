@@ -4,6 +4,7 @@ import { AriaAttributes, useEffect, useState } from 'react';
 import { PageList } from './PageList';
 import { Button } from '-/components/Button';
 import { InputElement } from '-/components/Input';
+import { sendAriaLiveMessage } from '-/utils/sendAriaLiveMessage';
 
 // After this point the manual input renders. With equal or fewer pages the individual page buttons render instead.
 const INPUT_TYPE_THRESHOLD = 7;
@@ -44,7 +45,17 @@ export type PaginationProps = {
  * @name Pagination
  * @phase UXReview
  */
-export function Pagination({ numPages, value, onChange, ...ariaProps }: AriaAttributes & PaginationProps) {
+export function Pagination({
+    numPages,
+    value,
+    onChange: onChangeProp,
+    ...ariaProps
+}: AriaAttributes & PaginationProps) {
+    const onChange = (newPage: number) => {
+        onChangeProp(newPage);
+        sendAriaLiveMessage(`Page ${newPage} of ${numPages}`);
+    };
+
     const nextPage = () => {
         if (value < numPages) onChange(value + 1);
     };
@@ -102,7 +113,7 @@ export function Pagination({ numPages, value, onChange, ...ariaProps }: AriaAttr
                         type="number"
                         value={inputValue}
                     />
-                    of {numPages}
+                    <span>of {numPages}</span>
                 </form>
             ) : (
                 <PageList numPages={numPages} onChange={onChange} value={value} />

@@ -10,10 +10,8 @@ export function sendAriaLiveMessage(message: string, live: 'assertive' | 'polite
     document.querySelectorAll('[data-bspk-aria-live]').forEach((el) => el.remove());
 
     // add new AriaLiveMessage element to dom
-    requestAnimationFrame(() => {
-        document.body.insertAdjacentHTML(
-            'beforeend',
-            `<div data-bspk-aria-live aria-live=${live || 'polite'} data-sr-only role="alert">${message}</div>`,
-        );
-    });
+    document.body.insertAdjacentHTML(
+        'beforeend',
+        `<div data-bspk-aria-live aria-live=${live || 'polite'} data-sr-only role="alert">${message}</div>`,
+    );
 }
