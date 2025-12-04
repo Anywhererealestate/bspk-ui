@@ -35,7 +35,7 @@ export type CardProps = {
  *     </Card>;
  *
  * @name Card
- * @phase UXReview
+ * @phase Stable
  */
 export function Card({ children, variant = 'elevated', innerRef, ...props }: ElementProps<CardProps, 'div'>) {
     return (

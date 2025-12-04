@@ -69,7 +69,7 @@ export type TextareaProps = CommonProps<'size'> &
  * @element
  *
  * @name Textarea
- * @phase UXReview
+ * @phase Stable
  */
 export function Textarea({
     invalid: invalidProp,

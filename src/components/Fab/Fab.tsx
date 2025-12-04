@@ -50,7 +50,7 @@ export type FabProps<As extends ElementType = ElementType> = Pick<
  *     <Fab icon={<SvgBolt />} label="Example label" placement="bottom-right" variant="neutral" />;
  *
  * @name Fab
- * @phase UXReview
+ * @phase Stable
  */
 export function Fab<As extends ElementType = ElementType>(props: AriaAttributes & ElementProps<FabProps<As>, As>) {
     const {

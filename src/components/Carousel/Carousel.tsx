@@ -62,7 +62,7 @@ export type CarouselProps = {
  *     </Carousel>;
  *
  * @name Carousel
- * @phase UXReview
+ * @phase Stable
  */
 
 export function Carousel({

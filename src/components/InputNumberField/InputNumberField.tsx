@@ -9,7 +9,7 @@ export type InputNumberFieldProps = FormFieldControlProps<InputNumberProps>;
  * This component takes properties from the FormField and InputNumber components.
  *
  * @name InputNumberField
- * @phase UXReview
+ * @phase Stable
  *
  * @generated
  */

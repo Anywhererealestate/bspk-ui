@@ -133,7 +133,7 @@ export type ModalProps = Pick<
  *     };
  *
  * @name Modal
- * @phase UXReview
+ * @phase Stable
  */
 export function Modal({
     header,

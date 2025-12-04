@@ -62,7 +62,7 @@ export type RadioGroupProps = Omit<FieldControlProps, 'readOnly'> & {
  *     };
  *
  * @name RadioGroup
- * @phase UXReview
+ * @phase Stable
  */
 export function RadioGroup({
     onChange,

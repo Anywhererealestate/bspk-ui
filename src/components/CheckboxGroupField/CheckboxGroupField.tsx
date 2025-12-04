@@ -10,7 +10,7 @@ export type CheckboxGroupFieldProps = FormFieldControlProps<CheckboxGroupProps>;
  * This component takes properties from the FormField and CheckboxGroup components.
  *
  * @name CheckboxGroupField
- * @phase UXReview
+ * @phase Stable
  *
  * @generated
  */

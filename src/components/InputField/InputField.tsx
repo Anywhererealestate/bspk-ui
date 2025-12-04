@@ -9,7 +9,7 @@ export type InputFieldProps = FormFieldControlProps<InputProps>;
  * This component takes properties from the FormField and Input components.
  *
  * @name InputField
- * @phase UXReview
+ * @phase Stable
  *
  * @generated
  */

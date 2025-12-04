@@ -90,7 +90,7 @@ export type AccordionProps = {
  *     />;
  *
  * @name Accordion
- * @phase UXReview
+ * @phase Stable
  */
 export function Accordion({ items: itemsProp, singleOpen = true }: AccordionProps) {
     const items = useMemo(

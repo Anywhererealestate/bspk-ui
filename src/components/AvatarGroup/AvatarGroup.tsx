@@ -83,7 +83,7 @@ export type AvatarGroupProps = CommonProps<'style'> & {
  *     />;
  *
  * @name AvatarGroup
- * @phase UXReview
+ * @phase Stable
  */
 export function AvatarGroup({ items, size = 'small', max: maxProp = 5, variant = 'stacked', style }: AvatarGroupProps) {
     const max = maxProp > items.length ? items.length : maxProp;

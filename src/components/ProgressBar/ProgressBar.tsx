@@ -56,7 +56,7 @@ export type ProgressBarProps = {
  *     <ProgressBar label="Example label" completion={50} />;
  *
  * @name ProgressBar
- * @phase UXReview
+ * @phase Stable
  */
 export function ProgressBar({
     size = 'large',

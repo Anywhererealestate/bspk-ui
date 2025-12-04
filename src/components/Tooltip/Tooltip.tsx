@@ -49,7 +49,7 @@ export type TooltipProps = {
  *     </Tooltip>;
  *
  * @name Tooltip
- * @phase UXReview
+ * @phase Stable
  */
 export function Tooltip({ placement = 'top', label, children, disabled = false, showTail = true }: TooltipProps) {
     const id = useId();

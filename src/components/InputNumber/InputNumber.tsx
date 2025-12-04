@@ -84,7 +84,7 @@ export type InputNumberProps = CommonProps<'size'> &
  *     };
  *
  * @name InputNumber
- * @phase UXReview
+ * @phase Stable
  */
 export function InputNumber({
     value: valueProp,

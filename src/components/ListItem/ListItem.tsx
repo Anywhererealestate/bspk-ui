@@ -133,7 +133,7 @@ export type ListItemProps<As extends ElementType = ElementType> = CommonProps<'a
  *     </div>;
  *
  * @name ListItem
- * @phase UXReview
+ * @phase Stable
  */
 function ListItem<As extends ElementType = ElementType>({
     active,
