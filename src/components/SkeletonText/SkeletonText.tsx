@@ -42,7 +42,7 @@ export type SkeletonTextProps = {
  * @exampleDescription This example shows a skeleton loading state for some text but can be used for any element.
  *
  * @name SkeletonText
- * @phase UXReview
+ * @phase Stable
  */
 export function SkeletonText({ lines = 3, variant = 'body-base', children = null }: SkeletonTextProps) {
     return children !== null && children !== undefined && children !== false ? (

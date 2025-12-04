@@ -51,7 +51,7 @@ export type BadgeDotProps = {
  * @exampleDescription This example shows a badge-dot with a count of 5, size small, and primary variant.
  *
  * @name BadgeDot
- * @phase UXReview
+ * @phase Stable
  */
 export function BadgeDot({ children, color = 'primary', size: sizeProp = 6, outline = false }: BadgeDotProps) {
     const size = sizeProp in OUTLINE_WIDTHS ? sizeProp : 6;

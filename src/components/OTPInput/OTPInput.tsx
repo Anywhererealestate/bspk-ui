@@ -46,7 +46,7 @@ export type OTPInputProps = CommonProps<'aria-label' | 'id' | 'invalid' | 'name'
  *     };
  *
  * @name OTPInput
- * @phase UXReview
+ * @phase Stable
  */
 export function OTPInput({
     value: valueProp,

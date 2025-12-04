@@ -9,7 +9,7 @@ export type TextareaFieldProps = FormFieldControlProps<TextareaProps>;
  * This component takes properties from the FormField and Textarea components.
  *
  * @name TextareaField
- * @phase UXReview
+ * @phase Stable
  *
  * @generated
  */

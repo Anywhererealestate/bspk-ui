@@ -47,7 +47,7 @@ export type CalendarProps = {
  * Allows customers to select the date, month, and year.
  *
  * @name Calendar
- * @phase UXReview
+ * @phase Stable
  */
 export function Calendar({ id, value: valueProp, onChange, focusTrap = false }: CalendarProps) {
     const baseId = useId(id);

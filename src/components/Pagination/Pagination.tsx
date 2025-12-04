@@ -43,7 +43,7 @@ export type PaginationProps = {
  *     }
  *
  * @name Pagination
- * @phase UXReview
+ * @phase Stable
  */
 export function Pagination({
     numPages,

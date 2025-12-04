@@ -9,7 +9,7 @@ export type DatePickerFieldProps = FormFieldControlProps<DatePickerProps>;
  * This component takes properties from the FormField and DatePicker components.
  *
  * @name DatePickerField
- * @phase UXReview
+ * @phase Stable
  *
  * @generated
  */

@@ -41,7 +41,7 @@ export type PasswordProps = FieldControlProps & Pick<InputProps, 'containerRef' 
  *     };
  *
  * @name Password
- * @phase UXReview
+ * @phase Stable
  */
 export function Password({
     inputProps,

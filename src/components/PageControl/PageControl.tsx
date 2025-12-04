@@ -43,7 +43,7 @@ export type DotSize = 'medium' | 'small' | 'x-small';
  *     <PageControl value={1} numPages={3} />;
  *
  * @name PageControl
- * @phase UXReview
+ * @phase Stable
  */
 export function PageControl({ currentPage: currentProp, numPages: numPagesProp, variant = 'flat' }: PageControlProps) {
     const numPages = Number(numPagesProp);

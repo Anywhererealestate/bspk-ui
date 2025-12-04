@@ -68,7 +68,7 @@ export type ChipProps = {
  *     </Chip>;
  *
  * @name Chip
- * @phase UXReview
+ * @phase Stable
  */
 export function Chip({
     flat = false,

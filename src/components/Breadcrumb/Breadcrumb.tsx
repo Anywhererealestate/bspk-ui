@@ -60,7 +60,7 @@ export type BreadcrumbProps = CommonProps<'id'> &
  *     />;
  *
  * @name Breadcrumb
- * @phase UXReview
+ * @phase Stable
  */
 export function Breadcrumb({ id: propId, items = [], scrollLimit }: BreadcrumbProps) {
     const id = useId(propId);

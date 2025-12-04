@@ -115,7 +115,7 @@ export type SelectProps = CommonProps<'size'> &
  *     };
  *
  * @name Select
- * @phase UXReview
+ * @phase Stable
  */
 export function Select({
     options: optionsProp = [],

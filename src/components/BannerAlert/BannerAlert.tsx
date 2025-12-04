@@ -72,7 +72,7 @@ export type BannerAlertProps = {
  *
  *
  * @name BannerAlert
- * @phase UXReview
+ * @phase Stable
  */
 export function BannerAlert({
     variant = 'informational',

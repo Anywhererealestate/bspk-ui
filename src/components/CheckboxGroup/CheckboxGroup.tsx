@@ -63,7 +63,7 @@ export type CheckboxGroupProps = Omit<FieldControlProps<string[]>, 'readOnly'> &
  *     };
  *
  * @name CheckboxGroup
- * @phase UXReview
+ * @phase Stable
  */
 export function CheckboxGroup({
     onChange,

@@ -81,7 +81,7 @@ export type SliderProps<Value> = Pick<CommonPropsLibrary, 'disabled' | 'readOnly
  *     };
  *
  * @name Slider
- * @phase UXReview
+ * @phase Stable
  */
 export function Slider<V = SliderValue>({
     value: valueProp,
