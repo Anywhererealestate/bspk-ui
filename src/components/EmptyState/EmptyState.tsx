@@ -52,13 +52,14 @@ export function EmptyState({ children, header, body, callToAction, bodyAlign = '
     return (
         <Flex align="center" data-bspk="empty-state" direction="column" gap="16">
             {children}
-            <Flex align="center" direction="column" gap="4">
-                <Txt style={{ textAlign: bodyAlign }} variant="heading-h5">
-                    {header}
-                </Txt>
-                <Txt style={{ textAlign: bodyAlign }} variant="body-base">
-                    {body}
-                </Txt>
+            <Flex
+                align={bodyAlign === 'left' ? 'flex-start' : 'center'}
+                direction="column"
+                gap="4"
+                style={{ textAlign: bodyAlign }}
+            >
+                <Txt variant="heading-h5">{header}</Txt>
+                <Txt variant="body-base">{body}</Txt>
             </Flex>
             {callToAction && (
                 <Button
