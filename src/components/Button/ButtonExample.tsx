@@ -30,4 +30,7 @@ export const presets: Preset<ButtonProps>[] = [
 
 export const ButtonExample: ComponentExample<ButtonProps> = {
     presets,
+    variants: {
+        iconOnly: { icon: 'Person', label: 'Person' },
+    },
 };
