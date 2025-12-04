@@ -52,7 +52,7 @@ export type TimePickerProps = FieldControlProps & Pick<InputProps, 'size'>;
  *     };
  *
  * @name TimePicker
- * @phase UXReview
+ * @phase Stable
  */
 export function TimePicker({
     value,

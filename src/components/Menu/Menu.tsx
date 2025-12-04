@@ -53,7 +53,7 @@ export type MenuProps<As extends ElementType = ElementType> = CommonProps<'id' |
  *     </Menu>;
  *
  * @name Menu
- * @phase UXReview
+ * @phase Stable
  */
 export function Menu({ as, innerRef, id: idProp, children, owner, label, ...props }: ElementProps<MenuProps, 'div'>) {
     const menuId = useId(idProp);

@@ -62,7 +62,7 @@ export type ProgressionStepperProps = {
  *     <ProgressionStepper steps={[{ name: 'Step 1' }, { name: 'Step 2' }, { name: 'Step 3' }]} />;
  *
  * @name ProgressionStepper
- * @phase UXReview
+ * @phase Stable
  */
 export function ProgressionStepper({
     steps = [],

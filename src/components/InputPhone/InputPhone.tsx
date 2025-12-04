@@ -85,7 +85,7 @@ export type InputPhoneProps = FieldControlProps<string, SupportedCountryCode> &
  *     };
  *
  * @name InputPhone
- * @phase UXReview
+ * @phase Stable
  */
 export function InputPhone({
     value,

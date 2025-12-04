@@ -10,7 +10,7 @@ export type RadioGroupFieldProps = FormFieldControlProps<RadioGroupProps>;
  * This component takes properties from the FormField and RadioGroup components.
  *
  * @name RadioGroupField
- * @phase UXReview
+ * @phase Stable
  *
  * @generated
  */

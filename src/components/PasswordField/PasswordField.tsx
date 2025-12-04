@@ -9,7 +9,7 @@ export type PasswordFieldProps = FormFieldControlProps<PasswordProps>;
  * This component takes properties from the FormField and Password components.
  *
  * @name PasswordField
- * @phase UXReview
+ * @phase Stable
  *
  * @generated
  */

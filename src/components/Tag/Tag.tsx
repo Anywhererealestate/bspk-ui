@@ -38,7 +38,7 @@ export type TagProps = {
  *     <Tag label="Example Tag" variant="flat" color="primary" />;
  *
  * @name Tag
- * @phase UXReview
+ * @phase Stable
  */
 export function Tag({ label, color = 'white', size = 'small', variant = 'flat' }: TagProps) {
     return (

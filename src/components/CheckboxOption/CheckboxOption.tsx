@@ -30,7 +30,7 @@ export type CheckboxOptionProps = CommonProps<'style'> & ToggleOptionControlProp
  *     };
  *
  * @name CheckboxOption
- * @phase UXReview
+ * @phase Stable
  */
 export function CheckboxOption({
     label: labelProp,

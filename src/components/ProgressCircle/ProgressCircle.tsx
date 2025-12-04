@@ -30,7 +30,7 @@ export type ProgressCircleProps = {
  *     <ProgressCircle label="Example label" />;
  *
  * @name ProgressCircle
- * @phase UXReview
+ * @phase Stable
  */
 function ProgressCircle({ label, labelPosition, size = 'medium' }: ProgressCircleProps) {
     let variant: TxtVariant = 'labels-base';

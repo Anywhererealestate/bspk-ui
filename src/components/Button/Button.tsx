@@ -112,7 +112,7 @@ export type ButtonProps<As extends ElementType = ElementType> = CommonProps<'ari
  *     };
  *
  * @name Button
- * @phase UXReview
+ * @phase Stable
  */
 export function Button<As extends ElementType = ElementType>(
     props: AriaAttributes & ElementProps<ButtonProps<As>, As>,

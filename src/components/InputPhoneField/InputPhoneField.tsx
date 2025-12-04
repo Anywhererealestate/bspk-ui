@@ -9,7 +9,7 @@ export type InputPhoneFieldProps = FormFieldControlProps<InputPhoneProps>;
  * This component takes properties from the FormField and InputPhone components.
  *
  * @name InputPhoneField
- * @phase UXReview
+ * @phase Stable
  *
  * @generated
  */
