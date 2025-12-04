@@ -8,13 +8,20 @@
 
     [data-input-form] {
         display: contents;
-    }
 
-    [data-bspk='input'] {
-        max-width: var(--spacing-sizing-12);
+        [data-bspk='input'] {
+            max-width: var(--spacing-sizing-12);
+            margin-right: var(--spacing-sizing-01);
 
-        input {
-            text-align: center;
+            input {
+                text-align: center;
+            }
+        }
+
+        span {
+            display: block;
+            white-space: nowrap;
+            font: var(--body-small);
         }
     }
 
