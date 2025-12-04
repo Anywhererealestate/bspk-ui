@@ -86,7 +86,7 @@ export type ButtonProps<As extends ElementType = ElementType> = CommonProps<'dis
  *     <Button label="Click Me" size="medium" onClick={() => action('Button clicked')} icon={<SvgPerson />} />;
  *
  * @name Button
- * @phase UXReview
+ * @phase Stable
  */
 export function Button<As extends ElementType = ElementType>(
     props: AriaAttributes & ElementProps<ButtonProps<As>, As>,

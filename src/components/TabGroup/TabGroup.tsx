@@ -38,7 +38,7 @@ export type TabGroupProps = Omit<TabListProps<TabOption>, 'iconsOnly'> & {
  *     };
  *
  * @name TabGroup
- * @phase UXReview
+ * @phase Stable
  */
 export function TabGroup({
     onChange: onTabChange,

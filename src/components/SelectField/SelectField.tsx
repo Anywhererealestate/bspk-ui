@@ -9,7 +9,7 @@ export type SelectFieldProps = FormFieldControlProps<SelectProps>;
  * This component takes properties from the FormField and Select components.
  *
  * @name SelectField
- * @phase UXReview
+ * @phase Stable
  *
  * @generated
  */

@@ -52,7 +52,7 @@ export type TxtProps<As extends ElementType = ElementType> = {
  *     <Txt>Example Txt</Txt>;
  *
  * @name Txt
- * @phase UXReview
+ * @phase Stable
  */
 export function Txt<As extends ElementType = ElementType>({
     children,

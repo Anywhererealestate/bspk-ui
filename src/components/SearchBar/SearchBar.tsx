@@ -99,7 +99,7 @@ export type SearchBarProps<O extends SearchBarOption = SearchBarOption> = Omit<
  *     };
  *
  * @name SearchBar
- * @phase UXReview
+ * @phase Stable
  */
 export function SearchBar<O extends SearchBarOption>({
     items: itemsProp,

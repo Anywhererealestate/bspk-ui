@@ -9,7 +9,7 @@ export type TimePickerFieldProps = FormFieldControlProps<TimePickerProps>;
  * This component takes properties from the FormField and TimePicker components.
  *
  * @name TimePickerField
- * @phase UXReview
+ * @phase Stable
  *
  * @generated
  */

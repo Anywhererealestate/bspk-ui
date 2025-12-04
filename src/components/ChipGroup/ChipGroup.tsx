@@ -30,7 +30,7 @@ export type ChipGroupProps = {
  *     />;
  *
  * @name ChipGroup
- * @phase UXReview
+ * @phase Stable
  */
 export function ChipGroup({ overflow = 'wrap', items }: ChipGroupProps) {
     return (

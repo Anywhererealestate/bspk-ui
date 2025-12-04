@@ -127,7 +127,7 @@ export type TableProps<R extends TableRow> = {
  *     />;
  *
  * @name Table
- * @phase UXReview
+ * @phase Stable
  */
 export function Table<R extends TableRow>({
     data = [],

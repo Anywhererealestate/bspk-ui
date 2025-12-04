@@ -34,7 +34,7 @@ export type InputProps = Omit<InputElementProps, 'ariaDescribedBy' | 'ariaErrorM
  *     };
  *
  * @name Input
- * @phase UXReview
+ * @phase Stable
  */
 export function Input({
     invalid: invalidProp,

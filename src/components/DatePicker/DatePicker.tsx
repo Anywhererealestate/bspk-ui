@@ -86,7 +86,7 @@ export type DatePickerProps = Omit<FieldControlProps, 'aria-label' | 'onChange' 
  *     };
  *
  * @name DatePicker
- * @phase UXReview
+ * @phase Stable
  */
 export function DatePicker({
     value,
