@@ -42,7 +42,7 @@ export type EmptyStateProps = {
  *     import { EmptyState } from '@bspk/ui/EmptyState';
  *
  *     <EmptyState body="Example body" header="Example header">
- *         Example EmptyState
+ *         <ExamplePlaceholder height="200px" width="200px" label="Illustration slot or icon slot" />
  *     </EmptyState>;
  *
  * @name EmptyState
@@ -50,21 +50,11 @@ export type EmptyStateProps = {
  */
 export function EmptyState({ children, header, body, callToAction, bodyAlign = 'center' }: EmptyStateProps) {
     return (
-        <Layout
-            align="center"
-            column
-            data-bspk="empty-state"
-            style={{
-                margin: 'var(--spacing-sizing-04)',
-                maxWidth: '500px',
-            }}
-        >
+        <Layout align="center" data-bspk="empty-state" direction="column" gap="16">
             {children}
-            <Layout align="center" column gap="4">
-                <Txt as="header" variant="heading-h5">
-                    {header}
-                </Txt>
-                <Txt as="p" style={{ textAlign: bodyAlign }} variant="body-base">
+            <Layout align="center" direction="column" gap="4">
+                <Txt variant="heading-h5">{header}</Txt>
+                <Txt style={{ textAlign: bodyAlign }} variant="body-base">
                     {body}
                 </Txt>
             </Layout>

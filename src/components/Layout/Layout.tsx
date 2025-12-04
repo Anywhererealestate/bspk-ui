@@ -1,6 +1,6 @@
 import { ElementType, ReactNode } from 'react';
-
 import { ElementProps } from '-/types/common';
+import { SizingPixels, numToSizingVar } from '-/utils/sizing';
 
 export type LayoutProps<As extends ElementType = ElementType> = {
     /**
@@ -9,14 +9,8 @@ export type LayoutProps<As extends ElementType = ElementType> = {
      * @required
      */
     children?: ReactNode;
-    /**
-     * Determines if the flex-direction should be displayed as a column.
-     *
-     * @default false
-     */
-    column?: boolean;
     /** The gap between the children. */
-    gap?: '4' | '16';
+    gap?: SizingPixels;
     /**
      * The element type to render as.
      *
@@ -25,17 +19,21 @@ export type LayoutProps<As extends ElementType = ElementType> = {
      */
     as?: As;
     /**
-     * The alignment style to apply to the Layout.
+     * The align-items style to apply to the Layout.
      *
      * @default flex-start
      */
-    align?: 'center' | 'flex-end' | 'flex-start' | 'stretch';
+    align?: 'center' | 'end' | 'flex-end' | 'flex-start' | 'start' | 'stretch';
     /**
      * The justification style to apply to the Layout.
      *
      * @default flex-start
      */
     justify?: 'center' | 'flex-end' | 'flex-start' | 'stretch';
+    /** The flex-wrap style to apply to the Layout. */
+    wrap?: 'nowrap' | 'wrap-reverse' | 'wrap';
+    /** The flex-direction style to apply to the Layout. */
+    direction?: 'column-reverse' | 'column' | 'row-reverse' | 'row';
 };
 
 /**
@@ -51,18 +49,18 @@ export type LayoutProps<As extends ElementType = ElementType> = {
  */
 export function Layout<As extends ElementType = ElementType>({
     children,
-    column,
-    gap = '16',
+    gap,
     style,
     as,
     align = 'flex-start',
     justify = 'flex-start',
+    wrap,
+    direction = 'row',
     ...props
 }: ElementProps<LayoutProps<As>, As>) {
     const As: ElementType = as || 'div';
 
-    const alignItems = align || 'flex-start';
-    const justifyContent = justify || 'flex-start';
+    const alignItems = align === 'start' ? 'flex-start' : align === 'end' ? 'flex-end' : align;
 
     return (
         <As
@@ -71,10 +69,11 @@ export function Layout<As extends ElementType = ElementType>({
             style={{
                 ...style,
                 display: 'flex',
-                flexDirection: column ? 'column' : 'row',
-                gap: gap ? `${gap}px` : 'px',
+                flexDirection: direction,
+                gap: numToSizingVar(gap),
                 alignItems,
-                justifyContent,
+                justifyContent: justify || 'flex-start',
+                flexWrap: wrap ? 'wrap' : 'nowrap',
             }}
         >
             {children}

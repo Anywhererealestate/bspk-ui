@@ -131,7 +131,7 @@ export function reportMissingVariables(variables: Record<string, string>) {
 }
 
 export function getStylesRoot() {
-    return path.resolve(__dirname, '../node_modules/@bspk/styles');
+    return execSync(`npm explore @bspk/styles -- pwd`).toString().trim();
 }
 
 export function getCssVariables() {

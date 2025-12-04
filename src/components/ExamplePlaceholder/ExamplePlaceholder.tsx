@@ -7,12 +7,6 @@ const dimension = (value: number | string) => (typeof value === 'number' ? `${va
 
 export type ExamplePlaceholderProps = {
     /**
-     * Whether to hide the size text.
-     *
-     * @default false
-     */
-    hideSize?: boolean;
-    /**
      * The height of the placeholder.
      *
      * @default 100
@@ -26,12 +20,8 @@ export type ExamplePlaceholderProps = {
      * @type string
      */
     width?: number | string;
-    /**
-     * The direction of the placeholder.
-     *
-     * @default 'row'
-     */
-    direction?: 'column' | 'row';
+    /** An optional label for the placeholder. */
+    label?: string;
 };
 
 /**
@@ -41,10 +31,9 @@ export type ExamplePlaceholderProps = {
  * @phase Utility
  */
 export function ExamplePlaceholder({
-    hideSize = false,
     height = 100,
     width = '100%',
-    direction = 'row',
+    label,
     ...props
 }: ElementProps<ExamplePlaceholderProps, 'div'>) {
     const ref = useRef<HTMLDivElement | null>(null);
@@ -53,16 +42,23 @@ export function ExamplePlaceholder({
         <div
             {...props}
             data-bspk-utility="example-placeholder"
-            data-example-placeholder
             ref={ref}
             style={{
-                ...props.style,
+                flexDirection: 'column',
+                gap: 'var(--spacing-sizing-01)',
                 width: dimension(width),
                 height: dimension(height),
-                flexDirection: direction,
+                border: 'var(--spacing-sizing-01) dashed var(--foreground-neutral-disabled-on-surface)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                textAlign: 'center',
+                ...props.style,
             }}
         >
-            {!hideSize && (
+            {label ? (
+                <Txt variant="body-large">{label}</Txt>
+            ) : (
                 <>
                     <Txt variant="labels-large">{dimension(width)}</Txt>
                     <Txt>&times;</Txt>
