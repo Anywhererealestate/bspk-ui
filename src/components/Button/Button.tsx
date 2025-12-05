@@ -5,7 +5,7 @@ import { ButtonSize, CommonProps, ElementProps, SetRef } from '-/types/common';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'tertiary';
 
-export type ButtonProps<As extends ElementType = ElementType> = CommonProps<'disabled' | 'owner'> & {
+export type ButtonProps<As extends ElementType = ElementType> = CommonProps<'aria-label' | 'disabled' | 'owner'> & {
     /**
      * The label of the button.
      *
@@ -69,7 +69,7 @@ export type ButtonProps<As extends ElementType = ElementType> = CommonProps<'dis
      */
     children?: ReactNode;
     /** The tool tip text that appears when hovered. */
-    toolTip?: string;
+    tooltip?: string;
     /** The function to call when the button is clicked. */
     onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
     /** A ref to the Button element. */
@@ -83,7 +83,33 @@ export type ButtonProps<As extends ElementType = ElementType> = CommonProps<'dis
  *     import { Button } from '@bspk/ui/Button';
  *     import { SvgPerson } from '@bspk/icons/Person';
  *
- *     <Button label="Click Me" size="medium" onClick={() => action('Button clicked')} icon={<SvgPerson />} />;
+ *     () => {
+ *         return (
+ *             <>
+ *                 <p>standard usage</p>
+ *                 <Button label="Click Me" onClick={() => action('Button clicked')} icon={<SvgPerson />} />
+ *
+ *                 <p style={{ paddingTop: 16 }}>custom icon usage</p>
+ *                 <Button
+ *                     aria-label="Hello world example"
+ *                     label="Custom Icon"
+ *                     onClick={() => action('Button clicked')}
+ *                     variant="secondary"
+ *                     tooltip="Hello world"
+ *                 >
+ *                     <svg
+ *                         focusable="false"
+ *                         aria-hidden="true"
+ *                         xmlns="http://www.w3.org/2000/svg"
+ *                         viewBox="0 0 24 24"
+ *                         fill="currentColor"
+ *                     >
+ *                         <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"></path>
+ *                     </svg>
+ *                 </Button>
+ *             </>
+ *         );
+ *     };
  *
  * @name Button
  * @phase Stable
@@ -101,11 +127,12 @@ export function Button<As extends ElementType = ElementType>(
         label: labelProp,
         icon,
         iconOnly: iconOnlyProp = false,
-        toolTip: toolTipProp,
+        tooltip: tooltipProp,
         children,
         innerRef,
         owner,
         role,
+        'aria-label': ariaLabel,
         ...containerProps
     } = props;
     const label = typeof children === 'string' ? children : labelProp || '';
@@ -113,15 +140,15 @@ export function Button<As extends ElementType = ElementType>(
     // ignore iconOnly if there is no icon
     const iconOnly = iconOnlyProp === true && !!icon;
 
-    // if toolTip text is not provided and iconOnly is true, toolTip text should be label
-    const toolTip = toolTipProp || (iconOnly ? label : undefined);
+    // if tooltip text is not provided and iconOnly is true, tooltip text should be label
+    const tooltip = tooltipProp || (iconOnly ? label : undefined);
 
     const button = (triggerProps: TooltipTriggerProps) => (
         <As
             type={As === 'button' ? 'button' : undefined}
             {...containerProps}
             {...triggerProps}
-            aria-label={label}
+            aria-label={ariaLabel || label}
             data-bspk="button"
             data-bspk-owner={owner || undefined}
             data-destructive={destructive || undefined}
@@ -165,9 +192,9 @@ export function Button<As extends ElementType = ElementType>(
         </As>
     );
 
-    if (toolTip)
+    if (tooltip)
         return (
-            <Tooltip label={toolTip} placement="top">
+            <Tooltip label={tooltip} placement="top">
                 {button}
             </Tooltip>
         );
