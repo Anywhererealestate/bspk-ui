@@ -1,6 +1,6 @@
 import './input.scss';
 import { SvgCancel } from '@bspk/icons/Cancel';
-import { HTMLInputTypeAttribute, ReactNode, useMemo, useRef, useState } from 'react';
+import { HTMLInputTypeAttribute, ReactNode, useMemo, useRef } from 'react';
 import { Button } from '-/components/Button';
 import { FieldContextProps } from '-/components/Field';
 import { useTimeout } from '-/hooks/useTimeout';
@@ -112,11 +112,9 @@ export function InputElement({
     ariaErrorMessage,
     ...props
 }: ElementProps<InputElementProps, 'div'>) {
-    const [focused, setFocused] = useState(false);
-
     const showClearButton = useMemo(
-        () => !!(showClearButtonProp !== false && !readOnly && !disabled && value?.toString().length && focused),
-        [showClearButtonProp, readOnly, disabled, value, focused],
+        () => showClearButtonProp !== false && !readOnly && !disabled && !!value?.toString().length,
+        [showClearButtonProp, readOnly, disabled, value],
     );
 
     const inputRefInternal = useRef<HTMLInputElement | null>(null);
@@ -150,14 +148,12 @@ export function InputElement({
                 id={id}
                 name={name}
                 onBlur={(event) => {
-                    focusTimeout.set(() => setFocused(false), 750);
                     inputProps?.onBlur?.(event);
                 }}
                 onChange={(event) => {
                     onChange(event.target.value, event);
                 }}
                 onFocus={(event) => {
-                    focusTimeout.set(() => setFocused(true), 0);
                     inputProps?.onFocus?.(event);
                 }}
                 placeholder={placeholder || ' '}
@@ -174,6 +170,7 @@ export function InputElement({
             {trailing && <span data-trailing>{trailing}</span>}
             {showClearButton && (
                 <Button
+                    data-clear-button
                     icon={<SvgCancel />}
                     iconOnly
                     label="Clear"
