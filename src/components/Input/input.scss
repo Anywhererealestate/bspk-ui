@@ -64,18 +64,16 @@
         --border-color: var(--status-error);
     }
 
-    [data-clear-button] {
-        display: none;
+    &:not(:focus-within) {
+        [data-clear-button] {
+            display: none;
+        }
     }
 
     &:focus-within {
         --border-color: var(--stroke-neutral-focus);
 
         outline: 1px solid var(--stroke-neutral-focus);
-
-        [data-clear-button] {
-            display: flex;
-        }
     }
 
     &[data-size='small'] {
