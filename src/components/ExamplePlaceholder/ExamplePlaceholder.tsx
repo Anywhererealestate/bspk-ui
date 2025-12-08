@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { ReactNode } from 'react';
 
 import { Txt } from '-/components/Txt';
 import { ElementProps } from '-/types/common';
@@ -22,6 +22,8 @@ export type ExamplePlaceholderProps = {
     width?: number | string;
     /** An optional label for the placeholder. */
     label?: string;
+    /** Optional children to display inside the placeholder instead of the label. */
+    children?: ReactNode;
 };
 
 /**
@@ -34,31 +36,28 @@ export function ExamplePlaceholder({
     height = 100,
     width = '100%',
     label,
+    children,
     ...props
 }: ElementProps<ExamplePlaceholderProps, 'div'>) {
-    const ref = useRef<HTMLDivElement | null>(null);
-
     return (
         <div
             {...props}
             data-bspk-utility="example-placeholder"
-            ref={ref}
             style={{
                 flexDirection: 'column',
                 gap: 'var(--spacing-sizing-01)',
                 width: dimension(width),
                 height: dimension(height),
-                border: 'var(--spacing-sizing-01) dashed var(--foreground-neutral-disabled-on-surface)',
+                background: 'var(--surface-neutral-t3-low)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 textAlign: 'center',
+                font: 'var(--body-x-small)',
                 ...props.style,
             }}
         >
-            {label ? (
-                <Txt variant="body-large">{label}</Txt>
-            ) : (
+            {children || label || (
                 <>
                     <Txt variant="labels-large">{dimension(width)}</Txt>
                     <Txt>&times;</Txt>
