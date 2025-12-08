@@ -62,8 +62,6 @@ export type DrawerProps = Pick<DialogProps, 'container' | 'disableFocusTrap' | '
  *                     id="exampleId"
  *                     onClose={() => setOpen(false)}
  *                     open={open}
- *                     placement="right"
- *                     modal={false}
  *                     header="Example Drawer"
  *                     closeButton={true}
  *                 >

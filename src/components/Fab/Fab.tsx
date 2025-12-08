@@ -10,7 +10,7 @@ export type FabVariant = 'neutral' | 'primary' | 'secondary';
 
 export type FabProps<As extends ElementType = ElementType> = Pick<
     ButtonProps<As>,
-    'as' | 'icon' | 'iconOnly' | 'innerRef' | 'onClick' | 'toolTip'
+    'aria-label' | 'as' | 'icon' | 'iconOnly' | 'innerRef' | 'onClick' | 'tooltip'
 > &
     Required<Pick<ButtonProps<As>, 'label'>> & {
         /**
@@ -54,6 +54,7 @@ export type FabProps<As extends ElementType = ElementType> = Pick<
  */
 export function Fab<As extends ElementType = ElementType>(props: AriaAttributes & ElementProps<FabProps<As>, As>) {
     const {
+        'aria-label': ariaLabel,
         size = 'small',
         variant = 'primary',
         iconOnly: iconOnlyProp = false,
@@ -62,7 +63,7 @@ export function Fab<As extends ElementType = ElementType>(props: AriaAttributes 
         container = 'local',
         label,
         icon,
-        toolTip,
+        tooltip,
         innerRef,
         ...otherProps
     } = props;
@@ -74,7 +75,7 @@ export function Fab<As extends ElementType = ElementType>(props: AriaAttributes 
         <As
             {...otherProps}
             {...triggerProps}
-            aria-label={label}
+            aria-label={ariaLabel || label}
             data-bspk="fab"
             data-container={container}
             data-placement={placement}
@@ -109,9 +110,9 @@ export function Fab<As extends ElementType = ElementType>(props: AriaAttributes 
         </As>
     );
 
-    if (toolTip || iconOnly)
+    if (tooltip || iconOnly)
         return (
-            <Tooltip label={toolTip || label} placement="top">
+            <Tooltip label={tooltip || label} placement="top">
                 {button}
             </Tooltip>
         );
