@@ -2,6 +2,8 @@
     padding: var(--spacing-sizing-03);
     color: var(--foreground-neutral-on-surface);
     background: var(--surface-neutral-t1-base);
+    display: flex;
+    flex-direction: column;
 
     &[data-no-portal] {
         box-shadow: var(--drop-shadow-float);
@@ -25,6 +27,7 @@
 
             position: absolute;
             right: 0;
+            top: 0;
             height: 100%;
             border-top-left-radius: var(--radius-lg);
             border-bottom-left-radius: var(--radius-lg);
@@ -60,6 +63,10 @@
 
         &[data-drawer-close-only='true'] {
             justify-content: flex-end;
+        }
+
+        [data-drawer-title] {
+            font: var(--heading-h4);
         }
     }
 }

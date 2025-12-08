@@ -58,29 +58,27 @@ export type InputPhoneProps = FieldControlProps<string, SupportedCountryCode> &
  *
  * @example
  *     import { InputPhone } from '@bspk/ui/InputPhone';
+ *     import { Field, FieldDescription, FieldLabel } from '@bspk/ui/Field';
  *
  *     () => {
- *         const [value, onChange] = useState<number | undefined>();
+ *         const [value, onChange] = useState<string | undefined>();
  *
  *         return (
- *             <>
- *                 // standalone input phone example
- *                 <InputPhone aria-label="Phone Number" initialCountryCode="US" value={value} onChange={onChange} />
- *                 <br />
- *                 // input phone used within a field
+ *             <div style={{ width: 320 }}>
  *                 <Field>
  *                     <FieldLabel>Example Input Phone</FieldLabel>
  *                     <InputPhone
  *                         aria-label="Phone Number"
  *                         initialCountryCode="US"
- *                         value={value}
+ *                         name="example-name"
  *                         onChange={onChange}
+ *                         value={value}
  *                     />
  *                     <FieldDescription>
  *                         The phone input allows you to enter a phone number with country code.
  *                     </FieldDescription>
  *                 </Field>
- *             </>
+ *             </div>
  *         );
  *     };
  *

@@ -70,39 +70,26 @@ export type SelectProps = CommonProps<'size'> &
  *
  *     () => {
  *         const OPTIONS = [
- *             { id: '1', label: 'Option 1' },
- *             { id: '2', label: 'Option 2' },
- *             { id: '3', label: 'Option 3' },
- *             { id: '4', label: 'Option 4' },
- *             { id: '5', label: 'Option 5' },
- *             { id: '6', label: 'Option 6' },
+ *             { id: '1', label: 'Option 1', value: '1' },
+ *             { id: '2', label: 'Option 2', value: '2' },
+ *             { id: '3', label: 'Option 3', value: '3' },
+ *             { id: '4', label: 'Option 4', value: '4' },
+ *             { id: '5', label: 'Option 5', value: '5' },
+ *             { id: '6', label: 'Option 6', value: '6' },
  *         ];
  *
- *         const [selected, setSelected] = useState<string[]>([]);
+ *         const [selected, setSelected] = useState<string | undefined>(undefined);
  *
  *         return (
- *             <>
- *                 // standalone select example
- *                 <Select
- *                     aria-label="Select an option"
- *                     scrollLimit={5}
- *                     name="example-select"
- *                     onChange={setSelected}
- *                     options={OPTIONS}
- *                     placeholder="Select an option"
- *                     size="medium"
- *                     value={selected}
- *                 />
- *                 <br />
- *                 // select used within a field
+ *             <div style={{ width: 320 }}>
  *                 <Field>
  *                     <FieldLabel>Select an option</FieldLabel>
  *                     <Select
- *                         scrollLimit={5}
  *                         name="example-select"
  *                         onChange={setSelected}
  *                         options={OPTIONS}
  *                         placeholder="Select an option"
+ *                         scrollLimit={5}
  *                         size="medium"
  *                         value={selected}
  *                     />
@@ -110,7 +97,7 @@ export type SelectProps = CommonProps<'size'> &
  *                         The select allows you to choose one option from a list of options.
  *                     </FieldDescription>
  *                 </Field>
- *             </>
+ *             </div>
  *         );
  *     };
  *

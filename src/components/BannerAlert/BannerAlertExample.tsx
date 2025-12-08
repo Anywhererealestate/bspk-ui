@@ -2,7 +2,6 @@ import { BannerAlertProps } from '.';
 import { ComponentExampleFn } from '-/utils/demo';
 
 export const BannerAlertExample: ComponentExampleFn<BannerAlertProps> = ({ action }) => ({
-    containerStyle: { width: '100%' },
     render: ({ props, variant, Component }) => {
         let nextHeader = props.header || 'This is a banner alert';
         if (variant && variant.name === 'variant') {

@@ -109,8 +109,6 @@ export type ModalProps = Pick<
  * footer for the dialog.
  *
  * @example
- *     import React from 'react';
- *
  *     import { Button } from '@bspk/ui/Button';
  *     import { Modal } from '@bspk/ui/Modal';
  *

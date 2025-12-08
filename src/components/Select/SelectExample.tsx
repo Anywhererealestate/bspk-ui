@@ -1,5 +1,8 @@
-import { SelectProps } from '.';
+/* eslint-disable react/no-multi-comp */
+import { useState } from 'react';
+import { Select, SelectProps } from '.';
 import { Avatar } from '-/components/Avatar';
+import { Field, FieldDescription, FieldLabel } from '-/components/Field';
 import { Tag } from '-/components/Tag';
 import { Txt } from '-/components/Txt';
 import { ComponentExample, Preset } from '-/utils/demo';
@@ -160,4 +163,36 @@ export const SelectExample: ComponentExample<SelectProps> = {
     },
     render: ({ props, Component, preset }) => <Component key={preset?.label} {...props} />,
     presets,
+    containerStyle: { width: 320, padding: 0 },
+};
+
+export const Usage = () => {
+    const OPTIONS = [
+        { id: '1', label: 'Option 1', value: '1' },
+        { id: '2', label: 'Option 2', value: '2' },
+        { id: '3', label: 'Option 3', value: '3' },
+        { id: '4', label: 'Option 4', value: '4' },
+        { id: '5', label: 'Option 5', value: '5' },
+        { id: '6', label: 'Option 6', value: '6' },
+    ];
+
+    const [selected, setSelected] = useState<string | undefined>(undefined);
+
+    return (
+        <div style={{ width: 320 }}>
+            <Field>
+                <FieldLabel>Select an option</FieldLabel>
+                <Select
+                    name="example-select"
+                    onChange={setSelected}
+                    options={OPTIONS}
+                    placeholder="Select an option"
+                    scrollLimit={5}
+                    size="medium"
+                    value={selected}
+                />
+                <FieldDescription>The select allows you to choose one option from a list of options.</FieldDescription>
+            </Field>
+        </div>
+    );
 };

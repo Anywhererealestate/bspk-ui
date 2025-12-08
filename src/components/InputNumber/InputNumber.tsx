@@ -54,32 +54,23 @@ export type InputNumberProps = CommonProps<'size'> &
  *     import { InputNumber } from '@bspk/ui/InputNumber';
  *
  *     () => {
- *         const [state, setState] = useState<number | undefined>();
+ *         const [value, setValue] = useState<number | undefined>();
  *
  *         return (
- *             <>
- *                 // standalone input number example
- *                 <InputNumber
- *                     aria-label="Example aria-label"
- *                     name="example-name"
- *                     onChange={(nextValue) => setState(nextValue)}
- *                     value={state}
- *                 />
- *                 <br />
- *                 // input number used within a field
+ *             <div style={{ width: 320 }}>
  *                 <Field>
  *                     <FieldLabel>Example Input Number</FieldLabel>
  *                     <InputNumber
  *                         aria-label="Example aria-label"
  *                         name="example-name"
- *                         onChange={(nextValue) => setState(nextValue)}
- *                         value={state}
+ *                         onChange={(nextValue) => setValue(nextValue)}
+ *                         value={value}
  *                     />
  *                     <FieldDescription>
  *                         The input number allows you to increment or decrement a value.
  *                     </FieldDescription>
  *                 </Field>
- *             </>
+ *             </div>
  *         );
  *     };
  *

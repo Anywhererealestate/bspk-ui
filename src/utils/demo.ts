@@ -44,6 +44,25 @@ export type ComponentVariantOverride<Props> = {
     [K in keyof Props]?: Props[K] | { options: Props[K][] };
 };
 
+export type CodePlaygroundProps = {
+    /** The default code to display in the editor. */
+    defaultCode: string;
+    /** Optional GitHub link for the code snippet. */
+    githubLink?: string;
+    /**
+     * Whether the preview should be responsive.
+     *
+     * @default false
+     */
+    responsive?: boolean;
+    /**
+     * Whether to apply a checkered background to the preview area.
+     *
+     * @default false
+     */
+    checkered?: boolean;
+};
+
 export type ComponentPageSection<Props = Record<string, unknown>> = {
     title: string;
     content: (params: {
@@ -51,6 +70,7 @@ export type ComponentPageSection<Props = Record<string, unknown>> = {
         props: Props;
         CodeExample: CodeExample;
         Syntax: Syntax;
+        Playground: (props: CodePlaygroundProps) => React.ReactNode;
     }) => React.ReactNode;
     location?: 'afterDemo' | 'beforeDemo';
 };
@@ -108,6 +128,18 @@ export type ComponentExample<Props = Record<string, unknown>, PropName extends k
     disableProps?: PropName[] | true;
     /** The sections of the example. */
     sections?: ComponentPageSection<Props>[];
+    /**
+     * Whether to render the example in a full page layout.
+     *
+     * @default false
+     */
+    fullPage?: boolean;
+    /**
+     * Hide the demo entirely.
+     *
+     * @default false
+     */
+    hideDemo?: boolean;
 };
 
 export type Syntax = (params: {
@@ -144,7 +176,7 @@ export type Preset<Props> = {
      * A description of the design pattern this preset demonstrates. When applied, it showcases the specific use case or
      * behavior of the component.
      */
-    designPattern?: string;
+    designPattern?: boolean | string;
     /** The name of the preset. This is used to display the preset in the UI. */
     label: string;
     /** The props of the component. This is used to set props of the component. These values can't be changed in the UI. */

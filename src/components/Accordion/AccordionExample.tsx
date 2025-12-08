@@ -66,7 +66,7 @@ export const presets: Preset<AccordionProps>[] = [
 ];
 
 export const AccordionExample: ComponentExampleFn<AccordionProps> = () => ({
-    containerStyle: { minHeight: 225 },
+    containerStyle: { width: 400, minHeight: 225 },
     defaultState: {
         items: [
             {

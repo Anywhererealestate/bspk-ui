@@ -77,7 +77,11 @@ export type SliderProps<Value> = Pick<CommonPropsLibrary, 'disabled' | 'readOnly
  *     () => {
  *         const [value, setValue] = useState(50);
  *
- *         return <Slider value={value} min={0} max={100} label="Slider Example" onChange={setValue} />;
+ *         return (
+ *             <div style={{ width: 400 }}>
+ *                 <Slider value={value} min={0} max={100} label="Slider Example" onChange={setValue} />
+ *             </div>
+ *         );
  *     };
  *
  * @name Slider

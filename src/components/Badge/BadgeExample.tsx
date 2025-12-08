@@ -10,7 +10,6 @@ export const BadgeExample: ComponentExample<BadgeProps> = {
             </Component>
         );
     },
-    containerStyle: { width: '100%' },
     variants: {
         surfaceBorder: { color: { options: ['primary', 'secondary'] } },
         size: { count: { options: [9, 99, 999] } },

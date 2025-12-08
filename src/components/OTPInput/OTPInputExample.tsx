@@ -21,7 +21,6 @@ export const presets: Preset<OTPInputProps>[] = [
 ];
 
 export const OTPInputExample: ComponentExample<OTPInputProps> = {
-    containerStyle: { width: '100%' },
     defaultState: {
         value: '',
         length: 6,

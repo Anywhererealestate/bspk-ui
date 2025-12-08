@@ -26,7 +26,6 @@ export const presets: Preset<PageControlProps>[] = [
 ];
 
 export const PageControlExample: ComponentExample<PageControlProps> = {
-    containerStyle: { width: '100%' },
     defaultState: {},
     disableProps: [],
     presets,

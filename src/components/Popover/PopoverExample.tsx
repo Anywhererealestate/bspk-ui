@@ -4,7 +4,6 @@ import { Txt } from '-/components/Txt';
 import { ComponentExampleFn } from '-/utils/demo';
 
 export const PopoverExample: ComponentExampleFn<PopoverProps> = ({ action }) => ({
-    containerStyle: { width: '100%' },
     render: ({ props, Component }) => {
         return (
             <>

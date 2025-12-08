@@ -54,34 +54,16 @@ export type DatePickerProps = Omit<FieldControlProps, 'aria-label' | 'onChange' 
  *     import { useState } from 'react';
  *
  *     () => {
- *         const [standaloneDate, setStandaloneDate] = useState<Date | undefined>();
- *         const [standaloneError, setStandaloneError] = useState<string | undefined>();
- *
- *         const [fieldDate, setFieldDate] = useState<Date | undefined>(new Date());
+ *         const [fieldDate, setFieldDate] = useState<string>();
  *
  *         return (
- *             <>
- *                 // standalone date picker example
- *                 <DatePicker
- *                     aria-label="Date"
- *                     name="date2"
- *                     value={standaloneDate}
- *                     onChange={setStandaloneDate}
- *                     onError={setStandaloneError}
- *                     invalid={!!standaloneError}
- *                     required
- *                     aria-errormessage={standaloneError ? 'standalone-error' : undefined}
- *                 />
- *                 {standaloneError && <div id="standalone-error">{standaloneError}</div>}
- *                 <br />
- *                 // date picker used within a field
+ *             <div style={{ width: 320 }}>
  *                 <Field>
  *                     <FieldLabel>Date</FieldLabel>
- *                     <DatePicker required name="date1" value={fieldDate} onChange={setFieldDate} />
+ *                     <DatePicker name="date1" onChange={setFieldDate} required value={fieldDate} />
  *                     <FieldDescription>The date picker allows you to select a date.</FieldDescription>
- *                     <FieldError />
  *                 </Field>
- *             </>
+ *             </div>
  *         );
  *     };
  *

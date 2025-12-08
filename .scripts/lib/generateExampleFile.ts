@@ -13,7 +13,7 @@ export const generateExampleFile = (componentName: string) => {
     export const presets: Preset<${componentName}Props>[] = [];
     
     export const ${componentName}Example: ComponentExample<${componentName}Props> = {
-        containerStyle: { width: '100%' },
+    
         defaultState: {},
         disableProps: [],
         presets,

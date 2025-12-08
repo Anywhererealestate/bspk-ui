@@ -93,7 +93,6 @@ export const presets: Preset<TabGroupProps>[] = [
 ];
 
 export const TabGroupExample: ComponentExample<TabGroupProps> = {
-    containerStyle: { width: '100%' },
     defaultState: {
         options: PRESET_OPTIONS,
     },

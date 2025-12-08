@@ -3,7 +3,6 @@ import { SvgClose } from '@bspk/icons/Close';
 import { ReactNode } from 'react';
 import { Button } from '-/components/Button';
 import { Dialog, DialogProps } from '-/components/Dialog';
-import { Txt } from '-/components/Txt';
 
 export type DrawerProps = Pick<DialogProps, 'container' | 'disableFocusTrap' | 'id' | 'innerRef' | 'owner'> & {
     /** Drawer header. */
@@ -47,8 +46,6 @@ export type DrawerProps = Pick<DialogProps, 'container' | 'disableFocusTrap' | '
  * content or actions without navigating away from the current view.
  *
  * @example
- *     import React from 'react';
- *
  *     import { Button } from '@bspk/ui/Button';
  *     import { Drawer } from '@bspk/ui/Drawer';
  *
@@ -56,18 +53,20 @@ export type DrawerProps = Pick<DialogProps, 'container' | 'disableFocusTrap' | '
  *         const [open, setOpen] = useState(false);
  *
  *         return (
- *             <>
- *                 <Button label="Open Drawer" onClick={() => setOpen(true)} />
+ *             <div style={{ width: '100%', height: 180 }}>
+ *                 <Button label="Toggle Drawer" onClick={() => setOpen(!open)} />
  *                 <Drawer
+ *                     closeButton={true}
+ *                     header="Example Drawer"
  *                     id="exampleId"
+ *                     modal={false}
  *                     onClose={() => setOpen(false)}
  *                     open={open}
- *                     header="Example Drawer"
- *                     closeButton={true}
+ *                     placement="right"
  *                 >
- *                     Example Drawer
+ *                     <ExamplePlaceholder label="Drawer Content" style={{ flexGrow: 1 }} />
  *                 </Drawer>
- *             </>
+ *             </div>
  *         );
  *     };
  *
@@ -97,11 +96,7 @@ export function Drawer({
         >
             {(header || closeButton) && (
                 <div data-drawer-close-only={!header} data-drawer-header>
-                    {header && (
-                        <Txt as="div" data-drawer-title variant="heading-h4">
-                            {header}
-                        </Txt>
-                    )}
+                    {header && <div data-drawer-title>{header}</div>}
                     {closeButton && (
                         <Button icon={<SvgClose />} iconOnly label="close" onClick={onClose} variant="tertiary" />
                     )}

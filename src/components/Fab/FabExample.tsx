@@ -1,4 +1,5 @@
-import { FabProps } from './Fab';
+import { SvgBolt } from '@bspk/icons/Bolt';
+import { Fab, FabProps } from './Fab';
 import { ButtonExample } from '-/components/Button/ButtonExample';
 import { ComponentExample } from '-/utils/demo';
 
@@ -26,4 +27,12 @@ export const FabExample: ComponentExample<FabProps> = {
             label: 'Menu Book',
         },
     },
+};
+
+export const Usage = () => {
+    return (
+        <div style={{ width: '100%', height: 100 }}>
+            <Fab icon={<SvgBolt />} label="Example label" placement="bottom-right" variant="neutral" />
+        </div>
+    );
 };

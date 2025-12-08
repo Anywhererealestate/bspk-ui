@@ -4,7 +4,6 @@ import { ComponentExample, Preset } from '-/utils/demo';
 export const presets: Preset<UIProviderProps>[] = [];
 
 export const UIProviderExample: ComponentExample<UIProviderProps> = {
-    containerStyle: { width: '100%' },
     defaultState: {},
     disableProps: [],
     presets,

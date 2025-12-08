@@ -13,28 +13,24 @@ export type InputProps = Omit<InputElementProps, 'ariaDescribedBy' | 'ariaErrorM
  * @example
  *     import { useState } from 'react';
  *     import { Input } from '@bspk/ui/Input';
- *     import { Field, FieldLabel } from '@bspk/ui/Field';
+ *     import { Field, FieldLabel, FieldDescription } from '@bspk/ui/Field';
  *
  *     () => {
- *         const [value, setValue] = useState('');
+ *         const [fieldDate, setFieldDate] = useState<string>();
  *
  *         return (
- *             <>
- *                 // standalone input example
- *                 <Input aria-label="Example Input" name="example-name" onChange={setValue} value={value} />
- *                 <br />
- *                 // input used within a field
+ *             <div style={{ width: 320 }}>
  *                 <Field>
  *                     <FieldLabel>Example Label</FieldLabel>
- *                     <Input name="example-name" onChange={setValue} value={value} />
+ *                     <Input name="example-name" onChange={setFieldDate} value={fieldDate} />
  *                     <FieldDescription>This is an example input field.</FieldDescription>
  *                 </Field>
- *             </>
+ *             </div>
  *         );
  *     };
  *
  * @name Input
- * @phase Stable
+ * @phase UXReview
  */
 export function Input({
     invalid: invalidProp,
