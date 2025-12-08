@@ -52,6 +52,7 @@ export function Grid({ columns = 1, children, gap, style, minColumnWidth = 'auto
 
     return (
         <div
+            data-bspk-utility="grid"
             style={{
                 width: '100%',
                 display: 'grid',

@@ -2,7 +2,6 @@ import { GridProps } from '.';
 import { ComponentExample } from '-/utils/demo';
 
 export const GridExample: ComponentExample<GridProps> = {
-    containerStyle: { width: '100%' },
     defaultState: {
         children: (
             <>

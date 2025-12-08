@@ -1,4 +1,4 @@
-import { ElementType, ReactNode } from 'react';
+import { CSSProperties, ElementType, ReactNode } from 'react';
 import { ElementProps } from '-/types/common';
 import { SizingPixels, numToSizingVar } from '-/utils/sizing';
 
@@ -10,7 +10,7 @@ export type FlexProps<As extends ElementType = ElementType> = {
      */
     children?: ReactNode;
     /** The gap between the children. */
-    gap?: SizingPixels;
+    gap?: SizingPixels | 'auto';
     /**
      * The element type to render as.
      *
@@ -23,17 +23,19 @@ export type FlexProps<As extends ElementType = ElementType> = {
      *
      * @default flex-start
      */
-    align?: 'center' | 'end' | 'flex-end' | 'flex-start' | 'start' | 'stretch';
+    align?: CSSProperties['alignItems'] | 'end' | 'start';
     /**
      * The justification style to apply to the Flex.
      *
      * @default flex-start
      */
-    justify?: 'center' | 'flex-end' | 'flex-start' | 'stretch';
+    justify?: CSSProperties['justifyContent'];
     /** The flex-wrap style to apply to the Flex. */
-    wrap?: 'nowrap' | 'wrap-reverse' | 'wrap';
+    wrap?: CSSProperties['flexWrap'];
     /** The flex-direction style to apply to the Flex. */
     direction?: 'column-reverse' | 'column' | 'row-reverse' | 'row';
+    /** The padding to apply to the Flex. */
+    padding?: SizingPixels | SizingPixels[];
 };
 
 /**
@@ -42,7 +44,11 @@ export type FlexProps<As extends ElementType = ElementType> = {
  * @example
  *     import { Flex } from '@bspk/ui/Flex';
  *
- *     <Flex>Low effort example</Flex>;
+ *     <Flex gap="24" justify="center" style={{ width: '100%' }}>
+ *         <div>Alpha</div>
+ *         <div>Beta</div>
+ *         <div>Gamma</div>
+ *     </Flex>;
  *
  * @name Flex
  * @phase Utility
@@ -56,29 +62,39 @@ export function Flex<As extends ElementType = ElementType>({
     justify = 'flex-start',
     wrap,
     direction = 'row',
+    padding,
     ...props
 }: ElementProps<FlexProps<As>, As>) {
     const As: ElementType = as || 'div';
 
     const alignItems = align === 'start' ? 'flex-start' : align === 'end' ? 'flex-end' : align;
 
+    const paddingValue = getPaddingValue(padding);
+
     return (
         <As
             {...props}
-            // data-bspk="layout" -- Utility components do not need a data-bspk attribute
+            data-bspk-utility="flex"
             style={{
-                ...style,
                 display: 'flex',
                 flexDirection: direction,
-                gap: numToSizingVar(gap),
+                gap: gap === 'auto' ? 'auto' : numToSizingVar(gap),
                 alignItems,
                 justifyContent: justify || 'flex-start',
                 flexWrap: wrap ? 'wrap' : 'nowrap',
+                padding: paddingValue,
+                ...style,
             }}
         >
             {children}
         </As>
     );
+}
+
+function getPaddingValue(padding?: SizingPixels | SizingPixels[]): string | undefined {
+    if (!padding) return undefined;
+
+    return (!Array.isArray(padding) ? [padding] : padding).map((p) => numToSizingVar(p)).join(' ');
 }
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
