@@ -9,11 +9,15 @@ export type GridProps = {
      */
     children: ReactNode;
     /**
-     * The number of columns in the grid or an array of column widths in fractions.
+     * The number of columns in the grid or an array of column widths in fractions or other CSS units.
+     *
+     * Values may be "100px, auto, 2fr, 20%" for four columns with specific widths.
      *
      * @default 1
+     *
+     * @exampleType string
      */
-    columns?: number[] | number;
+    columns?: (number | string)[] | number;
     /** The gap between the children. */
     gap?: SizingPixels;
     /** Additional styles for the grid container. */
@@ -46,7 +50,9 @@ export function Grid({ columns = 1, children, gap, style, minColumnWidth = 'auto
     let gridTemplateColumns = `repeat(auto-fit, minmax(${minColumnWidth}, 1fr))`;
 
     // If columns is an array, map it to a string of fractions
-    if (Array.isArray(columns)) gridTemplateColumns = columns?.map((width) => `${width}fr`).join(' ') || 'auto';
+    if (Array.isArray(columns))
+        gridTemplateColumns =
+            columns?.map((width) => (typeof width === 'string' ? width : `${width}fr`)).join(' ') || 'auto';
     // If columns is not an array, use the default repeat pattern
     else gridTemplateColumns = `repeat(${columns}, minmax(${minColumnWidth}, 1fr))`;
 
