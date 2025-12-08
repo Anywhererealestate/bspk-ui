@@ -7,14 +7,14 @@ export const presets: Preset<EmptyStateProps>[] = [
         label: 'With Custom Content',
         propState: {
             callToAction: undefined,
-            body: 'Example body',
-            header: 'Example header',
+            body: 'No results found',
+            header: 'We couldn’t find any matching results. Try changing your search.',
             children: (
                 <ExamplePlaceholder
+                    label="Illustration slot or icon slot"
                     style={{
                         height: '200px',
-                        width: '60%',
-                        minWidth: '250px',
+                        width: '200px',
                     }}
                 />
             ),
@@ -23,7 +23,7 @@ export const presets: Preset<EmptyStateProps>[] = [
 ];
 
 export const EmptyStateExample: ComponentExampleFn<EmptyStateProps> = ({ action }) => ({
-    containerStyle: { width: '100%' },
+    containerStyle: { width: '400px' },
     render: ({ props: { children, ...props }, Component }) => <Component {...props}>{children}</Component>,
     presets: [
         {

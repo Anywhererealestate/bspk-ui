@@ -11,6 +11,6 @@ describe('EmptyState (RTL)', () => {
     it('renders', () => {
         const { getByText } = render(<EmptyState {...presets[0].propState} />);
 
-        expect(getByText('Example header')).toBeInTheDocument();
+        expect(getByText('No results found')).toBeInTheDocument();
     });
 });

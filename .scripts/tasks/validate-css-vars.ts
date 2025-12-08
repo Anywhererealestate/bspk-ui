@@ -8,9 +8,10 @@
  *
  * UI: val-css - Validate that all CSS variables used in the library are defined in the brand CSS files
  */
+import { execSync } from 'child_process';
 import fs from 'fs';
 
-const STYLES_DIR = './node_modules/@bspk/styles';
+const STYLES_DIR = execSync(`npm explore @bspk/styles -- pwd`).toString().trim();
 
 function variableTest() {
     const vars: Record<

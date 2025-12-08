@@ -20,9 +20,13 @@ export const DividerExample: ComponentExample<DividerProps> = {
                     maxWidth: props.orientation !== 'vertical' ? '300px' : 'auto',
                 }}
             >
-                <ExamplePlaceholder direction={props.orientation !== 'vertical' ? 'row' : 'column'} style={style} />
+                <ExamplePlaceholder
+                    style={{ ...style, flexDirection: props.orientation !== 'vertical' ? 'row' : 'column' }}
+                />
                 <Component {...props} />
-                <ExamplePlaceholder direction={props.orientation !== 'vertical' ? 'row' : 'column'} style={style} />
+                <ExamplePlaceholder
+                    style={{ ...style, flexDirection: props.orientation !== 'vertical' ? 'row' : 'column' }}
+                />
             </div>
         );
     },

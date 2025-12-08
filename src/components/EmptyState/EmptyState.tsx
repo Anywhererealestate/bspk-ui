@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 
 import { Button } from '-/components/Button';
-import { Layout } from '-/components/Layout';
+import { Flex } from '-/components/Flex';
 import { Txt } from '-/components/Txt';
 import { CallToActionButton } from '-/types/common';
 
@@ -42,7 +42,7 @@ export type EmptyStateProps = {
  *     import { EmptyState } from '@bspk/ui/EmptyState';
  *
  *     <EmptyState body="Example body" header="Example header">
- *         Example EmptyState
+ *         <ExamplePlaceholder height="200px" width="200px" label="Illustration slot or icon slot" />
  *     </EmptyState>;
  *
  * @name EmptyState
@@ -50,24 +50,17 @@ export type EmptyStateProps = {
  */
 export function EmptyState({ children, header, body, callToAction, bodyAlign = 'center' }: EmptyStateProps) {
     return (
-        <Layout
-            align="center"
-            column
-            data-bspk="empty-state"
-            style={{
-                margin: 'var(--spacing-sizing-04)',
-                maxWidth: '500px',
-            }}
-        >
+        <Flex align="center" data-bspk="empty-state" direction="column" gap="16">
             {children}
-            <Layout align="center" column gap="4">
-                <Txt as="header" variant="heading-h5">
-                    {header}
-                </Txt>
-                <Txt as="p" style={{ textAlign: bodyAlign }} variant="body-base">
-                    {body}
-                </Txt>
-            </Layout>
+            <Flex
+                align={bodyAlign === 'left' ? 'flex-start' : 'center'}
+                direction="column"
+                gap="4"
+                style={{ textAlign: bodyAlign }}
+            >
+                <Txt variant="heading-h5">{header}</Txt>
+                <Txt variant="body-base">{body}</Txt>
+            </Flex>
             {callToAction && (
                 <Button
                     label={callToAction.label}
@@ -76,7 +69,7 @@ export function EmptyState({ children, header, body, callToAction, bodyAlign = '
                     variant="primary"
                 />
             )}
-        </Layout>
+        </Flex>
     );
 }
 

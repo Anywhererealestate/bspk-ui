@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { ReactNode } from 'react';
 
 import { Txt } from '-/components/Txt';
 import { ElementProps } from '-/types/common';
@@ -6,12 +6,6 @@ import { ElementProps } from '-/types/common';
 const dimension = (value: number | string) => (typeof value === 'number' ? `${value}px` : `${value}`);
 
 export type ExamplePlaceholderProps = {
-    /**
-     * Whether to hide the size text.
-     *
-     * @default false
-     */
-    hideSize?: boolean;
     /**
      * The height of the placeholder.
      *
@@ -26,12 +20,10 @@ export type ExamplePlaceholderProps = {
      * @type string
      */
     width?: number | string;
-    /**
-     * The direction of the placeholder.
-     *
-     * @default 'row'
-     */
-    direction?: 'column' | 'row';
+    /** An optional label for the placeholder. */
+    label?: string;
+    /** Optional children to display inside the placeholder instead of the label. */
+    children?: ReactNode;
 };
 
 /**
@@ -41,28 +33,31 @@ export type ExamplePlaceholderProps = {
  * @phase Utility
  */
 export function ExamplePlaceholder({
-    hideSize = false,
     height = 100,
     width = '100%',
-    direction = 'row',
+    label,
+    children,
     ...props
 }: ElementProps<ExamplePlaceholderProps, 'div'>) {
-    const ref = useRef<HTMLDivElement | null>(null);
-
     return (
         <div
             {...props}
             data-bspk-utility="example-placeholder"
-            data-example-placeholder
-            ref={ref}
             style={{
-                ...props.style,
+                flexDirection: 'column',
+                gap: 'var(--spacing-sizing-01)',
                 width: dimension(width),
                 height: dimension(height),
-                flexDirection: direction,
+                background: 'var(--surface-neutral-t3-low)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                textAlign: 'center',
+                font: 'var(--body-x-small)',
+                ...props.style,
             }}
         >
-            {!hideSize && (
+            {children || label || (
                 <>
                     <Txt variant="labels-large">{dimension(width)}</Txt>
                     <Txt>&times;</Txt>
