@@ -7,6 +7,7 @@ export type RatingProps = {
     /**
      * The value of the rating between 0 and 5.
      *
+     * @default 0
      * @minimum 0
      * @maximum 5
      */

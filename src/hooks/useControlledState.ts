@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useRef, useCallback } from 'react';
 
 /**
  * A custom hook to manage controlled and uncontrolled state.
@@ -6,17 +6,26 @@ import { useState, useEffect } from 'react';
  * Allows a component to either be controlled by an external value or manage its own internal state. This is helpful for
  * components that should operate in both controlled and uncontrolled modes.
  */
-export function useControlledState<V>(
-    externalValue: V | undefined,
-    changeCallBack?: (newValue: V) => void,
-): [V, (newValue: V) => void] {
-    const [value, setValue] = useState<V | undefined>(externalValue);
-    useEffect(() => setValue(externalValue), [externalValue]);
+export function useControlledState<T>(
+    initialValue: T,
+    onChange?: (value: T) => void,
+): [T, (value: T | ((prev: T) => T)) => void] {
+    const [internalValue, setInternalValue] = useState(initialValue);
 
-    const onChange = (newValue: V) => {
-        setValue(newValue);
-        changeCallBack?.(newValue);
-    };
+    const stateRef = useRef<T>(initialValue);
 
-    return [value as V, onChange];
+    return [
+        internalValue,
+        useCallback(
+            (next: T | ((prev: T) => T)) => {
+                const nextValue = typeof next === 'function' ? (next as (p: T) => T)(stateRef.current) : next;
+
+                setInternalValue(nextValue);
+                onChange?.(nextValue);
+
+                stateRef.current = nextValue;
+            },
+            [onChange],
+        ),
+    ] as const;
 }

@@ -31,8 +31,6 @@ jobs:
                   node-version: 20
 
             - name: Install dependencies
-              env:
-                  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
               run: npm ci
 
             - name: Lint Components
