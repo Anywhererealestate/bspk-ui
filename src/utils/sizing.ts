@@ -1,10 +1,23 @@
-export type SizingPixels = '0' | '4' | '8' | '12' | '16' | '20' | '24' | '28' | '32' | '40';
+export const SIZING_VALUES = [
+    //
+    '0',
+    '4',
+    '8',
+    '12',
+    '16',
+    '20',
+    '24',
+    '28',
+    '32',
+    '40',
+] as const;
 
-export function numToSizingVar(gapProp?: string, defaultValue?: SizingPixels): string | undefined {
-    const gap = gapProp || defaultValue || '0';
+export type SizingPixels = `${(typeof SIZING_VALUES)[number]}`;
 
-    const num = parseInt(gap, 10);
-    const quarter = num && !Number.isNaN(num) ? Math.max(1, Math.round(num / 4)) : 0;
+export function numToSizingVar(numStrProp?: string): string | undefined {
+    if (numStrProp === undefined || ['auto', '0'].includes(numStrProp)) return numStrProp;
 
-    return quarter === 0 ? '0' : `var(--spacing-sizing-${String(quarter).padStart(2, '0')})`;
+    if (!SIZING_VALUES.includes(numStrProp as SizingPixels)) return undefined;
+
+    return `var(--spacing-sizing-${numStrProp.padStart(2, '0')})`;
 }
