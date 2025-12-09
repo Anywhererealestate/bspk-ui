@@ -13,9 +13,6 @@
         "tsconfig.json",
         "tsconfig.build.json"
     ],
-    "bin": {
-        "ui": "./.scripts/index.ts"
-    },
     "scripts": {
         "sass": "npx sass --no-source-map --silence-deprecation=mixed-decls src:dist",
         "build": "npx tsx build.ts",
