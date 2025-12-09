@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useEventListener } from '-/hooks/useAddEventListener';
+import { useEventListener } from '-/hooks/useEventListener';
 import { useTimeout } from '-/hooks/useTimeout';
 import { AriaLiveMessage } from '-/utils/uiContext';
 

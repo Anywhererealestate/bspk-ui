@@ -1,4 +1,4 @@
-import { useEventListener } from '-/hooks/useAddEventListener';
+import { useEventListener } from '-/hooks/useEventListener';
 
 export type CustomEventDetail =
     | Array<CustomEventDetail>

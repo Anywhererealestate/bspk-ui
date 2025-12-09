@@ -1,7 +1,7 @@
 import { useState, ReactNode } from 'react';
 import { AriaLiveMessageHandler, sendAriaLiveMessage } from './AriaLiveMessageHandler';
-import { useEventListener } from '-/hooks/useAddEventListener';
 import { useDebounceState } from '-/hooks/useDebounceState';
+import { useEventListener } from '-/hooks/useEventListener';
 import { useIsomorphicEffect } from '-/hooks/useIsomorphicEffect';
 import { UIContext, ColorTheme } from '-/utils/uiContext';
 
