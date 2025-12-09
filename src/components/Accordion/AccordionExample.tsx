@@ -11,7 +11,7 @@ const AccordionContent = () => (
 
 export const presets: Preset<AccordionProps>[] = [
     {
-        label: 'Multiple Sections',
+        label: 'Default',
         propState: {
             items: [
                 {
@@ -36,7 +36,7 @@ export const presets: Preset<AccordionProps>[] = [
         },
     },
     {
-        label: 'Multiple Sections with 1 disabled',
+        label: '1 disabled',
         propState: {
             items: [
                 {
@@ -50,7 +50,8 @@ export const presets: Preset<AccordionProps>[] = [
         },
     },
     {
-        label: 'Multiple Sections with 1 disabled and open',
+        label: '1 disabled and open (but not showing)',
+        hideDemo: true,
         propState: {
             items: [
                 {

@@ -1,6 +1,6 @@
 import { useState, ReactNode } from 'react';
-import { useEventListener } from '-/hooks/useEventListener';
 import { useDebounceState } from '-/hooks/useDebounceState';
+import { useEventListener } from '-/hooks/useEventListener';
 import { useIsomorphicEffect } from '-/hooks/useIsomorphicEffect';
 import { UIContext, ColorTheme } from '-/utils/uiContext';
 

@@ -1,5 +1,4 @@
 export const SIZING_VALUES = [
-    //
     '0',
     '4',
     '8',
@@ -10,6 +9,14 @@ export const SIZING_VALUES = [
     '28',
     '32',
     '40',
+    '44',
+    '48',
+    '52',
+    '56',
+    '60',
+    '64',
+    '68',
+    '72',
 ] as const;
 
 export type SizingPixels = `${(typeof SIZING_VALUES)[number]}`;

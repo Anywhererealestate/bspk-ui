@@ -161,7 +161,12 @@ export type Preset<Props> = {
     label: string;
     /** The props of the component. This is used to set props of the component. These values can't be changed in the UI. */
     propState: Omit<Props, OnHandlers> & Record<OnHandlers, unknown>;
-    otherState?: Record<string, Record<string, unknown> | unknown> & Record<string, unknown>;
+    /**
+     * Hide the demo for this preset.
+     *
+     * @default false
+     */
+    hideDemo?: boolean;
 };
 
 export type DemoPreset<P = Record<string, unknown>> = Preset<P> & {
