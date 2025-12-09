@@ -112,7 +112,7 @@ export function Slider<V = SliderValue>({
     name,
     formatNumber: formatNumberProp,
 }: SliderProps<V>) {
-    const [value, onChange] = useControlledState<V>((valueProp || min) as V, valueProp, onChangeProp);
+    const [value, onChange] = useControlledState<V>((valueProp || min) as V, onChangeProp);
 
     const formatNumber: SliderProps<V>['formatNumber'] = (rawValue, context) =>
         formatNumberProp?.(rawValue, context) || rawValue.toString();

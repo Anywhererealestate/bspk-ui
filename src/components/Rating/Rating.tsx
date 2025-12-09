@@ -46,7 +46,7 @@ const iconWidths: Record<RatingSize, number> = {
  * @phase Stable
  */
 export function Rating({ size = 'medium', value: valueProp, onChange: onChangeProp }: RatingProps) {
-    const [value, onChange] = useControlledState(valueProp, valueProp, onChangeProp);
+    const [value, onChange] = useControlledState(valueProp, onChangeProp);
 
     if (!onChangeProp)
         return (
