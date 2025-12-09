@@ -78,7 +78,22 @@ export type SliderProps<Value> = Pick<CommonPropsLibrary, 'disabled' | 'readOnly
  *     () => {
  *         const [value, setValue] = useState(50);
  *
- *         return <Slider value={value} min={0} max={100} label="Slider Example" onChange={setValue} />;
+ *         return (
+ *             <div style={{ width: '100%' }}>
+ *                 <Slider
+ *                     label="Slider Example"
+ *                     max={100}
+ *                     min={0}
+ *                     name="slider-example"
+ *                     onChange={setValue}
+ *                     value={value}
+ *                 />
+ *                 <p>
+ *                     <br />
+ *                     Current Value: {value}
+ *                 </p>
+ *             </div>
+ *         );
  *     };
  *
  * @name Slider
@@ -97,10 +112,7 @@ export function Slider<V = SliderValue>({
     name,
     formatNumber: formatNumberProp,
 }: SliderProps<V>) {
-    const [value, onChange] = useControlledState<V>(
-        valueProp ?? ((typeof valueProp === 'number' ? min : [min, max]) as V),
-        onChangeProp,
-    );
+    const [value, onChange] = useControlledState<V>((valueProp || min) as V, valueProp, onChangeProp);
 
     const formatNumber: SliderProps<V>['formatNumber'] = (rawValue, context) =>
         formatNumberProp?.(rawValue, context) || rawValue.toString();

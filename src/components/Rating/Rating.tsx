@@ -7,6 +7,7 @@ export type RatingProps = {
     /**
      * The value of the rating between 0 and 5.
      *
+     * @default 0
      * @minimum 0
      * @maximum 5
      */
@@ -45,7 +46,7 @@ const iconWidths: Record<RatingSize, number> = {
  * @phase Stable
  */
 export function Rating({ size = 'medium', value: valueProp, onChange: onChangeProp }: RatingProps) {
-    const [value, onChange] = useControlledState(valueProp, onChangeProp);
+    const [value, onChange] = useControlledState(valueProp, valueProp, onChangeProp);
 
     if (!onChangeProp)
         return (

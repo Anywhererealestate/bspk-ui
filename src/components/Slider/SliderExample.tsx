@@ -1,6 +1,7 @@
+/* eslint-disable react/no-multi-comp */
 import { useState } from 'react';
 
-import { SliderProps } from './Slider';
+import { Slider, SliderProps } from './Slider';
 import { ComponentExample } from '-/utils/demo';
 
 export const SliderExample: ComponentExample<SliderProps<number | [number, number]>> = {
@@ -87,4 +88,18 @@ export const SliderExample: ComponentExample<SliderProps<number | [number, numbe
         formatNumber: (num) => `$${num}`,
         name: 'basic-slider',
     },
+};
+
+export const Usage = () => {
+    const [value, setValue] = useState(50);
+
+    return (
+        <div style={{ width: '100%' }}>
+            <Slider label="Slider Example" max={100} min={0} name="slider-example" onChange={setValue} value={value} />
+            <p>
+                <br />
+                Current Value: {value}
+            </p>
+        </div>
+    );
 };
