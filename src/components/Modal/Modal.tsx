@@ -4,8 +4,8 @@ import { ReactNode, useMemo, useRef } from 'react';
 import { Button, ButtonProps } from '-/components/Button';
 import { DialogProps, Dialog } from '-/components/Dialog';
 import { Txt } from '-/components/Txt';
-import { useEventListener } from '-/hooks/useAddEventListener';
 import { useDebounceCallback } from '-/hooks/useDebounceCallback';
+import { useEventListener } from '-/hooks/useEventListener';
 import { useUIContext } from '-/hooks/useUIContext';
 import { CallToActionButton } from '-/types/common';
 

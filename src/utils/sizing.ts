@@ -14,10 +14,10 @@ export const SIZING_VALUES = [
 
 export type SizingPixels = `${(typeof SIZING_VALUES)[number]}`;
 
-export function numToSizingVar(numStrProp?: string): string | undefined {
-    if (numStrProp === undefined || ['auto', '0'].includes(numStrProp)) return numStrProp;
+export function numToSizingVar(numStr?: string): string | undefined {
+    if (numStr === undefined || ['auto', '0'].includes(numStr)) return numStr;
 
-    if (!SIZING_VALUES.includes(numStrProp as SizingPixels)) return undefined;
+    if (!SIZING_VALUES.includes(numStr as SizingPixels)) return undefined;
 
-    return `var(--spacing-sizing-${numStrProp.padStart(2, '0')})`;
+    return `var(--spacing-sizing-${(Number(numStr) / 4).toString().padStart(2, '0')})`;
 }
