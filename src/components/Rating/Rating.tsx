@@ -1,5 +1,6 @@
 import './rating.scss';
 import { SvgStarFill } from '@bspk/icons/StarFill';
+import { useControlledState } from '-/hooks/useControlledState';
 
 export type RatingSize = 'large' | 'medium' | 'small';
 export type RatingProps = {
@@ -43,8 +44,10 @@ const iconWidths: Record<RatingSize, number> = {
  * @name Rating
  * @phase Stable
  */
-export function Rating({ size = 'medium', value, onChange }: RatingProps) {
-    if (!onChange)
+export function Rating({ size = 'medium', value: valueProp, onChange: onChangeProp }: RatingProps) {
+    const [value, onChange] = useControlledState(valueProp, onChangeProp);
+
+    if (!onChangeProp)
         return (
             <div
                 aria-label={value ? `${value} out of ${MAX_STARS} stars` : 'Rating'}

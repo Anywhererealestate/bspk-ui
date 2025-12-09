@@ -108,6 +108,18 @@ export type ComponentExample<Props = Record<string, unknown>, PropName extends k
     disableProps?: PropName[] | true;
     /** The sections of the example. */
     sections?: ComponentPageSection<Props>[];
+    /**
+     * Whether to render the example in a full page layout.
+     *
+     * @default false
+     */
+    fullPage?: boolean;
+    /**
+     * Hide the demo entirely.
+     *
+     * @default false
+     */
+    hideDemo?: boolean;
 };
 
 export type Syntax = (params: {
@@ -144,12 +156,17 @@ export type Preset<Props> = {
      * A description of the design pattern this preset demonstrates. When applied, it showcases the specific use case or
      * behavior of the component.
      */
-    designPattern?: string;
+    designPattern?: boolean | string;
     /** The name of the preset. This is used to display the preset in the UI. */
     label: string;
     /** The props of the component. This is used to set props of the component. These values can't be changed in the UI. */
     propState: Omit<Props, OnHandlers> & Record<OnHandlers, unknown>;
-    otherState?: Record<string, Record<string, unknown> | unknown> & Record<string, unknown>;
+    /**
+     * Hide the demo for this preset.
+     *
+     * @default false
+     */
+    hideDemo?: boolean;
 };
 
 export type DemoPreset<P = Record<string, unknown>> = Preset<P> & {

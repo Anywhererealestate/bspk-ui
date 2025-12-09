@@ -69,25 +69,27 @@ export type AccordionProps = {
  * @example
  *     import { Accordion } from '@bspk/ui/Accordion';
  *
- *     <Accordion
- *         singleOpen={true}
- *         items={[
- *             {
- *                 id: 1,
- *                 title: 'Lawrence Welk',
- *                 subtitle: 'The Champagne Music Maker',
- *                 children:
- *                     'Lawrence Welk was an American accordionist, bandleader, and television impresario, who hosted The Lawrence Welk Show from 1951 to 1982.',
- *             },
- *             {
- *                 id: 2,
- *                 title: 'Myron Floren',
- *                 subtitle: 'The Happy Norwegian',
- *                 children:
- *                     'Myron Floren was an American accordionist best known as the featured accordionist on The Lawrence Welk Show.',
- *             },
- *         ]}
- *     />;
+ *     <div style={{ width: 400 }}>
+ *         <Accordion
+ *             singleOpen={true}
+ *             items={[
+ *                 {
+ *                     id: 1,
+ *                     title: 'Lawrence Welk',
+ *                     subtitle: 'The Champagne Music Maker',
+ *                     children:
+ *                         'Lawrence Welk was an American accordionist, bandleader, and television impresario, who hosted The Lawrence Welk Show from 1951 to 1982.',
+ *                 },
+ *                 {
+ *                     id: 2,
+ *                     title: 'Myron Floren',
+ *                     subtitle: 'The Happy Norwegian',
+ *                     children:
+ *                         'Myron Floren was an American accordionist best known as the featured accordionist on The Lawrence Welk Show.',
+ *                 },
+ *             ]}
+ *         />
+ *     </div>;
  *
  * @name Accordion
  * @phase Stable

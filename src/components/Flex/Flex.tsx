@@ -78,7 +78,7 @@ export function Flex<As extends ElementType = ElementType>({
             style={{
                 display: 'flex',
                 flexDirection: direction,
-                gap: gap === 'auto' ? 'auto' : numToSizingVar(gap),
+                gap: numToSizingVar(gap),
                 alignItems,
                 justifyContent: justify || 'flex-start',
                 flexWrap: wrap ? 'wrap' : 'nowrap',

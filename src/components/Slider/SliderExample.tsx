@@ -4,7 +4,6 @@ import { SliderProps } from './Slider';
 import { ComponentExample } from '-/utils/demo';
 
 export const SliderExample: ComponentExample<SliderProps<number | [number, number]>> = {
-    // containerStyle: { width: '100%' },
     render: ({ props, Component }) => {
         const SliderDemo = (sliderProps: SliderProps<number | [number, number]>) => {
             const initialValue = Array.isArray(sliderProps.value)

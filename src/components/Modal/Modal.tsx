@@ -4,8 +4,8 @@ import { ReactNode, useMemo, useRef } from 'react';
 import { Button, ButtonProps } from '-/components/Button';
 import { DialogProps, Dialog } from '-/components/Dialog';
 import { Txt } from '-/components/Txt';
-import { useEventListener } from '-/hooks/useAddEventListener';
 import { useDebounceCallback } from '-/hooks/useDebounceCallback';
+import { useEventListener } from '-/hooks/useEventListener';
 import { useUIContext } from '-/hooks/useUIContext';
 import { CallToActionButton } from '-/types/common';
 
@@ -109,8 +109,6 @@ export type ModalProps = Pick<
  * footer for the dialog.
  *
  * @example
- *     import React from 'react';
- *
  *     import { Button } from '@bspk/ui/Button';
  *     import { Modal } from '@bspk/ui/Modal';
  *

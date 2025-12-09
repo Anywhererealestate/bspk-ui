@@ -1,5 +1,7 @@
+import { useState } from 'react';
 import { Drawer, DrawerProps } from '.';
 import { Button } from '-/components/Button';
+import { ExamplePlaceholder } from '-/components/ExamplePlaceholder';
 import { ComponentExampleFn, Preset } from '-/utils/demo';
 
 export const presets: Preset<DrawerProps>[] = [
@@ -23,11 +25,12 @@ export const DrawerExample: ComponentExampleFn<DrawerProps> = ({ action }) => ({
     presets,
     render: ({ props, preset, setState, Component }) => {
         if (!preset) return null;
-        const label = 'Open Drawer';
         const handleOnClose = () => {
             action('Drawer closed');
             setState({ open: false });
         };
+
+        const toggleButton = <Button label="Toggle Drawer" onClick={() => setState({ open: !props.open })} />;
 
         switch (preset.label) {
             case 'Left Responsive':
@@ -45,7 +48,7 @@ export const DrawerExample: ComponentExampleFn<DrawerProps> = ({ action }) => ({
                                 marginLeft: props.open ? `280px` : 0,
                             }}
                         >
-                            <Button label={label} onClick={() => setState({ open: true })} />
+                            {toggleButton}
                         </div>
                     </>
                 );
@@ -58,7 +61,7 @@ export const DrawerExample: ComponentExampleFn<DrawerProps> = ({ action }) => ({
                                 marginRight: props.open ? `280px` : 0,
                             }}
                         >
-                            <Button label={label} onClick={() => setState({ open: true })} />
+                            {toggleButton}
                         </div>
                         <Drawer {...props} onClose={handleOnClose}>
                             <div style={{ width: '280px' }}>
@@ -71,7 +74,7 @@ export const DrawerExample: ComponentExampleFn<DrawerProps> = ({ action }) => ({
                 return (
                     <>
                         <div style={{ display: 'flex', justifyContent: 'center', padding: 'var(--spacing-sizing-04)' }}>
-                            <Button label={label} onClick={() => setState({ open: true })} />
+                            {toggleButton}
                         </div>
                         <Component
                             data-example-component
@@ -91,3 +94,24 @@ export const DrawerExample: ComponentExampleFn<DrawerProps> = ({ action }) => ({
     },
     variants: false,
 });
+
+export const Usage = () => {
+    const [open, setOpen] = useState(false);
+
+    return (
+        <div style={{ width: '100%', height: 180 }}>
+            <Button label="Toggle Drawer" onClick={() => setOpen(!open)} />
+            <Drawer
+                closeButton={true}
+                header="Example Drawer"
+                id="exampleId"
+                modal={false}
+                onClose={() => setOpen(false)}
+                open={open}
+                placement="right"
+            >
+                <ExamplePlaceholder label="Drawer Content" style={{ flexGrow: 1 }} />
+            </Drawer>
+        </div>
+    );
+};

@@ -41,23 +41,25 @@ export type BreadcrumbProps = CommonProps<'id'> &
  * @example
  *     import { Breadcrumb } from '@bspk/ui/breadcrumb';
  *
- *     <Breadcrumb
- *         id="example-breadcrumb"
- *         scrollLimit={5}
- *         items={[
- *             { label: 'Brioche', href: '#brioche' },
- *             { label: 'Whole Wheat', href: '#whole-wheat' },
- *             { label: 'Sourdough', href: '#sourdough' },
- *             { label: 'Rye', href: '#rye' },
- *             { label: 'Multigrain', href: '#multigrain' },
- *             { label: 'Baguette', href: '#baguette' },
- *             { label: 'Focaccia', href: '#focaccia' },
- *             { label: 'Ciabatta', href: '#ciabatta' },
- *             { label: 'Pita', href: '#pita' },
- *             { label: 'Naan', href: '#naan' },
- *             { label: 'Flatbread', href: '#flatbread' },
- *         ]}
- *     />;
+ *     <div style={{ padding: '0px 20px', width: '100%' }}>
+ *         <Breadcrumb
+ *             id="example-breadcrumb"
+ *             scrollLimit={5}
+ *             items={[
+ *                 { label: 'Brioche', href: '#brioche' },
+ *                 { label: 'Whole Wheat', href: '#whole-wheat' },
+ *                 { label: 'Sourdough', href: '#sourdough' },
+ *                 { label: 'Rye', href: '#rye' },
+ *                 { label: 'Multigrain', href: '#multigrain' },
+ *                 { label: 'Baguette', href: '#baguette' },
+ *                 { label: 'Focaccia', href: '#focaccia' },
+ *                 { label: 'Ciabatta', href: '#ciabatta' },
+ *                 { label: 'Pita', href: '#pita' },
+ *                 { label: 'Naan', href: '#naan' },
+ *                 { label: 'Flatbread', href: '#flatbread' },
+ *             ]}
+ *         />
+ *     </div>;
  *
  * @name Breadcrumb
  * @phase Stable

@@ -17,7 +17,6 @@ export const presets: Preset<CalendarProps>[] = [
 ];
 
 export const CalendarExample: ComponentExample<CalendarProps> = {
-    containerStyle: { width: '100%' },
     defaultState: {
         value: undefined,
     },

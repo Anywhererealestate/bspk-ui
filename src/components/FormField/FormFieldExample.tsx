@@ -25,7 +25,6 @@ export const presets: Preset<Partial<ExampleProps>>[] = [
 ];
 
 export const FormFieldExample: ComponentExample<ExampleProps> = {
-    containerStyle: { width: '100%' },
     defaultState: {},
     disableProps: [],
     presets: presets as Preset<ExampleProps>[],

@@ -14,29 +14,24 @@ export type PasswordProps = FieldControlProps & Pick<InputProps, 'containerRef' 
  *
  * @example
  *     import { Password } from '@bspk/ui/Password';
- *     import { useState } from 'react';
+ *     import { Field, FieldLabel, FieldDescription } from '-/components/Field';
  *
  *     () => {
- *         const [value, setValue] = useState('');
+ *         const [value, setValue] = useState<string | undefined>('');
  *
  *         return (
- *             <>
- *                 // standalone password example
- *                 <Password
- *                     aria-label="Enter password"
- *                     value={value}
- *                     onChange={setValue}
- *                     aria-label="password"
- *                     name="password"
- *                 />
- *                 <br />
- *                 // password used within a field
+ *             <div style={{ width: 320 }}>
  *                 <Field>
  *                     <FieldLabel>Password</FieldLabel>
- *                     <Password value={value} onChange={setValue} aria-label="password" name="password" />
+ *                     <Password
+ *                         aria-label="password"
+ *                         name="password"
+ *                         onChange={(next) => setValue(next)}
+ *                         value={value}
+ *                     />
  *                     <FieldDescription>The password field allows you to enter a secure password.</FieldDescription>
  *                 </Field>
- *             </>
+ *             </div>
  *         );
  *     };
  *

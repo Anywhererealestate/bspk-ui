@@ -46,10 +46,10 @@ const insetToVariable = (insetProp: number | string) => {
  * @example
  *     import { Divider } from '@bspk/ui/Divider';
  *
- *     <div>
- *         <p>Content above the divider</p>
+ *     <div style={{ width: 320 }}>
+ *         <ExamplePlaceholder>Content above the divider</ExamplePlaceholder>
  *         <Divider orientation="horizontal" />
- *         <p>Content below the divider</p>
+ *         <ExamplePlaceholder>Content below the divider</ExamplePlaceholder>
  *     </div>;
  *
  * @name Divider

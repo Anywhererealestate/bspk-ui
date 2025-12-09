@@ -4,7 +4,6 @@ import { Button } from '-/components/Button';
 import { ComponentExample } from '-/utils/demo';
 
 export const BadgeDotExample: ComponentExample<BadgeDotProps> = {
-    containerStyle: { width: '100%' },
     defaultState: {},
     disableProps: [],
     render: ({ props, Component }) => {

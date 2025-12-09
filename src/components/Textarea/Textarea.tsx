@@ -50,19 +50,16 @@ export type TextareaProps = CommonProps<'size'> &
  *     import { Textarea } from '@bspk/ui/Textarea';
  *
  *     () => {
- *         const [value, setValue] = useState('');
+ *         const [value, setValue] = useState<string | undefined>('');
+ *
  *         return (
- *             <>
- *                 // standalone textarea example
- *                 <Textarea aria-label="Enter text" name="example-name" onChange={setValue} value={value} />
- *                 <br />
- *                 // textarea used within a field
+ *             <div style={{ width: 320 }}>
  *                 <Field>
  *                     <FieldLabel>Example Textarea</FieldLabel>
  *                     <Textarea name="example-name" onChange={setValue} value={value} />
  *                     <FieldDescription>This is an example textarea field.</FieldDescription>
  *                 </Field>
- *             </>
+ *             </div>
  *         );
  *     };
  *

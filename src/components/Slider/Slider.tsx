@@ -3,6 +3,7 @@ import { useEffect, useRef } from 'react';
 import { SliderIntervalDots } from './SliderIntervalDots';
 import { useNormalizeSliderValue } from './useNormalizeSliderValue';
 import { Txt } from '-/components/Txt';
+import { useControlledState } from '-/hooks/useControlledState';
 import { CommonPropsLibrary } from '-/types/common';
 
 export type SliderValue = number | [number, number];
@@ -85,7 +86,7 @@ export type SliderProps<Value> = Pick<CommonPropsLibrary, 'disabled' | 'readOnly
  */
 export function Slider<V = SliderValue>({
     value: valueProp,
-    onChange,
+    onChange: onChangeProp,
     min,
     max,
     label,
@@ -96,7 +97,11 @@ export function Slider<V = SliderValue>({
     name,
     formatNumber: formatNumberProp,
 }: SliderProps<V>) {
-    const value = (valueProp as V) || min;
+    const [value, onChange] = useControlledState<V>(
+        valueProp ?? ((typeof valueProp === 'number' ? min : [min, max]) as V),
+        onChangeProp,
+    );
+
     const formatNumber: SliderProps<V>['formatNumber'] = (rawValue, context) =>
         formatNumberProp?.(rawValue, context) || rawValue.toString();
     const sliderRef = useRef<HTMLDivElement>(null);

@@ -42,8 +42,6 @@ export type MenuProps<As extends ElementType = ElementType> = CommonProps<'id' |
  * A container housing a simple list of options presented to the customer to select one option at a time.
  *
  * @example
- *     import React from 'react';
- *
  *     import { Menu } from '@bspk/ui/Menu';
  *
  *     <Menu>

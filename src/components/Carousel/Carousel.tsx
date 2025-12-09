@@ -52,13 +52,13 @@ export type CarouselProps = {
  *     import { Carousel } from '@bspk/ui/Carousel';
  *
  *     <Carousel label="Example Carousel" width="1/2">
- *         <div>child 1</div>
- *         <div>child 2</div>
- *         <div>child 3</div>
- *         <div>child 4</div>
- *         <div>child 5</div>
- *         <div>child 6</div>
- *         <div>child 7</div>
+ *         <ExamplePlaceholder>Slide 1</ExamplePlaceholder>
+ *         <ExamplePlaceholder>Slide 2</ExamplePlaceholder>
+ *         <ExamplePlaceholder>Slide 3</ExamplePlaceholder>
+ *         <ExamplePlaceholder>Slide 4</ExamplePlaceholder>
+ *         <ExamplePlaceholder>Slide 5</ExamplePlaceholder>
+ *         <ExamplePlaceholder>Slide 6</ExamplePlaceholder>
+ *         <ExamplePlaceholder>Slide 7</ExamplePlaceholder>
  *     </Carousel>;
  *
  * @name Carousel

@@ -17,7 +17,6 @@ export const TableExample: ComponentExampleFn<TableProps<TableRow>> = ({
     componentsMeta,
 }): ComponentExample<TableProps<TableRow>> => {
     return {
-        containerStyle: { width: '100%' },
         defaultState: {
             data: [
                 { id: '1', state: 'Alabama', capital: 'Montgomery', abbreviation: 'AL', population: 198525 },

@@ -66,7 +66,7 @@ export function Tooltip({ placement = 'top', label, children, disabled = false, 
         refWidth: false,
     });
 
-    if (disabled) return children({});
+    if (!label || disabled) return children({});
 
     return (
         <>

@@ -66,6 +66,5 @@ export const presets: Preset<ProgressionStepperProps>[] = [
 ];
 
 export const ProgressionStepperExample: ComponentExample<ProgressionStepperProps> = {
-    containerStyle: { width: '100%' },
     presets,
 };
