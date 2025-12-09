@@ -44,25 +44,6 @@ export type ComponentVariantOverride<Props> = {
     [K in keyof Props]?: Props[K] | { options: Props[K][] };
 };
 
-export type CodePlaygroundProps = {
-    /** The default code to display in the editor. */
-    defaultCode: string;
-    /** Optional GitHub link for the code snippet. */
-    githubLink?: string;
-    /**
-     * Whether the preview should be responsive.
-     *
-     * @default false
-     */
-    responsive?: boolean;
-    /**
-     * Whether to apply a checkered background to the preview area.
-     *
-     * @default false
-     */
-    checkered?: boolean;
-};
-
 export type ComponentPageSection<Props = Record<string, unknown>> = {
     title: string;
     content: (params: {
@@ -70,7 +51,6 @@ export type ComponentPageSection<Props = Record<string, unknown>> = {
         props: Props;
         CodeExample: CodeExample;
         Syntax: Syntax;
-        Playground: (props: CodePlaygroundProps) => React.ReactNode;
     }) => React.ReactNode;
     location?: 'afterDemo' | 'beforeDemo';
 };
