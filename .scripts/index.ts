@@ -96,7 +96,7 @@ async function createArrowKeyMenu() {
         },
     ];
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+     
     const answers = await inquirer.prompt(questions as any);
     console.log('You selected:', answers.selectedOption);
     runTask(answers.selectedOption);

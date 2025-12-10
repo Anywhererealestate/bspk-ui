@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 
 import { CSSProperties, ReactNode } from 'react';
 import { AlertVariant, DataProps } from '-/types/common';

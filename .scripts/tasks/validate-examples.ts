@@ -20,7 +20,7 @@ import { ComponentMeta } from 'src/types/meta';
 async function main() {
     const { typesMeta, componentsMeta } = await getLocalMeta(true);
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+     
     const getDefaultState = (prop: any): any => {
         if (prop.example) return prop.example;
 
