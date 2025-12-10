@@ -14,14 +14,15 @@ import { fileURLToPath } from 'url';
 
 import * as TJS from 'typescript-json-schema';
 
-import {
-    ComponentMeta,
-    TypeProperty,
-    UtilityMeta,
-    TypeMeta,
-    ComponentPhase,
-    COMPONENT_PHASE_ORDER,
-} from './src/types/meta';
+import { ComponentMeta, TypeProperty, UtilityMeta, TypeMeta, ComponentPhase } from './src/types/meta';
+
+const COMPONENT_PHASE_ORDER: ComponentPhase[] = [
+    'Utility', // Utility components are not tracked in the progress
+    'Backlog', // components that are not actively being worked on
+    'Dev', // components that are actively being developed
+    'UXReview', // components that are in UX Review
+    'Stable', // production ready
+];
 
 const RESET = '\x1b[0m';
 const BLUE = '\x1b[34m';

@@ -3,14 +3,6 @@
  * the meta output file.
  */
 
-export const COMPONENT_PHASE_ORDER: ComponentPhase[] = [
-    'Utility', // Utility components are not tracked in the progress
-    'Backlog', // components that are not actively being worked on
-    'Dev', // components that are actively being developed
-    'UXReview', // components that are in UX Review
-    'Stable', // production ready
-];
-
 export const COMPONENT_PHASES: Record<
     ComponentPhase,
     {
