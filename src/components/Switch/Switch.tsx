@@ -2,7 +2,7 @@ import './switch.scss';
 import { ChangeEvent } from 'react';
 import { CommonProps } from '-/types/common';
 
-export type SwitchProps = CommonProps<'aria-label' | 'disabled' | 'name'> & {
+export type SwitchProps = CommonProps<'aria-label' | 'disabled' | 'id' | 'name'> & {
     /**
      * Marks the control as checked.
      *
