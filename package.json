@@ -13,6 +13,17 @@
         "tsconfig.json",
         "tsconfig.build.json"
     ],
+    "publishConfig": {
+        "access": "public",
+        "provenance": true
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Anywhererealestate/bspk-ui"
+    },
+    "engines": {
+        "node": ">=22"
+    },
     "scripts": {
         "sass": "npx sass --no-source-map --silence-deprecation=mixed-decls src:dist",
         "build": "npx tsx build.ts",
@@ -230,17 +241,6 @@
         "./Txt/*": "./dist/components/Txt/*.js",
         "./UIProvider": "./dist/components/UIProvider/index.js",
         "./UIProvider/*": "./dist/components/UIProvider/*.js"
-    },
-    "publishConfig": {
-        "access": "public",
-        "provenance": true
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/Anywhererealestate/bspk-ui"
-    },
-    "engines": {
-        "node": ">=24"
     },
     "dependencies": {
         "@bspk/icons": "^1.0.5",
