@@ -235,6 +235,10 @@
         "access": "public",
         "provenance": true
     },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Anywhererealestate/bspk-ui"
+    },
     "engines": {
         "node": ">=24"
     },
