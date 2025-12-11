@@ -83,6 +83,7 @@ export type ComponentMeta = BaseMeta & {
     };
     phase: ComponentPhase;
     generated?: boolean;
+    block?: boolean;
 };
 
 export type UtilityMeta = BaseMeta & {

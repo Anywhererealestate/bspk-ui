@@ -54,6 +54,7 @@ export type PageHeaderProps = {
  *
  * @name PageHeader
  * @phase Dev
+ * @block
  */
 export function PageHeader({ actions, breadcrumb, avatar, subHeader, title }: PageHeaderProps) {
     return (

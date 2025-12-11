@@ -214,6 +214,7 @@ function generateComponentMeta({
             ? componentDoc.phase
             : 'Backlog') as ComponentPhase,
         generated: 'generated' in componentDoc,
+        block: 'block' in componentDoc,
     } as ComponentMeta;
 }
 
