@@ -67,6 +67,10 @@
     [data-trailing] {
         width: fit-content;
         flex: 0 0 auto;
+
+        &:empty {
+            display: none;
+        }
     }
 
     [data-item-label] {
