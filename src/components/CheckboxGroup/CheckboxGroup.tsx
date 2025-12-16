@@ -1,12 +1,11 @@
 import './checkbox-group.scss';
-import { Checkbox, CheckboxProps } from '-/components/Checkbox';
+import { CheckboxOption } from '-/components/CheckboxOption';
 import { useFieldInit } from '-/components/Field';
-import { ListItem } from '-/components/ListItem';
 import { ElementProps, FieldControlProps } from '-/types/common';
 
 const ALL_LABEL = 'All';
 
-export type CheckboxGroupOption = Pick<CheckboxProps, 'disabled' | 'value'> & {
+export type CheckboxGroupOption = {
     /**
      * The label of the option. Also used as the aria-label of the control.
      *
@@ -19,6 +18,10 @@ export type CheckboxGroupOption = Pick<CheckboxProps, 'disabled' | 'value'> & {
      * @type multiline
      */
     description?: string;
+    /** The value of the option. */
+    value: string;
+    /** Whether the option is disabled. */
+    disabled?: boolean;
 };
 
 export type CheckboxGroupProps = Omit<FieldControlProps<string[]>, 'readOnly'> & {
@@ -108,52 +111,35 @@ export function CheckboxGroup({
             role="group"
         >
             {selectAll && (
-                <ListItem
-                    aria-disabled={disabled || selectAllProps?.disabled || undefined}
-                    as="label"
+                <CheckboxOption
                     label={selectAllProps?.label || ALL_LABEL}
-                    leading={
-                        <Checkbox
-                            aria-errormessage={ariaErrorMessageProp || ariaErrorMessage || undefined}
-                            aria-label={selectAllProps?.label || ALL_LABEL}
-                            checked={!!value.length && value.length === options.length}
-                            data-testid="selectAll-Checkbox"
-                            disabled={disabled || selectAllProps?.disabled}
-                            indeterminate={!!value.length && value.length < options.length}
-                            invalid={invalid || undefined}
-                            name={name}
-                            onChange={(checked) => onChange(checked ? options.map((o) => o.value) : [])}
-                            value="all"
-                        />
-                    }
-                    owner="checkbox-group-select-all"
-                    subText={selectAllProps?.description}
-                    width="hug"
+                    description={selectAllProps?.description}
+                    aria-errormessage={ariaErrorMessageProp || ariaErrorMessage || undefined}
+                    aria-label={selectAllProps?.label || ALL_LABEL}
+                    checked={!!value.length && value.length === options.length}
+                    disabled={disabled || selectAllProps?.disabled}
+                    indeterminate={!!value.length && value.length < options.length}
+                    invalid={invalid || undefined}
+                    name={name}
+                    onChange={(checked) => onChange(checked ? options.map((o) => o.value) : [])}
+                    value="all"
                 />
             )}
             {options.map(({ label, description, value: optionValue, disabled: optionDisabled }) => (
-                <ListItem
-                    aria-disabled={disabled || optionDisabled || undefined}
-                    as="label"
+                <CheckboxOption
                     key={optionValue}
                     label={label}
-                    leading={
-                        <Checkbox
-                            aria-errormessage={ariaErrorMessageProp || ariaErrorMessage || undefined}
-                            aria-label={label}
-                            checked={value.includes(optionValue)}
-                            disabled={disabled || optionDisabled}
-                            invalid={invalid || undefined}
-                            name={name}
-                            onChange={(checked) => {
-                                onChange(checked ? [...value, optionValue] : value.filter((v) => v !== optionValue));
-                            }}
-                            value={optionValue}
-                        />
-                    }
-                    owner="checkbox-group-option"
-                    subText={description}
-                    width="hug"
+                    description={description}
+                    aria-errormessage={ariaErrorMessageProp || ariaErrorMessage || undefined}
+                    aria-label={label}
+                    checked={value.includes(optionValue)}
+                    disabled={disabled || optionDisabled}
+                    invalid={invalid || undefined}
+                    name={name}
+                    onChange={(checked) => {
+                        onChange(checked ? [...value, optionValue] : value.filter((v) => v !== optionValue));
+                    }}
+                    value={optionValue}
                 />
             ))}
         </div>
