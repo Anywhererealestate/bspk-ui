@@ -29,7 +29,7 @@ export type CheckboxGroupProps = Omit<FieldControlProps<string[]>, 'readOnly'> &
      */
     selectAll?: boolean;
     /** The props for the select all checkbox. */
-    selectAllProps?: CheckboxGroupOption;
+    selectAllProps?: Pick<CheckboxOptionProps, 'aria-label' | 'description' | 'label'>;
 };
 
 /**
@@ -95,14 +95,15 @@ export function CheckboxGroup({
         >
             {selectAll && (
                 <CheckboxOption
+                    aria-label={ALL_LABEL}
+                    label={ALL_LABEL}
+                    {...selectAllProps}
                     aria-errormessage={ariaErrorMessageProp || ariaErrorMessage || undefined}
-                    aria-label={selectAllProps?.label || ALL_LABEL}
                     checked={!!value.length && value.length === options.length}
                     data-testid="selectAll-Checkbox"
                     disabled={disabled}
                     indeterminate={!!value.length && value.length < options.length}
                     invalid={invalid || undefined}
-                    label={selectAllProps?.label || ALL_LABEL}
                     name={name}
                     onChange={(checked) => onChange(checked ? options.map((o) => o.value) : [])}
                     value="all"
