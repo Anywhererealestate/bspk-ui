@@ -1,14 +1,11 @@
 import { RadioProps, Radio } from '-/components/Radio';
 import { ListItem } from '-/components/ListItem';
-import { ReactElement } from 'react';
 
 export type RadioOptionProps = RadioProps & {
     /** The label of the option. Also used as the aria-label of the control. */
     label: string;
     /** The description of the option. */
     description?: string;
-    /** The control element to use. */
-    children?: ReactElement;
 };
 
 /**
