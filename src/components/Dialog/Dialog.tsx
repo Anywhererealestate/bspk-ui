@@ -54,11 +54,12 @@ export type DialogProps = CommonProps<'id' | 'owner'> &
     };
 
 /**
- * Dialogs display important information that users need to acknowledge. They appear over the interface and block
+ * Dialogs display important information that users need to acknowledge. They appear over the interface and may block
  * further interactions until an action is selected.
  *
- * This is a low-level component that provides the container and functionality for dialogs. You will typically want to
- * use a higher-level component that provides a consistent UI and behavior for dialogs such as Modal.
+ * The Modal component is a higher-level component built on top of Dialog that includes standard dialog UI and behavior.
+ *
+ * Also known as: Tray, Drawer, Flyout, Sheet
  *
  * @example
  *     import { Dialog } from '@bspk/ui/Dialog';
@@ -70,11 +71,20 @@ export type DialogProps = CommonProps<'id' | 'owner'> &
  *         return (
  *             <>
  *                 <Button label="Open Dialog" onClick={() => setOpen(true)} />
- *                 <Dialog open={open} onClose={() => setOpen(false)}>
+ *                 <Dialog onClose={() => setOpen(false)} open={open}>
  *                     <div style={{ padding: 'var(--spacing-sizing-04)' }}>
- *                         <h1>Dialog Title</h1>
+ *                         <Flex align="center" justify="space-between">
+ *                             <h4>Dialog Title</h4>
+ *                             <Button
+ *                                 icon={<SvgClose />}
+ *                                 iconOnly
+ *                                 label="Close dialog"
+ *                                 onClick={() => setOpen(false)}
+ *                                 variant="tertiary"
+ *                             />
+ *                         </Flex>
  *                         <p>This is the content of the dialog.</p>
- *                         <Button label="Cancel" variant="secondary" onClick={() => setOpen(false)} />
+ *                         <Button label="Cancel" onClick={() => setOpen(false)} variant="secondary" />
  *                     </div>
  *                 </Dialog>
  *             </>
@@ -82,7 +92,7 @@ export type DialogProps = CommonProps<'id' | 'owner'> &
  *     };
  *
  * @name Dialog
- * @phase Utility
+ * @phase Stable
  */
 export function Dialog({
     children,
@@ -119,6 +129,7 @@ export function Dialog({
                     {...containerProps}
                     data-bspk="dialog"
                     data-bspk-owner={owner || undefined}
+                    data-contained={!!container || undefined}
                     data-placement={placement}
                     id={id}
                     ref={innerRef}
@@ -144,9 +155,8 @@ export function Dialog({
                     </FocusTrap>
                 </div>
                 <Scrim
-                    onClick={() => {
-                        onClose();
-                    }}
+                    contained={!!container || undefined}
+                    onClick={() => onClose()}
                     owner="dialog"
                     visible={showScrim !== false}
                 />

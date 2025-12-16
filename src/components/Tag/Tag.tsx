@@ -1,5 +1,6 @@
 import './tag.scss';
 import { Truncated } from '-/components/Truncated';
+import { ElementProps } from '-/types/common';
 import { ColorVariant } from '-/utils/colorVariants';
 
 export type TagProps = {
@@ -40,9 +41,15 @@ export type TagProps = {
  * @name Tag
  * @phase Stable
  */
-export function Tag({ label, color = 'white', size = 'small', variant = 'flat' }: TagProps) {
+export function Tag({
+    label,
+    color = 'grey',
+    size = 'small',
+    variant = 'flat',
+    ...props
+}: ElementProps<TagProps, 'span'>) {
     return (
-        <span data-bspk="tag" data-color={color} data-size={size} data-variant={variant}>
+        <span {...props} data-bspk="tag" data-color={color} data-size={size} data-variant={variant}>
             {label && <Truncated>{label}</Truncated>}
             {variant === 'corner-wrap' && <div data-triangle />}
         </span>
