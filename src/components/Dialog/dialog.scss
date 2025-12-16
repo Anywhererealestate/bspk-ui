@@ -21,7 +21,7 @@
         animation-name: var(--box-animation-name);
         animation-duration: 0.5s;
         animation-iteration-count: 1;
-        animation-fill-mode: forwards !important;
+        animation-fill-mode: forwards;
         animation-delay: 0;
 
         > :first-of-type {
