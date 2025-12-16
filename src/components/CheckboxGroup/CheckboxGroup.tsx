@@ -105,7 +105,9 @@ export function CheckboxGroup({
                     indeterminate={!!value.length && value.length < options.length}
                     invalid={invalid || undefined}
                     name={name}
-                    onChange={(checked) => onChange(checked ? options.map((o) => o.value) : [])}
+                    onChange={(checked) =>
+                        onChange(checked ? options.filter((o) => !o.disabled).map((o) => o.value) : [])
+                    }
                     value="all"
                 />
             )}
