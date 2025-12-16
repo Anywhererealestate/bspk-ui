@@ -42,7 +42,7 @@ export const blocks = (
                         </div>
                     </Flex>
                     <Flex
-                        align="center"
+                        align="end"
                         data-subheader
                         justify="space-between"
                         style={{ height: 'var(--spacing-sizing-11)', width: '100%' }}
