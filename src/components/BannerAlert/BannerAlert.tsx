@@ -94,7 +94,7 @@ export function BannerAlert({
             </div>
             <div data-content>
                 {(header || onClose) && (
-                    <header>
+                    <div data-header>
                         <span>{header}</span>
                         {typeof onClose === 'function' && (
                             <Button
@@ -106,7 +106,7 @@ export function BannerAlert({
                                 variant="tertiary"
                             />
                         )}
-                    </header>
+                    </div>
                 )}
                 <div data-body>
                     <span>{body}</span>
