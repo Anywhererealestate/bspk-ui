@@ -14,7 +14,7 @@ import { fileURLToPath } from 'url';
 
 import * as TJS from 'typescript-json-schema';
 
-import { ComponentMeta, TypeProperty, UtilityMeta, TypeMeta, ComponentPhase } from './src/types/meta';
+import { ComponentMeta, TypeProperty, UtilityMeta, TypeMeta, ComponentPhase, BlockConfig } from './src/types/meta';
 
 const COMPONENT_PHASE_ORDER: ComponentPhase[] = [
     'Utility', // Utility components are not tracked in the progress
@@ -201,6 +201,15 @@ function generateComponentMeta({
           }
         : undefined;
 
+    const blockFilePath =
+        //
+        path.join(srcDir, 'components', name, `${name}BlockConfigs.tsx`);
+
+    let blockConfigs: BlockConfig[] | undefined;
+    if (fs.existsSync(blockFilePath)) {
+        blockConfigs = generateBlocksMeta(blockFilePath);
+    }
+
     return {
         description: componentDoc.description,
         file: componentFile.split(srcDir)[1],
@@ -214,6 +223,7 @@ function generateComponentMeta({
             ? componentDoc.phase
             : 'Backlog') as ComponentPhase,
         generated: 'generated' in componentDoc,
+        blockConfigs,
     } as ComponentMeta;
 }
 
@@ -608,6 +618,34 @@ async function main() {
     process.exit(0);
 }
 
+function generateBlocksMeta(blockFilePath: string) {
+    const blockFileContent = fs.readFileSync(path.resolve(blockFilePath), 'utf-8');
+
+    const exampleContent = blockFileContent.matchAll(/<BlockExample\s([\s\S]*?)<\/BlockExample>/g);
+
+    const blocks: BlockConfig[] = [...exampleContent].map((match) => {
+        const blockString = match[1];
+
+        const nameMatch = blockString.match(/name=["|'](.*?)["|']/);
+        const name = nameMatch ? nameMatch[1] : 'Unnamed Block';
+
+        const componentMatch = blockString.match(
+            /<BlockExample\.Component>\s*([\s\S]*?)\s*<\/BlockExample\.Component>/,
+        );
+        const component = componentMatch ? componentMatch[1].trim() : '';
+
+        const patternMatch = blockString.match(/<BlockExample\.Pattern>\s*([\s\S]*?)\s*<\/BlockExample\.Pattern>/);
+        const pattern = patternMatch ? patternMatch[1].trim() : '';
+
+        return {
+            name,
+            component,
+            pattern,
+        };
+    });
+
+    return blocks;
+}
 main();
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

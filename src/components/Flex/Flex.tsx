@@ -36,6 +36,8 @@ export type FlexProps<As extends ElementType = ElementType> = {
     direction?: 'column-reverse' | 'column' | 'row-reverse' | 'row';
     /** The padding to apply to the Flex. */
     padding?: SizingPixels | SizingPixels[];
+    /** If true the Flex will take up the full width of its container. */
+    full?: boolean;
 };
 
 /**
@@ -83,6 +85,7 @@ export function Flex<As extends ElementType = ElementType>({
                 justifyContent: justify || 'flex-start',
                 flexWrap: wrap ? 'wrap' : 'nowrap',
                 padding: paddingValue,
+                width: props.full ? '100%' : undefined,
                 ...style,
             }}
         >
