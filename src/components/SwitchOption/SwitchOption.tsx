@@ -1,7 +1,22 @@
+import { ListItem } from '-/components/ListItem';
 import { SwitchProps, Switch } from '-/components/Switch';
-import { ToggleOption, ToggleOptionControlProps } from '-/components/ToggleOption';
+import { CommonProps } from '-/types/common';
 
-export type SwitchOptionProps = ToggleOptionControlProps<SwitchProps>;
+export type SwitchOptionProps = CommonProps<'style'> &
+    SwitchProps & {
+        /**
+         * The label of the option. Also used as the aria-label of the control.
+         *
+         * @required
+         */
+        label: string;
+        /**
+         * The description of the option.
+         *
+         * @type multiline
+         */
+        description?: string;
+    };
 
 /**
  * A control that allows users to choose one or more items from a list or turn an feature on or off.
@@ -11,16 +26,20 @@ export type SwitchOptionProps = ToggleOptionControlProps<SwitchProps>;
  * @name SwitchOption
  * @phase Stable
  */
-export function SwitchOption({ label: labelProp, description, ...checkboxProps }: SwitchOptionProps) {
-    const label = labelProp || description;
+export function SwitchOption({ label: labelProp, description, disabled, style, ...switchProps }: SwitchOptionProps) {
     const ariaLabel = description ? `${labelProp} - ${description}` : labelProp;
 
     return (
-        label && (
-            <ToggleOption data-bspk-owner="switch-option" description={description} label={label}>
-                <Switch {...checkboxProps} aria-label={ariaLabel} />
-            </ToggleOption>
-        )
+        <ListItem
+            aria-disabled={disabled || undefined}
+            as="label"
+            label={labelProp}
+            leading={<Switch {...switchProps} aria-label={ariaLabel} disabled={disabled} />}
+            owner="switch-option"
+            style={style}
+            subText={description}
+            width="hug"
+        />
     );
 }
 
