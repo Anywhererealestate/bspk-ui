@@ -102,6 +102,24 @@ export function CheckboxGroup({
         invalidProp,
     });
 
+    // Helper: get all enabled option values
+    const enabledValues = options.filter((item) => !item.disabled).map((item) => item.value);
+
+    // Handler for select all
+    const handleSelectAllChange = (checked: boolean) => {
+        onChange(checked ? enabledValues : []);
+    };
+
+    // Handler for individual option
+    const handleOptionChange = (optionValue: string, optionDisabled?: boolean) => (checked: boolean) => {
+        if (disabled || optionDisabled) return;
+        if (checked) {
+            onChange([...value, optionValue]);
+        } else {
+            onChange(value.filter((v) => v !== optionValue));
+        }
+    };
+
     return (
         <div
             {...props}
@@ -121,7 +139,7 @@ export function CheckboxGroup({
                     invalid={invalid || undefined}
                     label={selectAllProps?.label || ALL_LABEL}
                     name={name}
-                    onChange={(checked) => onChange(checked ? options.map((o) => o.value) : [])}
+                    onChange={handleSelectAllChange}
                     value="all"
                 />
             )}
@@ -136,9 +154,7 @@ export function CheckboxGroup({
                     key={optionValue}
                     label={label}
                     name={name}
-                    onChange={(checked) => {
-                        onChange(checked ? [...value, optionValue] : value.filter((v) => v !== optionValue));
-                    }}
+                    onChange={handleOptionChange(optionValue, optionDisabled)}
                     value={optionValue}
                 />
             ))}
