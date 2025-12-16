@@ -228,7 +228,7 @@ export function componentToString<Props extends Record<string, any> = Record<str
                 formattedValue = `{${componentToString(subComponentName, value.props)}}`;
             } else if (Array.isArray(value)) {
                 return ` ${key}={[${value
-                    .map((item) => (isValidElement(item) ? convertReactToCodeString(item) : '...')) // Simplified for brevity
+                    .map((item) => (isValidElement(item) ? convertReactToCodeString(item) : item))
                     .join(', ')}]}`;
             } else if (typeof value === 'object') {
                 formattedValue = `{${JSON.stringify(value, null, 2)}}`;
