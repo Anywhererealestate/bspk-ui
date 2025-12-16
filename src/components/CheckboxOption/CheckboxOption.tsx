@@ -1,8 +1,22 @@
 import { CheckboxProps, Checkbox } from '-/components/Checkbox';
-import { ToggleOption, ToggleOptionControlProps } from '-/components/ToggleOption';
+import { ListItem } from '-/components/ListItem';
 import { CommonProps } from '-/types/common';
 
-export type CheckboxOptionProps = CommonProps<'style'> & ToggleOptionControlProps<CheckboxProps>;
+export type CheckboxOptionProps = CheckboxProps &
+    CommonProps<'style'> & {
+        /**
+         * The label of the option. Also used as the aria-label of the control.
+         *
+         * @required
+         */
+        label: string;
+        /**
+         * The description of the option.
+         *
+         * @type multiline
+         */
+        description?: string;
+    };
 
 /**
  * A control that allows users to choose one or more items from a list or turn an feature on or off.
@@ -39,20 +53,18 @@ export function CheckboxOption({
     style,
     ...checkboxProps
 }: CheckboxOptionProps) {
-    const label = labelProp || description;
     const ariaLabel = description ? `${labelProp} - ${description}` : labelProp;
     return (
-        label && (
-            <ToggleOption
-                data-bspk="checkbox-option"
-                description={description}
-                disabled={disabled}
-                label={label}
-                style={style}
-            >
-                <Checkbox {...checkboxProps} aria-label={ariaLabel} disabled={disabled} />
-            </ToggleOption>
-        )
+        <ListItem
+            aria-disabled={disabled || undefined}
+            as="label"
+            label={labelProp}
+            leading={<Checkbox {...checkboxProps} aria-label={ariaLabel} disabled={disabled} />}
+            owner="checkbox-option"
+            style={style}
+            subText={description}
+            width="hug"
+        />
     );
 }
 
