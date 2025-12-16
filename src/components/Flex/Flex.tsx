@@ -65,6 +65,7 @@ export function Flex<As extends ElementType = ElementType>({
     wrap,
     direction = 'row',
     padding,
+    full,
     ...props
 }: ElementProps<FlexProps<As>, As>) {
     const As: ElementType = as || 'div';
@@ -85,7 +86,7 @@ export function Flex<As extends ElementType = ElementType>({
                 justifyContent: justify || 'flex-start',
                 flexWrap: wrap ? 'wrap' : 'nowrap',
                 padding: paddingValue,
-                width: props.full ? '100%' : undefined,
+                width: full ? '100%' : undefined,
                 ...style,
             }}
         >
