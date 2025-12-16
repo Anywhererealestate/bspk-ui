@@ -14,7 +14,7 @@ import { fileURLToPath } from 'url';
 
 import * as TJS from 'typescript-json-schema';
 
-import { ComponentMeta, TypeProperty, UtilityMeta, TypeMeta, ComponentPhase, BlockExample } from './src/types/meta';
+import { ComponentMeta, TypeProperty, UtilityMeta, TypeMeta, ComponentPhase, BlockConfig } from './src/types/meta';
 
 const COMPONENT_PHASE_ORDER: ComponentPhase[] = [
     'Utility', // Utility components are not tracked in the progress
@@ -203,11 +203,11 @@ function generateComponentMeta({
 
     const blockFilePath =
         //
-        path.join(srcDir, 'components', name, `${name}Block.tsx`);
+        path.join(srcDir, 'components', name, `${name}BlockConfigs.tsx`);
 
-    let blockExamples: BlockExample[] | undefined;
+    let blockConfigs: BlockConfig[] | undefined;
     if (fs.existsSync(blockFilePath)) {
-        blockExamples = generateBlocksMeta(blockFilePath);
+        blockConfigs = generateBlocksMeta(blockFilePath);
     }
 
     return {
@@ -223,7 +223,7 @@ function generateComponentMeta({
             ? componentDoc.phase
             : 'Backlog') as ComponentPhase,
         generated: 'generated' in componentDoc,
-        blockExamples,
+        blockConfigs,
     } as ComponentMeta;
 }
 
@@ -620,9 +620,10 @@ async function main() {
 
 function generateBlocksMeta(blockFilePath: string) {
     const blockFileContent = fs.readFileSync(path.resolve(blockFilePath), 'utf-8');
+
     const exampleContent = blockFileContent.matchAll(/<BlockExample\s([\s\S]*?)<\/BlockExample>/g);
 
-    const blocks: BlockExample[] = [...exampleContent].map((match) => {
+    const blocks: BlockConfig[] = [...exampleContent].map((match) => {
         const blockString = match[1];
 
         const nameMatch = blockString.match(/name=["|'](.*?)["|']/);

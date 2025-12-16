@@ -72,7 +72,7 @@ export type TypeProperty = {
     arrayType?: string;
 };
 
-export type BlockExample = {
+export type BlockConfig = {
     name: string;
     component: string;
     pattern: string;
@@ -89,7 +89,7 @@ export type ComponentMeta = BaseMeta & {
     };
     phase: ComponentPhase;
     generated?: boolean;
-    blockExamples?: BlockExample[];
+    blockConfigs?: BlockConfig[];
 };
 
 export type UtilityMeta = BaseMeta & {

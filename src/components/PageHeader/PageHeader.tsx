@@ -53,7 +53,7 @@ export type PageHeaderProps = {
  *     />;
  *
  * @name PageHeader
- * @phase Stable
+ * @phase UXReview
  */
 export function PageHeader({ actions, breadcrumb, avatar, subHeader, title }: PageHeaderProps) {
     return (

@@ -1,7 +1,7 @@
 import { CSSProperties, isValidElement, ReactNode } from 'react';
 
 import { AlertVariant, DataProps } from '-/types/common';
-import { ComponentMeta, TypeProperty } from '-/types/meta';
+import { BlockConfig, ComponentMeta, TypeProperty } from '-/types/meta';
 
 export type DemoAction = (message: string, variant?: AlertVariant) => void;
 
@@ -130,8 +130,8 @@ export type ComponentExample<
      * @default false
      */
     hideUsage?: boolean;
-    /** Block Examples */
-    blocks?: any;
+    /** Block Configs */
+    blockConfigs?: BlockConfig[];
 };
 
 export type Syntax = (params: {
@@ -157,6 +157,7 @@ export type CodeExample = (
 
 export type CodePlaygroundProps = {
     defaultCode: string;
+    defaultShowCode?: boolean;
 };
 
 export type CodePlayground = (params: CodePlaygroundProps) => JSX.Element;

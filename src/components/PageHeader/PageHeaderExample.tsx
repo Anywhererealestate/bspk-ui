@@ -1,4 +1,4 @@
-import { blocks } from './PageHeaderBlock';
+import { blockConfigs } from './PageHeaderBlockConfigs';
 import { PageHeaderProps } from '.';
 import { ExamplePlaceholder } from '-/components/ExamplePlaceholder';
 import { ComponentExample } from '-/utils/demo';
@@ -15,5 +15,6 @@ export const PageHeaderExample: ComponentExample<PageHeaderProps> = {
     hideDemo: true,
     hideUsage: true,
     presets: [],
-    blocks,
 };
+
+export { blockConfigs };

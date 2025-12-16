@@ -5,7 +5,7 @@ import { Flex } from '-/components/Flex';
 import { Txt } from '-/components/Txt';
 import { BlockExample, Slot } from '-/utils/blocks';
 
-export const blocks = (
+export const blockConfigs = (
     <>
         <BlockExample name="Slots">
             <BlockExample.Component>

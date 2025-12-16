@@ -182,7 +182,7 @@ export function Modal({
         >
             <div data-bspk="modal" ref={(node) => innerRef?.(node)} style={{ visibility: 'hidden' }}>
                 <div data-modal-header>
-                    <div data-dialog-title>{header}</div>
+                    <div data-modal-title>{header}</div>
                     <Button
                         icon={<SvgClose />}
                         iconOnly

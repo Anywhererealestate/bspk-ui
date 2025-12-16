@@ -43,7 +43,7 @@ export type TagProps = {
  */
 export function Tag({
     label,
-    color = 'white',
+    color = 'grey',
     size = 'small',
     variant = 'flat',
     ...props
