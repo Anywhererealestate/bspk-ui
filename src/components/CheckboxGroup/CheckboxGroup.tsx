@@ -85,6 +85,8 @@ export function CheckboxGroup({
         invalidProp,
     });
 
+    const availableOptions = options.filter((o) => !o.disabled);
+
     return (
         <div
             {...props}
@@ -99,15 +101,13 @@ export function CheckboxGroup({
                     label={ALL_LABEL}
                     {...selectAllProps}
                     aria-errormessage={ariaErrorMessageProp || ariaErrorMessage || undefined}
-                    checked={!!value.length && value.length === options.length}
+                    checked={!!value.length && value.length === availableOptions.length}
                     data-testid="selectAll-Checkbox"
                     disabled={disabled}
-                    indeterminate={!!value.length && value.length < options.length}
+                    indeterminate={!!value.length && value.length < availableOptions.length}
                     invalid={invalid || undefined}
                     name={name}
-                    onChange={(checked) =>
-                        onChange(checked ? options.filter((o) => !o.disabled).map((o) => o.value) : [])
-                    }
+                    onChange={(checked) => onChange(checked ? availableOptions.map((o) => o.value) : [])}
                     value="all"
                 />
             )}
