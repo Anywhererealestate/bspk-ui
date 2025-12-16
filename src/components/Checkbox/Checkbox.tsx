@@ -63,7 +63,7 @@ export type CheckboxProps = Omit<FieldControlProps, 'onChange' | 'readOnly' | 'v
  * @phase Stable
  */
 export function Checkbox({
-    checked: checkedProp = false,
+    checked = false,
     indeterminate: indeterminateProp,
     invalid,
     disabled,
@@ -71,7 +71,6 @@ export function Checkbox({
     ...props
 }: ElementProps<CheckboxProps, 'input'>) {
     const indeterminate = !!indeterminateProp;
-    const checked = !!checkedProp && !indeterminate;
 
     const inputRef = useRef<HTMLInputElement>();
 
