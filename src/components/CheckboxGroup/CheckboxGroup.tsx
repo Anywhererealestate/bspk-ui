@@ -1,28 +1,11 @@
 import './checkbox-group.scss';
-import { CheckboxOption } from '-/components/CheckboxOption';
+import { CheckboxOption, CheckboxOptionProps } from '-/components/CheckboxOption';
 import { useFieldInit } from '-/components/Field';
 import { ElementProps, FieldControlProps } from '-/types/common';
 
 const ALL_LABEL = 'All';
 
-export type CheckboxGroupOption = {
-    /**
-     * The label of the option. Also used as the aria-label of the control.
-     *
-     * @required
-     */
-    label: string;
-    /**
-     * The description of the option.
-     *
-     * @type multiline
-     */
-    description?: string;
-    /** The value of the option. */
-    value: string;
-    /** Whether the option is disabled. */
-    disabled?: boolean;
-};
+export type CheckboxGroupOption = Omit<CheckboxOptionProps, 'name' | 'onChange'>;
 
 export type CheckboxGroupProps = Omit<FieldControlProps<string[]>, 'readOnly'> & {
     /**
@@ -102,24 +85,6 @@ export function CheckboxGroup({
         invalidProp,
     });
 
-    // Helper: get all enabled option values
-    const enabledValues = options.filter((item) => !item.disabled).map((item) => item.value);
-
-    // Handler for select all
-    const handleSelectAllChange = (checked: boolean) => {
-        onChange(checked ? enabledValues : []);
-    };
-
-    // Handler for individual option
-    const handleOptionChange = (optionValue: string, optionDisabled?: boolean) => (checked: boolean) => {
-        if (disabled || optionDisabled) return;
-        if (checked) {
-            onChange([...value, optionValue]);
-        } else {
-            onChange(value.filter((v) => v !== optionValue));
-        }
-    };
-
     return (
         <div
             {...props}
@@ -133,13 +98,13 @@ export function CheckboxGroup({
                     aria-errormessage={ariaErrorMessageProp || ariaErrorMessage || undefined}
                     aria-label={selectAllProps?.label || ALL_LABEL}
                     checked={!!value.length && value.length === options.length}
-                    description={selectAllProps?.description}
-                    disabled={disabled || selectAllProps?.disabled}
+                    data-testid="selectAll-Checkbox"
+                    disabled={disabled}
                     indeterminate={!!value.length && value.length < options.length}
                     invalid={invalid || undefined}
                     label={selectAllProps?.label || ALL_LABEL}
                     name={name}
-                    onChange={handleSelectAllChange}
+                    onChange={(checked) => onChange(checked ? options.map((o) => o.value) : [])}
                     value="all"
                 />
             )}
@@ -154,7 +119,9 @@ export function CheckboxGroup({
                     key={optionValue}
                     label={label}
                     name={name}
-                    onChange={handleOptionChange(optionValue, optionDisabled)}
+                    onChange={(checked) => {
+                        onChange(checked ? [...value, optionValue] : value.filter((v) => v !== optionValue));
+                    }}
                     value={optionValue}
                 />
             ))}
