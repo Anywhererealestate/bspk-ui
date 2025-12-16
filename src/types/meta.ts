@@ -72,6 +72,12 @@ export type TypeProperty = {
     arrayType?: string;
 };
 
+export type BlockExample = {
+    name: string;
+    component: string;
+    pattern: string;
+};
+
 export type ComponentMeta = BaseMeta & {
     slug: string;
     dependencies: string[];
@@ -83,6 +89,7 @@ export type ComponentMeta = BaseMeta & {
     };
     phase: ComponentPhase;
     generated?: boolean;
+    blockExamples?: BlockExample[];
 };
 
 export type UtilityMeta = BaseMeta & {

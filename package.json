@@ -93,8 +93,6 @@
         "./Dialog/*": "./dist/components/Dialog/*.js",
         "./Divider": "./dist/components/Divider/index.js",
         "./Divider/*": "./dist/components/Divider/*.js",
-        "./Drawer": "./dist/components/Drawer/index.js",
-        "./Drawer/*": "./dist/components/Drawer/*.js",
         "./EmptyState": "./dist/components/EmptyState/index.js",
         "./EmptyState/*": "./dist/components/EmptyState/*.js",
         "./ExamplePlaceholder": "./dist/components/ExamplePlaceholder/index.js",

@@ -15,6 +15,11 @@
         justify-content: space-between;
         align-items: center;
         gap: var(--spacing-sizing-04);
+
+        [data-dialog-title] {
+            font: var(--heading-h4);
+            flex: 1;
+        }
     }
 
     [data-modal-main] {

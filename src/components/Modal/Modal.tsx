@@ -3,7 +3,6 @@ import { SvgClose } from '@bspk/icons/Close';
 import { ReactNode, useMemo, useRef } from 'react';
 import { Button, ButtonProps } from '-/components/Button';
 import { DialogProps, Dialog } from '-/components/Dialog';
-import { Txt } from '-/components/Txt';
 import { useDebounceCallback } from '-/hooks/useDebounceCallback';
 import { useEventListener } from '-/hooks/useEventListener';
 import { useUIContext } from '-/hooks/useUIContext';
@@ -183,9 +182,7 @@ export function Modal({
         >
             <div data-bspk="modal" ref={(node) => innerRef?.(node)} style={{ visibility: 'hidden' }}>
                 <div data-modal-header>
-                    <Txt as="div" data-dialog-title variant="heading-h4">
-                        {header}
-                    </Txt>
+                    <div data-dialog-title>{header}</div>
                     <Button
                         icon={<SvgClose />}
                         iconOnly

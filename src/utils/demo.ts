@@ -1,4 +1,5 @@
-import { CSSProperties, ReactNode } from 'react';
+import { CSSProperties, isValidElement, ReactNode } from 'react';
+
 import { AlertVariant, DataProps } from '-/types/common';
 import { ComponentMeta, TypeProperty } from '-/types/meta';
 
@@ -43,11 +44,13 @@ export type ComponentVariantOverride<Props> = {
 };
 
 export type ComponentPageSection<Props = Record<string, unknown>> = {
-    title: string;
-    content: (params: {
+    title?: string;
+    description?: string;
+    content?: (params: {
         Component?: React.ComponentType<Props>;
         props: Props;
         CodeExample: CodeExample;
+        CodePlayground: CodePlayground;
         Syntax: Syntax;
     }) => React.ReactNode;
     location?: 'afterDemo' | 'beforeDemo';
@@ -62,7 +65,10 @@ export type ComponentVariantOverrides<Props = Record<string, unknown>, PropName 
     [Key in PropName]?: ComponentVariantOverride<Props> | false;
 };
 
-export type ComponentExample<Props = Record<string, unknown>, PropName extends keyof Props = keyof Props> = {
+export type ComponentExample<
+    Props extends Record<string, unknown> = Record<string, unknown>,
+    PropName extends keyof Props = keyof Props,
+> = {
     /**
      * The style of the wrapping component.
      *
@@ -118,6 +124,14 @@ export type ComponentExample<Props = Record<string, unknown>, PropName extends k
      * @default false
      */
     hideDemo?: boolean;
+    /**
+     * Hide the usage section entirely.
+     *
+     * @default false
+     */
+    hideUsage?: boolean;
+    /** Block Examples */
+    blocks?: any;
 };
 
 export type Syntax = (params: {
@@ -128,20 +142,28 @@ export type Syntax = (params: {
 }) => React.ReactNode;
 
 export type CodeExample = (
-    params: DataProps & {
-        containerStyle?: CSSProperties;
-        children: ReactNode;
-        accessibility?: boolean;
-        code?: {
-            language?: PrettyParser | undefined;
-            str: string;
-        };
-    },
-) => React.ReactNode;
+    params: DataProps &
+        any & {
+            containerStyle?: CSSProperties;
+            children: ReactNode;
+            accessibility?: boolean;
+            code?: {
+                language?: PrettyParser | undefined;
+                str: string;
+            };
+            style?: CSSProperties;
+        },
+) => JSX.Element;
+
+export type CodePlaygroundProps = {
+    defaultCode: string;
+};
+
+export type CodePlayground = (params: CodePlaygroundProps) => JSX.Element;
 
 export type PrettyParser = 'css' | 'estree' | 'html' | 'scss' | 'typescript';
 
-export type ComponentExampleFn<Props = Record<string, unknown>> = (params: {
+export type ComponentExampleFn<Props extends Record<string, unknown> = Record<string, unknown>> = (params: {
     setState: DemoSetState<Props>;
     action: DemoAction;
     componentsMeta: ComponentMeta[];
@@ -160,11 +182,15 @@ export type Preset<Props> = {
     /** The props of the component. This is used to set props of the component. These values can't be changed in the UI. */
     propState: Omit<Props, OnHandlers> & Record<OnHandlers, unknown>;
     /**
-     * Hide the demo for this preset.
+     * Hide the demo option for this preset.
      *
      * @default false
      */
-    hideDemo?: boolean;
+    hideDemoOption?: boolean;
+    /** Hide the playground for this preset. */
+    hidePlayground?: boolean;
+    /** Preset used for block examples. */
+    block?: boolean;
 };
 
 export type DemoPreset<P = Record<string, unknown>> = Preset<P> & {
@@ -173,4 +199,100 @@ export type DemoPreset<P = Record<string, unknown>> = Preset<P> & {
 
 export function createUid(prefix: string = 'uid'): string {
     return `${prefix}-${Math.random().toString(36).substring(2, 9)}`;
+}
+
+export function reactElementToString(element: React.ReactElement): string {
+    if (!isReactElement(element)) return '';
+    const subComponentName = typeof element.type === 'string' ? element.type : element.type.name || 'Component';
+    return componentToString(subComponentName, element.props);
+}
+
+export function componentToString<Props extends Record<string, any> = Record<string, any>>(
+    componentName: string,
+    propState: Props,
+    propsMeta?: TypePropertyDemo[],
+): string {
+    const propsString = Object.entries(propState)
+        .map(([key, value]) => {
+            const propMeta = propsMeta?.find((prop) => prop.name === key);
+
+            let formattedValue;
+            if (typeof value === 'string') {
+                formattedValue = `"${value}"`;
+                if (propMeta?.type === 'BspkIcon') formattedValue = `{<Svg${value} />}`;
+            } else if (typeof value === 'boolean' || typeof value === 'number') {
+                formattedValue = `{${value}}`;
+            } else if (isReactElement(value)) {
+                const subComponentName = typeof value.type === 'string' ? value.type : value.type.name || 'Component';
+                formattedValue = `{${componentToString(subComponentName, value.props)}}`;
+            } else if (Array.isArray(value)) {
+                return ` ${key}={[${value
+                    .map((item) => (isValidElement(item) ? convertReactToCodeString(item) : '...')) // Simplified for brevity
+                    .join(', ')}]}`;
+            } else if (typeof value === 'object') {
+                formattedValue = `{${JSON.stringify(value, null, 2)}}`;
+            } else if (value === null) {
+                formattedValue = '{null}';
+            } else if (value === undefined) {
+                return ''; // skip undefined props
+            } else {
+                formattedValue = `{${value.toString()}}`;
+            }
+            return `    ${key}=${formattedValue}`;
+        })
+        .filter(Boolean)
+        .join('\n');
+
+    return `<${componentName}\n${propsString}\n/>`;
+}
+
+function isReactElement(value: any): boolean {
+    return (
+        typeof value === 'object' &&
+        value !== null &&
+        (value.$$typeof === Symbol.for('react.element') ||
+            (value.type && (typeof value.type === 'string' || typeof value.type === 'function')))
+    );
+}
+
+export function kebabCase(str: string): string {
+    return (
+        str
+            .normalize('NFD') // Normalize to decompose accents
+            .replace(/[\u0300-\u036f&()']/g, '') // Remove accents
+            // Handle camelCase by inserting hyphens between lowercase and uppercase
+            .replace(/([a-zA-Z])([A-Z][a-z])/g, '$1-$2')
+            // do it again for the next uppercase letter
+            .replace(/([a-zA-Z])([A-Z][a-z])/g, '$1-$2')
+            .replace(/[^a-zA-Z0-9]+/g, '-') // Replace non-alphanumeric characters with hyphens
+            .replace(/^-+|-+$/g, '') // Trim leading or trailing hyphens
+            .replace(/--+/g, '-') // Replace multiple hyphens with a single hyphen
+            .toLowerCase()
+    ); // Convert to lowercase
+}
+
+export function convertReactToCodeString(element: React.ReactElement): string {
+    return `<${element.type}${Object.entries(element.props)
+        .map(([key, value]) => {
+            if (typeof value === 'string') {
+                return ` ${key}="${value}"`;
+            } else if (typeof value === 'number' || typeof value === 'boolean') {
+                return ` ${key}={${value}}`;
+            } else if (typeof value === 'function') {
+                return ` ${key}={() => {}}`;
+            } else if (isValidElement(value)) {
+                return ` ${key}={${convertReactToCodeString(value)}}`;
+            } else if (Array.isArray(value)) {
+                return ` ${key}={[${value
+                    .map((item) => (isValidElement(item) ? convertReactToCodeString(item) : '...')) // Simplified for brevity
+                    .join(', ')}]}`;
+            } else if (value === null) {
+                return ` ${key}={null}`;
+            } else if (value === undefined) {
+                return ` ${key}={undefined}`;
+            } else {
+                return ` ${key}={${JSON.stringify(value)}}`;
+            }
+        })
+        .join('')}>${element.props.children ? '...' : ''}</${element.type}>`;
 }
