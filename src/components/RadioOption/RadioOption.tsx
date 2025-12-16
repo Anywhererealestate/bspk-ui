@@ -1,5 +1,5 @@
-import { RadioProps, Radio } from '-/components/Radio';
 import { ListItem } from '-/components/ListItem';
+import { RadioProps, Radio } from '-/components/Radio';
 
 export type RadioOptionProps = RadioProps & {
     /** The label of the option. Also used as the aria-label of the control. */

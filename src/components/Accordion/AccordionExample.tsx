@@ -51,7 +51,7 @@ export const presets: Preset<AccordionProps>[] = [
     },
     {
         label: '1 disabled and open (but not showing)',
-        hideDemo: true,
+        hideDemoOption: true,
         propState: {
             items: [
                 {

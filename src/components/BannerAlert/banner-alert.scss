@@ -46,7 +46,7 @@
         flex-direction: column;
         padding: var(--spacing-sizing-02) var(--spacing-sizing-02) var(--spacing-sizing-02) var(--spacing-sizing-04);
 
-        header {
+        [data-header] {
             display: flex;
             flex-direction: row;
             gap: var(--spacing-sizing-03);

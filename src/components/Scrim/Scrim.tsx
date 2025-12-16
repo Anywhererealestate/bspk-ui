@@ -16,6 +16,8 @@ export type ScrimProps = CommonProps<'owner'> & {
      * @required;
      */
     onClick: () => void;
+    /** If the scrim should be contained within a parent element, or fixed to the viewport. */
+    contained?: boolean;
 };
 
 /**
@@ -25,13 +27,14 @@ export type ScrimProps = CommonProps<'owner'> & {
  * @name Scrim
  * @phase Utility
  */
-export function Scrim({ visible = true, owner, ...props }: ScrimProps) {
+export function Scrim({ visible = true, owner, contained, ...props }: ScrimProps) {
     return (
         <div
             {...props}
             aria-hidden="true"
             data-bspk="scrim"
             data-bspk-owner={owner || undefined}
+            data-contained={contained || undefined}
             data-hidden={!visible || undefined}
         />
     );

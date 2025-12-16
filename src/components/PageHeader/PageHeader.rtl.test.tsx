@@ -1,15 +1,18 @@
 import { PageHeader } from './PageHeader';
-import { presets } from './PageHeaderExample';
+import { PageHeaderExample } from './PageHeaderExample';
 import { hasNoBasicA11yIssues } from '-/rtl/hasNoBasicA11yIssues';
 import { render } from '-/rtl/util';
 
+const props = {
+    ...PageHeaderExample.defaultState,
+    title: 'Page Title',
+};
+
 describe('PageHeader (RTL)', () => {
-    presets.forEach((preset) => {
-        it(`has no basic a11y issues - ${preset.label}`, hasNoBasicA11yIssues(<PageHeader {...preset.propState} />));
-    });
+    it(`has no basic a11y issues`, hasNoBasicA11yIssues(<PageHeader {...props} />));
 
     it('renders', () => {
-        const { getByText } = render(<PageHeader {...presets[0].propState} />);
+        const { getByText } = render(<PageHeader {...props} />);
 
         expect(getByText('Page Title')).toBeInTheDocument();
     });
