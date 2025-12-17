@@ -90,11 +90,16 @@ export function Checkbox({
                 checked={checked}
                 data-indeterminate={indeterminate || undefined}
                 disabled={disabled || undefined}
-                onChange={(event) => props.onChange(!!event.target.checked, event)}
+                onChange={(event) => {
+                    const next = !!event.target.checked;
+                    props.onChange(next, event);
+                    event.target.toggleAttribute('checked', next);
+                }}
                 ref={(node) => {
                     if (!node) return;
                     inputRef.current = node;
                     node.indeterminate = indeterminate;
+                    node.toggleAttribute('checked', checked);
                 }}
                 required={required || undefined}
                 type="checkbox"
