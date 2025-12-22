@@ -68,7 +68,7 @@ export function RadioGroup({
     onChange,
     options = [],
     name,
-    value: groupValue,
+    value,
     disabled = false,
     invalid: invalidProp,
     required,
@@ -92,21 +92,21 @@ export function RadioGroup({
             id={id}
             role="radiogroup"
         >
-            {options.map(({ label, description, value, ...option }, index) => {
+            {options.map(({ label, description, value: optionValue, ...option }) => {
                 return (
                     <RadioOption
                         aria-describedby={ariaDescribedByProp || ariaDescribedBy || undefined}
                         aria-errormessage={ariaErrorMessageProp || ariaErrorMessage || undefined}
-                        checked={groupValue === value}
+                        checked={value === optionValue}
                         description={description}
                         disabled={disabled || option.disabled}
                         invalid={invalid || undefined}
-                        key={`radio-option-${value || index}`}
+                        key={optionValue}
                         label={label}
                         name={name}
-                        onChange={(checked) => checked && onChange(value)}
+                        onChange={(checked) => checked && onChange(optionValue)}
                         required={required}
-                        value={value}
+                        value={optionValue}
                     />
                 );
             })}
