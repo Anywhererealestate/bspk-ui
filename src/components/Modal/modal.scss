@@ -26,11 +26,15 @@
         flex: 1;
         overflow-y: auto;
         max-height: fit-content;
+        display: flex;
+        flex-direction: column;
+        padding: var(--spacing-sizing-02) 0;
     }
 
     > [data-modal-footer] {
         display: flex;
         gap: var(--spacing-sizing-04);
+        padding: var(--spacing-sizing-01) 0;
     }
 
     [data-button-format='horizontal'] {
