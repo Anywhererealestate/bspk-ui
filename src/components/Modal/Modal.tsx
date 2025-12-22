@@ -183,6 +183,7 @@ export function Modal({
                         iconOnly
                         label="close"
                         onClick={dialogProps.onClose}
+                        size={isMobile ? 'medium' : 'small'}
                         variant="tertiary"
                     />
                 </div>
