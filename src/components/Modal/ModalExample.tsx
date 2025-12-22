@@ -47,7 +47,12 @@ export const ModalExample: ComponentExampleFn<ModalProps> = ({ action }) => ({
                 header: 'Header Only',
                 description: 'This modal has no buttons.',
                 children: (
-                    <>
+                    <div
+                        style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                        }}
+                    >
                         <p>
                             This is a demo of a scrolling modal. Most modals won&apos;t scroll but mobile uses modals as
                             dropdowns which may have more items than can fit in the screen.
@@ -63,7 +68,7 @@ export const ModalExample: ComponentExampleFn<ModalProps> = ({ action }) => ({
                                     trailing={<Checkbox aria-label="" name="" onChange={() => {}} value="" />}
                                 />
                             ))}
-                    </>
+                    </div>
                 ),
             },
         },
