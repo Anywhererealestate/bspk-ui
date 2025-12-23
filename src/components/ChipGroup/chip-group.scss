@@ -5,6 +5,10 @@
     flex-flow: row wrap;
     padding-bottom: var(--spacing-sizing-01);
 
+    &:empty {
+        display: none;
+    }
+
     &[data-scroll] {
         overflow: auto;
         flex-wrap: nowrap;

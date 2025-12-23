@@ -1,4 +1,5 @@
 [data-bspk='button'] {
+    display: flex;
     flex-direction: row;
     gap: var(--spacing-sizing-02);
     border: none;
