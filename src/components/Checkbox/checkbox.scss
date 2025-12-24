@@ -36,10 +36,12 @@
 
         svg[data-checked] {
             width: 14px;
+            display: none;
         }
 
         svg[data-indeterminate] {
             width: 12px;
+            display: none;
         }
 
         color: var(--color);
@@ -52,6 +54,22 @@
 
         &:active + span {
             background-color: var(--interactions-neutral-press-opacity);
+        }
+    }
+
+    input[type='checkbox']:checked + span {
+        svg[data-checked] {
+            display: block;
+        }
+    }
+
+    input[type='checkbox']:indeterminate + span {
+        svg[data-indeterminate] {
+            display: block;
+        }
+
+        svg[data-checked] {
+            display: none;
         }
     }
 
