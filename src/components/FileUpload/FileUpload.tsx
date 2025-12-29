@@ -205,7 +205,7 @@ export function FileUpload({
                 />
                 <Button label="Browse" onClick={handleBrowseClick} />
                 {files.length === 1 && files[0].status === 'error' && (
-                    <InlineAlert variant="error">{files[0].errorMessage || DEFAULT_ERROR_MESSAGE}</InlineAlert>
+                    <InlineAlert label={files[0].errorMessage || DEFAULT_ERROR_MESSAGE} variant="error" />
                 )}
             </div>
             <div data-bspk-owner="file-upload" data-file-entries>

@@ -14,7 +14,7 @@ export type InlineAlertProps = CommonProps<'owner'> & {
      * @type multiline
      * @required
      */
-    children: string;
+    label: string;
     /**
      * The color variant of the inline alert.
      *
@@ -37,11 +37,11 @@ export type InlineAlertProps = CommonProps<'owner'> & {
  * @name InlineAlert
  * @phase Stable
  */
-export function InlineAlert({ children, variant = 'informational', id, owner }: InlineAlertProps) {
+export function InlineAlert({ label, variant = 'informational', id, owner }: InlineAlertProps) {
     return (
         <div data-bspk="inline-alert" data-bspk-owner={owner || undefined} data-variant={variant} id={id} role="alert">
             {VARIANT_ICON[variant]}
-            <Txt variant="body-small">{children}</Txt>
+            <Txt variant="body-small">{label}</Txt>
         </div>
     );
 }
