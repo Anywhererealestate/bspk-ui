@@ -29,7 +29,7 @@ export function RadioGroupField({
             </FieldLabel>
             <RadioGroup {...controlProps} />
             {!errorMessage && helperText && <FieldDescription>{helperText}</FieldDescription>}
-            {errorMessage && <FieldError>{errorMessage}</FieldError>}
+            {errorMessage && <FieldError label={errorMessage} />}
         </Field>
     );
 }

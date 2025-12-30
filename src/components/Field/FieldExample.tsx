@@ -14,7 +14,7 @@ export const FieldExample: ComponentExample<FieldProps & { value?: string }> = {
                     value={props.value}
                 />
                 <FieldDescription>This is an example description.</FieldDescription>
-                <FieldError>This is an error message.</FieldError>
+                <FieldError label="This is an error message." />
             </Field>
         );
     },

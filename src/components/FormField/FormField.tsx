@@ -87,7 +87,7 @@ export function FormField({
             </FieldLabel>
             {children}
             {!errorMessage && helperText && <FieldDescription>{helperText}</FieldDescription>}
-            <FieldError>{errorMessage}</FieldError>
+            <FieldError label={errorMessage} />
         </Field>
     );
 }
