@@ -3,7 +3,7 @@ import { InlineAlert } from '-/components/InlineAlert';
 
 export type FieldErrorProps = {
     /** The error message text. */
-    children?: string;
+    label?: string;
 };
 
 /**
@@ -12,14 +12,8 @@ export type FieldErrorProps = {
  * @name FieldError
  * @parent Field
  */
-export function FieldError({ children }: FieldErrorProps) {
+export function FieldError({ label }: FieldErrorProps) {
     const { id } = useFieldContext();
 
-    return (
-        children && (
-            <InlineAlert id={errorMessageId(id)} owner="field-error" variant="error">
-                {children}
-            </InlineAlert>
-        )
-    );
+    return label && <InlineAlert id={errorMessageId(id)} label={label} owner="field-error" variant="error" />;
 }

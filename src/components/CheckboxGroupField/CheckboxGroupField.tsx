@@ -29,7 +29,7 @@ export function CheckboxGroupField({
             </FieldLabel>
             <CheckboxGroup {...controlProps} />
             {!errorMessage && helperText && <FieldDescription>{helperText}</FieldDescription>}
-            {errorMessage && <FieldError>{errorMessage}</FieldError>}
+            {errorMessage && <FieldError label={errorMessage} />}
         </Field>
     );
 }

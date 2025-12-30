@@ -8,7 +8,7 @@ const TestBed = () => (
         <FieldLabel>Example label</FieldLabel>
         <Input name="example-text" onChange={() => {}} value="Input text" />
         <FieldDescription>This is an example description.</FieldDescription>
-        <FieldError>This is an error message.</FieldError>
+        <FieldError label="This is an error message." />
     </Field>
 );
 
