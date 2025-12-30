@@ -44,12 +44,15 @@ export type FabProps<As extends ElementType = ElementType> = Pick<
  * bottom right of a screen.
  *
  * @example
- *     import { SvgBolt } from '@bspk/icons/Bolt';
- *     import { Fab } from '@bspk/ui/Fab';
+ *     import { Fab } from '-/components/Fab';
  *
- *     <div style={{ width: '100%', height: 100 }}>
- *         <Fab icon={<SvgBolt />} label="Example label" placement="bottom-right" variant="neutral" />
- *     </div>;
+ *     () => {
+ *         return (
+ *             <div style={{ width: '100%', height: 100 }}>
+ *                 <Fab icon={<SvgBolt />} label="Example label" placement="bottom-right" variant="neutral" />
+ *             </div>
+ *         );
+ *     };
  *
  * @name Fab
  * @phase Stable

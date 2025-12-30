@@ -26,7 +26,6 @@ export type SwitchProps = CommonProps<'aria-label' | 'disabled' | 'id' | 'name'>
  * will more often be used in the SwitchOption component.
  *
  * @example
- *     import { useState } from 'react';
  *     import { Switch } from '@bspk/ui/Switch';
  *
  *     () => {

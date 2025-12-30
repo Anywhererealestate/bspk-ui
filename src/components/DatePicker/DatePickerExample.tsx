@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { DatePicker, DatePickerProps } from '.';
-import { Field, FieldLabel, FieldDescription } from '-/components/Field';
+import { Field } from '-/components/Field';
 import { ComponentExample } from '-/utils/demo';
 
 export const DatePickerExample: ComponentExample<DatePickerProps> = {
@@ -19,10 +19,8 @@ export const Usage = () => {
 
     return (
         <div style={{ width: 320 }}>
-            <Field>
-                <FieldLabel>Date</FieldLabel>
-                <DatePicker name="date1" onChange={setFieldDate} required value={fieldDate} />
-                <FieldDescription>The date picker allows you to select a date.</FieldDescription>
+            <Field controlId="date1" helperText="The date picker allows you to select a date." label="Date">
+                <DatePicker id="date1" name="date1" onChange={setFieldDate} required value={fieldDate} />
             </Field>
         </div>
     );

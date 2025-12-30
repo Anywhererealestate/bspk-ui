@@ -56,7 +56,6 @@ export type PopoverProps = CommonProps<'disabled'> &
  * Brief message that provide additional guidance and helps users perform an action if needed.
  *
  * @example
- *     import { useState } from 'react';
  *     import { Popover } from '@bspk/ui/Popover';
  *     import { Button } from '@bspk/ui/Button';
  *

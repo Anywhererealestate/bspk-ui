@@ -3,7 +3,7 @@ import { SvgIcon } from '@bspk/icons/SvgIcon';
 import { AriaAttributes, useEffect, useState } from 'react';
 import { PageList } from './PageList';
 import { Button } from '-/components/Button';
-import { InputElement } from '-/components/Input';
+import { Input } from '-/components/Input';
 import { sendAriaLiveMessage } from '-/utils/sendAriaLiveMessage';
 
 // After this point the manual input renders. With equal or fewer pages the individual page buttons render instead.
@@ -104,7 +104,7 @@ export function Pagination({
                         submitInputChange();
                     }}
                 >
-                    <InputElement
+                    <Input
                         name="page-number"
                         onBlur={() => submitInputChange()}
                         onChange={setInputValue}

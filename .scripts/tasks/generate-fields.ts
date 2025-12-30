@@ -7,8 +7,17 @@ import { execSync } from 'child_process';
 import fs from 'fs';
 
 const CONTROLS = [
-    //
-    'CheckboxGroup',
+    // all input components that need Field wrappers
+    'DatePicker',
+    'Input',
+    'InputNumber',
+    'InputPhone',
+    'Password',
+    'Select',
+    'Textarea',
+    'TimePicker',
+    // 'RadioGroup',
+    // 'CheckboxGroup',
 ];
 
 CONTROLS.map((name) => {
@@ -35,10 +44,11 @@ CONTROLS.map((name) => {
 
     // write Field component file
 
-    const content = `import { FormField, FormFieldControlProps } from '-/components/FormField';
+    const content = `import { Field, FieldControlProps, propsWithAria } from '-/components/Field';
 import { ${name}, ${name}Props } from '-/components/${name}';
+import { useId } from '-/hooks/useId';
 
-export type ${name}FieldProps = FormFieldControlProps<${name}Props>;
+export type ${name}FieldProps = FieldControlProps<${name}Props>;
 
 /**
  * A field wrapper for the ${name} component.
@@ -50,11 +60,12 @@ export type ${name}FieldProps = FormFieldControlProps<${name}Props>;
  *
  * @generated
  */
-export function ${name}Field({ label, helperText, labelTrailing, errorMessage, style, ...controlProps }: ${name}FieldProps) {
+export function ${name}Field({ label, helperText, labelTrailing, errorMessage, style, id: idProp, ...controlProps }: ${name}FieldProps) {
+    const id = useId(idProp);
     return (
-        <FormField errorMessage={errorMessage} helperText={helperText} label={label} labelTrailing={labelTrailing} style={style}>
-            <${name} {...controlProps} />
-        </FormField>
+        <Field controlId={id} errorMessage={errorMessage} helperText={helperText} label={label} labelTrailing={labelTrailing} style={style}>
+            <${name} {...propsWithAria({ id, controlProps, errorMessage, helperText })} />
+        </Field>
     );
 }
 

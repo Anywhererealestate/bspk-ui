@@ -18,7 +18,6 @@ export type TabGroupProps = Omit<TabListProps<TabOption>, 'iconsOnly'> & {
  * Navigation tool that organizes content across different screens and views.
  *
  * @example
- *     import { useState } from 'react';
  *     import { TabGroup } from '@bspk/ui/TabGroup';
  *
  *     () => {
