@@ -7,7 +7,7 @@
         display: none;
     }
 
-    > section {
+    > [data-bspk='accordion-item'] {
         --border-bottom-color: var(--stroke-neutral-base);
 
         display: flex;
