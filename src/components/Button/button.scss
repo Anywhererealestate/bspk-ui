@@ -138,6 +138,7 @@
             [data-pseudo='focus'] > &,
             &:focus-visible {
                 outline: solid 2px var(--stroke-neutral-focus);
+                isolation: isolate;
             }
         }
 
@@ -174,6 +175,7 @@
             [data-pseudo='focus'] > &,
             &:focus-visible {
                 outline: solid 2px var(--stroke-neutral-focus);
+                isolation: isolate;
             }
         }
 
@@ -208,6 +210,7 @@
             [data-pseudo='focus'] > &,
             &:focus-visible {
                 outline: solid 2px var(--stroke-neutral-focus);
+                isolation: isolate;
             }
         }
 
