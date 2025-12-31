@@ -40,6 +40,7 @@
         [data-digit] {
             &[data-active] {
                 outline: solid 2px var(--stroke-neutral-focus);
+                isolation: isolate;
 
                 &:empty::before {
                     // caret

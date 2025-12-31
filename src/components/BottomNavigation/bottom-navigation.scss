@@ -27,6 +27,7 @@ ul[data-bspk-utility='tab-list'][data-bspk='bottom-navigation'] {
         &[data-pseudo='focus'] > &,
         &:focus-visible {
             outline: solid 2px var(--stroke-neutral-focus);
+            isolation: isolate;
         }
 
         &[aria-selected='true'] {
