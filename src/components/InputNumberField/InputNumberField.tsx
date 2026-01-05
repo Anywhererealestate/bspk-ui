@@ -1,7 +1,8 @@
-import { FormField, FormFieldControlProps } from '-/components/FormField';
+import { Field, FieldControlProps, propsWithAria } from '-/components/Field';
 import { InputNumber, InputNumberProps } from '-/components/InputNumber';
+import { useId } from '-/hooks/useId';
 
-export type InputNumberFieldProps = FormFieldControlProps<InputNumberProps>;
+export type InputNumberFieldProps = FieldControlProps<InputNumberProps>;
 
 /**
  * A field wrapper for the InputNumber component.
@@ -9,7 +10,7 @@ export type InputNumberFieldProps = FormFieldControlProps<InputNumberProps>;
  * This component takes properties from the FormField and InputNumber components.
  *
  * @name InputNumberField
- * @phase Stable
+ * @phase UXReview
  *
  * @generated
  */
@@ -19,18 +20,21 @@ export function InputNumberField({
     labelTrailing,
     errorMessage,
     style,
+    id: idProp,
     ...controlProps
 }: InputNumberFieldProps) {
+    const id = useId(idProp);
     return (
-        <FormField
+        <Field
+            controlId={id}
             errorMessage={errorMessage}
             helperText={helperText}
             label={label}
             labelTrailing={labelTrailing}
             style={style}
         >
-            <InputNumber {...controlProps} />
-        </FormField>
+            <InputNumber {...propsWithAria({ id, controlProps, errorMessage, helperText })} />
+        </Field>
     );
 }
 

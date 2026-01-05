@@ -3,40 +3,30 @@ import { SvgClose } from '@bspk/icons/Close';
 import { ReactNode, useMemo, useRef } from 'react';
 import { Button, ButtonProps } from '-/components/Button';
 import { DialogProps, Dialog } from '-/components/Dialog';
-import { useDebounceCallback } from '-/hooks/useDebounceCallback';
 import { useEventListener } from '-/hooks/useEventListener';
 import { useUIContext } from '-/hooks/useUIContext';
 import { CallToActionButton } from '-/types/common';
 
-// This hook is used to set the height of the modal based on the dialog box height.
-// It listens to the resize event and updates the modal height accordingly.
-function useDialogHeight() {
-    const onResize = () => {
-        const { dialogBox, modal } = modalRefs.current || {};
-        if (!dialogBox || !modal) return;
-        modal.style.height = `${dialogBox.offsetHeight}px`;
-        modal.style.visibility = '';
+function useMatchParentHeight() {
+    const elementRef = useRef<HTMLDivElement | null>(null);
+    const updateHeight = () => {
+        const element = elementRef.current;
+        const parentElement = element?.parentElement;
+        if (!element || !parentElement) return;
+        // Reset height to allow shrinking or growing
+        element.style.height = '';
+        // Apply new height on next frame
+        requestAnimationFrame(() => {
+            element.style.height = `${parentElement.clientHeight}px`;
+        });
     };
-
-    useEventListener('resize', useDebounceCallback(onResize, 100));
-
-    const modalRefs = useRef<{
-        dialogBox: HTMLDivElement | null;
-        modal: HTMLDivElement | null;
-    } | null>(null);
+    useEventListener('resize', updateHeight);
+    useEventListener('orientationchange', updateHeight);
 
     return {
-        setModalRefs: (node: HTMLElement | null) => {
-            if (!node) return;
-            const dialogBox = node.querySelector<HTMLDivElement>('[data-dialog-box]');
-            const modal = node.querySelector<HTMLDivElement>('[data-bspk="modal"]');
-            modalRefs.current = {
-                dialogBox,
-                modal,
-            };
-            if (!dialogBox || !modal) return;
-            modal.style.height = `${dialogBox.offsetHeight}px`;
-            modal.style.visibility = '';
+        setElement: (el: HTMLDivElement | null) => {
+            elementRef.current = el;
+            updateHeight();
         },
     };
 }
@@ -168,7 +158,7 @@ export function Modal({
         return nextButtons;
     }, [callToAction, cancelButton, dialogProps.onClose, isMobile]);
 
-    const { setModalRefs } = useDialogHeight();
+    const { setElement } = useMatchParentHeight();
 
     return (
         <Dialog
@@ -176,11 +166,16 @@ export function Modal({
             aria-description={description}
             aria-label={header}
             disableFocusTrap={disableFocusTrap}
-            innerRef={setModalRefs}
             placement="center"
             showScrim
         >
-            <div data-bspk="modal" ref={(node) => innerRef?.(node)} style={{ visibility: 'hidden' }}>
+            <div
+                data-bspk="modal"
+                ref={(node) => {
+                    innerRef?.(node);
+                    setElement(node);
+                }}
+            >
                 <div data-modal-header>
                     <div data-modal-title>{header}</div>
                     <Button
@@ -188,6 +183,7 @@ export function Modal({
                         iconOnly
                         label="close"
                         onClick={dialogProps.onClose}
+                        size={isMobile ? 'medium' : 'small'}
                         variant="tertiary"
                     />
                 </div>

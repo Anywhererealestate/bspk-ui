@@ -1,6 +1,5 @@
 import './textarea.scss';
 import { ChangeEvent, useRef } from 'react';
-import { useFieldInit } from '-/components/Field';
 import { CommonProps, FieldControlProps, SetRef } from '-/types/common';
 import { cssWithVars } from '-/utils/cwv';
 
@@ -46,18 +45,15 @@ export type TextareaProps = CommonProps<'size'> &
  * For a more complete example with field usage, see the TextareaField component.
  *
  * @example
- *     import { useState } from 'react';
- *     import { Textarea } from '@bspk/ui/Textarea';
+ *     import { Textarea } from '-/components/Textarea';
  *
  *     () => {
  *         const [value, setValue] = useState<string | undefined>('');
  *
  *         return (
  *             <div style={{ width: 320 }}>
- *                 <Field>
- *                     <FieldLabel>Example Textarea</FieldLabel>
- *                     <Textarea name="example-name" onChange={setValue} value={value} />
- *                     <FieldDescription>This is an example textarea field.</FieldDescription>
+ *                 <Field controlId="example-textarea" helperText="This is an example textarea field." label="Textarea">
+ *                     <Textarea id="example-textarea" name="example-name" onChange={setValue} value={value} />
  *                 </Field>
  *             </div>
  *         );
@@ -69,30 +65,24 @@ export type TextareaProps = CommonProps<'size'> &
  * @phase Stable
  */
 export function Textarea({
-    invalid: invalidProp,
+    invalid = false,
     onChange,
     size = 'medium',
     value = '',
     name,
     innerRef,
     placeholder,
-    id: idProp,
+    id,
     minRows = 4,
     maxRows = 10,
     required = false,
     readOnly,
     disabled,
     'aria-label': ariaLabel,
+    'aria-describedby': ariaDescribedBy,
+    'aria-errormessage': ariaErrorMessage,
     ...otherProps
 }: TextareaProps) {
-    const { id, ariaDescribedBy, ariaErrorMessage, invalid } = useFieldInit({
-        idProp,
-        required,
-        disabled,
-        readOnly,
-        invalidProp,
-    });
-
     const onInput = () => {
         const target = textareaElement.current;
         if (!target) return;
@@ -137,6 +127,7 @@ export function Textarea({
                     textareaElement.current = node;
                     onInput();
                 }}
+                required={required || undefined}
                 value={value}
                 wrap="hard"
             />

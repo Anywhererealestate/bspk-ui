@@ -1,8 +1,13 @@
 [data-bspk='accordion'] {
+    display: block;
     width: 100%;
     padding: var(--spacing-sizing-02);
 
-    > section {
+    &:empty {
+        display: none;
+    }
+
+    > [data-bspk='accordion-item'] {
         --border-bottom-color: var(--stroke-neutral-base);
 
         display: flex;
@@ -54,6 +59,10 @@
                 align-items: center;
                 justify-content: center;
                 margin-left: var(--spacing-sizing-02);
+
+                svg {
+                    width: var(--spacing-sizing-06);
+                }
             }
 
             &:not(:disabled) {

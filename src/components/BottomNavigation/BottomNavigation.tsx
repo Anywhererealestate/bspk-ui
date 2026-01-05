@@ -21,7 +21,6 @@ export type BottomNavigationProps = Pick<TabListProps, 'label' | 'onChange' | 'o
  *
  * @example
  *     import { BottomNavigation } from '@bspk/ui/BottomNavigation';
- *     import { useState } from 'react';
  *
  *     () => {
  *         const [value, setValue] = useState<string>('1');

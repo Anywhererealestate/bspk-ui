@@ -12,6 +12,7 @@
 
     input:focus-visible {
         outline: solid 2px var(--stroke-neutral-focus);
+        isolation: isolate;
         border-radius: var(--radius-sm);
     }
 

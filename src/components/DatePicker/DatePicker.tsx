@@ -4,8 +4,7 @@ import { format, startOfToday } from 'date-fns';
 import { useMemo, useState } from 'react';
 import { Button } from '-/components/Button';
 import { Calendar, parseDate } from '-/components/Calendar';
-import { useFieldInit } from '-/components/Field';
-import { InputElement, InputProps } from '-/components/Input';
+import { Input, InputProps } from '-/components/Input';
 import { useFloating } from '-/hooks/useFloating';
 import { useOutsideClick } from '-/hooks/useOutsideClick';
 import { FieldControlProps } from '-/types/common';
@@ -49,19 +48,15 @@ export type DatePickerProps = Omit<FieldControlProps, 'aria-label' | 'onChange' 
  * For a more complete example with field usage, see the DatePickerField component.
  *
  * @example
- *     import { DatePicker } from '@bspk/ui/DatePicker';
- *     import { Field, FieldLabel } from '@bspk/ui/Field';
- *     import { useState } from 'react';
+ *     import { DatePicker } from '-/components/DatePicker';
  *
  *     () => {
  *         const [fieldDate, setFieldDate] = useState<string>();
  *
  *         return (
  *             <div style={{ width: 320 }}>
- *                 <Field>
- *                     <FieldLabel>Date</FieldLabel>
- *                     <DatePicker name="date1" onChange={setFieldDate} required value={fieldDate} />
- *                     <FieldDescription>The date picker allows you to select a date.</FieldDescription>
+ *                 <Field controlId="date1" helperText="The date picker allows you to select a date." label="Date">
+ *                     <DatePicker id="date1" name="date1" onChange={setFieldDate} required value={fieldDate} />
  *                 </Field>
  *             </div>
  *         );
@@ -78,20 +73,14 @@ export function DatePicker({
     closeCalendarOnChange = true,
     name,
     placeholder,
-    invalid: invalidProp,
+    invalid,
     required = false,
     size,
-    id: idProp,
+    id,
     'aria-label': ariaLabel = 'Enter or choose date',
+    'aria-describedby': ariaDescribedBy,
+    'aria-errormessage': ariaErrorMessage,
 }: DatePickerProps) {
-    const { id, ariaDescribedBy, ariaErrorMessage, invalid } = useFieldInit({
-        idProp,
-        required,
-        disabled,
-        readOnly,
-        invalidProp,
-    });
-
     const [calendarVisible, setCalendarVisible] = useState(false);
 
     const { elements, floatingStyles } = useFloating({
@@ -118,7 +107,7 @@ export function DatePicker({
                 elements.setReference(node);
             }}
         >
-            <InputElement
+            <Input
                 aria-describedby={ariaDescribedBy || undefined}
                 aria-errormessage={ariaErrorMessage || undefined}
                 aria-label={ariaLabel}

@@ -72,7 +72,7 @@ export function FileUploadItem({
             </div>
             <div data-status>
                 {status === 'error' ? (
-                    <InlineAlert variant="error">{errorMessage}</InlineAlert>
+                    <InlineAlert label={errorMessage} variant="error" />
                 ) : (
                     <ProgressBar
                         align="left"

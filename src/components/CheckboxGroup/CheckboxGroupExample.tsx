@@ -68,6 +68,12 @@ export const CheckboxGroupExample: ComponentExample<CheckboxGroupProps> = {
                 disabled: true,
             },
             { label: 'Option 3', value: 'option3', description: 'Description for option 3' },
+            {
+                label: 'Option 4',
+                value: 'option4',
+                description:
+                    'This is a very long label for option 4 that never seems to end and just goes on and on without stopping',
+            },
         ],
     },
 };

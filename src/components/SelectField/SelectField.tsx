@@ -1,7 +1,8 @@
-import { FormField, FormFieldControlProps } from '-/components/FormField';
+import { Field, FieldControlProps, propsWithAria } from '-/components/Field';
 import { Select, SelectProps } from '-/components/Select';
+import { useId } from '-/hooks/useId';
 
-export type SelectFieldProps = FormFieldControlProps<SelectProps>;
+export type SelectFieldProps = FieldControlProps<SelectProps>;
 
 /**
  * A field wrapper for the Select component.
@@ -9,7 +10,7 @@ export type SelectFieldProps = FormFieldControlProps<SelectProps>;
  * This component takes properties from the FormField and Select components.
  *
  * @name SelectField
- * @phase Stable
+ * @phase UXReview
  *
  * @generated
  */
@@ -19,18 +20,21 @@ export function SelectField({
     labelTrailing,
     errorMessage,
     style,
+    id: idProp,
     ...controlProps
 }: SelectFieldProps) {
+    const id = useId(idProp);
     return (
-        <FormField
+        <Field
+            controlId={id}
             errorMessage={errorMessage}
             helperText={helperText}
             label={label}
             labelTrailing={labelTrailing}
             style={style}
         >
-            <Select {...controlProps} />
-        </FormField>
+            <Select {...propsWithAria({ id, controlProps, errorMessage, helperText })} />
+        </Field>
     );
 }
 

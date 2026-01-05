@@ -5,7 +5,7 @@
     gap: var(--spacing-sizing-02);
     padding: var(--spacing-sizing-05);
 
-    [data-screen-size='small'] & {
+    @media (width < 640px) {
         padding: var(--spacing-sizing-04);
     }
 

@@ -1,14 +1,16 @@
-import { Field, FieldDescription, FieldError, FieldLabel } from './';
+import { Field } from './';
 import { Input } from '-/components/Input';
 import { hasNoBasicA11yIssues } from '-/rtl/hasNoBasicA11yIssues';
 import { render } from '-/rtl/util';
 
 const TestBed = () => (
-    <Field>
-        <FieldLabel>Example label</FieldLabel>
-        <Input name="example-text" onChange={() => {}} value="Input text" />
-        <FieldDescription>This is an example description.</FieldDescription>
-        <FieldError>This is an error message.</FieldError>
+    <Field
+        controlId="example-field-id"
+        errorMessage="This is an error message."
+        helperText="This is an example description."
+        label="Example label"
+    >
+        <Input id="example-field-id" name="example-text" onChange={() => {}} value="Input text" />
     </Field>
 );
 

@@ -62,8 +62,7 @@ export type DialogProps = CommonProps<'id' | 'owner'> &
  * Also known as: Tray, Drawer, Flyout, Sheet
  *
  * @example
- *     import { Dialog } from '@bspk/ui/Dialog';
- *     import { Button } from '@bspk/ui/Button';
+ *     import { Dialog } from '-/components/Dialog';
  *
  *     () => {
  *         const [open, setOpen] = useState(false);
@@ -74,7 +73,7 @@ export type DialogProps = CommonProps<'id' | 'owner'> &
  *                 <Dialog onClose={() => setOpen(false)} open={open}>
  *                     <div style={{ padding: 'var(--spacing-sizing-04)' }}>
  *                         <Flex align="center" justify="space-between">
- *                             <h4>Dialog Title</h4>
+ *                             <h1>Dialog Title</h1>
  *                             <Button
  *                                 icon={<SvgClose />}
  *                                 iconOnly

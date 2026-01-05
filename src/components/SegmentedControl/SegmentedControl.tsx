@@ -9,7 +9,6 @@ export type SegmentedControlProps = TabListProps<SegmentedControlOption>;
  * Navigation tool that organizes content across different screens and views.
  *
  * @example
- *     import { useState } from 'react';
  *     import { SegmentedControl } from '@bspk/ui/SegmentedControl';
  *
  *     () => {

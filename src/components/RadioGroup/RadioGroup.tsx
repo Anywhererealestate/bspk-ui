@@ -1,7 +1,7 @@
 import './radio-group.scss';
-import { useFieldInit } from '-/components/Field';
 import { RadioProps } from '-/components/Radio';
 import { RadioOption, RadioOptionProps } from '-/components/RadioOption';
+import { useId } from '-/hooks/useId';
 import { ElementProps, FieldControlProps } from '-/types/common';
 
 export type RadioGroupOption = Pick<RadioOptionProps, 'checked' | 'description' | 'disabled' | 'label'> &
@@ -37,7 +37,6 @@ export type RadioGroupProps = Omit<FieldControlProps, 'readOnly'> & {
  * For a more complete example with field usage, see the RadioGroupField component.
  *
  * @example
- *     import { useState } from 'react';
  *     import { RadioGroup } from '@bspk/ui/RadioGroup';
  *
  *     () => {
@@ -68,45 +67,40 @@ export function RadioGroup({
     onChange,
     options = [],
     name,
-    value: groupValue,
+    value,
     disabled = false,
-    invalid: invalidProp,
     required,
+    invalid = false,
     id: idProp,
-    'aria-describedby': ariaDescribedByProp,
-    'aria-errormessage': ariaErrorMessageProp,
+    'aria-describedby': ariaDescribedBy,
+    'aria-errormessage': ariaErrorMessage,
     ...props
 }: ElementProps<RadioGroupProps, 'div'>) {
-    const { id, ariaDescribedBy, ariaErrorMessage, invalid } = useFieldInit({
-        idProp,
-        required,
-        disabled,
-        invalidProp,
-    });
+    const id = useId(idProp);
 
     return (
         <div
             {...props}
-            aria-describedby={ariaDescribedByProp || ariaDescribedBy || undefined}
+            aria-describedby={ariaDescribedBy || undefined}
             data-bspk="radio-group"
             id={id}
             role="radiogroup"
         >
-            {options.map(({ label, description, value, ...option }, index) => {
+            {options.map(({ label, description, value: optionValue, ...option }) => {
                 return (
                     <RadioOption
-                        aria-describedby={ariaDescribedByProp || ariaDescribedBy || undefined}
-                        aria-errormessage={ariaErrorMessageProp || ariaErrorMessage || undefined}
-                        checked={groupValue === value}
+                        aria-describedby={ariaDescribedBy || undefined}
+                        aria-errormessage={ariaErrorMessage || undefined}
+                        checked={value === optionValue}
                         description={description}
                         disabled={disabled || option.disabled}
                         invalid={invalid || undefined}
-                        key={`radio-option-${value || index}`}
+                        key={optionValue}
                         label={label}
                         name={name}
-                        onChange={(checked) => checked && onChange(value)}
+                        onChange={(checked) => checked && onChange(optionValue)}
                         required={required}
-                        value={value}
+                        value={optionValue}
                     />
                 );
             })}

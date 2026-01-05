@@ -17,7 +17,6 @@ export type ChipGroupProps = {
  * A component that manages the layout of a group of chips.
  *
  * @example
- *     import { Chip } from '@bspk/ui/Chip';
  *     import { ChipGroup } from '@bspk/ui/ChipGroup';
  *
  *     <ChipGroup

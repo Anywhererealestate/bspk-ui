@@ -64,14 +64,14 @@ export type CheckboxProps = Omit<FieldControlProps, 'onChange' | 'readOnly' | 'v
  */
 export function Checkbox({
     checked: checkedProp = false,
-    indeterminate: indeterminateProp,
+    indeterminate: indeterminateProp = false,
     invalid,
     disabled,
     required,
     ...props
 }: ElementProps<CheckboxProps, 'input'>) {
+    const checked = !!checkedProp;
     const indeterminate = !!indeterminateProp;
-    const checked = !!checkedProp && !indeterminate;
 
     const inputRef = useRef<HTMLInputElement>();
 
@@ -100,7 +100,7 @@ export function Checkbox({
                 type="checkbox"
             />
             <span aria-hidden>
-                {checked && (
+                {checked && !indeterminate && (
                     <svg data-checked fill="none" viewBox="0 0 14 11" xmlns="http://www.w3.org/2000/svg">
                         <path
                             d="M5.485 10.182a1 1 0 0 1-1.414 0l-3.03-3.03a1 1 0 0 1 0-1.415l.14-.141a1 1 0 0 1 1.415 0l2.182 2.182 6.626-6.627a1 1 0 0 1 1.414 0l.142.142a1 1 0 0 1 0 1.414l-7.475 7.475Z"

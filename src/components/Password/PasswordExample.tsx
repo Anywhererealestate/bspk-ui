@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Password, PasswordProps } from '.';
-import { Field, FieldLabel, FieldDescription } from '-/components/Field';
+import { Field } from '-/components/Field';
 import { ComponentExample } from '-/utils/demo';
 
 export const PasswordExample: ComponentExample<PasswordProps> = {
@@ -15,10 +15,18 @@ export const Usage = () => {
 
     return (
         <div>
-            <Field>
-                <FieldLabel>Password</FieldLabel>
-                <Password aria-label="password" name="password" onChange={(next) => setValue(next)} value={value} />
-                <FieldDescription>The password field allows you to enter a secure password.</FieldDescription>
+            <Field
+                controlId="example-password"
+                helperText="The password field allows you to enter a secure password."
+                label="Password"
+            >
+                <Password
+                    aria-label="password"
+                    id="example-password"
+                    name="password"
+                    onChange={(next) => setValue(next)}
+                    value={value}
+                />
             </Field>
         </div>
     );
