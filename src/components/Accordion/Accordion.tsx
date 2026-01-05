@@ -130,7 +130,7 @@ export function Accordion({ items: itemsProp, singleOpen = true }: AccordionProp
             {items.map(({ children, title, subtitle: subtitle, leading, trailing, disabled, id }, index) => {
                 const isOpen = openSections.includes(id);
                 return (
-                    <section data-disabled={disabled || undefined} id={id} key={id || index}>
+                    <section data-bspk="accordion-item" data-disabled={disabled || undefined} id={id} key={id || index}>
                         <button
                             aria-controls={`${id}-content`}
                             aria-expanded={isOpen}
@@ -147,7 +147,7 @@ export function Accordion({ items: itemsProp, singleOpen = true }: AccordionProp
                             <span data-arrow>{isOpen ? <SvgKeyboardArrowUp /> : <SvgKeyboardArrowDown />}</span>
                         </button>
                         {isOpen && (
-                            <div data-content data-hidden={!isOpen || undefined} id={`${id}-content`}>
+                            <div data-content id={`${id}-content`}>
                                 {children}
                             </div>
                         )}
