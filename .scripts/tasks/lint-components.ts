@@ -117,13 +117,15 @@ async function main() {
             }
 
             // find duplicate property descriptions
-            const duplicatePropertyDescriptions = props.properties.filter(
-                (prop, index, self) => self.findIndex((prop2) => prop2.description === prop.description) !== index,
-            );
+            const duplicatePropertyDescriptions = props.properties
+                .filter(
+                    (prop, index, self) => self.findIndex((prop2) => prop2.description === prop.description) !== index,
+                )
+                .filter((prop) => !!prop.description);
 
             if (duplicatePropertyDescriptions.length > 0) {
                 errors.push(
-                    `❌ ${name} has duplicate property descriptions: ${duplicatePropertyDescriptions.map((p) => p.description).join(', ')}`,
+                    `❌ ${name} has duplicate property descriptions: ${duplicatePropertyDescriptions.map((p) => `${p.name} - ${p.description}`).join(', ')}`,
                 );
             }
         }

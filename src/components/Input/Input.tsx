@@ -1,39 +1,89 @@
 import './input.scss';
-import { DEFAULT, InputElement, InputElementProps } from './InputElement';
-import { useFieldInit } from '-/components/Field';
-import { ElementProps } from '-/types/common';
+import { SvgCancel } from '@bspk/icons/Cancel';
+import { HTMLInputTypeAttribute, ReactNode, useMemo, useRef } from 'react';
+import { Button } from '-/components/Button';
+import { useTimeout } from '-/hooks/useTimeout';
+import { CommonProps, ElementProps, SetRef, FieldControlProps } from '-/types/common';
 
-export type InputProps = Omit<InputElementProps, 'ariaDescribedBy' | 'ariaErrorMessage'>;
+export const DEFAULT = {
+    size: 'medium',
+    value: '',
+    type: 'text' as Extract<HTMLInputTypeAttribute, 'number' | 'text'>,
+    autoComplete: 'off',
+} as const;
+
+export type InputBaseProps = CommonProps<'owner' | 'size'> &
+    FieldControlProps & {
+        /** The ref of the container. */
+        containerRef?: SetRef<HTMLDivElement>;
+        /** The ref of the input. */
+        inputRef?: SetRef<HTMLInputElement>;
+        /**
+         * The trailing element to display in the field.
+         *
+         * @exampleType string
+         */
+        trailing?: ReactNode;
+        /**
+         * The leading element to display in the field.
+         *
+         * @exampleType string
+         */
+        leading?: ReactNode;
+        /** The placeholder of the field. */
+        placeholder?: string;
+        /**
+         * The type of the input.
+         *
+         * @default text
+         */
+        type?: Extract<HTMLInputTypeAttribute, 'number' | 'password' | 'text'>;
+        /**
+         * Specifies if user agent has any permission to provide automated assistance in filling out form field values
+         *
+         * @default off
+         */
+        autoComplete?: 'off' | 'on';
+        /**
+         * Specifies if the clear button should be shown. This should almost always be true, but can be set to false.
+         *
+         * @default true
+         */
+        showClearButton?: boolean;
+    };
+
+export type InputProps = InputBaseProps & {
+    inputProps?: Omit<React.InputHTMLAttributes<HTMLInputElement>, keyof InputBaseProps>;
+};
 
 /**
- * An input that allows users to enter text, numbers or symbols in a singular line.
- *
- * For a more complete example with field usage, see the InputField component.
+ * An input that allows users to enter text, numbers or symbols in a singular line. This is a utility element and is not
+ * intended to be used directly but rather through the Input, and other components.
  *
  * @example
- *     import { useState } from 'react';
  *     import { Input } from '@bspk/ui/Input';
- *     import { Field, FieldLabel, FieldDescription } from '@bspk/ui/Field';
  *
  *     () => {
- *         const [fieldDate, setFieldDate] = useState<string>();
+ *         const [value, setValue] = useState<string>();
  *
  *         return (
  *             <div style={{ width: 320 }}>
- *                 <Field>
- *                     <FieldLabel>Example Label</FieldLabel>
- *                     <Input name="example-name" onChange={setFieldDate} value={fieldDate} />
- *                     <FieldDescription>This is an example input field.</FieldDescription>
+ *                 <Field
+ *                     controlId="example-control-id"
+ *                     helperText="This is an example input field."
+ *                     label="Example Input"
+ *                 >
+ *                     <Input id="example-control-id" name="example-name" onChange={setValue} value={value} />
  *                 </Field>
  *             </div>
  *         );
  *     };
  *
  * @name Input
- * @phase UXReview
+ * @phase Utility
  */
 export function Input({
-    invalid: invalidProp,
+    invalid,
     onChange,
     size = DEFAULT.size,
     value = DEFAULT.value,
@@ -42,7 +92,7 @@ export function Input({
     inputRef,
     required = false,
     placeholder,
-    id: idProp,
+    id,
     leading,
     trailing,
     type = DEFAULT.type,
@@ -53,42 +103,84 @@ export function Input({
     showClearButton: showClearButtonProp = true,
     owner,
     inputProps,
+    'aria-describedby': ariaDescribedBy,
+    'aria-errormessage': ariaErrorMessage,
     ...props
 }: ElementProps<InputProps, 'div'>) {
-    const { id, ariaDescribedBy, ariaErrorMessage, invalid } = useFieldInit({
-        idProp,
-        required,
-        disabled,
-        readOnly,
-        invalidProp,
-    });
+    const showClearButton = useMemo(
+        () => showClearButtonProp !== false && !readOnly && !disabled && !!value?.toString().length,
+        [showClearButtonProp, readOnly, disabled, value],
+    );
+
+    const inputRefInternal = useRef<HTMLInputElement | null>(null);
+
+    const focusTimeout = useTimeout();
 
     return (
-        // data-bspk="input" -- because InputElement already has it :)
-        <InputElement
+        <div
             {...props}
-            aria-label={ariaLabel}
-            ariaDescribedBy={ariaDescribedBy}
-            ariaErrorMessage={ariaErrorMessage}
-            autoComplete={autoComplete}
-            containerRef={containerRef}
-            disabled={disabled}
-            id={id}
-            inputProps={inputProps}
-            inputRef={inputRef}
-            invalid={invalid}
-            leading={leading}
-            name={name}
-            onChange={onChange}
-            owner={owner}
-            placeholder={placeholder}
-            readOnly={readOnly}
-            showClearButton={showClearButtonProp}
-            size={size}
-            trailing={trailing}
-            type={type}
-            value={value}
-        />
+            data-bspk="input"
+            data-bspk-owner={owner || undefined}
+            data-disabled={disabled || undefined}
+            data-empty={!value.toString().length || undefined}
+            data-invalid={invalid || undefined}
+            data-readonly={readOnly || undefined}
+            data-show-clear-button={showClearButton || undefined}
+            data-size={size}
+            ref={containerRef}
+        >
+            {leading && <span data-leading>{leading}</span>}
+
+            <input
+                {...inputProps}
+                aria-describedby={ariaDescribedBy || undefined}
+                aria-errormessage={ariaErrorMessage || undefined}
+                aria-invalid={invalid || undefined}
+                aria-label={ariaLabel}
+                autoComplete={autoComplete}
+                data-main-input
+                disabled={disabled || undefined}
+                id={id}
+                name={name}
+                onBlur={(event) => {
+                    inputProps?.onBlur?.(event);
+                }}
+                onChange={(event) => {
+                    onChange(event.target.value, event);
+                }}
+                onFocus={(event) => {
+                    inputProps?.onFocus?.(event);
+                }}
+                placeholder={placeholder || ' '}
+                readOnly={readOnly || undefined}
+                ref={(node) => {
+                    if (!node) return;
+                    inputRef?.(node);
+                    inputRefInternal.current = node;
+                }}
+                required={required || undefined}
+                type={type}
+                value={value || ''}
+            />
+            {trailing && <span data-trailing>{trailing}</span>}
+            {showClearButton && (
+                <Button
+                    data-clear-button
+                    icon={<SvgCancel />}
+                    iconOnly
+                    label="Clear"
+                    onClick={() => {
+                        onChange('');
+                        inputRefInternal.current?.focus();
+                    }}
+                    onFocus={() => {
+                        focusTimeout.clear();
+                    }}
+                    size={size}
+                    variant="tertiary"
+                />
+            )}
+        </div>
     );
 }
 

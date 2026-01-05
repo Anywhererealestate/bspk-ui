@@ -1,7 +1,8 @@
-import { FormField, FormFieldControlProps } from '-/components/FormField';
+import { Field, FieldControlProps, propsWithAria } from '-/components/Field';
 import { Textarea, TextareaProps } from '-/components/Textarea';
+import { useId } from '-/hooks/useId';
 
-export type TextareaFieldProps = FormFieldControlProps<TextareaProps>;
+export type TextareaFieldProps = FieldControlProps<TextareaProps>;
 
 /**
  * A field wrapper for the Textarea component.
@@ -9,7 +10,7 @@ export type TextareaFieldProps = FormFieldControlProps<TextareaProps>;
  * This component takes properties from the FormField and Textarea components.
  *
  * @name TextareaField
- * @phase Stable
+ * @phase UXReview
  *
  * @generated
  */
@@ -19,18 +20,21 @@ export function TextareaField({
     labelTrailing,
     errorMessage,
     style,
+    id: idProp,
     ...controlProps
 }: TextareaFieldProps) {
+    const id = useId(idProp);
     return (
-        <FormField
+        <Field
+            controlId={id}
             errorMessage={errorMessage}
             helperText={helperText}
             label={label}
             labelTrailing={labelTrailing}
             style={style}
         >
-            <Textarea {...controlProps} />
-        </FormField>
+            <Textarea {...propsWithAria({ id, controlProps, errorMessage, helperText })} />
+        </Field>
     );
 }
 

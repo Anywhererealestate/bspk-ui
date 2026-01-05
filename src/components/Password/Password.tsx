@@ -1,8 +1,8 @@
 import './password.scss';
 import { useState } from 'react';
 import { Button } from '-/components/Button';
-import { useFieldInit } from '-/components/Field';
-import { InputElement, InputProps } from '-/components/Input';
+import { Input, InputProps } from '-/components/Input';
+import { useId } from '-/hooks/useId';
 import { FieldControlProps } from '-/types/common';
 
 export type PasswordProps = FieldControlProps & Pick<InputProps, 'containerRef' | 'inputProps' | 'inputRef' | 'size'>;
@@ -13,23 +13,25 @@ export type PasswordProps = FieldControlProps & Pick<InputProps, 'containerRef' 
  * For a more complete example with field usage, see the PasswordField component.
  *
  * @example
- *     import { Password } from '@bspk/ui/Password';
- *     import { Field, FieldLabel, FieldDescription } from '-/components/Field';
+ *     import { Password } from '-/components/Password';
  *
  *     () => {
  *         const [value, setValue] = useState<string | undefined>('');
  *
  *         return (
- *             <div style={{ width: 320 }}>
- *                 <Field>
- *                     <FieldLabel>Password</FieldLabel>
+ *             <div>
+ *                 <Field
+ *                     controlId="example-password"
+ *                     helperText="The password field allows you to enter a secure password."
+ *                     label="Password"
+ *                 >
  *                     <Password
  *                         aria-label="password"
+ *                         id="example-password"
  *                         name="password"
  *                         onChange={(next) => setValue(next)}
  *                         value={value}
  *                     />
- *                     <FieldDescription>The password field allows you to enter a secure password.</FieldDescription>
  *                 </Field>
  *             </div>
  *         );
@@ -45,20 +47,16 @@ export function Password({
     onChange,
     required = false,
     containerRef,
-    invalid: invalidProp,
+    invalid = false,
     readOnly,
     disabled,
     id: idProp,
     'aria-label': ariaLabel,
+    'aria-describedby': ariaDescribedBy,
+    'aria-errormessage': ariaErrorMessage,
     ...props
 }: PasswordProps) {
-    const { id, ariaDescribedBy, ariaErrorMessage, invalid } = useFieldInit({
-        idProp,
-        required,
-        disabled,
-        readOnly,
-        invalidProp,
-    });
+    const id = useId(idProp);
 
     const [isShowingPassword, setIsShowingPassword] = useState(false);
 
@@ -68,7 +66,7 @@ export function Password({
     };
 
     return (
-        <InputElement
+        <Input
             {...props}
             aria-describedby={ariaDescribedBy}
             aria-errormessage={ariaErrorMessage}

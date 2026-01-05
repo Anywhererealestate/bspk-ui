@@ -1,7 +1,8 @@
-import { FormField, FormFieldControlProps } from '-/components/FormField';
+import { Field, FieldControlProps, propsWithAria } from '-/components/Field';
 import { Input, InputProps } from '-/components/Input';
+import { useId } from '-/hooks/useId';
 
-export type InputFieldProps = FormFieldControlProps<InputProps>;
+export type InputFieldProps = FieldControlProps<InputProps>;
 
 /**
  * A field wrapper for the Input component.
@@ -9,7 +10,7 @@ export type InputFieldProps = FormFieldControlProps<InputProps>;
  * This component takes properties from the FormField and Input components.
  *
  * @name InputField
- * @phase Stable
+ * @phase UXReview
  *
  * @generated
  */
@@ -19,18 +20,21 @@ export function InputField({
     labelTrailing,
     errorMessage,
     style,
+    id: idProp,
     ...controlProps
 }: InputFieldProps) {
+    const id = useId(idProp);
     return (
-        <FormField
+        <Field
+            controlId={id}
             errorMessage={errorMessage}
             helperText={helperText}
             label={label}
             labelTrailing={labelTrailing}
             style={style}
         >
-            <Input {...controlProps} />
-        </FormField>
+            <Input {...propsWithAria({ id, controlProps, errorMessage, helperText })} />
+        </Field>
     );
 }
 

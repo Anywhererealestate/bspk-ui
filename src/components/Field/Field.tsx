@@ -1,35 +1,46 @@
 import './field.scss';
-import { Children, ElementType, isValidElement, ReactNode, useMemo, useState } from 'react';
+import { ReactNode } from 'react';
 
-import { describedById, errorMessageId, fieldContext, FieldContext, labelledById } from './utils';
-import { ElementProps } from '-/types/common';
-import { randomString } from '-/utils/random';
+import { labelledById, errorMessageId, describedById } from './utils';
+import { InlineAlert } from '-/components/InlineAlert';
+import { CommonProps } from '-/types/common';
 
-export type FieldProps<As extends ElementType = ElementType> = {
+export type FieldControlProps<P extends Record<string, unknown>> = Omit<FieldProps, 'children' | 'controlId'> &
+    Omit<P, keyof FieldProps>;
+
+export type FieldProps = CommonProps<'style'> & {
+    /** Displays an error message and marks the field as invalid. */
+    errorMessage?: string;
     /**
-     * The children of the form field. This should be a control such as DatePicker, Input, InputNumber, InputPhone,
-     * Password, Select, Textarea, or TimePicker.
+     * The label of the field.
+     *
+     * @required
+     */
+    label: string;
+    /**
+     * This text provides additional context or instructions for the field.
+     *
+     * If an errorMessage is present, the helperText will not be displayed.
+     */
+    helperText?: string;
+    /** The trailing element of the label. */
+    labelTrailing?: string;
+    /** Marks the field as required. */
+    required?: boolean;
+    /**
+     * The children of the field. This should be a control such as DatePicker, Input, InputNumber, InputPhone, Password,
+     * Select, Textarea, or TimePicker.
      *
      * @required
      */
     children: ReactNode;
     /**
-     * The element type to render the field as.
+     * The id attribute of the form control rendered in children (e.g., Input, Select, Textarea). Used to associate the
+     * label (htmlFor) with the control for accessibility. Must exactly match the control's id.
      *
-     * @default div
-     * @type ElementType
+     * @required
      */
-    as?: As;
-    /** The unique id for the field. */
-    id?: string;
-};
-
-const isComponentName = (
-    child: React.ReactElement<unknown, React.JSXElementConstructor<unknown> | string> | React.ReactPortal,
-    name: string,
-) => {
-    const componentType = child.type as { name?: string; displayName?: string };
-    return componentType.displayName === name || componentType.name === name;
+    controlId: string;
 };
 
 /**
@@ -40,25 +51,22 @@ const isComponentName = (
  *
  * @example
  *     import { Input } from '@bspk/ui/Input';
- *     import { Field, FieldLabel, FieldDescription, FieldError } from '@bspk/ui/Field';
+ *     import { Field } from '@bspk/ui/Field';
  *
  *     () => {
  *         const [state, setState] = useState<string | undefined>(undefined);
- *         const [error, setError] = useState<string | undefined>(undefined);
  *
  *         return (
- *             <Field label="Example label">
- *                 <FieldLabel>Example label</FieldLabel>
+ *             <Field controlId="example-control-id" helperText="This is an example description." label="Example label">
  *                 <Input
  *                     aria-label="example aria-label"
+ *                     id="example-control-id"
  *                     name="example-text"
  *                     onChange={(next) => {
  *                         setState(next);
  *                     }}
  *                     value={state}
  *                 />
- *                 <FieldDescription>This is an example description.</FieldDescription>
- *                 {error && <FieldError>{error}</FieldError>}
  *             </Field>
  *         );
  *     };
@@ -66,43 +74,38 @@ const isComponentName = (
  * @name Field
  * @phase Utility
  */
-export function Field<As extends ElementType = ElementType>({
+export function Field({
     children,
-    as,
-    id: idProp,
+    label,
+    helperText,
+    labelTrailing,
+    errorMessage,
+    required,
+    controlId: id,
     ...props
-}: ElementProps<FieldProps<As>, As>) {
-    const id = useMemo(() => idProp || `field-${randomString(8)}`, [idProp]);
-
-    const childContext = useMemo(() => {
-        const next: Pick<FieldContext, 'ariaDescribedBy' | 'ariaErrorMessage' | 'ariaLabelledBy'> = {};
-        Children.forEach(children, (child) => {
-            if (!isValidElement(child) || typeof child.type === 'string' || !child.props.children) return;
-
-            if (isComponentName(child, 'FieldError')) next.ariaErrorMessage = errorMessageId(id);
-            else if (isComponentName(child, 'FieldLabel')) next.ariaLabelledBy = labelledById(id);
-            else if (isComponentName(child, 'FieldDescription')) next.ariaDescribedBy = describedById(id);
-        });
-        return next;
-    }, [children, id]);
-
-    const [contextState, setContext] = useState<Pick<FieldContext, 'htmlFor' | 'required'>>({});
-
-    const As = as || 'div';
-
+}: FieldProps) {
     return (
-        <fieldContext.Provider
-            value={{
-                ...childContext,
-                ...contextState,
-                id,
-                setContext,
-            }}
-        >
-            <As {...props} data-bspk-utility="field" id={id} role="group">
-                {children}
-            </As>
-        </fieldContext.Provider>
+        <div {...props} data-bspk-utility="field" role="group">
+            <label data-field-label htmlFor={id} id={labelledById(id)}>
+                <span>{label}</span>
+                {required && <span data-required>{' (Required)'}</span>}
+                {labelTrailing && (
+                    <span aria-hidden data-trailing>
+                        {labelTrailing}
+                    </span>
+                )}
+            </label>
+            {children}
+            {errorMessage ? (
+                <InlineAlert id={errorMessageId(id)} label={errorMessage} owner="field-error" variant="error" />
+            ) : (
+                helperText && (
+                    <p data-field-description id={describedById(id)}>
+                        {helperText}
+                    </p>
+                )
+            )}
+        </div>
     );
 }
 

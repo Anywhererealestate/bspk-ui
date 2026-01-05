@@ -1,7 +1,8 @@
 import { DatePicker, DatePickerProps } from '-/components/DatePicker';
-import { FormField, FormFieldControlProps } from '-/components/FormField';
+import { Field, FieldControlProps, propsWithAria } from '-/components/Field';
+import { useId } from '-/hooks/useId';
 
-export type DatePickerFieldProps = FormFieldControlProps<DatePickerProps>;
+export type DatePickerFieldProps = FieldControlProps<DatePickerProps>;
 
 /**
  * A field wrapper for the DatePicker component.
@@ -9,7 +10,7 @@ export type DatePickerFieldProps = FormFieldControlProps<DatePickerProps>;
  * This component takes properties from the FormField and DatePicker components.
  *
  * @name DatePickerField
- * @phase Stable
+ * @phase UXReview
  *
  * @generated
  */
@@ -19,18 +20,21 @@ export function DatePickerField({
     labelTrailing,
     errorMessage,
     style,
+    id: idProp,
     ...controlProps
 }: DatePickerFieldProps) {
+    const id = useId(idProp);
     return (
-        <FormField
+        <Field
+            controlId={id}
             errorMessage={errorMessage}
             helperText={helperText}
             label={label}
             labelTrailing={labelTrailing}
             style={style}
         >
-            <DatePicker {...controlProps} />
-        </FormField>
+            <DatePicker {...propsWithAria({ id, controlProps, errorMessage, helperText })} />
+        </Field>
     );
 }
 

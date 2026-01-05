@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { InputNumber, InputNumberProps } from './InputNumber';
-import { Field, FieldLabel, FieldDescription } from '-/components/Field';
+import { Field } from '-/components/Field';
 import { ComponentExample } from '-/utils/demo';
 
 export const InputNumberExample: ComponentExample<InputNumberProps> = {
@@ -18,15 +18,18 @@ export const Usage = () => {
 
     return (
         <div style={{ width: 320 }}>
-            <Field>
-                <FieldLabel>Example Input Number</FieldLabel>
+            <Field
+                controlId="example-input-number"
+                helperText="The input number allows you to increment or decrement a value."
+                label="Example Input Number"
+            >
                 <InputNumber
                     aria-label="Example aria-label"
+                    id="example-input-number"
                     name="example-name"
                     onChange={(nextValue) => setValue(nextValue)}
                     value={value}
                 />
-                <FieldDescription>The input number allows you to increment or decrement a value.</FieldDescription>
             </Field>
         </div>
     );

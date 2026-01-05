@@ -1,8 +1,8 @@
-import { Field, FieldDescription, FieldError, FieldLabel } from '-/components/Field';
-import { FormFieldControlProps } from '-/components/FormField';
+import { FieldControlProps, Fieldset, propsWithAria } from '-/components/Field';
 import { RadioGroup, RadioGroupProps } from '-/components/RadioGroup';
+import { useId } from '-/hooks/useId';
 
-export type RadioGroupFieldProps = FormFieldControlProps<RadioGroupProps>;
+export type RadioGroupFieldProps = FieldControlProps<RadioGroupProps>;
 
 /**
  * A field wrapper for the RadioGroup component.
@@ -20,17 +20,22 @@ export function RadioGroupField({
     labelTrailing,
     errorMessage,
     style,
+    id: idProp,
     ...controlProps
 }: RadioGroupFieldProps) {
+    const id = useId(idProp);
     return (
-        <Field as="fieldset">
-            <FieldLabel as="legend" labelTrailing={labelTrailing} style={style}>
-                {label}
-            </FieldLabel>
-            <RadioGroup {...controlProps} />
-            {!errorMessage && helperText && <FieldDescription>{helperText}</FieldDescription>}
-            {errorMessage && <FieldError label={errorMessage} />}
-        </Field>
+        <Fieldset
+            controlId={id}
+            errorMessage={errorMessage}
+            helperText={helperText}
+            label={label}
+            labelTrailing={labelTrailing}
+            required={controlProps.required}
+            style={style}
+        >
+            <RadioGroup {...propsWithAria({ id, controlProps, errorMessage, helperText })} />
+        </Fieldset>
     );
 }
 

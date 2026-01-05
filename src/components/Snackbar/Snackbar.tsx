@@ -83,7 +83,6 @@ export type SnackbarProps = CommonProps<'id'> & {
  * @example
  *     import { Snackbar } from '@bspk/ui/Snackbar';
  *     import { Button } from '@bspk/ui/Button';
- *     import { useState } from 'react';
  *     import { sendSnackbar } from '@bspk/ui/Snackbar/Manager';
  *
  *     () => {

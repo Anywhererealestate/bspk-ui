@@ -6,40 +6,36 @@
     border: none;
     max-width: 100%;
     min-inline-size: unset;
-}
 
-[data-bspk='field-label'] {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: var(--spacing-sizing-01);
+    [data-field-label] {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: var(--spacing-sizing-01);
 
-    span {
-        font: var(--labels-small);
-        color: var(--foreground-neutral-on-surface);
+        span {
+            font: var(--labels-small);
+            color: var(--foreground-neutral-on-surface);
 
-        &[data-required] {
-            font: var(--body-small);
-            color: var(--foreground-neutral-on-surface-variant-01);
-        }
+            &[data-required] {
+                font: var(--body-small);
+                color: var(--foreground-neutral-on-surface-variant-01);
+            }
 
-        &[data-trailing] {
-            font: var(--body-small);
-            color: var(--foreground-neutral-on-surface-variant-02);
-            margin-left: auto;
+            &[data-trailing] {
+                font: var(--body-small);
+                color: var(--foreground-neutral-on-surface-variant-02);
+                margin-left: auto;
+            }
         }
     }
-}
 
-[data-bspk='field-description'] {
-    font: var(--body-small);
-    color: var(--foreground-neutral-on-surface-variant-01);
-    margin: 0;
-    padding: 0;
-}
-
-[data-bspk-owner='field-error'] {
-    // Styles for FieldError component when used inside Field
+    [data-field-description] {
+        font: var(--body-small);
+        color: var(--foreground-neutral-on-surface-variant-01);
+        margin: 0;
+        padding: 0;
+    }
 }
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

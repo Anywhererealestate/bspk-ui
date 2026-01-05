@@ -44,13 +44,17 @@ export type FlexProps<As extends ElementType = ElementType> = {
  * Utility component used within other components for layout purposes.
  *
  * @example
- *     import { Flex } from '@bspk/ui/Flex';
+ *     import { Flex } from '-/components/Flex';
  *
- *     <Flex gap="24" justify="center" style={{ width: '100%' }}>
- *         <div>Alpha</div>
- *         <div>Beta</div>
- *         <div>Gamma</div>
- *     </Flex>;
+ *     () => {
+ *         return (
+ *             <Flex gap="24" justify="center" style={{ width: '100%' }}>
+ *                 <div>Alpha</div>
+ *                 <div>Beta</div>
+ *                 <div>Gamma</div>
+ *             </Flex>
+ *         );
+ *     };
  *
  * @name Flex
  * @phase Utility

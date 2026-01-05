@@ -164,6 +164,14 @@ export type FieldControlProps<
      * @required
      */
     onChange: (next: ValueType | undefined, event?: ChangeContext) => void;
+    /*
+     * The aria-describedby attribute for the field control.
+     */
+    'aria-describedby'?: string;
+    /*
+     * The aria-errormessage attribute for the field control.
+     */
+    'aria-errormessage'?: string;
 };
 
 export type Brand =

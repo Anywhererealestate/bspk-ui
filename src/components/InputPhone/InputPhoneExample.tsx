@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { InputPhone, InputPhoneProps } from '.';
-import { Field, FieldDescription, FieldLabel } from '-/components/Field';
+import { Field } from '-/components/Field';
 import { Preset, ComponentExample } from '-/utils/demo';
 
 export const presets: Preset<InputPhoneProps>[] = [];
@@ -19,18 +19,19 @@ export const Usage = () => {
 
     return (
         <div style={{ width: 320 }}>
-            <Field>
-                <FieldLabel>Example Input Phone</FieldLabel>
+            <Field
+                controlId="example-input-phone"
+                helperText="The phone input allows you to enter a phone number with country code."
+                label="Example Input Phone"
+            >
                 <InputPhone
                     aria-label="Phone Number"
+                    id="example-input-phone"
                     initialCountryCode="US"
                     name="example-name"
                     onChange={onChange}
                     value={value}
                 />
-                <FieldDescription>
-                    The phone input allows you to enter a phone number with country code.
-                </FieldDescription>
             </Field>
         </div>
     );
