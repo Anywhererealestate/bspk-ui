@@ -13,11 +13,11 @@ import {
     stringValueToParts,
 } from './utils';
 import { Button } from '-/components/Button';
-import { useFieldInit } from '-/components/Field';
 import { InputProps } from '-/components/Input';
 import { Menu } from '-/components/Menu';
 import { Portal } from '-/components/Portal';
 import { useFloating } from '-/hooks/useFloating';
+import { useId } from '-/hooks/useId';
 import { useOutsideClick } from '-/hooks/useOutsideClick';
 import { ElementProps, FieldControlProps } from '-/types/common';
 import { handleKeyDown } from '-/utils/handleKeyDown';
@@ -31,17 +31,19 @@ export type TimePickerProps = FieldControlProps & Pick<InputProps, 'size'>;
  * For a more complete example with field usage, see the TimePickerField component.
  *
  * @example
- *     import { TimePicker } from '@bspk/ui/TimePicker';
+ *     import { TimePicker } from '-/components/TimePicker';
  *
  *     () => {
  *         const [value, onChange] = useState<string | undefined>('');
  *
  *         return (
  *             <div style={{ width: 320 }}>
- *                 <Field>
- *                     <FieldLabel>Time</FieldLabel>
- *                     <TimePicker name="time" onChange={onChange} value={value} />
- *                     <FieldDescription>The time picker allows you to select a time.</FieldDescription>
+ *                 <Field
+ *                     controlId="destination-time"
+ *                     helperText="The time picker allows you to select a time."
+ *                     label="Time"
+ *                 >
+ *                     <TimePicker id="destination-time" name="time" onChange={onChange} value={value} />
  *                 </Field>
  *             </div>
  *         );
@@ -54,22 +56,17 @@ export function TimePicker({
     value,
     disabled,
     id: idProp,
-    invalid: invalidProp,
+    invalid = false,
     readOnly,
     name,
     size,
-    required = false,
     onChange: onChangeProp,
     'aria-label': ariaLabel = 'Time picker',
+    'aria-describedby': ariaDescribedBy,
+    'aria-errormessage': ariaErrorMessage,
     ...props
 }: ElementProps<TimePickerProps, 'div'>) {
-    const { id, ariaDescribedBy, ariaErrorMessage, invalid } = useFieldInit({
-        idProp,
-        required,
-        disabled,
-        readOnly,
-        invalidProp,
-    });
+    const id = useId(idProp);
 
     const menuId = `${id}-time-picker-menu`;
 

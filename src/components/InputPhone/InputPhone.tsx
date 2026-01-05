@@ -3,12 +3,12 @@ import { SvgIcon } from '@bspk/icons/SvgIcon';
 import { AsYouType, getCountryCallingCode } from 'libphonenumber-js';
 import { useMemo, useRef, useState } from 'react';
 import { Button } from '-/components/Button';
-import { useFieldInit } from '-/components/Field';
-import { InputElement, InputProps } from '-/components/Input';
+import { Input, InputProps } from '-/components/Input';
 import { ListItem } from '-/components/ListItem';
 import { Menu } from '-/components/Menu';
 import { useArrowNavigation } from '-/hooks/useArrowNavigation';
 import { useFloating } from '-/hooks/useFloating';
+import { useId } from '-/hooks/useId';
 import { useOutsideClick } from '-/hooks/useOutsideClick';
 import { FieldControlProps } from '-/types/common';
 import { countryCodeData, countryCodes, SupportedCountryCode } from '-/utils/countryCodes';
@@ -57,26 +57,26 @@ export type InputPhoneProps = FieldControlProps<string, SupportedCountryCode> &
  * For a more complete example with field usage, see the InputPhoneField component.
  *
  * @example
- *     import { InputPhone } from '@bspk/ui/InputPhone';
- *     import { Field, FieldDescription, FieldLabel } from '@bspk/ui/Field';
+ *     import { InputPhone } from '-/components/InputPhone';
  *
  *     () => {
  *         const [value, onChange] = useState<string | undefined>();
  *
  *         return (
  *             <div style={{ width: 320 }}>
- *                 <Field>
- *                     <FieldLabel>Example Input Phone</FieldLabel>
+ *                 <Field
+ *                     controlId="example-input-phone"
+ *                     helperText="The phone input allows you to enter a phone number with country code."
+ *                     label="Example Input Phone"
+ *                 >
  *                     <InputPhone
  *                         aria-label="Phone Number"
+ *                         id="example-input-phone"
  *                         initialCountryCode="US"
  *                         name="example-name"
  *                         onChange={onChange}
  *                         value={value}
  *                     />
- *                     <FieldDescription>
- *                         The phone input allows you to enter a phone number with country code.
- *                     </FieldDescription>
  *                 </Field>
  *             </div>
  *         );
@@ -94,20 +94,16 @@ export function InputPhone({
     readOnly,
     name,
     id: idProp,
-    invalid: invalidProp,
+    invalid = false,
     required = false,
     size = 'medium',
     inputRef,
     scrollLimit = 5,
     'aria-label': ariaLabel = 'Phone number input',
+    'aria-describedby': ariaDescribedBy,
+    'aria-errormessage': ariaErrorMessage,
 }: InputPhoneProps) {
-    const { id, ariaDescribedBy, ariaErrorMessage, invalid } = useFieldInit({
-        idProp,
-        required,
-        disabled,
-        readOnly,
-        invalidProp,
-    });
+    const id = useId(idProp);
     const menuId = useMemo(() => `${id}-menu`, [id]);
 
     const items = useIds(`input-phone-${id}`, SELECT_OPTIONS);
@@ -174,7 +170,7 @@ export function InputPhone({
                     },
                 })}
             >
-                <InputElement
+                <Input
                     aria-describedby={ariaDescribedBy}
                     aria-errormessage={ariaErrorMessage}
                     aria-label={ariaLabel || undefined}

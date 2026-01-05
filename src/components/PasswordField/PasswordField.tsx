@@ -1,7 +1,8 @@
-import { FormField, FormFieldControlProps } from '-/components/FormField';
+import { Field, FieldControlProps, propsWithAria } from '-/components/Field';
 import { Password, PasswordProps } from '-/components/Password';
+import { useId } from '-/hooks/useId';
 
-export type PasswordFieldProps = FormFieldControlProps<PasswordProps>;
+export type PasswordFieldProps = FieldControlProps<PasswordProps>;
 
 /**
  * A field wrapper for the Password component.
@@ -9,7 +10,7 @@ export type PasswordFieldProps = FormFieldControlProps<PasswordProps>;
  * This component takes properties from the FormField and Password components.
  *
  * @name PasswordField
- * @phase Stable
+ * @phase UXReview
  *
  * @generated
  */
@@ -19,18 +20,21 @@ export function PasswordField({
     labelTrailing,
     errorMessage,
     style,
+    id: idProp,
     ...controlProps
 }: PasswordFieldProps) {
+    const id = useId(idProp);
     return (
-        <FormField
+        <Field
+            controlId={id}
             errorMessage={errorMessage}
             helperText={helperText}
             label={label}
             labelTrailing={labelTrailing}
             style={style}
         >
-            <Password {...controlProps} />
-        </FormField>
+            <Password {...propsWithAria({ id, controlProps, errorMessage, helperText })} />
+        </Field>
     );
 }
 

@@ -123,7 +123,6 @@ export type TabListProps<O extends TabOption = TabOption> = {
  * See TabGroup or SegmentedControl for examples.
  *
  * @example
- *     import { useState } from 'react';
  *     import { TabList } from '@bspk/ui/TabList';
  *
  *     () => {

@@ -1,7 +1,6 @@
 import './input-number.scss';
 import { useEffect, useRef } from 'react';
 import { IncrementButton } from './IncrementButton';
-import { useFieldInit } from '-/components/Field';
 import { useId } from '-/hooks/useId';
 import { CommonProps, FieldControlProps } from '-/types/common';
 
@@ -51,24 +50,25 @@ export type InputNumberProps = CommonProps<'size'> &
  * For a more complete example with field usage, see the InputNumberField component.
  *
  * @example
- *     import { InputNumber } from '@bspk/ui/InputNumber';
+ *     import { InputNumber } from '-/components/InputNumber';
  *
  *     () => {
  *         const [value, setValue] = useState<number | undefined>();
  *
  *         return (
  *             <div style={{ width: 320 }}>
- *                 <Field>
- *                     <FieldLabel>Example Input Number</FieldLabel>
+ *                 <Field
+ *                     controlId="example-input-number"
+ *                     helperText="The input number allows you to increment or decrement a value."
+ *                     label="Example Input Number"
+ *                 >
  *                     <InputNumber
  *                         aria-label="Example aria-label"
+ *                         id="example-input-number"
  *                         name="example-name"
  *                         onChange={(nextValue) => setValue(nextValue)}
  *                         value={value}
  *                     />
- *                     <FieldDescription>
- *                         The input number allows you to increment or decrement a value.
- *                     </FieldDescription>
  *                 </Field>
  *             </div>
  *         );
@@ -89,21 +89,16 @@ export function InputNumber({
     'aria-label': ariaLabel = 'Input number',
     max: maxProp,
     min = 0,
-    invalid: invalidProp = false,
+    invalid = false,
     step = 1,
     required = false,
+    'aria-describedby': ariaDescribedBy,
+    'aria-errormessage': ariaErrorMessage,
     ...inputElementProps
 }: InputNumberProps) {
-    const { id, ariaDescribedBy, ariaErrorMessage, invalid } = useFieldInit({
-        idProp,
-        required,
-        disabled,
-        readOnly,
-        invalidProp,
-    });
+    const inputId = useId(idProp);
     const max = typeof maxProp === 'number' && maxProp >= min ? maxProp : Number.MAX_SAFE_INTEGER;
     const centered = align !== 'left';
-    const inputId = useId(id);
     const value = isNumber(valueProp, min);
     const removeDisabled = disabled || value + step * -1 < min;
     const addDisabled = disabled || value + step > max;

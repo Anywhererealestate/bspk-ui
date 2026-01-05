@@ -1,7 +1,8 @@
-import { FormField, FormFieldControlProps } from '-/components/FormField';
+import { Field, FieldControlProps, propsWithAria } from '-/components/Field';
 import { InputPhone, InputPhoneProps } from '-/components/InputPhone';
+import { useId } from '-/hooks/useId';
 
-export type InputPhoneFieldProps = FormFieldControlProps<InputPhoneProps>;
+export type InputPhoneFieldProps = FieldControlProps<InputPhoneProps>;
 
 /**
  * A field wrapper for the InputPhone component.
@@ -9,7 +10,7 @@ export type InputPhoneFieldProps = FormFieldControlProps<InputPhoneProps>;
  * This component takes properties from the FormField and InputPhone components.
  *
  * @name InputPhoneField
- * @phase Stable
+ * @phase UXReview
  *
  * @generated
  */
@@ -19,18 +20,21 @@ export function InputPhoneField({
     labelTrailing,
     errorMessage,
     style,
+    id: idProp,
     ...controlProps
 }: InputPhoneFieldProps) {
+    const id = useId(idProp);
     return (
-        <FormField
+        <Field
+            controlId={id}
             errorMessage={errorMessage}
             helperText={helperText}
             label={label}
             labelTrailing={labelTrailing}
             style={style}
         >
-            <InputPhone {...controlProps} />
-        </FormField>
+            <InputPhone {...propsWithAria({ id, controlProps, errorMessage, helperText })} />
+        </Field>
     );
 }
 

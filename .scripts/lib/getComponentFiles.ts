@@ -5,6 +5,7 @@ import { getComponentsDir } from './getComponentsDir';
 interface ComponentFileData {
     name: string;
     filePath: string;
+    directory: string;
 }
 
 /**
@@ -28,7 +29,7 @@ export const getComponentFiles = async (componentsDirectory?: string): Promise<C
             const filePath = path.join(componentsDir, name, `${name}.tsx`);
 
             await fs.access(filePath);
-            componentFiles.push({ name, filePath });
+            componentFiles.push({ name, filePath, directory: path.join(componentsDir, name) });
 
             continue;
         } catch {
@@ -38,7 +39,7 @@ export const getComponentFiles = async (componentsDirectory?: string): Promise<C
         try {
             const indexPath = path.join(componentsDir, name, 'index.tsx');
             await fs.access(indexPath);
-            componentFiles.push({ name, filePath: indexPath });
+            componentFiles.push({ name, filePath: indexPath, directory: path.join(componentsDir, name) });
         } catch {
             // continue regardless of error
         }

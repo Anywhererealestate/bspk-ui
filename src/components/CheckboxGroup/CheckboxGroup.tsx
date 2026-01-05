@@ -1,6 +1,6 @@
 import './checkbox-group.scss';
 import { CheckboxOption, CheckboxOptionProps } from '-/components/CheckboxOption';
-import { useFieldInit } from '-/components/Field';
+import { useId } from '-/hooks/useId';
 import { ElementProps, FieldControlProps } from '-/types/common';
 
 const ALL_LABEL = 'All';
@@ -71,36 +71,24 @@ export function CheckboxGroup({
     selectAll,
     selectAllProps,
     disabled = false,
-    invalid: invalidProp,
-    required,
+    invalid = false,
     id: idProp,
-    'aria-describedby': ariaDescribedByProp,
-    'aria-errormessage': ariaErrorMessageProp,
+    'aria-describedby': ariaDescribedBy,
+    'aria-errormessage': ariaErrorMessage,
+    required,
     ...props
 }: ElementProps<CheckboxGroupProps, 'div'>) {
-    const { id, ariaDescribedBy, ariaErrorMessage, invalid } = useFieldInit({
-        idProp,
-        required,
-        disabled,
-        invalidProp,
-    });
-
+    const id = useId(idProp);
     const availableOptions = options.filter((o) => !o.disabled);
 
     return (
-        <div
-            {...props}
-            aria-describedby={ariaDescribedByProp || ariaDescribedBy || undefined}
-            data-bspk="checkbox-group"
-            id={id}
-            role="group"
-        >
+        <div {...props} aria-describedby={ariaDescribedBy || undefined} data-bspk="checkbox-group" id={id} role="group">
             {selectAll && (
                 <CheckboxOption
                     aria-label={ALL_LABEL}
                     label={ALL_LABEL}
                     {...selectAllProps}
-                    aria-errormessage={ariaErrorMessageProp || ariaErrorMessage || undefined}
+                    aria-errormessage={ariaErrorMessage || undefined}
                     checked={!!value.length && value.length === availableOptions.length}
                     data-testid="selectAll-Checkbox"
                     disabled={disabled}
@@ -113,7 +101,7 @@ export function CheckboxGroup({
             )}
             {options.map(({ label, description, value: optionValue, disabled: optionDisabled }) => (
                 <CheckboxOption
-                    aria-errormessage={ariaErrorMessageProp || ariaErrorMessage || undefined}
+                    aria-errormessage={ariaErrorMessage || undefined}
                     aria-label={label}
                     checked={value.includes(optionValue)}
                     description={description}
@@ -125,6 +113,7 @@ export function CheckboxGroup({
                     onChange={(checked) => {
                         onChange(checked ? [...value, optionValue] : value.filter((v) => v !== optionValue));
                     }}
+                    required={required}
                     value={optionValue}
                 />
             ))}

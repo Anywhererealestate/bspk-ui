@@ -1,7 +1,8 @@
-import { FormField, FormFieldControlProps } from '-/components/FormField';
+import { Field, FieldControlProps, propsWithAria } from '-/components/Field';
 import { TimePicker, TimePickerProps } from '-/components/TimePicker';
+import { useId } from '-/hooks/useId';
 
-export type TimePickerFieldProps = FormFieldControlProps<TimePickerProps>;
+export type TimePickerFieldProps = FieldControlProps<TimePickerProps>;
 
 /**
  * A field wrapper for the TimePicker component.
@@ -9,7 +10,7 @@ export type TimePickerFieldProps = FormFieldControlProps<TimePickerProps>;
  * This component takes properties from the FormField and TimePicker components.
  *
  * @name TimePickerField
- * @phase Stable
+ * @phase UXReview
  *
  * @generated
  */
@@ -19,18 +20,21 @@ export function TimePickerField({
     labelTrailing,
     errorMessage,
     style,
+    id: idProp,
     ...controlProps
 }: TimePickerFieldProps) {
+    const id = useId(idProp);
     return (
-        <FormField
+        <Field
+            controlId={id}
             errorMessage={errorMessage}
             helperText={helperText}
             label={label}
             labelTrailing={labelTrailing}
             style={style}
         >
-            <TimePicker {...controlProps} />
-        </FormField>
+            <TimePicker {...propsWithAria({ id, controlProps, errorMessage, helperText })} />
+        </Field>
     );
 }
 

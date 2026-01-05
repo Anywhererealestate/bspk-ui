@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { Select, SelectProps } from '.';
 import { Avatar } from '-/components/Avatar';
-import { Field, FieldDescription, FieldLabel } from '-/components/Field';
+import { Field } from '-/components/Field';
 import { Tag } from '-/components/Tag';
 import { Txt } from '-/components/Txt';
 import { ComponentExample, Preset } from '-/utils/demo';
@@ -180,9 +180,13 @@ export const Usage = () => {
 
     return (
         <div style={{ width: 320 }}>
-            <Field>
-                <FieldLabel>Select an option</FieldLabel>
+            <Field
+                controlId="example-select"
+                helperText="The select allows you to choose one option from a list of options."
+                label="Select an option"
+            >
                 <Select
+                    id="example-select"
                     name="example-select"
                     onChange={setSelected}
                     options={OPTIONS}
@@ -191,7 +195,6 @@ export const Usage = () => {
                     size="medium"
                     value={selected}
                 />
-                <FieldDescription>The select allows you to choose one option from a list of options.</FieldDescription>
             </Field>
         </div>
     );

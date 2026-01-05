@@ -1,8 +1,8 @@
 import { CheckboxGroup, CheckboxGroupProps } from '-/components/CheckboxGroup';
-import { Field, FieldDescription, FieldError, FieldLabel } from '-/components/Field';
-import { FormFieldControlProps } from '-/components/FormField';
+import { Fieldset, propsWithAria, FieldControlProps } from '-/components/Field';
+import { useId } from '-/hooks/useId';
 
-export type CheckboxGroupFieldProps = FormFieldControlProps<CheckboxGroupProps>;
+export type CheckboxGroupFieldProps = FieldControlProps<CheckboxGroupProps>;
 
 /**
  * A field wrapper for the CheckboxGroup component.
@@ -20,17 +20,21 @@ export function CheckboxGroupField({
     labelTrailing,
     errorMessage,
     style,
+    id: idProp,
     ...controlProps
 }: CheckboxGroupFieldProps) {
+    const id = useId(idProp);
     return (
-        <Field as="fieldset" style={style}>
-            <FieldLabel as="legend" labelTrailing={labelTrailing} style={style}>
-                {label}
-            </FieldLabel>
-            <CheckboxGroup {...controlProps} />
-            {!errorMessage && helperText && <FieldDescription>{helperText}</FieldDescription>}
-            {errorMessage && <FieldError label={errorMessage} />}
-        </Field>
+        <Fieldset
+            controlId={id}
+            errorMessage={errorMessage}
+            helperText={helperText}
+            label={label}
+            labelTrailing={labelTrailing}
+            style={style}
+        >
+            <CheckboxGroup {...propsWithAria({ controlProps, id, errorMessage, helperText })} />
+        </Fieldset>
     );
 }
 

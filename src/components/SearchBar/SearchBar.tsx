@@ -69,7 +69,6 @@ export type SearchBarProps<O extends SearchBarOption = SearchBarOption> = Omit<
  * An input field that allows customers to input search queries and retrieve results.
  *
  * @example
- *     import { useState } from 'react';
  *     import { SearchBar } from '@bspk/ui/SearchBar';
  *
  *     () => {

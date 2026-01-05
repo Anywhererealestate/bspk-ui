@@ -1,11 +1,11 @@
 import './select.scss';
 import { SvgKeyboardArrowDown } from '@bspk/icons/KeyboardArrowDown';
 import { useMemo, KeyboardEvent, MouseEvent } from 'react';
-import { useFieldInit } from '-/components/Field';
 import { ListItem, ListItemProps } from '-/components/ListItem';
 import { Menu, MenuProps } from '-/components/Menu';
 import { useArrowNavigation } from '-/hooks/useArrowNavigation';
 import { useFloating } from '-/hooks/useFloating';
+import { useId } from '-/hooks/useId';
 import { useOutsideClick } from '-/hooks/useOutsideClick';
 import { CommonProps, ElementProps, FieldControlProps } from '-/types/common';
 import { getElementById } from '-/utils/dom';
@@ -82,9 +82,13 @@ export type SelectProps = CommonProps<'size'> &
  *
  *         return (
  *             <div style={{ width: 320 }}>
- *                 <Field>
- *                     <FieldLabel>Select an option</FieldLabel>
+ *                 <Field
+ *                     controlId="example-select"
+ *                     helperText="The select allows you to choose one option from a list of options."
+ *                     label="Select an option"
+ *                 >
  *                     <Select
+ *                         id="example-select"
  *                         name="example-select"
  *                         onChange={setSelected}
  *                         options={OPTIONS}
@@ -93,9 +97,6 @@ export type SelectProps = CommonProps<'size'> &
  *                         size="medium"
  *                         value={selected}
  *                     />
- *                     <FieldDescription>
- *                         The select allows you to choose one option from a list of options.
- *                     </FieldDescription>
  *                 </Field>
  *             </div>
  *         );
@@ -112,22 +113,19 @@ export function Select({
     size = 'medium',
     disabled,
     id: idProp,
-    invalid: invalidProp,
+    invalid = false,
     readOnly,
     name,
     scrollLimit,
     required = false,
     'aria-label': ariaLabel,
     menuWidth,
+    'aria-describedby': ariaDescribedBy,
+    'aria-errormessage': ariaErrorMessage,
     ...elementProps
 }: ElementProps<SelectProps, 'button'>) {
-    const { id, ariaDescribedBy, ariaErrorMessage, invalid } = useFieldInit({
-        idProp,
-        required,
-        disabled,
-        readOnly,
-        invalidProp,
-    });
+    const id = useId(idProp);
+
     const menuId = useMemo(() => `${id}-menu`, [id]);
 
     const { items, availableItems } = useMemo(() => {
@@ -188,6 +186,7 @@ export function Select({
                 aria-expanded={open}
                 aria-haspopup="listbox"
                 aria-readonly={readOnly || undefined}
+                aria-required={required || undefined}
                 data-bspk="select"
                 data-invalid={invalid || undefined}
                 data-open={open || undefined}
