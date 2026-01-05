@@ -1,8 +1,8 @@
-import { Field, FieldControlProps, propsWithAria } from '-/components/Field';
+import { Field, ComposedFieldProps, propsWithAria } from '-/components/Field';
 import { Textarea, TextareaProps } from '-/components/Textarea';
 import { useId } from '-/hooks/useId';
 
-export type TextareaFieldProps = FieldControlProps<TextareaProps>;
+export type TextareaFieldProps = ComposedFieldProps<TextareaProps>;
 
 /**
  * A field wrapper for the Textarea component.

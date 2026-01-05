@@ -1,8 +1,8 @@
 import { CheckboxGroup, CheckboxGroupProps } from '-/components/CheckboxGroup';
-import { Fieldset, propsWithAria, FieldControlProps } from '-/components/Field';
+import { Fieldset, propsWithAria, ComposedFieldProps } from '-/components/Field';
 import { useId } from '-/hooks/useId';
 
-export type CheckboxGroupFieldProps = FieldControlProps<CheckboxGroupProps>;
+export type CheckboxGroupFieldProps = ComposedFieldProps<CheckboxGroupProps>;
 
 /**
  * A field wrapper for the CheckboxGroup component.

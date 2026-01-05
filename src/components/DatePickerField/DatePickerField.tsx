@@ -1,8 +1,8 @@
 import { DatePicker, DatePickerProps } from '-/components/DatePicker';
-import { Field, FieldControlProps, propsWithAria } from '-/components/Field';
+import { Field, ComposedFieldProps, propsWithAria } from '-/components/Field';
 import { useId } from '-/hooks/useId';
 
-export type DatePickerFieldProps = FieldControlProps<DatePickerProps>;
+export type DatePickerFieldProps = ComposedFieldProps<DatePickerProps>;
 
 /**
  * A field wrapper for the DatePicker component.

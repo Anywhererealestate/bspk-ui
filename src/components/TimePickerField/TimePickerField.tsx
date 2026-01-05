@@ -1,8 +1,8 @@
-import { Field, FieldControlProps, propsWithAria } from '-/components/Field';
+import { Field, ComposedFieldProps, propsWithAria } from '-/components/Field';
 import { TimePicker, TimePickerProps } from '-/components/TimePicker';
 import { useId } from '-/hooks/useId';
 
-export type TimePickerFieldProps = FieldControlProps<TimePickerProps>;
+export type TimePickerFieldProps = ComposedFieldProps<TimePickerProps>;
 
 /**
  * A field wrapper for the TimePicker component.

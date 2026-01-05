@@ -1,8 +1,8 @@
-import { Field, FieldControlProps, propsWithAria } from '-/components/Field';
+import { Field, ComposedFieldProps, propsWithAria } from '-/components/Field';
 import { Select, SelectProps } from '-/components/Select';
 import { useId } from '-/hooks/useId';
 
-export type SelectFieldProps = FieldControlProps<SelectProps>;
+export type SelectFieldProps = ComposedFieldProps<SelectProps>;
 
 /**
  * A field wrapper for the Select component.

@@ -44,11 +44,11 @@ CONTROLS.map((name) => {
 
     // write Field component file
 
-    const content = `import { Field, FieldControlProps, propsWithAria } from '-/components/Field';
+    const content = `import { Field, ComposedFieldProps, propsWithAria } from '-/components/Field';
 import { ${name}, ${name}Props } from '-/components/${name}';
 import { useId } from '-/hooks/useId';
 
-export type ${name}FieldProps = FieldControlProps<${name}Props>;
+export type ${name}FieldProps = ComposedFieldProps<${name}Props>;
 
 /**
  * A field wrapper for the ${name} component.

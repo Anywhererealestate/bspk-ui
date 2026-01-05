@@ -1,8 +1,8 @@
-import { Field, FieldControlProps, propsWithAria } from '-/components/Field';
+import { Field, ComposedFieldProps, propsWithAria } from '-/components/Field';
 import { Password, PasswordProps } from '-/components/Password';
 import { useId } from '-/hooks/useId';
 
-export type PasswordFieldProps = FieldControlProps<PasswordProps>;
+export type PasswordFieldProps = ComposedFieldProps<PasswordProps>;
 
 /**
  * A field wrapper for the Password component.

@@ -1,8 +1,8 @@
-import { FieldControlProps, Fieldset, propsWithAria } from '-/components/Field';
+import { ComposedFieldProps, Fieldset, propsWithAria } from '-/components/Field';
 import { RadioGroup, RadioGroupProps } from '-/components/RadioGroup';
 import { useId } from '-/hooks/useId';
 
-export type RadioGroupFieldProps = FieldControlProps<RadioGroupProps>;
+export type RadioGroupFieldProps = ComposedFieldProps<RadioGroupProps>;
 
 /**
  * A field wrapper for the RadioGroup component.
