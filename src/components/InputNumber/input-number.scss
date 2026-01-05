@@ -16,6 +16,7 @@
 
     &:focus-within {
         outline: solid 2px var(--stroke-neutral-focus);
+        isolation: isolate;
     }
 
     [data-divider] {

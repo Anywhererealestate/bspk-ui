@@ -136,7 +136,7 @@
                         z-index: var(--z-index-focus);
                         inset: 0;
                         outline: solid 2px var(--stroke-neutral-focus);
-                        outline-offset: -2px;
+                        isolation: isolate;
                     }
                 }
             }

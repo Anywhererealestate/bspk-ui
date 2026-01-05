@@ -24,6 +24,7 @@
     &:focus-visible,
     &:has(*:focus-visible) {
         outline: solid 2px var(--stroke-neutral-focus);
+        isolation: isolate;
 
         [data-inner] {
             border-color: transparent;
