@@ -51,8 +51,8 @@ export type FieldProps = CommonProps<'style'> & {
 /**
  * Wrapper component for form controls.
  *
- * Children should be one of the following: DatePicker, Input, InputNumber, InputPhone, Password, Select, Textarea, or
- * TimePicker.
+ * Children should be one of the following: DatePicker, Input, InputNumber, InputPhone, Password, Select, Textarea,
+ * RadioGroup, CheckboxGroup, or TimePicker.
  *
  * @example
  *     import { Input } from '@bspk/ui/Input';

@@ -78,7 +78,7 @@ export type InputProps = CommonProps<'owner' | 'size'> &
  *     };
  *
  * @name Input
- * @phase Utility
+ * @phase Stable
  */
 export function Input({
     invalid,
@@ -140,9 +140,6 @@ export function Input({
                 disabled={disabled || undefined}
                 id={id}
                 name={name}
-                onBlur={(event) => {
-                    inputProps?.onBlur?.(event);
-                }}
                 onChange={(event) => {
                     onChange(event.target.value, event);
                 }}
