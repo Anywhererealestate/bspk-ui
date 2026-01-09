@@ -2,7 +2,7 @@ import { Scrim } from './Scrim';
 import { hasNoBasicA11yIssues } from '-/rtl/hasNoBasicA11yIssues';
 import { render } from '-/rtl/util';
 
-const TestBed = () => <Scrim aria-label="Example label" onClick={() => {}} visible />;
+const TestBed = () => <Scrim aria-label="Example label" onClick={() => {}} />;
 
 describe('Scrim (RTL)', () => {
     it('has no basic a11y issues', hasNoBasicA11yIssues(<TestBed />));
