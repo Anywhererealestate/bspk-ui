@@ -46,18 +46,6 @@
         color: var(--select-text-color);
     }
 
-    [data-icon] {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        pointer-events: none;
-
-        svg {
-            transform: rotate(90deg);
-            width: var(--select-icon-width);
-        }
-    }
-
     &[data-size='small'] {
         --select-height: var(--spacing-sizing-08);
         --select-font: var(--body-small);
