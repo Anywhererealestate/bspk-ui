@@ -1,4 +1,3 @@
-import './link.scss';
 import { AnchorHTMLAttributes, ComponentType, lazy, LazyExoticComponent, Suspense } from 'react';
 import { CommonPropsLibrary, ElementProps } from '-/types/common';
 
