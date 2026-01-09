@@ -157,7 +157,7 @@ export function Dialog({
                     contained={!!container || undefined}
                     onClick={() => onClose()}
                     owner="dialog"
-                    visible={showScrim !== false}
+                    transparent={showScrim === false}
                 />
             </Portal>
         )

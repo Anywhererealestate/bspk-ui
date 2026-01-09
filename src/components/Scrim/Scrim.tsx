@@ -3,11 +3,11 @@ import { CommonProps } from '-/types/common';
 
 export type ScrimProps = CommonProps<'owner'> & {
     /**
-     * Whether the Scrim should be visible.
+     * Whether the Scrim should be transparent.
      *
-     * @default true
+     * @default false
      */
-    visible?: boolean;
+    transparent?: boolean;
     /**
      * A function that is called when the Scrim is clicked.
      *
@@ -27,7 +27,7 @@ export type ScrimProps = CommonProps<'owner'> & {
  * @name Scrim
  * @phase Utility
  */
-export function Scrim({ visible = true, owner, contained, ...props }: ScrimProps) {
+export function Scrim({ transparent, owner, contained, ...props }: ScrimProps) {
     return (
         <div
             {...props}
@@ -35,7 +35,7 @@ export function Scrim({ visible = true, owner, contained, ...props }: ScrimProps
             data-bspk="scrim"
             data-bspk-owner={owner || undefined}
             data-contained={contained || undefined}
-            data-hidden={!visible || undefined}
+            data-transparent={transparent || undefined}
         />
     );
 }
