@@ -31,6 +31,7 @@ export function TimePickerField({
             helperText={helperText}
             label={label}
             labelTrailing={labelTrailing}
+            required={controlProps.required}
             style={style}
         >
             <TimePicker {...propsWithAria({ id, controlProps, errorMessage, helperText })} />

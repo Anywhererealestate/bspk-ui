@@ -31,6 +31,7 @@ export function DatePickerField({
             helperText={helperText}
             label={label}
             labelTrailing={labelTrailing}
+            required={controlProps.required}
             style={style}
         >
             <DatePicker {...propsWithAria({ id, controlProps, errorMessage, helperText })} />

@@ -31,6 +31,7 @@ export function CheckboxGroupField({
             helperText={helperText}
             label={label}
             labelTrailing={labelTrailing}
+            required={controlProps.required}
             style={style}
         >
             <CheckboxGroup {...propsWithAria({ controlProps, id, errorMessage, helperText })} />
