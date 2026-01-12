@@ -31,6 +31,7 @@ export function PasswordField({
             helperText={helperText}
             label={label}
             labelTrailing={labelTrailing}
+            required={controlProps.required}
             style={style}
         >
             <Password {...propsWithAria({ id, controlProps, errorMessage, helperText })} />

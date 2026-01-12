@@ -31,6 +31,7 @@ export function SelectField({
             helperText={helperText}
             label={label}
             labelTrailing={labelTrailing}
+            required={controlProps.required}
             style={style}
         >
             <Select {...propsWithAria({ id, controlProps, errorMessage, helperText })} />

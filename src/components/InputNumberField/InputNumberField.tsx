@@ -31,6 +31,7 @@ export function InputNumberField({
             helperText={helperText}
             label={label}
             labelTrailing={labelTrailing}
+            required={controlProps.required}
             style={style}
         >
             <InputNumber {...propsWithAria({ id, controlProps, errorMessage, helperText })} />

@@ -63,7 +63,7 @@ export type ${name}FieldProps = ComposedFieldProps<${name}Props>;
 export function ${name}Field({ label, helperText, labelTrailing, errorMessage, style, id: idProp, ...controlProps }: ${name}FieldProps) {
     const id = useId(idProp);
     return (
-        <Field controlId={id} errorMessage={errorMessage} helperText={helperText} label={label} labelTrailing={labelTrailing} style={style}>
+        <Field controlId={id} errorMessage={errorMessage} helperText={helperText} label={label} labelTrailing={labelTrailing} style={style} required={controlProps.required}>
             <${name} {...propsWithAria({ id, controlProps, errorMessage, helperText })} />
         </Field>
     );

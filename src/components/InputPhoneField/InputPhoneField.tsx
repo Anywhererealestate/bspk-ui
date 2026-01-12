@@ -31,6 +31,7 @@ export function InputPhoneField({
             helperText={helperText}
             label={label}
             labelTrailing={labelTrailing}
+            required={controlProps.required}
             style={style}
         >
             <InputPhone {...propsWithAria({ id, controlProps, errorMessage, helperText })} />

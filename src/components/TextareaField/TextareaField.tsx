@@ -31,6 +31,7 @@ export function TextareaField({
             helperText={helperText}
             label={label}
             labelTrailing={labelTrailing}
+            required={controlProps.required}
             style={style}
         >
             <Textarea {...propsWithAria({ id, controlProps, errorMessage, helperText })} />
