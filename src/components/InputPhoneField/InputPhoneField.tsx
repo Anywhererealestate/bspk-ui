@@ -1,8 +1,8 @@
-import { Field, FieldControlProps, propsWithAria } from '-/components/Field';
+import { Field, ComposedFieldProps, propsWithAria } from '-/components/Field';
 import { InputPhone, InputPhoneProps } from '-/components/InputPhone';
 import { useId } from '-/hooks/useId';
 
-export type InputPhoneFieldProps = FieldControlProps<InputPhoneProps>;
+export type InputPhoneFieldProps = ComposedFieldProps<InputPhoneProps>;
 
 /**
  * A field wrapper for the InputPhone component.
@@ -31,6 +31,7 @@ export function InputPhoneField({
             helperText={helperText}
             label={label}
             labelTrailing={labelTrailing}
+            required={controlProps.required}
             style={style}
         >
             <InputPhone {...propsWithAria({ id, controlProps, errorMessage, helperText })} />

@@ -1,8 +1,8 @@
-import { Field, FieldControlProps, propsWithAria } from '-/components/Field';
+import { Field, ComposedFieldProps, propsWithAria } from '-/components/Field';
 import { Textarea, TextareaProps } from '-/components/Textarea';
 import { useId } from '-/hooks/useId';
 
-export type TextareaFieldProps = FieldControlProps<TextareaProps>;
+export type TextareaFieldProps = ComposedFieldProps<TextareaProps>;
 
 /**
  * A field wrapper for the Textarea component.
@@ -31,6 +31,7 @@ export function TextareaField({
             helperText={helperText}
             label={label}
             labelTrailing={labelTrailing}
+            required={controlProps.required}
             style={style}
         >
             <Textarea {...propsWithAria({ id, controlProps, errorMessage, helperText })} />

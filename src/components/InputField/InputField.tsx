@@ -1,8 +1,8 @@
-import { Field, FieldControlProps, propsWithAria } from '-/components/Field';
+import { Field, ComposedFieldProps, propsWithAria } from '-/components/Field';
 import { Input, InputProps } from '-/components/Input';
 import { useId } from '-/hooks/useId';
 
-export type InputFieldProps = FieldControlProps<InputProps>;
+export type InputFieldProps = ComposedFieldProps<InputProps>;
 
 /**
  * A field wrapper for the Input component.
@@ -31,6 +31,7 @@ export function InputField({
             helperText={helperText}
             label={label}
             labelTrailing={labelTrailing}
+            required={controlProps.required}
             style={style}
         >
             <Input {...propsWithAria({ id, controlProps, errorMessage, helperText })} />

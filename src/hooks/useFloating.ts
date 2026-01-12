@@ -79,12 +79,6 @@ export type UseFloatingElements = {
     setFloating: (element: HTMLElement | null) => void;
 };
 
-/**
- *
- *
- * @param param0
- * @returns
- */
 export function useFloating({
     placement = 'bottom-start',
     arrowRef,

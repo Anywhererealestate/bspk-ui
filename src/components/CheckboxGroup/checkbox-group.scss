@@ -5,6 +5,10 @@
     max-width: 100%;
 
     --list-item-height: 'auto';
+
+    [data-bspk='list-item'] {
+        background: transparent;
+    }
 }
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

@@ -12,7 +12,7 @@ export const DEFAULT = {
     autoComplete: 'off',
 } as const;
 
-export type InputBaseProps = CommonProps<'owner' | 'size'> &
+export type InputProps = CommonProps<'owner' | 'size'> &
     FieldControlProps & {
         /** The ref of the container. */
         containerRef?: SetRef<HTMLDivElement>;
@@ -50,11 +50,9 @@ export type InputBaseProps = CommonProps<'owner' | 'size'> &
          * @default true
          */
         showClearButton?: boolean;
+        /** Additional props to pass to the underlying input element. */
+        inputProps?: Omit<React.InputHTMLAttributes<HTMLInputElement>, keyof InputProps>;
     };
-
-export type InputProps = InputBaseProps & {
-    inputProps?: Omit<React.InputHTMLAttributes<HTMLInputElement>, keyof InputBaseProps>;
-};
 
 /**
  * An input that allows users to enter text, numbers or symbols in a singular line. This is a utility element and is not
@@ -80,7 +78,7 @@ export type InputProps = InputBaseProps & {
  *     };
  *
  * @name Input
- * @phase Utility
+ * @phase Stable
  */
 export function Input({
     invalid,
@@ -142,9 +140,6 @@ export function Input({
                 disabled={disabled || undefined}
                 id={id}
                 name={name}
-                onBlur={(event) => {
-                    inputProps?.onBlur?.(event);
-                }}
                 onChange={(event) => {
                     onChange(event.target.value, event);
                 }}

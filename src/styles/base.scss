@@ -68,93 +68,8 @@ body[data-bspk] {
     color: var(--foreground-neutral-on-surface);
     min-width: 343px;
 
-    a,
-    [data-bspk='link'] {
-        &:not([data-bspk='button'], [data-bspk='list-item']) {
-            color: var(--foreground-link-text-default);
-
-            &:not([disabled]) {
-                &:hover,
-                &[data-pseudo='hover'] {
-                    color: var(--foreground-link-text-default-hovered);
-                }
-
-                &:active,
-                &[data-pseudo='active'] {
-                    color: var(--foreground-link-text-default);
-                    filter: brightness(80%);
-                }
-
-                &:visited,
-                &[data-pseudo='visited'] {
-                    color: var(--foreground-link-text-default-visited);
-                }
-            }
-
-            &[disabled] {
-                pointer-events: none;
-                cursor: text;
-                color: var(--foreground-link-text-default-disabled);
-            }
-        }
-
-        &[data-subtle] {
-            text-decoration: none;
-            color: var(--foreground-neutral-on-surface);
-
-            &:not([disabled]) {
-                &:hover,
-                &[data-pseudo='hover'] {
-                    text-decoration: underline;
-                    color: var(--foreground-link-text-subtle-hovered);
-                }
-
-                &:active,
-                &[data-pseudo='active'] {
-                    text-decoration: underline;
-                    color: var(--foreground-link-text-subtle-pressed);
-                }
-
-                &:visited,
-                &[data-pseudo='visited'] {
-                    color: var(--foreground-neutral-on-surface);
-                }
-            }
-
-            &[disabled] {
-                pointer-events: none;
-                color: var(--foreground-link-text-subtle-disabled);
-            }
-        }
-
-        &[data-subtle-inverse] {
-            text-decoration: none;
-            color: var(--foreground-neutral-inverse-on-surface);
-
-            &:not([disabled]) {
-                &:hover,
-                &[data-pseudo='hover'] {
-                    text-decoration: underline;
-                    color: var(--foreground-link-text-subtle-inverse-hovered);
-                }
-
-                &:active,
-                &[data-pseudo='active'] {
-                    text-decoration: underline;
-                    color: var(--foreground-link-text-subtle-inverse-pressed);
-                }
-
-                &:visited,
-                &[data-pseudo='visited'] {
-                    color: var(--foreground-neutral-on-inverse-surface);
-                }
-            }
-
-            &[disabled] {
-                pointer-events: none;
-                color: var(--foreground-link-text-subtle-inversed-disabled);
-            }
-        }
+    a:not([data-bspk]) {
+        @extend %link;
     }
 }
 
@@ -312,6 +227,113 @@ body[data-bspk] {
 
 [data-hidden] {
     display: none !important;
+}
+
+[data-bspk='link'] {
+    @extend %link;
+}
+
+%link {
+    color: var(--foreground-link-text-default);
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--spacing-sizing-01);
+    font: var(--labels-base);
+
+    &:not([disabled]) {
+        &:hover,
+        &[data-pseudo='hover'] {
+            color: var(--foreground-link-text-default-hovered);
+        }
+
+        &:active,
+        &[data-pseudo='active'] {
+            color: var(--foreground-link-text-default);
+            filter: brightness(80%);
+        }
+
+        &:visited,
+        &[data-pseudo='visited'] {
+            color: var(--foreground-link-text-default-visited);
+        }
+    }
+
+    &[disabled] {
+        pointer-events: none;
+        cursor: text;
+        color: var(--foreground-link-text-default-disabled);
+    }
+
+    &[data-subtle] {
+        text-decoration: none;
+        color: var(--foreground-neutral-on-surface);
+
+        &:not([disabled]) {
+            &:hover,
+            &[data-pseudo='hover'] {
+                text-decoration: underline;
+                color: var(--foreground-link-text-subtle-hovered);
+            }
+
+            &:active,
+            &[data-pseudo='active'] {
+                text-decoration: underline;
+                color: var(--foreground-link-text-subtle-pressed);
+            }
+
+            &:visited,
+            &[data-pseudo='visited'] {
+                color: var(--foreground-neutral-on-surface);
+            }
+        }
+
+        &[disabled] {
+            pointer-events: none;
+            color: var(--foreground-link-text-subtle-disabled);
+        }
+    }
+
+    &[data-subtle-inverse] {
+        text-decoration: none;
+        color: var(--foreground-neutral-inverse-on-surface);
+
+        &:not([disabled]) {
+            &:hover,
+            &[data-pseudo='hover'] {
+                text-decoration: underline;
+                color: var(--foreground-link-text-subtle-inverse-hovered);
+            }
+
+            &:active,
+            &[data-pseudo='active'] {
+                text-decoration: underline;
+                color: var(--foreground-link-text-subtle-inverse-pressed);
+            }
+
+            &:visited,
+            &[data-pseudo='visited'] {
+                color: var(--foreground-neutral-on-inverse-surface);
+            }
+        }
+
+        &[disabled] {
+            pointer-events: none;
+            color: var(--foreground-link-text-subtle-inversed-disabled);
+        }
+    }
+
+    &[data-size='large'] {
+        font: var(--labels-large);
+    }
+
+    &[data-size='small'] {
+        font: var(--labels-small);
+    }
+
+    svg {
+        width: var(--spacing-sizing-05);
+    }
 }
 
 /** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */

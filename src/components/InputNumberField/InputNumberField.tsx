@@ -1,8 +1,8 @@
-import { Field, FieldControlProps, propsWithAria } from '-/components/Field';
+import { Field, ComposedFieldProps, propsWithAria } from '-/components/Field';
 import { InputNumber, InputNumberProps } from '-/components/InputNumber';
 import { useId } from '-/hooks/useId';
 
-export type InputNumberFieldProps = FieldControlProps<InputNumberProps>;
+export type InputNumberFieldProps = ComposedFieldProps<InputNumberProps>;
 
 /**
  * A field wrapper for the InputNumber component.
@@ -31,6 +31,7 @@ export function InputNumberField({
             helperText={helperText}
             label={label}
             labelTrailing={labelTrailing}
+            required={controlProps.required}
             style={style}
         >
             <InputNumber {...propsWithAria({ id, controlProps, errorMessage, helperText })} />

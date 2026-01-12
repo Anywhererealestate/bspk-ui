@@ -5,7 +5,12 @@ import { labelledById, errorMessageId, describedById } from './utils';
 import { InlineAlert } from '-/components/InlineAlert';
 import { CommonProps } from '-/types/common';
 
-export type FieldControlProps<P extends Record<string, unknown>> = Omit<FieldProps, 'children' | 'controlId'> &
+/**
+ * Props for Composed Field components.
+ *
+ * These are props that combine FieldProps with the props of a specific control component.
+ */
+export type ComposedFieldProps<P extends Record<string, unknown>> = Omit<FieldProps, 'children' | 'controlId'> &
     Omit<P, keyof FieldProps>;
 
 export type FieldProps = CommonProps<'style'> & {
@@ -46,8 +51,8 @@ export type FieldProps = CommonProps<'style'> & {
 /**
  * Wrapper component for form controls.
  *
- * Children should be one of the following: DatePicker, Input, InputNumber, InputPhone, Password, Select, Textarea, or
- * TimePicker.
+ * Children should be one of the following: DatePicker, Input, InputNumber, InputPhone, Password, Select, Textarea,
+ * RadioGroup, CheckboxGroup, or TimePicker.
  *
  * @example
  *     import { Input } from '@bspk/ui/Input';

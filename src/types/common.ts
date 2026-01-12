@@ -148,6 +148,7 @@ export type CommonProps<K extends keyof CommonPropsLibrary> = Pick<CommonPropsLi
 
 export type RequiredCommonProps<K extends keyof CommonPropsLibrary> = Required<Pick<CommonPropsLibrary, K>>;
 
+/** The common properties for all input control components such as Input, TextArea, Select, etc. */
 export type FieldControlProps<
     ValueType = string,
     ChangeContext = ChangeEvent<HTMLElement> | KeyboardEvent | undefined,
