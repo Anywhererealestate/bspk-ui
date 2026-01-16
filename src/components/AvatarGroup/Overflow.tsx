@@ -81,6 +81,7 @@ export function AvatarGroupOverflow({ items: itemsProp, overflow, size }: Avatar
                                 key={index}
                                 label={item.name}
                                 leading={<Avatar {...item} hideTooltip size="small" />}
+                                role="menuitem"
                             />
                         ))}
                     </Menu>
