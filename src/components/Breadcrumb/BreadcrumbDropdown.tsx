@@ -131,7 +131,13 @@ export function BreadcrumbDropdown({ items: itemsProp, id, scrollLimit }: Breadc
                     }}
                 >
                     {items.map((item) => (
-                        <ListItem key={item.id} {...item} active={activeElementId === item.id} tabIndex={-1} />
+                        <ListItem
+                            key={item.id}
+                            role="menuitem"
+                            {...item}
+                            active={activeElementId === item.id}
+                            tabIndex={-1}
+                        />
                     ))}
                 </Menu>
             )}
