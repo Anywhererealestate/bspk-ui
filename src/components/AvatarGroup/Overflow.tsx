@@ -48,7 +48,6 @@ export function AvatarGroupOverflow({ items: itemsProp, overflow, size }: Avatar
                 aria-controls={open ? menuId : undefined}
                 aria-expanded={open}
                 aria-haspopup="menu"
-                aria-hidden
                 aria-label={`Show ${overflow} more avatar${overflow > 1 ? 's' : ''}`}
                 data-bspk="avatar"
                 data-bspk-owner="avatar-overflow"
