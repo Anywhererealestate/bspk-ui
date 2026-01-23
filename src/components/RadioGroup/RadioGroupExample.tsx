@@ -47,8 +47,36 @@ export const presets: Preset<RadioGroupProps>[] = [
             disabled: false,
             options: [
                 { label: 'This is a very long label for option 1 that never seems to end', value: 'option1' },
-                { label: 'This is a very long label for option 2 that never seems to end', value: 'option2' },
+                { label: 'This is a very long label for option 2 that never seems to end.', value: 'option2' },
                 { label: 'This is a very long label for option 3', value: 'option3' },
+            ],
+            ['aria-label']: 'Radio group',
+            name: 'Radio group',
+        },
+    },
+    {
+        label: 'Long labels + long descriptions',
+        propState: {
+            value: 'option2',
+            disabled: false,
+            options: [
+                {
+                    label: 'This is a very long label for option 1 that never seems to end',
+                    description: 'This is a very long label for option 1 that never seems to end.',
+                    value: 'option1',
+                },
+                {
+                    label: 'This is a very long label for option 2 that never seems to end',
+                    description:
+                        'This is a very long label for option 1 that never seems to end. This is a very long label for option 2 that never seems to end. This is a very long label for option 2 that never seems to end',
+                    value: 'option2',
+                },
+                {
+                    label: 'This is a very long label for option 3',
+                    description:
+                        'This is a very long label for option 1 that never seems to end. This is a very long label for option 2 that never seems to end. This is a very long label for option 2 that never seems to end',
+                    value: 'option3',
+                },
             ],
             ['aria-label']: 'Radio group',
             name: 'Radio group',
