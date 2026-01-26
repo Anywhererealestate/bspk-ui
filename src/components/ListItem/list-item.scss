@@ -10,7 +10,10 @@
     gap: var(--spacing-sizing-03);
     padding: var(--spacing-sizing-02);
     justify-items: stretch;
+
+    // prevent inherited styles from affecting layout when the as prop is leveraged
     border: unset;
+    border-radius: var(--radius-sm);
     margin: unset;
     text-decoration: unset;
     width: 100%;
