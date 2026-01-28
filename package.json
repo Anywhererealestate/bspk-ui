@@ -240,7 +240,7 @@
         "./UIProvider/*": "./dist/components/UIProvider/*.js"
     },
     "dependencies": {
-        "@bspk/icons": "^1.0.5",
+        "@bspk/icons": "^1.1.1",
         "@bspk/styles": "^1.0.2",
         "@floating-ui/dom": "^1.6.13",
         "date-fns": "^4.1.0",

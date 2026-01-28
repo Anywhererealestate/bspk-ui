@@ -14,11 +14,13 @@ jobs:
         name: Release
         runs-on: ubuntu-latest
         environment: release
+
         permissions:
             contents: write # to be able to publish a GitHub release
             issues: write # to be able to comment on released issues
             pull-requests: write # to be able to comment on released pull requests
             id-token: write # to enable use of OIDC for trusted publishing and npm provenance
+
         steps:
             - name: Checkout repository
               uses: actions/checkout@v4
@@ -28,6 +30,7 @@ jobs:
               uses: actions/setup-node@v6
               with:
                   node-version: 'lts/*'
+
             - name: Install dependencies
               run: npm clean-install
             - name: Build
