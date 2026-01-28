@@ -28,4 +28,4 @@ export function scrollElementIntoView(element?: Element | null, container?: Elem
     }
 }
 
-/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
+/** Copyright 2026 Anywhere Real Estate - CC BY 4.0 */

@@ -28,4 +28,4 @@ To test a specific component
 npm run test -t <componentname>
 ```
 
-<!--- Copyright 2025 Anywhere Real Estate - CC BY 4.0 -->
+<!--- Copyright 2026 Anywhere Real Estate - CC BY 4.0 -->

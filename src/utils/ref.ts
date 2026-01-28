@@ -8,4 +8,4 @@ export function setRef<T extends HTMLElement | null>(ref: InnerRef<T>, node: T):
     ref.current = node;
 }
 
-/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
+/** Copyright 2026 Anywhere Real Estate - CC BY 4.0 */

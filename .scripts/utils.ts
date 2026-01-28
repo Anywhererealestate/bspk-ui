@@ -141,4 +141,4 @@ export function getCssVariables() {
     return Object.fromEntries([...variableMatches].map((match) => [match[1], match[2]]));
 }
 
-/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
+/** Copyright 2026 Anywhere Real Estate - CC BY 4.0 */

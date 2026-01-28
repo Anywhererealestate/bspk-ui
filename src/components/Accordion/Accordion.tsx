@@ -159,4 +159,4 @@ export function Accordion({ items: itemsProp, singleOpen = true }: AccordionProp
     );
 }
 
-/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
+/** Copyright 2026 Anywhere Real Estate - CC BY 4.0 */

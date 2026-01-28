@@ -57,7 +57,7 @@ function fileContent(content: string) {
  * Instead, edit the script and run it again. */ 
 ${content}
 
-/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
+/** Copyright 2026 Anywhere Real Estate - CC BY 4.0 */
 `;
 }
 
@@ -179,4 +179,4 @@ function generateColorVariants(variables: Record<string, string>) {
     );
 }
 
-/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
+/** Copyright 2026 Anywhere Real Estate - CC BY 4.0 */

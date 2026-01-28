@@ -18,4 +18,4 @@ test('get started link', async ({ page }) => {
     await expect(page.getByRole('heading', { name: 'Installation' })).toBeVisible();
 });
 
-/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
+/** Copyright 2026 Anywhere Real Estate - CC BY 4.0 */

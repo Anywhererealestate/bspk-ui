@@ -39,7 +39,7 @@ export function ${componentName}(): JSX.Element | null {
     return null;
 }
 
-/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
+/** Copyright 2026 Anywhere Real Estate - CC BY 4.0 */
 
 `,
         );
@@ -48,4 +48,4 @@ export function ${componentName}(): JSX.Element | null {
 
 generateStylesProviders();
 
-/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
+/** Copyright 2026 Anywhere Real Estate - CC BY 4.0 */

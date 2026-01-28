@@ -105,4 +105,4 @@ function getPaddingValue(padding?: SizingPixels | SizingPixels[]): string | unde
     return (!Array.isArray(padding) ? [padding] : padding).map((p) => numToSizingVar(p)).join(' ');
 }
 
-/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
+/** Copyright 2026 Anywhere Real Estate - CC BY 4.0 */

@@ -134,4 +134,4 @@ For answers to common questions about this code of conduct, see the FAQ at
 [FAQ]: https://www.contributor-covenant.org/faq
 [translations]: https://www.contributor-covenant.org/translations
 
-<!--- Copyright 2025 Anywhere Real Estate - CC BY 4.0 -->
+<!--- Copyright 2026 Anywhere Real Estate - CC BY 4.0 -->

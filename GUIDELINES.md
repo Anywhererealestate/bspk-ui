@@ -37,4 +37,4 @@ union, tuple, or different types of data. Interfaces can only be used to describ
 - **Navbar**: `700`
 - **Footer**: `600`
 
-<!--- Copyright 2025 Anywhere Real Estate - CC BY 4.0 -->
+<!--- Copyright 2026 Anywhere Real Estate - CC BY 4.0 -->

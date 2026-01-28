@@ -28,7 +28,7 @@ files.forEach((file) => {
     // make sure they all have the copyright notice
 
     const content = fs.readFileSync(file, 'utf-8');
-    const copyrightNotice = `/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */`;
+    const copyrightNotice = `/** Copyright 2026 Anywhere Real Estate - CC BY 4.0 */`;
 
     if (content.includes(copyrightNotice)) return;
 

@@ -75,4 +75,4 @@ export function PageHeader({ actions, breadcrumb, avatar, subHeader, title }: Pa
     );
 }
 
-/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
+/** Copyright 2026 Anywhere Real Estate - CC BY 4.0 */

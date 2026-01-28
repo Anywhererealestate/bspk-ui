@@ -65,4 +65,4 @@ export function SkeletonText({ lines = 3, variant = 'body-base', children = null
     );
 }
 
-/** Copyright 2025 Anywhere Real Estate - CC BY 4.0 */
+/** Copyright 2026 Anywhere Real Estate - CC BY 4.0 */
