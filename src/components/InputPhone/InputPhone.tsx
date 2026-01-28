@@ -162,14 +162,7 @@ export function InputPhone({
 
     return (
         <>
-            <div
-                data-bspk="input-phone"
-                onKeyDownCapture={handleKeyDown({
-                    Tab: () => {
-                        //  if (open) closeMenu();
-                    },
-                })}
-            >
+            <div data-bspk="input-phone">
                 <Input
                     aria-describedby={ariaDescribedBy}
                     aria-errormessage={ariaErrorMessage}
