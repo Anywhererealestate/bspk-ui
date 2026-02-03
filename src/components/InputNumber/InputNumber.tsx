@@ -1,7 +1,9 @@
 import './input-number.scss';
+import { SvgAdd } from '@bspk/icons/Add';
+import { SvgRemove } from '@bspk/icons/Remove';
 import { useEffect, useRef } from 'react';
-import { IncrementButton } from './IncrementButton';
 import { useId } from '-/hooks/useId';
+import { useLongPress } from '-/hooks/useLongPress';
 import { CommonProps, FieldControlProps } from '-/types/common';
 
 function isNumber(value: unknown): number | undefined;
@@ -109,13 +111,22 @@ export function InputNumber({
         valueRef.current = value;
     }, [value]);
 
-    const incrementHandler = (kind: 'add' | 'remove') => {
-        const increment = kind === 'add' ? step : step * -1;
-        const next = valueRef.current + increment;
-        if (next < min || next > max) return false;
+    const decrementHandler = () => {
+        const next = valueRef.current + step * -1;
+        if (next < min) return false;
         onChange(next);
         return true;
     };
+
+    const incrementHandler = () => {
+        const next = valueRef.current + step;
+        if (next > max) return false;
+        onChange(next);
+        return true;
+    };
+
+    const addPressHandlers = useLongPress({ callback: incrementHandler });
+    const removePressHandlers = useLongPress({ callback: decrementHandler });
 
     return (
         <div
@@ -158,13 +169,27 @@ export function InputNumber({
                 value={value !== undefined ? value : ''}
             />
             <div aria-hidden data-divider />
-            <IncrementButton
+            <button
+                {...removePressHandlers}
+                aria-controls={inputId}
+                aria-label="Decrease value"
                 disabled={removeDisabled}
-                inputId={inputId}
-                kind="remove"
-                triggerIncrement={incrementHandler}
-            />
-            <IncrementButton disabled={addDisabled} inputId={inputId} kind="add" triggerIncrement={incrementHandler} />
+                tabIndex={-1}
+                type="button"
+            >
+                <SvgRemove aria-hidden />
+            </button>
+            <button
+                {...addPressHandlers}
+                aria-controls={inputId}
+                aria-label="Increase value"
+                disabled={addDisabled}
+                tabIndex={-1}
+                type="button"
+            >
+                <SvgAdd aria-hidden />
+            </button>
+            {/* <IncrementButton disabled={addDisabled} inputId={inputId} kind="add" triggerIncrement={incrementHandler} /> */}
         </div>
     );
 }
