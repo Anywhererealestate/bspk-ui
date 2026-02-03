@@ -189,7 +189,6 @@ export function InputNumber({
             >
                 <SvgAdd aria-hidden />
             </button>
-            {/* <IncrementButton disabled={addDisabled} inputId={inputId} kind="add" triggerIncrement={incrementHandler} /> */}
         </div>
     );
 }
