@@ -1,10 +1,10 @@
 /* eslint-disable no-console */
 /**
- * $ npx tsx .scripts/update-css.ts
- *
  * - Updates the @bspk/styles package,
  * - Regenerates the `TxtVariants.ts`, `colorVariants.ts`, and `colors.scss` files,
  * - Ensures that variables used in components still exist in the updated @bspk/styles package.
+ *
+ * $ npx tsx .scripts/update-css.ts
  */
 
 import { execSync } from 'child_process';
@@ -30,6 +30,17 @@ function main() {
 main();
 
 function copyStylesLibraryCss() {
+    const providerDemoPath = path.resolve(__dirname, '../src/components/StylesProviderDemo');
+
+    // Example CSS copy
+    fs.writeFileSync(
+        path.resolve(providerDemoPath, 'exampleCss.ts'),
+        `export const EXAMPLE_CSS: Record<'example', string> = {
+    example: \`${fs.readFileSync(path.resolve(__dirname, '../src/styles/example.css'), 'utf-8')}\`,
+};
+`,
+    );
+
     const BrandsCss: Partial<Record<Brand, string>> = {};
 
     fs.readdirSync(getStylesRoot(), 'utf8').forEach((file) => {
@@ -38,14 +49,14 @@ function copyStylesLibraryCss() {
     });
 
     fs.writeFileSync(
-        path.resolve(__dirname, '../src/components/StylesProviderDemo/brandsCss.ts'),
-        `import { Brand } from '-/types/common';
+        path.resolve(providerDemoPath, 'brandsCss.ts'),
+        `/* eslint-disable @cspell/spellchecker */\nimport { Brand } from '-/types/common';
 
         export const BRANDS_CSS: Record<Brand, string> = ${JSON.stringify(BrandsCss, null, 4)};
 `,
     );
 
-    execSync(`npx prettier --write '${path.resolve(__dirname, '../src/components/StylesProviderDemo/brandsCss.ts')}'`, {
+    execSync(`npx prettier --write '${path.resolve(providerDemoPath, 'brandsCss.ts')}'`, {
         stdio: 'inherit',
     });
 }
