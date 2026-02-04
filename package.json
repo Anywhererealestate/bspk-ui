@@ -186,10 +186,14 @@
         "./Slider/*": "./dist/components/Slider/*.js",
         "./Snackbar": "./dist/components/Snackbar/index.js",
         "./Snackbar/*": "./dist/components/Snackbar/*.js",
+        "./StylesProviderAgentWorkplace": "./dist/components/StylesProviderAgentWorkplace/index.js",
+        "./StylesProviderAgentWorkplace/*": "./dist/components/StylesProviderAgentWorkplace/*.js",
         "./StylesProviderAnywhere": "./dist/components/StylesProviderAnywhere/index.js",
         "./StylesProviderAnywhere/*": "./dist/components/StylesProviderAnywhere/*.js",
         "./StylesProviderBetterHomesGardens": "./dist/components/StylesProviderBetterHomesGardens/index.js",
         "./StylesProviderBetterHomesGardens/*": "./dist/components/StylesProviderBetterHomesGardens/*.js",
+        "./StylesProviderBrokerWorkplace": "./dist/components/StylesProviderBrokerWorkplace/index.js",
+        "./StylesProviderBrokerWorkplace/*": "./dist/components/StylesProviderBrokerWorkplace/*.js",
         "./StylesProviderCartus": "./dist/components/StylesProviderCartus/index.js",
         "./StylesProviderCartus/*": "./dist/components/StylesProviderCartus/*.js",
         "./StylesProviderCentury21": "./dist/components/StylesProviderCentury21/index.js",
@@ -200,8 +204,6 @@
         "./StylesProviderCorcoran/*": "./dist/components/StylesProviderCorcoran/*.js",
         "./StylesProviderDemo": "./dist/components/StylesProviderDemo/index.js",
         "./StylesProviderDemo/*": "./dist/components/StylesProviderDemo/*.js",
-        "./StylesProviderDenaliBoss": "./dist/components/StylesProviderDenaliBoss/index.js",
-        "./StylesProviderDenaliBoss/*": "./dist/components/StylesProviderDenaliBoss/*.js",
         "./StylesProviderEra": "./dist/components/StylesProviderEra/index.js",
         "./StylesProviderEra/*": "./dist/components/StylesProviderEra/*.js",
         "./StylesProviderSothebys": "./dist/components/StylesProviderSothebys/index.js",
@@ -241,7 +243,7 @@
     },
     "dependencies": {
         "@bspk/icons": "^1.1.1",
-        "@bspk/styles": "^1.0.2",
+        "@bspk/styles": "^1.1.6",
         "@floating-ui/dom": "^1.6.13",
         "date-fns": "^4.1.0",
         "focus-trap-react": "^11.0.1",
@@ -296,47 +298,5 @@
         "typescript": "^5.9.3",
         "typescript-eslint": "^8.49.0",
         "typescript-json-schema": "^0.65.1"
-    },
-    "brands": [
-        {
-            "title": "Anywhere",
-            "slug": "anywhere"
-        },
-        {
-            "title": "Better Homes & Gardens",
-            "slug": "better-homes-gardens"
-        },
-        {
-            "title": "Cartus",
-            "slug": "cartus"
-        },
-        {
-            "title": "Century 21",
-            "slug": "century-21"
-        },
-        {
-            "title": "Coldwell Banker",
-            "slug": "coldwell-banker"
-        },
-        {
-            "title": "Corcoran",
-            "slug": "corcoran"
-        },
-        {
-            "title": "Denali Boss",
-            "slug": "denali-boss"
-        },
-        {
-            "title": "ERA",
-            "slug": "era"
-        },
-        {
-            "title": "Sotheby's",
-            "slug": "sothebys"
-        },
-        {
-            "title": "Example",
-            "slug": "example"
-        }
-    ]
+    }
 }
