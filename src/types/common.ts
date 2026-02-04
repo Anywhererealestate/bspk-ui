@@ -7,6 +7,7 @@
  */
 
 import { IconName } from '@bspk/icons';
+import { BRANDS } from '@bspk/styles/brands';
 import {
     JSXElementConstructor,
     ReactNode,
@@ -175,15 +176,6 @@ export type FieldControlProps<
     'aria-errormessage'?: string;
 };
 
-export type Brand =
-    | 'anywhere'
-    | 'better-homes-gardens'
-    | 'cartus'
-    | 'century-21'
-    | 'coldwell-banker'
-    | 'corcoran'
-    | 'denali-boss'
-    | 'era'
-    | 'sothebys';
+export type Brand = (typeof BRANDS)[number]['slug'];
 
 /** Copyright 2026 Anywhere Real Estate - CC BY 4.0 */

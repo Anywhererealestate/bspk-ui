@@ -21,12 +21,11 @@ import child_process from 'child_process';
 import fs from 'fs';
 import path from 'path';
 import util from 'util';
+import { BRANDS } from '@bspk/styles/brands';
 
 import packageData from './package.json';
 
 import { compilerOptions } from './tsconfig.json';
-
-const BRANDS = packageData.brands;
 
 const exec = util.promisify(child_process.exec);
 const writeFile = util.promisify(fs.writeFile);

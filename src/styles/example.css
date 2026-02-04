@@ -1,5 +1,4 @@
-export const EXAMPLE_CSS: Record<'example', string> = {
-    example: `/**
+/**
 *
 * This theme file is used in the StylesProviderDemo component to showcase dramatically different themes capable.
 */
@@ -1895,5 +1894,3 @@ body {
     /* Surface/Spectrum/yellow - Theme - Cartus */
     --surface-spectrum-yellow: #564210;
 }
-`,
-};

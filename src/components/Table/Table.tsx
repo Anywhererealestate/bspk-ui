@@ -218,7 +218,7 @@ export function Table<R extends TableRow>({
                                         data-valign={column.valign || 'center'}
                                         key={`${row.id}-${column.key}`}
                                     >
-                                        {formatCell(column.formatter?.(row, size) || row[column.key])}
+                                        {column.formatter ? column.formatter?.(row, size) : formatCell(row[column.key])}
                                     </td>
                                 ))}
                             </tr>
