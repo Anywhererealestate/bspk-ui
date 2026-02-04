@@ -50,7 +50,7 @@ function copyStylesLibraryCss() {
 
     fs.writeFileSync(
         path.resolve(providerDemoPath, 'brandsCss.ts'),
-        `import { Brand } from '-/types/common';
+        `/* eslint-disable @cspell/spellchecker */\nimport { Brand } from '-/types/common';
 
         export const BRANDS_CSS: Record<Brand, string> = ${JSON.stringify(BrandsCss, null, 4)};
 `,

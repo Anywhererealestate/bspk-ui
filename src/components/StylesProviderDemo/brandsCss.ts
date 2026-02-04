@@ -1,3 +1,4 @@
+/* eslint-disable @cspell/spellchecker */
 import { Brand } from '-/types/common';
 
 export const BRANDS_CSS: Record<Brand, string> = {
