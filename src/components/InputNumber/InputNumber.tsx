@@ -27,14 +27,12 @@ export type InputNumberProps = CommonProps<'size'> &
          * Defines the [maximum](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/max) value that is
          * accepted.
          */
-        max?: number;
+        max?: number | undefined;
         /**
          * Defines the [minimum](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/min) value that is
          * accepted.
-         *
-         * @default 0
          */
-        min?: number;
+        min?: number | undefined;
         /**
          * The amount to increment or decrement the value by when the (+) or (-) buttons are pressed.
          *
@@ -90,7 +88,7 @@ export function InputNumber({
     id: idProp,
     'aria-label': ariaLabel = 'Input number',
     max: maxProp,
-    min = 0,
+    min: minProp,
     invalid = false,
     step = 1,
     required = false,
@@ -99,11 +97,14 @@ export function InputNumber({
     ...inputElementProps
 }: InputNumberProps) {
     const inputId = useId(idProp);
-    const max = typeof maxProp === 'number' && maxProp >= min ? maxProp : Number.MAX_SAFE_INTEGER;
+    const min = typeof minProp === 'number' ? minProp : undefined;
+    const max = typeof maxProp === 'number' && (min === undefined || maxProp >= min) ? maxProp : undefined;
     const centered = align !== 'left';
-    const value = isNumber(valueProp, min);
-    const removeDisabled = disabled || value + step * -1 < min;
-    const addDisabled = disabled || value + step > max;
+    const value = isNumber(valueProp);
+    const decDisabled =
+        disabled || readOnly || (typeof value === 'number' && typeof min === 'number' ? value - step < min : false);
+    const incDisabled =
+        disabled || readOnly || (typeof value === 'number' && typeof max === 'number' ? value + step > max : false);
 
     const valueRef = useRef(value);
 
@@ -111,22 +112,36 @@ export function InputNumber({
         valueRef.current = value;
     }, [value]);
 
+    const existingValue = () => {
+        if (valueRef.current === undefined && typeof min === 'number') {
+            onChange(min);
+            return min;
+        }
+        return typeof valueRef.current === 'number' ? valueRef.current : 0;
+    };
+
     const decrementHandler = () => {
-        const next = valueRef.current + step * -1;
-        if (next < min) return false;
-        onChange(next);
+        const current = existingValue();
+        const newValue = current - (step || 1);
+        if (decDisabled || (typeof min === 'number' && newValue < min)) {
+            return false;
+        }
+        onChange(newValue);
         return true;
     };
 
     const incrementHandler = () => {
-        const next = valueRef.current + step;
-        if (next > max) return false;
-        onChange(next);
+        const current = existingValue();
+        const newValue = current + (step || 1);
+        if (incDisabled || (typeof max === 'number' && newValue > max)) {
+            return false;
+        }
+        onChange(newValue);
         return true;
     };
 
-    const addPressHandlers = useLongPress({ callback: incrementHandler });
-    const removePressHandlers = useLongPress({ callback: decrementHandler });
+    const incPressHandlers = useLongPress({ callback: incrementHandler });
+    const decPressHandlers = useLongPress({ callback: decrementHandler });
 
     return (
         <div
@@ -154,12 +169,12 @@ export function InputNumber({
                 min={min}
                 name={name}
                 onBlur={(e) => {
-                    const next = isNumber(e.target.value, min);
+                    const next = isNumber(e.target.value);
                     e.target.value = next?.toString() || '';
                     onChange(next);
                 }}
                 onChange={(e) => {
-                    const next = isNumber(e.target.value, min);
+                    const next = isNumber(e.target.value);
                     onChange(next);
                 }}
                 readOnly={readOnly}
@@ -170,20 +185,20 @@ export function InputNumber({
             />
             <div aria-hidden data-divider />
             <button
-                {...removePressHandlers}
+                {...decPressHandlers}
                 aria-controls={inputId}
                 aria-label="Decrease value"
-                disabled={removeDisabled}
+                disabled={decDisabled}
                 tabIndex={-1}
                 type="button"
             >
                 <SvgRemove aria-hidden />
             </button>
             <button
-                {...addPressHandlers}
+                {...incPressHandlers}
                 aria-controls={inputId}
                 aria-label="Increase value"
-                disabled={addDisabled}
+                disabled={incDisabled}
                 tabIndex={-1}
                 type="button"
             >
