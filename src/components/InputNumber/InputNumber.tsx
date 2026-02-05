@@ -6,9 +6,7 @@ import { useId } from '-/hooks/useId';
 import { useLongPress } from '-/hooks/useLongPress';
 import { CommonProps, FieldControlProps } from '-/types/common';
 
-function isNumber(value: unknown): number | undefined;
-function isNumber(value: unknown, fallbackValue: number): number;
-function isNumber(value: unknown, fallbackValue?: number): number | undefined {
+function isNumber(value: unknown, fallbackValue?: number | undefined): number | undefined {
     if (typeof value === 'number') return value;
     if (typeof value !== 'string') return fallbackValue;
     const num = parseFloat(value);
@@ -27,17 +25,13 @@ export type InputNumberProps = CommonProps<'size'> &
          * Defines the [maximum](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/max) value that is
          * accepted.
          */
-        max?: number | undefined;
+        max?: number;
         /**
          * Defines the [minimum](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/min) value that is
          * accepted.
          */
-        min?: number | undefined;
-        /**
-         * The amount to increment or decrement the value by when the (+) or (-) buttons are pressed.
-         *
-         * @default 1
-         */
+        min?: number;
+        /** The amount to increment or decrement the value by when the (+) or (-) buttons are pressed. */
         step?: number;
     };
 
@@ -97,14 +91,16 @@ export function InputNumber({
     ...inputElementProps
 }: InputNumberProps) {
     const inputId = useId(idProp);
-    const min = typeof minProp === 'number' ? minProp : undefined;
-    const max = typeof maxProp === 'number' && (min === undefined || maxProp >= min) ? maxProp : undefined;
+
+    const [min, max] = setMinMax(minProp, maxProp);
+
     const centered = align !== 'left';
+
     const value = isNumber(valueProp);
-    const decDisabled =
-        disabled || readOnly || (typeof value === 'number' && typeof min === 'number' ? value - step < min : false);
-    const incDisabled =
-        disabled || readOnly || (typeof value === 'number' && typeof max === 'number' ? value + step > max : false);
+
+    const decrementDisabled =
+        disabled || (typeof min === 'number' && typeof value === 'number' && value + step * -1 < min);
+    const incrementDisabled = disabled || (typeof max === 'number' && typeof value === 'number' && value + step > max);
 
     const valueRef = useRef(value);
 
@@ -112,36 +108,22 @@ export function InputNumber({
         valueRef.current = value;
     }, [value]);
 
-    const existingValue = () => {
-        if (valueRef.current === undefined && typeof min === 'number') {
-            onChange(min);
-            return min;
-        }
-        return typeof valueRef.current === 'number' ? valueRef.current : 0;
-    };
-
     const decrementHandler = () => {
-        const current = existingValue();
-        const newValue = current - (step || 1);
-        if (decDisabled || (typeof min === 'number' && newValue < min)) {
-            return false;
-        }
-        onChange(newValue);
+        const next = (valueRef.current || 0) + step * -1;
+        if (typeof min === 'number' && next < min) return false;
+        onChange(next);
         return true;
     };
 
     const incrementHandler = () => {
-        const current = existingValue();
-        const newValue = current + (step || 1);
-        if (incDisabled || (typeof max === 'number' && newValue > max)) {
-            return false;
-        }
-        onChange(newValue);
+        const next = (valueRef.current || 0) + step;
+        if (typeof max === 'number' && next > max) return false;
+        onChange(next);
         return true;
     };
 
-    const incPressHandlers = useLongPress({ callback: incrementHandler });
-    const decPressHandlers = useLongPress({ callback: decrementHandler });
+    const incrementPressHandlers = useLongPress({ callback: incrementHandler });
+    const decrementPressHandlers = useLongPress({ callback: decrementHandler });
 
     return (
         <div
@@ -169,13 +151,10 @@ export function InputNumber({
                 min={min}
                 name={name}
                 onBlur={(e) => {
-                    const next = isNumber(e.target.value);
-                    e.target.value = next?.toString() || '';
-                    onChange(next);
+                    onChange(isNumber(e.target.value));
                 }}
                 onChange={(e) => {
-                    const next = isNumber(e.target.value);
-                    onChange(next);
+                    onChange(isNumber(e.target.value));
                 }}
                 readOnly={readOnly}
                 required={required}
@@ -185,20 +164,20 @@ export function InputNumber({
             />
             <div aria-hidden data-divider />
             <button
-                {...decPressHandlers}
+                {...decrementPressHandlers}
                 aria-controls={inputId}
                 aria-label="Decrease value"
-                disabled={decDisabled}
+                disabled={decrementDisabled || readOnly}
                 tabIndex={-1}
                 type="button"
             >
                 <SvgRemove aria-hidden />
             </button>
             <button
-                {...incPressHandlers}
+                {...incrementPressHandlers}
                 aria-controls={inputId}
                 aria-label="Increase value"
-                disabled={incDisabled}
+                disabled={incrementDisabled || readOnly}
                 tabIndex={-1}
                 type="button"
             >
@@ -206,6 +185,19 @@ export function InputNumber({
             </button>
         </div>
     );
+}
+
+// Sets min and max values ensuring that min is not greater than max.
+function setMinMax(
+    minProp: number | undefined,
+    maxProp: number | undefined,
+): [min: number | undefined, max: number | undefined] {
+    const minimum = typeof minProp === 'number' ? minProp : undefined;
+    const maximum = typeof maxProp === 'number' ? maxProp : undefined;
+    // If both minimum and maximum are provided and minimum is greater than maximum, return undefined for both to prevent invalid min/max values from being set.
+    if (minimum !== undefined && maximum !== undefined && minimum > maximum) return [undefined, undefined];
+
+    return [minimum, maximum];
 }
 
 /** Copyright 2026 Anywhere Real Estate - CC BY 4.0 */
