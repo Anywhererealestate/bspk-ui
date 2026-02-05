@@ -151,13 +151,10 @@ export function InputNumber({
                 min={min}
                 name={name}
                 onBlur={(e) => {
-                    const next = isNumber(e.target.value, min);
-                    e.target.value = next?.toString() || '';
-                    onChange(next);
+                    onChange(isNumber(e.target.value));
                 }}
                 onChange={(e) => {
-                    const next = isNumber(e.target.value, min);
-                    onChange(next);
+                    onChange(isNumber(e.target.value));
                 }}
                 readOnly={readOnly}
                 required={required}
