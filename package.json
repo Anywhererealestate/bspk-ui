@@ -243,7 +243,7 @@
     },
     "dependencies": {
         "@bspk/icons": "^1.1.1",
-        "@bspk/styles": "^1.1.6",
+        "@bspk/styles": "^1.1.7",
         "@floating-ui/dom": "^1.6.13",
         "date-fns": "^4.1.0",
         "focus-trap-react": "^11.0.1",
