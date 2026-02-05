@@ -170,7 +170,7 @@ export function InputNumber({
                 {...removePressHandlers}
                 aria-controls={inputId}
                 aria-label="Decrease value"
-                disabled={decrementDisabled}
+                disabled={decrementDisabled || readOnly}
                 tabIndex={-1}
                 type="button"
             >
@@ -180,7 +180,7 @@ export function InputNumber({
                 {...addPressHandlers}
                 aria-controls={inputId}
                 aria-label="Increase value"
-                disabled={incrementDisabled}
+                disabled={incrementDisabled || readOnly}
                 tabIndex={-1}
                 type="button"
             >
