@@ -99,8 +99,9 @@ export function InputNumber({
     const value = isNumber(valueProp);
 
     const decrementDisabled =
-        disabled || (typeof min === 'number' && typeof value === 'number' && value + step * -1 < min);
-    const incrementDisabled = disabled || (typeof max === 'number' && typeof value === 'number' && value + step > max);
+        disabled || readOnly || (typeof min === 'number' && typeof value === 'number' && value + step * -1 < min);
+    const incrementDisabled =
+        disabled || readOnly || (typeof max === 'number' && typeof value === 'number' && value + step > max);
 
     const valueRef = useRef(value);
 
@@ -110,14 +111,14 @@ export function InputNumber({
 
     const decrementHandler = () => {
         const next = (valueRef.current || 0) + step * -1;
-        if (typeof min === 'number' && next < min) return false;
+        if (decrementDisabled || (typeof min === 'number' && next < min)) return false;
         onChange(next);
         return true;
     };
 
     const incrementHandler = () => {
         const next = (valueRef.current || 0) + step;
-        if (typeof max === 'number' && next > max) return false;
+        if (incrementDisabled || (typeof max === 'number' && next > max)) return false;
         onChange(next);
         return true;
     };
@@ -167,7 +168,7 @@ export function InputNumber({
                 {...decrementPressHandlers}
                 aria-controls={inputId}
                 aria-label="Decrease value"
-                disabled={decrementDisabled || readOnly}
+                disabled={decrementDisabled}
                 tabIndex={-1}
                 type="button"
             >
@@ -177,7 +178,7 @@ export function InputNumber({
                 {...incrementPressHandlers}
                 aria-controls={inputId}
                 aria-label="Increase value"
-                disabled={incrementDisabled || readOnly}
+                disabled={incrementDisabled}
                 tabIndex={-1}
                 type="button"
             >
