@@ -122,8 +122,8 @@ export function InputNumber({
         return true;
     };
 
-    const addPressHandlers = useLongPress({ callback: incrementHandler });
-    const removePressHandlers = useLongPress({ callback: decrementHandler });
+    const incrementPressHandlers = useLongPress({ callback: incrementHandler });
+    const decrementPressHandlers = useLongPress({ callback: decrementHandler });
 
     return (
         <div
@@ -167,7 +167,7 @@ export function InputNumber({
             />
             <div aria-hidden data-divider />
             <button
-                {...removePressHandlers}
+                {...decrementPressHandlers}
                 aria-controls={inputId}
                 aria-label="Decrease value"
                 disabled={decrementDisabled || readOnly}
@@ -177,7 +177,7 @@ export function InputNumber({
                 <SvgRemove aria-hidden />
             </button>
             <button
-                {...addPressHandlers}
+                {...incrementPressHandlers}
                 aria-controls={inputId}
                 aria-label="Increase value"
                 disabled={incrementDisabled || readOnly}
