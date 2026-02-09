@@ -24,7 +24,7 @@
         border-radius: var(--radius-full);
     }
 
-    &, // default
+    &, /* default */
   &[data-orientation='horizontal'] {
         min-height: var(--line-thickness);
         min-width: var(--length);

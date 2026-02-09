@@ -11,7 +11,7 @@
     padding: var(--spacing-sizing-02);
     justify-items: stretch;
 
-    // prevent inherited styles from affecting layout when the as prop is leveraged
+    /* prevent inherited styles from affecting layout when the as prop is leveraged */
     border: unset;
     border-radius: var(--radius-sm);
     margin: unset;
@@ -44,7 +44,7 @@
             }
 
             [data-pseudo='active'] &,
-        // pressed state
+        /* pressed state */
         &:active {
                 background-color: var(--interactions-neutral-press-opacity);
             }

@@ -157,7 +157,7 @@ body[data-bspk] {
         height: var(--text-height);
     }
 
-    // if there are 2 lines or more, make the last line 80% width
+    /* if there are 2 lines or more, make the last line 80% width */
     &:has([data-line]:nth-child(2)) {
         [data-line]:last-child {
             width: 80%;

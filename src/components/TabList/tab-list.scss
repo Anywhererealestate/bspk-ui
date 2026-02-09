@@ -6,7 +6,7 @@ ul[data-bspk-utility='tab-list'] {
     list-style: none;
     height: var(--height);
     font: var(--font);
-    width: fit-content; // default to hug content
+    width: fit-content; /* default to hug content */
 
     &[data-width='fill'] {
         align-items: stretch;
@@ -49,7 +49,7 @@ ul[data-bspk-utility='tab-list'] {
         flex-direction: row;
         align-items: center;
         gap: var(--spacing-sizing-02);
-        min-width: 0; // Prevent overflow from long content
+        min-width: 0; /* Prevent overflow from long content */
 
         &[aria-disabled] {
             cursor: not-allowed;
