@@ -43,7 +43,7 @@
                 isolation: isolate;
 
                 &:empty::before {
-                    // caret
+                    /* caret */
                     content: '';
                     width: 2px;
                     height: calc(var(--caret-height) - 8px);
