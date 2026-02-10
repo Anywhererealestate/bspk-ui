@@ -4,23 +4,8 @@ import { useId } from '-/hooks/useId';
 import { CommonProps, FieldControlProps } from '-/types/common';
 import { handleKeyDown } from '-/utils/handleKeyDown';
 
-export type OTPInputProps = CommonProps<'aria-label' | 'size'> &
+export type OTPInputProps = CommonProps<'size'> &
     FieldControlProps & {
-        /**
-         * The value of the otp-input.
-         *
-         * @example
-         *     867530;
-         *
-         * @required
-         */
-        value: string;
-        /**
-         * Callback when the value changes.
-         *
-         * @required
-         */
-        onChange: (value: string) => void;
         /**
          * The length of the otp-input.
          *
