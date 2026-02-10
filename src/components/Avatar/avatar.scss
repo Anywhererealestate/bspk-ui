@@ -118,7 +118,7 @@
         background: var(--state-background);
     }
 
-    &:not([aria-disabled]) {
+    &:not([aria-disabled])[role='button'] {
         &:hover {
             --state-background: var(--interactions-neutral-hover-opacity);
         }
@@ -133,7 +133,7 @@
         cursor: not-allowed;
     }
 
-    &:focus:not(:active) {
+    &:focus:not(:active, [aria-disabled]) {
         outline: 2px solid var(--stroke-neutral-focus);
         outline-offset: -2px;
     }
