@@ -1,42 +1,30 @@
 import './otp-input.scss';
 import { useState } from 'react';
 import { useId } from '-/hooks/useId';
-import { CommonProps } from '-/types/common';
+import { CommonProps, FieldControlProps } from '-/types/common';
 import { handleKeyDown } from '-/utils/handleKeyDown';
 
-export type OTPInputProps = CommonProps<'aria-label' | 'id' | 'invalid' | 'name' | 'size'> & {
-    /**
-     * The value of the otp-input.
-     *
-     * @example
-     *     867530;
-     *
-     * @required
-     */
-    value: string;
-    /**
-     * Callback when the value changes.
-     *
-     * @required
-     */
-    onChange: (value: string) => void;
-    /**
-     * The length of the otp-input.
-     *
-     * @default 6
-     * @maximum 10
-     */
-    length?: number;
-    /**
-     * The mode of the otp-input.
-     *
-     * @default false
-     */
-    alphanumeric?: boolean;
-};
+export type OTPInputProps = CommonProps<'size'> &
+    FieldControlProps & {
+        /**
+         * The length of the otp-input.
+         *
+         * @default 6
+         * @maximum 10
+         */
+        length?: number;
+        /**
+         * The mode of the otp-input.
+         *
+         * @default false
+         */
+        alphanumeric?: boolean;
+    };
 
 /**
  * A row of input fields that are used to input a temporary secure pin code sent to the customer.
+ *
+ * For a more complete example with field usage, see the OTPInputField component.
  *
  * @example
  *     import { OTPInput } from '@bspk/ui/OTPInput';
@@ -60,6 +48,11 @@ export function OTPInput({
     invalid = false,
     alphanumeric = false,
     'aria-label': ariaLabel = 'OTP input',
+    'aria-describedby': ariaDescribedBy,
+    'aria-errormessage': ariaErrorMessage,
+    disabled = false,
+    readOnly = false,
+    required = false,
 }: OTPInputProps) {
     const id = useId(idProp);
     const value = valueProp?.toUpperCase() || '';
@@ -103,6 +96,20 @@ export function OTPInput({
         nextInput?.focus();
     };
 
+    const Backspace = (event: React.KeyboardEvent) => {
+        // If the input has a value, clear it and maintain focus.
+        // Otherwise, focus the previous input and focus/select it.
+
+        const input = event.target as HTMLInputElement;
+        const digitIndex = input.dataset.digit!;
+
+        if (!input.value)
+            // focus previous input if it exists and prevent default backspace behavior of navigating back
+            inputs[Number(digitIndex) - 1]?.focus();
+
+        input.value = '';
+    };
+
     const canBeFocused = (index: number) => {
         // if the input is the first one, it can be focused
         if (index === 0) return true;
@@ -116,31 +123,35 @@ export function OTPInput({
         return false;
     };
 
-    const Backspace = (event: React.KeyboardEvent) => {
-        // If the input has a value, clear it and maintain focus.
-        // Otherwise, focus the previous input and focus/select it.
-
-        const input = event.target as HTMLInputElement;
-        const digitIndex = input.dataset.digit;
-
-        if (!input.value) {
-            const prevInput = inputs[Number(digitIndex) - 1];
-            prevInput?.focus();
-        }
+    const firstInputProps = {
+        'aria-describedby': ariaDescribedBy || undefined,
+        'aria-errormessage': ariaErrorMessage || undefined,
+        'aria-invalid': invalid || undefined,
+        'aria-label': ariaLabel,
+        id,
+        name,
     };
 
     return (
-        <div data-bspk="otp-input" data-invalid={invalid || undefined} data-size={size || 'medium'} id={id}>
+        <div
+            aria-labelledby={`${id}-label`}
+            data-bspk="otp-input"
+            data-invalid={invalid || undefined}
+            data-size={size || 'medium'}
+            role="group"
+        >
             <span data-digits role="group">
                 {Array.from({ length: maxLength }, (_, index) => (
                     <input
+                        {...(index === 0 ? firstInputProps : {})}
                         aria-label={`${ariaLabel} digit ${index + 1}`}
                         autoComplete="off"
                         data-digit={index}
+                        data-main-input={true}
+                        disabled={disabled || undefined}
                         inputMode={alphanumeric ? 'text' : 'numeric'}
                         key={index}
                         maxLength={1}
-                        name={name}
                         onChange={onChangeInput(index)}
                         onFocus={(event) => {
                             // only permit focus if the input is the next empty one OR already filled
@@ -176,6 +187,7 @@ export function OTPInput({
                             // add pasted data from this index onward into the inputs and send to onChange
                             onChange((value.substring(0, index) + pastedData).substring(0, maxLength));
                         }}
+                        readOnly={readOnly || undefined}
                         ref={(input) => {
                             if (input && !inputs.includes(input)) {
                                 setInputs((prev) => {
@@ -184,6 +196,7 @@ export function OTPInput({
                                 });
                             }
                         }}
+                        required={required || undefined}
                         tabIndex={canBeFocused(index) ? 0 : -1}
                         type="text"
                         value={value[index] || ''}
