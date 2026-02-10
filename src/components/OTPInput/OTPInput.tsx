@@ -1,6 +1,8 @@
 import './otp-input.scss';
+import { useState } from 'react';
 import { useId } from '-/hooks/useId';
 import { CommonProps } from '-/types/common';
+import { handleKeyDown } from '-/utils/handleKeyDown';
 
 export type OTPInputProps = CommonProps<'aria-label' | 'id' | 'invalid' | 'name' | 'size'> & {
     /**
@@ -61,25 +63,101 @@ export function OTPInput({
 }: OTPInputProps) {
     const id = useId(idProp);
     const value = valueProp || '';
-    const activeIndex = Math.min(value.length, length - 1);
+
+    const [inputs, setInputs] = useState<HTMLInputElement[]>([]);
+
+    const onChangeInput = (index: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
+        const digitAdded = event.target.value.trim().toUpperCase();
+
+        const values = value.split('');
+        values[index] = digitAdded;
+
+        onChange(values.join(''));
+
+        if (digitAdded) inputs[index + 1]?.focus();
+    };
 
     return (
         <div data-bspk="otp-input" data-invalid={invalid || undefined} data-size={size || 'medium'} id={id}>
-            <input
-                aria-label={ariaLabel}
-                inputMode={alphanumeric ? 'text' : 'numeric'}
-                name={name}
-                onChange={(event) => {
-                    onChange(event.target.value.trim().toUpperCase().slice(0, length));
-                }}
-                type={alphanumeric ? 'text' : 'number'}
-                value={value}
-            />
-            <span data-digits>
+            <span data-digits role="group">
                 {Array.from({ length }, (_, index) => (
-                    <span data-active={index === activeIndex || undefined} data-digit key={index}>
-                        {value[index]}
-                    </span>
+                    <input
+                        aria-label={`${ariaLabel} digit ${index + 1}`}
+                        autoComplete="off"
+                        data-digit={index}
+                        inputMode={alphanumeric ? 'text' : 'numeric'}
+                        key={index}
+                        maxLength={1}
+                        name={name}
+                        onChange={onChangeInput(index)}
+                        onKeyDown={handleKeyDown({
+                            Backspace: (event) => {
+                                // If the input has a value, clear it and maintain focus.
+                                // Otherwise, focus the previous input and focus/select it.
+
+                                const input = event.target as HTMLInputElement;
+                                const digitIndex = input.dataset.digit;
+
+                                if (!input.value) {
+                                    const prevInput = inputs[Number(digitIndex) - 1];
+                                    prevInput?.focus();
+                                    prevInput?.select();
+
+                                    event.preventDefault();
+                                }
+                            },
+                            ArrowLeft: (event) => {
+                                // Focus the previous input and focus/select it if it exists
+
+                                const input = event.target as HTMLInputElement;
+                                const digitIndex = input.dataset.digit;
+                                const prevInput = inputs[Number(digitIndex) - 1];
+
+                                prevInput?.focus();
+                                prevInput?.select();
+                            },
+                            ArrowRight: (event) => {
+                                // Focus the next input and focus/select it if it exists
+
+                                const input = event.target as HTMLInputElement;
+                                const digitIndex = input.dataset.digit;
+                                const nextInput = inputs[Number(digitIndex) + 1];
+
+                                // if the current input doesn't have a value, prevent focusing the next input and instead focus/select the current one
+                                if (!input.value) {
+                                    input.focus();
+                                    input.select();
+                                    event.preventDefault();
+                                    return;
+                                }
+
+                                nextInput?.focus();
+                                nextInput?.select();
+                            },
+                        })}
+                        onMouseDown={(event) => {
+                            // only permit focus if the input is the next empty one OR already filled
+
+                            const input = event.target as HTMLInputElement;
+
+                            if (!input.value) {
+                                inputs[value.length]?.focus();
+                                event.preventDefault();
+                                return;
+                            }
+                            input.select();
+                        }}
+                        ref={(input) => {
+                            if (input && !inputs.includes(input)) {
+                                setInputs((prev) => {
+                                    prev[index] = input;
+                                    return [...prev];
+                                });
+                            }
+                        }}
+                        type="text"
+                        value={value[index] || ''}
+                    />
                 ))}
             </span>
         </div>

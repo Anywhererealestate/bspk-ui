@@ -2,25 +2,15 @@
     width: fit-content;
     position: relative;
 
-    input[inputMode] {
-        position: absolute;
-        inset: 0;
-        opacity: 0;
-        border: none;
-        caret-color: transparent;
-    }
-
     [data-digits] {
         display: flex;
         flex-direction: row;
         justify-content: center;
         gap: var(--spacing-sizing-02);
-        font: var(--font);
         width: fit-content;
         position: relative;
-        pointer-events: none;
 
-        [data-digit] {
+        input[data-digit] {
             display: flex;
             flex-direction: row;
             align-items: center;
@@ -33,35 +23,12 @@
             position: relative;
             outline: none;
             text-align: center;
-        }
-    }
+            font: var(--font);
 
-    input[inputMode]:focus + [data-digits] {
-        [data-digit] {
-            &[data-active] {
+            &:focus {
                 outline: solid 2px var(--stroke-neutral-focus);
                 isolation: isolate;
-
-                &:empty::before {
-                    /* caret */
-                    content: '';
-                    width: 2px;
-                    height: calc(var(--caret-height) - 8px);
-                    background: var(--stroke-neutral-high);
-                    animation: blink-caret 1s step-end infinite;
-                }
             }
-        }
-    }
-
-    @keyframes blink-caret {
-        0%,
-        100% {
-            opacity: 0;
-        }
-
-        50% {
-            opacity: 1;
         }
     }
 
