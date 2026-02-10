@@ -31,8 +31,8 @@ export function OTPInputField({
             helperText={helperText}
             label={label}
             labelTrailing={labelTrailing}
-            style={style}
             required={controlProps.required}
+            style={style}
         >
             <OTPInput {...propsWithAria({ id, controlProps, errorMessage, helperText })} />
         </Field>

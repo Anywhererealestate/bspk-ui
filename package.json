@@ -136,6 +136,8 @@
         "./Modal/*": "./dist/components/Modal/*.js",
         "./OTPInput": "./dist/components/OTPInput/index.js",
         "./OTPInput/*": "./dist/components/OTPInput/*.js",
+        "./OTPInputField": "./dist/components/OTPInputField/index.js",
+        "./OTPInputField/*": "./dist/components/OTPInputField/*.js",
         "./PageControl": "./dist/components/PageControl/index.js",
         "./PageControl/*": "./dist/components/PageControl/*.js",
         "./PageHeader": "./dist/components/PageHeader/index.js",
