@@ -68,7 +68,7 @@ body[data-bspk] {
     color: var(--foreground-neutral-on-surface);
     min-width: 343px;
 
-    a:not([data-bspk]) {
+    a:not([data-bspk], [data-no-link]) {
         @extend %link;
     }
 }
