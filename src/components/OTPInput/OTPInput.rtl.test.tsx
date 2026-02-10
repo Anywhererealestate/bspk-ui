@@ -16,6 +16,6 @@ describe('OTPInput (RTL)', () => {
             <OTPInput aria-label="OTP input" onChange={() => {}} {...presets[0].propState} />,
         );
 
-        expect(getByLabelText('OTP input')).toBeInTheDocument();
+        expect(getByLabelText('OTP input digit 1')).toBeInTheDocument();
     });
 });
