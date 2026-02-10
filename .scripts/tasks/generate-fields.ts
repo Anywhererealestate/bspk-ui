@@ -8,16 +8,17 @@ import fs from 'fs';
 
 const CONTROLS = [
     // all input components that need Field wrappers
-    'DatePicker',
-    'Input',
-    'InputNumber',
-    'InputPhone',
-    'Password',
-    'Select',
-    'Textarea',
-    'TimePicker',
+    // 'DatePicker',
+    // 'Input',
+    // 'InputNumber',
+    // 'InputPhone',
+    // 'Password',
+    // 'Select',
+    // 'Textarea',
+    // 'TimePicker',
     // 'RadioGroup',
     // 'CheckboxGroup',
+    'OTPInput',
 ];
 
 CONTROLS.map((name) => {
