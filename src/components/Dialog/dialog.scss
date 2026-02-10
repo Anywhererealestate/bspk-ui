@@ -3,13 +3,13 @@
     inset: 0;
     z-index: var(--z-index-dialog);
     display: flex;
-    pointer-events: none; // makes scrim clickable
+    pointer-events: none; /* makes scrim clickable */
 
     --height: 100vh;
     --width: 100vw;
 
     [data-dialog-box] {
-        pointer-events: all; // allow pointer events on the dialog box
+        pointer-events: all; /* allow pointer events on the dialog box  */
         text-align: start;
         position: absolute;
         box-shadow: var(--drop-shadow-float);
@@ -32,7 +32,7 @@
             margin-bottom: 0;
         }
 
-        // we make the width responsive to the viewport
+        /* we make the width responsive to the viewport */
         @media (width >= 640px) {
             width: 90%;
         }

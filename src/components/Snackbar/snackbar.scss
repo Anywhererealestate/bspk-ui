@@ -29,8 +29,8 @@
         height: var(--spacing-sizing-14);
 
         [data-snackbar-icon-text] {
-            flex: 1 1 0; // allow to grow and shrink, but not overflow
-            min-width: 0; // Prevent overflow from long content
+            flex: 1 1 0; /* allow to grow and shrink, but not overflow */
+            min-width: 0; /* Prevent overflow from long content */
             max-width: 100%;
             overflow: hidden;
             display: flex;
@@ -47,7 +47,7 @@
         }
 
         [data-bspk='button'][data-variant='tertiary'] {
-            flex: 0 0 auto; // prevent button from shrinking
+            flex: 0 0 auto; /* prevent button from shrinking */
             color: inherit;
         }
     }
