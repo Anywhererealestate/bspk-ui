@@ -55,14 +55,14 @@ export function OTPInput({
     onChange,
     name,
     id: idProp,
-    length = 6,
+    length: maxLength = 6,
     size = 'medium',
     invalid = false,
     alphanumeric = false,
     'aria-label': ariaLabel = 'OTP input',
 }: OTPInputProps) {
     const id = useId(idProp);
-    const value = valueProp || '';
+    const value = valueProp?.toUpperCase() || '';
 
     const [inputs, setInputs] = useState<HTMLInputElement[]>([]);
 
@@ -72,7 +72,7 @@ export function OTPInput({
         const values = value.split('');
         values[index] = digitAdded;
 
-        onChange(values.join(''));
+        onChange(values.join('').substring(0, maxLength));
 
         if (digitAdded) inputs[index + 1]?.focus();
     };
@@ -80,7 +80,7 @@ export function OTPInput({
     return (
         <div data-bspk="otp-input" data-invalid={invalid || undefined} data-size={size || 'medium'} id={id}>
             <span data-digits role="group">
-                {Array.from({ length }, (_, index) => (
+                {Array.from({ length: maxLength }, (_, index) => (
                     <input
                         aria-label={`${ariaLabel} digit ${index + 1}`}
                         autoComplete="off"
@@ -146,6 +146,11 @@ export function OTPInput({
                                 return;
                             }
                             input.select();
+                        }}
+                        onPaste={(event) => {
+                            const pastedData = event.clipboardData.getData('text').trim().toUpperCase();
+                            // add pasted data from this index onward into the inputs and send to onChange
+                            onChange((value.substring(0, index) + pastedData).substring(0, maxLength));
                         }}
                         ref={(input) => {
                             if (input && !inputs.includes(input)) {
