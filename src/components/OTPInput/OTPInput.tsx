@@ -1,5 +1,6 @@
 import './otp-input.scss';
-import { useState } from 'react';
+import { SvgCircleFill } from '@bspk/icons/CircleFill';
+import { useEffect, useState } from 'react';
 import { useId } from '-/hooks/useId';
 import { CommonProps, FieldControlProps } from '-/types/common';
 import { handleKeyDown } from '-/utils/handleKeyDown';
@@ -14,11 +15,17 @@ export type OTPInputProps = CommonProps<'size'> &
          */
         length?: number;
         /**
-         * The mode of the otp-input.
+         * When true, the input accepts both letters and numbers.
          *
          * @default false
          */
         alphanumeric?: boolean;
+        /**
+         * When true the input masks the entered characters.
+         *
+         * @default false
+         */
+        secure?: boolean;
     };
 
 /**
@@ -53,19 +60,29 @@ export function OTPInput({
     disabled = false,
     readOnly = false,
     required = false,
+    secure = false,
 }: OTPInputProps) {
     const id = useId(idProp);
-    const value = valueProp?.toUpperCase() || '';
+    const [values, setValues] = useState<string[]>(valueProp?.split('') || []);
 
     const [inputs, setInputs] = useState<HTMLInputElement[]>([]);
+
+    useEffect(() => {
+        if (values.join('')?.trim() !== valueProp?.trim()) setValues(valueProp?.split('') || []);
+    }, [valueProp, values]);
+
+    useEffect(() => {
+        onChange(values.join('').substring(0, maxLength));
+    }, [maxLength, onChange, values]);
 
     const onChangeInput = (index: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
         const digitAdded = event.target.value.trim().toUpperCase();
 
-        const values = value.split('');
-        values[index] = digitAdded;
-
-        onChange(values.join('').substring(0, maxLength));
+        setValues((prev) => {
+            const newValues = [...prev];
+            newValues[index] = digitAdded;
+            return newValues;
+        });
 
         if (digitAdded) inputs[index + 1]?.focus();
     };
@@ -108,6 +125,12 @@ export function OTPInput({
             inputs[Number(digitIndex) - 1]?.focus();
 
         input.value = '';
+
+        setValues((prev) => {
+            const newValues = [...prev];
+            newValues[Number(digitIndex)] = '';
+            return newValues;
+        });
     };
 
     const canBeFocused = (index: number) => {
@@ -115,10 +138,10 @@ export function OTPInput({
         if (index === 0) return true;
 
         // if the input currently has a value, it can be focused
-        if (value[index]) return true;
+        if (values[index]) return true;
 
         // if the input is empty but it's the next one to be filled, it can be focused
-        if (index === value.length) return true;
+        if (index === values.length) return true;
 
         return false;
     };
@@ -136,14 +159,21 @@ export function OTPInput({
         <div
             aria-labelledby={`${id}-label`}
             data-bspk="otp-input"
+            data-disabled={disabled || undefined}
             data-invalid={invalid || undefined}
+            data-readonly={readOnly || undefined}
+            data-secure={secure || undefined}
             data-size={size || 'medium'}
             role="group"
         >
             <span data-digits role="group">
                 {Array.from({ length: maxLength }, (_, index) => (
                     <input
-                        {...(index === 0 ? firstInputProps : {})}
+                        {...(index === 0
+                            ? firstInputProps
+                            : {
+                                  name: `${name}-${index}`,
+                              })}
                         aria-label={`${ariaLabel} digit ${index + 1}`}
                         autoComplete="off"
                         data-digit={index}
@@ -157,26 +187,33 @@ export function OTPInput({
                             // only permit focus if the input is the next empty one OR already filled
                             (event.target as HTMLInputElement)?.select();
                         }}
-                        onKeyDown={handleKeyDown(
-                            {
-                                Backspace,
-                                ArrowUp: ArrowUpArrowLeft,
-                                ArrowLeft: ArrowUpArrowLeft,
-                                ArrowDown: ArrowDownArrowRight,
-                                ArrowRight: ArrowDownArrowRight,
-                            },
-                            {
-                                preventDefault: true,
-                                stopPropagation: true,
-                            },
-                        )}
+                        onKeyDown={(event) => {
+                            // if alphanumeric is false, prevent non-numeric characters from being entered
+                            if (!alphanumeric && event.key.length === 1 && !/^[0-9]$/.test(event.key)) {
+                                event.preventDefault();
+                                return;
+                            }
+                            handleKeyDown(
+                                {
+                                    Backspace,
+                                    ArrowUp: ArrowUpArrowLeft,
+                                    ArrowLeft: ArrowUpArrowLeft,
+                                    ArrowDown: ArrowDownArrowRight,
+                                    ArrowRight: ArrowDownArrowRight,
+                                },
+                                {
+                                    preventDefault: true,
+                                    stopPropagation: true,
+                                },
+                            )(event);
+                        }}
                         onMouseDown={(event) => {
                             // only permit focus if the input is the next empty one OR already filled
 
                             const input = event.target as HTMLInputElement;
 
                             if (!input.value) {
-                                inputs[value.length]?.focus();
+                                inputs[values.length]?.focus();
                                 event.preventDefault();
                                 return;
                             }
@@ -185,7 +222,19 @@ export function OTPInput({
                         onPaste={(event) => {
                             const pastedData = event.clipboardData.getData('text').trim().toUpperCase();
                             // add pasted data from this index onward into the inputs and send to onChange
-                            onChange((value.substring(0, index) + pastedData).substring(0, maxLength));
+                            setValues((prev) => {
+                                const newValues = [...prev];
+                                for (let i = 0; i < pastedData.length; i++) {
+                                    if (index + i < maxLength) {
+                                        newValues[index + i] = pastedData[i];
+                                    }
+                                }
+                                return newValues;
+                            });
+                            // focus the input after the last one that was pasted into
+                            const lastPastedIndex = Math.min(index + pastedData.length, maxLength - 1);
+                            inputs[lastPastedIndex]?.focus();
+                            event.preventDefault();
                         }}
                         readOnly={readOnly || undefined}
                         ref={(input) => {
@@ -198,11 +247,20 @@ export function OTPInput({
                         }}
                         required={required || undefined}
                         tabIndex={canBeFocused(index) ? 0 : -1}
-                        type="text"
-                        value={value[index] || ''}
+                        type={secure ? 'password' : 'text'}
+                        value={values[index] || ''}
                     />
                 ))}
             </span>
+            {secure && (
+                <span data-digits data-secure-dots>
+                    {Array.from({ length: maxLength }, (_, index) => (
+                        <span data-dot key={index}>
+                            {!!values[index]?.trim() && <SvgCircleFill />}
+                        </span>
+                    ))}
+                </span>
+            )}
         </div>
     );
 }
