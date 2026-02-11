@@ -1,14 +1,14 @@
 import './otp-input.scss';
 import { SvgCircleFill } from '@bspk/icons/CircleFill';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useId } from '-/hooks/useId';
 import { CommonProps, FieldControlProps } from '-/types/common';
 import { handleKeyDown } from '-/utils/handleKeyDown';
 
 export type OTPInputProps = CommonProps<'size'> &
-    FieldControlProps & {
+    Omit<FieldControlProps, 'onChange' | 'value'> & {
         /**
-         * The length of the otp-input.
+         * The required length of the otp-input.
          *
          * @default 6
          * @maximum 10
@@ -26,6 +26,17 @@ export type OTPInputProps = CommonProps<'size'> &
          * @default false
          */
         secure?: boolean;
+        /**
+         * The default value of the input.
+         *
+         * @remarks
+         *   This prop is used to set the initial value of the OTP input fields when the component is first rendered. It
+         *   should be a string containing characters that match the expected input type (numeric or alphanumeric) and
+         *   should not exceed the specified length of the OTP input.
+         */
+        defaultValue?: string;
+        /** Callback function that is called when the value of the OTP input has reached the complete length. */
+        onChange?: (value: string) => void;
     };
 
 /**
@@ -37,20 +48,29 @@ export type OTPInputProps = CommonProps<'size'> &
  *     import { OTPInput } from '@bspk/ui/OTPInput';
  *
  *     () => {
- *         const [otpValue, setOtpValue] = useState('');
- *
- *         return <OTPInput name="2-auth" length={6} value={otpValue} onChange={setOtpValue} alphanumeric={false} />;
+ *         return (
+ *             <OTPInput
+ *                 name="2-auth"
+ *                 maxLength={6}
+ *                 defaultValue="8675"
+ *                 onChange={(value) => {
+ *                     // add a debounced API call to verify the OTP here
+ *                     console.log('OTP value:', value);
+ *                 }}
+ *                 alphanumeric={false}
+ *             />
+ *         );
  *     };
  *
  * @name OTPInput
  * @phase Stable
  */
 export function OTPInput({
-    value: valueProp,
+    defaultValue = '',
     onChange,
     name,
     id: idProp,
-    length: maxLength = 6,
+    length: requiredLength = 6,
     size = 'medium',
     invalid = false,
     alphanumeric = false,
@@ -63,17 +83,15 @@ export function OTPInput({
     secure = false,
 }: OTPInputProps) {
     const id = useId(idProp);
-    const [values, setValues] = useState<string[]>(valueProp?.split('') || []);
+    const [values, setValuesState] = useState<string[]>(defaultValue?.split('') || []);
+
+    const setValues = (newValues: string[] | ((prevValues: string[]) => string[])) => {
+        const nextValues = typeof newValues === 'function' ? newValues(values) : newValues;
+        setValuesState(nextValues);
+        if (nextValues.join('').trim().length === requiredLength) onChange?.(nextValues.join('').trim());
+    };
 
     const [inputs, setInputs] = useState<HTMLInputElement[]>([]);
-
-    useEffect(() => {
-        if (values.join('')?.trim() !== valueProp?.trim()) setValues(valueProp?.split('') || []);
-    }, [valueProp, values]);
-
-    useEffect(() => {
-        onChange(values.join('').substring(0, maxLength));
-    }, [maxLength, onChange, values]);
 
     const onChangeInput = (index: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
         const digitAdded = event.target.value.trim().toUpperCase();
@@ -167,7 +185,7 @@ export function OTPInput({
             role="group"
         >
             <span data-digits role="group">
-                {Array.from({ length: maxLength }, (_, index) => (
+                {Array.from({ length: requiredLength }, (_, index) => (
                     <input
                         {...(index === 0
                             ? firstInputProps
@@ -225,14 +243,14 @@ export function OTPInput({
                             setValues((prev) => {
                                 const newValues = [...prev];
                                 for (let i = 0; i < pastedData.length; i++) {
-                                    if (index + i < maxLength) {
+                                    if (index + i < requiredLength) {
                                         newValues[index + i] = pastedData[i];
                                     }
                                 }
                                 return newValues;
                             });
                             // focus the input after the last one that was pasted into
-                            const lastPastedIndex = Math.min(index + pastedData.length, maxLength - 1);
+                            const lastPastedIndex = Math.min(index + pastedData.length, requiredLength - 1);
                             inputs[lastPastedIndex]?.focus();
                             event.preventDefault();
                         }}
@@ -254,7 +272,7 @@ export function OTPInput({
             </span>
             {secure && (
                 <span data-digits data-secure-dots>
-                    {Array.from({ length: maxLength }, (_, index) => (
+                    {Array.from({ length: requiredLength }, (_, index) => (
                         <span data-dot key={index}>
                             {!!values[index]?.trim() && <SvgCircleFill />}
                         </span>

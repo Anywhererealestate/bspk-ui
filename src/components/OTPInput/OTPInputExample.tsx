@@ -5,7 +5,7 @@ export const presets: Preset<OTPInputProps>[] = [
     {
         label: '4 Characters',
         propState: {
-            value: '',
+            defaultValue: '',
             length: 4,
             name: 'OTP Input',
         },
@@ -13,7 +13,7 @@ export const presets: Preset<OTPInputProps>[] = [
     {
         label: '6 Characters',
         propState: {
-            value: '',
+            defaultValue: '',
             length: 6,
             name: 'OTP Input',
         },
@@ -22,7 +22,7 @@ export const presets: Preset<OTPInputProps>[] = [
 
 export const OTPInputExample: ComponentExample<OTPInputProps> = {
     defaultState: {
-        value: '',
+        defaultValue: '',
         length: 6,
         name: 'OTP Input',
         alphanumeric: false,
