@@ -88,13 +88,14 @@ export function OTPInput({
     const setValues = (newValues: string[] | ((prevValues: string[]) => string[])) => {
         const nextValues = typeof newValues === 'function' ? newValues(values) : newValues;
         setValuesState(nextValues);
-        if (nextValues.join('').trim().length === requiredLength) onChange?.(nextValues.join('').trim());
+        const nextValueString = nextValues.join('').trim();
+        if (nextValueString.length === requiredLength) onChange?.(nextValueString);
     };
 
     const [inputs, setInputs] = useState<HTMLInputElement[]>([]);
 
     const onChangeInput = (index: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
-        const digitAdded = event.target.value.trim().toUpperCase();
+        const digitAdded = event.target.value;
 
         setValues((prev) => {
             const newValues = [...prev];
@@ -105,21 +106,17 @@ export function OTPInput({
         if (digitAdded) inputs[index + 1]?.focus();
     };
 
-    const ArrowUpArrowLeft = (event: React.KeyboardEvent) => {
+    const ArrowUpArrowLeft = (digitIndex: number) => () => {
         // Focus the previous input and focus/select it if it exists
 
-        const input = event.target as HTMLInputElement;
-        const digitIndex = input.dataset.digit;
         const prevInput = inputs[Number(digitIndex) - 1];
 
         prevInput?.focus();
     };
 
-    const ArrowDownArrowRight = (event: React.KeyboardEvent) => {
+    const ArrowDownArrowRight = (digitIndex: number) => () => {
         // Focus the next input and focus/select it if it exists
-
-        const input = event.target as HTMLInputElement;
-        const digitIndex = input.dataset.digit;
+        const input = inputs[digitIndex];
         const nextInput = inputs[Number(digitIndex) + 1];
 
         // if the current input doesn't have a value, prevent focusing the next input and instead focus/select the current one
@@ -131,24 +128,12 @@ export function OTPInput({
         nextInput?.focus();
     };
 
-    const Backspace = (event: React.KeyboardEvent) => {
-        // If the input has a value, clear it and maintain focus.
-        // Otherwise, focus the previous input and focus/select it.
-
-        const input = event.target as HTMLInputElement;
-        const digitIndex = input.dataset.digit!;
-
-        if (!input.value)
-            // focus previous input if it exists and prevent default backspace behavior of navigating back
-            inputs[Number(digitIndex) - 1]?.focus();
-
-        input.value = '';
-
+    const Backspace = (digitIndex: number) => () => {
         setValues((prev) => {
-            const newValues = [...prev];
-            newValues[Number(digitIndex)] = '';
-            return newValues;
+            return prev.filter((_, index) => index !== digitIndex);
         });
+
+        inputs[Math.max(0, digitIndex - 1)]?.focus();
     };
 
     const canBeFocused = (index: number) => {
@@ -184,9 +169,21 @@ export function OTPInput({
             data-size={size || 'medium'}
             role="group"
         >
-            <span data-digits role="group">
+            <span
+                data-digits
+                onMouseDownCapture={(event) => {
+                    // if the click wasn't on an input (between inputs), ignore it
+                    if ((event.target as HTMLElement).tagName !== 'INPUT') {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                }}
+                role="group"
+            >
                 {Array.from({ length: requiredLength }, (_, index) => (
                     <input
+                        data-digit
+                        key={index}
                         {...(index === 0
                             ? firstInputProps
                             : {
@@ -194,30 +191,39 @@ export function OTPInput({
                               })}
                         aria-label={`${ariaLabel} digit ${index + 1}`}
                         autoComplete="off"
-                        data-digit={index}
+                        data-index={index}
                         data-main-input={true}
                         disabled={disabled || undefined}
                         inputMode={alphanumeric ? 'text' : 'numeric'}
-                        key={index}
                         maxLength={1}
                         onChange={onChangeInput(index)}
                         onFocus={(event) => {
-                            // only permit focus if the input is the next empty one OR already filled
                             (event.target as HTMLInputElement)?.select();
                         }}
                         onKeyDown={(event) => {
-                            // if alphanumeric is false, prevent non-numeric characters from being entered
-                            if (!alphanumeric && event.key.length === 1 && !/^[0-9]$/.test(event.key)) {
+                            if (
+                                // is a single key that doesn't have ctrl/meta/alt modifiers
+                                event.key.length === 1 &&
+                                !event.ctrlKey &&
+                                !event.metaKey &&
+                                !event.altKey &&
+                                !event.shiftKey &&
+                                // only accepts numbers
+                                !alphanumeric &&
+                                // is not a number 0-9
+                                !/^[0-9]$/.test(event.key)
+                            ) {
                                 event.preventDefault();
                                 return;
                             }
+
                             handleKeyDown(
                                 {
-                                    Backspace,
-                                    ArrowUp: ArrowUpArrowLeft,
-                                    ArrowLeft: ArrowUpArrowLeft,
-                                    ArrowDown: ArrowDownArrowRight,
-                                    ArrowRight: ArrowDownArrowRight,
+                                    Backspace: Backspace(index),
+                                    ArrowUp: ArrowUpArrowLeft(index),
+                                    ArrowLeft: ArrowUpArrowLeft(index),
+                                    ArrowDown: ArrowDownArrowRight(index),
+                                    ArrowRight: ArrowDownArrowRight(index),
                                 },
                                 {
                                     preventDefault: true,
@@ -226,11 +232,11 @@ export function OTPInput({
                             )(event);
                         }}
                         onMouseDown={(event) => {
-                            // only permit focus if the input is the next empty one OR already filled
+                            // only permit focus if the input is the next empty one OR already filled OR the first input
 
                             const input = event.target as HTMLInputElement;
 
-                            if (!input.value) {
+                            if (!input.value && index) {
                                 inputs[values.length]?.focus();
                                 event.preventDefault();
                                 return;
@@ -238,7 +244,7 @@ export function OTPInput({
                             input.select();
                         }}
                         onPaste={(event) => {
-                            const pastedData = event.clipboardData.getData('text').trim().toUpperCase();
+                            const pastedData = event.clipboardData.getData('text').trim();
                             // add pasted data from this index onward into the inputs and send to onChange
                             setValues((prev) => {
                                 const newValues = [...prev];
