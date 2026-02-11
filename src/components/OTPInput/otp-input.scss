@@ -38,17 +38,6 @@
         }
     }
 
-    &[data-secure] {
-        [data-digit]::after {
-            content: '';
-            position: absolute;
-            width: 50%;
-            height: 50%;
-            border-radius: 50%;
-            background: var(--color, var(--foreground-neutral-default));
-        }
-    }
-
     &:hover:not(:focus-within) {
         --background:
             linear-gradient(var(--interactions-hover-opacity), var(--interactions-hover-opacity)),
