@@ -4,7 +4,7 @@ import { ButtonProps } from '-/components/Button';
 import { Tooltip, TooltipTriggerProps } from '-/components/Tooltip';
 import { ElementProps } from '-/types/common';
 
-export type FabSize = 'medium' | 'small';
+export type FabSize = 'medium' | 'x-large';
 
 export type FabVariant = 'neutral' | 'primary' | 'secondary';
 
@@ -16,7 +16,7 @@ export type FabProps<As extends ElementType = ElementType> = Pick<
         /**
          * The size of the button.
          *
-         * @default small
+         * @default medium
          */
         size?: FabSize;
         /**
@@ -60,7 +60,7 @@ export type FabProps<As extends ElementType = ElementType> = Pick<
 export function Fab<As extends ElementType = ElementType>(props: AriaAttributes & ElementProps<FabProps<As>, As>) {
     const {
         'aria-label': ariaLabel,
-        size = 'small',
+        size = 'medium',
         variant = 'primary',
         iconOnly: iconOnlyProp = false,
         as: As = 'button',

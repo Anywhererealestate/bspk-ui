@@ -53,7 +53,7 @@
         align-items: center;
     }
 
-    &[data-size='small'] {
+    &[data-size='medium'] {
         font: var(--labels-base);
         height: var(--spacing-sizing-10);
         padding: 0 var(--spacing-sizing-04);
@@ -63,7 +63,7 @@
         }
     }
 
-    &[data-size='medium'] {
+    &[data-size='x-large'] {
         font: var(--labels-large);
         height: var(--spacing-sizing-14);
         padding: 0 var(--spacing-sizing-07);
