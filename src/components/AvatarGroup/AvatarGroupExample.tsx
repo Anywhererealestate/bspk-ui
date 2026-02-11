@@ -59,9 +59,6 @@ export const presets: Preset<AvatarGroupProps>[] = [
 
 export const AvatarGroupExample: ComponentExample<AvatarGroupProps> = {
     presets,
-    defaultState: {
-        variant: 'spread',
-    },
     render: ({ props, Component, preset }) => <Component key={preset?.label} {...props} />,
     variants: false,
 };
