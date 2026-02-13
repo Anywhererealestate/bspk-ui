@@ -73,7 +73,7 @@ export function Breadcrumb({ id: propId, items = [], scrollLimit }: BreadcrumbPr
         <nav aria-label="Breadcrumb" data-bspk="breadcrumb" id={id}>
             <ol>
                 <li>
-                    <Link href={items[0].href} label={items[0].label} />
+                    <Link href={items[0].href} label={items[0].label} size="small" variant="subtle" />
                     <SvgChevronRight aria-hidden />
                 </li>
                 {items.length > 5 ? (
@@ -81,13 +81,13 @@ export function Breadcrumb({ id: propId, items = [], scrollLimit }: BreadcrumbPr
                 ) : (
                     items.slice(1, items.length - 1).map((item, idx) => (
                         <li key={`Breadcrumb-${idx}`}>
-                            <Link {...item} />
+                            <Link size="small" variant="subtle" {...item} />
                             <SvgChevronRight aria-hidden />
                         </li>
                     ))
                 )}
                 <li aria-current="true">
-                    <Txt variant="body-base">{items[items.length - 1].label}</Txt>
+                    <Txt variant="labels-small">{items[items.length - 1].label}</Txt>
                 </li>
             </ol>
         </nav>
