@@ -1,13 +1,14 @@
 import './breadcrumb.scss';
 import { SvgChevronRight } from '@bspk/icons/ChevronRight';
 import { BreadcrumbDropdown, BreadcrumbItem } from './BreadcrumbDropdown';
-import { Link } from '-/components/Link';
+import { Link, LinkProps } from '-/components/Link';
 import { Txt } from '-/components/Txt';
 import { useId } from '-/hooks/useId';
 import { CommonProps } from '-/types/common';
 import { ScrollListItemsStyleProps } from '-/utils/scrollListItemsStyle';
 
 export type BreadcrumbProps = CommonProps<'id'> &
+    Pick<LinkProps, 'variant'> &
     ScrollListItemsStyleProps & {
         /**
          * The array of breadcrumb items.
@@ -64,7 +65,7 @@ export type BreadcrumbProps = CommonProps<'id'> &
  * @name Breadcrumb
  * @phase Stable
  */
-export function Breadcrumb({ id: propId, items = [], scrollLimit }: BreadcrumbProps) {
+export function Breadcrumb({ id: propId, items = [], scrollLimit, variant }: BreadcrumbProps) {
     const id = useId(propId);
 
     if (items.length < 2) return null;
@@ -73,7 +74,7 @@ export function Breadcrumb({ id: propId, items = [], scrollLimit }: BreadcrumbPr
         <nav aria-label="Breadcrumb" data-bspk="breadcrumb" id={id}>
             <ol>
                 <li>
-                    <Link href={items[0].href} label={items[0].label} size="small" variant="subtle" />
+                    <Link href={items[0].href} label={items[0].label} size="small" variant={variant} />
                     <SvgChevronRight aria-hidden />
                 </li>
                 {items.length > 5 ? (
@@ -81,7 +82,7 @@ export function Breadcrumb({ id: propId, items = [], scrollLimit }: BreadcrumbPr
                 ) : (
                     items.slice(1, items.length - 1).map((item, idx) => (
                         <li key={`Breadcrumb-${idx}`}>
-                            <Link size="small" variant="subtle" {...item} />
+                            <Link size="small" variant={variant} {...item} />
                             <SvgChevronRight aria-hidden />
                         </li>
                     ))
