@@ -70,6 +70,8 @@ body[data-bspk] {
 
     a:not([data-bspk], [data-no-link]) {
         @extend %link;
+
+        font: inherit;
     }
 }
 
@@ -228,6 +230,8 @@ body[data-bspk] {
 
 [data-bspk='link'] {
     @extend %link;
+
+    font: var(--labels-base);
 }
 
 %link {
@@ -236,7 +240,6 @@ body[data-bspk] {
     flex-direction: row;
     align-items: center;
     gap: var(--spacing-sizing-01);
-    font: var(--labels-base);
 
     &:not([disabled]) {
         &:hover,

@@ -24,9 +24,7 @@ export type DatePickerProps = Omit<FieldControlProps, 'aria-label' | 'onChange' 
          */
         placeholder?: string;
         /**
-         * The currently selected date
-         *
-         * String formatted as 'MM/dd/yyyy'.
+         * The currently selected date formatted as 'MM/dd/yyyy'.
          *
          * @type string
          */
