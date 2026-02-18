@@ -129,6 +129,16 @@ export function OTPInput({
     };
 
     const Backspace = (digitIndex: number) => () => {
+        // if we are editing an input before the last one and it has a value, just clear the value and stay on that input
+        if (inputs[digitIndex + 1]?.value) {
+            setValues((prev) => {
+                const newValues = [...prev];
+                newValues[digitIndex] = '';
+                return newValues;
+            });
+            return;
+        }
+
         setValues((prev) => {
             return prev.filter((_, index) => index !== digitIndex);
         });
@@ -142,6 +152,9 @@ export function OTPInput({
 
         // if the input currently has a value, it can be focused
         if (values[index]) return true;
+
+        // if the next input has a value, this can be focused
+        if (values[index + 1]) return true;
 
         // if the input is empty but it's the next one to be filled, it can be focused
         if (index === values.length) return true;
@@ -198,7 +211,7 @@ export function OTPInput({
                         maxLength={1}
                         onChange={onChangeInput(index)}
                         onFocus={(event) => {
-                            (event.target as HTMLInputElement)?.select();
+                            requestAnimationFrame(() => (event.target as HTMLInputElement)?.select());
                         }}
                         onKeyDown={(event) => {
                             if (
@@ -232,16 +245,9 @@ export function OTPInput({
                             )(event);
                         }}
                         onMouseDown={(event) => {
-                            // only permit focus if the input is the next empty one OR already filled OR the first input
+                            if (canBeFocused(index)) return;
 
-                            const input = event.target as HTMLInputElement;
-
-                            if (!input.value && index) {
-                                inputs[values.length]?.focus();
-                                event.preventDefault();
-                                return;
-                            }
-                            input.select();
+                            event.preventDefault();
                         }}
                         onPaste={(event) => {
                             const pastedData = event.clipboardData.getData('text').trim();
