@@ -9,7 +9,7 @@
     --width: 100vw;
 
     [data-dialog-box] {
-        pointer-events: all; /* allow pointer events on the dialog box  */
+        pointer-events: all; /* allow pointer events on the dialog box */
         text-align: start;
         position: absolute;
         box-shadow: var(--drop-shadow-float);
