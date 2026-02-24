@@ -44,6 +44,12 @@
             linear-gradient(var(--surface-neutral-t1-base), var(--surface-neutral-t1-base));
     }
 
+    &:hover:focus-within {
+        [data-not-selectable] {
+            cursor: not-allowed;
+        }
+    }
+
     &:active:not(:focus-within) {
         --background:
             linear-gradient(var(--interactions-press-opacity), var(--interactions-press-opacity)),

@@ -160,7 +160,7 @@ export function OTPInput({
 
     return (
         <div
-            aria-labelledby={`${id}-label`}
+            aria-label={ariaLabel}
             data-bspk="otp-input"
             data-disabled={disabled || undefined}
             data-invalid={invalid || undefined}
@@ -193,6 +193,7 @@ export function OTPInput({
                         autoComplete="off"
                         data-index={index}
                         data-main-input={true}
+                        data-not-selectable={canBeFocused(index) ? undefined : true}
                         disabled={disabled || undefined}
                         inputMode={alphanumeric ? 'text' : 'numeric'}
                         maxLength={1}
