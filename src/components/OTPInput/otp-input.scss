@@ -50,6 +50,12 @@
             linear-gradient(var(--surface-neutral-t1-base), var(--surface-neutral-t1-base));
     }
 
+    &:hover:focus-within {
+        [data-not-selectable] {
+            cursor: not-allowed;
+        }
+    }
+
     &[data-readonly] {
         --border-color: var(--stroke-neutral-disabled-light);
         --background:

@@ -128,22 +128,45 @@ export function OTPInput({
         nextInput?.focus();
     };
 
+    // const Backspace = (digitIndex: number) => () => {
+    //     // if we are editing an input before the last one and it has a value, just clear the value and stay on that input
+    //     if (inputs[digitIndex + 1]?.value) {
+    //         setValues((prev) => {
+    //             const newValues = [...prev];
+    //             newValues[digitIndex] = '';
+    //             return newValues;
+    //         });
+    //         return;
+    //     }
+
+    //     setValues((prev) => {
+    //         return prev.filter((_, index) => index !== digitIndex);
+    //     });
+
+    //     inputs[Math.max(0, digitIndex - 1)]?.focus();
+    // };
+
     const Backspace = (digitIndex: number) => () => {
-        // if we are editing an input before the last one and it has a value, just clear the value and stay on that input
-        if (inputs[digitIndex + 1]?.value) {
+        // If the current input has a value, just clear it and stay on this input
+        if (inputs[digitIndex]?.value) {
             setValues((prev) => {
                 const newValues = [...prev];
                 newValues[digitIndex] = '';
                 return newValues;
             });
+            inputs[digitIndex]?.focus();
             return;
         }
 
-        setValues((prev) => {
-            return prev.filter((_, index) => index !== digitIndex);
-        });
-
-        inputs[Math.max(0, digitIndex - 1)]?.focus();
+        // If not the first input, move focus to the previous input
+        if (digitIndex > 0) {
+            setValues((prev) => {
+                const newValues = [...prev];
+                newValues[digitIndex - 1] = '';
+                return newValues;
+            });
+            inputs[digitIndex - 1]?.focus();
+        }
     };
 
     const canBeFocused = (index: number) => {
@@ -173,7 +196,7 @@ export function OTPInput({
 
     return (
         <div
-            aria-labelledby={`${id}-label`}
+            aria-label={ariaLabel}
             data-bspk="otp-input"
             data-disabled={disabled || undefined}
             data-invalid={invalid || undefined}
@@ -206,6 +229,7 @@ export function OTPInput({
                         autoComplete="off"
                         data-index={index}
                         data-main-input={true}
+                        data-not-selectable={canBeFocused(index) ? undefined : true}
                         disabled={disabled || undefined}
                         inputMode={alphanumeric ? 'text' : 'numeric'}
                         maxLength={1}
@@ -245,6 +269,10 @@ export function OTPInput({
                             )(event);
                         }}
                         onMouseDown={(event) => {
+                            if (!canBeFocused(index)) {
+                                inputs[values.length]?.focus();
+                            }
+
                             if (canBeFocused(index)) return;
 
                             event.preventDefault();
