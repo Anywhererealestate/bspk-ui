@@ -129,11 +129,26 @@ export function OTPInput({
     };
 
     const Backspace = (digitIndex: number) => () => {
-        setValues((prev) => {
-            return prev.filter((_, index) => index !== digitIndex);
-        });
+        // If the current input has a value, just clear it and stay on this input
+        if (inputs[digitIndex]?.value) {
+            setValues((prev) => {
+                const newValues = [...prev];
+                newValues[digitIndex] = '';
+                return newValues;
+            });
+            inputs[digitIndex]?.focus();
+            return;
+        }
 
-        inputs[Math.max(0, digitIndex - 1)]?.focus();
+        // If not the first input, move focus to the previous input
+        if (digitIndex > 0) {
+            setValues((prev) => {
+                const newValues = [...prev];
+                newValues[digitIndex - 1] = '';
+                return newValues;
+            });
+            inputs[digitIndex - 1]?.focus();
+        }
     };
 
     const canBeFocused = (index: number) => {
@@ -142,6 +157,9 @@ export function OTPInput({
 
         // if the input currently has a value, it can be focused
         if (values[index]) return true;
+
+        // if the next input has a value, this can be focused
+        if (values[index + 1]) return true;
 
         // if the input is empty but it's the next one to be filled, it can be focused
         if (index === values.length) return true;
@@ -160,7 +178,7 @@ export function OTPInput({
 
     return (
         <div
-            aria-labelledby={`${id}-label`}
+            aria-label={ariaLabel}
             data-bspk="otp-input"
             data-disabled={disabled || undefined}
             data-invalid={invalid || undefined}
@@ -193,12 +211,13 @@ export function OTPInput({
                         autoComplete="off"
                         data-index={index}
                         data-main-input={true}
+                        data-not-selectable={canBeFocused(index) ? undefined : true}
                         disabled={disabled || undefined}
                         inputMode={alphanumeric ? 'text' : 'numeric'}
                         maxLength={1}
                         onChange={onChangeInput(index)}
                         onFocus={(event) => {
-                            (event.target as HTMLInputElement)?.select();
+                            requestAnimationFrame(() => (event.target as HTMLInputElement)?.select());
                         }}
                         onKeyDown={(event) => {
                             if (
@@ -232,16 +251,13 @@ export function OTPInput({
                             )(event);
                         }}
                         onMouseDown={(event) => {
-                            // only permit focus if the input is the next empty one OR already filled OR the first input
-
-                            const input = event.target as HTMLInputElement;
-
-                            if (!input.value && index) {
+                            if (!canBeFocused(index)) {
                                 inputs[values.length]?.focus();
-                                event.preventDefault();
-                                return;
                             }
-                            input.select();
+
+                            if (canBeFocused(index)) return;
+
+                            event.preventDefault();
                         }}
                         onPaste={(event) => {
                             const pastedData = event.clipboardData.getData('text').trim();
