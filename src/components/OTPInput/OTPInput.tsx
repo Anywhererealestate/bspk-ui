@@ -128,24 +128,6 @@ export function OTPInput({
         nextInput?.focus();
     };
 
-    // const Backspace = (digitIndex: number) => () => {
-    //     // if we are editing an input before the last one and it has a value, just clear the value and stay on that input
-    //     if (inputs[digitIndex + 1]?.value) {
-    //         setValues((prev) => {
-    //             const newValues = [...prev];
-    //             newValues[digitIndex] = '';
-    //             return newValues;
-    //         });
-    //         return;
-    //     }
-
-    //     setValues((prev) => {
-    //         return prev.filter((_, index) => index !== digitIndex);
-    //     });
-
-    //     inputs[Math.max(0, digitIndex - 1)]?.focus();
-    // };
-
     const Backspace = (digitIndex: number) => () => {
         // If the current input has a value, just clear it and stay on this input
         if (inputs[digitIndex]?.value) {
