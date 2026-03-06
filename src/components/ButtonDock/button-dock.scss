@@ -16,22 +16,11 @@
     }
 
     &[data-arrangement='spread'] {
-        display: grid;
-        grid-template-columns: max-content 1fr max-content;
-        align-items: center;
-        width: 100%;
+        justify-content: space-between;
 
         [data-bspk='button'] {
             min-width: var(--spacing-sizing-12);
             justify-self: stretch;
-        }
-
-        [data-bspk='button']:first-child {
-            grid-column: 1;
-        }
-
-        [data-bspk='button']:last-child {
-            grid-column: 3;
         }
     }
 
