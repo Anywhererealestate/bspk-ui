@@ -56,7 +56,7 @@
 
             [data-content] {
                 display: flex;
-                flex-direction: row;
+                flex-direction: column;
                 align-items: center;
                 justify-content: center;
 
@@ -134,7 +134,7 @@
             }
 
             [data-content] {
-                flex-direction: column;
+                align-items: start;
                 padding: var(--spacing-sizing-10) 0;
             }
         }
@@ -143,7 +143,7 @@
     &[data-variant='widget'] {
         --circle-width: var(--spacing-sizing-05);
 
-        label {
+        [data-header] {
             display: flex;
             flex-direction: column;
             gap: var(--spacing-sizing-02);
