@@ -7,7 +7,11 @@ export const presets: Preset<ProgressionStepperProps>[] = [
         propState: {
             variant: 'horizontal',
             completedStep: 2,
-            steps: [{ name: 'Name of step 1' }, { name: 'Name of step 2' }, { name: 'Name of step 3' }],
+            steps: [
+                { name: 'Name of step 1' },
+                { name: 'Name of step 2', subtext: `Subtext of step 2` },
+                { name: 'Name of step 3' },
+            ],
         },
     },
     {
